@@ -19,24 +19,19 @@ public class BikeController {
         this.bikeService = bikeService;
     }
 
-    @PostMapping("/createBike")
+    @PostMapping("/")
     public ResponseEntity<String> createBike(@RequestBody Bike bike) {
-        try {
-            bikeService.createBike(bike);
-            return ResponseEntity.ok("Successfully created a bike");
-        } catch (Exception e) {
-            System.err.println("Error creating a bike : " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create a bike");
-        }
+        bikeService.createBike(bike);
+        return ResponseEntity.ok("Successfully created a bike");
     }
 
 
-    @GetMapping("/getAllBikes")
+    @GetMapping("/")
     public ResponseEntity<List<Bike>> getAll() throws BikeNotFoundException {
         return new ResponseEntity<>(bikeService.getAllBikes(), HttpStatus.OK);
     }
 
-    @GetMapping("/deleteBike/{id}")
+    @DeleteMapping("/{id}")
     public void deleteBike(@PathVariable Long id) throws BikeNotFoundException {
         bikeService.deleteBike(id);
     }
