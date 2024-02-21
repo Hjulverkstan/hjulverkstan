@@ -1,0 +1,24 @@
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "url";
+
+const rootPath = path.dirname(fileURLToPath(import.meta.url) + "..");
+
+const htmlTemplate = fs.readFileSync(
+  path.resolve(rootPath, "dist/static/index.html"),
+  "utf-8"
+);
+
+const { renderSSR, pages } = await import("./dist/ssr/server.js");
+
+pages.forEach(({ path }) => {
+  const appHtml = renderSSR(path);
+  const html = htmlTemplate.replace(`<!--app-html-->`, appHtml);
+
+  const outputPath = `dist/static${path === "/" ? "/index" : path}.html`;
+  fs.writeFileSync(path.resolve(rootPath, outputPath), html);
+
+  console.log(
+    `Rendered [${path}] (lines of html: ${appHtml.split("\n").length}`
+  );
+});
