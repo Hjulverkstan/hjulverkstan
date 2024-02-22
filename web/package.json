@@ -10,7 +10,9 @@
     "build:ssr": "vite build --ssr src/server.tsx --outDir dist/ssr",
     "build:static": "vite build --outDir dist/static && node render",
     "build": "npm run build:ssr && npm run build:static",
-    "serve": "npm run build && cd dist/static && npx serve"
+    "serve": "npm run build && cd dist/static && npx serve",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "author": "",
   "license": "ISC",
@@ -20,9 +22,19 @@
   "devDependencies": {
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@vitejs/plugin-react": "^4.2.1",
     "cross-env": "^7.0.3",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.33.2",
     "express": "^4.18.2",
+    "prettier": "^3.2.5",
     "serve-static": "^1.15.0",
     "typescript": "^5.3.3",
     "vite": "^5.1.3"
