@@ -1,6 +1,6 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
 
-import pages from "./pages";
+import pages from './pages';
 
 export default function App() {
   return (
