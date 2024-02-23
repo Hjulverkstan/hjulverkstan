@@ -1,0 +1,7 @@
+#!/bin/sh
+echo "111"
+cd web || exit
+
+echo "222"
+pwd
+npx lint-staged
