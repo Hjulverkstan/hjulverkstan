@@ -4,7 +4,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 
-const rootPath = path.dirname(fileURLToPath(import.meta.url) + '..');
+const rootPath = path.resolve(fileURLToPath(import.meta.url) + '../../..');
 
 async function createServer() {
   const vite = await createViteServer({

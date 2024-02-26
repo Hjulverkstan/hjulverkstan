@@ -5,10 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "node dev",
+    "dev": "node scripts/dev",
     "debug": "node --inspect-brk dev",
     "build:ssr": "vite build --ssr src/server.tsx --outDir dist/ssr",
-    "build:static": "vite build --outDir dist/static && node render",
+    "build:static": "vite build --outDir dist/static && node scripts/build",
     "build": "npm run build:ssr && npm run build:static",
     "serve": "npm run build && cd dist/static && npx serve",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,md}\"",
