@@ -8,7 +8,9 @@ import se.hjulverkstan.main.dto.EmployeeDto;
 import se.hjulverkstan.main.dto.NewEmployeeDto;
 import se.hjulverkstan.main.dto.responses.GetAllEmployeeDto;
 import se.hjulverkstan.main.model.Employee;
+import se.hjulverkstan.main.model.Workshop;
 import se.hjulverkstan.main.repository.EmployeeRepository;
+import se.hjulverkstan.main.repository.WorkshopRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,14 +20,14 @@ import java.util.Optional;
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
-    // TODO: remove comment when workshops added
-    // private WorkshopRepository workshopRepository;
+    private final WorkshopRepository workshopRepository;
     private final EmployeeRepository employeeRepository;
     public static final String ELEMENT_NAME = "Employee";
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, WorkshopRepository workshopRepository) {
         this.employeeRepository = employeeRepository;
+        this.workshopRepository = workshopRepository;
     }
 
     @Override
@@ -76,16 +78,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         selectedEmployee.setUpdatedBy(employee.getUpdatedBy());
         selectedEmployee.setComment(employee.getComment());
 
-        // TODO: remove comment when workshops added
-        /*Optional<Workshop> workshopOpt = workshopRepository.findById(employee.getWorkshopId());
-        if (workshopOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
-        }
-        workshopOpt.getEmployees().add(employee);
-        workshopRepository.save(workshopOpt.get());
+        Workshop workshop = workshopRepository.findById(employee.getWorkshopId())
+                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        selectedEmployee.setWorkshop(workshopOpt.get());*/
+        workshop.getEmployees().add(selectedEmployee);
+        selectedEmployee.setWorkshop(workshop);
+
+        workshopRepository.save(workshop);
         employeeRepository.save(selectedEmployee);
+
         return employee;
     }
 
@@ -101,16 +102,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdatedBy(newEmployee.getUpdatedBy());
         employee.setComment(newEmployee.getComment());
 
-        // TODO: remove comment when workshops added
-        /* Optional<Workshop> workshopOpt = workshopRepository.findById(newEmployee.getWorkshopId());
-        if(workshopOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
-        }
-        workshopOpt.getEmployees().add(employee);
-        workshopRepository.save(workshopOpt.get());
+        Workshop workshop = workshopRepository.findById(newEmployee.getWorkshopId())
+                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        employee.setWorkshop(workshopOpt.get());*/
+        workshop.getEmployees().add(employee);
+        employee.setWorkshop(workshop);
+
+        workshopRepository.save(workshop);
         employeeRepository.save(employee);
+
         return new EmployeeDto(employee);
     }
 }

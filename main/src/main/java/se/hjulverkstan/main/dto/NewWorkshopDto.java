@@ -5,20 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewEmployeeDto {
-    private String name;
-    @JsonProperty("last_name")
-    private String lastName;
+public class NewWorkshopDto {
+    private String address;
     @JsonProperty("phone_number")
     private String phoneNumber;
-    private String email;
-    private Long workshopId;
+    private Long latitude;
+    private Long longitude;
+    private String comment;
 
     // Metadata
     @JsonProperty("updated_by")
     private Long updatedBy;
-    private String comment;
 }

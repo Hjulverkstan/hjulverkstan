@@ -17,8 +17,7 @@ public class EmployeeDto {
     @JsonProperty("phone_number")
     private String phoneNumber;
     private String email;
-    //TODO: remove comment when workshops added
-    //private int workshopId;
+    private Long workshopId;
 
     // Metadata
     @JsonProperty("updated_by")
@@ -31,9 +30,8 @@ public class EmployeeDto {
                 employee.getLastName(),
                 employee.getPhoneNumber(),
                 employee.getEmail(),
+                employee.getWorkshop().getId(),
                 employee.getUpdatedBy(),
                 employee.getComment());
-        // TODO: remove comment when workshops added
-        // employee.getWorkshopId();
     }
 }
