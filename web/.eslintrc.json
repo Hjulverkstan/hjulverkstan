@@ -1,4 +1,9 @@
 {
+    "settings": {
+        "react": {
+            "version": "18"
+        }
+    },
     "env": {
         "browser": true,
         "es2021": true,
@@ -31,6 +36,10 @@
         "prettier"
     ],
     "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "react/prop-types": "off",
+        "react/react-in-jsx-scope": "off",
         "quotes": [
             "error",
             "single"
