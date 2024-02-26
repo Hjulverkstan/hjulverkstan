@@ -6,6 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 public class Customer {
@@ -17,6 +19,8 @@ public class Customer {
     private String lastName;
     private String phoneNumber;
     private String email;
+    private LocalDateTime createdAtt;
+    private LocalDateTime updatedAtt;
 
 
 }
