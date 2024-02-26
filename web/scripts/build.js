@@ -9,11 +9,11 @@ const htmlTemplate = fs.readFileSync(
   'utf-8',
 );
 
-const { renderSSR, pages } = await import(
+const { renderSSR, routes } = await import(
   path.resolve(rootPath, 'dist/ssr/server.js')
 );
 
-pages.forEach(({ path }) => {
+routes.forEach(({ path }) => {
   const appHtml = renderSSR(path);
   const html = htmlTemplate.replace(`<!--app-html-->`, appHtml);
 

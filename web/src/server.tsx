@@ -1,14 +1,14 @@
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 
-import App from './App';
+import Root from './root';
 
-export { default as pages } from './pages';
+export { routes } from './root';
 
 export function renderSSR(path: string | Partial<Location>) {
   return ReactDOMServer.renderToString(
     <StaticRouter location={path}>
-      <App />
+      <Root />
     </StaticRouter>,
   );
 }
