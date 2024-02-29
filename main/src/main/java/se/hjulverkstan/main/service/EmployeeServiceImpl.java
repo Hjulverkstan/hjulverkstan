@@ -78,13 +78,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         selectedEmployee.setUpdatedBy(employee.getUpdatedBy());
         selectedEmployee.setComment(employee.getComment());
 
-        Workshop workshop = workshopRepository.findById(employee.getWorkshopId())
-                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+        Workshop newWorkshop = workshopRepository.findById(employee.getWorkshopId())
+                .orElseThrow(() -> new ElementNotFoundException("Workshop"));
 
-        workshop.getEmployees().add(selectedEmployee);
-        selectedEmployee.setWorkshop(workshop);
+        // Remove employee from old workshop if workshop changes
+        Workshop oldWorkshop = workshopRepository.findById(selectedEmployee.getWorkshop().getId())
+                .orElseThrow(() -> new ElementNotFoundException("Workshop"));
+        if (oldWorkshop != null && !oldWorkshop.equals(newWorkshop)) {
+            oldWorkshop.getEmployees().remove(selectedEmployee);
+        }
 
-        workshopRepository.save(workshop);
+        newWorkshop.getEmployees().add(selectedEmployee);
+        selectedEmployee.setWorkshop(newWorkshop);
+
         employeeRepository.save(selectedEmployee);
 
         return employee;
@@ -108,7 +114,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         workshop.getEmployees().add(employee);
         employee.setWorkshop(workshop);
 
-        workshopRepository.save(workshop);
         employeeRepository.save(employee);
 
         return new EmployeeDto(employee);

@@ -15,6 +15,7 @@ public class NewEmployeeDto {
     @JsonProperty("phone_number")
     private String phoneNumber;
     private String email;
+    @JsonProperty("workshop_id")
     private Long workshopId;
 
     // Metadata
