@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,9 +19,14 @@ public class Employee {
     private String lastName;
     private String phoneNumber;
     private String email;
+
+    //TODO: remove cascading
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "workshop_id")
     private Workshop workshop;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Ticket> tickets;
 
     // Metadata
     private LocalDateTime createdAt;

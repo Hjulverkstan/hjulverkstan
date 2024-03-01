@@ -1,12 +1,10 @@
 package se.hjulverkstan.main.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,8 +17,11 @@ public class Customer {
     private String lastName;
     private String phoneNumber;
     private String email;
-    private LocalDateTime createdAtt;
-    private LocalDateTime updatedAtt;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Ticket> tickets;
 
 }
