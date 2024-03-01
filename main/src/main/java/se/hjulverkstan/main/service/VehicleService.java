@@ -1,19 +1,17 @@
 package se.hjulverkstan.main.service;
 
-import se.hjulverkstan.Exceptions.VehicleNotFoundException;
-import se.hjulverkstan.main.model.Vehicle;
-
-import java.util.List;
+import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
+import se.hjulverkstan.main.dto.responses.NewVehicleDto;
+import se.hjulverkstan.main.dto.responses.VehicleDto;
 
 public interface VehicleService {
+    VehicleDto createVehicle(NewVehicleDto newVehicle);
 
-    public void createVehicle(Vehicle vehicle);
+    GetAllVehicleDto getAllVehicles();
 
-    public List<Vehicle> getAllVehicles() throws VehicleNotFoundException;
+    VehicleDto deleteVehicle(Long id);
 
-    public void deleteVehicle(Long id) throws VehicleNotFoundException;
+    VehicleDto getVehicleById(Long id);
 
-    public Vehicle getVehicleById(Long id) throws VehicleNotFoundException;
-
-    public void updateVehicle(Long id, Vehicle currentVehicle) throws VehicleNotFoundException;
+    VehicleDto editVehicle(Long id, VehicleDto Vehicle);
 }

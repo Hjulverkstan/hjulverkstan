@@ -2,67 +2,95 @@ package se.hjulverkstan.main.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.hjulverkstan.Exceptions.VehicleNotFoundException;
+import se.hjulverkstan.Exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
+import se.hjulverkstan.main.dto.responses.NewVehicleDto;
+import se.hjulverkstan.main.dto.responses.VehicleDto;
 import se.hjulverkstan.main.model.Vehicle;
 import se.hjulverkstan.main.repository.VehicleRepository;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
+    private final VehicleRepository vehicleRepository;
+    public static String ELEMENT_NAME = "Vehicle";
 
     @Autowired
-    VehicleRepository vehicleRepository;
+    public VehicleServiceImpl(VehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
+    }
 
     @Override
-    public void createVehicle(Vehicle vehicle) {
+    public VehicleDto createVehicle(NewVehicleDto newVehicle) {
+        Vehicle vehicle = new Vehicle();
+
+        vehicle.setVehicleType(newVehicle.getVehicleType());
+        vehicle.setStatus(newVehicle.getStatus());
+        vehicle.setLinkToImg(newVehicle.getLinkToImg());
+        vehicle.setCreatedAt(LocalDateTime.now());
+        vehicle.setCreatedBy(newVehicle.getCreatedBy());
+        vehicle.setUpdatedAt(LocalDateTime.now());
+        vehicle.setComment(newVehicle.getComment());
+
         vehicleRepository.save(vehicle);
 
+        return new VehicleDto(vehicle);
     }
 
     @Override
-    public List<Vehicle> getAllVehicles() throws VehicleNotFoundException {
+    public GetAllVehicleDto getAllVehicles() {
 
-        
+        List<Vehicle> listOfVehicles = vehicleRepository.findAll();
+        List<VehicleDto> responseList = new ArrayList<>();
 
+        for (Vehicle vehicle : listOfVehicles) {
+            responseList.add(new VehicleDto(vehicle));
+        }
+        return new GetAllVehicleDto(responseList);
     }
 
     @Override
-    public void deleteVehicle(Long id) throws VehicleNotFoundException {
-        Optional<Vehicle> vehicleToDelete = vehicleRepository.findById(id);
+    public VehicleDto deleteVehicle(Long id) {
+        Optional<Vehicle> vehicleOpt = vehicleRepository.findById(id);
 
-        if (vehicleToDelete.isEmpty()) {
-            throw new VehicleNotFoundException("Unable to find a vehicle with the ID :" + id);
+        if (vehicleOpt.isEmpty()) {
+            throw new ElementNotFoundException(ELEMENT_NAME);
+        }
+        vehicleRepository.delete(vehicleOpt.get());
+        return new VehicleDto(vehicleOpt.get());
+    }
+
+    @Override
+    public VehicleDto getVehicleById(Long id) {
+        Optional<Vehicle> vehicleOpt = vehicleRepository.findById(id);
+
+        if (vehicleOpt.isEmpty()) {
+            throw new ElementNotFoundException(ELEMENT_NAME);
+        }
+        return new VehicleDto(vehicleOpt.get());
+    }
+
+    @Override
+    public VehicleDto editVehicle(Long id, VehicleDto vehicle) {
+        Optional<Vehicle> vehicleOpt = vehicleRepository.findById(id);
+        if (vehicleOpt.isEmpty()) {
+            throw new ElementNotFoundException(ELEMENT_NAME);
         }
 
-        vehicleToDelete.ifPresent(vehicleRepository::delete);
-    }
+        Vehicle selectedVehicle = vehicleOpt.get();
 
-    @Override
-    public Vehicle getVehicleById(Long id) throws VehicleNotFoundException {
-        Optional<Vehicle> findVehicle = vehicleRepository.findById(id);
+        selectedVehicle.setVehicleType(vehicle.getVehicleType());
+        selectedVehicle.setStatus(vehicle.getStatus());
+        selectedVehicle.setLinkToImg(vehicle.getLinkToImg());
+        selectedVehicle.setUpdatedAt(LocalDateTime.now());
+        selectedVehicle.setComment(vehicle.getComment());
 
-        if (findVehicle.isEmpty()) {
-            throw new VehicleNotFoundException("Unable to find a vehicle with the ID :" + id);
-        }
-        return findVehicle.get();
-    }
+        vehicleRepository.save(selectedVehicle);
 
-    @Override
-    public void updateVehicle(Long id, Vehicle currentVehicle) throws VehicleNotFoundException {
-        Optional<Vehicle> vehicleToUpdate = vehicleRepository.findById(id);
-        if (vehicleToUpdate.isEmpty()) {
-            throw new VehicleNotFoundException("Unable to find a vehicle with the ID :" + id);
-        }
-
-        Vehicle updatingVehicle = vehicleToUpdate.get();
-        updatingVehicle.setVehicleType(currentVehicle.getVehicleType());
-        updatingVehicle.setStatus(currentVehicle.getStatus());
-        updatingVehicle.setLinkToImg(currentVehicle.getLinkToImg());
-        updatingVehicle.setCreatedAt(currentVehicle.getCreatedAt());
-        updatingVehicle.setComment(currentVehicle.getComment());
-
-        vehicleRepository.save(updatingVehicle);
+        return new VehicleDto(selectedVehicle);
     }
 }

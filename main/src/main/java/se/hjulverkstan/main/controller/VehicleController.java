@@ -3,11 +3,10 @@ package se.hjulverkstan.main.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.hjulverkstan.Exceptions.VehicleNotFoundException;
-import se.hjulverkstan.main.model.Vehicle;
+import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
+import se.hjulverkstan.main.dto.responses.NewVehicleDto;
+import se.hjulverkstan.main.dto.responses.VehicleDto;
 import se.hjulverkstan.main.service.VehicleService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/vehicle")
@@ -18,29 +17,28 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
-    @PostMapping("/")
-    public ResponseEntity<String> createVehicle(@RequestBody Vehicle vehicle) {
-        vehicleService.createVehicle(vehicle);
-        return ResponseEntity.ok("Successfully created a vehicle");
+    @PostMapping()
+    public ResponseEntity<VehicleDto> createVehicle(@RequestBody NewVehicleDto vehicle) {
+        return new ResponseEntity<>(vehicleService.createVehicle(vehicle), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) throws VehicleNotFoundException {
+    public ResponseEntity<VehicleDto> getVehicleById(@PathVariable Long id) {
         return new ResponseEntity<>(vehicleService.getVehicleById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<Vehicle>> getAllVehicles() throws VehicleNotFoundException {
+    @GetMapping()
+    public ResponseEntity<GetAllVehicleDto> getAllVehicles() {
         return new ResponseEntity<>(vehicleService.getAllVehicles(), HttpStatus.OK);
     }
 
     @PutMapping(("/{id}"))
-    public ResponseEntity<Void> updateVehicle(@PathVariable Long id, @RequestBody Vehicle vehicle) throws VehicleNotFoundException {
-        return new ResponseEntity<>(vehicleService.updateVehicle(id,vehicle),HttpStatus.OK);
+    public ResponseEntity<VehicleDto> editVehicle(@PathVariable Long id, @RequestBody VehicleDto vehicle) {
+        return new ResponseEntity<>(vehicleService.editVehicle(id, vehicle), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteVehicle(@PathVariable Long id) throws VehicleNotFoundException {
-        vehicleService.deleteVehicle(id);
+    public ResponseEntity<VehicleDto> deleteVehicle(@PathVariable Long id) {
+        return new ResponseEntity<>(vehicleService.deleteVehicle(id), HttpStatus.OK);
     }
 }

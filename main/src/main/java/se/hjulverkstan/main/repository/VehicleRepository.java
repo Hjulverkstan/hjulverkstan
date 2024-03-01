@@ -6,6 +6,4 @@ import se.hjulverkstan.main.model.Vehicle;
 
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
-
-
 }
