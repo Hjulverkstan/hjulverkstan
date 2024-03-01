@@ -1,5 +1,6 @@
 package se.hjulverkstan.main.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class CustomerController {
     }
 
     @PostMapping()
-    public ResponseEntity<CustomerDto> createCustomer(@RequestBody NewCustomerDto newCustomer){
+    public ResponseEntity<CustomerDto> createCustomer(@Valid @RequestBody NewCustomerDto newCustomer){
         return new ResponseEntity<>(customerService.createCustomer(newCustomer), HttpStatus.OK);
     }
 

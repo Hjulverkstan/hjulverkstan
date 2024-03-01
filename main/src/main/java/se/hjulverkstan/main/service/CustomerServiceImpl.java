@@ -1,6 +1,7 @@
 package se.hjulverkstan.main.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.CustomerDto;
 import se.hjulverkstan.main.dto.NewCustomerDto;
@@ -8,6 +9,7 @@ import se.hjulverkstan.main.dto.responses.GetAllCustomerDto;
 import se.hjulverkstan.main.model.Customer;
 import se.hjulverkstan.main.repository.CustomerRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService{
         customerRepository.delete(customerOpt.get());
         return new CustomerDto(customerOpt.get());
     }
-
+    @Transactional
     @Override
     public CustomerDto editCustomer(Long id, CustomerDto customer) {
         Optional<Customer> customerOpt = customerRepository.findById(id);
@@ -61,13 +63,23 @@ public class CustomerServiceImpl implements CustomerService{
             throw new ElementNotFoundException(ELEMENT_NAME);
         }
         Customer selectedCustomer = customerOpt.get();
-
-        selectedCustomer.setName(customer.getName());
-        selectedCustomer.setEmail(customer.getEmail());
-        selectedCustomer.setLastName(customer.getLastName());
-        selectedCustomer.setPhoneNumber(customer.getPhoneNumber());
+        if(customer.getName() != null)
+        {
+            selectedCustomer.setName(customer.getName());
+        }
+        if(customer.getLastName() != null)
+        {
+            selectedCustomer.setLastName(customer.getLastName());
+        }
+        if(customer.getEmail()!= null){
+            selectedCustomer.setEmail(customer.getEmail());
+        }
+        if(customer.getPhoneNumber()!= null){
+            selectedCustomer.setPhoneNumber(customer.getPhoneNumber());
+        }
+        selectedCustomer.setUpdatedAtt(LocalDateTime.now());
         customerRepository.save(selectedCustomer);
-        return customer;
+        return  new CustomerDto(selectedCustomer);
     }
 
     @Override
@@ -77,6 +89,8 @@ public class CustomerServiceImpl implements CustomerService{
         customer.setEmail(newCustomer.getEmail());
         customer.setLastName(newCustomer.getLastName());
         customer.setPhoneNumber(newCustomer.getPhoneNumber());
+        customer.setCreatedAtt(LocalDateTime.now());
+        customer.setUpdatedAtt(LocalDateTime.now());
         customerRepository.save(customer);
         return new CustomerDto(customer);
     }

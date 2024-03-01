@@ -19,7 +19,7 @@ public class Bike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
+    private VehicleStatus status;
     private int size;
     private Long workshop_Id;
     private String colour;
