@@ -13,24 +13,25 @@ import java.util.List;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
     private String name;
     private String lastName;
     private String phoneNumber;
     private String email;
 
-    //TODO: remove cascading
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "workshop_id")
     private Workshop workshop;
 
     @OneToMany(mappedBy = "employee")
     private List<Ticket> tickets;
 
+    private String comment;
+
     // Metadata
     private LocalDateTime createdAt;
+    private Long createdBy;
     private LocalDateTime updatedAt;
     private Long updatedBy;
-    private String comment;
 }

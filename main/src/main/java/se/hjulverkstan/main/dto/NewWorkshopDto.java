@@ -17,8 +17,4 @@ public class NewWorkshopDto {
     private Long latitude;
     private Long longitude;
     private String comment;
-
-    // Metadata
-    @JsonProperty("updated_by")
-    private Long updatedBy;
 }

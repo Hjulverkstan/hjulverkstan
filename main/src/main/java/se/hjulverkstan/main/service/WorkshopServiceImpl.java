@@ -7,7 +7,9 @@ import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.NewWorkshopDto;
 import se.hjulverkstan.main.dto.WorkshopDto;
 import se.hjulverkstan.main.dto.responses.GetAllWorkshopDto;
+import se.hjulverkstan.main.model.Employee;
 import se.hjulverkstan.main.model.Workshop;
+import se.hjulverkstan.main.repository.EmployeeRepository;
 import se.hjulverkstan.main.repository.WorkshopRepository;
 
 import java.time.LocalDateTime;
@@ -40,41 +42,31 @@ public class WorkshopServiceImpl implements WorkshopService {
 
     @Override
     public WorkshopDto getWorkshopById(Long id) {
-        Optional<Workshop> workshopOpt = workshopRepository.findById(id);
-        if (workshopOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
-        }
+        Workshop workshop =  workshopRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        return new WorkshopDto(workshopOpt.get());
+        return new WorkshopDto(workshop);
     }
 
     @Override
     public WorkshopDto deleteWorkshop(Long id) {
-        Optional<Workshop> workshopOpt = workshopRepository.findById(id);
-        if (workshopOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
-        }
+        Workshop workshop =  workshopRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        workshopRepository.delete(workshopOpt.get());
-        return new WorkshopDto(workshopOpt.get());
+        workshopRepository.delete(workshop);
+        return new WorkshopDto(workshop);
     }
 
     @Override
     public WorkshopDto editWorkshop(Long id, WorkshopDto workshop) {
-        Optional<Workshop> workshopOpt = workshopRepository.findById(id);
-        if (workshopOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
-        }
-
-        Workshop selectedWorkshop = workshopOpt.get();
+        Workshop selectedWorkshop =  workshopRepository.findById(id)
+                        .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
         selectedWorkshop.setAddress(workshop.getAddress());
         selectedWorkshop.setPhoneNumber(workshop.getPhoneNumber());
         selectedWorkshop.setLatitude(workshop.getLatitude());
         selectedWorkshop.setLongitude(workshop.getLongitude());
         selectedWorkshop.setComment(workshop.getComment());
-        selectedWorkshop.setUpdatedAt(workshop.getUpdatedAt());
-        selectedWorkshop.setUpdatedBy(workshop.getUpdatedBy());
 
         workshopRepository.save(selectedWorkshop);
         return workshop;
@@ -88,8 +80,9 @@ public class WorkshopServiceImpl implements WorkshopService {
         workshop.setLatitude(newWorkshop.getLatitude());
         workshop.setLongitude(newWorkshop.getLongitude());
         workshop.setComment(newWorkshop.getComment());
-        workshop.setCreatedAt(LocalDateTime.now());
-        workshop.setUpdatedBy(newWorkshop.getUpdatedBy());
+
+        // Set an empty list for employeeIds
+        workshop.setEmployees(new ArrayList<>());
 
         workshopRepository.save(workshop);
         return new WorkshopDto(workshop);

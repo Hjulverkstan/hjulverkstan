@@ -17,9 +17,5 @@ public class NewEmployeeDto {
     private String email;
     @JsonProperty("workshop_id")
     private Long workshopId;
-
-    // Metadata
-    @JsonProperty("updated_by")
-    private Long updatedBy;
     private String comment;
 }

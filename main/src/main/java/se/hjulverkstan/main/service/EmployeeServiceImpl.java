@@ -63,12 +63,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto editEmployee(Long id, EmployeeDto employee) {
-        Optional<Employee> employeeOpt = employeeRepository.findById(id);
-        if (employeeOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
-        }
-
-        Employee selectedEmployee = employeeOpt.get();
+        Employee selectedEmployee = employeeRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException(ELEMENT_NAME));
 
         selectedEmployee.setName(employee.getName());
         selectedEmployee.setLastName(employee.getLastName());
@@ -78,18 +74,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         selectedEmployee.setUpdatedBy(employee.getUpdatedBy());
         selectedEmployee.setComment(employee.getComment());
 
-        Workshop newWorkshop = workshopRepository.findById(employee.getWorkshopId())
-                .orElseThrow(() -> new ElementNotFoundException("Workshop"));
-
-        // Remove employee from old workshop if workshop changes
-        Workshop oldWorkshop = workshopRepository.findById(selectedEmployee.getWorkshop().getId())
-                .orElseThrow(() -> new ElementNotFoundException("Workshop"));
-        if (oldWorkshop != null && !oldWorkshop.equals(newWorkshop)) {
-            oldWorkshop.getEmployees().remove(selectedEmployee);
-        }
-
-        newWorkshop.getEmployees().add(selectedEmployee);
-        selectedEmployee.setWorkshop(newWorkshop);
+        // Update Employee in workshop
+        updateEmployeeWorkshop(selectedEmployee, employee.getId());
 
         employeeRepository.save(selectedEmployee);
 
@@ -101,11 +87,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         employee.setName(newEmployee.getName());
         employee.setLastName(newEmployee.getLastName());
-        employee.setEmail(newEmployee.getEmail());
         employee.setPhoneNumber(newEmployee.getPhoneNumber());
-        employee.setCreatedAt(LocalDateTime.now());
-        employee.setUpdatedAt(LocalDateTime.now());
-        employee.setUpdatedBy(newEmployee.getUpdatedBy());
+        employee.setEmail(newEmployee.getEmail());
         employee.setComment(newEmployee.getComment());
 
         Workshop workshop = workshopRepository.findById(newEmployee.getWorkshopId())
@@ -117,5 +100,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(employee);
 
         return new EmployeeDto(employee);
+    }
+
+    private void updateEmployeeWorkshop(Employee selectedEmployee, Long newEmployeeId) {
+        Workshop newWorkshop = workshopRepository.findById(newEmployeeId)
+                .orElseThrow(() -> new ElementNotFoundException("New Workshop"));
+        Workshop oldWorkshop = workshopRepository.findById(selectedEmployee.getWorkshop().getId())
+                .orElseThrow(() -> new ElementNotFoundException("Old Workshop"));
+
+        if (oldWorkshop.equals(newWorkshop)) {
+            return; // No need to update if the old and new customers are the same.
+        }
+
+        oldWorkshop.getEmployees().remove(selectedEmployee);
+        newWorkshop.getEmployees().add(selectedEmployee);
+        selectedEmployee.setWorkshop(newWorkshop);
     }
 }

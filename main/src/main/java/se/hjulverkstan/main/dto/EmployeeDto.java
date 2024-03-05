@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.model.Employee;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,12 +19,19 @@ public class EmployeeDto {
     @JsonProperty("phone_number")
     private String phoneNumber;
     private String email;
+    @JsonProperty("workshop_id")
     private Long workshopId;
+    private String comment;
 
     // Metadata
+    @JsonProperty("created_by")
+    private Long createdBy;
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
     @JsonProperty("updated_by")
     private Long updatedBy;
-    private String comment;
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
 
     public EmployeeDto(Employee employee) {
         this(employee.getId(),
@@ -31,7 +40,10 @@ public class EmployeeDto {
                 employee.getPhoneNumber(),
                 employee.getEmail(),
                 employee.getWorkshop().getId(),
+                employee.getComment(),
+                employee.getCreatedBy(),
+                employee.getCreatedAt(),
                 employee.getUpdatedBy(),
-                employee.getComment());
+                employee.getUpdatedAt());
     }
 }

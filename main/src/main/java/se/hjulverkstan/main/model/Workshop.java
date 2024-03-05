@@ -13,7 +13,7 @@ import java.util.List;
 public class Workshop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
 
     //TODO: decide what fields we actually want here. ex: latLong
@@ -21,13 +21,15 @@ public class Workshop {
     private String phoneNumber;
     private Long latitude;
     private Long longitude;
-    //TODO: what CascadeType?
-    @OneToMany(mappedBy = "workshop", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "workshop")
     private List<Employee> employees;
+
     private String comment;
 
     // Metadata
     private LocalDateTime createdAt;
+    private Long createdBy;
     private LocalDateTime updatedAt;
     private Long updatedBy;
 }

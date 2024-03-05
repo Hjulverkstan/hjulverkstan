@@ -18,10 +18,13 @@ public class Customer {
     private String phoneNumber;
     private String email;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets;
+    private String comment;
 
+    // Metadata
+    private Long createdBy;
+    private LocalDateTime createdAt;
+    private Long updatedBy;
+    private LocalDateTime updatedAt;
 }
