@@ -21,3 +21,10 @@ VALUES ('John', 'Doe', '123456789', 'john.doe@example.com', NOW(), NOW(), 1, 'Sa
 INSERT INTO Customer (name, last_name, phone_number, email, created_at, updated_at)
 VALUES ('Customer1', 'Lastname1', '1234567890', 'customer1@example.com', NOW(), NOW()),
        ('Customer2', 'Lastname2', '9876543210', 'customer2@example.com', NOW(), NOW());
+
+-- Inserting tickets without vehicles
+INSERT INTO Ticket (ticket_type, employee_id, customer_id, start_date, end_date, comment)
+VALUES
+    ('LOAN', 1, 1, '2024-03-06 10:00:00', '2024-03-06 18:00:00', 'Sample comment ticket 1'),
+    ('LOAN', 1, 2, '2024-03-06 08:00:00', '2024-03-06 12:00:00', 'Sample comment ticket 2'),
+    ('REPAIR', 3, 2, '2024-03-06 13:00:00', '2024-03-06 15:00:00', 'Sample comment ticket 3');

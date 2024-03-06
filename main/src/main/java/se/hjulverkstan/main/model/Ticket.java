@@ -15,7 +15,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Long id;
-
+    @Enumerated(EnumType.STRING)
     private TicketType ticketType;
 
     //TODO: implement when vehicles available
