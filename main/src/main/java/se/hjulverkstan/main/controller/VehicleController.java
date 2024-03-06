@@ -3,9 +3,7 @@ package se.hjulverkstan.main.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
-import se.hjulverkstan.main.dto.responses.NewVehicleDto;
-import se.hjulverkstan.main.dto.responses.VehicleDto;
+import se.hjulverkstan.main.dto.responses.*;
 import se.hjulverkstan.main.service.VehicleService;
 
 @RestController
@@ -17,8 +15,8 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
-    @PostMapping()
-    public ResponseEntity<VehicleDto> createVehicle(@RequestBody NewVehicleDto vehicle) {
+    @PostMapping("/bike")
+    public ResponseEntity<VehicleDto> createVehicle(@RequestBody NewVehicleBikeDto vehicle) {
         return new ResponseEntity<>(vehicleService.createVehicle(vehicle), HttpStatus.OK);
     }
 
@@ -32,8 +30,8 @@ public class VehicleController {
         return new ResponseEntity<>(vehicleService.getAllVehicles(), HttpStatus.OK);
     }
 
-    @PutMapping(("/{id}"))
-    public ResponseEntity<VehicleDto> editVehicle(@PathVariable Long id, @RequestBody VehicleDto vehicle) {
+    @PutMapping(("/bike/{id}"))
+    public ResponseEntity<VehicleDto> editVehicle(@PathVariable Long id, @RequestBody VehicleBikeDto vehicle) {
         return new ResponseEntity<>(vehicleService.editVehicle(id, vehicle), HttpStatus.OK);
     }
 

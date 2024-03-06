@@ -2,19 +2,19 @@ package se.hjulverkstan.main.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
-import se.hjulverkstan.main.dto.responses.NewVehicleDto;
-import se.hjulverkstan.main.dto.responses.VehicleDto;
+import se.hjulverkstan.main.dto.responses.*;
 import se.hjulverkstan.main.model.Vehicle;
+import se.hjulverkstan.main.model.VehicleBike;
+import se.hjulverkstan.main.model.VehicleType;
 import se.hjulverkstan.main.repository.VehicleRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Transactional
 public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
     public static String ELEMENT_NAME = "Vehicle";
@@ -24,21 +24,18 @@ public class VehicleServiceImpl implements VehicleService {
         this.vehicleRepository = vehicleRepository;
     }
 
+    //TODO Need to add more vehicle types later on
     @Override
     public VehicleDto createVehicle(NewVehicleDto newVehicle) {
-        Vehicle vehicle = new Vehicle();
+        Vehicle vehicle = createSpecificVehicleType(newVehicle);
 
-        vehicle.setVehicleType(newVehicle.getVehicleType());
-        vehicle.setStatus(newVehicle.getStatus());
-        vehicle.setLinkToImg(newVehicle.getLinkToImg());
-        vehicle.setCreatedAt(LocalDateTime.now());
-        vehicle.setCreatedBy(newVehicle.getCreatedBy());
-        vehicle.setUpdatedAt(LocalDateTime.now());
+        vehicle.setVehicleStatus(newVehicle.getVehicleStatus());
+        vehicle.setImageURL(newVehicle.getImageURL());
         vehicle.setComment(newVehicle.getComment());
 
         vehicleRepository.save(vehicle);
 
-        return new VehicleDto(vehicle);
+        return convertToDto(vehicle);
     }
 
     @Override
@@ -48,49 +45,70 @@ public class VehicleServiceImpl implements VehicleService {
         List<VehicleDto> responseList = new ArrayList<>();
 
         for (Vehicle vehicle : listOfVehicles) {
-            responseList.add(new VehicleDto(vehicle));
+            responseList.add(convertToDto(vehicle));
         }
         return new GetAllVehicleDto(responseList);
     }
 
     @Override
     public VehicleDto deleteVehicle(Long id) {
-        Optional<Vehicle> vehicleOpt = vehicleRepository.findById(id);
-
-        if (vehicleOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
-        }
-        vehicleRepository.delete(vehicleOpt.get());
-        return new VehicleDto(vehicleOpt.get());
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+        vehicleRepository.delete(vehicle);
+        return convertToDto(vehicle);
     }
 
     @Override
     public VehicleDto getVehicleById(Long id) {
-        Optional<Vehicle> vehicleOpt = vehicleRepository.findById(id);
-
-        if (vehicleOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
-        }
-        return new VehicleDto(vehicleOpt.get());
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+        return convertToDto(vehicle);
     }
 
     @Override
-    public VehicleDto editVehicle(Long id, VehicleDto vehicle) {
-        Optional<Vehicle> vehicleOpt = vehicleRepository.findById(id);
-        if (vehicleOpt.isEmpty()) {
-            throw new ElementNotFoundException(ELEMENT_NAME);
+    public VehicleDto editVehicle(Long id, VehicleDto editVehicle) {
+        Vehicle selectedVehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+
+        if (editVehicle instanceof VehicleBikeDto editBikeDto && selectedVehicle instanceof VehicleBike selectedBike) {
+            selectedBike.setBikeType(editBikeDto.getBikeType());
+            selectedBike.setGearCount(editBikeDto.getGearCount());
+            selectedBike.setSize(editBikeDto.getSize());
+            selectedBike.setBrakeType(editBikeDto.getBrakeType());
+            selectedVehicle.setVehicleType(VehicleType.BIKE);
+        } else {
+            // TODO Change the Exception later on
+            throw new ElementNotFoundException("Bike type not found");
         }
 
-        Vehicle selectedVehicle = vehicleOpt.get();
-
-        selectedVehicle.setVehicleType(vehicle.getVehicleType());
-        selectedVehicle.setStatus(vehicle.getStatus());
-        selectedVehicle.setLinkToImg(vehicle.getLinkToImg());
-        selectedVehicle.setUpdatedAt(LocalDateTime.now());
-        selectedVehicle.setComment(vehicle.getComment());
+        selectedVehicle.setVehicleStatus(editVehicle.getVehicleStatus());
+        selectedVehicle.setImageURL(editVehicle.getImageURL());
+        selectedVehicle.setComment(editVehicle.getComment());
 
         vehicleRepository.save(selectedVehicle);
 
-        return new VehicleDto(selectedVehicle);
+        return convertToDto(selectedVehicle);
+    }
+
+    //Private methods below
+    private VehicleDto convertToDto(Vehicle vehicle) {
+        if (vehicle instanceof VehicleBike) {
+            return new VehicleBikeDto((VehicleBike) vehicle);
+        }
+        return new VehicleDto(vehicle);
+    }
+
+    private static Vehicle createSpecificVehicleType(NewVehicleDto newVehicle) {
+        if (newVehicle instanceof NewVehicleBikeDto newBikeDto) {
+            VehicleBike vehicleBike = new VehicleBike();
+
+            vehicleBike.setVehicleType(VehicleType.BIKE);
+            vehicleBike.setBikeType(newBikeDto.getBikeType());
+            vehicleBike.setGearCount(newBikeDto.getGearCount());
+            vehicleBike.setSize(newBikeDto.getSize());
+            vehicleBike.setBrakeType(newBikeDto.getBrakeType());
+
+            return vehicleBike;
+        } else {
+            // TODO: Change the Exception type later on
+            throw new ElementNotFoundException("Vehicle type not found!");
+        }
     }
 }

@@ -1,29 +1,29 @@
 package se.hjulverkstan.main.model;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Setter
-@Getter
 @Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "vehicle_type", discriminatorType = DiscriminatorType.STRING)
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Enumerated(EnumType.STRING)
+    @Column(name = "vehicle_type", insertable = false, updatable = false)
     private VehicleType vehicleType;
-    private VehicleStatus status;
-    private String linkToImg;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private String createdBy;
+    @Enumerated(EnumType.STRING)
+    private VehicleStatus vehicleStatus;
+    private String imageURL;
     private String comment;
 
+    // Meta data
+    private LocalDateTime createdAt;
+    private Long createdBy;
+    private LocalDateTime updatedAt;
+    private Long updatedBy;
 }
