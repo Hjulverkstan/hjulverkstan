@@ -4,12 +4,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.dto.NewTicketDto;
-import se.hjulverkstan.main.dto.TicketDto;
+import se.hjulverkstan.Exceptions.UnsupportedTicketTypeException;
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
-import se.hjulverkstan.main.model.Customer;
-import se.hjulverkstan.main.model.Employee;
-import se.hjulverkstan.main.model.Ticket;
+import se.hjulverkstan.main.dto.tickets.*;
+import se.hjulverkstan.main.model.*;
 import se.hjulverkstan.main.repository.CustomerRepository;
 import se.hjulverkstan.main.repository.EmployeeRepository;
 import se.hjulverkstan.main.repository.TicketRepository;
@@ -41,7 +39,7 @@ public class TicketServiceImpl implements TicketService {
         List<TicketDto> responseList = new ArrayList<>();
 
         for (Ticket ticket : tickets) {
-            responseList.add(new TicketDto(ticket));
+            responseList.add(convertToDto(ticket));
         }
         return new GetAllTicketDto(responseList);
     }
@@ -51,7 +49,7 @@ public class TicketServiceImpl implements TicketService {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        return new TicketDto(ticket);
+        return convertToDto(ticket);
     }
 
     @Override
@@ -67,7 +65,7 @@ public class TicketServiceImpl implements TicketService {
         employee.getTickets().remove(ticket);
 
         ticketRepository.delete(ticket);
-        return new TicketDto(ticket);
+        return convertToDto(ticket);
     }
 
     @Override
@@ -75,33 +73,80 @@ public class TicketServiceImpl implements TicketService {
         Ticket selectedTicket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        selectedTicket.setTicketType(ticket.getTicketType());
-        //TODO: set ticket.vehicles
+        // Handles different ticket types. Accepts loan, repair & donate tickets.
+        updateSpecificTicketAttributes(ticket, selectedTicket);
 
+        // General Ticket attributes
+        selectedTicket.setTicketType(ticket.getTicketType());
+        selectedTicket.setOpen(ticket.isOpen());
+        //TODO: set ticket.vehicles
         updateTicketEmployee(selectedTicket, ticket.getEmployeeId());
         updateTicketCustomer(selectedTicket, ticket.getCustomerId());
-
-        selectedTicket.setStartDate(ticket.getStartDate());
-        selectedTicket.setEndDate(ticket.getEndDate());
         selectedTicket.setComment(ticket.getComment());
 
         ticketRepository.save(selectedTicket);
-        return ticket;
+        return convertToDto(selectedTicket);
     }
 
     @Override
     public TicketDto createTicket(NewTicketDto newTicket) {
-        Ticket ticket = new Ticket();
+        // Handles different ticket types. Accepts loan, repair & donate tickets.
+        Ticket ticket = createSpecificTicketType(newTicket);
+
+        // General Ticket attributes
         ticket.setTicketType(newTicket.getTicketType());
         // TODO: implement vehicle dependecies
         // ticket.setVehicles();
-        ticket.setStartDate(newTicket.getStartDate());
-        ticket.setEndDate(newTicket.getEndDate());
+        ticket.setOpen(true);
         ticket.setComment(newTicket.getComment());
+        handleCustomerAndEmployee(ticket, newTicket.getEmployeeId(), newTicket.getCustomerId());
 
-        Employee employee = employeeRepository.findById(newTicket.getEmployeeId())
+        ticketRepository.save(ticket);
+        return convertToDto(ticket);
+    }
+
+    private static void updateSpecificTicketAttributes(TicketDto ticket, Ticket selectedTicket) {
+        if (ticket instanceof TicketRentDto rentDto && selectedTicket instanceof TicketRent ticketRent) {
+            ticketRent.setStartDate(rentDto.getStartDate());
+            ticketRent.setEndDate(rentDto.getEndDate());
+        } else if (ticket instanceof TicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
+            ticketRepair.setStartDate(repairDto.getStartDate());
+            ticketRepair.setRepairDescription(repairDto.getRepairDescription());
+        } else if (ticket instanceof TicketDonateDto donateDto && selectedTicket instanceof TicketDonate ticketDonate) {
+            ticketDonate.setDonatedBy(donateDto.getDonatedBy());
+            ticketDonate.setDonationDate(donateDto.getDonataionDate());
+        } else {
+            throw new UnsupportedTicketTypeException("Mismatch between the type of the selected ticket and the DTO provided");
+        }
+    }
+
+    private Ticket createSpecificTicketType(NewTicketDto newTicket) {
+        if (newTicket instanceof NewTicketRentDto rentDto) {
+            TicketRent ticketRent = new TicketRent();
+            ticketRent.setStartDate(rentDto.getStartDate());
+            ticketRent.setEndDate(rentDto.getEndDate());
+
+            return ticketRent;
+        } else if (newTicket instanceof NewTicketRepairDto repairDto) {
+            TicketRepair ticketRepair = new TicketRepair();
+            ticketRepair.setRepairDescription(repairDto.getRepairDescription());
+            ticketRepair.setStartDate(repairDto.getStartDate());
+
+            return ticketRepair;
+        } else if (newTicket instanceof NewTicketDonateDto donateDto) {
+            TicketDonate ticketDonate = new TicketDonate();
+            ticketDonate.setDonatedBy(donateDto.getDonatedBy());
+            ticketDonate.setDonationDate(donateDto.getDonationDate());
+
+            return ticketDonate;
+        }
+        throw new UnsupportedTicketTypeException("Unsupported ticket type provided");
+    }
+
+    private void handleCustomerAndEmployee(Ticket ticket, Long employeeId, Long customerId) {
+        Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new ElementNotFoundException("Employee"));
-        Customer customer = customerRepository.findById(newTicket.getCustomerId())
+        Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ElementNotFoundException("Customer"));
 
         employee.getTickets().add(ticket);
@@ -109,9 +154,16 @@ public class TicketServiceImpl implements TicketService {
 
         customer.getTickets().add(ticket);
         ticket.setCustomer(customer);
+    }
 
-
-        ticketRepository.save(ticket);
+    private TicketDto convertToDto(Ticket ticket) {
+        if (ticket instanceof TicketRent) {
+            return new TicketRentDto((TicketRent) ticket);
+        } else if (ticket instanceof TicketRepair) {
+            return new TicketRepairDto((TicketRepair) ticket);
+        } else if (ticket instanceof TicketDonate) {
+            return new TicketDonateDto((TicketDonate) ticket);
+        }
         return new TicketDto(ticket);
     }
 

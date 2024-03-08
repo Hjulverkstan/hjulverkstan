@@ -1,13 +1,17 @@
 package se.hjulverkstan.main.service;
 
-import se.hjulverkstan.main.dto.NewTicketDto;
-import se.hjulverkstan.main.dto.TicketDto;
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
+import se.hjulverkstan.main.dto.tickets.NewTicketDto;
+import se.hjulverkstan.main.dto.tickets.TicketDto;
 
 public interface TicketService {
-    public GetAllTicketDto getAllTicket();
-    public TicketDto getTicketById(Long id);
-    public TicketDto deleteTicket(Long id);
-    public TicketDto editTicket(Long id, TicketDto ticket);
-    public TicketDto createTicket(NewTicketDto newTicket);
+    GetAllTicketDto getAllTicket();
+
+    TicketDto getTicketById(Long id);
+
+    TicketDto deleteTicket(Long id);
+
+    TicketDto editTicket(Long id, TicketDto ticket);
+
+    TicketDto createTicket(NewTicketDto newTicket);
 }

@@ -3,9 +3,8 @@ package se.hjulverkstan.main.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.hjulverkstan.main.dto.NewTicketDto;
-import se.hjulverkstan.main.dto.TicketDto;
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
+import se.hjulverkstan.main.dto.tickets.*;
 import se.hjulverkstan.main.service.TicketService;
 
 @RestController
@@ -16,6 +15,7 @@ public class TicketController {
     public TicketController(TicketService service) {
         this.service = service;
     }
+
     @GetMapping()
     public ResponseEntity<GetAllTicketDto> getAllTickets() {
         return new ResponseEntity<>(service.getAllTicket(), HttpStatus.OK);
@@ -26,13 +26,33 @@ public class TicketController {
         return new ResponseEntity<>(service.getTicketById(id), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity<TicketDto> createTicket(@RequestBody NewTicketDto newTicket) {
+    @PostMapping("/rent")
+    public ResponseEntity<TicketDto> createTicketRental(@RequestBody NewTicketRentDto newTicket) {
         return new ResponseEntity<>(service.createTicket(newTicket), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TicketDto> editTicket(@PathVariable Long id, @RequestBody TicketDto ticket) {
+    @PostMapping("/repair")
+    public ResponseEntity<TicketDto> createTicketRepair(@RequestBody NewTicketRepairDto newTicket) {
+        return new ResponseEntity<>(service.createTicket(newTicket), HttpStatus.OK);
+    }
+
+    @PostMapping("/donate")
+    public ResponseEntity<TicketDto> createTicketDonate(@RequestBody NewTicketDonateDto newTicket) {
+        return new ResponseEntity<>(service.createTicket(newTicket), HttpStatus.OK);
+    }
+
+    @PutMapping("/rent/{id}")
+    public ResponseEntity<TicketDto> editTicketRent(@PathVariable Long id, @RequestBody TicketRentDto ticket) {
+        return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
+    }
+
+    @PutMapping("/repair/{id}")
+    public ResponseEntity<TicketDto> editTicketRepair(@PathVariable Long id, @RequestBody TicketRepairDto ticket) {
+        return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
+    }
+
+    @PutMapping("/donate/{id}")
+    public ResponseEntity<TicketDto> editTicketDonate(@PathVariable Long id, @RequestBody TicketDonateDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
     }
 

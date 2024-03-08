@@ -8,15 +8,18 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "ticket_type", discriminatorType = DiscriminatorType.STRING)
 @Data
 public class Ticket {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Long id;
     @Enumerated(EnumType.STRING)
+    @Column(name = "ticket_type", insertable = false, updatable = false)
     private TicketType ticketType;
+    private boolean isOpen;
 
     //TODO: implement when vehicles available
     /*@ManyToMany
@@ -26,17 +29,12 @@ public class Ticket {
             inverseJoinColumns = @JoinColumn(name = "vehicle_id")
     )
     private List<Vehicle> vehicles;*/
-
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
-
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
     private String comment;
 
     // Metadata
