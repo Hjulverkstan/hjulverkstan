@@ -7,23 +7,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.model.Ticket;
 import se.hjulverkstan.main.model.TicketType;
+import se.hjulverkstan.main.model.Vehicle;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketDto {
     private Long id;
-
     @JsonProperty("ticket_type")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private TicketType ticketType;
     @JsonProperty("is_open")
     private boolean isOpen;
-    //TODO: implement when vehicles available
-  /*  @JsonProperty("vehicle_ids")
-    private List<Long> vehicleIds;*/
+    @JsonProperty("vehicle_ids")
+    private List<Long> vehicleIds;
     @JsonProperty("employee_id")
     private Long employeeId;
     @JsonProperty("customer_id")
@@ -45,7 +46,7 @@ public class TicketDto {
         this(ticket.getId(),
                 ticket.getTicketType(),
                 ticket.isOpen(),
-                /*ticket.getVehicles().stream().map(vehicle -> vehicle.getId()).collect(Collectors.toList()),*/
+                ticket.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 ticket.getEmployee().getId(),
                 ticket.getCustomer().getId(),
                 ticket.getComment(),

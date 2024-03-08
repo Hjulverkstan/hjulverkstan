@@ -3,7 +3,10 @@ package se.hjulverkstan.main.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.hjulverkstan.main.dto.vehicles.VehicleDto;
 import se.hjulverkstan.main.dto.responses.*;
+import se.hjulverkstan.main.dto.vehicles.NewVehicleBikeDto;
+import se.hjulverkstan.main.dto.vehicles.VehicleBikeDto;
 import se.hjulverkstan.main.service.VehicleService;
 
 @RestController

@@ -11,9 +11,11 @@ import se.hjulverkstan.main.model.*;
 import se.hjulverkstan.main.repository.CustomerRepository;
 import se.hjulverkstan.main.repository.EmployeeRepository;
 import se.hjulverkstan.main.repository.TicketRepository;
+import se.hjulverkstan.main.repository.VehicleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -21,16 +23,19 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
+    private final VehicleRepository vehicleRepository;
     public static final String ELEMENT_NAME = "Ticket";
 
     @Autowired
     public TicketServiceImpl(
             TicketRepository ticketRepository,
             EmployeeRepository employeeRepository,
-            CustomerRepository customerRepository) {
+            CustomerRepository customerRepository,
+            VehicleRepository vehicleRepository) {
         this.ticketRepository = ticketRepository;
         this.employeeRepository = employeeRepository;
         this.customerRepository = customerRepository;
+        this.vehicleRepository = vehicleRepository;
     }
 
     @Override
@@ -56,13 +61,25 @@ public class TicketServiceImpl implements TicketService {
     public TicketDto deleteTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
-        // TODO: remove ticket from vehicle
+        // TODO: Decide if needed, maybe we don't want to delete tickets?
+        ticket.getVehicles().stream().forEach(vehicle -> {
+            if (vehicle.getTickets().contains(ticket)) {
+                vehicle.getTickets().remove(ticket);
+                vehicleRepository.save(vehicle);
+            }
+        });
 
-        Customer customer = ticket.getCustomer();
-        customer.getTickets().remove(ticket);
+        if (ticket.getCustomer() != null) {
+            Customer customer = ticket.getCustomer();
+            customer.getTickets().remove(ticket);
+            customerRepository.save(customer);
+        }
 
-        Employee employee = ticket.getEmployee();
-        employee.getTickets().remove(ticket);
+        if (ticket.getEmployee() != null) {
+            Employee employee = ticket.getEmployee();
+            employee.getTickets().remove(ticket);
+            employeeRepository.save(employee);
+        }
 
         ticketRepository.delete(ticket);
         return convertToDto(ticket);
@@ -79,7 +96,7 @@ public class TicketServiceImpl implements TicketService {
         // General Ticket attributes
         selectedTicket.setTicketType(ticket.getTicketType());
         selectedTicket.setOpen(ticket.isOpen());
-        //TODO: set ticket.vehicles
+
         updateTicketEmployee(selectedTicket, ticket.getEmployeeId());
         updateTicketCustomer(selectedTicket, ticket.getCustomerId());
         selectedTicket.setComment(ticket.getComment());
@@ -95,14 +112,27 @@ public class TicketServiceImpl implements TicketService {
 
         // General Ticket attributes
         ticket.setTicketType(newTicket.getTicketType());
-        // TODO: implement vehicle dependecies
-        // ticket.setVehicles();
         ticket.setOpen(true);
         ticket.setComment(newTicket.getComment());
+
+        handleVehicles(ticket, newTicket);
         handleCustomerAndEmployee(ticket, newTicket.getEmployeeId(), newTicket.getCustomerId());
 
         ticketRepository.save(ticket);
         return convertToDto(ticket);
+    }
+
+    private void handleVehicles(Ticket ticket, NewTicketDto ticketDto) {
+        // Get vehicles from vehicleIds
+        List<Vehicle> vehicles = ticketDto.getVehicleIds().stream()
+                .map(vehicleId -> vehicleRepository.findById(vehicleId)
+                        .orElseThrow(() -> new ElementNotFoundException("Vehicle with id " + vehicleId)))
+                .collect(Collectors.toList());
+
+        // Set vehicles on ticket
+        ticket.setVehicles(vehicles);
+        // Set ticket on vehicles
+        vehicles.stream().forEach(vehicle -> vehicle.getTickets().add(ticket));
     }
 
     private static void updateSpecificTicketAttributes(TicketDto ticket, Ticket selectedTicket) {

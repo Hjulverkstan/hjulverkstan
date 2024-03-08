@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -21,14 +22,14 @@ public class Ticket {
     private TicketType ticketType;
     private boolean isOpen;
 
-    //TODO: implement when vehicles available
-    /*@ManyToMany
+    @ManyToMany
     @JoinTable(
             name = "ticket_vehicle",
             joinColumns = @JoinColumn(name = "ticket_id"),
             inverseJoinColumns = @JoinColumn(name = "vehicle_id")
     )
-    private List<Vehicle> vehicles;*/
+    private List<Vehicle> vehicles;
+
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;

@@ -28,3 +28,10 @@ VALUES ('Customer1', 'Lastname1', '1234567890', 'customer1@example.com', NOW(), 
 --    ('LOAN', 1, 1, '2024-03-06 10:00:00', '2024-03-06 18:00:00', 'Sample comment ticket 1'),
 --    ('LOAN', 1, 2, '2024-03-06 08:00:00', '2024-03-06 12:00:00', 'Sample comment ticket 2'),
 --    ('REPAIR', 3, 2, '2024-03-06 13:00:00', '2024-03-06 15:00:00', 'Sample comment ticket 3');
+
+-- Inserting vehicles
+INSERT INTO vehicle (vehicle_type, vehicle_status, imageurl, comment, bike_type, gear_count, size, brake_type)
+VALUES
+    ('BIKE', 'AVAILABLE', 'image_url_1.jpg', 'Comment about first bike', 'CHILD', 21, 'MEDIUM', 'DISC'),
+    ('BIKE', 'UNAVAILABLE', 'image_url_2.jpg', 'Comment about second bike', 'ROAD', 18, 'LARGE', 'CALIPER'),
+    ('BIKE', 'AVAILABLE', 'image_url_3.jpg', 'Comment about third bike', 'ELECTRIC', 15, 'SMALL', 'DISC');

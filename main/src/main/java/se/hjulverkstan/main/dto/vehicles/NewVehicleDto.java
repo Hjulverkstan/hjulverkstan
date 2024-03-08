@@ -1,4 +1,4 @@
-package se.hjulverkstan.main.dto.responses;
+package se.hjulverkstan.main.dto.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.model.*;
+import se.hjulverkstan.main.model.Vehicle;
+import se.hjulverkstan.main.model.VehicleStatus;
+import se.hjulverkstan.main.model.VehicleType;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor

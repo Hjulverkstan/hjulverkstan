@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,6 +21,8 @@ public class Vehicle {
     private VehicleStatus vehicleStatus;
     private String imageURL;
     private String comment;
+    @ManyToMany(mappedBy = "vehicles")
+    private List<Ticket> tickets;
 
     // Meta data
     private LocalDateTime createdAt;

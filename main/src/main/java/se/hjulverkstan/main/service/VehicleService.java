@@ -1,8 +1,8 @@
 package se.hjulverkstan.main.service;
 
 import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
-import se.hjulverkstan.main.dto.responses.NewVehicleDto;
-import se.hjulverkstan.main.dto.responses.VehicleDto;
+import se.hjulverkstan.main.dto.vehicles.NewVehicleDto;
+import se.hjulverkstan.main.dto.vehicles.VehicleDto;
 
 public interface VehicleService {
     VehicleDto createVehicle(NewVehicleDto newVehicle);

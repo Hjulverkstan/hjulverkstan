@@ -7,9 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.model.Ticket;
 import se.hjulverkstan.main.model.TicketType;
+import se.hjulverkstan.main.model.Vehicle;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -28,9 +29,7 @@ public class NewTicketDto {
 
     public NewTicketDto(Ticket ticket) {
         this(ticket.getTicketType(),
-                // TODO: replace empty list with stream when vehicles done
-                /*ticket.getVehicles().stream().map(vehicle -> vehicle.getId()).collect(Collectors.toList()),*/
-                new ArrayList<>(),
+                ticket.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 ticket.getEmployee().getId(),
                 ticket.getCustomer().getId(),
                 ticket.getComment()

@@ -1,4 +1,4 @@
-package se.hjulverkstan.main.dto.responses;
+package se.hjulverkstan.main.dto.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
