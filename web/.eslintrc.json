@@ -36,9 +36,14 @@
         "prettier"
     ],
     "rules": {
+        "prettier/prettier": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/consistent-indexed-object-style": "off",
+        "@typescript-eslint/no-confusing-void-expression": "off",
         "react/prop-types": "off",
+        "react/no-unknown-property": "off",
         "react/react-in-jsx-scope": "off",
         "quotes": [
             "error",
