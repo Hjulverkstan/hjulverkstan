@@ -1,7 +1,13 @@
 export default function About() {
   return (
-    <>
-      <h1>About</h1>
-    </>
+    <div className="h-full flex-col bg-muted p-10 lg:flex">
+      <div className="grow" />
+      <div className="relative z-20 mt-auto">
+        <blockquote className="space-y-2">
+          <p className="text-lg">This site in under alpha production</p>
+          <footer className="text-sm">Dev Team</footer>
+        </blockquote>
+      </div>
+    </div>
   );
 }

@@ -1,28 +1,35 @@
 import { Route, Routes } from 'react-router-dom';
+import { TooltipProvider } from '@components/ui/tooltip';
 
-import Home from './Home';
-import About from './About';
+import Home from './home';
+import About from './about';
+import Admin from './admin';
 
+import '../globals.css';
+
+// To be used by build-script:
 export const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/about', name: 'About', component: About },
+  { path: '/', title: 'Inventory', component: Home },
+  { path: '/about', title: 'About', component: About },
+  {
+    path: '/admin',
+    title: 'Admin',
+    component: Admin,
+    nest: true,
+    noSSR: true,
+  },
 ];
 
 export default function Root() {
   return (
-    <>
-      <ul>
-        {routes.map(({ path, name }) => (
-          <li key={path}>
-            <a href={path}>{name}</a>
-          </li>
-        ))}
-      </ul>
+    <TooltipProvider delayDuration={0}>
       <Routes>
-        {routes.map(({ path, component: Page }) => {
-          return <Route key={path} path={path} element={<Page />} />;
+        {routes.map(({ path, component: Page, nest = '' }) => {
+          return (
+            <Route key={path} path={path + (nest && '/*')} element={<Page />} />
+          );
         })}
       </Routes>
-    </>
+    </TooltipProvider>
   );
 }

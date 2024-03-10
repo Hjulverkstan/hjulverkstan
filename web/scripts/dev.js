@@ -20,21 +20,23 @@ async function createServer() {
 
   app.use(vite.middlewares);
 
-  app.use('*', async (req, res) => {
+  app.use('*', async ({ originalUrl: url }, res) => {
     const htmlTemplateRaw = fs.readFileSync(
       path.resolve(rootPath, 'index.html'),
       'utf-8',
     );
 
     // Inserting react-refresh for local development
-    const htmlTemplate = await vite.transformIndexHtml(
-      req.originalUrl,
-      htmlTemplateRaw,
-    );
+    const htmlTemplate = await vite.transformIndexHtml(url, htmlTemplateRaw);
 
-    const renderSSR = (await vite.ssrLoadModule('/src/server.tsx')).renderSSR;
+    const { renderSSR, routes } = await vite.ssrLoadModule('/src/server.tsx');
 
-    const appHtml = renderSSR(req.originalUrl);
+    const { noSSR } =
+      routes.find(({ path }) =>
+        path === '/' ? url === '/' : url.startsWith(path),
+      ) || {};
+
+    const appHtml = noSSR ? '' : renderSSR(url);
     const html = htmlTemplate.replace(`<!--app-html-->`, appHtml);
 
     res.status(200).set({ 'Content-Type': 'text/html' }).end(html); //Outputing final html

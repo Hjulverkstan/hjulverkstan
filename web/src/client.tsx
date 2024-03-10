@@ -3,9 +3,13 @@ import { BrowserRouter } from 'react-router-dom';
 
 import Root from './root';
 
-ReactDOM.hydrateRoot(
-  document.getElementById('app')!,
+const mountEl = document.getElementById('app')!;
+
+const node = (
   <BrowserRouter>
     <Root />
-  </BrowserRouter>,
+  </BrowserRouter>
 );
+
+if (mountEl.childNodes.length) ReactDOM.hydrateRoot(mountEl, node);
+else ReactDOM.createRoot(mountEl).render(node);

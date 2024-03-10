@@ -13,8 +13,8 @@ const { renderSSR, routes } = await import(
   path.resolve(rootPath, 'dist/ssr/server.js')
 );
 
-routes.forEach(({ path }) => {
-  const appHtml = renderSSR(path);
+routes.forEach(({ path, useSSR = true }) => {
+  const appHtml = useSSR ? renderSSR(path) : '';
   const html = htmlTemplate.replace(`<!--app-html-->`, appHtml);
 
   const outputPath = `/dist/static${path === '/' ? '/index' : path}.html`;
