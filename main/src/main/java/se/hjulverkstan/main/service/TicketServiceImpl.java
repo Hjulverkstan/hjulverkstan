@@ -144,7 +144,7 @@ public class TicketServiceImpl implements TicketService {
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
         } else if (ticket instanceof TicketDonateDto donateDto && selectedTicket instanceof TicketDonate ticketDonate) {
             ticketDonate.setDonatedBy(donateDto.getDonatedBy());
-            ticketDonate.setDonationDate(donateDto.getDonataionDate());
+            ticketDonate.setDonationDate(donateDto.getDonationDate());
         } else {
             throw new UnsupportedTicketTypeException("Mismatch between the type of the selected ticket and the DTO provided");
         }

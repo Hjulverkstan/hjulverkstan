@@ -15,11 +15,11 @@ public class TicketDonateDto extends TicketDto {
     @JsonProperty("donated_by")
     private String donatedBy;
     @JsonProperty("donation_date")
-    private LocalDateTime donataionDate;
+    private LocalDateTime donationDate;
 
     public TicketDonateDto(TicketDonate ticket) {
         super(ticket);
         this.donatedBy = ticket.getDonatedBy();
-        this.donataionDate = ticket.getDonationDate();
+        this.donationDate = ticket.getDonationDate();
     }
 }

@@ -75,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         selectedEmployee.setComment(employee.getComment());
 
         // Update Employee in workshop
-        updateEmployeeWorkshop(selectedEmployee, employee.getId());
+        editEmployeeWorkshop(selectedEmployee, employee.getId());
 
         employeeRepository.save(selectedEmployee);
 
@@ -102,7 +102,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new EmployeeDto(employee);
     }
 
-    private void updateEmployeeWorkshop(Employee selectedEmployee, Long newEmployeeId) {
+    private void editEmployeeWorkshop(Employee selectedEmployee, Long newEmployeeId) {
         Workshop newWorkshop = workshopRepository.findById(newEmployeeId)
                 .orElseThrow(() -> new ElementNotFoundException("New Workshop"));
         Workshop oldWorkshop = workshopRepository.findById(selectedEmployee.getWorkshop().getId())
