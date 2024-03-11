@@ -61,8 +61,7 @@ public class TicketServiceImpl implements TicketService {
     public TicketDto deleteTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
-        // TODO: Decide if needed, maybe we don't want to delete tickets?
-        ticket.getVehicles().stream().forEach(vehicle -> {
+        ticket.getVehicles().forEach(vehicle -> {
             if (vehicle.getTickets().contains(ticket)) {
                 vehicle.getTickets().remove(ticket);
                 vehicleRepository.save(vehicle);
@@ -93,13 +92,12 @@ public class TicketServiceImpl implements TicketService {
         // Handles different ticket types. Accepts loan, repair & donate tickets.
         updateSpecificTicketAttributes(ticket, selectedTicket);
 
-        // General Ticket attributes
-        selectedTicket.setTicketType(ticket.getTicketType());
+        // General Ticket attributes, not allowed to edit ticket type
         selectedTicket.setOpen(ticket.isOpen());
+        selectedTicket.setComment(ticket.getComment());
 
         updateTicketEmployee(selectedTicket, ticket.getEmployeeId());
         updateTicketCustomer(selectedTicket, ticket.getCustomerId());
-        selectedTicket.setComment(ticket.getComment());
 
         ticketRepository.save(selectedTicket);
         return convertToDto(selectedTicket);
@@ -132,7 +130,7 @@ public class TicketServiceImpl implements TicketService {
         // Set vehicles on ticket
         ticket.setVehicles(vehicles);
         // Set ticket on vehicles
-        vehicles.stream().forEach(vehicle -> vehicle.getTickets().add(ticket));
+        vehicles.forEach(vehicle -> vehicle.getTickets().add(ticket));
     }
 
     private static void updateSpecificTicketAttributes(TicketDto ticket, Ticket selectedTicket) {
@@ -141,10 +139,10 @@ public class TicketServiceImpl implements TicketService {
             ticketRent.setEndDate(rentDto.getEndDate());
         } else if (ticket instanceof TicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
             ticketRepair.setStartDate(repairDto.getStartDate());
+            ticketRepair.setEndDate(repairDto.getEndDate());
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
         } else if (ticket instanceof TicketDonateDto donateDto && selectedTicket instanceof TicketDonate ticketDonate) {
-            ticketDonate.setDonatedBy(donateDto.getDonatedBy());
-            ticketDonate.setDonationDate(donateDto.getDonationDate());
+            ticketDonate.setStartDate(donateDto.getStartDate());
         } else {
             throw new UnsupportedTicketTypeException("Mismatch between the type of the selected ticket and the DTO provided");
         }
@@ -161,12 +159,12 @@ public class TicketServiceImpl implements TicketService {
             TicketRepair ticketRepair = new TicketRepair();
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
             ticketRepair.setStartDate(repairDto.getStartDate());
+            ticketRepair.setEndDate(repairDto.getEndDate());
 
             return ticketRepair;
         } else if (newTicket instanceof NewTicketDonateDto donateDto) {
             TicketDonate ticketDonate = new TicketDonate();
-            ticketDonate.setDonatedBy(donateDto.getDonatedBy());
-            ticketDonate.setDonationDate(donateDto.getDonationDate());
+            ticketDonate.setStartDate(donateDto.getStartDate());
 
             return ticketDonate;
         }

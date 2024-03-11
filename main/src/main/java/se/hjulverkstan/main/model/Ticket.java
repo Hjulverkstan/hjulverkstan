@@ -21,6 +21,9 @@ public class Ticket {
     @Column(name = "ticket_type", insertable = false, updatable = false)
     private TicketType ticketType;
     private boolean isOpen;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private String comment;
 
     @ManyToMany
     @JoinTable(
@@ -36,7 +39,6 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-    private String comment;
 
     // Metadata
     private LocalDateTime createdAt;

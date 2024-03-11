@@ -23,13 +23,18 @@ public class TicketDto {
     private TicketType ticketType;
     @JsonProperty("is_open")
     private boolean isOpen;
+    @JsonProperty("start_date")
+    private LocalDateTime startDate;
+    @JsonProperty("end_date")
+    private LocalDateTime endDate;
+    private String comment;
+
     @JsonProperty("vehicle_ids")
     private List<Long> vehicleIds;
     @JsonProperty("employee_id")
     private Long employeeId;
     @JsonProperty("customer_id")
     private Long customerId;
-    private String comment;
 
     // Metadata
     @JsonProperty("created_by")
@@ -41,15 +46,16 @@ public class TicketDto {
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
-
     public TicketDto(Ticket ticket) {
         this(ticket.getId(),
                 ticket.getTicketType(),
                 ticket.isOpen(),
+                ticket.getStartDate(),
+                ticket.getEndDate(),
+                ticket.getComment(),
                 ticket.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 ticket.getEmployee().getId(),
                 ticket.getCustomer().getId(),
-                ticket.getComment(),
                 ticket.getCreatedBy(),
                 ticket.getCreatedAt(),
                 ticket.getUpdatedBy(),
