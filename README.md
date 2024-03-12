@@ -11,6 +11,22 @@
 
 > This readme is work in progress, come back in a week for more goodies
 
+## Local development
+
+Run backend in dev mode
+
+```bash
+cd main
+./mvnw spring-boot:run -D spring-boot.run.profiles=dev
+```
+
+Run frontend in dev mode
+
+```bash
+cd web
+npm run dev
+```
+
 ## Decisions
 
 - Minimal customisation for users, devs handle ENUMs
