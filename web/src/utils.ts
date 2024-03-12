@@ -28,3 +28,17 @@ export const omitKey = (obj: Record<string, any>, keyToRemove: string) =>
   Object.fromEntries(
     Object.entries(obj).filter(([key, _]) => key !== keyToRemove),
   );
+
+export const underscoreToCamelCase = (str: string) =>
+  str
+    .split('_')
+    .map(
+      ([head, ...tail], i) =>
+        (i === 0 ? head : head.toUpperCase()) + tail.join('').toLowerCase(),
+    )
+    .join('');
+
+export const toCamelCaseObj = (obj: Record<string, any>) =>
+  Object.fromEntries(
+    Object.entries(obj).map(([key, val]) => [underscoreToCamelCase(key), val]),
+  );

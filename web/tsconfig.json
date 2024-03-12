@@ -18,6 +18,7 @@
       "@hooks": ["./src/hooks"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils": ["./src/utils"],
+      "@api": ["./src/api"],
       "@types": ["./src/types"]
     }
   },

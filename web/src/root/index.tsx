@@ -1,4 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { TooltipProvider } from '@components/ui/Tooltip';
 
@@ -21,16 +23,25 @@ export const routes = [
   },
 ];
 
+export const queryClient = new QueryClient();
+
 export default function Root() {
   return (
-    <TooltipProvider delayDuration={0}>
-      <Routes>
-        {routes.map(({ path, component: Page, nest = '' }) => {
-          return (
-            <Route key={path} path={path + (nest && '/*')} element={<Page />} />
-          );
-        })}
-      </Routes>
-    </TooltipProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider delayDuration={0}>
+        <Routes>
+          {routes.map(({ path, component: Page, nest = '' }) => {
+            return (
+              <Route
+                key={path}
+                path={path + (nest && '/*')}
+                element={<Page />}
+              />
+            );
+          })}
+        </Routes>
+      </TooltipProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }

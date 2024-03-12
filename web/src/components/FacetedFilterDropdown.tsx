@@ -24,7 +24,7 @@ export interface FilterOption {
   name: string;
   value: string;
   icon?: React.ComponentType<{ className?: string }>;
-  count: number;
+  count?: number;
 }
 
 interface FacetedFilterDropdownProps {
@@ -116,12 +116,14 @@ export default function FacetedFilterDropdown({
                     <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                   )}
                   <span>{option.name}</span>
-                  <span
-                    className="ml-auto flex h-4 w-4 items-center justify-center
-                      font-mono text-xs"
-                  >
-                    {option.count}
-                  </span>
+                  {option.count && (
+                    <span
+                      className="ml-auto flex h-4 w-4 items-center
+                        justify-center font-mono text-xs"
+                    >
+                      {option.count}
+                    </span>
+                  )}
                 </CommandItem>
               ))}
             </CommandGroup>

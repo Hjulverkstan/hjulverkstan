@@ -1,66 +1,34 @@
+import { useQuery } from 'react-query';
 import { DotsHorizontalIcon, PlusIcon } from '@radix-ui/react-icons';
 
-import { vehicleTypeOptions } from '@components/DataTableToolbar';
-import { DataTable , DataTableColumn } from '@components/DataTable';
+import { vehicleStatusOptions, vehicleTypeOptions } from './dropdownOptions';
+import { DataTable, type DataTableColumn } from '@components/DataTable';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
 import { Button } from '@components/ui/Button';
+import IconLabel from '@components/IconLabel';
 import * as DataTableToolbar from '@components/DataTableToolbar';
-
-// Mock data section
-
-export interface Vehicle {
-  id: string;
-  tagId: string;
-  comment?: string;
-  type: string;
-}
-
-const fakeData: Vehicle[] = [
-  {
-    id: '1',
-    tagId: 'UXZ',
-    type: 'bike',
-  },
-  {
-    id: '2',
-    tagId: 'FRK',
-    type: 'bike',
-  },
-  {
-    id: '3',
-    tagId: 'BLX',
-    type: 'bike',
-  },
-  {
-    id: '4',
-    tagId: 'CRK',
-    type: 'stroller',
-    comment: 'Trippelvagn!',
-  },
-];
-
-//
+import * as api from '@api';
+import type { Vehicle } from '@api';
 
 const columns: Array<DataTableColumn<Vehicle>> = [
   {
-    key: 'tagId',
-    name: 'Reg-nr',
-    renderFn: (row) => row.tagId,
+    key: 'vehicleType',
+    name: 'Type',
+    renderFn: ({ vehicleType }) => {
+      const { name, icon } = vehicleTypeOptions.find(
+        ({ value }) => value === vehicleType,
+      )!;
+      return <IconLabel name={name} icon={icon} />;
+    },
   },
   {
-    key: 'type',
-    name: 'Type',
-    renderFn: ({ type }) => {
-      const option = vehicleTypeOptions.find(({ value }) => value === type);
-
-      return (
-        <div className="flex items-center">
-          {option?.icon && (
-            <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{option?.name}</span>
-        </div>
-      );
+    key: 'vehicleStatus',
+    name: 'Status',
+    renderFn: ({ vehicleStatus }) => {
+      const { name, icon } = vehicleStatusOptions.find(
+        ({ value }) => value === vehicleStatus,
+      )!;
+      return <IconLabel name={name} icon={icon} />;
     },
   },
   {
@@ -92,23 +60,35 @@ const renderRowActionFn = () => (
   </DropdownMenu.Root>
 );
 
-export default function Inventory() {
-  return (
-    <DataTable
-      tableKey="vehicles"
-      renderRowActionFn={renderRowActionFn}
-      data={fakeData}
-      columns={columns}
-    >
-      <DataTableToolbar.WrapperLeft>
-        <DataTableToolbar.Search placeholder="Search..." />
-        <DataTableToolbar.VehicleType />
-      </DataTableToolbar.WrapperLeft>
-      <DataTableToolbar.WrapperRight>
-        <Button variant="default" className="flex h-8 w-8 p-0">
-          <PlusIcon className="h-4 w-4" />
-        </Button>
-      </DataTableToolbar.WrapperRight>
-    </DataTable>
-  );
+export default function ShopInventoryTable() {
+  const vehiclesQ = useQuery(api.getVehicles);
+
+  if (vehiclesQ.data)
+    return (
+      <DataTable
+        tableKey="vehicles"
+        renderRowActionFn={renderRowActionFn}
+        data={vehiclesQ.data}
+        columns={columns}
+      >
+        <DataTableToolbar.WrapperLeft>
+          <DataTableToolbar.Search placeholder="Search..." />
+          <DataTableToolbar.DropdownFilter
+            colKey="vehicleType"
+            label="Type"
+            options={vehicleTypeOptions}
+          />
+          <DataTableToolbar.DropdownFilter
+            colKey="vehicleStatus"
+            label="Status"
+            options={vehicleStatusOptions}
+          />
+        </DataTableToolbar.WrapperLeft>
+        <DataTableToolbar.WrapperRight>
+          <Button variant="default" className="flex h-8 w-8 p-0">
+            <PlusIcon className="h-4 w-4" />
+          </Button>
+        </DataTableToolbar.WrapperRight>
+      </DataTable>
+    );
 }
