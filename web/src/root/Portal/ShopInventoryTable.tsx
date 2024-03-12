@@ -1,8 +1,7 @@
 import { DotsHorizontalIcon, PlusIcon } from '@radix-ui/react-icons';
 
 import { vehicleTypeOptions } from '@components/DataTableToolbar';
-import { DataTable } from '@components/DataTable';
-import type { DataTableColumn } from '@components/DataTable';
+import { DataTable , DataTableColumn } from '@components/DataTable';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
 import { Button } from '@components/ui/Button';
 import * as DataTableToolbar from '@components/DataTableToolbar';

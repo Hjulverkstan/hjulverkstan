@@ -1,20 +1,21 @@
 import { Route, Routes } from 'react-router-dom';
+
 import { TooltipProvider } from '@components/ui/Tooltip';
 
 import Home from './Home';
 import About from './About';
-import Admin from './Admin';
+import Portal from './Portal';
 
 import '../globals.css';
 
 // To be used by build-script:
 export const routes = [
-  { path: '/', title: 'Inventory', component: Home },
+  { path: '/', title: 'ShopInventoryTable', component: Home },
   { path: '/about', title: 'About', component: About },
   {
-    path: '/admin',
-    title: 'Admin',
-    component: Admin,
+    path: '/portal',
+    title: 'Portal',
+    component: Portal,
     nest: true,
     noSSR: true,
   },
