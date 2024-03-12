@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
-import { TooltipProvider } from '@components/ui/tooltip';
+import { TooltipProvider } from '@components/ui/Tooltip';
 
-import Home from './home';
-import About from './about';
-import Admin from './admin';
+import Home from './Home';
+import About from './About';
+import Admin from './Admin';
 
 import '../globals.css';
 

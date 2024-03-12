@@ -4,12 +4,12 @@ import { ColorWheelIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { BabyIcon } from 'lucide-react';
 
 import * as U from '@utils';
-import FacetedFilterDropdown from '@components/faceted-filter-dropdown';
+import FacetedFilterDropdown from '@components/FacetedFilterDropdown';
 
-import type { Vehicle } from '../root/admin/inventory';
-import { useDataTable } from './data-table';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
+import type { Vehicle } from '../root/Admin/Inventory';
+import { useDataTable } from './DataTable';
+import { Input } from './ui/Input';
+import { Button } from './ui/Button';
 import type { Row } from '@hooks/useHeadlessTable';
 
 //

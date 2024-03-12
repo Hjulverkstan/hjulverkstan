@@ -10,10 +10,10 @@ import {
 import { cn } from '@utils';
 import useHeadlessTable from '@hooks/useHeadlessTable';
 import type { UseHeadlessTableReturn, Row } from '@hooks/useHeadlessTable';
-import { Button } from '@components/ui/button';
-import Pagination from '@components/pagination';
-import * as Table from '@components/ui/table';
-import * as DropdownMenu from './ui/dropdown-menu';
+import { Button } from '@components/ui/Button';
+import Pagination from '@components/Pagination';
+import * as Table from '@components/ui/Table';
+import * as DropdownMenu from './ui/DropdownMenu';
 
 //
 

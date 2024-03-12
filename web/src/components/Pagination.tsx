@@ -6,8 +6,8 @@ import {
 } from '@radix-ui/react-icons';
 
 import { cn } from '@utils';
-import * as Select from '@components/ui/select';
-import { Button } from '@components/ui/button';
+import * as Select from '@components/ui/Select';
+import { Button } from '@components/ui/Button';
 
 interface PaginationProps {
   page: number;

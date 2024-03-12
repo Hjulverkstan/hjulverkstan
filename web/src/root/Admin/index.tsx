@@ -6,12 +6,12 @@ import {
   matchPath,
 } from 'react-router-dom';
 
-import Inventory from './inventory';
-import Welcome from './welcome';
-import { Separator } from '@components/ui/separator';
-import { Avatar, AvatarFallback } from '@components/ui/avatar';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
-import { Button } from '@components/ui/button';
+import Inventory from './Inventory';
+import Welcome from './Welcome';
+import { Separator } from '@components/ui/Separator';
+import { Avatar, AvatarFallback } from '@components/ui/Avatar';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/Tabs';
+import { Button } from '@components/ui/Button';
 
 const adminRoutes = [
   { path: '/', label: 'Start' },

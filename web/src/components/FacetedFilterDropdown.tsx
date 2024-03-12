@@ -1,8 +1,8 @@
 import { CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 
 import { cn } from '@utils';
-import { Badge } from '@components/ui/badge';
-import { Separator } from '@components/ui/separator';
+import { Badge } from '@components/ui/Badge';
+import { Separator } from '@components/ui/Separator';
 import {
   Command,
   CommandEmpty,
@@ -11,14 +11,14 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@components/ui/command';
+} from '@components/ui/Command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@components/ui/popover';
+} from '@components/ui/Popover';
 
-import { Button } from '@components/ui/button';
+import { Button } from '@components/ui/Button';
 
 export interface FilterOption {
   name: string;
