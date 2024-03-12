@@ -1,5 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { Dispatch, SetStateAction } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 
 export const readStore = (key: string, fallback: any) => {
   try {

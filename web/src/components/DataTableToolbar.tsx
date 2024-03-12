@@ -1,16 +1,15 @@
-import { useMemo, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
+import { useMemo, useState, useEffect, ReactNode } from 'react';
 import { Cross2Icon } from '@radix-ui/react-icons';
 
 import * as U from '@utils';
 import FacetedFilterDropdown, {
-  type FilterOption,
+  FilterOption,
 } from '@components/FacetedFilterDropdown';
 
 import { useDataTable } from './DataTable';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
-import { type Row } from '@hooks/useHeadlessTable';
+import { Row } from '@hooks/useHeadlessTable';
 
 //
 

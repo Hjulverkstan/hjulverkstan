@@ -42,6 +42,9 @@
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/consistent-indexed-object-style": "off",
         "@typescript-eslint/no-confusing-void-expression": "off",
+        "@typescript-eslint/consistent-type-imports": ["error", {
+          "prefer": "no-type-imports"
+        }],
         "react/prop-types": "off",
         "react/no-unknown-property": "off",
         "react/react-in-jsx-scope": "off",

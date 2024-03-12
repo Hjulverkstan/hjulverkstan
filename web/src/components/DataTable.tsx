@@ -1,5 +1,10 @@
-import { useState, createContext, useContext } from 'react';
-import type { ReactNode, ReactElement } from 'react';
+import {
+  useState,
+  createContext,
+  useContext,
+  ReactNode,
+  ReactElement,
+} from 'react';
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -8,8 +13,10 @@ import {
 } from '@radix-ui/react-icons';
 
 import { cn } from '@utils';
-import useHeadlessTable from '@hooks/useHeadlessTable';
-import type { UseHeadlessTableReturn, Row } from '@hooks/useHeadlessTable';
+import useHeadlessTable, {
+  UseHeadlessTableReturn,
+  Row,
+} from '@hooks/useHeadlessTable';
 import { Button } from '@components/ui/Button';
 import Pagination from '@components/Pagination';
 import * as Table from '@components/ui/Table';

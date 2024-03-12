@@ -2,13 +2,13 @@ import { useQuery } from 'react-query';
 import { DotsHorizontalIcon, PlusIcon } from '@radix-ui/react-icons';
 
 import { vehicleStatusOptions, vehicleTypeOptions } from './dropdownOptions';
-import { DataTable, type DataTableColumn } from '@components/DataTable';
+import { DataTable, DataTableColumn } from '@components/DataTable';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
 import { Button } from '@components/ui/Button';
 import IconLabel from '@components/IconLabel';
 import * as DataTableToolbar from '@components/DataTableToolbar';
 import * as api from '@api';
-import type { Vehicle } from '@api';
+import { Vehicle } from '@api';
 
 const columns: Array<DataTableColumn<Vehicle>> = [
   {
