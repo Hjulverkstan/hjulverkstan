@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import * as U from '@utils';
-
 const baseURL = 'http://localhost:8080';
 const instance = axios.create({ baseURL });
 
@@ -73,7 +71,5 @@ export interface GetVehiclesRes {
 export const getVehicles = {
   queryKey: ['vehicles'],
   queryFn: async () =>
-    await instance
-      .get(endpoints.vehicle)
-      .then((res) => res.data.vehicles.map(U.toCamelCaseObj)),
+    await instance.get(endpoints.vehicle).then((res) => res.data.vehicles),
 };

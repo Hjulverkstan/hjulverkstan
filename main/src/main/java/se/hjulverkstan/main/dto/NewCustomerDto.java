@@ -1,6 +1,5 @@
 package se.hjulverkstan.main.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,11 +14,9 @@ public class NewCustomerDto {
     private String name;
 
     @NotBlank(message = "Customer last_name is required")
-    @JsonProperty("last_name")
     private String lastName;
 
     @NotBlank(message = "Customer phone_number is required")
-    @JsonProperty("phone_number")
     private String phoneNumber;
 
     @NotBlank(message = "Customer email is required")

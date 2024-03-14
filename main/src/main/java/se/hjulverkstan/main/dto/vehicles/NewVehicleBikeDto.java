@@ -1,12 +1,14 @@
 package se.hjulverkstan.main.dto.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.model.*;
+import se.hjulverkstan.main.model.BikeBrakeType;
+import se.hjulverkstan.main.model.BikeSize;
+import se.hjulverkstan.main.model.BikeType;
+import se.hjulverkstan.main.model.VehicleBike;
 
 @Data
 //Added the @EqualsAndHashCode annotation because
@@ -15,14 +17,11 @@ import se.hjulverkstan.main.model.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewVehicleBikeDto extends NewVehicleDto {
-    @JsonProperty("bike_type")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BikeType bikeType;
-    @JsonProperty("gear_count")
     private int gearCount;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BikeSize size;
-    @JsonProperty("brake_type")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BikeBrakeType brakeType;
 

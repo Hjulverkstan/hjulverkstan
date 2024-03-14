@@ -1,6 +1,5 @@
 package se.hjulverkstan.main.dto.tickets;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import se.hjulverkstan.main.model.TicketRepair;
 
@@ -11,7 +10,6 @@ import se.hjulverkstan.main.model.TicketRepair;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketRepairDto extends TicketDto {
-    @JsonProperty("repair_description")
     private String repairDescription;
 
     public TicketRepairDto(TicketRepair ticket) {

@@ -1,7 +1,6 @@
 package se.hjulverkstan.main.dto.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,26 +21,18 @@ import java.util.stream.Collectors;
 public class VehicleDto {
     private Long id;
     @NotNull
-    @JsonProperty("vehicle_type")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleType vehicleType;
-    @JsonProperty("vehicle_status")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleStatus vehicleStatus;
-    @JsonProperty("image_url")
     private String imageURL;
     private String comment;
-    @JsonProperty("ticket_ids")
     private List<Long> ticketIds;
 
     // Meta data
-    @JsonProperty("created_at")
     private LocalDateTime createdAt;
-    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
-    @JsonProperty("created_by")
     private Long createdBy;
-    @JsonProperty("updated_by")
     private Long updatedBy;
 
     public VehicleDto(Vehicle vehicle) {

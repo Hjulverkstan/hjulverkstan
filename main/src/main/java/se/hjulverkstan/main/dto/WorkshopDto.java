@@ -1,6 +1,5 @@
 package se.hjulverkstan.main.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,22 +15,16 @@ import java.util.stream.Collectors;
 public class WorkshopDto {
     private Long id;
     private String address;
-    @JsonProperty("phone_number")
     private String phoneNumber;
     private Long latitude;
     private Long longitude;
-    @JsonProperty("employee_ids")
     private List<Long> employeeIds;
     private String comment;
 
     // Metadata
-    @JsonProperty("created_by")
     private Long createdBy;
-    @JsonProperty("created_at")
     private LocalDateTime createdAt;
-    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
-    @JsonProperty("updated_by")
     private Long updatedBy;
 
     public WorkshopDto(Workshop workshop) {
