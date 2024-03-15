@@ -35,8 +35,7 @@ export interface UseHeadlessTableParams<R extends Row> {
   key: string;
   /** Data to be displayed and managed within the table. */
   data: R[];
-  /** For pagination. */
-  pageSize: number;
+  initPageSize: number;
   /** Mapping of column keys to custom sorting functions. */
   sortFnMap?: SortFunctionMap;
   /** Initially hidden columns. */
@@ -66,6 +65,8 @@ export interface UseHeadlessTableReturn<R extends Row> {
   sortState: SortState;
   /** When there are no filter functions set with setFilterFn */
   isFiltered: boolean;
+  pageSize: number;
+  setPageSize: (pageSize: number) => void;
   setPage: (newPage: number) => void;
   toggleColSort: (columnKey: string) => void;
   toggleColHidden: (columnKey: string) => void;
@@ -89,12 +90,13 @@ export interface UseHeadlessTableReturn<R extends Row> {
 const useHeadlessTable = <R extends Row>({
   key: tableKey,
   data,
-  pageSize,
   sortFnMap = {},
+  initPageSize,
   initHiddenCols = [],
   initSort = { key: '', dir: 0 },
 }: UseHeadlessTableParams<R>): UseHeadlessTableReturn<R> => {
   const [page, setPageState] = useState(0);
+  const [pageSize, setPageSize] = useState(initPageSize);
   const [sortState, setSortState] = useState<SortState>(initSort);
   const [filterFnMap, setFilterFnMap] = useState<FilterFunctionMap>({});
 
@@ -165,6 +167,8 @@ const useHeadlessTable = <R extends Row>({
 
   return {
     rawData: data,
+    setPageSize,
+    pageSize,
     sortedData,
     paginatedData,
     filteredData,

@@ -29,7 +29,7 @@ export const omitKey = (obj: Record<string, any>, keyToRemove: string) =>
     Object.entries(obj).filter(([key, _]) => key !== keyToRemove),
   );
 
-export const underscoreToCamelCase = (str: string) =>
+export const snakeToCamel = (str: string) =>
   str
     .split('_')
     .map(
@@ -38,7 +38,15 @@ export const underscoreToCamelCase = (str: string) =>
     )
     .join('');
 
-export const toCamelCaseObj = (obj: Record<string, any>) =>
+export const camelToSnake = (str: string) =>
+  str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
+export const snakeObjToCamelObj = (obj: Record<string, any>) =>
   Object.fromEntries(
-    Object.entries(obj).map(([key, val]) => [underscoreToCamelCase(key), val]),
+    Object.entries(obj).map(([key, val]) => [snakeToCamel(key), val]),
+  );
+
+export const camelObjToSnakeObj = (obj: Record<string, any>) =>
+  Object.fromEntries(
+    Object.entries(obj).map(([key, val]) => [camelToSnake(key), val]),
   );

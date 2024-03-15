@@ -32,6 +32,7 @@ interface FacetedFilterDropdownProps {
   options: FilterOption[];
   selected: string[];
   setSelected: (selected: string[]) => void;
+  disabled?: boolean;
 }
 
 export default function FacetedFilterDropdown({
@@ -39,6 +40,7 @@ export default function FacetedFilterDropdown({
   options,
   selected,
   setSelected,
+  disabled = false,
 }: FacetedFilterDropdownProps) {
   const onOptionClick = (option: FilterOption) =>
     setSelected(
@@ -50,7 +52,12 @@ export default function FacetedFilterDropdown({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 border-dashed">
+        <Button
+          disabled={disabled}
+          variant="outline"
+          size="sm"
+          className="h-8 border-dashed"
+        >
           <PlusCircledIcon className="mr-2 h-4 w-4" />
           {label}
           {selected.length > 0 && (

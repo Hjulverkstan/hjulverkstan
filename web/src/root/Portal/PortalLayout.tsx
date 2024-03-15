@@ -1,12 +1,17 @@
+import { useEffect, useState, useRef } from 'react';
+import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useIsFetching } from 'react-query';
+
 import { Button } from '@components/ui/Button';
 import { Avatar, AvatarFallback } from '@components/ui/Avatar';
 import { Separator } from '@components/ui/Separator';
-import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/Tabs';
+import Spinner from '@components/Spinner';
 
 export interface NavRoute {
   label: string;
   path: string;
+  nest?: boolean;
 }
 
 export interface PortalLayoutProps {
@@ -16,10 +21,23 @@ export interface PortalLayoutProps {
 }
 
 export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
+  const isFetching = useIsFetching();
+  const timeout = useRef<NodeJS.Timeout | undefined>();
+  const [showSpinner, setShowSpinner] = useState(false);
+
+  useEffect(() => {
+    if (isFetching && !showSpinner) {
+      clearTimeout(timeout.current);
+      setShowSpinner(true);
+    } else if (!isFetching && showSpinner) {
+      timeout.current = setTimeout(() => setShowSpinner(false), 500);
+    }
+  }, [isFetching, showSpinner]);
+
   return (
     <>
-      <div className="px-4 pb-2 pt-4">
-        <nav className="pb-3">
+      <div className="px-4 pt-2">
+        <nav className="mb-2">
           <div className="flex items-center justify-center space-x-4">
             <h2 className="flex-1 text-lg font-semibold">
               Hjulverkstan
@@ -28,11 +46,12 @@ export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
                 {title}
               </span>
             </h2>
-            <div className="flex-shrink">
+            <div className="flex-shrink pt-2">
               {' '}
               <NavBar {...rest} />{' '}
             </div>
-            <div className="flex flex-1 justify-end">
+            <div className="flex flex-1 items-center justify-end">
+              {showSpinner && <Spinner className="mr-4 h-6 w-6 opacity-10" />}
               <Button variant="ghost" className="h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
                   <AvatarFallback>SC</AvatarFallback>
@@ -58,8 +77,8 @@ interface NavBarProps {
 function NavBar({ baseUrl, routes }: NavBarProps) {
   const { pathname } = useLocation();
 
-  const route = routes.find((route) =>
-    matchPath(baseUrl + route.path, pathname),
+  const route = routes.find(({ path, nest = '' }) =>
+    matchPath(baseUrl + path + (nest && '/*'), pathname),
   )!;
 
   if (!route) {
@@ -82,7 +101,7 @@ function NavBar({ baseUrl, routes }: NavBarProps) {
 
       {routes.map((el) => (
         <TabsContent key={el.path} value={el.path}>
-          <Navigate to={baseUrl + el.path} />
+          {el.path !== route.path && <Navigate to={baseUrl + el.path} />}
         </TabsContent>
       ))}
     </Tabs>

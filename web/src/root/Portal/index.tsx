@@ -1,35 +1,35 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ComponentType } from 'react';
 
-import ShopInventoryTable from './ShopInventoryTable';
+import { Mode } from '@components/DataForm';
+
 import PortalLayout from './PortalLayout';
+import ShopInventory from './ShopInventory';
+
+//
 
 const shopRoutes = [
   { path: '/', label: 'Start' },
-  { path: '/inventory', label: 'Inventory' },
+  { path: '/inventory', label: 'Inventory', nest: true },
 ];
 
-const createContent = (
-  Table: ComponentType,
-  Panel?: ComponentType<{ mode: string }>,
-) => (
-  <>
-    <Table />
-    {Panel && (
-      <Routes>
-        <Route path="create" element={<Panel mode="create" />} />
-        <Route path=":id" element={<Panel mode="read" />} />
-        <Route path="edit/:id" element={<Panel mode="edit" />} />
-      </Routes>
-    )}
-  </>
+//
+
+const mountCountent = (Content: ComponentType<{ mode?: Mode }>) => (
+  <Routes>
+    <Route index element={<Content />} />
+    <Route path=":id" element={<Content mode={Mode.READ} />} />
+    <Route path=":id/edit" element={<Content mode={Mode.EDIT} />} />
+    <Route path="create" element={<Content mode={Mode.CREATE} />} />
+    <Route path="*" element={<Navigate replace to=".." />} />
+  </Routes>
 );
 
 export default function Portal() {
   return (
     <Routes>
       <Route
-        path="shop"
+        path="shop/*"
         element={
           <PortalLayout
             title="Shop"
@@ -38,7 +38,7 @@ export default function Portal() {
           />
         }
       >
-        <Route path="inventory" element={createContent(ShopInventoryTable)} />
+        <Route path="inventory/*" element={mountCountent(ShopInventory)} />
       </Route>
     </Routes>
   );

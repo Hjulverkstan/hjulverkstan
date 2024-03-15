@@ -13,6 +13,12 @@
 
 ## Local development
 
+Run a postgres server
+
+```bash
+podman run --name postgresql -e POSTGRES_PASSWORD=pass -d -p 5432:5432 -v pgdata:/var/lib/postgresql/data postgres:latest
+```
+
 Run backend in dev mode
 
 ```bash
@@ -125,7 +131,7 @@ We are aligned with the principles from functional programming:
 
 ### 6. Git practices
 
-- **Truck based developement**, work in feature branches as small as possible. Master branch should always work.
+- **Trunk based developement**, work in feature branches as small as possible. Master branch should always work.
 - **Rebase over merging**, use rebase for merge/pull requests.
   - Rebase before peer review.
 - **Small commits**, work in independent commits.

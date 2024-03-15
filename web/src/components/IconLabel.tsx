@@ -1,8 +1,8 @@
-import { type ComponentType } from 'react';
+import { ComponentType } from 'react';
 
 export interface IconLabelProps {
   name: string;
-  icon: ComponentType<{ className?: string }>;
+  icon?: ComponentType<{ className?: string }>;
 }
 
 export default function IconLabel({ name, icon: Icon }: IconLabelProps) {

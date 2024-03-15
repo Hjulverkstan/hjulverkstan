@@ -2,7 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { TooltipProvider } from '@components/ui/Tooltip';
+import Toaster from '@components/ui/Toaster';
+import * as Tooltip from '@components/ui/Tooltip';
 
 import Home from './Home';
 import About from './About';
@@ -23,12 +24,19 @@ export const routes = [
   },
 ];
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retryDelay: (attemptIndex) => Math.min(1000 * 4 ** attemptIndex, 15000),
+      retry: 3,
+    },
+  },
+});
 
 export default function Root() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider delayDuration={0}>
+      <Tooltip.Provider delayDuration={500}>
         <Routes>
           {routes.map(({ path, component: Page, nest = '' }) => {
             return (
@@ -40,7 +48,8 @@ export default function Root() {
             );
           })}
         </Routes>
-      </TooltipProvider>
+        <Toaster />
+      </Tooltip.Provider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

@@ -1,10 +1,12 @@
 import * as React from 'react';
+import { NavLinkProps, Link as RouterLink } from 'react-router-dom';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@utils';
+import * as Tooltip from '@components/ui/Tooltip';
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   `inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm
   font-medium transition-colors focus-visible:outline-none focus-visible:ring-1
   focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50`,
@@ -48,7 +50,7 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
@@ -63,4 +65,58 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = 'Button';
 
-export { Button, buttonVariants };
+//
+
+export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
+  icon: any;
+  text?: string;
+  tooltip?: string;
+}
+
+export const IconButton = React.forwardRef<any, IconButtonProps>(
+  (
+    { className, tooltip, text, asChild = false, icon: Icon, ...props },
+    ref,
+  ) => {
+    return (
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          <Button
+            className={cn(
+              'flex h-8 p-0 data-[state=open]:bg-muted',
+              text ? 'pl-3 pr-4' : 'w-8',
+              className,
+            )}
+            ref={ref}
+            {...props}
+          >
+            <Icon className="h-4 w-4" />
+            {text && <span className="pl-2">{text}</span>}
+          </Button>
+        </Tooltip.Trigger>
+        {tooltip && (
+          <Tooltip.Content>
+            <p>{tooltip}</p>
+          </Tooltip.Content>
+        )}
+      </Tooltip.Root>
+    );
+  },
+);
+
+IconButton.displayName = 'IconButton';
+
+//
+
+export type LinkProps = NavLinkProps &
+  ButtonProps &
+  VariantProps<typeof buttonVariants>;
+
+export const Link = ({ className, variant, size, ...props }: LinkProps) => (
+  <RouterLink
+    className={cn(buttonVariants({ variant, size, className }))}
+    {...props}
+  />
+);
+
+Link.displayName = RouterLink.displayName;

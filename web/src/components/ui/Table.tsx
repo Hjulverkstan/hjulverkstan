@@ -6,7 +6,7 @@ export const Root = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-x-auto rounded-md border">
+  <div className="relative w-full overflow-x-auto">
     <table
       ref={ref}
       className={cn('w-full caption-bottom text-sm', className)}
@@ -65,18 +65,20 @@ Footer.displayName = 'TableFooter';
 
 export type RowProps = React.HTMLAttributes<HTMLTableRowElement> & {
   isSelected?: boolean;
+  disabled?: boolean;
 };
 
 export const Row = React.forwardRef<HTMLTableRowElement, RowProps>(
-  ({ className, isSelected = false, ...props }, ref) => (
+  ({ className, isSelected = false, disabled = false, ...props }, ref) => (
     <tr
       ref={ref}
       data-state={isSelected ? 'selected' : 'default'}
       className={cn(
-        'border-b transition-colors [&>td]:hover:bg-muted',
+        'border-b transition-colors',
         isSelected
           ? 'bg-muted [&>td]:bg-muted'
           : 'bg-background [&>td]:bg-background',
+        disabled ? '' : '[&>td]:hover:bg-muted',
         className,
       )}
       {...props}
