@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import se.hjulverkstan.main.model.base.Auditable;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
-public class Employee {
+public class Employee extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
@@ -30,8 +31,6 @@ public class Employee {
     private String comment;
 
     // Metadata
-    private LocalDateTime createdAt;
     private Long createdBy;
-    private LocalDateTime updatedAt;
     private Long updatedBy;
 }

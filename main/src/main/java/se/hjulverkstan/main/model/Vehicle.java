@@ -2,15 +2,15 @@ package se.hjulverkstan.main.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import se.hjulverkstan.main.model.base.Auditable;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "vehicle_type", discriminatorType = DiscriminatorType.STRING)
-public class Vehicle {
+public class Vehicle extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +25,6 @@ public class Vehicle {
     private List<Ticket> tickets;
 
     // Meta data
-    private LocalDateTime createdAt;
     private Long createdBy;
-    private LocalDateTime updatedAt;
     private Long updatedBy;
 }

@@ -2,13 +2,14 @@ package se.hjulverkstan.main.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import se.hjulverkstan.main.model.base.Auditable;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
-public class Customer {
+public class Customer extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

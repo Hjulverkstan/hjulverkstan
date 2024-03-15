@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import se.hjulverkstan.main.model.base.Auditable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "ticket_type", discriminatorType = DiscriminatorType.STRING)
 @Data
-public class Ticket {
+public class Ticket extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
@@ -41,8 +42,6 @@ public class Ticket {
     private Customer customer;
 
     // Metadata
-    private LocalDateTime createdAt;
     private Long createdBy;
-    private LocalDateTime updatedAt;
     private Long updatedBy;
 }

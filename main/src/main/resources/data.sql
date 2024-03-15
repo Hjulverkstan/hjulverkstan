@@ -30,8 +30,8 @@ VALUES ('Customer1', 'Lastname1', '1234567890', 'customer1@example.com', NOW(), 
 --    ('REPAIR', 3, 2, '2024-03-06 13:00:00', '2024-03-06 15:00:00', 'Sample comment ticket 3');
 
 -- Inserting vehicles
-INSERT INTO vehicle (vehicle_type, vehicle_status, imageurl, comment, bike_type, gear_count, size, brake_type)
+INSERT INTO vehicle (vehicle_type, vehicle_status, imageurl, comment, bike_type, gear_count, size, brake_type, created_at, updated_at)
 VALUES
-    ('BIKE', 'AVAILABLE', 'image_url_1.jpg', 'Comment about first bike', 'CHILD', 21, 'MEDIUM', 'DISC'),
-    ('BIKE', 'UNAVAILABLE', 'image_url_2.jpg', 'Comment about second bike', 'ROAD', 18, 'LARGE', 'CALIPER'),
-    ('BIKE', 'AVAILABLE', 'image_url_3.jpg', 'Comment about third bike', 'ELECTRIC', 15, 'SMALL', 'DISC');
+    ('BIKE', 'AVAILABLE', 'image_url_1.jpg', 'Comment about first bike', 'CHILD', 21, 'MEDIUM', 'DISC', NOW(), NOW()),
+    ('BIKE', 'UNAVAILABLE', 'image_url_2.jpg', 'Comment about second bike', 'ROAD', 18, 'LARGE', 'CALIPER', NOW(), NOW()),
+    ('BIKE', 'AVAILABLE', 'image_url_3.jpg', 'Comment about third bike', 'ELECTRIC', 15, 'SMALL', 'DISC', NOW(), NOW());
