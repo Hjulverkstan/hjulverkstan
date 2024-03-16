@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
+import ThemeProvider from '@components/ui/ThemeProvider';
 import Toaster from '@components/ui/Toaster';
 import * as Tooltip from '@components/ui/Tooltip';
 
@@ -35,22 +36,24 @@ export const queryClient = new QueryClient({
 
 export default function Root() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Tooltip.Provider delayDuration={500}>
-        <Routes>
-          {routes.map(({ path, component: Page, nest = '' }) => {
-            return (
-              <Route
-                key={path}
-                path={path + (nest && '/*')}
-                element={<Page />}
-              />
-            );
-          })}
-        </Routes>
-        <Toaster />
-      </Tooltip.Provider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <ThemeProvider storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <Tooltip.Provider delayDuration={500}>
+          <Routes>
+            {routes.map(({ path, component: Page, nest = '' }) => {
+              return (
+                <Route
+                  key={path}
+                  path={path + (nest && '/*')}
+                  element={<Page />}
+                />
+              );
+            })}
+          </Routes>
+          <Toaster />
+        </Tooltip.Provider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
