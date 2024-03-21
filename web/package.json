@@ -13,8 +13,7 @@
     "serve": "npm run build && cd dist/static && npx serve",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,md}\"",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,md}\"",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
-    "postinstall": "git config core.hooksPath .hooks"
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\""
   },
   "author": "",
   "license": "ISC",

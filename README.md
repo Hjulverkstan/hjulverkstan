@@ -13,6 +13,12 @@
 
 ## Local development
 
+Run our setup shellscript to configure all git configs
+
+```bash
+sh ./setup.sh
+```
+
 Run a postgres server
 
 ```bash
