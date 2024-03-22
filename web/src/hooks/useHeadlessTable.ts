@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import * as U from '@utils';
 
@@ -114,6 +114,13 @@ const useHeadlessTable = <R extends Row>({
     () => Math.ceil(data.length / pageSize),
     [data.length, pageSize],
   );
+
+  //
+
+  useEffect(() => {
+    // When data shrinks and you are on a page that does not exist eny more
+    if (page > pageCount - 1) setPage(pageCount - 1);
+  }, [pageCount, page]);
 
   //
 
