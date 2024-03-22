@@ -252,7 +252,7 @@ export function Body({
         <Table.Row
           disabled={disabled}
           onClick={() => !disabled && setSelected(row.id)}
-          key={y}
+          key={row.id}
           className="pl-4"
           isSelected={row.id === selected}
         >

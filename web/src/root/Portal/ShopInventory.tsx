@@ -7,7 +7,6 @@ import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
-import { IconButton } from '@components/ui/Button';
 import { Vehicle } from '@api';
 
 import PortalForm from './PortalForm';
@@ -21,10 +20,11 @@ import {
   vehicleTypeOptions,
 } from './dropdownOptions';
 import { createSuccessToast, createErrorToast } from './toast';
-
 import { useToast } from '@components/ui/use-toast';
-import { useState } from 'react';
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
+import { Dialog, DialogTrigger } from '@components/ui/Dialog';
+import { IconButton } from '@components/ui/Button';
+import { useState } from 'react';
 
 const columns: Array<DataTable.Column<Vehicle>> = [
   {
@@ -150,12 +150,10 @@ export interface ActionsProps {
 }
 
 export function Actions({ id, vehicleType }: ActionsProps) {
-  const { toast } = useToast();
+  const deleteVehicleM = M.useDeleteVehicle();
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const handleDialogOpen = () => {
-    setIsDialogOpen(true);
-  };
+  const [open, setOpen] = useState(false);
+  const { toast } = useToast();
 
   const onDelete = () => {
     deleteVehicleM.mutate(id, {
@@ -172,32 +170,32 @@ export function Actions({ id, vehicleType }: ActionsProps) {
         toast(createErrorToast({ verbLabel: 'delete', dataLabel: 'vehicle' }));
       },
     });
-    setIsDialogOpen(false);
   };
 
-  const deleteVehicleM = M.useDeleteVehicle();
-
   return (
-    <>
-      <DropdownMenu.Root>
+    <Dialog>
+      <DropdownMenu.Root open={open} onOpenChange={setOpen}>
         <DropdownMenu.Trigger asChild>
           <IconButton variant="ghost" icon={DotsHorizontalIcon} />
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="end" className="w-[160px]">
-          <DropdownMenu.Item onClick={handleDialogOpen}>
-            Delete
-            <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
-          </DropdownMenu.Item>
+          <DialogTrigger asChild>
+            <DropdownMenu.Item
+              onClick={(e) => e.stopPropagation()}
+              onSelect={(e) => e.preventDefault()}
+            >
+              Delete
+              <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
+            </DropdownMenu.Item>
+          </DialogTrigger>
+          <ConfirmDeleteDialog
+            onDelete={onDelete}
+            onCancel={() => setOpen(false)}
+            entity={vehicleType}
+            entityId={id}
+          />
         </DropdownMenu.Content>
       </DropdownMenu.Root>
-      {isDialogOpen && (
-        <ConfirmDeleteDialog
-          onDelete={onDelete}
-          setIsDialogOpen={setIsDialogOpen}
-          entity={vehicleType}
-          entityId={id}
-        />
-      )}
-    </>
+    </Dialog>
   );
 }
