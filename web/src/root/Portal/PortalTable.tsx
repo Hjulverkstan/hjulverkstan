@@ -1,7 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
 import * as DataTable from '@components/DataTable';
+import { useDataTable } from '@components/DataTable';
 import Error from '@components/Error';
+import Spinner from '@components/Spinner';
 
 export interface PortalTableProps
   extends Pick<DataTable.BodyProps, 'columns' | 'renderRowActionFn'> {
@@ -17,6 +19,8 @@ export default function PortalTable({
 }: PortalTableProps) {
   const navigate = useNavigate();
   const { id = '' } = useParams();
+  const { page, pageCount } = useDataTable();
+
   return (
     <div className="flex flex-grow flex-col rounded-md border">
       <div className="flex flex-grow flex-col overflow-hidden rounded-md">
@@ -41,7 +45,17 @@ export default function PortalTable({
         ) : (
           <div className="flex-grow" />
         )}
-        <DataTable.Pagination />
+        <DataTable.Pagination>
+          <div className="flex items-center gap-1">
+            <div
+              className="items-center pl-2 text-sm font-normal
+                text-muted-foreground"
+            >
+              Page {page + 1} of {pageCount}
+            </div>
+            <Spinner visible={isLoading} />
+          </div>
+        </DataTable.Pagination>
       </div>
     </div>
   );

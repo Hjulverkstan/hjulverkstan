@@ -1,4 +1,3 @@
-import { useEffect, useState, useRef } from 'react';
 import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useIsFetching } from 'react-query';
 
@@ -22,17 +21,6 @@ export interface PortalLayoutProps {
 
 export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
   const isFetching = useIsFetching();
-  const timeout = useRef<NodeJS.Timeout | undefined>();
-  const [showSpinner, setShowSpinner] = useState(false);
-
-  useEffect(() => {
-    if (isFetching && !showSpinner) {
-      clearTimeout(timeout.current);
-      setShowSpinner(true);
-    } else if (!isFetching && showSpinner) {
-      timeout.current = setTimeout(() => setShowSpinner(false), 500);
-    }
-  }, [isFetching, showSpinner]);
 
   return (
     <>
@@ -51,7 +39,7 @@ export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
               <NavBar {...rest} />{' '}
             </div>
             <div className="flex flex-1 items-center justify-end">
-              {showSpinner && <Spinner className="mr-4 h-6 w-6 opacity-10" />}
+              <Spinner visible={!!isFetching} className="mr-4 h-6 w-6" />
               <Button variant="ghost" className="h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
                   <AvatarFallback>SC</AvatarFallback>

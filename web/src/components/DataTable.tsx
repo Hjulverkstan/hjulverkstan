@@ -310,14 +310,12 @@ export function BodySkeleton({ columns }: BodySkeletonProps) {
 
 //
 
-export function Pagination() {
+export function Pagination({ children }: { children: ReactNode }) {
   const { disabled, page, pageCount, setPage } = useDataTable();
 
   return (
     <div className="flex h-10 items-center justify-between border-t px-2">
-      <div className="items-center pl-2 text-sm font-normal">
-        Page {page + 1} of {pageCount}
-      </div>
+      {children}
       <div className="flex items-center">
         <IconButton
           variant="ghost"
