@@ -88,12 +88,10 @@ export function Provider<D extends Data>({
   children,
 }: DataFormProps<D>) {
   const { toast } = useToast();
-  const prevDataRaw = useRef<D | undefined>();
   const [data, setData] = useState<Partial<D> | undefined>();
 
-  console.log('-----');
-  console.log('isLoading', isLoading);
-  console.log('data', data);
+  const prevDataRaw = useRef<D | undefined>();
+  const prevMode = useRef<Mode | undefined>();
 
   useEffect(() => {
     const applyRawData = () => {
@@ -101,17 +99,20 @@ export function Provider<D extends Data>({
       prevDataRaw.current = dataRaw;
     };
 
-    console.log('raw', dataRaw);
+    // Just entered CREATE
+    if (prevMode.current !== Mode.CREATE && mode === Mode.CREATE)
+      setData(initData);
 
-    if (!data) {
-      if (mode === Mode.CREATE) setData(initData);
-      else if (dataRaw) applyRawData();
-    } else {
-      if (dataRaw !== prevDataRaw.current) {
-        if (mode === Mode.READ) applyRawData();
-        if (mode === Mode.EDIT) toast(createRefreshToast(applyRawData));
-      }
+    // In READ or EDIT and no state is set yet
+    if (mode !== Mode.CREATE && !data) applyRawData();
+
+    // We have new data
+    if (data && dataRaw !== prevDataRaw.current) {
+      if (mode === Mode.READ) applyRawData();
+      if (mode === Mode.EDIT) toast(createRefreshToast(applyRawData));
     }
+
+    prevMode.current = mode;
   }, [dataRaw, mode]);
 
   //
@@ -189,6 +190,7 @@ export function Select({ label, dataKey, options, description }: SelectProps) {
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            id={dataKey}
             disabled={isDisabled}
             variant="outline"
             role="combobox"

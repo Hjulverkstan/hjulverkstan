@@ -43,7 +43,7 @@ export default function PortalForm({
   const onSave = () => {
     if (!validationIssues.length) {
       saveMutation(data)
-        .then((res: any) => navigate('..'))
+        .then((res: any) => navigate('../' + res.id))
         .catch((err: any) => {
           console.error(err);
           toast(createErrorToast({ verbLabel: 'save', dataLabel: 'vehicle' }));

@@ -8,19 +8,26 @@ const queryKeyToString = (queryKey: QueryKey) =>
     ? queryKey
     : queryKey.map((el) => JSON.stringify(el)).join();
 
-const invalidateQueries = async (queryKeys: string[][]) =>
-  await queryClient.invalidateQueries({
-    predicate: ({ queryKey = '' }) =>
-      queryKeys.some((matchQueryKey) =>
-        queryKeyToString(queryKey).startsWith(queryKeyToString(matchQueryKey)),
-      ),
-  });
+const invalidateQueries = (queryKeys: string[][]) => {
+  queryClient
+    .invalidateQueries({
+      predicate: ({ queryKey = '' }) =>
+        queryKeys.some((matchQueryKey) =>
+          queryKeyToString(queryKey).startsWith(
+            queryKeyToString(matchQueryKey),
+          ),
+        ),
+    })
+    .catch((err) => {
+      throw Error('invalidateQueries failed, error: ' + err);
+    });
+};
 
 export const useCreateVehicle = () =>
   useMutation({
     ...api.createVehicle(),
-    onSuccess: async ({ id }) =>
-      await invalidateQueries([
+    onSuccess: ({ id }) =>
+      invalidateQueries([
         api.getVehicles().queryKey,
         api.getVehicle({ id }).queryKey,
       ]),
@@ -29,8 +36,8 @@ export const useCreateVehicle = () =>
 export const useEditVehicle = () =>
   useMutation({
     ...api.editVehicle(),
-    onSuccess: async ({ id }) =>
-      await invalidateQueries([
+    onSuccess: ({ id }) =>
+      invalidateQueries([
         api.getVehicles().queryKey,
         api.getVehicle({ id }).queryKey,
       ]),
@@ -39,7 +46,5 @@ export const useEditVehicle = () =>
 export const useDeleteVehicle = () =>
   useMutation({
     ...api.deleteVehicle(),
-    onSuccess: async (data) => {
-      await invalidateQueries([api.getVehicles().queryKey]);
-    },
+    onSuccess: (data) => invalidateQueries([api.getVehicles().queryKey]),
   });
