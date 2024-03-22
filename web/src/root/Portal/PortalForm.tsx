@@ -23,13 +23,13 @@ export default function PortalForm({
   children,
 }: PortalFormProps) {
   const { id = '' } = useParams();
-  const { mode, data, validationIssues } = useDataForm();
+  const { mode, body, validationIssues } = useDataForm();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const onCreate = () => {
     if (!validationIssues.length) {
-      createMutation(data)
+      createMutation(body)
         .then((res: any) => navigate('../' + res.id))
         .catch((err: any) => {
           console.error(err);
@@ -42,7 +42,7 @@ export default function PortalForm({
 
   const onSave = () => {
     if (!validationIssues.length) {
-      saveMutation(data)
+      saveMutation(body)
         .then((res: any) => navigate('../' + res.id))
         .catch((err: any) => {
           console.error(err);

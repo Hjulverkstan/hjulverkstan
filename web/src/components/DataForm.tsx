@@ -45,8 +45,8 @@ export interface UseDataFormReturn<D = Data> {
   isLoading: boolean;
   isDisabled: boolean;
   isSkeleton: boolean;
-  data: Partial<D>;
-  setData: (dataKey: string, value: any) => void;
+  body: Partial<D>;
+  setBodyProp: (dataKey: string, value: any) => void;
   validationIssues: ZodIssue[];
   mode: Mode;
 }
@@ -71,7 +71,7 @@ interface DataFormProps<D> {
   isLoading: boolean;
   mode: Mode;
   zodSchema: ZodType<any>;
-  initData: Partial<D>;
+  initCreateBody: Partial<D>;
   children: ReactNode;
 }
 
@@ -82,56 +82,58 @@ interface DataFormProps<D> {
 export function Provider<D extends Data>({
   mode,
   isLoading,
-  data: dataRaw,
+  data,
   zodSchema,
-  initData,
+  initCreateBody,
   children,
 }: DataFormProps<D>) {
   const { toast } = useToast();
-  const [data, setData] = useState<Partial<D> | undefined>();
+  const [body, setBody] = useState<Partial<D> | undefined>();
 
-  const prevDataRaw = useRef<D | undefined>();
+  const prevData = useRef<D | undefined>();
   const prevMode = useRef<Mode | undefined>();
 
   useEffect(() => {
-    const applyRawData = () => {
-      setData(dataRaw);
-      prevDataRaw.current = dataRaw;
+    const applyData = () => {
+      setBody(data);
+      prevData.current = data;
     };
 
     // Just entered CREATE
-    if (prevMode.current !== Mode.CREATE && mode === Mode.CREATE)
-      setData(initData);
+    if (prevMode.current !== Mode.CREATE && mode === Mode.CREATE) {
+      console.log('iniiiit', initCreateBody);
+      setBody(initCreateBody);
+    }
 
     // In READ or EDIT and no state is set yet
-    if (mode !== Mode.CREATE && !data) applyRawData();
+    if (mode !== Mode.CREATE && !body) applyData();
 
     // We have new data
-    if (data && dataRaw !== prevDataRaw.current) {
-      if (mode === Mode.READ) applyRawData();
-      if (mode === Mode.EDIT) toast(createRefreshToast(applyRawData));
+    if (body && data !== prevData.current) {
+      if (mode === Mode.READ) applyData();
+      if (mode === Mode.EDIT) toast(createRefreshToast(applyData));
     }
 
     prevMode.current = mode;
-  }, [dataRaw, mode]);
+  }, [data, mode]);
 
   //
 
-  const safeData: Partial<D> = data ?? {};
+  const safeBody: Partial<D> = body ?? {};
 
   const validationIssues = useMemo(() => {
-    const zodRet = zodSchema.safeParse(data);
+    const zodRet = zodSchema.safeParse(body);
 
     return zodRet.success ? [] : zodRet.error.issues;
-  }, [zodSchema, data]);
+  }, [zodSchema, body]);
 
-  const isSkeleton = isLoading && !data;
+  const isSkeleton = isLoading && !body;
   const isDisabled = mode === Mode.READ || isSkeleton;
 
   const form: UseDataFormReturn<D> = {
-    data: safeData,
-    setData: (dataKey: string, value: any) =>
-      setData((prev) => prev && { ...prev, [dataKey]: value }),
+    body: safeBody,
+    setBodyProp: (dataKey: string, value: any) =>
+      setBody((prev) => prev && { ...prev, [dataKey]: value }),
     isLoading,
     isDisabled,
     isSkeleton,
@@ -182,7 +184,7 @@ export interface SelectProps extends Omit<FieldProps, 'children'> {
 }
 
 export function Select({ label, dataKey, options, description }: SelectProps) {
-  const { isSkeleton, data, setData, isDisabled } = useDataForm();
+  const { isSkeleton, body, setBodyProp, isDisabled } = useDataForm();
   const [open, setOpen] = useState(false);
 
   return (
@@ -199,8 +201,8 @@ export function Select({ label, dataKey, options, description }: SelectProps) {
           >
             {isSkeleton
               ? ''
-              : data[dataKey]
-                ? options.find((option) => option.value === data[dataKey])?.name
+              : body[dataKey]
+                ? options.find((option) => option.value === body[dataKey])?.name
                 : `Select ${label.toLowerCase()}...`}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -218,7 +220,7 @@ export function Select({ label, dataKey, options, description }: SelectProps) {
                   key={value}
                   value={value}
                   onSelect={() => {
-                    if (value !== data[dataKey]) setData(dataKey, value);
+                    if (value !== body[dataKey]) setBodyProp(dataKey, value);
                     setOpen(false);
                   }}
                 >
@@ -226,7 +228,7 @@ export function Select({ label, dataKey, options, description }: SelectProps) {
                   <CheckIcon
                     className={cn(
                       'ml-auto h-4 w-4',
-                      value === data[dataKey] ? 'opacity-100' : 'opacity-0',
+                      value === body[dataKey] ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                 </CommandItem>
@@ -251,7 +253,7 @@ export function Input({
   placeholder,
   description,
 }: InputProps) {
-  const { data, setData, isDisabled, isSkeleton } = useDataForm();
+  const { body, setBodyProp, isDisabled, isSkeleton } = useDataForm();
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
@@ -259,9 +261,9 @@ export function Input({
         id={dataKey}
         disabled={isDisabled}
         placeholder={placeholder}
-        value={isSkeleton ? '' : data[dataKey] ?? ''}
+        value={isSkeleton ? '' : body[dataKey] ?? ''}
         onChange={({ target: { value } }) => {
-          if (data[dataKey] !== value) setData(dataKey, value);
+          if (body[dataKey] !== value) setBodyProp(dataKey, value);
         }}
         className={cn('h-8 bg-background', isDisabled && '!opacity-70')}
       />

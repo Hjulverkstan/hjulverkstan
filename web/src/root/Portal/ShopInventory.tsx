@@ -88,7 +88,7 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
             isLoading={vehicleQ.isLoading}
             data={vehicleQ.data}
             zodSchema={vehicleZ}
-            initData={initVehicle}
+            initCreateBody={initVehicle}
           >
             <PortalForm
               isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}
