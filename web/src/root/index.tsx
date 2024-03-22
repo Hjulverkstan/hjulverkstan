@@ -29,7 +29,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retryDelay: (attemptIndex) => Math.min(1000 * 4 ** attemptIndex, 15000),
-      retry: 3,
+      retry: 2,
     },
   },
 });

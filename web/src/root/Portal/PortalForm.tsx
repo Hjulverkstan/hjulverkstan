@@ -1,10 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Pencil, Save, XIcon } from 'lucide-react';
+import { ReactNode } from 'react';
 
+import { ErrorRes } from '@api';
 import { Mode, useDataForm } from '@components/DataForm';
 import { IconButton } from '@components/ui/Button';
-import { ReactNode } from 'react';
 import { useToast } from '@components/ui/use-toast';
+import Error from '@components/Error';
+
 import { createErrorToast } from './toast';
 
 export interface PortalFormProps {
@@ -13,6 +16,7 @@ export interface PortalFormProps {
   createMutation: (body: any) => Promise<any>;
   /* muateAsync from useMutation() */
   saveMutation: (body: any) => Promise<any>;
+  error?: ErrorRes | null;
   children: ReactNode;
 }
 
@@ -20,6 +24,7 @@ export default function PortalForm({
   isSubmitting,
   createMutation,
   saveMutation,
+  error,
   children,
 }: PortalFormProps) {
   const { id = '' } = useParams();
@@ -77,21 +82,25 @@ export default function PortalForm({
         </h3>
         <IconButton
           key={mode}
-          disabled={isSubmitting || !!validationIssues.length}
+          disabled={!!error || isSubmitting || !!validationIssues.length}
           onClick={handler}
           variant={mode === Mode.READ ? 'ghost' : 'default'}
           icon={mode === Mode.READ ? Pencil : Save}
           tooltip={tooltip}
         />
         <IconButton
-          disabled={isSubmitting}
+          disabled={!!error || isSubmitting}
           onClick={() => navigate(mode === Mode.EDIT ? `../${id}` : '..')}
           variant="ghost"
           icon={XIcon}
           tooltip="Close"
         />
       </div>
-      <div className="space-y-4 px-2 pb-3 pt-4">{children}</div>
+      {error ? (
+        <Error error={error} />
+      ) : (
+        <div className="space-y-4 px-2 pb-3 pt-4">{children}</div>
+      )}
     </div>
   );
 }

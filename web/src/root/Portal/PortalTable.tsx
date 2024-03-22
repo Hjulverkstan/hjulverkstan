@@ -4,11 +4,12 @@ import * as DataTable from '@components/DataTable';
 import { useDataTable } from '@components/DataTable';
 import Error from '@components/Error';
 import Spinner from '@components/Spinner';
+import { ErrorRes } from '@api';
 
 export interface PortalTableProps
   extends Pick<DataTable.BodyProps, 'columns' | 'renderRowActionFn'> {
   isLoading: boolean;
-  error?: string | null;
+  error?: ErrorRes | null;
 }
 
 export default function PortalTable({
@@ -38,10 +39,7 @@ export default function PortalTable({
           ) : null}
         </DataTable.Root>
         {error ? (
-          <Error
-            className="flex-grow"
-            msg="There was an error fetching the data."
-          />
+          <Error className="flex-grow" error={error} />
         ) : (
           <div className="flex-grow" />
         )}

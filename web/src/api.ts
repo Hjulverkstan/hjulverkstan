@@ -1,17 +1,35 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const baseURL = 'http://localhost:8080';
-const instance = axios.create({ baseURL, timeout: 5000 });
 
-const endpoints = {
+export const endpoints = {
   vehicle: '/vehicle',
 };
+
+const instance = axios.create({ baseURL, timeout: 5000 });
 
 // type QueryParamsCreator<Res, Params = undefined> = (params: Params) => {
 //   queryKey: string[];
 //   queryFn: () => Promise<Res>;
 // };
 
+export interface ErrorRes {
+  error: string;
+  endpoint: string;
+  message: string;
+  status: number;
+}
+
+const createErrorHandler =
+  (endpoint: string) => (error: AxiosError<ErrorRes>) =>
+    Promise.reject({
+      endpoint,
+      ...(error.response?.data ?? {
+        error: error.code,
+        message: error.message,
+        status: 400,
+      }),
+    });
 /* * * * * * * * VEHICLE * * * * * * * */
 
 export enum VehicleType {
@@ -82,10 +100,11 @@ export interface GetVehiclesRes {
 
 export const getVehicles = () => ({
   queryKey: ['vehicles'],
-  queryFn: async () =>
-    await instance
+  queryFn: () =>
+    instance
       .get<GetVehiclesRes>(endpoints.vehicle)
-      .then((res) => res.data.vehicles.map(withIdAsString) as Vehicle[]),
+      .then((res) => res.data.vehicles.map(withIdAsString) as Vehicle[])
+      .catch(createErrorHandler(endpoints.vehicle)),
 });
 
 //
@@ -98,10 +117,11 @@ export interface GetVehicleParams {
 
 export const getVehicle = ({ id }: GetVehicleParams) => ({
   queryKey: ['vehicle', id],
-  queryFn: async () =>
-    await instance
+  queryFn: () =>
+    instance
       .get<GetVehicleRes>(`${endpoints.vehicle}/${id}`)
-      .then((res) => withIdAsString(res.data) as Vehicle),
+      .then((res) => withIdAsString(res.data) as Vehicle)
+      .catch(createErrorHandler(endpoints.vehicle)),
 });
 
 //
@@ -117,13 +137,14 @@ const vehicleSlugMap = {
 };
 
 export const createVehicle = () => ({
-  mutationFn: async (body: CreateVehicleParams) =>
-    await instance
+  mutationFn: (body: CreateVehicleParams) =>
+    instance
       .post<CreateVehicleRes>(
         `${endpoints.vehicle}/${vehicleSlugMap[body.vehicleType]}`,
         body,
       )
-      .then((res) => withIdAsString(res.data) as Vehicle),
+      .then((res) => withIdAsString(res.data) as Vehicle)
+      .catch(createErrorHandler(endpoints.vehicle)),
 });
 
 //
@@ -133,18 +154,20 @@ export type EditVehicleRes = Vehicle;
 export type EditVehicleParams = Vehicle;
 
 export const editVehicle = () => ({
-  mutationFn: async (body: EditVehicleParams) =>
-    await instance
+  mutationFn: (body: EditVehicleParams) =>
+    instance
       .put<EditVehicleRes>(
         `${endpoints.vehicle}/${vehicleSlugMap[body.vehicleType]}/${body.id}?edit`,
         body,
       )
-      .then((res) => withIdAsString(res.data) as Vehicle),
+      .then((res) => withIdAsString(res.data) as Vehicle)
+      .catch(createErrorHandler(endpoints.vehicle)),
 });
 
 export const deleteVehicle = () => ({
-  mutationFn: async (id: string) =>
-    await instance
+  mutationFn: (id: string) =>
+    instance
       .delete<GetVehicleRes>(`${endpoints.vehicle}/${id}`)
-      .then((res) => withIdAsString(res.data) as Vehicle),
+      .then((res) => withIdAsString(res.data) as Vehicle)
+      .catch(createErrorHandler(endpoints.vehicle)),
 });

@@ -59,8 +59,6 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
   const createVehicleM = M.useCreateVehicle();
   const editVehicleM = M.useEditVehicle();
 
-  console.log(333, vehicleQ.data, vehicleQ.isLoading);
-
   const isTableDisabled = [Mode.CREATE, Mode.EDIT].includes(mode);
 
   return (
@@ -91,6 +89,7 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
             initCreateBody={initVehicle}
           >
             <PortalForm
+              error={vehicleQ.error}
               isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}
               saveMutation={editVehicleM.mutateAsync}
               createMutation={createVehicleM.mutateAsync}
