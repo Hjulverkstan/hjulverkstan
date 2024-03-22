@@ -5,6 +5,7 @@ import { Mode, useDataForm } from '@components/DataForm';
 import { IconButton } from '@components/ui/Button';
 import { ReactNode } from 'react';
 import { useToast } from '@components/ui/use-toast';
+import { createErrorToast } from './toast';
 
 export interface PortalFormProps {
   isSubmitting: boolean;
@@ -14,13 +15,6 @@ export interface PortalFormProps {
   saveMutation: (body: any) => Promise<any>;
   children: ReactNode;
 }
-
-const createErrorToast = (verbLabel: string, dataLabel: string) => ({
-  variant: 'destructive' as any,
-  title: `Failed to ${verbLabel} the ${dataLabel}.`,
-  description: 'Try again soon or contact your local developer.',
-  duration: 5000,
-});
 
 export default function PortalForm({
   isSubmitting,
@@ -39,7 +33,9 @@ export default function PortalForm({
         .then((res: any) => navigate('../' + res.id))
         .catch((err: any) => {
           console.error(err);
-          toast(createErrorToast('create', 'vehicle'));
+          toast(
+            createErrorToast({ verbLabel: 'create', dataLabel: 'vehicle' }),
+          );
         });
     }
   };
@@ -50,7 +46,7 @@ export default function PortalForm({
         .then((res: any) => navigate('..'))
         .catch((err: any) => {
           console.error(err);
-          toast(createErrorToast('save', 'vehicle'));
+          toast(createErrorToast({ verbLabel: 'save', dataLabel: 'vehicle' }));
         });
     }
   };

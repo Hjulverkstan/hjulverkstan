@@ -20,6 +20,7 @@ import {
   vehicleStatusOptions,
   vehicleTypeOptions,
 } from './dropdownOptions';
+import { createSuccessToast, createErrorToast } from './toast';
 
 import { useToast } from '@components/ui/use-toast';
 import { useState } from 'react';
@@ -156,20 +157,26 @@ export function Actions({ id, vehicleType }: ActionsProps) {
     setIsDialogOpen(true);
   };
 
-  const onError = () => {
-    toast(createErrorToast('delete', 'vehicle'));
-  };
-
-  const onSuccess = (vehicle: Vehicle) => {
-    toast(createSuccessToast('delete', `vehicle with id: ${vehicle.id}`));
-  };
-
   const onDelete = () => {
-    deleteVehicleM.mutate(id);
+    deleteVehicleM.mutate(id, {
+      onSuccess: (vehicle: Vehicle) => {
+        toast(
+          createSuccessToast({
+            verbLabel: 'delete',
+            dataLabel: 'vehicle',
+            id: vehicle.id,
+          }),
+        );
+      },
+      onError: () => {
+        toast(createErrorToast({ verbLabel: 'delete', dataLabel: 'vehicle' }));
+      },
+    });
     setIsDialogOpen(false);
   };
 
-  const deleteVehicleM = M.useDeleteVehicle(onSuccess, onError);
+  const deleteVehicleM = M.useDeleteVehicle();
+
   return (
     <>
       <DropdownMenu.Root>
@@ -194,15 +201,3 @@ export function Actions({ id, vehicleType }: ActionsProps) {
     </>
   );
 }
-
-const createErrorToast = (verbLabel: string, dataLabel: string) => ({
-  variant: 'destructive' as any,
-  title: `Failed to ${verbLabel} the ${dataLabel}.`,
-  description: 'Try again soon or contact your local developer.',
-  duration: 5000,
-});
-
-const createSuccessToast = (verbLabel: string, dataLabel: string) => ({
-  title: `Successfully managed to ${verbLabel} the ${dataLabel}.`,
-  duration: 5000,
-});

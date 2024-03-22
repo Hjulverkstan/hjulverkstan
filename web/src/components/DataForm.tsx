@@ -12,6 +12,7 @@ import {
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 
 import { cn } from '@utils';
+import { createRefreshToast } from '../root/Portal/toast';
 import {
   Popover,
   PopoverContent,
@@ -26,7 +27,6 @@ import {
   CommandItem,
 } from '@components/ui/Command';
 
-import * as Toast from '@components/ui/Toast';
 import { Input as InputDumb } from '@components/ui/Input';
 import { Label } from '@components/ui/Label';
 import { useToast } from '@components/ui/use-toast';
@@ -78,17 +78,6 @@ interface DataFormProps<D> {
 /**
  *
  */
-
-const createRefreshToast = (cb: () => void) => ({
-  title: 'Someone has made changes to the data you are viewing.',
-  description: 'Do you want to refresh?',
-  duration: 1000000,
-  action: (
-    <Toast.Action altText="Yes" onClick={cb}>
-      Yes
-    </Toast.Action>
-  ),
-});
 
 export function Provider<D extends Data>({
   mode,

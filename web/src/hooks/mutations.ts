@@ -1,7 +1,6 @@
 import { QueryKey, useMutation } from 'react-query';
 
 import * as api from '@api';
-import { Vehicle } from '@api';
 import { queryClient } from '@root';
 
 const queryKeyToString = (queryKey: QueryKey) =>
@@ -37,16 +36,10 @@ export const useEditVehicle = () =>
       ]),
   });
 
-export const useDeleteVehicle = (
-  onSuccess?: (data: Vehicle) => void,
-  onError?: (error: unknown) => void,
-) =>
-  // define or not define type(s to useMutation? <Vehicle, Error, string>))
+export const useDeleteVehicle = () =>
   useMutation({
     ...api.deleteVehicle(),
     onSuccess: async (data) => {
       await invalidateQueries([api.getVehicles().queryKey]);
-      onSuccess?.(data);
     },
-    onError,
   });
