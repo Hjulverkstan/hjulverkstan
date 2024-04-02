@@ -4,14 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.dto.vehicles.VehicleDto;
+import se.hjulverkstan.Exceptions.UnsupportedVehicleTypeException;
+import se.hjulverkstan.main.dto.vehicles.*;
 import se.hjulverkstan.main.dto.responses.*;
-import se.hjulverkstan.main.dto.vehicles.NewVehicleBikeDto;
-import se.hjulverkstan.main.dto.vehicles.NewVehicleDto;
-import se.hjulverkstan.main.dto.vehicles.VehicleBikeDto;
-import se.hjulverkstan.main.model.Vehicle;
-import se.hjulverkstan.main.model.VehicleBike;
-import se.hjulverkstan.main.model.VehicleType;
+import se.hjulverkstan.main.model.*;
 import se.hjulverkstan.main.repository.VehicleRepository;
 
 import java.util.ArrayList;
@@ -28,7 +24,6 @@ public class VehicleServiceImpl implements VehicleService {
         this.vehicleRepository = vehicleRepository;
     }
 
-    //TODO Need to add more vehicle types later on
     @Override
     public VehicleDto createVehicle(NewVehicleDto newVehicle) {
         Vehicle vehicle = createSpecificVehicleType(newVehicle);
@@ -36,6 +31,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setVehicleStatus(newVehicle.getVehicleStatus());
         vehicle.setImageURL(newVehicle.getImageURL());
         vehicle.setComment(newVehicle.getComment());
+        vehicle.setTickets(new ArrayList<>());
 
         vehicleRepository.save(vehicle);
 
@@ -77,9 +73,21 @@ public class VehicleServiceImpl implements VehicleService {
             selectedBike.setSize(editBikeDto.getSize());
             selectedBike.setBrakeType(editBikeDto.getBrakeType());
             selectedVehicle.setVehicleType(VehicleType.BIKE);
+
+        } else if (editVehicle instanceof VehicleStrollerDto editStrollerDto && selectedVehicle instanceof VehicleStroller selectedStroller) {
+            selectedStroller.setStrollerType(editStrollerDto.getStrollerType());
+            selectedStroller.setFoldable(editStrollerDto.getIsFoldable());
+            selectedStroller.setHasStorageBasket(editStrollerDto.getHasStorageBasket());
+            selectedVehicle.setVehicleType(VehicleType.STROLLER);
+
+        } else if (editVehicle instanceof VehicleScooterDto editScooterDto && selectedVehicle instanceof VehicleScooter selectedScooter) {
+            selectedScooter.setFoldable(editScooterDto.getIsFoldable());
+            selectedScooter.setBrakeType(editScooterDto.getBrakeType());
+            selectedScooter.setScooterType(editScooterDto.getScooterType());
+            selectedVehicle.setVehicleType(VehicleType.SCOOTER);
+
         } else {
-            // TODO Change the Exception later on
-            throw new ElementNotFoundException("Bike type not found");
+            throw new UnsupportedVehicleTypeException(ELEMENT_NAME);
         }
 
         selectedVehicle.setVehicleStatus(editVehicle.getVehicleStatus());
@@ -95,24 +103,56 @@ public class VehicleServiceImpl implements VehicleService {
     private VehicleDto convertToDto(Vehicle vehicle) {
         if (vehicle instanceof VehicleBike) {
             return new VehicleBikeDto((VehicleBike) vehicle);
+
+        } else if (vehicle instanceof VehicleStroller) {
+            return new VehicleStrollerDto((VehicleStroller) vehicle);
+
+        } else if (vehicle instanceof VehicleScooter) {
+            return new VehicleScooterDto((VehicleScooter) vehicle);
         }
         return new VehicleDto(vehicle);
     }
 
     private static Vehicle createSpecificVehicleType(NewVehicleDto newVehicle) {
         if (newVehicle instanceof NewVehicleBikeDto newBikeDto) {
-            VehicleBike vehicleBike = new VehicleBike();
+            return getVehicleBike(newBikeDto);
 
-            vehicleBike.setVehicleType(VehicleType.BIKE);
-            vehicleBike.setBikeType(newBikeDto.getBikeType());
-            vehicleBike.setGearCount(newBikeDto.getGearCount());
-            vehicleBike.setSize(newBikeDto.getSize());
-            vehicleBike.setBrakeType(newBikeDto.getBrakeType());
+        } else if (newVehicle instanceof NewVehicleStrollerDto newStrollerDto) {
+            return getVehicleStroller(newStrollerDto);
 
-            return vehicleBike;
+        } else if (newVehicle instanceof NewVehicleScooterDto newScooterDto) {
+            return getVehicleScooter(newScooterDto);
+
         } else {
-            // TODO: Change the Exception type later on
-            throw new ElementNotFoundException("Vehicle type not found!");
+            throw new UnsupportedVehicleTypeException("The vehicletype is not supported");
         }
+    }
+
+    private static VehicleBike getVehicleBike(NewVehicleBikeDto newBikeDto) {
+        VehicleBike vehicleBike = new VehicleBike();
+        vehicleBike.setVehicleType(VehicleType.BIKE);
+        vehicleBike.setBikeType(newBikeDto.getBikeType());
+        vehicleBike.setGearCount(newBikeDto.getGearCount());
+        vehicleBike.setSize(newBikeDto.getSize());
+        vehicleBike.setBrakeType(newBikeDto.getBrakeType());
+        return vehicleBike;
+    }
+
+    private static VehicleStroller getVehicleStroller(NewVehicleStrollerDto newStrollerDto) {
+        VehicleStroller vehicleStroller = new VehicleStroller();
+        vehicleStroller.setVehicleType(VehicleType.STROLLER);
+        vehicleStroller.setFoldable(newStrollerDto.getIsFoldable());
+        vehicleStroller.setHasStorageBasket(newStrollerDto.getHasStorageBasket());
+        vehicleStroller.setStrollerType(newStrollerDto.getStrollerType());
+        return vehicleStroller;
+    }
+
+    private static VehicleScooter getVehicleScooter(NewVehicleScooterDto newScooterDto) {
+        VehicleScooter vehicleScooter = new VehicleScooter();
+        vehicleScooter.setVehicleType(VehicleType.SCOOTER);
+        vehicleScooter.setFoldable(newScooterDto.getIsFoldable());
+        vehicleScooter.setBrakeType(newScooterDto.getBrakeType());
+        vehicleScooter.setScooterType(newScooterDto.getScooterType());
+        return vehicleScooter;
     }
 }

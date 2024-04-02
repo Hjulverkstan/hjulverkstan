@@ -1,16 +1,16 @@
 package se.hjulverkstan.main.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 import se.hjulverkstan.main.model.base.Auditable;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(callSuper = true)
 public class Workshop extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

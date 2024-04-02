@@ -11,7 +11,6 @@ import se.hjulverkstan.main.model.VehicleStatus;
 import se.hjulverkstan.main.model.VehicleType;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +19,9 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class VehicleDto {
     private Long id;
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleType vehicleType;
+    @NotNull(message = "Vehiclestatus is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleStatus vehicleStatus;
     private String imageURL;
@@ -41,9 +40,7 @@ public class VehicleDto {
                 vehicle.getVehicleStatus(),
                 vehicle.getImageURL(),
                 vehicle.getComment(),
-                vehicle.getTickets() == null ?
-                        new ArrayList<>() :
-                        vehicle.getTickets().stream().map(Ticket::getId).collect(Collectors.toList()),
+                vehicle.getTickets().stream().map(Ticket::getId).collect(Collectors.toList()),
                 vehicle.getCreatedAt(),
                 vehicle.getUpdatedAt(),
                 vehicle.getCreatedBy(),

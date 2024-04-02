@@ -1,5 +1,5 @@
 package se.hjulverkstan.main.model;
-public enum BikeBrakeType {
+public enum VehicleBrakeType {
     FOOTBRAKE,
     CALIPER,
     DISC;

@@ -13,10 +13,9 @@ import se.hjulverkstan.main.model.VehicleType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewVehicleDto {
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleType vehicleType;
-    @NotNull
+    @NotNull(message = "Vehiclestatus is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleStatus vehicleStatus;
     private String imageURL;

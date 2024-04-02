@@ -11,13 +11,15 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-@DiscriminatorValue("BIKE")
-public class VehicleBike extends Vehicle {
-    @Enumerated(EnumType.STRING)
-    private BikeType bikeType;
-    private int gearCount;
-    @Enumerated(EnumType.STRING)
-    private BikeSize size;
+@AllArgsConstructor
+@NoArgsConstructor
+@DiscriminatorValue("SCOOTER")
+public class VehicleScooter extends Vehicle {
+
+    private boolean isFoldable;
     @Enumerated(EnumType.STRING)
     private VehicleBrakeType brakeType;
+    @Enumerated(EnumType.STRING)
+    private ScooterType scooterType;
+
 }

@@ -7,15 +7,11 @@ import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.NewWorkshopDto;
 import se.hjulverkstan.main.dto.WorkshopDto;
 import se.hjulverkstan.main.dto.responses.GetAllWorkshopDto;
-import se.hjulverkstan.main.model.Employee;
 import se.hjulverkstan.main.model.Workshop;
-import se.hjulverkstan.main.repository.EmployeeRepository;
 import se.hjulverkstan.main.repository.WorkshopRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -42,7 +38,7 @@ public class WorkshopServiceImpl implements WorkshopService {
 
     @Override
     public WorkshopDto getWorkshopById(Long id) {
-        Workshop workshop =  workshopRepository.findById(id)
+        Workshop workshop = workshopRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
         return new WorkshopDto(workshop);
@@ -50,7 +46,7 @@ public class WorkshopServiceImpl implements WorkshopService {
 
     @Override
     public WorkshopDto deleteWorkshop(Long id) {
-        Workshop workshop =  workshopRepository.findById(id)
+        Workshop workshop = workshopRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
         workshopRepository.delete(workshop);
@@ -59,8 +55,8 @@ public class WorkshopServiceImpl implements WorkshopService {
 
     @Override
     public WorkshopDto editWorkshop(Long id, WorkshopDto workshop) {
-        Workshop selectedWorkshop =  workshopRepository.findById(id)
-                        .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+        Workshop selectedWorkshop = workshopRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
         selectedWorkshop.setAddress(workshop.getAddress());
         selectedWorkshop.setPhoneNumber(workshop.getPhoneNumber());
@@ -69,7 +65,7 @@ public class WorkshopServiceImpl implements WorkshopService {
         selectedWorkshop.setComment(workshop.getComment());
 
         workshopRepository.save(selectedWorkshop);
-        return workshop;
+        return new WorkshopDto(selectedWorkshop);
     }
 
     @Override
