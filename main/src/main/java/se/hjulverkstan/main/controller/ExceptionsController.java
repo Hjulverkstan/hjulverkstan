@@ -4,15 +4,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import se.hjulverkstan.Exceptions.ApiError;
 import se.hjulverkstan.Exceptions.ApiException;
+import se.hjulverkstan.Exceptions.TokenRefreshException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,10 +61,28 @@ public class ExceptionsController {
     }
 
     @ExceptionHandler(value = { Exception.class })
-    public ResponseEntity<ApiError> generalExeptionGandler(Exception e){
+    public ResponseEntity<ApiError> generalExceptionHandler(Exception e){
 
         System.err.println("Internal Error : " + e.getMessage());
         ApiError apiError = new ApiError("internal_error", "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseEntity.status(apiError.getStatus())
+                .body(apiError);
+    }
+
+    @ExceptionHandler(value = TokenRefreshException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<ApiError> handleTokenRefreshException(TokenRefreshException ex, WebRequest request) {
+        ApiError apiError = new ApiError("internal_error",  ex.getMessage(),  HttpStatus.FORBIDDEN.value());
+        return ResponseEntity.status(apiError.getStatus())
+                .body(apiError);
+
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<ApiError> badRequest(HttpServletRequest req, Exception ex) {
+
+        ApiError apiError = new ApiError("Invalid credentials",  ex.getMessage(),  HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(apiError.getStatus())
                 .body(apiError);
     }

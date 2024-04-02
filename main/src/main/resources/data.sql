@@ -35,3 +35,9 @@ VALUES
     ('BIKE', 'AVAILABLE', 'image_url_1.jpg', 'Comment about first bike', 'CHILD', 21, 'MEDIUM', 'DISC', NOW(), NOW()),
     ('BIKE', 'UNAVAILABLE', 'image_url_2.jpg', 'Comment about second bike', 'ROAD', 18, 'LARGE', 'CALIPER', NOW(), NOW()),
     ('BIKE', 'AVAILABLE', 'image_url_3.jpg', 'Comment about third bike', 'ELECTRIC', 15, 'SMALL', 'DISC', NOW(), NOW());
+
+--inserting roles
+INSERT INTO roles(id,name)
+VALUES (1,'ROLE_ADMIN'),
+       (2,'ROLE_USER');
+

@@ -8,7 +8,7 @@ import se.hjulverkstan.main.dto.tickets.*;
 import se.hjulverkstan.main.service.TicketService;
 
 @RestController
-@RequestMapping("/ticket")
+@RequestMapping("v1/ticket")
 public class TicketController {
     private final TicketService service;
 

@@ -9,7 +9,7 @@ import se.hjulverkstan.main.dto.responses.GetAllWorkshopDto;
 import se.hjulverkstan.main.service.WorkshopService;
 
 @RestController
-@RequestMapping("/workshop")
+@RequestMapping("v1/workshop")
 public class WorkshopController {
     private final WorkshopService service;
 

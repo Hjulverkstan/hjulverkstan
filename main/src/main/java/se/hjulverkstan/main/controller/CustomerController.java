@@ -10,7 +10,7 @@ import se.hjulverkstan.main.dto.responses.GetAllCustomerDto;
 import se.hjulverkstan.main.service.CustomerService;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("v1/customer")
 public class CustomerController {
     private final CustomerService customerService;
 

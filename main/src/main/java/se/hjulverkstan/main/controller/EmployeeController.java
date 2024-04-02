@@ -9,7 +9,7 @@ import se.hjulverkstan.main.dto.responses.GetAllEmployeeDto;
 import se.hjulverkstan.main.service.EmployeeService;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("v1/employee")
 //@ControllerAdvice
 public class EmployeeController {
     private final EmployeeService service;

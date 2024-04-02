@@ -10,7 +10,7 @@ import se.hjulverkstan.main.dto.vehicles.VehicleBikeDto;
 import se.hjulverkstan.main.service.VehicleService;
 
 @RestController
-@RequestMapping("/vehicle")
+@RequestMapping("v1/vehicle")
 public class VehicleController {
     private final VehicleService vehicleService;
 

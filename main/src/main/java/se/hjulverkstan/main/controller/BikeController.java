@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/bike")
+@RequestMapping("v1/bike")
 public class BikeController {
     private final BikeService bikeService;
 
