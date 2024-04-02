@@ -1,7 +1,10 @@
 package se.hjulverkstan.main.dto.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+<<<<<<< HEAD
 import jakarta.validation.constraints.NotNull;
+=======
+>>>>>>> 20190df (feat(api): New vehicle sublcasses + vehicle & workshop validation)
 import lombok.*;
 import se.hjulverkstan.main.model.StrollerType;
 import se.hjulverkstan.main.model.VehicleStroller;
