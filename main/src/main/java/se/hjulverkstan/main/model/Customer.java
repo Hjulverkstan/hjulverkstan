@@ -1,13 +1,16 @@
 package se.hjulverkstan.main.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import se.hjulverkstan.main.model.base.Auditable;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(callSuper = true)
 @Entity
 public class Customer extends Auditable {
     @Id
@@ -25,7 +28,5 @@ public class Customer extends Auditable {
 
     // Metadata
     private Long createdBy;
-    private LocalDateTime createdAt;
     private Long updatedBy;
-    private LocalDateTime updatedAt;
 }

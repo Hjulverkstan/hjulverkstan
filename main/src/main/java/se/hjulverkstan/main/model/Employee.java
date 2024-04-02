@@ -1,25 +1,29 @@
 package se.hjulverkstan.main.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 import se.hjulverkstan.main.model.base.Auditable;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(callSuper = true)
 public class Employee extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Long id;
+    private String employeeNumber;
     private String name;
     private String lastName;
     private String phoneNumber;
     private String email;
+    private String personalIdentityNumber;
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "workshop_id")
@@ -27,8 +31,6 @@ public class Employee extends Auditable {
 
     @OneToMany(mappedBy = "employee")
     private List<Ticket> tickets;
-
-    private String comment;
 
     // Metadata
     private Long createdBy;

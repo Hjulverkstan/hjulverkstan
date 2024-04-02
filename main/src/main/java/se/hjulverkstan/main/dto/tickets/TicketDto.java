@@ -1,6 +1,7 @@
 package se.hjulverkstan.main.dto.tickets;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,15 +18,28 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class TicketDto {
     private Long id;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @NotNull(message = "Ticket type is required")
     private TicketType ticketType;
-    private boolean isOpen;
+
+    @NotNull(message = "Ticket status is required")
+    private Boolean isOpen;
+
+    @NotNull(message = "Start date is required")
     private LocalDateTime startDate;
+
     private LocalDateTime endDate;
+
     private String comment;
 
+    @NotNull(message = "List of vehicles is required")
     private List<Long> vehicleIds;
+
+    @NotNull(message = "Employee is required")
     private Long employeeId;
+
+    @NotNull(message = "Customer is required")
     private Long customerId;
 
     // Metadata

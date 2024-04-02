@@ -1,5 +1,6 @@
 package se.hjulverkstan.main.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +31,12 @@ public class EmployeeController {
     }
 
     @PostMapping()
-    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody NewEmployeeDto newEmployee) {
+    public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody NewEmployeeDto newEmployee) {
         return new ResponseEntity<>(service.createEmployee(newEmployee), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDto> editEmployee(@PathVariable Long id, @RequestBody EmployeeDto employee) {
+    public ResponseEntity<EmployeeDto> editEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDto employee) {
         return new ResponseEntity<>(service.editEmployee(id, employee), HttpStatus.OK);
     }
 

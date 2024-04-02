@@ -62,22 +62,17 @@ public class TicketServiceImpl implements TicketService {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
         ticket.getVehicles().forEach(vehicle -> {
-            if (vehicle.getTickets().contains(ticket)) {
-                vehicle.getTickets().remove(ticket);
-                vehicleRepository.save(vehicle);
-            }
+            vehicle.getTickets().remove(ticket);
         });
 
         if (ticket.getCustomer() != null) {
             Customer customer = ticket.getCustomer();
             customer.getTickets().remove(ticket);
-            customerRepository.save(customer);
         }
 
         if (ticket.getEmployee() != null) {
             Employee employee = ticket.getEmployee();
             employee.getTickets().remove(ticket);
-            employeeRepository.save(employee);
         }
 
         ticketRepository.delete(ticket);
@@ -85,19 +80,42 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDto editTicket(Long id, TicketDto ticket) {
+    public TicketDto editTicket(Long id, TicketDto ticketDto) {
         Ticket selectedTicket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        // Handles different ticket types. Accepts loan, repair & donate tickets.
-        updateSpecificTicketAttributes(ticket, selectedTicket);
+        // Sub-ticket attributes
+        if (ticketDto instanceof TicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
+            ticketRepair.setRepairDescription(repairDto.getRepairDescription());
+        }
 
-        // General Ticket attributes, not allowed to edit ticket type
-        selectedTicket.setOpen(ticket.isOpen());
-        selectedTicket.setComment(ticket.getComment());
+        // General Ticket attributes
+        selectedTicket.setOpen(ticketDto.getIsOpen());
+        selectedTicket.setStartDate(ticketDto.getStartDate());
+        selectedTicket.setEndDate(ticketDto.getEndDate());
+        selectedTicket.setComment(ticketDto.getComment());
 
-        updateTicketEmployee(selectedTicket, ticket.getEmployeeId());
-        updateTicketCustomer(selectedTicket, ticket.getCustomerId());
+        List<Vehicle> vehicles = getTicketVehicleList(ticketDto.getVehicleIds());
+        selectedTicket.setVehicles(vehicles);
+        vehicles.forEach(vehicle -> {
+            if (!vehicle.getTickets().contains(selectedTicket)) vehicle.getTickets().add(selectedTicket);
+        });
+
+        Employee newEmployee = getTicketEmployee(ticketDto.getEmployeeId());
+        Employee oldEmployee = selectedTicket.getEmployee();
+        if (!oldEmployee.equals(newEmployee)) {
+            oldEmployee.getTickets().remove(selectedTicket);
+            newEmployee.getTickets().add(selectedTicket);
+            selectedTicket.setEmployee(newEmployee);
+        }
+
+        Customer newCustomer = getTicketCustomer(ticketDto.getCustomerId());
+        Customer oldCustomer = selectedTicket.getCustomer();
+        if (!oldCustomer.equals(newCustomer)) {
+            oldCustomer.getTickets().remove(selectedTicket);
+            newCustomer.getTickets().add(selectedTicket);
+            selectedTicket.setCustomer(newCustomer);
+        }
 
         ticketRepository.save(selectedTicket);
         return convertToDto(selectedTicket);
@@ -108,80 +126,62 @@ public class TicketServiceImpl implements TicketService {
         // Handles different ticket types. Accepts loan, repair & donate tickets.
         Ticket ticket = createSpecificTicketType(newTicket);
 
+        //Sub-ticket attributes
+        if (newTicket instanceof NewTicketRepairDto repairDto && ticket instanceof TicketRepair ticketRepair) {
+            ticketRepair.setRepairDescription(repairDto.getRepairDescription());
+        }
+
         // General Ticket attributes
         ticket.setTicketType(newTicket.getTicketType());
         ticket.setOpen(true);
+        ticket.setStartDate(newTicket.getStartDate());
+        ticket.setEndDate(newTicket.getEndDate());
         ticket.setComment(newTicket.getComment());
 
-        handleVehicles(ticket, newTicket);
-        handleCustomerAndEmployee(ticket, newTicket.getEmployeeId(), newTicket.getCustomerId());
+        List<Vehicle> vehicles = getTicketVehicleList(newTicket.getVehicleIds());
+        ticket.setVehicles(vehicles);
+        vehicles.forEach(vehicle -> {
+            if (!vehicle.getTickets().contains(ticket)) vehicle.getTickets().add(ticket);
+        });
+
+        Employee employee = getTicketEmployee(newTicket.getEmployeeId());
+        employee.getTickets().add(ticket);
+        ticket.setEmployee(employee);
+
+        Customer customer = getTicketCustomer(newTicket.getCustomerId());
+        customer.getTickets().add(ticket);
+        ticket.setCustomer(customer);
 
         ticketRepository.save(ticket);
         return convertToDto(ticket);
     }
 
-    private void handleVehicles(Ticket ticket, NewTicketDto ticketDto) {
-        // Get vehicles from vehicleIds
-        List<Vehicle> vehicles = ticketDto.getVehicleIds().stream()
+    private Customer getTicketCustomer(Long customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new ElementNotFoundException("Customer with id: " + customerId));
+    }
+
+    private Employee getTicketEmployee(Long employeeId) {
+        return employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new ElementNotFoundException("Employee with id: " + employeeId));
+    }
+
+    private List<Vehicle> getTicketVehicleList(List<Long> vehicleIds) {
+        return vehicleIds.stream()
                 .map(vehicleId -> vehicleRepository.findById(vehicleId)
                         .orElseThrow(() -> new ElementNotFoundException("Vehicle with id " + vehicleId)))
                 .collect(Collectors.toList());
-
-        // Set vehicles on ticket
-        ticket.setVehicles(vehicles);
-        // Set ticket on vehicles
-        vehicles.forEach(vehicle -> vehicle.getTickets().add(ticket));
-    }
-
-    private static void updateSpecificTicketAttributes(TicketDto ticket, Ticket selectedTicket) {
-        if (ticket instanceof TicketRentDto rentDto && selectedTicket instanceof TicketRent ticketRent) {
-            ticketRent.setStartDate(rentDto.getStartDate());
-            ticketRent.setEndDate(rentDto.getEndDate());
-        } else if (ticket instanceof TicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
-            ticketRepair.setStartDate(repairDto.getStartDate());
-            ticketRepair.setEndDate(repairDto.getEndDate());
-            ticketRepair.setRepairDescription(repairDto.getRepairDescription());
-        } else if (ticket instanceof TicketDonateDto donateDto && selectedTicket instanceof TicketDonate ticketDonate) {
-            ticketDonate.setStartDate(donateDto.getStartDate());
-        } else {
-            throw new UnsupportedTicketTypeException("Mismatch between the type of the selected ticket and the DTO provided");
-        }
     }
 
     private Ticket createSpecificTicketType(NewTicketDto newTicket) {
-        if (newTicket instanceof NewTicketRentDto rentDto) {
-            TicketRent ticketRent = new TicketRent();
-            ticketRent.setStartDate(rentDto.getStartDate());
-            ticketRent.setEndDate(rentDto.getEndDate());
-
-            return ticketRent;
-        } else if (newTicket instanceof NewTicketRepairDto repairDto) {
-            TicketRepair ticketRepair = new TicketRepair();
-            ticketRepair.setRepairDescription(repairDto.getRepairDescription());
-            ticketRepair.setStartDate(repairDto.getStartDate());
-            ticketRepair.setEndDate(repairDto.getEndDate());
-
-            return ticketRepair;
-        } else if (newTicket instanceof NewTicketDonateDto donateDto) {
-            TicketDonate ticketDonate = new TicketDonate();
-            ticketDonate.setStartDate(donateDto.getStartDate());
-
-            return ticketDonate;
+        if (newTicket instanceof NewTicketRentDto) {
+            return new TicketRent();
+        } else if (newTicket instanceof NewTicketRepairDto) {
+            return new TicketRepair();
+        } else if (newTicket instanceof NewTicketDonateDto) {
+            return new TicketDonate();
         }
         throw new UnsupportedTicketTypeException("Unsupported ticket type provided");
-    }
-
-    private void handleCustomerAndEmployee(Ticket ticket, Long employeeId, Long customerId) {
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new ElementNotFoundException("Employee"));
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ElementNotFoundException("Customer"));
-
-        employee.getTickets().add(ticket);
-        ticket.setEmployee(employee);
-
-        customer.getTickets().add(ticket);
-        ticket.setCustomer(customer);
     }
 
     private TicketDto convertToDto(Ticket ticket) {
@@ -193,33 +193,5 @@ public class TicketServiceImpl implements TicketService {
             return new TicketDonateDto((TicketDonate) ticket);
         }
         return new TicketDto(ticket);
-    }
-
-    private void updateTicketCustomer(Ticket ticket, Long newCustomerId) {
-        Customer newCustomer = customerRepository.findById(newCustomerId)
-                .orElseThrow(() -> new ElementNotFoundException("New Customer"));
-        Customer oldCustomer = customerRepository.findById(ticket.getCustomer().getId())
-                .orElseThrow(() -> new ElementNotFoundException("Old Customer"));
-        if (oldCustomer.equals(newCustomer)) {
-            return; // No need to update if the old and new customers are the same.
-        }
-
-        oldCustomer.getTickets().remove(ticket);
-        newCustomer.getTickets().add(ticket);
-        ticket.setCustomer(newCustomer);
-    }
-
-    private void updateTicketEmployee(Ticket ticket, Long newEmployeeId) {
-        Employee newEmployee = employeeRepository.findById(newEmployeeId)
-                .orElseThrow(() -> new ElementNotFoundException("New Employee"));
-        Employee oldEmployee = employeeRepository.findById(ticket.getEmployee().getId())
-                .orElseThrow(() -> new ElementNotFoundException("Old Employee"));
-        if (oldEmployee.equals(newEmployee)) {
-            return; // No need to update if the old and new customers are the same.
-        }
-
-        oldEmployee.getTickets().remove(ticket);
-        newEmployee.getTickets().add(ticket);
-        ticket.setEmployee(newEmployee);
     }
 }

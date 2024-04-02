@@ -1,5 +1,6 @@
 package se.hjulverkstan.main.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,32 +28,32 @@ public class TicketController {
     }
 
     @PostMapping("/rent")
-    public ResponseEntity<TicketDto> createTicketRental(@RequestBody NewTicketRentDto newTicket) {
+    public ResponseEntity<TicketDto> createTicketRental(@Valid @RequestBody NewTicketRentDto newTicket) {
         return new ResponseEntity<>(service.createTicket(newTicket), HttpStatus.OK);
     }
 
     @PostMapping("/repair")
-    public ResponseEntity<TicketDto> createTicketRepair(@RequestBody NewTicketRepairDto newTicket) {
+    public ResponseEntity<TicketDto> createTicketRepair(@Valid @RequestBody NewTicketRepairDto newTicket) {
         return new ResponseEntity<>(service.createTicket(newTicket), HttpStatus.OK);
     }
 
     @PostMapping("/donate")
-    public ResponseEntity<TicketDto> createTicketDonate(@RequestBody NewTicketDonateDto newTicket) {
+    public ResponseEntity<TicketDto> createTicketDonate(@Valid @RequestBody NewTicketDonateDto newTicket) {
         return new ResponseEntity<>(service.createTicket(newTicket), HttpStatus.OK);
     }
 
     @PutMapping("/rent/{id}")
-    public ResponseEntity<TicketDto> editTicketRent(@PathVariable Long id, @RequestBody TicketRentDto ticket) {
+    public ResponseEntity<TicketDto> editTicketRent(@PathVariable Long id, @Valid @RequestBody TicketRentDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
     }
 
     @PutMapping("/repair/{id}")
-    public ResponseEntity<TicketDto> editTicketRepair(@PathVariable Long id, @RequestBody TicketRepairDto ticket) {
+    public ResponseEntity<TicketDto> editTicketRepair(@PathVariable Long id, @Valid @RequestBody TicketRepairDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
     }
 
     @PutMapping("/donate/{id}")
-    public ResponseEntity<TicketDto> editTicketDonate(@PathVariable Long id, @RequestBody TicketDonateDto ticket) {
+    public ResponseEntity<TicketDto> editTicketDonate(@PathVariable Long id, @Valid @RequestBody TicketDonateDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
     }
 

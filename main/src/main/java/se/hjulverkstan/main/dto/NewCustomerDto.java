@@ -13,10 +13,10 @@ public class NewCustomerDto {
     @NotBlank(message = "Customer name is required")
     private String name;
 
-    @NotBlank(message = "Customer last_name is required")
+    @NotBlank(message = "Customer last name is required")
     private String lastName;
 
-    @NotBlank(message = "Customer phone_number is required")
+    @NotBlank(message = "Customer phone number is required")
     private String phoneNumber;
 
     @NotBlank(message = "Customer email is required")

@@ -55,21 +55,11 @@ public class CustomerServiceImpl implements CustomerService {
         Customer selectedCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        if (customer.getName() != null) {
-            selectedCustomer.setName(customer.getName());
-        }
-        if (customer.getLastName() != null) {
-            selectedCustomer.setLastName(customer.getLastName());
-        }
-        if (customer.getEmail() != null) {
-            selectedCustomer.setEmail(customer.getEmail());
-        }
-        if (customer.getPhoneNumber() != null) {
-            selectedCustomer.setPhoneNumber(customer.getPhoneNumber());
-        }
-        if (customer.getComment() != null) {
-            selectedCustomer.setComment(customer.getComment());
-        }
+        selectedCustomer.setName(customer.getName());
+        selectedCustomer.setLastName(customer.getLastName());
+        selectedCustomer.setPhoneNumber(customer.getPhoneNumber());
+        selectedCustomer.setEmail(customer.getEmail());
+        selectedCustomer.setComment(customer.getComment());
 
         customerRepository.save(selectedCustomer);
         return new CustomerDto(selectedCustomer);
@@ -82,10 +72,9 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setLastName(newCustomer.getLastName());
         customer.setPhoneNumber(newCustomer.getPhoneNumber());
         customer.setEmail(newCustomer.getEmail());
-        customer.setComment(newCustomer.getComment());
-
         // Set an empty list for ticketIds
         customer.setTickets(new ArrayList<>());
+        customer.setComment(newCustomer.getComment());
 
         customerRepository.save(customer);
         return new CustomerDto(customer);
