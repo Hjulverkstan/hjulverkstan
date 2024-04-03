@@ -11,8 +11,11 @@ import se.hjulverkstan.main.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserDetailsServiceImplementation(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     @Transactional

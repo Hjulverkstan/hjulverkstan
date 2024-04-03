@@ -24,12 +24,15 @@ import java.util.Set;
 public class UserServiceImpl implements UserService{
 
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    PasswordEncoder encoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder encoder;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.encoder = encoder;
+    }
 
 
     public static String ELEMENT_NAME = "User";
@@ -38,11 +41,11 @@ public class UserServiceImpl implements UserService{
     public UserResponse createUser(SignupRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            throw new AlreadyUsedException("Error: Username is already in use!");
+            throw new AlreadyUsedException("Error: Email is already in use!");
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            throw new AlreadyUsedException("Error: Username is already in use!");
+            throw new AlreadyUsedException("Error: Email is already in use!");
         }
 
         // Create new user's account
