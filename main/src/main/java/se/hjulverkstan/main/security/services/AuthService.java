@@ -22,9 +22,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
-    private final RefreshTokenService refreshTokenService;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    JwtUtils jwtUtils;
+    @Autowired
+    RefreshTokenService refreshTokenService;
 
     public AuthService(AuthenticationManager authenticationManager, JwtUtils jwtUtils, RefreshTokenService refreshTokenService) {
         this.authenticationManager = authenticationManager;
@@ -67,6 +70,8 @@ public class AuthService {
                         "Refresh token is not in database!"));
     }
     public MessageResponse signOut(Long id) {
+//        UserDetailsImplementation userDetails = (UserDetailsImplementation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Long userId = userDetails.getId();
         refreshTokenService.deleteByUserId(id);
         return new MessageResponse("Log out successful!");
     }

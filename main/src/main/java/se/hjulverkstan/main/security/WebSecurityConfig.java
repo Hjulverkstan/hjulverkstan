@@ -1,4 +1,4 @@
-package se.hjulverkstan.main.config;
+package se.hjulverkstan.main.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,14 +23,11 @@ import se.hjulverkstan.main.security.services.UserDetailsServiceImplementation;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-    private final UserDetailsServiceImplementation userDetailsService;
-    private final AuthEntryPointJwt unauthorizedHandler;
+    @Autowired
+    UserDetailsServiceImplementation userDetailsService;
 
-    public WebSecurityConfig(UserDetailsServiceImplementation userDetailsService,
-                             AuthEntryPointJwt unauthorizedHandler) {
-        this.userDetailsService = userDetailsService;
-        this.unauthorizedHandler = unauthorizedHandler;
-    }
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
