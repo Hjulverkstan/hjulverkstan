@@ -2,6 +2,7 @@ package se.hjulverkstan.main.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import se.hjulverkstan.main.model.base.Auditable;
 
 import java.time.LocalDateTime;
@@ -25,8 +26,4 @@ public class Customer extends Auditable {
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets;
     private String comment;
-
-    // Metadata
-    private Long createdBy;
-    private Long updatedBy;
 }

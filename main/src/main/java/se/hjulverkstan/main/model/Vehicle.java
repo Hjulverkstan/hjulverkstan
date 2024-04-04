@@ -23,8 +23,4 @@ public class Vehicle extends Auditable {
     private String comment;
     @ManyToMany(mappedBy = "vehicles")
     private List<Ticket> tickets;
-
-    // Meta data
-    private Long createdBy;
-    private Long updatedBy;
 }

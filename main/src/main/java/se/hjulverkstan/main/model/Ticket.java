@@ -41,8 +41,4 @@ public class Ticket extends Auditable {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
-    // Metadata
-    private Long createdBy;
-    private Long updatedBy;
 }

@@ -31,8 +31,4 @@ public class Employee extends Auditable {
 
     @OneToMany(mappedBy = "employee")
     private List<Ticket> tickets;
-
-    // Metadata
-    private Long createdBy;
-    private Long updatedBy;
 }

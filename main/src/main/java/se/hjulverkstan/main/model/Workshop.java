@@ -27,8 +27,4 @@ public class Workshop extends Auditable {
     private List<Employee> employees;
 
     private String comment;
-
-    // Metadata
-    private Long createdBy;
-    private Long updatedBy;
 }
