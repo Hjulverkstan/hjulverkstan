@@ -18,9 +18,9 @@ VALUES ('John', 'Doe', '123456789', 'john.doe@example.com', NOW(), NOW(), 1, 1, 
        ('Bob', 'Williams', '555-333-4444', 'bob.williams@example.com', NOW(), NOW(), 1, 1, 'Sample employee 4 comment', 2);
 
 -- Inserting customers
-INSERT INTO Customer (name, last_name, phone_number, email, created_at, updated_at, created_by, updated_by)
-VALUES ('Customer1', 'Lastname1', '1234567890', 'customer1@example.com', NOW(), NOW(), 1, 1),
-       ('Customer2', 'Lastname2', '9876543210', 'customer2@example.com', NOW(), NOW(), 1, 1);
+INSERT INTO Customer (customer_type, first_name, last_name, personal_identity_number, organization_name, phone_number, email, created_at, updated_at, created_by, updated_by)
+VALUES ('PERSON', 'Customer1', 'Lastname1', '1234567890', null, '1234567890', 'customer1@example.com', NOW(), NOW(), 1, 1),
+       ('ORGANIZATION', 'Customer2', 'Lastname2', '7894561230', 'ORG 1', '9876543210', 'customer2@example.com', NOW(), NOW(), 1, 1);
 
 -- Inserting tickets without vehicles
 --INSERT INTO Ticket (ticket_type, employee_id, customer_id, start_date, end_date, comment)

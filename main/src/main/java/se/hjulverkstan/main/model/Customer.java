@@ -2,10 +2,8 @@ package se.hjulverkstan.main.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import se.hjulverkstan.main.model.base.Auditable;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,9 +15,12 @@ public class Customer extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private CustomerType customerType;
+    private String firstName;
     private String lastName;
+    private String personalIdentityNumber;
+    private String organizationName;
     private String phoneNumber;
     private String email;
 

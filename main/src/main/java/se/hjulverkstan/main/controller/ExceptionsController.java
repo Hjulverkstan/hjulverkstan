@@ -69,6 +69,15 @@ public class ExceptionsController {
                 .body(apiError);
     }
 
+    @ExceptionHandler(value = HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiError> MessageNotReadableExceptiion(HttpMessageNotReadableException ex, WebRequest request) {
+        String message = String.format("The request contains invalid data: %s", ex.getMessage());
+        ApiError apiError = new ApiError("bad_request", message, HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(apiError.getStatus())
+                .body(apiError);
+    }
+
     @ExceptionHandler(value = TokenRefreshException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseEntity<ApiError> handleTokenRefreshException(TokenRefreshException ex, WebRequest request) {

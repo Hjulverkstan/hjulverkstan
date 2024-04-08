@@ -3,10 +3,12 @@ package se.hjulverkstan.main.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
+import se.hjulverkstan.Exceptions.MissingArgumentException;
 import se.hjulverkstan.main.dto.CustomerDto;
 import se.hjulverkstan.main.dto.NewCustomerDto;
 import se.hjulverkstan.main.dto.responses.GetAllCustomerDto;
 import se.hjulverkstan.main.model.Customer;
+import se.hjulverkstan.main.model.CustomerType;
 import se.hjulverkstan.main.repository.CustomerRepository;
 
 import java.util.ArrayList;
@@ -55,8 +57,16 @@ public class CustomerServiceImpl implements CustomerService {
         Customer selectedCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        selectedCustomer.setName(customer.getName());
+        selectedCustomer.setCustomerType(customer.getCustomerType());
+        selectedCustomer.setFirstName(customer.getFirstName());
         selectedCustomer.setLastName(customer.getLastName());
+        selectedCustomer.setPersonalIdentityNumber(customer.getPersonalIdentityNumber());
+
+        // Requires orgName if customer is an organization
+        if (selectedCustomer.getCustomerType().equals(CustomerType.ORGANIZATION) && customer.getOrganizationName() == null) {
+            throw new MissingArgumentException("Organization name");
+        }
+        selectedCustomer.setOrganizationName(customer.getOrganizationName());
         selectedCustomer.setPhoneNumber(customer.getPhoneNumber());
         selectedCustomer.setEmail(customer.getEmail());
         selectedCustomer.setComment(customer.getComment());
@@ -68,11 +78,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto createCustomer(NewCustomerDto newCustomer) {
         Customer customer = new Customer();
-        customer.setName(newCustomer.getName());
+        customer.setCustomerType(newCustomer.getCustomerType());
+        customer.setFirstName(newCustomer.getFirstName());
         customer.setLastName(newCustomer.getLastName());
+        customer.setPersonalIdentityNumber(newCustomer.getPersonalIdentityNumber());
+
+        // Requires orgName if customer is an organization
+        if (customer.getCustomerType().equals(CustomerType.ORGANIZATION) && newCustomer.getOrganizationName() == null) {
+            throw new MissingArgumentException("Organization name");
+        }
+        customer.setOrganizationName(newCustomer.getOrganizationName());
         customer.setPhoneNumber(newCustomer.getPhoneNumber());
         customer.setEmail(newCustomer.getEmail());
-        // Set an empty list for ticketIds
         customer.setTickets(new ArrayList<>());
         customer.setComment(newCustomer.getComment());
 
