@@ -25,10 +25,6 @@ public class Employee extends Auditable {
     private String personalIdentityNumber;
     private String comment;
 
-    @ManyToOne
-    @JoinColumn(name = "workshop_id")
-    private Workshop workshop;
-
     @OneToMany(mappedBy = "employee")
     private List<Ticket> tickets;
 }

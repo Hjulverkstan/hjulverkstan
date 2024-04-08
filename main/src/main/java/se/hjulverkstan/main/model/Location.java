@@ -11,20 +11,16 @@ import java.util.List;
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Workshop extends Auditable {
+public class Location extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Long id;
 
-    //TODO: decide what fields we actually want here. ex: latLong
     private String address;
-    private String phoneNumber;
-    private Long latitude;
-    private Long longitude;
-
-    @OneToMany(mappedBy = "workshop")
-    private List<Employee> employees;
+    private String name;
+    @Enumerated(EnumType.STRING)
+    private LocationType locationType;
 
     private String comment;
 }

@@ -32,7 +32,4 @@ public class NewEmployeeDto {
     private String personalIdentityNumber;
 
     private String comment;
-
-    @NotNull(message = "Workshop is required")
-    private Long workshopId;
 }

@@ -21,7 +21,7 @@ public class Bike {
 
     private VehicleStatus status;
     private int size;
-    private Long workshop_Id;
+    private Long location_Id;
     private String colour;
 
 

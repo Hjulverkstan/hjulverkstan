@@ -2,7 +2,6 @@ package se.hjulverkstan.main.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,6 @@ import se.hjulverkstan.main.model.Employee;
 import se.hjulverkstan.main.model.Ticket;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,9 +39,6 @@ public class EmployeeDto {
 
     private String comment;
 
-    @NotNull(message = "Workshop is required")
-    private Long workshopId;
-
     private List<Long> ticketIds;
 
     // Metadata
@@ -61,7 +56,6 @@ public class EmployeeDto {
                 employee.getEmail(),
                 employee.getPersonalIdentityNumber(),
                 employee.getComment(),
-                employee.getWorkshop().getId(),
                 employee.getTickets()
                         .stream()
                         .map(Ticket::getId)

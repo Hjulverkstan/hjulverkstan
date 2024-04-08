@@ -8,10 +8,10 @@ import se.hjulverkstan.main.dto.EmployeeDto;
 import se.hjulverkstan.main.dto.NewEmployeeDto;
 import se.hjulverkstan.main.dto.responses.GetAllEmployeeDto;
 import se.hjulverkstan.main.model.Employee;
+import se.hjulverkstan.main.model.Location;
 import se.hjulverkstan.main.model.Ticket;
-import se.hjulverkstan.main.model.Workshop;
 import se.hjulverkstan.main.repository.EmployeeRepository;
-import se.hjulverkstan.main.repository.WorkshopRepository;
+import se.hjulverkstan.main.repository.LocationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +19,12 @@ import java.util.List;
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
-    private final WorkshopRepository workshopRepository;
     private final EmployeeRepository employeeRepository;
     public static final String ELEMENT_NAME = "Employee";
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, WorkshopRepository workshopRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
-        this.workshopRepository = workshopRepository;
     }
 
     @Override
@@ -54,10 +52,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-        if (employee.getWorkshop() != null) {
-            Workshop workshop = employee.getWorkshop();
-            workshop.getEmployees().remove(employee);
-        }
 
         if (employee.getTickets() != null) {
             List<Ticket> tickets = employee.getTickets();
@@ -82,15 +76,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         selectedEmployee.setPersonalIdentityNumber(employee.getPersonalIdentityNumber());
         selectedEmployee.setComment(employee.getComment());
 
-
-        Workshop newWorkshop = getEmployeeWorkshop(employee.getWorkshopId());
-        Workshop oldWorkshop = selectedEmployee.getWorkshop();
-        if (!oldWorkshop.equals(newWorkshop)) {
-            oldWorkshop.getEmployees().remove(selectedEmployee);
-            newWorkshop.getEmployees().add(selectedEmployee);
-            selectedEmployee.setWorkshop(newWorkshop);
-        }
-
         employeeRepository.save(selectedEmployee);
         return new EmployeeDto(selectedEmployee);
     }
@@ -107,16 +92,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setComment(newEmployee.getComment());
         employee.setTickets(new ArrayList<>());
 
-        Workshop workshop = getEmployeeWorkshop(newEmployee.getWorkshopId());
-        workshop.getEmployees().add(employee);
-        employee.setWorkshop(workshop);
-
         employeeRepository.save(employee);
         return new EmployeeDto(employee);
-    }
-
-    private Workshop getEmployeeWorkshop(Long workshopId) {
-        return workshopRepository.findById(workshopId)
-                .orElseThrow(() -> new ElementNotFoundException("Workshop with id: " + workshopId));
     }
 }
