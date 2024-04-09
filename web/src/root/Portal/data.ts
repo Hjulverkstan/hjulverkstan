@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-import * as API from '@api';
+import * as api from '@api';
 
 export const vehicleZ = z.object({
-  vehicleType: z.nativeEnum(API.VehicleType),
-  vehicleStatus: z.nativeEnum(API.VehicleStatus),
+  vehicleType: z.nativeEnum(api.VehicleType),
+  vehicleStatus: z.nativeEnum(api.VehicleStatus),
 });
 
-export const initVehicle: Partial<API.Vehicle> = {
-  vehicleType: API.VehicleType.BIKE,
-  vehicleStatus: API.VehicleStatus.UNAVAILABLE,
+export const initVehicle: Partial<api.Vehicle> = {
+  vehicleType: api.VehicleType.BIKE,
+  vehicleStatus: api.VehicleStatus.UNAVAILABLE,
 };

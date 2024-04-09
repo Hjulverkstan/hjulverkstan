@@ -7,7 +7,7 @@ import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
-import { Vehicle } from '@api';
+import { Vehicle } from '../../api/vehicle';
 
 import PortalForm from './PortalForm';
 import PortalTable from './PortalTable';

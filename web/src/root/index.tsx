@@ -11,7 +11,6 @@ import About from './About';
 import Portal from './Portal';
 
 import '../globals.css';
-
 // To be used by build-script:
 export const routes = [
   { path: '/', title: 'ShopInventoryTable', component: Home },

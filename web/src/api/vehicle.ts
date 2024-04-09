@@ -1,35 +1,5 @@
-import axios, { AxiosError } from 'axios';
+import { instance, endpoints, createErrorHandler } from './index';
 
-const baseURL = 'http://localhost:8080';
-
-export const endpoints = {
-  vehicle: '/vehicle',
-};
-
-const instance = axios.create({ baseURL, timeout: 5000 });
-
-// type QueryParamsCreator<Res, Params = undefined> = (params: Params) => {
-//   queryKey: string[];
-//   queryFn: () => Promise<Res>;
-// };
-
-export interface ErrorRes {
-  error: string;
-  endpoint: string;
-  message: string;
-  status: number;
-}
-
-const createErrorHandler =
-  (endpoint: string) => (error: AxiosError<ErrorRes>) =>
-    Promise.reject({
-      endpoint,
-      ...(error.response?.data ?? {
-        error: error.code,
-        message: error.message,
-        status: 400,
-      }),
-    });
 /* * * * * * * * VEHICLE * * * * * * * */
 
 export enum VehicleType {
