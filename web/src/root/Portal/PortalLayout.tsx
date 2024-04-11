@@ -10,7 +10,7 @@ import Spinner from '@components/Spinner';
 export interface NavRoute {
   label: string;
   path: string;
-  nest?: boolean;
+  hasNestedRoutes?: boolean;
 }
 
 export interface PortalLayoutProps {
@@ -65,8 +65,8 @@ interface NavBarProps {
 function NavBar({ baseUrl, routes }: NavBarProps) {
   const { pathname } = useLocation();
 
-  const route = routes.find(({ path, nest = '' }) =>
-    matchPath(baseUrl + path + (nest && '/*'), pathname),
+  const route = routes.find(({ path, hasNestedRoutes = '' }) =>
+    matchPath(baseUrl + path + (hasNestedRoutes && '/*'), pathname),
   )!;
 
   if (!route) {

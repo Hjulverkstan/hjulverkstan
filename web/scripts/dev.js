@@ -31,12 +31,12 @@ async function createServer() {
 
     const { renderSSR, routes } = await vite.ssrLoadModule('/src/server.tsx');
 
-    const { noSSR } =
+    const { disableSSR } =
       routes.find(({ path }) =>
         path === '/' ? url === '/' : url.startsWith(path),
       ) || {};
 
-    const appHtml = noSSR ? '' : renderSSR(url);
+    const appHtml = disableSSR ? '' : renderSSR(url);
     const html = htmlTemplate.replace(`<!--app-html-->`, appHtml);
 
     res.status(200).set({ 'Content-Type': 'text/html' }).end(html); //Outputing final html

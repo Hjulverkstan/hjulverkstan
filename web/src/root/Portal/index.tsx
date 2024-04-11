@@ -10,7 +10,7 @@ import ShopInventory from './ShopInventory';
 
 const shopRoutes = [
   { path: '/', label: 'Start' },
-  { path: '/inventory', label: 'Inventory', nest: true },
+  { path: '/inventory', label: 'Inventory', hasNestedRoutes: true },
 ];
 
 //
@@ -40,6 +40,7 @@ export default function Portal() {
       >
         <Route path="inventory/*" element={mountCountent(ShopInventory)} />
       </Route>
+      <Route path="*" element={<Navigate replace to="shop" />} />
     </Routes>
   );
 }

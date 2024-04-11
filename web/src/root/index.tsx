@@ -20,8 +20,8 @@ export const routes = [
     path: '/portal',
     title: 'Portal',
     component: Portal,
-    nest: true,
-    noSSR: true,
+    hasNestedRoutes: true,
+    disableSSR: true,
   },
 ];
 
@@ -41,11 +41,11 @@ export default function Root() {
       <QueryClientProvider client={queryClient}>
         <Tooltip.Provider delayDuration={500}>
           <Routes>
-            {routes.map(({ path, component: Page, nest = '' }) => {
+            {routes.map(({ path, component: Page, hasNestedRoutes = '' }) => {
               return (
                 <Route
                   key={path}
-                  path={path + (nest && '/*')}
+                  path={path + (hasNestedRoutes && '/*')}
                   element={<Page />}
                 />
               );
