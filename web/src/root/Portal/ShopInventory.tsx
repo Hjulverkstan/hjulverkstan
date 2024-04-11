@@ -5,9 +5,13 @@ import * as Q from '@hooks/queries';
 import * as M from '@hooks/mutations';
 import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
-import { Mode } from '@components/DataForm';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
-import { Vehicle } from '../../api/vehicle';
+import { Mode } from '@components/DataForm';
+import { useToast } from '@components/ui/use-toast';
+import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
+import { Dialog, DialogTrigger } from '@components/ui/Dialog';
+import { IconButton } from '@components/ui/Button';
+import { Vehicle } from '@api';
 
 import PortalForm from './PortalForm';
 import PortalTable from './PortalTable';
@@ -20,10 +24,6 @@ import {
   vehicleTypeOptions,
 } from './dropdownOptions';
 import { createSuccessToast, createErrorToast } from './toast';
-import { useToast } from '@components/ui/use-toast';
-import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
-import { Dialog, DialogTrigger } from '@components/ui/Dialog';
-import { IconButton } from '@components/ui/Button';
 import { useState } from 'react';
 
 const columns: Array<DataTable.Column<Vehicle>> = [

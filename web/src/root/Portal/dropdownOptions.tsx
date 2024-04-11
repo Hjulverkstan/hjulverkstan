@@ -6,7 +6,7 @@ import {
   CircleSlash,
 } from 'lucide-react';
 
-import { VehicleStatus, VehicleType } from '../../api/vehicle';
+import { VehicleStatus, VehicleType } from '@api';
 import { FilterOption } from '@components/FacetedFilterDropdown';
 import IconLabel from '@components/IconLabel';
 

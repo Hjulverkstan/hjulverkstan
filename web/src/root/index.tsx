@@ -5,12 +5,14 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import ThemeProvider from '@components/ui/ThemeProvider';
 import Toaster from '@components/ui/Toaster';
 import * as Tooltip from '@components/ui/Tooltip';
+import * as Auth from '@components/Auth';
 
 import Home from './Home';
 import About from './About';
 import Portal from './Portal';
 
 import '../globals.css';
+
 // To be used by build-script:
 export const routes = [
   { path: '/', title: 'ShopInventoryTable', component: Home },
@@ -36,24 +38,26 @@ export const queryClient = new QueryClient({
 
 export default function Root() {
   return (
-    <ThemeProvider storageKey="vite-ui-theme">
-      <QueryClientProvider client={queryClient}>
-        <Tooltip.Provider delayDuration={500}>
-          <Routes>
-            {routes.map(({ path, component: Page, hasNestedRoutes = '' }) => {
-              return (
-                <Route
-                  key={path}
-                  path={path + (hasNestedRoutes && '/*')}
-                  element={<Page />}
-                />
-              );
-            })}
-          </Routes>
-          <Toaster />
-        </Tooltip.Provider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </ThemeProvider>
+    <Auth.Provider>
+      <ThemeProvider storageKey="vite-ui-theme">
+        <QueryClientProvider client={queryClient}>
+          <Tooltip.Provider delayDuration={500}>
+            <Routes>
+              {routes.map(({ path, component: Page, hasNestedRoutes = '' }) => {
+                return (
+                  <Route
+                    key={path}
+                    path={path + (hasNestedRoutes && '/*')}
+                    element={<Page />}
+                  />
+                );
+              })}
+            </Routes>
+            <Toaster />
+          </Tooltip.Provider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </ThemeProvider>
+    </Auth.Provider>
   );
 }

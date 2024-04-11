@@ -12,7 +12,31 @@ export const endpoints = {
   refreshToken: '/auth/refreshtoken',
 };
 
-export const instance = axios.create({ baseURL, timeout: 5000 });
+let callback401: (() => void) | null = null;
+
+/**
+ * This function allows subscribing to a 401 event. Returns unsubscribe function.
+ */
+export const subscribeTo401 = (callback: () => void) => {
+  callback401 = callback;
+  return () => (callback401 = null);
+};
+
+export const instance = axios.create({
+  baseURL,
+  timeout: 5000,
+  withCredentials: true,
+});
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && callback401) {
+      callback401();
+    }
+    return Promise.reject(error);
+  },
+);
 
 // type QueryParamsCreator<Res, Params = undefined> = (params: Params) => {
 //   queryKey: string[];

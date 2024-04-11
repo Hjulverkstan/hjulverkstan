@@ -1,4 +1,4 @@
-import { instance, endpoints, createErrorHandler } from './index';
+import { instance, endpoints, createErrorHandler } from './';
 
 /* * * * * * * * VEHICLE * * * * * * * */
 
