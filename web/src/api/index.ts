@@ -3,11 +3,15 @@ import { refreshToken } from './auth';
 
 export * from './auth';
 export * from './vehicle';
+export * from './ticket';
+export * from './customer';
 
 export const baseURL = 'http://localhost:8080/v1';
 
 export const endpoints = {
   vehicle: '/vehicle',
+  ticket: '/ticket',
+  customer: '/customer',
   logIn: '/auth/login',
   logOut: '/auth/signout',
   refreshToken: '/auth/refreshtoken',
@@ -66,3 +70,28 @@ export const createErrorHandler =
         status: 400,
       }),
     });
+
+/**
+ * Should be used on all responses to convert ids to strings. Manually use
+ * this function to map over your data before exposing it to the hooks layer
+ * or if retrieveing singular object just pass it...
+ */
+
+export const parseResponseData = (obj: Record<string, any>) => {
+  const stringId = (key: string) =>
+    obj[key] ? { [key]: String(obj[key]) } : {};
+
+  const stringIds = (key: string) =>
+    obj[key] ? { [key]: obj[key].map((el: number) => String(el)) } : {};
+
+  return {
+    ...obj,
+    ...stringId('id'),
+    ...stringId('employeeId'),
+    ...stringId('customerId'),
+    ...stringIds('vehicleIds'),
+    ...stringIds('ticketIds'),
+    ...stringId('createdBy'),
+    ...stringId('updatedBy'),
+  };
+};

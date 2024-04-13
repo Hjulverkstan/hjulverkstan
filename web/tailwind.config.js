@@ -30,6 +30,16 @@ module.exports = {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
+        warn: {
+          DEFAULT: 'hsl(var(--warn))',
+          border: 'hsl(var(--warn-border))',
+          foreground: 'hsl(var(--warn-foreground))',
+        },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          border: 'hsl(var(--success-border))',
+          foreground: 'hsl(var(--success-foreground))',
+        },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',

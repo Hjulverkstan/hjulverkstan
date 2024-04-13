@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 
@@ -8,35 +9,85 @@ import * as DataForm from '@components/DataForm';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
 import { Mode } from '@components/DataForm';
 import { useToast } from '@components/ui/use-toast';
-import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { Dialog, DialogTrigger } from '@components/ui/Dialog';
 import { IconButton } from '@components/ui/Button';
-import { Vehicle } from '@api';
+import BadgeGroup from '@components/BadgeGroup';
+import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
+import IconLabel from '@components/IconLabel';
 
 import PortalForm from './PortalForm';
 import PortalTable from './PortalTable';
 import PortalToolbar from './PortalToolbar';
 import PortalContent from './PortalContent';
 import { initVehicle, vehicleZ } from './data';
+import { createSuccessToast, createErrorToast } from './toast';
 import {
+  bikeTypeOptions,
+  brakeTypeOptions,
+  sizeOptions,
+  ticketTypeOptions,
   toLabel,
   vehicleStatusOptions,
   vehicleTypeOptions,
 } from './dropdownOptions';
-import { createSuccessToast, createErrorToast } from './toast';
-import { useState } from 'react';
 
-const columns: Array<DataTable.Column<Vehicle>> = [
+const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
   {
     key: 'vehicleType',
     name: 'Type',
-    renderFn: ({ vehicleType }) => toLabel(vehicleTypeOptions, vehicleType),
+    renderFn: ({ vehicleType, bikeType }) => (
+      <IconLabel {...toLabel(vehicleTypeOptions, vehicleType)}>
+        {bikeType && (
+          <span className="pl-1 text-muted-foreground">
+            {toLabel(bikeTypeOptions, bikeType).name}
+          </span>
+        )}
+      </IconLabel>
+    ),
   },
   {
     key: 'vehicleStatus',
     name: 'Status',
-    renderFn: ({ vehicleStatus }) =>
-      toLabel(vehicleStatusOptions, vehicleStatus),
+    renderFn: ({ vehicleStatus }) => (
+      <IconLabel {...toLabel(vehicleStatusOptions, vehicleStatus)} />
+    ),
+  },
+  {
+    key: 'ticketIds',
+    name: 'Tickets',
+    renderFn: ({ tickets }) => {
+      const open =
+        tickets
+          ?.filter((ticket) => ticket.isOpen)
+          .map(({ ticketType, customerFirstName }) => ({
+            variant: 'warn' as 'success',
+            label: customerFirstName ?? '',
+            icon: ticketTypeOptions.find(({ value }) => value === ticketType)!
+              .icon,
+          })) ?? [];
+
+      const amountClosed = tickets?.filter((ticket) => !ticket.isOpen).length;
+      const closed = amountClosed ? [{ label: amountClosed + ' closed' }] : [];
+
+      return <BadgeGroup badges={[...open, ...closed]} />;
+    },
+  },
+  {
+    key: 'size',
+    name: 'Size',
+    renderFn: ({ size }) => <IconLabel {...toLabel(sizeOptions, size)} />,
+  },
+  {
+    key: 'gearCount',
+    name: 'Gears',
+    renderFn: ({ gearCount }) => (gearCount ? String(gearCount) : null),
+  },
+  {
+    key: 'brakeType',
+    name: 'Brakes',
+    renderFn: ({ brakeType }) => (
+      <IconLabel {...toLabel(brakeTypeOptions, brakeType)} />
+    ),
   },
   {
     key: 'comment',
@@ -54,7 +105,7 @@ export interface InventoryShopProps {
 export default function InventoryShop({ mode }: InventoryShopProps) {
   const { id = '' } = useParams();
 
-  const vehiclesQ = Q.useVehicles();
+  const vehiclesQ = Q.useVehiclesAggregated();
   const vehicleQ = Q.useVehicle({ id });
   const createVehicleM = M.useCreateVehicle();
   const editVehicleM = M.useEditVehicle();

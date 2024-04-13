@@ -1,4 +1,4 @@
-import { instance, endpoints, createErrorHandler } from './';
+import { instance, endpoints, createErrorHandler, parseResponseData } from './';
 
 /* * * * * * * * VEHICLE * * * * * * * */
 
@@ -57,11 +57,6 @@ export type Vehicle = {
   gearCount: number;
 };
 
-const withIdAsString = (obj: Record<string, any>) => ({
-  ...obj,
-  id: String(obj.id),
-});
-
 //
 
 export interface GetVehiclesRes {
@@ -73,7 +68,7 @@ export const getVehicles = () => ({
   queryFn: () =>
     instance
       .get<GetVehiclesRes>(endpoints.vehicle)
-      .then((res) => res.data.vehicles.map(withIdAsString) as Vehicle[])
+      .then((res) => res.data.vehicles.map(parseResponseData) as Vehicle[])
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 
@@ -90,7 +85,7 @@ export const getVehicle = ({ id }: GetVehicleParams) => ({
   queryFn: () =>
     instance
       .get<GetVehicleRes>(`${endpoints.vehicle}/${id}`)
-      .then((res) => withIdAsString(res.data) as Vehicle)
+      .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 
@@ -113,7 +108,7 @@ export const createVehicle = () => ({
         `${endpoints.vehicle}/${vehicleSlugMap[body.vehicleType]}`,
         body,
       )
-      .then((res) => withIdAsString(res.data) as Vehicle)
+      .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 
@@ -130,7 +125,7 @@ export const editVehicle = () => ({
         `${endpoints.vehicle}/${vehicleSlugMap[body.vehicleType]}/${body.id}?edit`,
         body,
       )
-      .then((res) => withIdAsString(res.data) as Vehicle)
+      .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 
@@ -138,6 +133,6 @@ export const deleteVehicle = () => ({
   mutationFn: (id: string) =>
     instance
       .delete<GetVehicleRes>(`${endpoints.vehicle}/${id}`)
-      .then((res) => withIdAsString(res.data) as Vehicle)
+      .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });

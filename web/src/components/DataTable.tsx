@@ -44,7 +44,7 @@ export interface Column<R extends Row> {
   renderFn: (
     row: R,
     metaData: { x: number; y: number },
-  ) => ReactElement | string;
+  ) => ReactElement | string | null;
 }
 
 export interface UseDataTableReturn<R extends Row>
