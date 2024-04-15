@@ -12,7 +12,9 @@ import {
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 
 import { cn } from '@utils';
-import { createRefreshToast } from '../root/Portal/toast';
+import { Input as InputDumb } from '@components/ui/Input';
+import { Label } from '@components/ui/Label';
+import { useToast } from '@components/ui/use-toast';
 import {
   Popover,
   PopoverContent,
@@ -27,9 +29,7 @@ import {
   CommandItem,
 } from '@components/ui/Command';
 
-import { Input as InputDumb } from '@components/ui/Input';
-import { Label } from '@components/ui/Label';
-import { useToast } from '@components/ui/use-toast';
+import { createRefreshToast } from '../root/Portal/toast';
 
 //
 
@@ -101,7 +101,6 @@ export function Provider<D extends Data>({
 
     // Just entered CREATE
     if (prevMode.current !== Mode.CREATE && mode === Mode.CREATE) {
-      console.log('iniiiit', initCreateBody);
       setBody(initCreateBody);
     }
 
@@ -156,6 +155,28 @@ export interface FieldProps {
 }
 
 export function Field({ dataKey, label, description, children }: FieldProps) {
+  const { mode, validationIssues, body } = useDataForm();
+  const [showValidation, setShowValidation] = useState(false);
+  const initValue = useRef<any>();
+
+  const validationIssue = validationIssues.find(
+    ({ path }) => path[0] === dataKey,
+  );
+
+  useEffect(() => {
+    initValue.current = body[dataKey];
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode === Mode.CREATE) {
+      if (initValue.current === body[dataKey]) setShowValidation(false);
+      else setShowValidation(true);
+    }
+
+    if (mode === Mode.READ) setShowValidation(false);
+    if (mode === Mode.EDIT) setShowValidation(true);
+  }, [mode, body[dataKey]]);
+
   return (
     <div className="flex flex-col space-y-2">
       <Label className="px-2" htmlFor={dataKey}>
@@ -166,6 +187,14 @@ export function Field({ dataKey, label, description, children }: FieldProps) {
         <p className="px-2 text-[0.8rem] text-muted-foreground">
           {description}
         </p>
+      )}
+      {showValidation && validationIssue && (
+        <div
+          className="rounded-md border border-destructive-border bg-destructive
+            px-4 py-2 text-sm text-destructive-foreground"
+        >
+          {validationIssue?.message}
+        </div>
       )}
     </div>
   );
@@ -197,7 +226,11 @@ export function Select({ label, dataKey, options, description }: SelectProps) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={cn('justify-between', isDisabled && '!opacity-70')}
+            className={cn(
+              'justify-between',
+              isDisabled && '!opacity-70',
+              !body[dataKey] && 'font-normal text-muted-foreground',
+            )}
           >
             {isSkeleton
               ? ''
@@ -245,10 +278,16 @@ export function Select({ label, dataKey, options, description }: SelectProps) {
 
 export interface InputProps extends Omit<FieldProps, 'children'> {
   placeholder: string;
+  type?: string;
+  min?: number;
+  max?: number;
 }
 
 export function Input({
   label,
+  type = 'text',
+  min,
+  max,
   dataKey,
   placeholder,
   description,
@@ -258,12 +297,17 @@ export function Input({
   return (
     <Field label={label} dataKey={dataKey} description={description}>
       <InputDumb
+        type={type}
+        min={min}
+        max={max}
         id={dataKey}
         disabled={isDisabled}
         placeholder={placeholder}
         value={isSkeleton ? '' : body[dataKey] ?? ''}
         onChange={({ target: { value } }) => {
-          if (body[dataKey] !== value) setBodyProp(dataKey, value);
+          if (body[dataKey] !== value) {
+            setBodyProp(dataKey, type === 'number' ? Number(value) : value);
+          }
         }}
         className={cn('h-8 bg-background', isDisabled && '!opacity-70')}
       />

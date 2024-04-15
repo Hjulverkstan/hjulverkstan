@@ -28,6 +28,7 @@ module.exports = {
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
+          border: 'hsl(var(--destructive-border))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
         warn: {

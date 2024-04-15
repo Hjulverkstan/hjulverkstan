@@ -26,15 +26,16 @@
     --accent: 220 14.3% 93.9%;
     --accent-foreground: 220.9 39.3% 11%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 20% 98%;
+    --destructive: 0 60% 98%;
+    --destructive-border: 0 80% 80%;
+    --destructive-foreground: 0 10% 30%;
 
-    --warn: 53 70% 95%;
-    --warn-border: 51 80% 80%;
+    --warn: 53 90% 97%;
+    --warn-border: 51 100% 65%;
     --warn-foreground: 45 30% 30%;
 
     --success: 120 45% 95%;
-    --success-border: 120 40% 80%;
+    --success-border: 120 60% 70%;
     --success-foreground: 120 30% 30%;
 
     --border: 220 13% 91%;
