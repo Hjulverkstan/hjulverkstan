@@ -60,7 +60,7 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
         tickets
           ?.filter((ticket) => ticket.isOpen)
           .map(({ ticketType, customerFirstName }) => ({
-            variant: 'warn' as 'success',
+            variant: 'warn' as 'warn',
             label: customerFirstName ?? '',
             icon: ticketTypeOptions.find(({ value }) => value === ticketType)!
               .icon,

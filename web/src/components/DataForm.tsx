@@ -190,8 +190,8 @@ export function Field({ dataKey, label, description, children }: FieldProps) {
       )}
       {showValidation && validationIssue && (
         <div
-          className="rounded-md border border-destructive-border bg-destructive
-            px-4 py-2 text-sm text-destructive-foreground"
+          className="rounded-md bg-destructive-fill px-4 py-2 text-sm
+            text-destructive-foreground"
         >
           {validationIssue?.message}
         </div>

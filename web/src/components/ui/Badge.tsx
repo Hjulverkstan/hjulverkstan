@@ -11,29 +11,29 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: [
-          `border-transparent bg-primary text-primary-foreground shadow
-          hover:bg-primary/80`,
+          `hover:bg-primary/80 border-transparent bg-primary
+          text-primary-foreground shadow`,
         ],
         secondary: [
-          `border-transparent bg-secondary text-secondary-foreground
-          hover:bg-secondary/80`,
+          `hover:bg-secondary/80 border-transparent bg-secondary
+          text-secondary-foreground`,
         ],
         destructive: [
           [
-            `border border-destructive-border bg-destructive
-            text-destructive-foreground hover:bg-destructive/80`,
+            `hover:bg-destructive-fill/80 border-transparent bg-destructive-fill
+            text-destructive-foreground`,
           ],
         ],
         warn: [
           [
-            `border border-warn-border bg-warn text-warn-foreground
-            hover:bg-warn/80`,
+            `hover:bg-warn-fill/80 border-transparent bg-warn-fill
+            text-warn-foreground`,
           ],
         ],
         success: [
           [
-            `border border-success-border bg-success text-success-foreground
-            hover:bg-success/80`,
+            `hover:bg-success-fill/80 border-transparent bg-success-fill
+            text-success-foreground`,
           ],
         ],
         outline: 'text-foreground',
