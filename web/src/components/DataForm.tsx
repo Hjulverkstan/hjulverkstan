@@ -5,12 +5,12 @@ import {
   useMemo,
   createContext,
   useEffect,
-  useRef,
   ReactNode,
   ComponentType,
 } from 'react';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 
+import * as U from '@utils';
 import { cn } from '@utils';
 import { Input as InputDumb } from '@components/ui/Input';
 import { Label } from '@components/ui/Label';
@@ -47,7 +47,8 @@ export interface UseDataFormReturn<D = Data> {
   isSkeleton: boolean;
   body: Partial<D>;
   setBodyProp: (dataKey: string, value: any) => void;
-  validationIssues: ZodIssue[];
+  fieldErrorMap?: Record<string, string>;
+  submitError?: string;
   mode: Mode;
 }
 
@@ -79,6 +80,13 @@ interface DataFormProps<D> {
  *
  */
 
+const issuesToPathErrorMap = (issues: ZodIssue[]) =>
+  issues.reduce<Record<string, string>>(
+    (acc, { path, message }) =>
+      acc[path[0] as string] ? acc : { ...acc, [path[0]]: message },
+    {},
+  );
+
 export function Provider<D extends Data>({
   mode,
   isLoading,
@@ -88,56 +96,81 @@ export function Provider<D extends Data>({
   children,
 }: DataFormProps<D>) {
   const { toast } = useToast();
-  const [body, setBody] = useState<Partial<D> | undefined>();
 
-  const prevData = useRef<D | undefined>();
-  const prevMode = useRef<Mode | undefined>();
+  const [state, setState] = useState<Partial<D> | undefined>();
+  const [initializedMode, setInitializedMode] = useState<Mode | undefined>();
+
+  const updateState = (state: Partial<D>) => {
+    setState(state);
+    setInitializedMode(mode);
+  };
 
   useEffect(() => {
-    const applyData = () => {
-      setBody(data);
-      prevData.current = data;
-    };
+    if (mode === Mode.CREATE) updateState(initCreateBody);
+    else if (data) setInitializedMode(Mode.READ);
+  }, [mode]);
 
-    // Just entered CREATE
-    if (prevMode.current !== Mode.CREATE && mode === Mode.CREATE) {
-      setBody(initCreateBody);
+  useEffect(() => {
+    if (mode === Mode.READ && data) updateState(data);
+
+    if (mode === Mode.EDIT && data) {
+      const isNewData = state && !U.shallowEq(state, data);
+
+      if (isNewData) toast(createRefreshToast(() => updateState(data)));
+      else updateState(data);
     }
-
-    // In READ or EDIT and no state is set yet
-    if (mode !== Mode.CREATE && !body) applyData();
-
-    // We have new data
-    if (body && data !== prevData.current) {
-      if (mode === Mode.READ) applyData();
-      if (mode === Mode.EDIT) toast(createRefreshToast(applyData));
-    }
-
-    prevMode.current = mode;
-  }, [data, mode]);
+  }, [data]);
 
   //
 
-  const safeBody: Partial<D> = body ?? {};
+  const body: Partial<D> =
+    mode !== initializedMode
+      ? mode === Mode.CREATE
+        ? initCreateBody
+        : state ?? data ?? {}
+      : state!;
 
-  const validationIssues = useMemo(() => {
+  const isSkeleton = mode !== Mode.CREATE && !Object.keys(body).length;
+  const isDisabled = isSkeleton || mode === Mode.READ;
+
+  const bodyIssues = useMemo(() => {
     const zodRet = zodSchema.safeParse(body);
-
     return zodRet.success ? [] : zodRet.error.issues;
-  }, [zodSchema, body]);
+  }, [body]);
 
-  const isSkeleton = isLoading && !body;
-  const isDisabled = mode === Mode.READ || isSkeleton;
+  const fieldErrorMap = useMemo(
+    () =>
+      issuesToPathErrorMap(
+        mode === Mode.CREATE
+          ? bodyIssues.filter(
+              ({ path }) => initCreateBody[path[0]] !== body[path[0]],
+            )
+          : mode === Mode.EDIT
+            ? bodyIssues
+            : [],
+      ),
+    [mode, bodyIssues],
+  );
 
-  const form: UseDataFormReturn<D> = {
-    body: safeBody,
-    setBodyProp: (dataKey: string, value: any) =>
-      setBody((prev) => prev && { ...prev, [dataKey]: value }),
+  const submitError = useMemo(
+    () => (mode === Mode.READ ? undefined : bodyIssues[0]?.message),
+    [mode, bodyIssues],
+  );
+
+  //
+
+  const setBodyProp = (dataKey: string, value: any) =>
+    setState((prev) => prev && { ...prev, [dataKey]: value });
+
+  const form = {
+    body,
+    mode,
+    setBodyProp,
     isLoading,
     isDisabled,
     isSkeleton,
-    validationIssues,
-    mode,
+    fieldErrorMap,
+    submitError,
   };
 
   return (
@@ -155,27 +188,7 @@ export interface FieldProps {
 }
 
 export function Field({ dataKey, label, description, children }: FieldProps) {
-  const { mode, validationIssues, body } = useDataForm();
-  const [showValidation, setShowValidation] = useState(false);
-  const initValue = useRef<any>();
-
-  const validationIssue = validationIssues.find(
-    ({ path }) => path[0] === dataKey,
-  );
-
-  useEffect(() => {
-    initValue.current = body[dataKey];
-  }, [mode]);
-
-  useEffect(() => {
-    if (mode === Mode.CREATE) {
-      if (initValue.current === body[dataKey]) setShowValidation(false);
-      else setShowValidation(true);
-    }
-
-    if (mode === Mode.READ) setShowValidation(false);
-    if (mode === Mode.EDIT) setShowValidation(true);
-  }, [mode, body[dataKey]]);
+  const { fieldErrorMap } = useDataForm();
 
   return (
     <div className="flex flex-col space-y-2">
@@ -188,12 +201,12 @@ export function Field({ dataKey, label, description, children }: FieldProps) {
           {description}
         </p>
       )}
-      {showValidation && validationIssue && (
+      {fieldErrorMap[dataKey] && (
         <div
           className="rounded-md bg-destructive-fill px-4 py-2 text-sm
             text-destructive-foreground"
         >
-          {validationIssue?.message}
+          {fieldErrorMap[dataKey]}
         </div>
       )}
     </div>
@@ -210,11 +223,20 @@ export interface SelectOption {
 
 export interface SelectProps extends Omit<FieldProps, 'children'> {
   options: SelectOption[];
+  disabled?: boolean;
 }
 
-export function Select({ label, dataKey, options, description }: SelectProps) {
+export function Select({
+  label,
+  dataKey,
+  options,
+  description,
+  disabled,
+}: SelectProps) {
   const { isSkeleton, body, setBodyProp, isDisabled } = useDataForm();
   const [open, setOpen] = useState(false);
+
+  const isDisabledUnion = isDisabled || disabled;
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
@@ -222,13 +244,13 @@ export function Select({ label, dataKey, options, description }: SelectProps) {
         <PopoverTrigger asChild>
           <Button
             id={dataKey}
-            disabled={isDisabled}
+            disabled={isDisabledUnion}
             variant="outline"
             role="combobox"
             aria-expanded={open}
             className={cn(
               'justify-between',
-              isDisabled && '!opacity-70',
+              isDisabledUnion && 'opacity-70',
               !body[dataKey] && 'font-normal text-muted-foreground',
             )}
           >
@@ -309,7 +331,10 @@ export function Input({
             setBodyProp(dataKey, type === 'number' ? Number(value) : value);
           }
         }}
-        className={cn('h-8 bg-background', isDisabled && '!opacity-70')}
+        className={cn(
+          'h-8 bg-background',
+          isDisabled && '!cursor-default opacity-70',
+        )}
       />
     </Field>
   );

@@ -5,6 +5,7 @@ import {
   CircleFadingPlus,
   CircleSlash,
   Compass,
+  HandMetal,
   Package,
   Wrench,
 } from 'lucide-react';
@@ -17,6 +18,8 @@ import {
   VehicleType,
   BikeSize,
   BikeType,
+  StrollerType,
+  ScooterType,
 } from '@api';
 
 //
@@ -37,6 +40,7 @@ export const toLabel = (options: FilterOption[], key: string) => {
 export const vehicleTypeOptions = [
   { value: VehicleType.BIKE, name: 'Bike', icon: Bike },
   { value: VehicleType.STROLLER, name: 'Stroller', icon: BabyIcon },
+  { value: VehicleType.SCOOTER, name: 'Scooter', icon: HandMetal },
 ];
 
 export const vehicleStatusOptions = [
@@ -73,4 +77,16 @@ export const bikeTypeOptions = [
   { value: BikeType.LADY, name: 'Lady' },
   { value: BikeType.MOUNTAINBIKE, name: 'Mountain' },
   { value: BikeType.ROAD, name: 'Road' },
+];
+
+export const strollerTypeOptions = [
+  { value: StrollerType.SINGLE, name: 'Single' },
+  { value: StrollerType.DOUBLE, name: 'Double' },
+];
+
+export const scooterTypeOptions = [
+  { value: ScooterType.STANDARD, name: 'Standard' },
+  { value: ScooterType.ELECTRIC, name: 'Electric' },
+  { value: ScooterType.STUNT, name: 'Stunt' },
+  { value: ScooterType.OFF_ROAD, name: 'Off road' },
 ];

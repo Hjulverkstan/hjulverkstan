@@ -167,7 +167,7 @@ const useHeadlessTable = <R extends Row>({
     filterFn: ((row: any) => boolean) | boolean,
   ) =>
     setFilterFnMap((obj) =>
-      filterFn ? { ...obj, [key]: filterFn } : U.omitKey(obj, key),
+      filterFn ? { ...obj, [key]: filterFn } : U.omitKeys([key], obj),
     );
 
   const clearAllFilters = () => setFilterFnMap({});

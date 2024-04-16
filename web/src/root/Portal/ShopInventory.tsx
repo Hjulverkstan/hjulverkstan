@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 
+import * as U from '@utils';
 import * as Q from '@hooks/queries';
 import * as M from '@hooks/mutations';
+import { Vehicle, VehicleType } from '@api';
 import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
@@ -19,12 +21,13 @@ import PortalForm from './PortalForm';
 import PortalTable from './PortalTable';
 import PortalToolbar from './PortalToolbar';
 import PortalContent from './PortalContent';
-import { initVehicle, vehicleZ } from './data';
+import { initVehicle, maxGearCount, minGearCount, vehicleZ } from './data';
 import { createSuccessToast, createErrorToast } from './toast';
 import {
   bikeTypeOptions,
   brakeTypeOptions,
   sizeOptions,
+  strollerTypeOptions,
   ticketTypeOptions,
   toLabel,
   vehicleStatusOptions,
@@ -75,7 +78,8 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
   {
     key: 'size',
     name: 'Size',
-    renderFn: ({ size }) => <IconLabel {...toLabel(sizeOptions, size)} />,
+    renderFn: ({ size }) =>
+      size && <IconLabel {...toLabel(sizeOptions, size)} />,
   },
   {
     key: 'gearCount',
@@ -85,9 +89,8 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
   {
     key: 'brakeType',
     name: 'Brakes',
-    renderFn: ({ brakeType }) => (
-      <IconLabel {...toLabel(brakeTypeOptions, brakeType)} />
-    ),
+    renderFn: ({ brakeType }) =>
+      brakeType && <IconLabel {...toLabel(brakeTypeOptions, brakeType)} />,
   },
   {
     key: 'comment',
@@ -97,6 +100,25 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
     ),
   },
 ];
+
+// parseMutation: On submitting a mutation we dont want to send props from
+//   other vehicleTypes
+
+const vehicleTypePropsMap = {
+  [VehicleType.BIKE]: ['vehicleType', 'size', 'gearCount', 'brakeType'],
+  [VehicleType.SCOOTER]: ['scooterType'],
+  [VehicleType.STROLLER]: ['strollerType'],
+};
+
+const parseMutation = (body: Vehicle) =>
+  U.omitKeys(
+    Object.entries(vehicleTypePropsMap)
+      .map(([type, keys]) => (type !== body.vehicleType ? keys : []))
+      .flat(),
+    body,
+  );
+
+//
 
 export interface InventoryShopProps {
   mode: Mode;
@@ -144,6 +166,7 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
               isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}
               saveMutation={editVehicleM.mutateAsync}
               createMutation={createVehicleM.mutateAsync}
+              transformBodyOnSubmit={parseMutation}
             >
               <Fields />
             </PortalForm>
@@ -173,18 +196,56 @@ function Filters() {
 }
 
 function Fields() {
+  const { body, mode } = DataForm.useDataForm();
+
   return (
     <>
       <DataForm.Select
         label="Vehicle type"
         dataKey="vehicleType"
         options={vehicleTypeOptions}
+        disabled={mode === Mode.EDIT}
       />
+      {body.vehicleType === VehicleType.BIKE && (
+        <DataForm.Select
+          key={body.vehicleType}
+          label="Bike type"
+          dataKey="bikeType"
+          options={bikeTypeOptions}
+        />
+      )}
+      {body.vehicleType === VehicleType.STROLLER && (
+        <DataForm.Select
+          key={body.vehicleType}
+          label="Stroller type"
+          dataKey="strollerType"
+          options={strollerTypeOptions}
+        />
+      )}
       <DataForm.Select
         label="Vehicle status"
         dataKey="vehicleStatus"
         options={vehicleStatusOptions}
       />
+      {body.vehicleType === VehicleType.BIKE && (
+        <>
+          <DataForm.Select label="Size" dataKey="size" options={sizeOptions} />
+          <DataForm.Select
+            label="Brake type"
+            dataKey="brakeType"
+            options={brakeTypeOptions}
+          />
+          <DataForm.Input
+            type="number"
+            placeholder="Set gear count"
+            min={minGearCount}
+            max={maxGearCount}
+            label="Gears"
+            dataKey="gearCount"
+            description="Gear count (ie 21 for 3x7)"
+          />
+        </>
+      )}
       <DataForm.Input
         placeholder="Write a comment..."
         label="Comment"

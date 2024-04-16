@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Pencil, Save, XIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 
+import * as Tooltip from '@components/ui/Tooltip';
 import { ErrorRes } from '@api';
 import { Mode, useDataForm } from '@components/DataForm';
 import { IconButton } from '@components/ui/Button';
@@ -11,6 +12,8 @@ import Error from '@components/Error';
 import { createErrorToast } from './toast';
 
 export interface PortalFormProps {
+  /* Optionaly tranform the body on submit before passed to mutate function */
+  transformBodyOnSubmit?: (input: any) => any;
   isSubmitting: boolean;
   /* muateAsync from useMutation() */
   createMutation: (body: any) => Promise<any>;
@@ -26,15 +29,16 @@ export default function PortalForm({
   saveMutation,
   error,
   children,
+  transformBodyOnSubmit = (x) => x,
 }: PortalFormProps) {
   const { id = '' } = useParams();
-  const { mode, body, validationIssues } = useDataForm();
+  const { mode, body, submitError } = useDataForm();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const onCreate = () => {
-    if (!validationIssues.length) {
-      createMutation(body)
+    if (!submitError) {
+      createMutation(transformBodyOnSubmit(body))
         .then((res: any) => navigate('../' + res.id))
         .catch((err: any) => {
           console.error(err);
@@ -46,8 +50,8 @@ export default function PortalForm({
   };
 
   const onSave = () => {
-    if (!validationIssues.length) {
-      saveMutation(body)
+    if (!submitError) {
+      saveMutation(transformBodyOnSubmit(body))
         .then((res: any) => navigate('../' + res.id))
         .catch((err: any) => {
           console.error(err);
@@ -80,14 +84,21 @@ export default function PortalForm({
         <h3 className="flex-grow pl-2 align-middle text-sm font-medium">
           {title}
         </h3>
-        <IconButton
-          key={mode}
-          disabled={!!error || isSubmitting || !!validationIssues.length}
-          onClick={handler}
-          variant={mode === Mode.READ ? 'ghost' : 'default'}
-          icon={mode === Mode.READ ? Pencil : Save}
-          tooltip={tooltip}
-        />
+        <Tooltip.Root disableHoverableContent={!submitError}>
+          <Tooltip.Trigger asChild>
+            <span tabIndex={0}>
+              <IconButton
+                key={mode}
+                disabled={!!error || isSubmitting || !!submitError}
+                onClick={handler}
+                variant={mode === Mode.READ ? 'ghost' : 'default'}
+                icon={mode === Mode.READ ? Pencil : Save}
+                tooltip={tooltip}
+              />
+            </span>
+          </Tooltip.Trigger>
+          {submitError && <Tooltip.Content>{submitError}</Tooltip.Content>}
+        </Tooltip.Root>
         <IconButton
           disabled={!!error || isSubmitting}
           onClick={() => navigate(mode === Mode.EDIT ? `../${id}` : '..')}

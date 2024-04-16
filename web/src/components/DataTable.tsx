@@ -5,7 +5,6 @@ import {
   useContext,
   useEffect,
   ReactNode,
-  ReactElement,
 } from 'react';
 import {
   ArrowDownIcon,
@@ -39,12 +38,12 @@ export interface Column<R extends Row> {
   key: string;
   name: string;
   /** Override the default sort button header */
-  renderHeaderFn?: () => ReactElement | string;
+  renderHeaderFn?: () => JSX.Element | string;
   /** Render the cell */
   renderFn: (
     row: R,
     metaData: { x: number; y: number },
-  ) => ReactElement | string | null;
+  ) => JSX.Element | string | null | false | undefined;
 }
 
 export interface UseDataTableReturn<R extends Row>
@@ -233,7 +232,7 @@ export interface BodyProps {
   renderRowActionFn?: (
     row: Record<string, any>,
     metaData: { disabled: boolean; x: number; y: number },
-  ) => ReactElement;
+  ) => JSX.Element;
 }
 
 export function Body({

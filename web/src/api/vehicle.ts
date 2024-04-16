@@ -4,7 +4,7 @@ import { instance, endpoints, createErrorHandler, parseResponseData } from './';
 
 export enum VehicleType {
   BIKE = 'BIKE',
-  SKATE = 'SKATE',
+  SCOOTER = 'SCOOTER',
   STROLLER = 'STROLLER',
 }
 
@@ -38,24 +38,39 @@ export enum BikeType {
   LADY = 'LADY',
 }
 
-export type Vehicle = {
+export enum StrollerType {
+  SINGLE = 'SINGLE',
+  DOUBLE = 'DOUBLE',
+}
+
+export enum ScooterType {
+  STANDARD = 'STANDARD',
+  ELECTRIC = 'ELECTRIC',
+  STUNT = 'STUNT',
+  OFF_ROAD = 'OFF_ROAD',
+}
+
+export interface Vehicle {
   id: string;
   vehicleType: VehicleType;
   vehicleStatus: VehicleStatus;
   imageUrl: string;
   comment: string;
   ticketIds: string[];
+  //
+  strollerType: StrollerType;
+  scooterType: ScooterType;
+  //
+  bikeType?: BikeType;
+  size?: BikeSize;
+  brakeType?: BrakeType;
+  gearCount?: number;
+  //
   createdAt: number | null;
   updatedAt: number | null;
   createdBy: number | null;
   updatedBy: number | null;
-} & {
-  vehicleType: VehicleType.BIKE;
-  size: BikeSize;
-  bikeType: BikeType;
-  brakeType: BrakeType;
-  gearCount: number;
-};
+}
 
 //
 
@@ -98,7 +113,7 @@ export type CreateVehicleParams = Omit<Vehicle, 'id'>;
 const vehicleSlugMap = {
   [VehicleType.BIKE]: 'bike',
   [VehicleType.STROLLER]: 'stroller',
-  [VehicleType.SKATE]: 'skate',
+  [VehicleType.SCOOTER]: 'scooter',
 };
 
 export const createVehicle = () => ({

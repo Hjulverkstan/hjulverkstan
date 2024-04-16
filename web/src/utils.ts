@@ -24,29 +24,22 @@ export const toArrayValueCountMap = (array: string[]) =>
     {},
   );
 
-export const omitKey = (obj: Record<string, any>, keyToRemove: string) =>
+export const omitKeys = (keys: string[], obj: Record<string, any>) =>
   Object.fromEntries(
-    Object.entries(obj).filter(([key, _]) => key !== keyToRemove),
+    Object.entries(obj).filter(([key, _]) => !keys.includes(key)),
   );
 
-export const snakeToCamel = (str: string) =>
-  str
-    .split('_')
-    .map(
-      ([head, ...tail], i) =>
-        (i === 0 ? head : head.toUpperCase()) + tail.join('').toLowerCase(),
-    )
-    .join('');
+export const shallowEq = (
+  a?: Record<string, any>,
+  b?: Record<string, any>,
+): boolean => {
+  if (a === b) return true;
 
-export const camelToSnake = (str: string) =>
-  str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+  if (typeof a !== 'object' || typeof b !== 'object') return false;
 
-export const snakeObjToCamelObj = (obj: Record<string, any>) =>
-  Object.fromEntries(
-    Object.entries(obj).map(([key, val]) => [snakeToCamel(key), val]),
-  );
+  if (Object.keys(a).length !== Object.keys(b).length) return false;
 
-export const camelObjToSnakeObj = (obj: Record<string, any>) =>
-  Object.fromEntries(
-    Object.entries(obj).map(([key, val]) => [camelToSnake(key), val]),
-  );
+  for (const key of Object.keys(a)) if (a[key] !== b[key]) return false;
+
+  return true;
+};
