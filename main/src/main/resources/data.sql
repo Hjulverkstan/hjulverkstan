@@ -26,10 +26,10 @@ INSERT INTO Customer
 
 INSERT INTO vehicle
 (vehicle_type, vehicle_status, imageurl,          comment,                        bike_type,  gear_count, size,     brake_type, created_at, updated_at, created_by, updated_by) VALUES
-('BIKE',        'AVAILABLE',    'image_url_1.jpg',  null,                          'CHILD',    0,          'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
+('BIKE',        'AVAILABLE',    'image_url_1.jpg',  null,                          'CHILD',    1,          'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
 ('BIKE',        'AVAILABLE',    'image_url_1.jpg',  null,                          'ROAD',     12,         'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
 ('BIKE',        'BROKEN',       'image_url_1.jpg',  'Can not ever be repaired...', 'ROAD',     12,         'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
-('BIKE',        'AVAILABLE',    'image_url_1.jpg',  null,                          'BMX',      0,          'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
+('BIKE',        'AVAILABLE',    'image_url_1.jpg',  null,                          'BMX',      1,          'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
 ('BIKE',        'UNAVAILABLE',  'image_url_2.jpg', 'This bike weighs nothing!',    'ROAD',     18,         'LARGE',  'CALIPER',  NOW(),      NOW(),      1,          1         ),
 ('BIKE',        'AVAILABLE',    'image_url_3.jpg', 'Bulletproof tires',            'ELECTRIC', 15,         'SMALL',  'DISC',     NOW(),      NOW(),      1,          1         );
 

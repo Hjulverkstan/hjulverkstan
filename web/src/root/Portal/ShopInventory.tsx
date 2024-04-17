@@ -80,7 +80,9 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
   {
     key: 'gearCount',
     name: 'Gears',
-    renderFn: ({ gearCount }) => (gearCount ? String(gearCount) : null),
+    renderFn: ({ gearCount }) => (
+      <span className={gearCount === 1 ? 'opacity-50' : ''}>{gearCount}</span>
+    ),
   },
   {
     key: 'brakeType',
@@ -185,6 +187,7 @@ function Filters() {
         matchFn={(word, row: VehicleAggregated) =>
           enumMatchFn(enums.vehicle, word, row) ||
           fuzzyMatchFn(['comment'], word, row) ||
+          word === String(row.gearCount) ||
           row.tickets.some((ticket) =>
             ticket.customerFirstName?.toLowerCase().includes(word),
           )

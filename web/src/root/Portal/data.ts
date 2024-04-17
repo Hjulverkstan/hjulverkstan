@@ -28,8 +28,12 @@ export const vehicleZ = z.discriminatedUnion('vehicleType', [
     size: z.nativeEnum(api.BikeSize, isReq('Size')),
     gearCount: z
       .number(isReq('Gear count'))
-      .min(minGearCount)
-      .max(maxGearCount),
+      .min(minGearCount, {
+        message: 'Minimum gear count is 1 (if no gears choose 1)',
+      })
+      .max(maxGearCount, {
+        message: 'Maximum gear count is 33',
+      }),
   }),
   vehicleBaseZ.extend({
     vehicleType: z.literal(api.VehicleType.STROLLER),
