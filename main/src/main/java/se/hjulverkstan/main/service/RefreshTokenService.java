@@ -2,9 +2,12 @@ package se.hjulverkstan.main.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.Exceptions.TokenRefreshException;
 import se.hjulverkstan.main.model.RefreshToken;
+import se.hjulverkstan.main.model.User;
 import se.hjulverkstan.main.repository.RefreshTokenRepository;
 import se.hjulverkstan.main.repository.UserRepository;
 
@@ -14,9 +17,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
+
 
     public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
         this.refreshTokenRepository = refreshTokenRepository;
@@ -31,12 +36,16 @@ public class RefreshTokenService {
     }
 
     public RefreshToken createRefreshToken(Long userId) {
-        RefreshToken refreshToken = new RefreshToken();
+        // Delete refresh token before creating a new to avoid duplicate error on consecutive logins.
+        deleteByUserId(userId);
 
-        refreshToken.setUser(userRepository.findById(userId).get());
+        RefreshToken refreshToken = new RefreshToken();
+        User user = userRepository.findById(userId).orElseThrow(() -> new ElementNotFoundException("User with id " + userId));
+        refreshToken.setUser(user);
         refreshToken.setExpiryDate(LocalDateTime.now().plus(refreshTokenDurationMs, ChronoUnit.MILLIS));
         refreshToken.setToken(UUID.randomUUID().toString());
 
+        refreshTokenRepository.flush();
         refreshToken = refreshTokenRepository.save(refreshToken);
         return refreshToken;
     }
@@ -50,8 +59,9 @@ public class RefreshTokenService {
         return token;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteByUserId(Long userId) {
-        refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
+        User user = userRepository.findById(userId).orElseThrow(() -> new ElementNotFoundException("User with id " + userId));
+        refreshTokenRepository.deleteByUser(user);
     }
 }
