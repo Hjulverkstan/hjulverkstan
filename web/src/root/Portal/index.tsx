@@ -28,8 +28,9 @@ const mountCountent = (Content: ComponentType<{ mode?: Mode }>) => (
 );
 
 export default function Portal() {
-  const { auth } = useAuth();
+  const { auth, isInitialising } = useAuth();
 
+  if (isInitialising) return null;
   if (!auth) return <PortalLogin />;
 
   return (

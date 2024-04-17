@@ -12,6 +12,7 @@ import { useToast } from '@components/ui/use-toast';
 import { createErrorToast } from '../root/Portal/toast';
 
 export interface UseAuthReturn {
+  isInitialising: boolean;
   isLoading: boolean;
   logIn: (username: string, password: string) => void;
   logOut: (id: number) => void;
@@ -36,15 +37,9 @@ interface AuthProviderProps {
 }
 
 export const Provider = ({ children }: AuthProviderProps) => {
+  const [isInitialising, setIsInitialising] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState<null | api.LogInRes>(null);
-
-  useEffect(() => {
-    api.subscribeTo401(() => {
-      setIsLoading(false);
-      setState(null);
-    });
-  }, []);
 
   const { toast } = useToast();
 
@@ -88,7 +83,27 @@ export const Provider = ({ children }: AuthProviderProps) => {
       });
   };
 
+  useEffect(() => {
+    // TEMPORARY FIX: Request against an auth check endpoint instead.
+    api
+      .getVehicles()
+      .queryFn()
+      .then(() => {
+        setIsInitialising(false);
+        setState({} as unknown as api.LogInRes);
+      })
+      .catch(() => setIsInitialising(false));
+  }, []);
+
+  useEffect(() => {
+    api.subscribeTo401(() => {
+      setIsLoading(false);
+      setState(null);
+    });
+  }, []);
+
   const context: UseAuthReturn = {
+    isInitialising,
     isLoading,
     logIn,
     logOut,
