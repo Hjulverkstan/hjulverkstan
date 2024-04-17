@@ -16,6 +16,8 @@ import { IconButton } from '@components/ui/Button';
 import BadgeGroup from '@components/BadgeGroup';
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import IconLabel from '@components/IconLabel';
+import { fuzzyMatchFn } from '@components/DataTable';
+import { VehicleAggregated } from '@hooks/queries';
 
 import PortalForm from './PortalForm';
 import PortalTable from './PortalTable';
@@ -23,26 +25,20 @@ import PortalToolbar from './PortalToolbar';
 import PortalContent from './PortalContent';
 import { initVehicle, maxGearCount, minGearCount, vehicleZ } from './data';
 import { createSuccessToast, createErrorToast } from './toast';
-import {
-  bikeTypeOptions,
-  brakeTypeOptions,
-  sizeOptions,
-  strollerTypeOptions,
-  ticketTypeOptions,
-  toLabel,
-  vehicleStatusOptions,
-  vehicleTypeOptions,
-} from './dropdownOptions';
+import { toLabel, enumMatchFn } from './enums';
+import * as enums from './enums';
 
-const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
+//
+
+const columns: Array<DataTable.Column<VehicleAggregated>> = [
   {
     key: 'vehicleType',
     name: 'Type',
     renderFn: ({ vehicleType, bikeType }) => (
-      <IconLabel {...toLabel(vehicleTypeOptions, vehicleType)}>
+      <IconLabel {...toLabel(enums.vehicle.vehicleType, vehicleType)}>
         {bikeType && (
           <span className="pl-1 text-muted-foreground">
-            {toLabel(bikeTypeOptions, bikeType).name}
+            {toLabel(enums.vehicle.bikeType, bikeType).name}
           </span>
         )}
       </IconLabel>
@@ -52,7 +48,7 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
     key: 'vehicleStatus',
     name: 'Status',
     renderFn: ({ vehicleStatus }) => (
-      <IconLabel {...toLabel(vehicleStatusOptions, vehicleStatus)} />
+      <IconLabel {...toLabel(enums.vehicle.vehicleStatus, vehicleStatus)} />
     ),
   },
   {
@@ -65,7 +61,7 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
           .map(({ ticketType, customerFirstName }) => ({
             variant: 'warn' as 'warn',
             label: customerFirstName ?? '',
-            icon: ticketTypeOptions.find(({ value }) => value === ticketType)!
+            icon: enums.ticket.type.find(({ value }) => value === ticketType)!
               .icon,
           })) ?? [];
 
@@ -79,7 +75,7 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
     key: 'size',
     name: 'Size',
     renderFn: ({ size }) =>
-      size && <IconLabel {...toLabel(sizeOptions, size)} />,
+      size && <IconLabel {...toLabel(enums.vehicle.size, size)} />,
   },
   {
     key: 'gearCount',
@@ -90,7 +86,9 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
     key: 'brakeType',
     name: 'Brakes',
     renderFn: ({ brakeType }) =>
-      brakeType && <IconLabel {...toLabel(brakeTypeOptions, brakeType)} />,
+      brakeType && (
+        <IconLabel {...toLabel(enums.vehicle.brakeType, brakeType)} />
+      ),
   },
   {
     key: 'comment',
@@ -101,8 +99,8 @@ const columns: Array<DataTable.Column<Q.VehicleAggregated>> = [
   },
 ];
 
-// parseMutation: On submitting a mutation we dont want to send props from
-//   other vehicleTypes
+// parseMutation: Depending on the vehicle type when submitting a mutation,
+//   clear all fields that could of been set by another vehicle type.
 
 const vehicleTypePropsMap = {
   [VehicleType.BIKE]: ['vehicleType', 'size', 'gearCount', 'brakeType'],
@@ -177,19 +175,30 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
   );
 }
 
+//
+
 function Filters() {
   return (
     <>
-      <DataTable.FilterSearch placeholder="Search..." />
+      <DataTable.FilterSearch
+        placeholder="Search..."
+        matchFn={(word, row: VehicleAggregated) =>
+          enumMatchFn(enums.vehicle, word, row) ||
+          fuzzyMatchFn(['comment'], word, row) ||
+          row.tickets.some((ticket) =>
+            ticket.customerFirstName?.toLowerCase().includes(word),
+          )
+        }
+      />
       <DataTable.FilterMultiSelect
         colKey="vehicleType"
         label="Type"
-        options={vehicleTypeOptions}
+        options={enums.vehicle.vehicleType}
       />
       <DataTable.FilterMultiSelect
         colKey="vehicleStatus"
         label="Status"
-        options={vehicleStatusOptions}
+        options={enums.vehicle.vehicleStatus}
       />
     </>
   );
@@ -203,7 +212,7 @@ function Fields() {
       <DataForm.Select
         label="Vehicle type"
         dataKey="vehicleType"
-        options={vehicleTypeOptions}
+        options={enums.vehicle.vehicleType}
         disabled={mode === Mode.EDIT}
       />
       {body.vehicleType === VehicleType.BIKE && (
@@ -211,7 +220,7 @@ function Fields() {
           key={body.vehicleType}
           label="Bike type"
           dataKey="bikeType"
-          options={bikeTypeOptions}
+          options={enums.vehicle.bikeType}
         />
       )}
       {body.vehicleType === VehicleType.STROLLER && (
@@ -219,21 +228,33 @@ function Fields() {
           key={body.vehicleType}
           label="Stroller type"
           dataKey="strollerType"
-          options={strollerTypeOptions}
+          options={enums.vehicle.strollerType}
+        />
+      )}
+      {body.vehicleType === VehicleType.STROLLER && (
+        <DataForm.Select
+          key={body.vehicleType}
+          label="Stroller type"
+          dataKey="strollerType"
+          options={enums.vehicle.strollerType}
         />
       )}
       <DataForm.Select
         label="Vehicle status"
         dataKey="vehicleStatus"
-        options={vehicleStatusOptions}
+        options={enums.vehicle.vehicleStatus}
       />
       {body.vehicleType === VehicleType.BIKE && (
         <>
-          <DataForm.Select label="Size" dataKey="size" options={sizeOptions} />
+          <DataForm.Select
+            label="Size"
+            dataKey="size"
+            options={enums.vehicle.size}
+          />
           <DataForm.Select
             label="Brake type"
             dataKey="brakeType"
-            options={brakeTypeOptions}
+            options={enums.vehicle.brakeType}
           />
           <DataForm.Input
             type="number"

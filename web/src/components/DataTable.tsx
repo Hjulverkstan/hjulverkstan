@@ -31,6 +31,8 @@ import useHeadlessTable, {
 } from '@hooks/useHeadlessTable';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
+export type { Row } from '@hooks/useHeadlessTable';
+
 //
 
 export interface Column<R extends Row> {
@@ -370,12 +372,22 @@ export function FilterClear() {
 
 //
 
-export function FilterSearch({ placeholder }: { placeholder: string }) {
+export type SearchMatchFn = (word: string, row: Row) => boolean;
+
+export interface FilterSearchProps {
+  placeholder: string;
+  matchFn: SearchMatchFn;
+}
+
+export const fuzzyMatchFn = (keys: string[], word: string, row: Row) =>
+  keys.some((key) => row[key]?.toLowerCase().includes(word));
+
+export function FilterSearch({ placeholder, matchFn }: FilterSearchProps) {
   const [value, setValue] = useState('');
   const { disabled, setFilterFn, isFiltered } = useDataTable();
 
   useEffect(() => {
-    if (isFiltered) setValue(''); // Clear on reset
+    if (!isFiltered) setValue(''); // Clear on reset
   }, [isFiltered]);
 
   return (
@@ -385,15 +397,7 @@ export function FilterSearch({ placeholder }: { placeholder: string }) {
       value={value}
       onChange={({ target: { value } }) => {
         const filterFn = (row: Row) =>
-          value
-            .split(' ')
-            .every((word) =>
-              Object.values(row).some(
-                (val) =>
-                  typeof val === 'string' &&
-                  val.toLowerCase().includes(word.toLowerCase()),
-              ),
-            );
+          value.split(' ').every((word) => matchFn(word.toLowerCase(), row));
 
         setValue(value);
         setFilterFn('ANY', !!value && filterFn);
