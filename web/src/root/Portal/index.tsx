@@ -2,9 +2,11 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ComponentType } from 'react';
 
 import { Mode } from '@components/DataForm';
+import { useAuth } from '@components/Auth';
 
 import PortalLayout from './PortalLayout';
 import ShopInventory from './ShopInventory';
+import PortalLogin from './PortalLogin';
 
 //
 
@@ -26,6 +28,10 @@ const mountCountent = (Content: ComponentType<{ mode?: Mode }>) => (
 );
 
 export default function Portal() {
+  const { auth } = useAuth();
+
+  if (!auth) return <PortalLogin />;
+
   return (
     <Routes>
       <Route
