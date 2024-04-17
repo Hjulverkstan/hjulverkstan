@@ -15,19 +15,9 @@ import { cn } from '@utils';
 import { Input as InputDumb } from '@components/ui/Input';
 import { Label } from '@components/ui/Label';
 import { useToast } from '@components/ui/use-toast';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@components/ui/Popover';
 import { Button } from '@components/ui/Button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '@components/ui/Command';
+import * as Popover from '@components/ui/Popover';
+import * as Command from '@components/ui/Command';
 
 import { createRefreshToast } from '../root/Portal/toast';
 
@@ -240,8 +230,8 @@ export function Select({
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+      <Popover.Root open={open} onOpenChange={setOpen}>
+        <Popover.Trigger asChild>
           <Button
             id={dataKey}
             disabled={isDisabledUnion}
@@ -261,17 +251,17 @@ export function Select({
                 : `Select ${label.toLowerCase()}...`}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0" id={dataKey}>
-          <Command>
-            <CommandInput
+        </Popover.Trigger>
+        <Popover.Content className="w-[200px] p-0" id={dataKey}>
+          <Command.Root>
+            <Command.Input
               placeholder={`Search ${label.toLowerCase()}`}
               className="h-9"
             />
-            <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
-            <CommandGroup>
+            <Command.Empty>No {label.toLowerCase()} found.</Command.Empty>
+            <Command.Group>
               {options.map(({ value, name }) => (
-                <CommandItem
+                <Command.Item
                   key={value}
                   value={value}
                   onSelect={() => {
@@ -286,12 +276,12 @@ export function Select({
                       value === body[dataKey] ? 'opacity-100' : 'opacity-0',
                     )}
                   />
-                </CommandItem>
+                </Command.Item>
               ))}
-            </CommandGroup>
-          </Command>
-        </PopoverContent>
-      </Popover>
+            </Command.Group>
+          </Command.Root>
+        </Popover.Content>
+      </Popover.Root>
     </Field>
   );
 }

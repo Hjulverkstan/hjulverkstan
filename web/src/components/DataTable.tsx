@@ -14,22 +14,25 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
   MixerVerticalIcon,
+  PlusCircledIcon,
 } from '@radix-ui/react-icons';
 
 import * as U from '@utils';
 import * as Table from '@components/ui/Table';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
+import * as Popover from '@components/ui/Popover';
 import { Input } from '@components/ui/Input';
 import { Skeleton } from '@components/ui/Skeleton';
 import { Button, IconButton } from '@components/ui/Button';
-import FacetedFilterDropdown, {
-  FilterOption,
-} from '@components/FacetedFilterDropdown';
+import FacetedFilterDropdown from '@components/FacetedFilterDropdown';
 import useHeadlessTable, {
   UseHeadlessTableReturn,
   Row,
 } from '@hooks/useHeadlessTable';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { Separator } from './ui/Separator';
+import { Badge } from './ui/Badge';
+import { EnumAttributes } from 'src/root/Portal/enums';
 
 export type { Row } from '@hooks/useHeadlessTable';
 
@@ -409,17 +412,108 @@ export function FilterSearch({ placeholder, matchFn }: FilterSearchProps) {
 
 //
 
+export interface UsePopoverFilterReturn {
+  setActiveLabel: (filterKey: string, labels: string[]) => void;
+}
+
+const PopoverFilterContext = createContext<UsePopoverFilterReturn | undefined>(
+  undefined,
+);
+
+export const usePopoverFilter = () => {
+  const context = useContext(PopoverFilterContext);
+
+  if (!context)
+    throw new Error(
+      'usePopoverFilter must be a decendant of <PopoverFilter />',
+    );
+
+  return context;
+};
+
+export interface PopoverFilterProps {
+  label: string;
+  children: JSX.Element;
+}
+
+export function PopoverFilter({ label, children }: PopoverFilterProps) {
+  const { disabled } = useDataTable();
+
+  const [activeLabelsMap, setActiveLabelsMap] = useState<
+    Record<string, string[]>
+  >({});
+
+  const setActiveLabel = (filterKey: string, labels: string[]) =>
+    setActiveLabelsMap({ ...activeLabelsMap, [filterKey]: labels });
+
+  const activeLabels = Object.values(activeLabelsMap).flat();
+
+  return (
+    <PopoverFilterContext.Provider value={{ setActiveLabel }}>
+      <Popover.Root>
+        <Popover.Trigger asChild>
+          <Button
+            disabled={disabled}
+            variant="outline"
+            size="sm"
+            className="h-8 border-dashed"
+          >
+            <PlusCircledIcon className="mr-2 h-4 w-4" />
+            {label}
+            {activeLabels.length > 0 && (
+              <>
+                <Separator orientation="vertical" className="mx-2 h-4" />
+                <div className="space-x-1 lg:flex">
+                  <Badge
+                    variant="secondary"
+                    className="rounded-sm px-1 font-normal lg:hidden"
+                  >
+                    {activeLabels.length}
+                  </Badge>
+                  <div className="hidden space-x-1 lg:flex">
+                    {activeLabels.length > 2 ? (
+                      <Badge
+                        variant="secondary"
+                        className="rounded-sm px-1 font-normal"
+                      >
+                        {activeLabels.length} activeLabels
+                      </Badge>
+                    ) : (
+                      activeLabels.map((label, i) => (
+                        <Badge
+                          variant="secondary"
+                          key={i}
+                          className="rounded-sm px-1 font-normal"
+                        >
+                          {label}
+                        </Badge>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+          </Button>
+        </Popover.Trigger>
+        <Popover.Content className="w-[200px] p-0" align="start">
+          {children}
+        </Popover.Content>
+      </Popover.Root>
+    </PopoverFilterContext.Provider>
+  );
+}
+
+//
+
 export interface FilterMultiSelectProps {
   /* Column key used for getting the values from data[] */
   colKey: string;
-  label: string;
-  options: FilterOption[];
+  enums: EnumAttributes[];
 }
 
 export const FilterMultiSelect = ({
   colKey,
-  label,
-  options,
+  enums,
 }: FilterMultiSelectProps) => {
   const [selected, setSelected] = useState<string[]>([]);
   const T = useDataTable();
@@ -432,13 +526,13 @@ export const FilterMultiSelect = ({
     const valueCountMap = U.toArrayValueCountMap(filteredValues as string[]);
 
     return (
-      options
+      enums
         // remove options that are not at all in the data
         .filter((option) => totalValues.includes(option.value))
         // add data needed for FacetedFilterDropdown
         .map((option) => ({ ...option, count: valueCountMap[option.value] }))
     );
-  }, [T.rawData, T.filteredData, colKey, options]);
+  }, [T.rawData, T.filteredData, colKey, enums]);
 
   useEffect(() => {
     if (!T.isFiltered) setSelected([]); // Clear on reset
@@ -446,9 +540,7 @@ export const FilterMultiSelect = ({
 
   return (
     <FacetedFilterDropdown
-      label={label}
-      disabled={T.disabled}
-      options={injectedOptions}
+      enums={injectedOptions}
       selected={selected}
       setSelected={(value) => {
         setSelected(value);

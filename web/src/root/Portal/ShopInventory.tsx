@@ -193,16 +193,18 @@ function Filters() {
           )
         }
       />
-      <DataTable.FilterMultiSelect
-        colKey="vehicleType"
-        label="Type"
-        options={enums.vehicle.vehicleType}
-      />
-      <DataTable.FilterMultiSelect
-        colKey="vehicleStatus"
-        label="Status"
-        options={enums.vehicle.vehicleStatus}
-      />
+      <DataTable.PopoverFilter label="Type">
+        <DataTable.FilterMultiSelect
+          colKey="vehicleType"
+          enums={enums.vehicle.vehicleType}
+        />
+      </DataTable.PopoverFilter>
+      <DataTable.PopoverFilter label="Status">
+        <DataTable.FilterMultiSelect
+          colKey="vehicleStatus"
+          enums={enums.vehicle.vehicleStatus}
+        />
+      </DataTable.PopoverFilter>
     </>
   );
 }

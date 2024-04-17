@@ -25,15 +25,15 @@ import { Row } from '@components/DataTable';
 
 //
 
-export interface EnumElement {
+export interface EnumAttributes {
   value: string;
   name: string;
   icon?: LucideIcon;
 }
 
-export type EnumMap<DataObj extends Record<string, any>> = Record<
+export type RowEnumAttributesMap<DataObj extends Record<string, any>> = Record<
   keyof DataObj,
-  EnumElement[]
+  EnumAttributes[]
 >;
 
 /**
@@ -44,7 +44,11 @@ export type EnumMap<DataObj extends Record<string, any>> = Record<
  * match for 'unavail'...
  */
 
-export const enumMatchFn = (enumMap: EnumMap<Row>, word: string, row: Row) =>
+export const enumMatchFn = (
+  enumMap: RowEnumAttributesMap<Row>,
+  word: string,
+  row: Row,
+) =>
   Object.entries(enumMap).some(([key, enums]) =>
     enums.some(
       (el) => el.value === row[key] && el.name.toLowerCase().startsWith(word),
