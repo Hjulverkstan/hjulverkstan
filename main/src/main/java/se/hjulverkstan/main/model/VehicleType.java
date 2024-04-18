@@ -4,5 +4,7 @@ public enum VehicleType {
     BIKE,
     SKATE,
     STROLLER,
-    SCOOTER
+    SCOOTER,
+    BATCH,
+    OTHER,
 }

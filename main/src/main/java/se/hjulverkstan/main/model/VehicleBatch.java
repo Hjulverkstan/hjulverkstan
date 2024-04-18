@@ -7,15 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
-
 @Entity
-@DiscriminatorValue("RENT")
-@Getter
 @Setter
+@Getter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class TicketRent extends Ticket {
-    private LocalDateTime endDate;
-    private boolean isOpen;
+@DiscriminatorValue("BATCH")
+public class VehicleBatch extends Vehicle {
+    private int batchCount;
 }

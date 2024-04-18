@@ -7,6 +7,7 @@ import se.hjulverkstan.main.model.VehicleBrakeType;
 import se.hjulverkstan.main.model.BikeSize;
 import se.hjulverkstan.main.model.BikeType;
 import se.hjulverkstan.main.model.VehicleBike;
+import se.hjulverkstan.main.model.VehicleBrand;
 
 @Setter
 @Getter
@@ -26,6 +27,9 @@ public class NewVehicleBikeDto extends NewVehicleDto {
     @NotNull(message = "Brake type is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleBrakeType brakeType;
+    @NotNull(message = "Brand is required")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private VehicleBrand brand;
 
     public NewVehicleBikeDto(VehicleBike vehicle) {
         super(vehicle);
@@ -33,5 +37,6 @@ public class NewVehicleBikeDto extends NewVehicleDto {
         this.gearCount = vehicle.getGearCount();
         this.size = vehicle.getSize();
         this.brakeType = vehicle.getBrakeType();
+        this.brand = vehicle.getBrand();
     }
 }

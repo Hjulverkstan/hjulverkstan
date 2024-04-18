@@ -16,11 +16,11 @@ public class Location extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Long id;
-
     private String address;
     private String name;
     @Enumerated(EnumType.STRING)
     private LocationType locationType;
-
     private String comment;
+    @OneToMany(mappedBy = "location")
+    private List<Vehicle> vehicles;
 }

@@ -22,11 +22,11 @@ export function SortHead({ col }: SortHeadProps) {
     <Button
       disabled={T.disabled}
       variant="ghost"
-      className="data-[state=open]:bg-accent -ml-3 h-8"
+      className="data-[state=open]:bg-accent flex h-8 justify-start pl-3 pr-2"
       onClick={() => T.toggleColSort(col.key)}
     >
       {col.name}
-      <Icon className="ml-2" />
+      <Icon className="ml-2 h-4 w-4" />
     </Button>
   );
 }

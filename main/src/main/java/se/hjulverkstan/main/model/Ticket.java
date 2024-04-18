@@ -22,9 +22,7 @@ public class Ticket extends Auditable {
     @Enumerated(EnumType.STRING)
     @Column(name = "ticket_type", insertable = false, updatable = false)
     private TicketType ticketType;
-    private boolean isOpen;
     private LocalDateTime startDate;
-    private LocalDateTime endDate;
     private String comment;
 
     @ManyToMany

@@ -5,12 +5,14 @@ export * from './auth';
 export * from './vehicle';
 export * from './ticket';
 export * from './customer';
+export * from './location';
 
 export const baseURL = 'http://localhost:8080/v1';
 
 export const endpoints = {
   vehicle: '/vehicle',
   ticket: '/ticket',
+  location: '/location',
   customer: '/customer',
   logIn: '/auth/login',
   logOut: '/auth/signout',
@@ -33,6 +35,17 @@ export const instance = axios.create({
   baseURL,
   timeout: 5000,
   withCredentials: true,
+});
+
+// Interceptor: Turn non 400 error responses into error (react query needs
+// errors to understand it is an error)
+
+instance.interceptors.response.use((response) => {
+  if (response.data.error) {
+    return Promise.reject(response.data);
+  }
+
+  return response;
 });
 
 /** Interceptor only does one refresh token request on a 401
@@ -65,7 +78,6 @@ instance.interceptors.response.use(
           refreshSuccessTime = Date.now();
           return Promise.reject(error);
         });
-
     }
     return Promise.reject(error);
   },
@@ -79,8 +91,10 @@ export interface ErrorRes {
 }
 
 export const createErrorHandler =
-  (endpoint: string) => (error: AxiosError<Omit<ErrorRes, 'endpoint'>>) =>
-    Promise.reject({
+  (endpoint: string) => (error: AxiosError<Omit<ErrorRes, 'endpoint'>>) => {
+    console.error(error);
+
+    return Promise.reject({
       endpoint,
       ...(error.response?.data ?? {
         error: error.code,
@@ -88,6 +102,7 @@ export const createErrorHandler =
         status: 400,
       }),
     });
+  };
 
 /**
  * Should be used on all responses to convert ids to strings. Manually use
@@ -107,6 +122,7 @@ export const parseResponseData = (obj: Record<string, any>) => {
     ...stringId('id'),
     ...stringId('employeeId'),
     ...stringId('customerId'),
+    ...stringId('locationId'),
     ...stringIds('vehicleIds'),
     ...stringIds('ticketIds'),
     ...stringId('createdBy'),

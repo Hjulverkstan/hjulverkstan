@@ -104,7 +104,7 @@ export const Head = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      `bg-background text-muted-foreground h-10 text-nowrap px-2 text-left
+      `bg-background text-muted-foreground h-10 text-nowrap text-left
       align-middle font-medium [&:has([role=checkbox])]:pr-0
       [&>[role=checkbox]]:translate-y-[2px]`,
       className,

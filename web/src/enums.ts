@@ -5,10 +5,13 @@ import {
   CircleFadingPlus,
   CircleSlash,
   Compass,
-  HandMetal,
   LucideIcon,
   Package,
   Wrench,
+  Warehouse,
+  HelpCircle,
+  AlertCircle,
+  Store,
 } from 'lucide-react';
 
 import { Row } from '@components/DataTable';
@@ -20,6 +23,8 @@ import {
   BikeSize,
   BikeType,
   StrollerType,
+  BikeBrand,
+  LocationType,
 } from '@api';
 
 //
@@ -61,29 +66,34 @@ export const toLabel = (enums: EnumAttributes[], key: string) => {
       `toLabel was given a key [${key}] that was not the options [${enums.map((e) => e.value).join()}]`,
     );
 
-  return enumAttr;
+  return { name: enumAttr.name, icon: enumAttr.icon };
 };
 
 // Vehicle
 
 // Shorthand so that enum atrributes can be onelines:
+
 const VS = VehicleStatus;
+const VT = VehicleType;
 
 export const vehicle = {
   vehicleType: [
     {
-      value: VehicleType.BIKE,
+      value: VT.BIKE,
       name: 'Bike',
       icon: Bike,
       children: Object.values(BikeType),
     },
     {
-      value: VehicleType.STROLLER,
+      value: VT.STROLLER,
       name: 'Stroller',
       icon: BabyIcon,
       children: Object.values(StrollerType),
     },
-    { value: VehicleType.SCOOTER, name: 'Scooter', icon: HandMetal },
+    { value: VT.SCOOTER, name: 'Scooter', icon: AlertCircle },
+    { value: VT.SKATE, name: 'Skate', icon: AlertCircle },
+    { value: VT.BATCH, name: 'Batch', icon: Warehouse },
+    { value: VT.OTHER, name: 'Other', icon: HelpCircle },
   ],
   bikeType: [
     { value: BikeType.BMX, name: 'BMX' },
@@ -115,6 +125,19 @@ export const vehicle = {
     { value: BikeSize.LARGE, name: 'L' },
     { value: BikeSize.EXTRA_LARGE, name: 'XL' },
   ],
+  brand: [
+    { value: BikeBrand.MONARK, name: 'Monark' },
+    { value: BikeBrand.SKEPPSHULT, name: 'Skeppshult' },
+    { value: BikeBrand.YOSEMITE, name: 'Yosemite' },
+    { value: BikeBrand.CRESCENT, name: 'Crescent' },
+    { value: BikeBrand.SPECIALIZED, name: 'Specialized' },
+    { value: BikeBrand.NISHIKI, name: 'Nishiki' },
+    { value: BikeBrand.SJOSALA, name: 'Sjösala' },
+    { value: BikeBrand.KRONAN, name: 'Kronan' },
+    { value: BikeBrand.PELAGO, name: 'Pelago' },
+    { value: BikeBrand.BIANCHI, name: 'Bianchi' },
+    { value: BikeBrand.OTHER, name: 'Other' },
+  ],
 };
 
 // Tickets
@@ -124,5 +147,14 @@ export const ticket = {
     { value: TicketType.RENT, name: 'Rent', icon: Compass },
     { value: TicketType.REPAIR, name: 'Repair', icon: Wrench },
     { value: TicketType.DONATE, name: 'Donate', icon: Package },
+  ],
+};
+
+// Tickets
+
+export const location = {
+  locationType: [
+    { value: LocationType.SHOP, name: 'Shop', icon: Store },
+    { value: LocationType.STORAGE, name: 'Storage', icon: Warehouse },
   ],
 };

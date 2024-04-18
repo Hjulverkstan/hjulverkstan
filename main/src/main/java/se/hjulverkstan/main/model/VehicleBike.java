@@ -20,4 +20,6 @@ public class VehicleBike extends Vehicle {
     private BikeSize size;
     @Enumerated(EnumType.STRING)
     private VehicleBrakeType brakeType;
+    @Enumerated(EnumType.STRING)
+    private VehicleBrand brand;
 }

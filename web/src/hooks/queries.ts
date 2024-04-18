@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
 
+import * as enums from '@enums';
 import * as api from '@api';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
 
@@ -26,8 +27,28 @@ export const useCustomers = () =>
 
 //
 
+export const useLocations = () =>
+  useQuery<api.Location[], api.ErrorRes>(api.createGetLocations());
+
+export const useLocationsAsEnums = () =>
+  useQuery<api.Location[], api.ErrorRes, enums.EnumAttributes[]>({
+    ...api.createGetLocations(),
+    select: (locations) =>
+      locations.map((location) => {
+        const { icon } = enums.location.locationType.find(
+          (e) => e.value === location.locationType,
+        )!;
+
+        return { icon, name: location.name, value: location.id };
+      }) ?? [],
+  });
+
+//
+
 export interface VehicleAggregated extends api.Vehicle {
+  location: api.Location;
   tickets: Array<{
+    id: string;
     isOpen: boolean;
     ticketType: api.TicketType;
     customerFirstName?: string;
@@ -36,12 +57,16 @@ export interface VehicleAggregated extends api.Vehicle {
 
 export const useVehiclesAggregated = () =>
   useAggregatedQueries(
-    (vehicles, tickets, customers): VehicleAggregated[] =>
+    (vehicles, tickets, customers, locations): VehicleAggregated[] =>
       vehicles.map((vehicle) => ({
         ...vehicle,
+        location: locations.find(
+          (location) => location.id === vehicle.locationId,
+        )!,
         tickets: vehicle.ticketIds
           .map((ticketId) => tickets.find((ticket) => ticket.id === ticketId)!)
           .map((ticket) => ({
+            id: ticket.id,
             isOpen: ticket.isOpen,
             ticketType: ticket.ticketType,
             customerFirstName: customers.find(
@@ -49,5 +74,5 @@ export const useVehiclesAggregated = () =>
             )?.firstName,
           })),
       })),
-    [useVehicles(), useTickets(), useCustomers()],
+    [useVehicles(), useTickets(), useCustomers(), useLocations()],
   );

@@ -32,6 +32,11 @@ export const omitKeys = (keys: string[], obj: Record<string, any>) =>
     Object.entries(obj).filter(([key, _]) => !keys.includes(key)),
   );
 
+export const pickKeys = (keys: string[], obj: Record<string, any>) =>
+  Object.fromEntries(
+    Object.entries(obj).filter(([key, _]) => keys.includes(key)),
+  );
+
 export const shallowEq = (
   a?: Record<string, any>,
   b?: Record<string, any>,

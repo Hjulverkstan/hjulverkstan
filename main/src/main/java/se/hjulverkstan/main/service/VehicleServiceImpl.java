@@ -3,36 +3,51 @@ package se.hjulverkstan.main.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.hjulverkstan.Exceptions.AlreadyUsedException;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.Exceptions.UnsupportedVehicleTypeException;
 import se.hjulverkstan.main.dto.vehicles.*;
 import se.hjulverkstan.main.dto.responses.*;
 import se.hjulverkstan.main.model.*;
+import se.hjulverkstan.main.repository.LocationRepository;
 import se.hjulverkstan.main.repository.VehicleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 
 @Service
 @Transactional
 public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
-    public static String ELEMENT_NAME = "Vehicle";
+    private final LocationRepository locationRepository;
+    public static String ELEMENT_VEHICLE = "Vehicle";
+    public static String ELEMENT_LOCATION = "Location";
 
     @Autowired
-    public VehicleServiceImpl(VehicleRepository vehicleRepository) {
+    public VehicleServiceImpl(VehicleRepository vehicleRepository, LocationRepository locationRepository) {
         this.vehicleRepository = vehicleRepository;
+        this.locationRepository = locationRepository;
     }
 
     @Override
     public VehicleDto createVehicle(NewVehicleDto newVehicle) {
+        //TODO Change so that it findsById instead of RegTag
+        if (vehicleRepository.findByRegTag(newVehicle.getRegTag()).isPresent()) {
+            throw new AlreadyUsedException("A vehicle with that regtag already exists");
+        }
         Vehicle vehicle = createSpecificVehicleType(newVehicle);
 
         vehicle.setVehicleStatus(newVehicle.getVehicleStatus());
         vehicle.setImageURL(newVehicle.getImageURL());
         vehicle.setComment(newVehicle.getComment());
         vehicle.setTickets(new ArrayList<>());
+        vehicle.setVehicleType(newVehicle.getVehicleType());
 
+        Location location = locationRepository.findById(newVehicle.getLocationId()).orElseThrow(() -> new ElementNotFoundException(ELEMENT_LOCATION));
+        vehicle.setLocation(location);
+
+        vehicle.setRegTag(newVehicle.getRegTag());
         vehicleRepository.save(vehicle);
 
         return convertToDto(vehicle);
@@ -52,47 +67,33 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDto deleteVehicle(Long id) {
-        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
         vehicleRepository.delete(vehicle);
         return convertToDto(vehicle);
     }
 
     @Override
     public VehicleDto getVehicleById(Long id) {
-        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
         return convertToDto(vehicle);
     }
 
     @Override
     public VehicleDto editVehicle(Long id, VehicleDto editVehicle) {
-        Vehicle selectedVehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+        Vehicle selectedVehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
 
-        if (editVehicle instanceof VehicleBikeDto editBikeDto && selectedVehicle instanceof VehicleBike selectedBike) {
-            selectedBike.setBikeType(editBikeDto.getBikeType());
-            selectedBike.setGearCount(editBikeDto.getGearCount());
-            selectedBike.setSize(editBikeDto.getSize());
-            selectedBike.setBrakeType(editBikeDto.getBrakeType());
-            selectedVehicle.setVehicleType(VehicleType.BIKE);
-
-        } else if (editVehicle instanceof VehicleStrollerDto editStrollerDto && selectedVehicle instanceof VehicleStroller selectedStroller) {
-            selectedStroller.setStrollerType(editStrollerDto.getStrollerType());
-            selectedStroller.setFoldable(editStrollerDto.getIsFoldable());
-            selectedStroller.setHasStorageBasket(editStrollerDto.getHasStorageBasket());
-            selectedVehicle.setVehicleType(VehicleType.STROLLER);
-
-        } else if (editVehicle instanceof VehicleScooterDto editScooterDto && selectedVehicle instanceof VehicleScooter selectedScooter) {
-            selectedScooter.setFoldable(editScooterDto.getIsFoldable());
-            selectedScooter.setBrakeType(editScooterDto.getBrakeType());
-            selectedScooter.setScooterType(editScooterDto.getScooterType());
-            selectedVehicle.setVehicleType(VehicleType.SCOOTER);
-
-        } else {
-            throw new UnsupportedVehicleTypeException(ELEMENT_NAME);
-        }
+        editSpecificVehicleProperties(editVehicle, selectedVehicle);
 
         selectedVehicle.setVehicleStatus(editVehicle.getVehicleStatus());
         selectedVehicle.setImageURL(editVehicle.getImageURL());
         selectedVehicle.setComment(editVehicle.getComment());
+
+
+        Location location = locationRepository.findById(editVehicle.getLocationId()).orElseThrow(() ->
+                new ElementNotFoundException(ELEMENT_LOCATION));
+        selectedVehicle.setLocation(location);
+
+        selectedVehicle.setRegTag(editVehicle.getRegTag());
 
         vehicleRepository.save(selectedVehicle);
 
@@ -107,10 +108,15 @@ public class VehicleServiceImpl implements VehicleService {
         } else if (vehicle instanceof VehicleStroller) {
             return new VehicleStrollerDto((VehicleStroller) vehicle);
 
-        } else if (vehicle instanceof VehicleScooter) {
-            return new VehicleScooterDto((VehicleScooter) vehicle);
+        } else if (vehicle instanceof VehicleGeneric) {
+            return new VehicleGenericDto((VehicleGeneric) vehicle);
+
+        } else if (vehicle instanceof VehicleBatch) {
+            return new VehicleBatchDto((VehicleBatch) vehicle);
+
+        } else {
+            return new VehicleDto(vehicle);
         }
-        return new VehicleDto(vehicle);
     }
 
     private static Vehicle createSpecificVehicleType(NewVehicleDto newVehicle) {
@@ -120,39 +126,64 @@ public class VehicleServiceImpl implements VehicleService {
         } else if (newVehicle instanceof NewVehicleStrollerDto newStrollerDto) {
             return getVehicleStroller(newStrollerDto);
 
-        } else if (newVehicle instanceof NewVehicleScooterDto newScooterDto) {
-            return getVehicleScooter(newScooterDto);
+        } else if (newVehicle instanceof NewVehicleGenericDto newVehicleGenericDto) {
+            return getVehicleGeneric(newVehicleGenericDto);
+
+        } else if (newVehicle instanceof NewVehiclebatchDto newVehiclebatchDto) {
+            return getVehicleBatch(newVehiclebatchDto);
 
         } else {
             throw new UnsupportedVehicleTypeException("The vehicletype is not supported");
         }
     }
 
+    private static void editSpecificVehicleProperties(VehicleDto editVehicle, Vehicle selectedVehicle) {
+        if (editVehicle instanceof VehicleBikeDto editBikeDto && selectedVehicle instanceof VehicleBike selectedBike) {
+            selectedBike.setBikeType(editBikeDto.getBikeType());
+            selectedBike.setGearCount(editBikeDto.getGearCount());
+            selectedBike.setSize(editBikeDto.getSize());
+            selectedBike.setBrakeType(editBikeDto.getBrakeType());
+            selectedBike.setBrand(editBikeDto.getBrand());
+
+        } else if (editVehicle instanceof VehicleStrollerDto editStrollerDto && selectedVehicle instanceof VehicleStroller selectedStroller) {
+            selectedStroller.setStrollerType(editStrollerDto.getStrollerType());
+
+        } else if (editVehicle instanceof VehicleGenericDto editGenericDto && selectedVehicle instanceof VehicleGeneric selectedGeneric) {
+            selectedGeneric.setVehicleType(editGenericDto.getVehicleType());
+
+        } else if (editVehicle instanceof VehicleBatchDto editBatchDto && selectedVehicle instanceof VehicleBatch selectedBatch) {
+            selectedBatch.setBatchCount(editBatchDto.getBatchCount());
+        } else {
+            throw new UnsupportedVehicleTypeException(ELEMENT_VEHICLE);
+        }
+    }
+
     private static VehicleBike getVehicleBike(NewVehicleBikeDto newBikeDto) {
         VehicleBike vehicleBike = new VehicleBike();
-        vehicleBike.setVehicleType(VehicleType.BIKE);
         vehicleBike.setBikeType(newBikeDto.getBikeType());
         vehicleBike.setGearCount(newBikeDto.getGearCount());
         vehicleBike.setSize(newBikeDto.getSize());
         vehicleBike.setBrakeType(newBikeDto.getBrakeType());
+        vehicleBike.setBrand(newBikeDto.getBrand());
         return vehicleBike;
     }
 
     private static VehicleStroller getVehicleStroller(NewVehicleStrollerDto newStrollerDto) {
         VehicleStroller vehicleStroller = new VehicleStroller();
-        vehicleStroller.setVehicleType(VehicleType.STROLLER);
-        vehicleStroller.setFoldable(newStrollerDto.getIsFoldable());
-        vehicleStroller.setHasStorageBasket(newStrollerDto.getHasStorageBasket());
         vehicleStroller.setStrollerType(newStrollerDto.getStrollerType());
         return vehicleStroller;
     }
 
-    private static VehicleScooter getVehicleScooter(NewVehicleScooterDto newScooterDto) {
-        VehicleScooter vehicleScooter = new VehicleScooter();
-        vehicleScooter.setVehicleType(VehicleType.SCOOTER);
-        vehicleScooter.setFoldable(newScooterDto.getIsFoldable());
-        vehicleScooter.setBrakeType(newScooterDto.getBrakeType());
-        vehicleScooter.setScooterType(newScooterDto.getScooterType());
-        return vehicleScooter;
+    private static VehicleGeneric getVehicleGeneric(NewVehicleGenericDto newGenericDto) {
+        VehicleGeneric vehicleGeneric = new VehicleGeneric();
+        vehicleGeneric.setVehicleType(newGenericDto.getVehicleType());
+        return vehicleGeneric;
+    }
+
+    private static VehicleBatch getVehicleBatch(NewVehiclebatchDto newBatchDto) {
+        VehicleBatch vehicleBatch = new VehicleBatch();
+        vehicleBatch.setBatchCount(newBatchDto.getBatchCount());
+       // vehicleBatch.setVehicleType(newBatchDto.getVehicleType());
+        return vehicleBatch;
     }
 }

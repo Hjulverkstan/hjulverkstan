@@ -3,12 +3,12 @@ package se.hjulverkstan.main.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.model.Location;
 import se.hjulverkstan.main.model.LocationType;
+import se.hjulverkstan.main.model.Vehicle;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +27,7 @@ public class LocationDto {
     @NotNull(message = "LocationType is required")
     private LocationType locationType;
     private String comment;
-
+    private List<Long> vehicleIds;
     // Metadata
     private Long createdBy;
     private LocalDateTime createdAt;
@@ -40,6 +40,7 @@ public class LocationDto {
                 location.getName(),
                 location.getLocationType(),
                 location.getComment(),
+                location.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 location.getCreatedBy(),
                 location.getCreatedAt(),
                 location.getUpdatedAt(),

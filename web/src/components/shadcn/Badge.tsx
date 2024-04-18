@@ -15,24 +15,25 @@ const badgeVariants = cva(
           hover:bg-secondary/80`,
         ],
         destructive: [
-          [
-            `border-box border-destructive-border bg-destructive-fill
-            text-destructive-foreground hover:bg-destructive-fill/80`,
-          ],
+          `border-box border-destructive-border bg-destructive-fill
+          text-destructive-foreground hover:bg-destructive-fill/80`,
+        ],
+        destructiveOutline: [
+          'border-box border-destructive-border text-destructive-foreground',
         ],
         warn: [
-          [
-            `border-box border-warn-border bg-warn-fill text-warn-foreground
-            hover:bg-warn-fill/80`,
-          ],
+          `border-box border-warn-border bg-warn-fill text-warn-foreground
+          hover:bg-warn-fill/80`,
         ],
+        warnOutline: ['border-box border-warn-border text-warn-foreground'],
         success: [
-          [
-            `border-box border-success-border bg-success-fill
-            text-success-foreground hover:bg-success-fill/80`,
-          ],
+          `border-box border-success-border bg-success-fill
+          text-success-foreground hover:bg-success-fill/80`,
         ],
-        outline: 'text-foreground',
+        successOutline: [
+          'border-box border-success-border text-success-foreground',
+        ],
+        outline: ['text-foreground/70'],
       },
       borderless: {
         yes: 'border-transparent',

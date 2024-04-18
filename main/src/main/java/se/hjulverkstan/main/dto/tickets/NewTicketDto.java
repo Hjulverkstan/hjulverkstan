@@ -24,8 +24,6 @@ public class NewTicketDto {
     @NotNull(message = "Start date is required")
     private LocalDateTime startDate;
 
-    private LocalDateTime endDate;
-
     private String comment;
 
     @NotNull(message = "List of vehicles is required")
@@ -41,7 +39,6 @@ public class NewTicketDto {
     public NewTicketDto(Ticket ticket) {
         this(ticket.getTicketType(),
                 ticket.getStartDate(),
-                ticket.getEndDate(),
                 ticket.getComment(),
                 ticket.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 ticket.getEmployee().getId(),

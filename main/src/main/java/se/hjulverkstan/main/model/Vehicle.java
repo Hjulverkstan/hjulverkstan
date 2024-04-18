@@ -9,13 +9,14 @@ import java.util.List;
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "vehicle_type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "vehicle_class", discriminatorType = DiscriminatorType.STRING)
 public class Vehicle extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
+    private String regTag;
     @Enumerated(EnumType.STRING)
-    @Column(name = "vehicle_type", insertable = false, updatable = false)
     private VehicleType vehicleType;
     @Enumerated(EnumType.STRING)
     private VehicleStatus vehicleStatus;
@@ -23,4 +24,7 @@ public class Vehicle extends Auditable {
     private String comment;
     @ManyToMany(mappedBy = "vehicles")
     private List<Ticket> tickets;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 }

@@ -14,4 +14,5 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class TicketDonate extends Ticket {
+
 }

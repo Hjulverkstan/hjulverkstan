@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 
-import * as U from '@utils';
 import * as Q from '@hooks/queries';
 import * as M from '@hooks/mutations';
-import { Vehicle, VehicleType } from '@api';
+import { Vehicle, VehicleStatus, VehicleType } from '@api';
 import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
@@ -14,6 +13,7 @@ import { useToast } from '@components/shadcn/use-toast';
 import { Dialog, DialogTrigger } from '@components/shadcn/Dialog';
 import { IconButton } from '@components/shadcn/Button';
 import BadgeGroup from '@components/BadgeGroup';
+import { Badge } from '@components/shadcn/Badge';
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import IconLabel from '@components/IconLabel';
 import { fuzzyMatchFn } from '@components/DataTable';
@@ -32,6 +32,22 @@ import { createSuccessToast, createErrorToast } from './toast';
 
 const columns: Array<DataTable.Column<VehicleAggregated>> = [
   {
+    key: 'regTag',
+    name: 'Reg.',
+    renderFn: ({ regTag }) => <Badge variant="outline">{regTag}</Badge>,
+  },
+  {
+    key: 'location',
+    name: 'Location',
+    renderFn: ({ location }) => {
+      const icon = enums.location.locationType.find(
+        (e) => e.value === location.locationType,
+      )?.icon;
+
+      return <BadgeGroup badges={[{ label: location.name, icon }]} />;
+    },
+  },
+  {
     key: 'vehicleType',
     name: 'Type',
     renderFn: ({ vehicleType, bikeType, strollerType }) => (
@@ -49,9 +65,21 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
   {
     key: 'vehicleStatus',
     name: 'Status',
-    renderFn: ({ vehicleStatus }) => (
-      <IconLabel {...toLabel(enums.vehicle.vehicleStatus, vehicleStatus)} />
-    ),
+    renderFn: ({ vehicleStatus }) => {
+      if (vehicleStatus) {
+        const { icon, name: label } = enums.vehicle.vehicleStatus.find(
+          (e) => e.value === vehicleStatus,
+        )!;
+
+        const variant = {
+          [VehicleStatus.AVAILABLE]: 'successOutline',
+          [VehicleStatus.UNAVAILABLE]: 'warnOutline',
+          [VehicleStatus.BROKEN]: 'destructiveOutline',
+        }[vehicleStatus] as any;
+
+        return <BadgeGroup badges={[{ label, icon, variant }]} />;
+      }
+    },
   },
   {
     key: 'ticketIds',
@@ -72,6 +100,12 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
 
       return <BadgeGroup badges={[...open, ...closed]} />;
     },
+  },
+  {
+    key: 'brand',
+    name: 'Brand',
+    renderFn: ({ brand }) =>
+      brand && <IconLabel {...toLabel(enums.vehicle.brand, brand)} />,
   },
   {
     key: 'size',
@@ -96,6 +130,11 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
       ),
   },
   {
+    key: 'batchCount',
+    name: 'Batch count',
+    renderFn: ({ batchCount }) => !!batchCount && <span>{batchCount}</span>,
+  },
+  {
     key: 'comment',
     name: 'Comment',
     renderFn: (row) => (
@@ -107,19 +146,37 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
 // parseMutation: Depending on the vehicle type when submitting a mutation,
 //   clear all fields that could of been set by another vehicle type.
 
-const vehicleTypePropsMap = {
-  [VehicleType.BIKE]: ['vehicleType', 'size', 'gearCount', 'brakeType'],
-  [VehicleType.SCOOTER]: ['scooterType'],
-  [VehicleType.STROLLER]: ['strollerType'],
-};
-
-const parseMutation = (body: Vehicle) =>
-  U.omitKeys(
-    Object.entries(vehicleTypePropsMap)
-      .map(([type, keys]) => (type !== body.vehicleType ? keys : []))
-      .flat(),
-    body,
-  );
+const parseMutation = ({
+  id,
+  locationId,
+  imageURL,
+  ticketIds,
+  comment,
+  regTag,
+  vehicleStatus,
+  vehicleType,
+  size,
+  gearCount,
+  brakeType,
+  brand,
+  bikeType,
+  strollerType,
+  batchCount,
+}: Vehicle) => ({
+  id,
+  locationId: Number(locationId),
+  imageURL,
+  ticketIds,
+  comment,
+  vehicleType,
+  ...(vehicleType !== VehicleType.BATCH
+    ? { regTag, vehicleStatus }
+    : { batchCount }),
+  ...(vehicleType === VehicleType.BIKE
+    ? { size, gearCount, brakeType, brand, bikeType }
+    : {}),
+  ...(vehicleType === VehicleType.STROLLER ? { strollerType } : {}),
+});
 
 //
 
@@ -134,6 +191,10 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
   const vehicleQ = Q.useVehicle({ id });
   const createVehicleM = M.useCreateVehicle();
   const editVehicleM = M.useEditVehicle();
+
+  // Used here because DataForm isLoading should include locationsQ as it is
+  // used in one of the fields
+  const locationsQ = Q.useLocations();
 
   const isTableDisabled = [Mode.CREATE, Mode.EDIT].includes(mode);
 
@@ -159,14 +220,14 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
         {mode && (
           <DataForm.Provider
             mode={mode}
-            isLoading={vehicleQ.isLoading}
+            isLoading={vehicleQ.isLoading || locationsQ.isLoading}
             data={vehicleQ.data}
             zodSchema={vehicleZ}
             initCreateBody={initVehicle}
           >
             <PortalForm
               dataLabel="Vehicle"
-              error={vehicleQ.error}
+              error={vehicleQ.error || locationsQ.error}
               isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}
               saveMutation={editVehicleM.mutateAsync}
               createMutation={createVehicleM.mutateAsync}
@@ -184,19 +245,28 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
 //
 
 function Filters() {
+  const locationEnumsQ = Q.useLocationsAsEnums();
+  const locationEnumMap = { locationId: locationEnumsQ.data ?? [] };
+
   return (
     <>
       <DataTable.FilterSearch
         placeholder="Search..."
         matchFn={(word, row: VehicleAggregated) =>
           enumMatchFn(enums.vehicle, word, row) ||
-          fuzzyMatchFn(['comment'], word, row) ||
+          fuzzyMatchFn(['comment', 'regTag'], word, row) ||
           word === String(row.gearCount) ||
           row.tickets.some((ticket) =>
             ticket.customerFirstName?.toLowerCase().includes(word),
           )
         }
       />
+      <DataTable.FilterPopover label="Location">
+        <DataTable.FilterMultiSelect
+          filterKey="location"
+          rowEnumAttrMap={locationEnumMap}
+        />
+      </DataTable.FilterPopover>
       <DataTable.FilterPopover label="Type">
         <DataTable.FilterMultiSelect
           filterKey="vehicle-type"
@@ -213,7 +283,7 @@ function Filters() {
           rowEnumAttrMap={{ vehicleStatus: enums.vehicle.vehicleStatus }}
         />
       </DataTable.FilterPopover>
-      <DataTable.FilterPopover label="Details">
+      <DataTable.FilterPopover label="Details" hasSearch>
         <DataTable.FilterMultiSelect
           heading="Bike Size"
           filterKey="size"
@@ -224,6 +294,11 @@ function Filters() {
           filterKey="brakes"
           rowEnumAttrMap={{ brakeType: enums.vehicle.brakeType }}
         />
+        <DataTable.FilterMultiSelect
+          heading="Brand"
+          filterKey="brands"
+          rowEnumAttrMap={{ brand: enums.vehicle.brand }}
+        />
       </DataTable.FilterPopover>
     </>
   );
@@ -231,23 +306,32 @@ function Filters() {
 
 function Fields() {
   const { body, mode } = DataForm.useDataForm();
+  const locationEnumsQ = Q.useLocationsAsEnums();
 
   return (
     <>
+      {body.vehicleType !== VehicleType.BATCH && (
+        <DataForm.Input
+          type="string"
+          placeholder="ex 'WASD'"
+          label="Regtag"
+          dataKey="regTag"
+        />
+      )}
+
+      <DataForm.Select
+        label="Location"
+        dataKey="locationId"
+        options={locationEnumsQ.data ?? []}
+      />
+
       <DataForm.Select
         label="Vehicle type"
         dataKey="vehicleType"
         options={enums.vehicle.vehicleType}
         disabled={mode === Mode.EDIT}
       />
-      {body.vehicleType === VehicleType.BIKE && (
-        <DataForm.Select
-          key={body.vehicleType}
-          label="Bike type"
-          dataKey="bikeType"
-          options={enums.vehicle.bikeType}
-        />
-      )}
+
       {body.vehicleType === VehicleType.STROLLER && (
         <DataForm.Select
           key={body.vehicleType}
@@ -256,21 +340,37 @@ function Fields() {
           options={enums.vehicle.strollerType}
         />
       )}
-      {body.vehicleType === VehicleType.STROLLER && (
-        <DataForm.Select
-          key={body.vehicleType}
-          label="Stroller type"
-          dataKey="strollerType"
-          options={enums.vehicle.strollerType}
+
+      {body.vehicleType === VehicleType.BATCH && (
+        <DataForm.Input
+          type="number"
+          label="Batch count"
+          dataKey="batchCount"
+          placeholder={'Set number of vehicles'}
         />
       )}
-      <DataForm.Select
-        label="Vehicle status"
-        dataKey="vehicleStatus"
-        options={enums.vehicle.vehicleStatus}
-      />
+
+      {body.vehicleType !== VehicleType.BATCH && (
+        <DataForm.Select
+          label="Vehicle status"
+          dataKey="vehicleStatus"
+          options={enums.vehicle.vehicleStatus}
+        />
+      )}
+
       {body.vehicleType === VehicleType.BIKE && (
         <>
+          <DataForm.Select
+            key={body.vehicleType}
+            label="Bike type"
+            dataKey="bikeType"
+            options={enums.vehicle.bikeType}
+          />
+          <DataForm.Select
+            label="Brand"
+            dataKey="brand"
+            options={enums.vehicle.brand}
+          />
           <DataForm.Select
             label="Size"
             dataKey="size"
@@ -292,6 +392,7 @@ function Fields() {
           />
         </>
       )}
+
       <DataForm.Input
         placeholder="Write a comment..."
         label="Comment"

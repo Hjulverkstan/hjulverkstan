@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Entity
 @DiscriminatorValue("REPAIR")
 @Getter
@@ -15,4 +17,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class TicketRepair extends Ticket {
     private String repairDescription;
+    private LocalDateTime endDate;
+    private boolean isOpen;
 }

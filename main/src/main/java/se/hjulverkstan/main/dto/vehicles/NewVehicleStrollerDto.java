@@ -13,10 +13,6 @@ import se.hjulverkstan.main.model.VehicleStroller;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewVehicleStrollerDto extends NewVehicleDto {
-    @NotNull(message = "The field 'isFoldable' should not be null")
-    private Boolean isFoldable;
-    @NotNull(message = "The field 'hasStorageBasket' should not be null")
-    private Boolean hasStorageBasket;
     @NotNull(message = "Stroller type is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private StrollerType strollerType;
@@ -24,8 +20,6 @@ public class NewVehicleStrollerDto extends NewVehicleDto {
     //This constructor may or may not be needed. If not, remove!
     public NewVehicleStrollerDto(VehicleStroller vehicleStroller) {
         super(vehicleStroller);
-        this.isFoldable = vehicleStroller.isFoldable();
-        this.hasStorageBasket = vehicleStroller.isHasStorageBasket();
         this.strollerType = vehicleStroller.getStrollerType();
     }
 }

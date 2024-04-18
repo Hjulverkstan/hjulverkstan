@@ -13,8 +13,6 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue(("STROLLER"))
 public class VehicleStroller extends Vehicle {
-    private boolean isFoldable;
-    private boolean hasStorageBasket;
     @Enumerated(EnumType.STRING)
     private StrollerType strollerType;
 }

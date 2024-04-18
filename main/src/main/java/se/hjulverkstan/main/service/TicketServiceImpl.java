@@ -87,12 +87,17 @@ public class TicketServiceImpl implements TicketService {
         // Sub-ticket attributes
         if (ticketDto instanceof TicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
+            ticketRepair.setEndDate(repairDto.getEndDate());
+            ticketRepair.setOpen(repairDto.getIsOpen());
+
+        } else if (ticketDto instanceof TicketRentDto rentDto && selectedTicket instanceof TicketRent ticketRent) {
+            ticketRent.setOpen(rentDto.getIsOpen());
+            ticketRent.setEndDate(rentDto.getEndDate());
+
         }
 
         // General Ticket attributes
-        selectedTicket.setOpen(ticketDto.getIsOpen());
         selectedTicket.setStartDate(ticketDto.getStartDate());
-        selectedTicket.setEndDate(ticketDto.getEndDate());
         selectedTicket.setComment(ticketDto.getComment());
 
         List<Vehicle> vehicles = getTicketVehicleList(ticketDto.getVehicleIds());
@@ -129,13 +134,16 @@ public class TicketServiceImpl implements TicketService {
         //Sub-ticket attributes
         if (newTicket instanceof NewTicketRepairDto repairDto && ticket instanceof TicketRepair ticketRepair) {
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
+            ticketRepair.setOpen(repairDto.getIsOpen());
+            ticketRepair.setEndDate(repairDto.getEndDate());
+        } else if (newTicket instanceof NewTicketRentDto rentDto && ticket instanceof TicketRent ticketRent) {
+            ticketRent.setEndDate(rentDto.getEndDate());
+            ticketRent.setOpen(rentDto.getIsOpen());
         }
 
         // General Ticket attributes
         ticket.setTicketType(newTicket.getTicketType());
-        ticket.setOpen(true);
         ticket.setStartDate(newTicket.getStartDate());
-        ticket.setEndDate(newTicket.getEndDate());
         ticket.setComment(newTicket.getComment());
 
         List<Vehicle> vehicles = getTicketVehicleList(newTicket.getVehicleIds());

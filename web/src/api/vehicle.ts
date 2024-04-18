@@ -4,8 +4,11 @@ import { instance, endpoints, createErrorHandler, parseResponseData } from './';
 
 export enum VehicleType {
   BIKE = 'BIKE',
-  SCOOTER = 'SCOOTER',
   STROLLER = 'STROLLER',
+  BATCH = 'BATCH',
+  SKATE = 'SKATE',
+  OTHER = 'OTHER',
+  SCOOTER = 'SCOOTER',
 }
 
 export enum VehicleStatus {
@@ -43,28 +46,39 @@ export enum StrollerType {
   DOUBLE = 'DOUBLE',
 }
 
-export enum ScooterType {
-  STANDARD = 'STANDARD',
-  ELECTRIC = 'ELECTRIC',
-  STUNT = 'STUNT',
-  OFF_ROAD = 'OFF_ROAD',
+export enum BikeBrand {
+  MONARK = 'MONARK',
+  SKEPPSHULT = 'SKEPPSHULT',
+  YOSEMITE = 'YOSEMITE',
+  CRESCENT = 'CRESCENT',
+  SPECIALIZED = 'SPECIALIZED',
+  NISHIKI = 'NISHIKI',
+  SJOSALA = 'SJÖSALA',
+  KRONAN = 'KRONAN',
+  PELAGO = 'PELAGO',
+  BIANCHI = 'BIANCHI',
+  OTHER = 'OTHER',
 }
 
 export interface Vehicle {
   id: string;
   vehicleType: VehicleType;
   vehicleStatus: VehicleStatus;
-  imageUrl: string;
+  imageURL: string;
   comment: string;
   ticketIds: string[];
+  regTag: string;
+  locationId: string;
   //
-  strollerType: StrollerType;
-  scooterType: ScooterType;
+  strollerType?: StrollerType;
   //
   bikeType?: BikeType;
   size?: BikeSize;
   brakeType?: BrakeType;
   gearCount?: number;
+  brand?: BikeBrand;
+  //
+  batchCount?: number;
   //
   createdAt: number | null;
   updatedAt: number | null;
@@ -110,19 +124,20 @@ export type CreateVehicleRes = Vehicle;
 
 export type CreateVehicleParams = Omit<Vehicle, 'id'>;
 
-const vehicleSlugMap = {
-  [VehicleType.BIKE]: 'bike',
-  [VehicleType.STROLLER]: 'stroller',
-  [VehicleType.SCOOTER]: 'scooter',
+const toVehicleUrl = (vehicleType: VehicleType, id?: string) => {
+  const slug = {
+    [VehicleType.BIKE]: '/bike',
+    [VehicleType.STROLLER]: '/stroller',
+    [VehicleType.BATCH]: '/batch',
+  }[vehicleType];
+
+  return endpoints.vehicle + (slug ?? '') + (id ? `/${id}` : '');
 };
 
 export const createVehicle = () => ({
   mutationFn: (body: CreateVehicleParams) =>
     instance
-      .post<CreateVehicleRes>(
-        `${endpoints.vehicle}/${vehicleSlugMap[body.vehicleType]}`,
-        body,
-      )
+      .post<CreateVehicleRes>(toVehicleUrl(body.vehicleType), body)
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });
@@ -136,10 +151,7 @@ export type EditVehicleParams = Vehicle;
 export const editVehicle = () => ({
   mutationFn: (body: EditVehicleParams) =>
     instance
-      .put<EditVehicleRes>(
-        `${endpoints.vehicle}/${vehicleSlugMap[body.vehicleType]}/${body.id}?edit`,
-        body,
-      )
+      .put<EditVehicleRes>(toVehicleUrl(body.vehicleType, body.id), body)
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });

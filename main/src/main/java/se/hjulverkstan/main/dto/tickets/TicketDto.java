@@ -23,13 +23,8 @@ public class TicketDto {
     @NotNull(message = "Ticket type is required")
     private TicketType ticketType;
 
-    @NotNull(message = "Ticket status is required")
-    private Boolean isOpen;
-
     @NotNull(message = "Start date is required")
     private LocalDateTime startDate;
-
-    private LocalDateTime endDate;
 
     private String comment;
 
@@ -51,9 +46,7 @@ public class TicketDto {
     public TicketDto(Ticket ticket) {
         this(ticket.getId(),
                 ticket.getTicketType(),
-                ticket.isOpen(),
                 ticket.getStartDate(),
-                ticket.getEndDate(),
                 ticket.getComment(),
                 ticket.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 ticket.getEmployee().getId(),

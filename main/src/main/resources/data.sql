@@ -2,8 +2,8 @@
 
 INSERT INTO Location
 (address,           name,           location_type, comment,                    created_at,  updated_at, created_by, updated_by) VALUES
-('123 Main Street', 'Hjulverkstan', 'SHOP',        'Sample location 1 comment', NOW(),      NOW(),      1,          1         ),
-('456 Elm Street',  'Hjulverkstan', 'SHOP',        'Sample location 2 comment', NOW(),      NOW(),      1,          1         );
+('123 Main Street', 'Hjällbo', 'SHOP',        'Sample location 1 comment', NOW(),      NOW(),      1,          1         ),
+('456 Elm Street',  'Backa', 'SHOP',        'Sample location 2 comment', NOW(),      NOW(),      1,          1         );
 
 --
 
@@ -22,16 +22,15 @@ INSERT INTO Customer
 ('PERSON',       'Emil',     'Berglund', '1234567890',             null,             '1234567890',  'emil@example.com',     NOW(),      NOW(),      1,          1         ),
 ('ORGANIZATION', 'Bosse',    'Boström',  '7894561230',             'Biltema',        '9876543210',  'bosseboss@biltema.se', NOW(),      NOW(),      1,          1         );
 
---
 
 INSERT INTO vehicle
-(vehicle_type, vehicle_status, imageurl,          comment,                        bike_type,  gear_count, size,     brake_type, created_at, updated_at, created_by, updated_by) VALUES
-('BIKE',        'AVAILABLE',    'image_url_1.jpg',  null,                          'CHILD',    1,          'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
-('BIKE',        'AVAILABLE',    'image_url_1.jpg',  null,                          'ROAD',     12,         'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
-('BIKE',        'BROKEN',       'image_url_1.jpg',  'Can not ever be repaired...', 'ROAD',     12,         'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
-('BIKE',        'AVAILABLE',    'image_url_1.jpg',  null,                          'BMX',      1,          'MEDIUM', 'DISC',     NOW(),      NOW(),      1,          1         ),
-('BIKE',        'UNAVAILABLE',  'image_url_2.jpg', 'This bike weighs nothing!',    'ROAD',     18,         'LARGE',  'CALIPER',  NOW(),      NOW(),      1,          1         ),
-('BIKE',        'AVAILABLE',    'image_url_3.jpg', 'Bulletproof tires',            'ELECTRIC', 15,         'SMALL',  'DISC',     NOW(),      NOW(),      1,          1         );
+(location_id, vehicle_type, vehicle_status, imageurl,          comment,                        bike_type,  gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class, created_at, updated_at, created_by, updated_by) VALUES
+(1,          'BIKE',       'AVAILABLE',    'image_url_1.jpg',  null,                           'CHILD',    1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  'HGJF',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(1,          'BIKE',       'AVAILABLE',    'image_url_1.jpg',  null,                           'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(1,          'BIKE',       'BROKEN',       'image_url_1.jpg',  'Can not ever be repaired...',  'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'VBNM',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(2,          'BIKE',       'AVAILABLE',    'image_url_1.jpg',  null,                           'BMX',      1,          'MEDIUM', 'DISC',         'KRONAN',      'DFGH',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(2,          'BIKE',       'UNAVAILABLE',  'image_url_2.jpg', 'This bike weighs nothing!',     'ROAD',     18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(2,          'BIKE',       'AVAILABLE',    'image_url_3.jpg', 'Bulletproof tires',             'ELECTRIC', 15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',        NOW(),      NOW(),      1,          1         );
 
 --
 
@@ -52,7 +51,7 @@ INSERT INTO Ticket_Vehicle
 --
 
 INSERT INTO users
-(id, username, email,               password                                                      ) VALUES           
+(id, username, email,               password                                                      ) VALUES
 (1,  'admin',  'admin@example.com', '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO'),
 (2,  'user',   'user@example.com',  '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO');
 
