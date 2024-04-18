@@ -1,6 +1,7 @@
 package se.hjulverkstan.main.security.services;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +31,26 @@ public class AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        return getUserDetails(authentication);
+    }
+
+    public MessageResponse signOut(Long id) {
+        refreshTokenService.deleteByUserId(id);
+        SecurityContextHolder.clearContext();
+        return new MessageResponse("Log out successful!");
+    }
+
+    public UserDetails verifyAuth() throws InsufficientAuthenticationException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new InsufficientAuthenticationException("User is not authenticated");
+        }
+
+        return getUserDetails(authentication);
+    }
+
+    private static UserDetails getUserDetails(Authentication authentication) {
         UserDetailsImplementation userDetails = (UserDetailsImplementation) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -40,11 +61,5 @@ public class AuthService {
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles);
-    }
-
-    public MessageResponse signOut(Long id) {
-        refreshTokenService.deleteByUserId(id);
-        SecurityContextHolder.clearContext();
-        return new MessageResponse("Log out successful!");
     }
 }

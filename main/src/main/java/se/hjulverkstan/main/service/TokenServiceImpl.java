@@ -25,8 +25,8 @@ public class TokenServiceImpl implements TokenService {
         String jwt = jwtUtils.generateToken(userDetails.getUsername());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
 
-        setAuthenticationCookie(response, "accessToken", jwt);
-        setAuthenticationCookie(response, "refreshToken", refreshToken.getToken());
+        setJwtCookie(response, jwt);
+        setRefreshCookie(response, refreshToken.getToken());
     }
 
     public void refreshToken(HttpServletResponse response, String requestRefreshToken) {
@@ -45,14 +45,22 @@ public class TokenServiceImpl implements TokenService {
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
                         "Refresh token is not in database!"));
 
-        setAuthenticationCookie(response, "accessToken", refreshedTokens.get("accessToken"));
-        setAuthenticationCookie(response, "refreshToken", refreshedTokens.get("refreshToken"));
+        setJwtCookie(response, refreshedTokens.get("accessToken"));
+        setRefreshCookie(response, refreshedTokens.get("refreshToken"));
     }
 
-    private void setAuthenticationCookie(HttpServletResponse response, String name, String token) {
-        Cookie cookie = new Cookie(name, token);
+    private void setJwtCookie(HttpServletResponse response, String token) {
+        Cookie cookie = new Cookie("accessToken", token);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+    }
+
+    private void setRefreshCookie(HttpServletResponse response, String token) {
+        Cookie cookie = new Cookie("refreshToken", token);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/v1/auth/refreshtoken");
         cookie.setSecure(true);
         response.addCookie(cookie);
     }

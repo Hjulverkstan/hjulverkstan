@@ -1,6 +1,5 @@
 package se.hjulverkstan.main.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -63,18 +62,13 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth ->
-                       /* auth.requestMatchers("/v1/auth/user/signup",
-                                             "/v1/auth/user/login",
-                                             "/v1/auth/user/refreshToken")
-                        .permitAll()
-
-                                .anyRequest().authenticated()*/
-                        auth.requestMatchers("/v1/auth/**",
-                                "/v1/user/signup")
-                                .permitAll()
-                                .anyRequest().authenticated()
-                );
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/v1/auth/login",
+                                    "/v1/auth/refreshtoken",
+                                    "/v1/auth/signout/*",
+                                    "/v1/user/signup").permitAll()
+                            .anyRequest().authenticated();
+                });
 
         http.authenticationProvider(authenticationProvider());
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useIsFetching } from 'react-query';
 
@@ -5,6 +6,7 @@ import { Button } from '@components/ui/Button';
 import { Avatar, AvatarFallback } from '@components/ui/Avatar';
 import { Separator } from '@components/ui/Separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/Tabs';
+import { useAuth } from '@components/Auth';
 import Spinner from '@components/Spinner';
 
 export interface NavRoute {
@@ -21,6 +23,12 @@ export interface PortalLayoutProps {
 
 export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
   const isFetching = useIsFetching();
+  const { logOut } = useAuth();
+
+  const handleLogout = (event: React.FormEvent) => {
+    event.preventDefault();
+    logOut();
+  };
 
   return (
     <>
@@ -38,6 +46,9 @@ export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
               {' '}
               <NavBar {...rest} />{' '}
             </div>
+            <Button variant="destructive" onClick={handleLogout}>
+              Logout
+            </Button>
             <div className="flex flex-1 items-center justify-end">
               <Spinner visible={!!isFetching} className="mr-4 h-6 w-6" />
               <Button variant="ghost" className="h-8 w-8 rounded-full">

@@ -24,6 +24,16 @@ export const logOut = (id: number) =>
     return res.data;
   });
 
+export const verifyAuth = () =>
+  instance.get<LogInRes>(endpoints.verifyAuth).then((res) => {
+    return res.data;
+  });
+
+export const refreshToken = () =>
+  instance.get(endpoints.refreshToken).then((res) => {
+    return res.data;
+  });
+
 declare global {
   interface Window {
     logIn: ({ username, password }: LogInProps) => Promise<LogInRes>;

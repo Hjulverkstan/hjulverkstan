@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { refreshToken } from './auth';
 
 export * from './auth';
 export * from './vehicle';
@@ -10,16 +11,17 @@ export const endpoints = {
   logIn: '/auth/login',
   logOut: '/auth/signout',
   refreshToken: '/auth/refreshtoken',
+  verifyAuth: '/auth/verify',
 };
 
-let callback401: (() => void) | null = null;
+let callbackUnsuccessfulRefresh: (() => void) | null = null;
 
 /**
  * This function allows subscribing to a 401 event. Returns unsubscribe function.
  */
-export const subscribeTo401 = (callback: () => void) => {
-  callback401 = callback;
-  return () => (callback401 = null);
+export const subscribeToUnsuccessfulTokenRefresh = (callback: () => void) => {
+  callbackUnsuccessfulRefresh = callback;
+  return () => (callbackUnsuccessfulRefresh = null);
 };
 
 export const instance = axios.create({
@@ -31,17 +33,21 @@ export const instance = axios.create({
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401 && callback401) {
-      callback401();
+    const isRefreshRequest = error.response?.request.responseURL.endsWith(
+      endpoints.refreshToken,
+    );
+    if (
+      error.response?.status === 401 &&
+      !isRefreshRequest &&
+      callbackUnsuccessfulRefresh
+    ) {
+      return refreshToken()
+        .then(() => Promise.reject(error))
+        .catch(callbackUnsuccessfulRefresh);
     }
     return Promise.reject(error);
   },
 );
-
-// type QueryParamsCreator<Res, Params = undefined> = (params: Params) => {
-//   queryKey: string[];
-//   queryFn: () => Promise<Res>;
-// };
 
 export interface ErrorRes {
   error: string;

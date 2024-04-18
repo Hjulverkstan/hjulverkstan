@@ -15,7 +15,7 @@ export interface UseAuthReturn {
   isInitialising: boolean;
   isLoading: boolean;
   logIn: (username: string, password: string) => void;
-  logOut: (id: number) => void;
+  logOut: () => void;
   auth: api.LogInRes | null;
 }
 
@@ -63,40 +63,40 @@ export const Provider = ({ children }: AuthProviderProps) => {
       });
   };
 
-  const logOut = (id: number) => {
-    setIsLoading(true);
-    api
-      .logOut(id)
-      .then(() => {
-        setIsLoading(false);
-        setState(null);
-      })
-      .catch((err: any) => {
-        console.error(err);
-        setIsLoading(false);
-        toast(
-          createErrorToast({
-            verbLabel: 'log out',
-            dataLabel: 'user',
-          }),
-        );
-      });
+  const logOut = () => {
+    if (state?.id) {
+      setIsLoading(true);
+      api
+        .logOut(state.id)
+        .then(() => {
+          setIsLoading(false);
+          setState(null);
+        })
+        .catch((err: any) => {
+          console.error(err);
+          setIsLoading(false);
+          toast(
+            createErrorToast({
+              verbLabel: 'log out',
+              dataLabel: 'user',
+            }),
+          );
+        });
+    }
   };
 
   useEffect(() => {
-    // TEMPORARY FIX: Request against an auth check endpoint instead.
     api
-      .getVehicles()
-      .queryFn()
-      .then(() => {
+      .verifyAuth()
+      .then((res) => {
         setIsInitialising(false);
-        setState({} as unknown as api.LogInRes);
+        setState(res);
       })
       .catch(() => setIsInitialising(false));
   }, []);
 
   useEffect(() => {
-    api.subscribeTo401(() => {
+    api.subscribeToUnsuccessfulTokenRefresh(() => {
       setIsLoading(false);
       setState(null);
     });

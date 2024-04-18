@@ -1,18 +1,22 @@
 package se.hjulverkstan.main.controller;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.Exceptions.MissingArgumentException;
 import se.hjulverkstan.Exceptions.TokenRefreshException;
 import se.hjulverkstan.main.dto.MessageResponse;
 import se.hjulverkstan.main.dto.auth.LoginRequest;
 import se.hjulverkstan.main.dto.auth.UserDetails;
+import se.hjulverkstan.main.model.User;
 import se.hjulverkstan.main.security.services.AuthService;
+import se.hjulverkstan.main.service.TokenService;
 import se.hjulverkstan.main.service.TokenServiceImpl;
 
 import java.util.Arrays;
@@ -23,7 +27,7 @@ import java.util.Arrays;
 public class AuthController {
 
     AuthService authService;
-    TokenServiceImpl tokenService;
+    TokenService tokenService;
 
     public AuthController(AuthService authService, TokenServiceImpl tokenService) {
         this.authService = authService;
@@ -38,7 +42,7 @@ public class AuthController {
         return ResponseEntity.ok(userDetails);
     }
 
-    @PostMapping("/refreshtoken")
+    @GetMapping("/refreshtoken")
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = null;
 
@@ -68,5 +72,15 @@ public class AuthController {
         tokenService.clearAuthenticationCookies(response);
 
         return ResponseEntity.ok(messageResponse);
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<?> verifyAuth() {
+        try {
+            UserDetails userDetails = authService.verifyAuth();
+            return ResponseEntity.ok(userDetails);
+        } catch (InsufficientAuthenticationException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+        }
     }
 }

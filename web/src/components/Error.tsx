@@ -24,7 +24,7 @@ const messages: Record<string, any> = {
 };
 
 const toMessage = ({ error, endpoint }: api.ErrorRes) =>
-  messages[error][endpoint] ?? messages[error].DEFAULT ?? messages.DEFAULT;
+  messages[error]?.[endpoint] ?? messages[error]?.DEFAULT ?? messages.DEFAULT;
 
 export default function Error({ error, className }: ErrorProps) {
   return (
