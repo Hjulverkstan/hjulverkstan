@@ -34,11 +34,13 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
   {
     key: 'vehicleType',
     name: 'Type',
-    renderFn: ({ vehicleType, bikeType }) => (
+    renderFn: ({ vehicleType, bikeType, strollerType }) => (
       <IconLabel {...toLabel(enums.vehicle.vehicleType, vehicleType)}>
-        {bikeType && (
+        {(strollerType || bikeType) && (
           <span className="pl-1 text-muted-foreground">
-            {toLabel(enums.vehicle.bikeType, bikeType).name}
+            {bikeType && toLabel(enums.vehicle.bikeType, bikeType).name}
+            {strollerType &&
+              toLabel(enums.vehicle.strollerType, strollerType).name}
           </span>
         )}
       </IconLabel>
@@ -80,9 +82,10 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
   {
     key: 'gearCount',
     name: 'Gears',
-    renderFn: ({ gearCount }) => (
-      <span className={gearCount === 1 ? 'opacity-50' : ''}>{gearCount}</span>
-    ),
+    renderFn: ({ gearCount }) =>
+      !!gearCount && (
+        <span className={gearCount === 1 ? 'opacity-50' : ''}>{gearCount}</span>
+      ),
   },
   {
     key: 'brakeType',
