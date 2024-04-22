@@ -117,7 +117,7 @@ export const Cell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      `p-2 align-middle [&:has([role=checkbox])]:pr-0
+      `p-2 px-3 align-middle [&:has([role=checkbox])]:pr-0
       [&>[role=checkbox]]:translate-y-[2px]`,
       className,
     )}

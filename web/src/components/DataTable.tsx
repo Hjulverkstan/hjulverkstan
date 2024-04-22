@@ -157,7 +157,6 @@ function HeaderOptions({ columns }: HeaderOptionsProps) {
         <IconButton
           disabled={disabled}
           variant="ghost"
-          size="sm"
           className="ml-auto"
           icon={MixerVerticalIcon}
           tooltip="Table options"
@@ -207,22 +206,22 @@ interface SortHeadProps {
 
 export function SortHead({ col }: SortHeadProps) {
   const T = useDataTable();
+
+  const Icon =
+    (T.sortState.key === col.key &&
+      ((T.sortState.dir === 1 && ArrowDownIcon) ||
+        (T.sortState.dir === -1 && ArrowUpIcon))) ||
+    CaretSortIcon;
+
   return (
     <Button
       disabled={T.disabled}
       variant="ghost"
-      size="sm"
       className="-ml-3 h-8 data-[state=open]:bg-accent"
       onClick={() => T.toggleColSort(col.key)}
     >
-      <span>{col.name}</span>
-      {T.sortState.dir === 1 && T.sortState.key === col.key ? (
-        <ArrowDownIcon className="ml-2 h-4 w-4" />
-      ) : T.sortState.dir === -1 && T.sortState.key === col.key ? (
-        <ArrowUpIcon className="ml-2 h-4 w-4" />
-      ) : (
-        <CaretSortIcon className="ml-2 h-4 w-4" />
-      )}
+      {col.name}
+      <Icon className="ml-2" />
     </Button>
   );
 }
@@ -269,7 +268,7 @@ export function Body({
             </Table.Cell>
           ))}
           {renderRowActionFn && (
-            <Table.Cell className="z20 sticky right-0 w-10">
+            <Table.Cell className="z20 sticky right-0 w-10 px-2 ">
               {renderRowActionFn(row, {
                 disabled,
                 y,
@@ -361,14 +360,13 @@ export function FilterClear() {
 
   return (
     isFiltered && (
-      <Button
+      <IconButton
         variant="ghost"
         onClick={clearAllFilters}
+        text="Reset"
         className="h-8 px-2 lg:px-3"
-      >
-        Reset
-        <Cross2Icon className="ml-2 h-4 w-4" />
-      </Button>
+        icon={Cross2Icon}
+      />
     )
   );
 }
