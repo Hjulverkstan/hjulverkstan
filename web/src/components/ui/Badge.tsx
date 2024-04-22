@@ -10,37 +10,37 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: [
-          `hover:bg-primary/80 border-transparent bg-primary
-          text-primary-foreground shadow`,
-        ],
         secondary: [
-          `hover:bg-secondary/80 border-transparent bg-secondary
-          text-secondary-foreground`,
+          `border-secondary-border bg-secondary text-secondary-foreground
+          hover:bg-secondary/80`,
         ],
         destructive: [
           [
-            `hover:bg-destructive-fill/80 border-transparent bg-destructive-fill
-            text-destructive-foreground`,
+            `border-box border-destructive-border bg-destructive-fill
+            text-destructive-foreground hover:bg-destructive-fill/80`,
           ],
         ],
         warn: [
           [
-            `hover:bg-warn-fill/80 border-transparent bg-warn-fill
-            text-warn-foreground`,
+            `border-box border-warn-border bg-warn-fill text-warn-foreground
+            hover:bg-warn-fill/80`,
           ],
         ],
         success: [
           [
-            `hover:bg-success-fill/80 border-transparent bg-success-fill
-            text-success-foreground`,
+            `border-box border-success-border bg-success-fill
+            text-success-foreground hover:bg-success-fill/80`,
           ],
         ],
         outline: 'text-foreground',
       },
+      borderless: {
+        yes: 'border-transparent',
+        no: '',
+      },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: 'secondary',
     },
   },
 );
@@ -49,9 +49,15 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({ className, variant, borderless, ...props }: BadgeProps) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <div
+      className={cn(
+        badgeVariants({ variant, borderless: borderless ? 'yes' : 'no' }),
+        className,
+      )}
+      {...props}
+    />
   );
 }
 

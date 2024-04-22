@@ -25,21 +25,25 @@ module.exports = {
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
+          border: 'hsl(var(--secondary-foreground) / 0.25)',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           fill: 'hsl(var(--destructive-fill))',
           foreground: 'hsl(var(--destructive-foreground))',
+          border: 'hsl(var(--destructive-foreground) / 0.25)',
         },
         warn: {
           DEFAULT: 'hsl(var(--warn))',
           fill: 'hsl(var(--warn-fill))',
           foreground: 'hsl(var(--warn-foreground))',
+          border: 'hsl(var(--warn-foreground) / 0.25)',
         },
         success: {
           DEFAULT: 'hsl(var(--success))',
           fill: 'hsl(var(--success-fill))',
           foreground: 'hsl(var(--success-foreground))',
+          border: 'hsl(var(--success-foreground) / 0.25)',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
