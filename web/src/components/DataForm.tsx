@@ -97,16 +97,16 @@ export function Provider<D extends Data>({
 
   useEffect(() => {
     if (mode === Mode.CREATE) updateState(initCreateBody);
-    else if (data) setInitializedMode(Mode.READ);
+    else if (data) setInitializedMode(mode);
   }, [mode]);
 
   useEffect(() => {
     if (mode === Mode.READ && data) updateState(data);
 
     if (mode === Mode.EDIT && data) {
-      const isNewData = state && !U.shallowEq(state, data);
+      const isOverridingData = state && !U.shallowEq(state, data);
 
-      if (isNewData) toast(createRefreshToast(() => updateState(data)));
+      if (isOverridingData) toast(createRefreshToast(() => updateState(data)));
       else updateState(data);
     }
   }, [data]);
