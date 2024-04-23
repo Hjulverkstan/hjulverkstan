@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { refreshToken } from './auth';
+import { refreshToken } from './';
 
 export * from './auth';
 export * from './vehicle';
@@ -18,7 +18,8 @@ export const endpoints = {
   verifyAuth: '/auth/verify',
 };
 
-let callbackUnsuccessfulRefresh: (() => void) | null = null;
+/** This will be invoked as the catch handler on refresh token request */
+let callbackUnsuccessfulRefresh: ((error: AxiosError) => void) | null = null;
 
 /**
  * This function allows subscribing to a 401 event. Returns unsubscribe function.
@@ -46,8 +47,8 @@ instance.interceptors.response.use(
       callbackUnsuccessfulRefresh
     ) {
       return refreshToken()
-        .then(() => Promise.reject(error))
-        .catch(callbackUnsuccessfulRefresh);
+        .catch(callbackUnsuccessfulRefresh)
+        .then(() => Promise.reject(error));
     }
     return Promise.reject(error);
   },
