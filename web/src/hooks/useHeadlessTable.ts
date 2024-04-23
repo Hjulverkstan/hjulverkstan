@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 
 import * as U from '@utils';
 
-import useCookieState from './useCookieState';
+import usePersistentState from './usePersistentState';
 
 /** State of sorting for the table, standard traditional sort state. **/
 interface SortState {
@@ -105,7 +105,7 @@ const useHeadlessTable = <R extends Row>({
   const [sortState, setSortState] = useState<SortState>(initSort);
   const [filterFnMap, setFilterFnMap] = useState<FilterFunctionMap>({});
 
-  const [hiddenCols, setHiddenCols] = useCookieState(
+  const [hiddenCols, setHiddenCols] = usePersistentState(
     'table-' + tableKey,
     initHiddenCols,
   );

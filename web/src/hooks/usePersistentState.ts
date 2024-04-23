@@ -37,7 +37,7 @@ export const writeStore = (key: string, val: any) => {
  * @returns A [state, setState] tupple just like useState.
  */
 
-function useCookieState<S>(
+function usePersistentState<S>(
   key: string,
   initState?: S | (() => S),
 ): [S, Dispatch<SetStateAction<S>>] {
@@ -54,4 +54,4 @@ function useCookieState<S>(
   return [state, setState];
 }
 
-export default useCookieState;
+export default usePersistentState;
