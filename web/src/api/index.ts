@@ -35,6 +35,12 @@ export const instance = axios.create({
   withCredentials: true,
 });
 
+/** Interceptor only does one refresh token request on a 401
+ * and adds a refresh timer to avoid multiple requests when
+ * parallel requests have been made. */
+
+let refreshSuccessTime = 0;
+
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -47,8 +53,19 @@ instance.interceptors.response.use(
       callbackUnsuccessfulRefresh
     ) {
       return refreshToken()
-        .catch(callbackUnsuccessfulRefresh)
-        .then(() => Promise.reject(error));
+        .catch((err) => {
+          if (
+            Date.now() - refreshSuccessTime > 10000 &&
+            callbackUnsuccessfulRefresh
+          ) {
+            callbackUnsuccessfulRefresh(err);
+          }
+        })
+        .then(() => {
+          refreshSuccessTime = Date.now();
+          return Promise.reject(error);
+        });
+
     }
     return Promise.reject(error);
   },
