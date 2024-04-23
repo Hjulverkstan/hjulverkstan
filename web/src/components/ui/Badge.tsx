@@ -47,7 +47,9 @@ const badgeVariants = cva(
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+    Omit<VariantProps<typeof badgeVariants>, 'borderless'> {
+  borderless?: boolean;
+}
 
 function Badge({ className, variant, borderless, ...props }: BadgeProps) {
   return (

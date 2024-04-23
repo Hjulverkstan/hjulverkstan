@@ -20,7 +20,8 @@
       "@utils": ["./src/utils"],
       "@api": ["./src/api"],
       "@root": ["./src/root"],
-      "@types": ["./src/types"]
+      "@types": ["./src/types"],
+      "@enums": ["./src/enums"]
     }
   },
   "include": [

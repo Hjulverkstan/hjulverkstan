@@ -24,6 +24,9 @@ export const toArrayValueCountMap = (array: string[]) =>
     {},
   );
 
+export const occurencesOfElInArray = <El>(el: El, xs: El[]) =>
+  xs.reduce((count, x) => count + (x === el ? 1 : 0), 0);
+
 export const omitKeys = (keys: string[], obj: Record<string, any>) =>
   Object.fromEntries(
     Object.entries(obj).filter(([key, _]) => !keys.includes(key)),
@@ -43,3 +46,30 @@ export const shallowEq = (
 
   return true;
 };
+
+type AnyFunction<A extends any[], R> = (...args: A) => R;
+
+export function memoizeFn<F extends AnyFunction<any[], any>>(fn: F): F {
+  const cache: Record<string, any> = {};
+  return function (
+    this: ThisParameterType<F>,
+    ...args: Parameters<F>
+  ): ReturnType<F> {
+    const key = JSON.stringify(args);
+
+    if (key in cache) return cache[key];
+
+    const result = fn(...args);
+    cache[key] = result;
+    return result;
+  } as F;
+}
+
+export const toUpdatedArray = (
+  arr: string[],
+  { remove = [] as string[] | string, add = [] as string[] | string },
+) =>
+  !remove.length && !add.length
+    ? // If nothing to remove or add keep the same memory reference of the array
+      arr
+    : arr.filter((el) => !remove.includes(el)).concat(add);

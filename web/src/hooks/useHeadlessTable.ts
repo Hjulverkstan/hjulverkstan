@@ -65,6 +65,11 @@ export interface UseHeadlessTableReturn<R extends Row> {
   sortState: SortState;
   /** When there are no filter functions set with setFilterFn */
   isFiltered: boolean;
+  /** The filter fn map is exposed to be able to derive more complex questions.
+   * For instance, what is the filtered output of all filters but the filterKey
+   * 'XXX'?
+   */
+  filterFnMap: FilterFunctionMap;
   pageSize: number;
   setPageSize: (pageSize: number) => void;
   setPage: (newPage: number) => void;
@@ -100,20 +105,13 @@ const useHeadlessTable = <R extends Row>({
   const [sortState, setSortState] = useState<SortState>(initSort);
   const [filterFnMap, setFilterFnMap] = useState<FilterFunctionMap>({});
 
-  const isFiltered = useMemo(
-    () => !!Object.keys(filterFnMap).length,
-    [filterFnMap],
-  );
-
   const [hiddenCols, setHiddenCols] = useCookieState(
     'table-' + tableKey,
     initHiddenCols,
   );
 
-  const pageCount = useMemo(
-    () => Math.ceil(data.length / pageSize),
-    [data.length, pageSize],
-  );
+  const isFiltered = !!Object.keys(filterFnMap).length;
+  const pageCount = Math.ceil(data.length / pageSize);
 
   //
 
@@ -164,13 +162,17 @@ const useHeadlessTable = <R extends Row>({
 
   const setFilterFn = (
     key: string,
-    filterFn: ((row: any) => boolean) | boolean,
+    filterFn: ((row: any) => boolean) | false,
   ) =>
     setFilterFnMap((obj) =>
-      filterFn ? { ...obj, [key]: filterFn } : U.omitKeys([key], obj),
+      filterFn
+        ? { ...obj, [key]: U.memoizeFn(filterFn) }
+        : U.omitKeys([key], obj),
     );
 
   const clearAllFilters = () => setFilterFnMap({});
+
+  console.log(filterFnMap);
 
   return {
     rawData: data,
@@ -184,6 +186,7 @@ const useHeadlessTable = <R extends Row>({
     page,
     sortState,
     isFiltered,
+    filterFnMap,
     setPage,
     toggleColSort,
     toggleColHidden,

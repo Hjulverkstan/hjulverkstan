@@ -16,23 +16,25 @@ import {
   MixerVerticalIcon,
   PlusCircledIcon,
 } from '@radix-ui/react-icons';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 import * as U from '@utils';
 import * as Table from '@components/ui/Table';
 import * as DropdownMenu from '@components/ui/DropdownMenu';
 import * as Popover from '@components/ui/Popover';
+import * as Command from '@components/ui/Command';
+import { EnumAttributes, RowEnumAttrMap } from '@enums';
 import { Input } from '@components/ui/Input';
 import { Skeleton } from '@components/ui/Skeleton';
 import { Button, IconButton } from '@components/ui/Button';
-import FacetedFilterDropdown from '@components/FacetedFilterDropdown';
+import MulitSelect from '@components/MultiSelect';
 import useHeadlessTable, {
   UseHeadlessTableReturn,
   Row,
 } from '@hooks/useHeadlessTable';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+
 import { Separator } from './ui/Separator';
 import { Badge } from './ui/Badge';
-import { EnumAttributes } from 'src/root/Portal/enums';
 
 export type { Row } from '@hooks/useHeadlessTable';
 
@@ -411,7 +413,7 @@ export function FilterSearch({ placeholder, matchFn }: FilterSearchProps) {
 //
 
 export interface UsePopoverFilterReturn {
-  setActiveLabel: (filterKey: string, labels: string[]) => void;
+  setActiveLabels: (filterKey: string, labels: string[]) => void;
 }
 
 const PopoverFilterContext = createContext<UsePopoverFilterReturn | undefined>(
@@ -431,38 +433,54 @@ export const usePopoverFilter = () => {
 
 export interface PopoverFilterProps {
   label: string;
-  children: JSX.Element;
+  children: ReactNode;
+  hasSearch?: boolean;
 }
 
-export function PopoverFilter({ label, children }: PopoverFilterProps) {
-  const { disabled } = useDataTable();
+export function PopoverFilterRoot({
+  label,
+  children,
+  hasSearch,
+}: PopoverFilterProps) {
+  const { disabled, setFilterFn } = useDataTable();
 
   const [activeLabelsMap, setActiveLabelsMap] = useState<
     Record<string, string[]>
   >({});
 
-  const setActiveLabel = (filterKey: string, labels: string[]) =>
+  const setActiveLabels = (filterKey: string, labels: string[]) =>
     setActiveLabelsMap({ ...activeLabelsMap, [filterKey]: labels });
 
   const activeLabels = Object.values(activeLabelsMap).flat();
+  const isActive = !!activeLabels.length;
+  const filterKeys = Object.keys(activeLabelsMap);
+
+  const resetFilters = () =>
+    filterKeys.forEach((filterKey) => setFilterFn(filterKey, false));
+
+  // We want to manually control open but passing persistMount to
+  // <Popover.Content />. If the content was unmounted when closed our state
+  // logic and useEffect would not work.
+
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <PopoverFilterContext.Provider value={{ setActiveLabel }}>
-      <Popover.Root>
+    <PopoverFilterContext.Provider value={{ setActiveLabels }}>
+      <Popover.Root onOpenChange={setIsOpen} open={isOpen}>
         <Popover.Trigger asChild>
           <Button
             disabled={disabled}
             variant="outline"
-            size="sm"
-            className="h-8 border-dashed"
+            className={U.cn(!isActive && 'border-dashed')}
           >
-            <PlusCircledIcon className="mr-2 h-4 w-4" />
+            {!isActive && <PlusCircledIcon className="mr-2 h-4 w-4" />}
             {label}
-            {activeLabels.length > 0 && (
+            {isActive && (
               <>
                 <Separator orientation="vertical" className="mx-2 h-4" />
-                <div className="space-x-1 lg:flex">
+                <div className="ml--1 space-x-1 lg:flex">
                   <Badge
+                    borderless
                     variant="secondary"
                     className="rounded-sm px-1 font-normal lg:hidden"
                   >
@@ -471,14 +489,16 @@ export function PopoverFilter({ label, children }: PopoverFilterProps) {
                   <div className="hidden space-x-1 lg:flex">
                     {activeLabels.length > 2 ? (
                       <Badge
+                        borderless
                         variant="secondary"
                         className="rounded-sm px-1 font-normal"
                       >
-                        {activeLabels.length} activeLabels
+                        {activeLabels.length}
                       </Badge>
                     ) : (
                       activeLabels.map((label, i) => (
                         <Badge
+                          borderless
                           variant="secondary"
                           key={i}
                           className="rounded-sm px-1 font-normal"
@@ -493,8 +513,32 @@ export function PopoverFilter({ label, children }: PopoverFilterProps) {
             )}
           </Button>
         </Popover.Trigger>
-        <Popover.Content className="w-[200px] p-0" align="start">
-          {children}
+        <Popover.Content
+          className="w-[200px] p-0"
+          align="start"
+          persistMount
+          isOpen={isOpen}
+        >
+          <Command.Root>
+            {hasSearch && <Command.Input placeholder="Search" />}
+            <Command.List>
+              <Command.Empty>No results found.</Command.Empty>
+              {children}
+              {isActive && (
+                <>
+                  <Command.Separator />
+                  <Command.Group>
+                    <Command.Item
+                      onSelect={resetFilters}
+                      className="justify-center text-center"
+                    >
+                      Clear filters
+                    </Command.Item>
+                  </Command.Group>
+                </>
+              )}
+            </Command.List>
+          </Command.Root>
         </Popover.Content>
       </Popover.Root>
     </PopoverFilterContext.Provider>
@@ -504,50 +548,95 @@ export function PopoverFilter({ label, children }: PopoverFilterProps) {
 //
 
 export interface FilterMultiSelectProps {
-  /* Column key used for getting the values from data[] */
-  colKey: string;
-  enums: EnumAttributes[];
+  /* Used to register the built in filter function with DataTable */
+  filterKey: string;
+  /* A map of which enums should be used but under what dataKey they are
+   * found on a row. This is then flattened but since this component is
+   * responsible for connecting with data from DataTable it needs the dataKey.
+   */
+  rowEnumAttrMap: RowEnumAttrMap;
+  heading?: string;
 }
 
 export const FilterMultiSelect = ({
-  colKey,
-  enums,
+  filterKey,
+  rowEnumAttrMap,
+  heading,
 }: FilterMultiSelectProps) => {
+  const { setActiveLabels } = usePopoverFilter();
+  const { filterFnMap, setFilterFn, rawData } = useDataTable();
   const [selected, setSelected] = useState<string[]>([]);
-  const T = useDataTable();
 
-  const injectedOptions = useMemo(() => {
-    const filteredValues = T.filteredData.map((row) => row[colKey]);
-    const totalValues = T.rawData.map((row) => row[colKey]);
+  // Create flat enums and extend data on them
 
-    // ['bike', 'bike', 'skate'] => { bike: 2, skate: 1 }
-    const valueCountMap = U.toArrayValueCountMap(filteredValues as string[]);
+  const flatEnumsAggregated = useMemo(() => {
+    const { [filterKey]: _, ...filterFnMapOthers } = filterFnMap;
+
+    const filterFnOtherFilters = (row: Row) =>
+      Object.values(filterFnMapOthers).every((fn) => fn(row));
+
+    const filteredData = rawData.filter(filterFnOtherFilters);
+
+    const toAggregatedEnums = (dataKey: string, enums: EnumAttributes[]) =>
+      enums.map((e) => ({
+        ...e,
+        dataKey,
+        count: U.occurencesOfElInArray(
+          e.value,
+          filteredData.map((row) => row[dataKey]).filter((x) => x),
+        ),
+      }));
 
     return (
-      enums
-        // remove options that are not at all in the data
-        .filter((option) => totalValues.includes(option.value))
-        // add data needed for FacetedFilterDropdown
-        .map((option) => ({ ...option, count: valueCountMap[option.value] }))
+      Object.entries(rowEnumAttrMap)
+        // Flatten and count occurences using the key from the RowEnumAttrMap
+        .reduce<ReturnType<typeof toAggregatedEnums>>(
+          (acc, [dataKey, enums]) =>
+            acc.concat(toAggregatedEnums(dataKey, enums)),
+          [],
+        )
+        .filter((e) => rawData.some((row) => row[e.dataKey] === e.value))
     );
-  }, [T.rawData, T.filteredData, colKey, enums]);
+  }, [rowEnumAttrMap, rawData, filterFnMap]);
+
+  // Connect with <PopoverFilterRoot /> and its activeFilters
+
+  useEffect(
+    () =>
+      setActiveLabels(
+        filterKey,
+        selected.map(
+          (value) => flatEnumsAggregated.find((e) => e.value === value)!.name,
+        ),
+      ),
+    [selected, flatEnumsAggregated],
+  );
+
+  // Connect with DataTable filterFn api
 
   useEffect(() => {
-    if (!T.isFiltered) setSelected([]); // Clear on reset
-  }, [T.isFiltered]);
+    if (!filterFnMap[filterKey]) setSelected([]); // Clear on reset
+  }, [filterFnMap[filterKey]]);
+
+  useEffect(() => {
+    const filterFn = (row: any) =>
+      selected.some((value) => {
+        const enumAttr = flatEnumsAggregated.find((e) => e.value === value)!;
+
+        return row[enumAttr.dataKey] === enumAttr.value;
+      });
+
+    setFilterFn(filterKey, !!selected.length && filterFn);
+  }, [selected]);
+
+  //
 
   return (
-    <FacetedFilterDropdown
-      enums={injectedOptions}
+    <MulitSelect
+      enums={flatEnumsAggregated}
       selected={selected}
-      setSelected={(value) => {
-        setSelected(value);
-        T.setFilterFn(
-          colKey,
-          !!value.length &&
-            ((row: Row) => value.includes(row[colKey] as string)),
-        );
-      }}
+      setSelected={setSelected}
+      heading={heading}
     />
   );
 };

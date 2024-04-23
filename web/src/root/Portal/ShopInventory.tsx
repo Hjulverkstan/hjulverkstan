@@ -18,6 +18,8 @@ import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import IconLabel from '@components/IconLabel';
 import { fuzzyMatchFn } from '@components/DataTable';
 import { VehicleAggregated } from '@hooks/queries';
+import { toLabel, enumMatchFn } from '@enums';
+import * as enums from '@enums';
 
 import PortalForm from './PortalForm';
 import PortalTable from './PortalTable';
@@ -25,8 +27,6 @@ import PortalToolbar from './PortalToolbar';
 import PortalContent from './PortalContent';
 import { initVehicle, maxGearCount, minGearCount, vehicleZ } from './data';
 import { createSuccessToast, createErrorToast } from './toast';
-import { toLabel, enumMatchFn } from './enums';
-import * as enums from './enums';
 
 //
 
@@ -196,18 +196,34 @@ function Filters() {
           )
         }
       />
-      <DataTable.PopoverFilter label="Type">
+      <DataTable.PopoverFilterRoot label="Type">
         <DataTable.FilterMultiSelect
-          colKey="vehicleType"
-          enums={enums.vehicle.vehicleType}
+          filterKey="vehicle-type"
+          rowEnumAttrMap={{
+            vehicleType: enums.vehicle.vehicleType,
+            bikeType: enums.vehicle.bikeType,
+            strollerType: enums.vehicle.strollerType,
+          }}
         />
-      </DataTable.PopoverFilter>
-      <DataTable.PopoverFilter label="Status">
+      </DataTable.PopoverFilterRoot>
+      <DataTable.PopoverFilterRoot label="Status">
         <DataTable.FilterMultiSelect
-          colKey="vehicleStatus"
-          enums={enums.vehicle.vehicleStatus}
+          filterKey="vehicle-status"
+          rowEnumAttrMap={{ vehicleStatus: enums.vehicle.vehicleStatus }}
         />
-      </DataTable.PopoverFilter>
+      </DataTable.PopoverFilterRoot>
+      <DataTable.PopoverFilterRoot label="Details">
+        <DataTable.FilterMultiSelect
+          heading="Bike Size"
+          filterKey="size"
+          rowEnumAttrMap={{ size: enums.vehicle.size }}
+        />
+        <DataTable.FilterMultiSelect
+          heading="Brake Type"
+          filterKey="brakes"
+          rowEnumAttrMap={{ brakeType: enums.vehicle.brakeType }}
+        />
+      </DataTable.PopoverFilterRoot>
     </>
   );
 }

@@ -11,7 +11,7 @@ import {
   Wrench,
 } from 'lucide-react';
 
-import { FilterOption } from '@components/FacetedFilterDropdown';
+import { Row } from '@components/DataTable';
 import {
   TicketType,
   BrakeType,
@@ -21,7 +21,6 @@ import {
   BikeType,
   StrollerType,
 } from '@api';
-import { Row } from '@components/DataTable';
 
 //
 
@@ -29,12 +28,15 @@ export interface EnumAttributes {
   value: string;
   name: string;
   icon?: LucideIcon;
+  /* Following fields aggregated in some bussines logic down the line */
+  children?: string[];
+  count?: number;
+  dataKey?: string;
 }
 
-export type RowEnumAttributesMap<DataObj extends Record<string, any>> = Record<
-  keyof DataObj,
-  EnumAttributes[]
->;
+export interface RowEnumAttrMap {
+  [key: string]: EnumAttributes[];
+}
 
 /**
  * Used to create a matchFn used by <DataTable.FilterSearch />. While we can
@@ -44,36 +46,43 @@ export type RowEnumAttributesMap<DataObj extends Record<string, any>> = Record<
  * match for 'unavail'...
  */
 
-export const enumMatchFn = (
-  enumMap: RowEnumAttributesMap<Row>,
-  word: string,
-  row: Row,
-) =>
+export const enumMatchFn = (enumMap: RowEnumAttrMap, word: string, row: Row) =>
   Object.entries(enumMap).some(([key, enums]) =>
     enums.some(
       (el) => el.value === row[key] && el.name.toLowerCase().startsWith(word),
     ),
   );
 
-export const toLabel = (options: FilterOption[], key: string) => {
-  const option = options.find(({ value }) => value === key);
+export const toLabel = (enums: EnumAttributes[], key: string) => {
+  const enumAttr = enums.find(({ value }) => value === key);
 
-  if (!option)
+  if (!enumAttr)
     throw Error(
-      `toLabel was given a key [${key}] that was not the options [${options.map((o) => o.value).join()}]`,
+      `toLabel was given a key [${key}] that was not the options [${enums.map((e) => e.value).join()}]`,
     );
 
-  return option;
+  return enumAttr;
 };
 
 // Vehicle
 
-const VS = VehicleStatus; // Lets keep enums bellow 80 chars as well :)
+// Shorthand so that enum atrributes can be onelines:
+const VS = VehicleStatus;
 
 export const vehicle = {
   vehicleType: [
-    { value: VehicleType.BIKE, name: 'Bike', icon: Bike },
-    { value: VehicleType.STROLLER, name: 'Stroller', icon: BabyIcon },
+    {
+      value: VehicleType.BIKE,
+      name: 'Bike',
+      icon: Bike,
+      children: Object.values(BikeType),
+    },
+    {
+      value: VehicleType.STROLLER,
+      name: 'Stroller',
+      icon: BabyIcon,
+      children: Object.values(StrollerType),
+    },
     { value: VehicleType.SCOOTER, name: 'Scooter', icon: HandMetal },
   ],
   bikeType: [

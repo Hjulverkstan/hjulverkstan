@@ -1,7 +1,8 @@
 import { AlertTriangle } from 'lucide-react';
 
 import * as api from '@api';
-import { cn } from '@utils';
+
+import Message from './Message';
 
 export enum ErrorEndpoint {
   VEHICLE,
@@ -28,16 +29,10 @@ const toMessage = ({ error, endpoint }: api.ErrorRes) =>
 
 export default function Error({ error, className }: ErrorProps) {
   return (
-    <div
-      className={cn(
-        'flex w-full flex-col items-center justify-center bg-muted px-10 py-14',
-        className,
-      )}
-    >
-      <AlertTriangle className="mb-2 h-5 w-5 text-muted-foreground" />
-      <p className="mx-auto text-xs text-muted-foreground">
-        {toMessage(error)}
-      </p>
-    </div>
+    <Message
+      icon={AlertTriangle}
+      message={toMessage(error)}
+      className={className}
+    />
   );
 }

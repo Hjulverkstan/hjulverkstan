@@ -2,9 +2,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import * as DataTable from '@components/DataTable';
 import { useDataTable } from '@components/DataTable';
+import Message from '@components/Message';
 import Error from '@components/Error';
 import Spinner from '@components/Spinner';
 import { ErrorRes } from '@api';
+import { SearchX } from 'lucide-react';
 
 export interface PortalTableProps
   extends Pick<DataTable.BodyProps, 'columns' | 'renderRowActionFn'> {
@@ -20,7 +22,10 @@ export default function PortalTable({
 }: PortalTableProps) {
   const navigate = useNavigate();
   const { id = '' } = useParams();
-  const { page, pageCount } = useDataTable();
+  const { page, pageCount, rawData, filteredData, isFiltered } = useDataTable();
+
+  const noFilterResults =
+    rawData?.length && isFiltered && !filteredData?.length;
 
   return (
     <div className="flex flex-grow flex-col rounded-md border">
@@ -38,6 +43,12 @@ export default function PortalTable({
             />
           ) : null}
         </DataTable.Root>
+        {noFilterResults && (
+          <Message
+            icon={SearchX}
+            message="The filters applied do not give any matches. Reset or remove those filters that contradict each other."
+          />
+        )}
         {error ? (
           <Error className="flex-grow" error={error} />
         ) : (
