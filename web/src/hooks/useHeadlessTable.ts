@@ -172,8 +172,6 @@ const useHeadlessTable = <R extends Row>({
 
   const clearAllFilters = () => setFilterFnMap({});
 
-  console.log(filterFnMap);
-
   return {
     rawData: data,
     setPageSize,

@@ -49,11 +49,6 @@ export function useAggregatedQueries<Error, DSelect>(
   const isError = queries.some((q) => q.isError);
   const error = queries.find((q) => q.isError)?.error;
 
-  console.log(
-    { isLoading, isError },
-    queries.map((q) => q.data),
-  );
-
   const data = useMemo(
     () =>
       !isError && !isLoading
