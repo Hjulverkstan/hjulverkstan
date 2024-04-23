@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import se.hjulverkstan.Exceptions.TokenRefreshException;
 import se.hjulverkstan.main.dto.auth.UserDetails;
 
-public interface TokenService {
+public interface CookieService {
     /**
      * Creates and sets authentication cookies containing the JWT and refresh token for a user,
      * then adds these tokens as HTTP-only cookies in the HttpServletResponse.

@@ -1,6 +1,5 @@
 package se.hjulverkstan.main.controller;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,10 +13,9 @@ import se.hjulverkstan.Exceptions.TokenRefreshException;
 import se.hjulverkstan.main.dto.MessageResponse;
 import se.hjulverkstan.main.dto.auth.LoginRequest;
 import se.hjulverkstan.main.dto.auth.UserDetails;
-import se.hjulverkstan.main.model.User;
 import se.hjulverkstan.main.security.services.AuthService;
-import se.hjulverkstan.main.service.TokenService;
-import se.hjulverkstan.main.service.TokenServiceImpl;
+import se.hjulverkstan.main.service.CookieService;
+import se.hjulverkstan.main.service.CookieServiceImpl;
 
 import java.util.Arrays;
 
@@ -27,17 +25,17 @@ import java.util.Arrays;
 public class AuthController {
 
     AuthService authService;
-    TokenService tokenService;
+    CookieService cookieService;
 
-    public AuthController(AuthService authService, TokenServiceImpl tokenService) {
+    public AuthController(AuthService authService, CookieServiceImpl cookieService) {
         this.authService = authService;
-        this.tokenService = tokenService;
+        this.cookieService = cookieService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
         UserDetails userDetails = authService.login(loginRequest);
-        tokenService.createAuthenticationCookies(httpServletResponse, userDetails);
+        cookieService.createAuthenticationCookies(httpServletResponse, userDetails);
 
         return ResponseEntity.ok(userDetails);
     }
@@ -56,7 +54,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Cookies are empty or null"));
 
         try {
-            tokenService.refreshToken(response, refreshToken);
+            cookieService.refreshToken(response, refreshToken);
 
             return ResponseEntity.ok(new MessageResponse("Refresh successful"));
         } catch (TokenRefreshException ex) {
@@ -69,7 +67,7 @@ public class AuthController {
     @PostMapping("/signout/{id}")
     public ResponseEntity<?> logoutUser(@PathVariable Long id, HttpServletResponse response) {
         MessageResponse messageResponse = authService.signOut(id);
-        tokenService.clearAuthenticationCookies(response);
+        cookieService.clearAuthenticationCookies(response);
 
         return ResponseEntity.ok(messageResponse);
     }
