@@ -2,6 +2,7 @@ import React from 'react';
 import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useIsFetching } from 'react-query';
 
+import * as DropdownMenu from '@components/ui/DropdownMenu';
 import { Button } from '@components/ui/Button';
 import { Avatar, AvatarFallback } from '@components/ui/Avatar';
 import { Separator } from '@components/ui/Separator';
@@ -23,12 +24,6 @@ export interface PortalLayoutProps {
 
 export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
   const isFetching = useIsFetching();
-  const { logOut } = useAuth();
-
-  const handleLogout = (event: React.FormEvent) => {
-    event.preventDefault();
-    logOut();
-  };
 
   return (
     <>
@@ -46,16 +41,9 @@ export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
               {' '}
               <NavBar {...rest} />{' '}
             </div>
-            <Button variant="destructive" onClick={handleLogout}>
-              Logout
-            </Button>
             <div className="flex flex-1 items-center justify-end">
               <Spinner visible={!!isFetching} className="mr-4 h-6 w-6" />
-              <Button variant="ghost" className="h-8 w-8 rounded-full">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback>SC</AvatarFallback>
-                </Avatar>
-              </Button>
+              <AvatarDropdown />
             </div>
           </div>
         </nav>
@@ -67,6 +55,46 @@ export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
     </>
   );
 }
+
+//
+
+function AvatarDropdown() {
+  const { auth, logOut } = useAuth();
+
+  if (!auth) return null;
+
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+          <Avatar className="h-8 w-8">
+            <AvatarFallback>{auth.username[0].toUpperCase()}</AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content className="w-56" align="end" forceMount>
+        <DropdownMenu.Label className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{auth.username}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {auth.email}
+            </p>
+          </div>
+        </DropdownMenu.Label>
+        <DropdownMenu.Separator />
+        <DropdownMenu.Group>
+          <DropdownMenu.Item>Shop</DropdownMenu.Item>
+          <DropdownMenu.Item>Admin</DropdownMenu.Item>
+          <DropdownMenu.Item>WebEdit</DropdownMenu.Item>
+        </DropdownMenu.Group>
+        <DropdownMenu.Separator />
+        <DropdownMenu.Item onSelect={logOut}>Log out</DropdownMenu.Item>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  );
+}
+
+//
 
 interface NavBarProps {
   baseUrl: string;
