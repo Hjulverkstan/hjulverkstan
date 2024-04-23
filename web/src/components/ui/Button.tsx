@@ -70,7 +70,7 @@ Button.displayName = 'Button';
 //
 
 export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
-  icon: any;
+  icon?: any;
   text?: string;
   tooltip?: string;
 }
@@ -92,7 +92,7 @@ export const IconButton = React.forwardRef<any, IconButtonProps>(
             ref={ref}
             {...props}
           >
-            <Icon className="h-4 w-4" />
+            {Icon && <Icon className="h-4 w-4" />}
             {text && <span className="pl-2">{text}</span>}
           </Button>
         </Tooltip.Trigger>

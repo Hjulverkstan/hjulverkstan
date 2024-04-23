@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import * as Tooltip from '@components/ui/Tooltip';
 import { ErrorRes } from '@api';
 import { Mode, useDataForm } from '@components/DataForm';
-import { IconButton } from '@components/ui/Button';
+import { Button, IconButton } from '@components/ui/Button';
 import { useToast } from '@components/ui/use-toast';
 import Error from '@components/Error';
 
@@ -20,6 +20,7 @@ export interface PortalFormProps {
   /* muateAsync from useMutation() */
   saveMutation: (body: any) => Promise<any>;
   error?: ErrorRes | null;
+  dataLabel: string;
   children: ReactNode;
 }
 
@@ -29,6 +30,7 @@ export default function PortalForm({
   saveMutation,
   error,
   children,
+  dataLabel,
   transformBodyOnSubmit = (x) => x,
 }: PortalFormProps) {
   const { id = '' } = useParams();
@@ -60,47 +62,34 @@ export default function PortalForm({
     }
   };
 
-  const { title, handler, tooltip } = {
+  const { title, handler, verb, icon } = {
     [Mode.READ]: {
-      title: 'Vehicle',
+      title: dataLabel,
       handler: () => navigate('edit'),
-      tooltip: 'Edit',
+      icon: Pencil,
+      verb: 'Edit',
     },
     [Mode.EDIT]: {
-      title: 'Edit vehicle',
+      title: `Edit ${dataLabel.toLowerCase()}`,
       handler: onSave,
-      tooltip: 'Save',
+      icon: Save,
+      verb: 'Save',
     },
     [Mode.CREATE]: {
-      title: 'Add vehicle',
+      title: `Create ${dataLabel.toLowerCase()}`,
       handler: onCreate,
-      tooltip: 'Create',
+      verb: 'Create',
     },
   }[mode];
 
   return (
-    <div className="flex flex-col rounded-md border bg-muted ">
-      <div className="flex h-10 min-w-60 items-center border-b px-2">
+    <div className="flex min-w-60 flex-col rounded-md border bg-muted">
+      <div className="flex h-10 items-center border-b px-2">
         <h3 className="flex-grow pl-2 align-middle text-sm font-medium">
           {title}
         </h3>
-        <Tooltip.Root disableHoverableContent={!submitError}>
-          <Tooltip.Trigger asChild>
-            <span tabIndex={0}>
-              <IconButton
-                key={mode}
-                disabled={!!error || isSubmitting || !!submitError}
-                onClick={handler}
-                variant={mode === Mode.READ ? 'ghost' : 'default'}
-                icon={mode === Mode.READ ? Pencil : Save}
-                tooltip={tooltip}
-              />
-            </span>
-          </Tooltip.Trigger>
-          {submitError && <Tooltip.Content>{submitError}</Tooltip.Content>}
-        </Tooltip.Root>
         <IconButton
-          disabled={!!error || isSubmitting}
+          disabled={!!error || isSubmitting || mode === Mode.EDIT}
           onClick={() => navigate(mode === Mode.EDIT ? `../${id}` : '..')}
           variant="ghost"
           icon={XIcon}
@@ -112,6 +101,35 @@ export default function PortalForm({
       ) : (
         <div className="space-y-4 px-2 pb-3 pt-4">{children}</div>
       )}
+
+      <div className="10 flex gap-2 border-t px-2 py-2">
+        {mode === Mode.EDIT && (
+          <Button
+            onClick={() => navigate(mode === Mode.EDIT ? `../${id}` : '..')}
+            variant="outline"
+            className="w-[100%-0.25rem] flex-grow"
+          >
+            Cancel
+          </Button>
+        )}
+        <Tooltip.Root disableHoverableContent={!submitError}>
+          <Tooltip.Trigger asChild>
+            <span tabIndex={0} className="w-[100%-0.25rem] flex-grow">
+              <IconButton
+                className="w-full"
+                key={mode}
+                disabled={!!error || isSubmitting || !!submitError}
+                onClick={handler}
+                variant={mode === Mode.READ ? 'outline' : 'default'}
+                icon={icon}
+                text={verb}
+                tooltip={verb}
+              />
+            </span>
+          </Tooltip.Trigger>
+          {submitError && <Tooltip.Content>{submitError}</Tooltip.Content>}
+        </Tooltip.Root>
+      </div>
     </div>
   );
 }

@@ -165,6 +165,7 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
             initCreateBody={initVehicle}
           >
             <PortalForm
+              dataLabel="Vehicle"
               error={vehicleQ.error}
               isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}
               saveMutation={editVehicleM.mutateAsync}
