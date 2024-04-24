@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { EcsStack } from '../lib/stack';
+import { Stack } from '../lib/stack';
 
 const app = new cdk.App();
 
-new EcsStack(app, 'Dev-Stack', {
+new Stack(app, 'Dev-Stack', {
   env: { account: process.env.CDK_DEV_ACCOUNT, region: process.env.CDK_REGION }
 });
 
