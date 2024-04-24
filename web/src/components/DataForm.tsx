@@ -187,14 +187,14 @@ export function Field({ dataKey, label, description, children }: FieldProps) {
       </Label>
       {children}
       {description && (
-        <p className="px-2 text-[0.8rem] text-muted-foreground">
+        <p className="text-muted-foreground px-2 text-[0.8rem]">
           {description}
         </p>
       )}
       {fieldErrorMap[dataKey] && (
         <div
-          className="rounded-md bg-destructive-fill px-4 py-2 text-sm
-            text-destructive-foreground"
+          className="bg-destructive-fill text-destructive-foreground rounded-md
+            px-4 py-2 text-sm"
         >
           {fieldErrorMap[dataKey]}
         </div>
@@ -241,7 +241,7 @@ export function Select({
             className={cn(
               'justify-between',
               isDisabledUnion && 'opacity-70',
-              !body[dataKey] && 'font-normal text-muted-foreground',
+              !body[dataKey] && 'text-muted-foreground font-normal',
             )}
           >
             {isSkeleton
@@ -322,7 +322,7 @@ export function Input({
           }
         }}
         className={cn(
-          'h-8 bg-background',
+          'bg-background h-8',
           isDisabled && '!cursor-default opacity-70',
         )}
       />

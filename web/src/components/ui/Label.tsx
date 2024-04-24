@@ -5,7 +5,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@utils';
 
 const labelVariants = cva(
-  `text-sm font-normal leading-none text-foreground/70
+  `text-foreground/70 text-sm font-normal leading-none
   peer-disabled:cursor-not-allowed peer-disabled:opacity-70`,
 );
 

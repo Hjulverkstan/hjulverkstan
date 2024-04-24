@@ -83,7 +83,7 @@ export default function PortalForm({
   }[mode];
 
   return (
-    <div className="flex min-w-60 flex-col rounded-md border bg-muted">
+    <div className="bg-muted flex min-w-60 flex-col rounded-md border">
       <div className="flex h-10 items-center border-b px-2">
         <h3 className="flex-grow pl-2 align-middle text-sm font-medium">
           {title}

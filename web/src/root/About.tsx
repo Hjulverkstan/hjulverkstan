@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div className="h-full flex-col bg-muted p-10 lg:flex">
+    <div className="bg-muted h-full flex-col p-10 lg:flex">
       <div className="grow" />
       <div className="relative z-20 mt-auto">
         <blockquote className="space-y-2">

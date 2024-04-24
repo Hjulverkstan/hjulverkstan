@@ -32,7 +32,7 @@ export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
           <div className="flex items-center justify-center space-x-4">
             <h2 className="flex-1 text-lg font-semibold">
               Hjulverkstan
-              <span className="font-normal text-muted-foreground">
+              <span className="text-muted-foreground font-normal">
                 {' '}
                 {title}
               </span>
@@ -76,7 +76,7 @@ function AvatarDropdown() {
         <DropdownMenu.Label className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{auth.username}</p>
-            <p className="text-xs leading-none text-muted-foreground">
+            <p className="text-muted-foreground text-xs leading-none">
               {auth.email}
             </p>
           </div>

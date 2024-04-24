@@ -52,7 +52,7 @@ export const Footer = React.forwardRef<
   <tfoot
     ref={ref}
     className={cn(
-      'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
+      'bg-muted/50 border-t font-medium [&>tr]:last:border-b-0',
       className,
     )}
     {...props}
@@ -97,8 +97,8 @@ export const Head = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      `h-10 bg-background px-2 text-left align-middle font-medium
-      text-muted-foreground [&:has([role=checkbox])]:pr-0
+      `bg-background text-muted-foreground h-10 px-2 text-left align-middle
+      font-medium [&:has([role=checkbox])]:pr-0
       [&>[role=checkbox]]:translate-y-[2px]`,
       className,
     )}
@@ -135,7 +135,7 @@ export const Caption = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <caption
     ref={ref}
-    className={cn('mt-4 text-sm text-muted-foreground', className)}
+    className={cn('text-muted-foreground mt-4 text-sm', className)}
     {...props}
   />
 ));

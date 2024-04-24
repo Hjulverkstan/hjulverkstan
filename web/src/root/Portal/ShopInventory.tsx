@@ -37,7 +37,7 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
     renderFn: ({ vehicleType, bikeType, strollerType }) => (
       <IconLabel {...toLabel(enums.vehicle.vehicleType, vehicleType)}>
         {(strollerType || bikeType) && (
-          <span className="pl-1 text-muted-foreground">
+          <span className="text-muted-foreground pl-1">
             {bikeType && toLabel(enums.vehicle.bikeType, bikeType).name}
             {strollerType &&
               toLabel(enums.vehicle.strollerType, strollerType).name}

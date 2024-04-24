@@ -160,7 +160,7 @@ function SelectableItem({
           checkBox !== 'unchecked' && !e.count && 'opacity-50',
         )}
       >
-        {e.icon && <e.icon className="mr-2 h-4 w-4 text-muted-foreground" />}
+        {e.icon && <e.icon className="text-muted-foreground mr-2 h-4 w-4" />}
         <span>{e.name}</span>
         {e.count !== undefined && (
           <span

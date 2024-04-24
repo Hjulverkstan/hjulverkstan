@@ -7,7 +7,7 @@ export default function Welcome() {
       <h1 className="text-2xl font-semibold tracking-tight">
         Welcome to the Admin!
       </h1>
-      <p className="text-sm text-muted-foreground">This is a secure area</p>
+      <p className="text-muted-foreground text-sm">This is a secure area</p>
     </div>
   );
 }

@@ -57,8 +57,8 @@ export default function PortalTable({
         <DataTable.Pagination>
           <div className="flex items-center gap-1">
             <div
-              className="items-center pl-2 text-sm font-normal
-                text-muted-foreground"
+              className="text-muted-foreground items-center pl-2 text-sm
+                font-normal"
             >
               Page {page + 1} of {pageCount}
             </div>

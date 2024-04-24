@@ -15,12 +15,12 @@ export default function Message({
   return (
     <div
       className={U.cn(
-        'flex w-full flex-col items-center justify-center bg-muted px-10 py-14',
+        'bg-muted flex w-full flex-col items-center justify-center px-10 py-14',
         className,
       )}
     >
-      {Icon && <Icon className="mb-2 h-5 w-5 text-muted-foreground" />}
-      <p className="mx-auto text-sm text-muted-foreground">{message}</p>
+      {Icon && <Icon className="text-muted-foreground mb-2 h-5 w-5" />}
+      <p className="text-muted-foreground mx-auto text-sm">{message}</p>
     </div>
   );
 }
