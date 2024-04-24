@@ -7,24 +7,25 @@ import { cn } from '@utils';
 import * as Tooltip from '@components/ui/Tooltip';
 
 export const buttonVariants = cva(
-  `inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm
-  font-medium transition-colors focus-visible:outline-none focus-visible:ring-1
-  focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50`,
+  `focus-visible:ring-ring inline-flex items-center justify-center
+  whitespace-nowrap rounded-md text-sm font-medium transition-colors
+  focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none
+  disabled:opacity-50`,
   {
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground shadow hover:bg-primary/80',
+          'bg-primary text-primary-foreground hover:bg-primary/80 shadow',
         destructive: [
-          'bg-destructive text-background shadow-sm hover:bg-destructive/80',
+          'bg-destructive text-background hover:bg-destructive/80 shadow-sm',
         ],
         outline: [
-          `border border-input bg-background shadow-sm hover:bg-accent
-          hover:text-accent-foreground`,
+          `border-input bg-background hover:bg-accent
+          hover:text-accent-foreground border shadow-sm`,
         ],
         secondary: [
-          `bg-secondary text-secondary-foreground shadow-sm
-          hover:bg-secondary/80`,
+          `bg-secondary text-secondary-foreground hover:bg-secondary/80
+          shadow-sm`,
         ],
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
@@ -76,16 +77,13 @@ export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
 }
 
 export const IconButton = React.forwardRef<any, IconButtonProps>(
-  (
-    { className, tooltip, text, asChild = false, icon: Icon, ...props },
-    ref,
-  ) => {
+  ({ className, tooltip, text, icon: Icon, ...props }, ref) => {
     return (
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <Button
             className={cn(
-              'flex h-8 p-0 data-[state=open]:bg-muted',
+              'data-[state=open]:bg-muted flex h-8 p-0',
               text ? 'pl-3 pr-4' : 'w-8',
               className,
             )}

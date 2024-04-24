@@ -176,7 +176,7 @@ function HeaderOptions({ columns }: HeaderOptionsProps) {
               className="capitalize"
               checked={checked}
               onSelect={(event) => event.preventDefault()}
-              onCheckedChange={(e) => toggleColHidden(key)}
+              onCheckedChange={() => toggleColHidden(key)}
               disabled={checked && preventUncheck}
             >
               {name}
@@ -219,7 +219,7 @@ export function SortHead({ col }: SortHeadProps) {
     <Button
       disabled={T.disabled}
       variant="ghost"
-      className="-ml-3 h-8 data-[state=open]:bg-accent"
+      className="data-[state=open]:bg-accent -ml-3 h-8"
       onClick={() => T.toggleColSort(col.key)}
     >
       {col.name}
@@ -301,7 +301,7 @@ export function BodySkeleton({ columns }: BodySkeletonProps) {
         .fill(0)
         .map((_, y) => (
           <Table.Row key={y} className="pl-4">
-            {visibleColumns.map(({ key, renderFn }, x) => (
+            {visibleColumns.map(({ key }, x) => (
               <Table.Cell key={key} className={U.cn(x === 0 && 'pl-4')}>
                 <Skeleton className="my-1 h-4 w-[100px]" />
               </Table.Cell>

@@ -16,7 +16,7 @@ export interface BadgeGroupProps {
 export default function BadgeGroup({ badges }: BadgeGroupProps) {
   return (
     <div className="flex gap-2">
-      {badges.map(({ href, icon: Icon, label, variant = 'secondary' }, i) => (
+      {badges.map(({ icon: Icon, label, variant = 'secondary' }, i) => (
         <BadgeComp
           key={i}
           variant={variant}

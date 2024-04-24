@@ -52,10 +52,7 @@ export function useAggregatedQueries<Error, DSelect>(
   const data = useMemo(
     () =>
       !isError && !isLoading
-        ? select.apply(
-            null,
-            queries.map((q) => q.data!),
-          )
+        ? select(...queries.map((q) => q.data!))
         : undefined,
     queries,
   );

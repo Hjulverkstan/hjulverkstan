@@ -46,5 +46,5 @@ export const useEditVehicle = () =>
 export const useDeleteVehicle = () =>
   useMutation({
     ...api.deleteVehicle(),
-    onSuccess: (data) => invalidateQueries([api.getVehicles().queryKey]),
+    onSuccess: () => invalidateQueries([api.getVehicles().queryKey]),
   });
