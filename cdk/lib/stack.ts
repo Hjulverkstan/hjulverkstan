@@ -7,6 +7,7 @@ import {
   Vpc,
 } from "aws-cdk-lib/aws-ec2";
 import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as ecs_patterns from 'aws-cdk-lib/aws-ecs-patterns';
 import { Credentials, DatabaseInstance, DatabaseInstanceEngine, PostgresEngineVersion } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
@@ -39,6 +40,17 @@ export class Stack extends cdk.Stack {
     removalPolicy: cdk.RemovalPolicy.DESTROY, // Destroy RDS instance when stack is deleted (for testing purposes)
   });
 
+  // Create an S3 bucket
+  new s3.Bucket(this, 'ReactS3Bucket', {
+    versioned: true, // Enable versioning
+    removalPolicy: cdk.RemovalPolicy.DESTROY, // This will delete the bucket when the stack is deleted
+    autoDeleteObjects: true, // This will delete objects when the bucket is deleted
+    encryption: s3.BucketEncryption.KMS_MANAGED, // Use KMS encryption managed by AWS Key Management Service
+    blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // Block public access to the bucket
+    bucketName: 'frontend-1-bucket', // Optional: specify a bucket name
+    // Add other bucket configurations as needed
+  });
+  
 
   new ecs_patterns.ApplicationLoadBalancedFargateService(this, "FargateService", {
     cluster: cluster,
