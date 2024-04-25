@@ -47,7 +47,7 @@ export class Stack extends cdk.Stack {
     autoDeleteObjects: true, // This will delete objects when the bucket is deleted
     encryption: s3.BucketEncryption.KMS_MANAGED, // Use KMS encryption managed by AWS Key Management Service
     blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // Block public access to the bucket
-    bucketName: 'frontend-1-bucket', // Optional: specify a bucket name
+    bucketName: 'Stack-S3', // Optional: specify a bucket name
     // Add other bucket configurations as needed
   });
   
