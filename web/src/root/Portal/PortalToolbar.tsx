@@ -3,7 +3,7 @@ import { PlusIcon } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import * as DataTable from '@components/DataTable';
-import { IconButton } from '@components/ui/Button';
+import { IconButton } from '@components/shadcn/Button';
 
 export interface PortalToolbarProps {
   children: ReactNode;

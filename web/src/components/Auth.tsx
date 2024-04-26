@@ -8,7 +8,7 @@ import React, {
 
 import * as api from '@api';
 
-import { useToast } from '@components/ui/use-toast';
+import { useToast } from '@components/shadcn/use-toast';
 import { createErrorToast } from '../root/Portal/toast';
 
 export interface UseAuthReturn {

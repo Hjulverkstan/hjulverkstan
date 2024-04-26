@@ -2,9 +2,9 @@ import { Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import ThemeProvider from '@components/ui/ThemeProvider';
-import Toaster from '@components/ui/Toaster';
-import * as Tooltip from '@components/ui/Tooltip';
+import ThemeProvider from '@components/shadcn/ThemeProvider';
+import Toaster from '@components/shadcn/Toaster';
+import * as Tooltip from '@components/shadcn/Tooltip';
 import * as Auth from '@components/Auth';
 
 import Home from './Home';

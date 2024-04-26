@@ -4,7 +4,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@utils';
-import * as Tooltip from '@components/ui/Tooltip';
+import * as Tooltip from '@components/shadcn/Tooltip';
 
 export const buttonVariants = cva(
   `focus-visible:ring-ring inline-flex items-center justify-center

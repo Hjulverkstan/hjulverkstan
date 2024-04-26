@@ -19,22 +19,22 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 import * as U from '@utils';
-import * as Table from '@components/ui/Table';
-import * as DropdownMenu from '@components/ui/DropdownMenu';
-import * as Popover from '@components/ui/Popover';
-import * as Command from '@components/ui/Command';
+import * as Table from '@components/shadcn/Table';
+import * as DropdownMenu from '@components/shadcn/DropdownMenu';
+import * as Popover from '@components/shadcn/Popover';
+import * as Command from '@components/shadcn/Command';
 import { EnumAttributes, RowEnumAttrMap } from '@enums';
-import { Input } from '@components/ui/Input';
-import { Skeleton } from '@components/ui/Skeleton';
-import { Button, IconButton } from '@components/ui/Button';
+import { Input } from '@components/shadcn/Input';
+import { Skeleton } from '@components/shadcn/Skeleton';
+import { Button, IconButton } from '@components/shadcn/Button';
 import MulitSelect from '@components/MultiSelect';
 import useHeadlessTable, {
   UseHeadlessTableReturn,
   Row,
 } from '@hooks/useHeadlessTable';
 
-import { Separator } from './ui/Separator';
-import { Badge } from './ui/Badge';
+import { Separator } from './shadcn/Separator';
+import { Badge } from './shadcn/Badge';
 
 export type { Row } from '@hooks/useHeadlessTable';
 
@@ -116,7 +116,7 @@ export const Provider = <R extends Row>({
 
 //
 
-export { Root } from '@components/ui/Table';
+export { Root } from '@components/shadcn/Table';
 
 //
 

@@ -3,7 +3,7 @@ import { MinusIcon } from 'lucide-react';
 import { CheckIcon } from '@radix-ui/react-icons';
 
 import * as U from '@utils';
-import * as Command from '@components/ui/Command';
+import * as Command from '@components/shadcn/Command';
 import { EnumAttributes } from '@enums';
 
 interface MultiSelectProps {

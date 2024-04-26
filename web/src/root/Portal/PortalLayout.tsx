@@ -2,11 +2,16 @@ import React from 'react';
 import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useIsFetching } from 'react-query';
 
-import * as DropdownMenu from '@components/ui/DropdownMenu';
-import { Button } from '@components/ui/Button';
-import { Avatar, AvatarFallback } from '@components/ui/Avatar';
-import { Separator } from '@components/ui/Separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/Tabs';
+import * as DropdownMenu from '@components/shadcn/DropdownMenu';
+import { Button } from '@components/shadcn/Button';
+import { Avatar, AvatarFallback } from '@components/shadcn/Avatar';
+import { Separator } from '@components/shadcn/Separator';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@components/shadcn/Tabs';
 import { useAuth } from '@components/Auth';
 import Spinner from '@components/Spinner';
 

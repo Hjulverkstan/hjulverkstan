@@ -5,8 +5,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@components/ui/Dialog';
-import { Button, IconButton } from '@components/ui/Button';
+} from '@components/shadcn/Dialog';
+import { Button, IconButton } from '@components/shadcn/Button';
 import { Trash2 } from 'lucide-react';
 
 interface confirmDeleteDialogProps {

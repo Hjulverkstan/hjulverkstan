@@ -7,7 +7,7 @@ import { cn } from '@utils';
 import {
   Dialog as DialogPrimitive,
   DialogContent,
-} from '@components/ui/Dialog';
+} from '@components/shadcn/Dialog';
 
 export const Root = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { Input } from '@components/ui/Input';
+import { Input } from '@components/shadcn/Input';
 import { useAuth } from '@components/Auth';
-import { Button } from '@components/ui/Button';
+import { Button } from '@components/shadcn/Button';
 
 export default function Login() {
   const { logIn } = useAuth();

@@ -2,11 +2,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Pencil, Save, XIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 
-import * as Tooltip from '@components/ui/Tooltip';
+import * as Tooltip from '@components/shadcn/Tooltip';
 import { ErrorRes } from '@api';
 import { Mode, useDataForm } from '@components/DataForm';
-import { Button, IconButton } from '@components/ui/Button';
-import { useToast } from '@components/ui/use-toast';
+import { Button, IconButton } from '@components/shadcn/Button';
+import { useToast } from '@components/shadcn/use-toast';
 import Error from '@components/Error';
 
 import { createErrorToast } from './toast';

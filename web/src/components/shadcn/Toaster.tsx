@@ -1,5 +1,5 @@
-import * as Toast from '@components/ui/Toast';
-import { useToast } from '@components/ui/use-toast';
+import * as Toast from '@components/shadcn/Toast';
+import { useToast } from '@components/shadcn/use-toast';
 
 export default function Toaster() {
   const { toasts } = useToast();

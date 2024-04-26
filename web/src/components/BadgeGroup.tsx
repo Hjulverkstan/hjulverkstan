@@ -1,6 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 
-import { Badge as BadgeComp, BadgeProps } from './ui/Badge';
+import { Badge as BadgeComp, BadgeProps } from './shadcn/Badge';
 
 export interface Badge {
   href?: string;

@@ -1,4 +1,4 @@
-import * as Toast from '@components/ui/Toast';
+import * as Toast from '@components/shadcn/Toast';
 
 export const createErrorToast = ({
   verbLabel,

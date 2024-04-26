@@ -12,12 +12,12 @@ import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 
 import * as U from '@utils';
 import { cn } from '@utils';
-import { Input as InputDumb } from '@components/ui/Input';
-import { Label } from '@components/ui/Label';
-import { useToast } from '@components/ui/use-toast';
-import { Button } from '@components/ui/Button';
-import * as Popover from '@components/ui/Popover';
-import * as Command from '@components/ui/Command';
+import { Input as InputDumb } from '@components/shadcn/Input';
+import { Label } from '@components/shadcn/Label';
+import { useToast } from '@components/shadcn/use-toast';
+import { Button } from '@components/shadcn/Button';
+import * as Popover from '@components/shadcn/Popover';
+import * as Command from '@components/shadcn/Command';
 
 import { createRefreshToast } from '../root/Portal/toast';
 
