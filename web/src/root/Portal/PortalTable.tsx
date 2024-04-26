@@ -28,9 +28,12 @@ export default function PortalTable({
     rawData?.length && isFiltered && !filteredData?.length;
 
   return (
-    <div className="flex flex-grow flex-col rounded-md border">
-      <div className="flex flex-grow flex-col overflow-hidden rounded-md">
-        <DataTable.Root className="h-full">
+    <div
+      className="flex min-w-0 flex-grow flex-col overflow-hidden rounded-md
+        border"
+    >
+      <div className="flex flex-grow flex-col overflow-auto">
+        <DataTable.Root divClassName="h-full flex-grow">
           <DataTable.Header columns={columns} />
           {isLoading ? (
             <DataTable.BodySkeleton columns={columns} />
@@ -49,23 +52,19 @@ export default function PortalTable({
             message="The filters applied do not give any matches. Reset or remove those filters that contradict each other."
           />
         )}
-        {error ? (
-          <Error className="flex-grow" error={error} />
-        ) : (
-          <div className="flex-grow" />
-        )}
-        <DataTable.Pagination>
-          <div className="flex items-center gap-1">
-            <div
-              className="text-muted-foreground items-center pl-2 text-sm
-                font-normal"
-            >
-              Page {page + 1} of {pageCount}
-            </div>
-            <Spinner visible={isLoading} />
-          </div>
-        </DataTable.Pagination>
+        {error && <Error className="flex-grow" error={error} />}
       </div>
+      <DataTable.Pagination>
+        <div className="flex items-center gap-1">
+          <div
+            className="text-muted-foreground items-center pl-2 text-sm
+              font-normal"
+          >
+            Page {page + 1} of {pageCount}
+          </div>
+          <Spinner visible={isLoading} />
+        </div>
+      </DataTable.Pagination>
     </div>
   );
 }

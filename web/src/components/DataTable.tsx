@@ -130,7 +130,7 @@ export function Header({ columns }: HeaderProps) {
   const visibleColumns = columns.filter(({ key }) => !hiddenCols.includes(key));
 
   return (
-    <Table.Header>
+    <Table.Header className="sticky top-0 z-20">
       <Table.Row>
         {visibleColumns.map((col, x) => (
           <Table.Head key={col.key} className={U.cn(x === 0 && 'pl-4')}>
@@ -270,7 +270,7 @@ export function Body({
             </Table.Cell>
           ))}
           {renderRowActionFn && (
-            <Table.Cell className="z20 sticky right-0 w-10 px-2 ">
+            <Table.Cell className="z20 sticky right-0 w-10 px-2">
               {renderRowActionFn(row, {
                 disabled,
                 y,
@@ -319,7 +319,7 @@ export function Pagination({ children }: { children: ReactNode }) {
   const { disabled, page, pageCount, setPage } = useDataTable();
 
   return (
-    <div className="flex h-10 items-center justify-between border-t px-2">
+    <div className="flex h-10 items-center justify-between border-t p-2">
       {children}
       <div className="flex items-center">
         <IconButton

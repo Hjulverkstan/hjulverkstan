@@ -62,6 +62,9 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
+      boxShadow: {
+        'bottom-1': '0 0.5px 0 0 hsl(var(--border))', // Simulates a 1px bottom border
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

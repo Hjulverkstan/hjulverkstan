@@ -27,8 +27,8 @@ export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
 
   return (
     <>
-      <div className="px-4 pt-2">
-        <nav className="mb-2">
+      <div className="flex h-screen flex-col px-4 pt-2">
+        <nav className="mb-2 flex-shrink">
           <div className="flex items-center justify-center space-x-4">
             <h2 className="flex-1 text-lg font-semibold">
               Hjulverkstan
@@ -47,9 +47,7 @@ export default function PortalLayout({ title, ...rest }: PortalLayoutProps) {
             </div>
           </div>
         </nav>
-        <Separator className="opacity-40" />
-      </div>
-      <div className="p-4">
+        <Separator className="mb-4 opacity-40" />
         <Outlet />
       </div>
     </>

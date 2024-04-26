@@ -4,9 +4,9 @@ import { cn } from '@utils';
 
 export const Root = React.forwardRef<
   HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-x-auto">
+  React.HTMLAttributes<HTMLTableElement> & { divClassName?: string }
+>(({ className, divClassName, ...props }, ref) => (
+  <div className={cn('relative w-full overflow-x-auto', divClassName)}>
     <table
       ref={ref}
       className={cn('w-full caption-bottom text-sm', className)}
@@ -23,7 +23,14 @@ export const Header = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn('[&_tr]:border-b ', className)} {...props} />
+  <thead
+    ref={ref}
+    className={cn(
+      'bg-background [&_th]:bg-background [&:tr]:border-b',
+      className,
+    )}
+    {...props}
+  />
 ));
 
 Header.displayName = 'TableHeader';
@@ -97,8 +104,8 @@ export const Head = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      `bg-background text-muted-foreground h-10 px-2 text-left align-middle
-      font-medium [&:has([role=checkbox])]:pr-0
+      `bg-background text-muted-foreground h-10 text-nowrap px-2 text-left
+      align-middle font-medium [&:has([role=checkbox])]:pr-0
       [&>[role=checkbox]]:translate-y-[2px]`,
       className,
     )}
@@ -117,7 +124,7 @@ export const Cell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      `p-2 px-3 align-middle [&:has([role=checkbox])]:pr-0
+      `text-nowrap p-2 px-3 align-middle [&:has([role=checkbox])]:pr-0
       [&>[role=checkbox]]:translate-y-[2px]`,
       className,
     )}

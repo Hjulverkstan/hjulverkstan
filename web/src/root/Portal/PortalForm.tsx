@@ -83,8 +83,8 @@ export default function PortalForm({
   }[mode];
 
   return (
-    <div className="bg-muted flex min-w-60 flex-col rounded-md border">
-      <div className="flex h-10 items-center border-b px-2">
+    <div className="bg-muted flex w-72 flex-col rounded-md border">
+      <div className="flex h-10 items-center border-b p-2">
         <h3 className="flex-grow pl-2 align-middle text-sm font-medium">
           {title}
         </h3>
@@ -99,10 +99,12 @@ export default function PortalForm({
       {error ? (
         <Error error={error} />
       ) : (
-        <div className="space-y-4 px-2 pb-3 pt-4">{children}</div>
+        <div className="flex-grow space-y-4 overflow-y-scroll px-2 pb-3 pt-4">
+          {children}
+        </div>
       )}
 
-      <div className="10 flex gap-2 border-t px-2 py-2">
+      <div className="10 flex flex-shrink gap-2 border-t px-2 py-2">
         {mode === Mode.EDIT && (
           <Button
             onClick={() => navigate(mode === Mode.EDIT ? `../${id}` : '..')}

@@ -99,7 +99,7 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
     key: 'comment',
     name: 'Comment',
     renderFn: (row) => (
-      <span className="text-muted-foreground">{row.comment}</span>
+      <span className="text-muted-foreground text-elipsis">{row.comment}</span>
     ),
   },
 ];
