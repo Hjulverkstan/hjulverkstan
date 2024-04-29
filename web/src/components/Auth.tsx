@@ -86,13 +86,16 @@ export const Provider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-    api
-      .verifyAuth()
-      .then((res) => {
+    // Verify needs to be rerun on 401s so that if a new accestoken is
+    // acquired (by refreshtoken logic on 401s) we can verify our access agian.
+
+    const reqFn = () =>
+      api.verifyAuth().then((res) => {
         setIsInitialising(false);
         setState(res);
-      })
-      .catch(() => setIsInitialising(false));
+      });
+
+    reqFn().catch(() => reqFn().catch(() => setIsInitialising(false)));
   }, []);
 
   useEffect(() => {
