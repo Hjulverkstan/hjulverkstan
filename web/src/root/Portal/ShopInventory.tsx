@@ -197,7 +197,7 @@ function Filters() {
           )
         }
       />
-      <DataTable.PopoverFilterRoot label="Type">
+      <DataTable.FilterPopover label="Type">
         <DataTable.FilterMultiSelect
           filterKey="vehicle-type"
           rowEnumAttrMap={{
@@ -206,14 +206,14 @@ function Filters() {
             strollerType: enums.vehicle.strollerType,
           }}
         />
-      </DataTable.PopoverFilterRoot>
-      <DataTable.PopoverFilterRoot label="Status">
+      </DataTable.FilterPopover>
+      <DataTable.FilterPopover label="Status">
         <DataTable.FilterMultiSelect
           filterKey="vehicle-status"
           rowEnumAttrMap={{ vehicleStatus: enums.vehicle.vehicleStatus }}
         />
-      </DataTable.PopoverFilterRoot>
-      <DataTable.PopoverFilterRoot label="Details">
+      </DataTable.FilterPopover>
+      <DataTable.FilterPopover label="Details">
         <DataTable.FilterMultiSelect
           heading="Bike Size"
           filterKey="size"
@@ -224,7 +224,7 @@ function Filters() {
           filterKey="brakes"
           rowEnumAttrMap={{ brakeType: enums.vehicle.brakeType }}
         />
-      </DataTable.PopoverFilterRoot>
+      </DataTable.FilterPopover>
     </>
   );
 }

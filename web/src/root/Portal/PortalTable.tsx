@@ -1,4 +1,12 @@
+import { ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import {
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+} from '@radix-ui/react-icons';
+import { SearchX } from 'lucide-react';
 
 import * as DataTable from '@components/DataTable';
 import { useDataTable } from '@components/DataTable';
@@ -6,7 +14,7 @@ import Message from '@components/Message';
 import Error from '@components/Error';
 import Spinner from '@components/Spinner';
 import { ErrorRes } from '@api';
-import { SearchX } from 'lucide-react';
+import { IconButton } from '@components/shadcn/Button';
 
 export interface PortalTableProps
   extends Pick<DataTable.BodyProps, 'columns' | 'renderRowActionFn'> {
@@ -54,7 +62,7 @@ export default function PortalTable({
         )}
         {error && <Error className="flex-grow" error={error} />}
       </div>
-      <DataTable.Pagination>
+      <Pagination>
         <div className="flex items-center gap-1">
           <div
             className="text-muted-foreground items-center pl-2 text-sm
@@ -64,7 +72,49 @@ export default function PortalTable({
           </div>
           <Spinner visible={isLoading} />
         </div>
-      </DataTable.Pagination>
+      </Pagination>
+    </div>
+  );
+}
+
+//
+
+export function Pagination({ children }: { children: ReactNode }) {
+  const { disabled, page, pageCount, setPage } = useDataTable();
+
+  return (
+    <div className="flex h-10 items-center justify-between border-t p-2">
+      {children}
+      <div className="flex items-center">
+        <IconButton
+          variant="ghost"
+          onClick={() => setPage(0)}
+          disabled={disabled || page === 0}
+          icon={DoubleArrowLeftIcon}
+          tooltip="First page"
+        />
+        <IconButton
+          variant="ghost"
+          onClick={() => setPage(page - 1)}
+          disabled={disabled || page === 0}
+          icon={ChevronLeftIcon}
+          tooltip="Previous page"
+        />
+        <IconButton
+          variant="ghost"
+          onClick={() => setPage(page + 1)}
+          disabled={disabled || page >= pageCount - 1}
+          icon={ChevronRightIcon}
+          tooltip="Next page"
+        />
+        <IconButton
+          variant="ghost"
+          onClick={() => setPage(pageCount - 1)}
+          disabled={disabled || page >= pageCount - 1}
+          icon={DoubleArrowRightIcon}
+          tooltip="Last page"
+        />
+      </div>
     </div>
   );
 }
