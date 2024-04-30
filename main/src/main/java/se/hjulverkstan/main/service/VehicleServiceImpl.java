@@ -32,10 +32,10 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDto createVehicle(NewVehicleDto newVehicle) {
-        //TODO Change so that it findsById instead of RegTag
-        if (vehicleRepository.findByRegTag(newVehicle.getRegTag()).isPresent()) {
+        if (newVehicle.getRegTag() != null &&  vehicleRepository.findByRegTag(newVehicle.getRegTag()).isPresent()) {
             throw new AlreadyUsedException("A vehicle with that regtag already exists");
         }
+
         Vehicle vehicle = createSpecificVehicleType(newVehicle);
 
         vehicle.setVehicleStatus(newVehicle.getVehicleStatus());
