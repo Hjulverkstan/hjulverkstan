@@ -1,0 +1,75 @@
+import { useParams } from 'react-router-dom';
+
+import { useLocationsQ } from '@data/location/queries';
+import { initVehicle, vehicleZ } from '@data/vehicle/form';
+import { useCreateVehicleM, useEditVehicleM } from '@data/vehicle/mutations';
+import { useVehicleQ, useVehiclesAggregatedQ } from '@data/vehicle/queries';
+
+import * as DataTable from '@components/DataTable';
+import * as DataForm from '@components/DataForm';
+import { Mode } from '@components/DataForm';
+
+import PortalContent from '../PortalContent';
+import PortalForm from '../PortalForm';
+import PortalTable from '../PortalTable';
+import PortalToolbar from '../PortalToolbar';
+import { PageContentProps } from '..';
+
+import ShopInventoryActions from './ShopInventoryActions';
+import ShopInventoryFilters from './ShopInventoryFilters';
+import ShopInventoryFields from './ShopInventoryFields';
+import columns from './columns';
+
+//
+
+export default function PortalShopInventory({ mode }: PageContentProps) {
+  const { id = '' } = useParams();
+
+  const vehiclesQ = useVehiclesAggregatedQ();
+  const vehicleQ = useVehicleQ({ id });
+  const createVehicleM = useCreateVehicleM();
+  const editVehicleM = useEditVehicleM();
+  const locationsQ = useLocationsQ(); // <Fields /> doesn't handle error/loading
+
+  return (
+    <DataTable.Provider
+      key="vehicles"
+      tableKey="vehicles"
+      disabled={mode && mode !== Mode.READ}
+      data={vehiclesQ.data}
+    >
+      <PortalToolbar dataLabel="vehicle">
+        <ShopInventoryFilters />
+      </PortalToolbar>
+      <PortalContent>
+        <PortalTable
+          renderRowActionFn={({ id, vehicleType }) => (
+            <ShopInventoryActions id={id} vehicleType={vehicleType} />
+          )}
+          columns={columns}
+          isLoading={vehiclesQ.isLoading}
+          error={vehiclesQ.error}
+        />
+        {mode && (
+          <DataForm.Provider
+            mode={mode}
+            isLoading={vehicleQ.isLoading || locationsQ.isLoading}
+            data={vehicleQ.data}
+            zodSchema={vehicleZ}
+            initCreateBody={initVehicle}
+          >
+            <PortalForm
+              dataLabel="Vehicle"
+              error={vehicleQ.error || locationsQ.error}
+              isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}
+              saveMutation={editVehicleM.mutateAsync}
+              createMutation={createVehicleM.mutateAsync}
+            >
+              <ShopInventoryFields />
+            </PortalForm>
+          </DataForm.Provider>
+        )}
+      </PortalContent>
+    </DataTable.Provider>
+  );
+}

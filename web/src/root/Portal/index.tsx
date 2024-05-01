@@ -5,7 +5,7 @@ import { Mode } from '@components/DataForm';
 import { useAuth } from '@components/Auth';
 
 import PortalLayout from './PortalLayout';
-import ShopInventory from './ShopInventory';
+import PortalShopInventory from './PortalShopInventory';
 import PortalLogin from './PortalLogin';
 
 //
@@ -17,7 +17,11 @@ const shopRoutes = [
 
 //
 
-const mountCountent = (Content: ComponentType<{ mode?: Mode }>) => (
+export interface PageContentProps {
+  mode?: Mode;
+}
+
+const mountPageContent = (Content: ComponentType<PageContentProps>) => (
   <Routes>
     <Route index element={<Content />} />
     <Route path=":id" element={<Content mode={Mode.READ} />} />
@@ -45,7 +49,10 @@ export default function Portal() {
           />
         }
       >
-        <Route path="inventory/*" element={mountCountent(ShopInventory)} />
+        <Route
+          path="inventory/*"
+          element={mountPageContent(PortalShopInventory)}
+        />
       </Route>
       <Route path="*" element={<Navigate replace to="shop" />} />
     </Routes>

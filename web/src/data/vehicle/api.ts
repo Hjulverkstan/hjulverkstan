@@ -6,7 +6,7 @@ import {
 } from '../api';
 import { Vehicle, VehicleType } from './types';
 
-// GET LIST
+// QUERIES
 
 export interface GetVehiclesRes {
   vehicles: Vehicle[];
@@ -20,8 +20,6 @@ export const createGetVehicles = () => ({
       .then((res) => res.data.vehicles.map(parseResponseData) as Vehicle[])
       .catch(createErrorHandler(endpoints.vehicle)),
 });
-
-// GET ONE
 
 export type GetVehicleRes = Vehicle;
 export interface GetVehicleParams {
@@ -37,10 +35,39 @@ export const createGetVehicle = ({ id }: GetVehicleParams) => ({
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 
-// CREATE
+// MUTATIONS
 
-export type CreateVehicleRes = Vehicle;
-export type CreateVehicleParams = Omit<Vehicle, 'id'>;
+const transformBody = ({
+  id,
+  locationId,
+  imageURL,
+  ticketIds,
+  comment,
+  regTag,
+  vehicleStatus,
+  vehicleType,
+  size,
+  gearCount,
+  brakeType,
+  brand,
+  bikeType,
+  strollerType,
+  batchCount,
+}: Partial<Vehicle>) => ({
+  id,
+  locationId: Number(locationId),
+  imageURL,
+  ticketIds,
+  comment,
+  vehicleType,
+  ...(vehicleType !== VehicleType.BATCH
+    ? { regTag, vehicleStatus }
+    : { batchCount }),
+  ...(vehicleType === VehicleType.BIKE
+    ? { size, gearCount, brakeType, brand, bikeType }
+    : {}),
+  ...(vehicleType === VehicleType.STROLLER ? { strollerType } : {}),
+});
 
 const toVehicleUrl = (vehicleType: string) =>
   endpoints.vehicle +
@@ -50,15 +77,23 @@ const toVehicleUrl = (vehicleType: string) =>
     [VehicleType.BATCH]: '/batch',
   }[vehicleType] ?? '');
 
+//
+
+export type CreateVehicleRes = Vehicle;
+export type CreateVehicleParams = Omit<Vehicle, 'id'>;
+
 export const createCreateVehicle = () => ({
   mutationFn: (body: CreateVehicleParams) =>
     instance
-      .post<CreateVehicleRes>(toVehicleUrl(body.vehicleType))
+      .post<CreateVehicleRes>(
+        toVehicleUrl(body.vehicleType),
+        transformBody(body),
+      )
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 
-// UPDATE
+//
 
 export type EditVehicleRes = Vehicle;
 export type EditVehicleParams = Vehicle;
@@ -66,12 +101,12 @@ export type EditVehicleParams = Vehicle;
 export const createEditVehicle = () => ({
   mutationFn: (body: EditVehicleParams) =>
     instance
-      .put<EditVehicleRes>(toVehicleUrl(body.vehicleType), body)
+      .put<EditVehicleRes>(toVehicleUrl(body.vehicleType), transformBody(body))
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 
-// DELETE
+//
 
 export const createDeleteVehicle = () => ({
   mutationFn: (id: string) =>
