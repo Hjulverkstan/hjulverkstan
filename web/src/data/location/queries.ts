@@ -20,6 +20,11 @@ export const useLocationsAsEnumsQ = () =>
           (e) => e.value === location.locationType,
         )!;
 
-        return { icon, name: location.name, value: location.id };
+        return {
+          dataKey: 'locationId',
+          icon,
+          name: location.name,
+          value: location.id,
+        };
       }) ?? [],
   });

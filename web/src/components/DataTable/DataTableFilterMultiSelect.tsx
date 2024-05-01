@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 
 import * as U from '@utils';
-import { RowEnumAttrMap, EnumAttributes } from '@data/enums';
+import { EnumAttributes } from '@data/enums';
 import MultiSelect from '@components/MultiSelect';
 
 import { Row, useDataTable, useFilterPopover } from './';
@@ -13,22 +13,22 @@ export interface FilterMultiSelectProps {
    * found on a row. This is then flattened but since this component is
    * responsible for connecting with data from DataTable it needs the dataKey.
    */
-  rowEnumAttrMap: RowEnumAttrMap;
+  enums: EnumAttributes[];
   heading?: string;
 }
 
 export const FilterMultiSelect = ({
   filterKey,
-  rowEnumAttrMap,
+  enums,
   heading,
 }: FilterMultiSelectProps) => {
   const { setActiveLabels } = useFilterPopover();
   const { filterFnMap, setFilterFn, rawData } = useDataTable();
   const [selected, setSelected] = useState<string[]>([]);
 
-  // Create flat enums and extend data on them
+  // Add count to each enum and reject if not in the data of the table (rawData)
 
-  const flatEnumsAggregated = useMemo(() => {
+  const enumsAggregated = useMemo(() => {
     const { [filterKey]: _, ...filterFnMapOthers } = filterFnMap;
 
     const filterFnOtherFilters = (row: Row) =>
@@ -36,27 +36,16 @@ export const FilterMultiSelect = ({
 
     const filteredData = rawData.filter(filterFnOtherFilters);
 
-    const toAggregatedEnums = (dataKey: string, enums: EnumAttributes[]) =>
-      enums.map((e) => ({
+    return enums
+      .map((e) => ({
         ...e,
-        dataKey,
         count: U.occurencesOfElInArray(
           e.value,
-          filteredData.map((row) => row[dataKey]).filter((x) => x),
+          filteredData.map((row) => row[e.dataKey]).filter((x) => x),
         ),
-      }));
-
-    return (
-      Object.entries(rowEnumAttrMap)
-        // Flatten and count occurences using the key from the RowEnumAttrMap
-        .reduce<ReturnType<typeof toAggregatedEnums>>(
-          (acc, [dataKey, enums]) =>
-            acc.concat(toAggregatedEnums(dataKey, enums)),
-          [],
-        )
-        .filter((e) => rawData.some((row) => row[e.dataKey] === e.value))
-    );
-  }, [rowEnumAttrMap, rawData, filterFnMap]);
+      }))
+      .filter((e) => rawData.some((row) => row[e.dataKey] === e.value));
+  }, [enums, rawData, filterFnMap]);
 
   // Connect with <PopoverFilterRoot /> and its activeFilters
 
@@ -65,10 +54,10 @@ export const FilterMultiSelect = ({
       setActiveLabels(
         filterKey,
         selected.map(
-          (value) => flatEnumsAggregated.find((e) => e.value === value)!.name,
+          (value) => enumsAggregated.find((e) => e.value === value)!.name,
         ),
       ),
-    [selected, flatEnumsAggregated],
+    [selected, enumsAggregated],
   );
 
   // Connect with DataTable filterFn api
@@ -80,7 +69,7 @@ export const FilterMultiSelect = ({
   useEffect(() => {
     const filterFn = (row: any) =>
       selected.some((value) => {
-        const enumAttr = flatEnumsAggregated.find((e) => e.value === value)!;
+        const enumAttr = enumsAggregated.find((e) => e.value === value)!;
 
         return row[enumAttr.dataKey] === enumAttr.value;
       });
@@ -92,7 +81,7 @@ export const FilterMultiSelect = ({
 
   return (
     <MultiSelect
-      enums={flatEnumsAggregated}
+      enums={enumsAggregated}
       selected={selected}
       setSelected={setSelected}
       heading={heading}

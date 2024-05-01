@@ -14,10 +14,6 @@ export interface EnumAttributes {
   count?: number;
 }
 
-export interface RowEnumAttrMap {
-  [key: string]: EnumAttributes[];
-}
-
 //
 
 export const createFindFn = (enums: EnumAttributes[]) => (value: string) => {

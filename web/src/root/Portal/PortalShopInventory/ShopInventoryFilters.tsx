@@ -6,7 +6,6 @@ import * as DataTable from '@components/DataTable';
 
 export default function ShopInventoryFilters() {
   const locationEnumsQ = useLocationsAsEnumsQ();
-  const locationEnumMap = { locationId: locationEnumsQ.data ?? [] };
 
   return (
     <>
@@ -24,40 +23,40 @@ export default function ShopInventoryFilters() {
       <DataTable.FilterPopover label="Location">
         <DataTable.FilterMultiSelect
           filterKey="location"
-          rowEnumAttrMap={locationEnumMap}
+          enums={locationEnumsQ.data ?? []}
         />
       </DataTable.FilterPopover>
       <DataTable.FilterPopover label="Type">
         <DataTable.FilterMultiSelect
           filterKey="vehicle-type"
-          rowEnumAttrMap={{
-            vehicleType: enums.vehicleType,
-            bikeType: enums.bikeType,
-            strollerType: enums.strollerType,
-          }}
+          enums={[
+            ...enums.vehicleType,
+            ...enums.bikeType,
+            ...enums.strollerType,
+          ]}
         />
       </DataTable.FilterPopover>
       <DataTable.FilterPopover label="Status">
         <DataTable.FilterMultiSelect
           filterKey="vehicle-status"
-          rowEnumAttrMap={{ vehicleStatus: enums.vehicleStatus }}
+          enums={enums.vehicleStatus}
         />
       </DataTable.FilterPopover>
       <DataTable.FilterPopover label="Details" hasSearch>
         <DataTable.FilterMultiSelect
           heading="Bike Size"
           filterKey="size"
-          rowEnumAttrMap={{ size: enums.size }}
+          enums={enums.size}
         />
         <DataTable.FilterMultiSelect
           heading="Brake Type"
           filterKey="brakes"
-          rowEnumAttrMap={{ brakeType: enums.brakeType }}
+          enums={enums.brakeType}
         />
         <DataTable.FilterMultiSelect
           heading="Brand"
           filterKey="brands"
-          rowEnumAttrMap={{ brand: enums.brand }}
+          enums={enums.brand}
         />
       </DataTable.FilterPopover>
     </>
