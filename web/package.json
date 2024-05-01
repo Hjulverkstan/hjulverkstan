@@ -11,7 +11,7 @@
     "build:static": "vite build --outDir dist/static && node scripts/build",
     "build": "npm run build:ssr && npm run build:static",
     "serve": "npm run build && cd dist/static && npx serve",
-    "lint": "eslint -c ../.eslintrc.json \"**/*.{js,jsx,ts,tsx,md}\"",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx,md}\"",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,md}\"",
     "format": "prettier --config ../.prettierrc --write \"**/*.{js,jsx,ts,tsx,md}\""
   },

@@ -21,7 +21,9 @@
       "@api": ["./src/api"],
       "@root": ["./src/root"],
       "@types": ["./src/types"],
-      "@enums": ["./src/enums"]
+      "@enums": ["./src/enums"],
+      "@data": ["./src/data"],
+      "@data/*": ["./src/data/*"]
     }
   },
   "include": [

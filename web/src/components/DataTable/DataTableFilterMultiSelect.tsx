@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 
 import * as U from '@utils';
-import { RowEnumAttrMap, EnumAttributes } from '@enums';
+import { RowEnumAttrMap, EnumAttributes } from '@data/enums';
 import MultiSelect from '@components/MultiSelect';
 
 import { Row, useDataTable, useFilterPopover } from './';

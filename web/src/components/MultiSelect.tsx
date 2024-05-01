@@ -4,7 +4,7 @@ import { CheckIcon } from '@radix-ui/react-icons';
 
 import * as U from '@utils';
 import * as Command from '@components/shadcn/Command';
-import { EnumAttributes } from '@enums';
+import { EnumAttributes } from '@data/enums';
 
 interface MultiSelectProps {
   enums: EnumAttributes[];

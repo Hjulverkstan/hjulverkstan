@@ -6,7 +6,8 @@ import React, {
   useState,
 } from 'react';
 
-import * as api from '@api';
+import { LogInRes } from '@data/auth/types';
+import * as api from '@data/auth/api';
 
 import { useToast } from '@components/shadcn/use-toast';
 import { createErrorToast } from '../root/Portal/toast';
@@ -16,7 +17,7 @@ export interface UseAuthReturn {
   isLoading: boolean;
   logIn: (username: string, password: string) => void;
   logOut: () => void;
-  auth: api.LogInRes | null;
+  auth: LogInRes | null;
 }
 
 const AuthContext = createContext<undefined | UseAuthReturn>(undefined);
@@ -39,7 +40,7 @@ interface AuthProviderProps {
 export const Provider = ({ children }: AuthProviderProps) => {
   const [isInitialising, setIsInitialising] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [state, setState] = useState<null | api.LogInRes>(null);
+  const [state, setState] = useState<null | LogInRes>(null);
 
   const { toast } = useToast();
 
@@ -99,7 +100,7 @@ export const Provider = ({ children }: AuthProviderProps) => {
   }, []);
 
   useEffect(() => {
-    api.subscribeToUnsuccessfulTokenRefresh(() => {
+    api.subscribeToRefreshFailed(() => {
       setIsLoading(false);
       setState(null);
     });

@@ -3,19 +3,9 @@ import {
   endpoints,
   createErrorHandler,
   parseResponseData,
-} from './index';
+} from '../api';
 
-export enum LocationType {
-  STORAGE = 'STORAGE',
-  SHOP = 'SHOP',
-}
-
-export interface Location {
-  id: string;
-  locationType: LocationType;
-  address: string;
-  name: string;
-}
+import { Location } from './types';
 
 //
 

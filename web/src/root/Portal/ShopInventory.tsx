@@ -2,9 +2,29 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 
-import * as Q from '@hooks/queries';
-import * as M from '@hooks/mutations';
-import { Vehicle, VehicleStatus, VehicleType } from '@api';
+import * as ticketEnums from '@data/ticket/enums';
+import * as locationEnums from '@data/location/enums';
+import * as enums from '@data/vehicle/enums';
+import {
+  initVehicle,
+  maxGearCount,
+  minGearCount,
+  vehicleZ,
+} from '@data/vehicle/form';
+import {
+  Vehicle,
+  VehicleAggregated,
+  VehicleStatus,
+  VehicleType,
+} from '@data/vehicle/types';
+import { useVehicleQ, useVehiclesAggregatedQ } from '@data/vehicle/queries';
+import {
+  useCreateVehicleM,
+  useDeleteVehicleM,
+  useEditVehicleM,
+} from '@data/vehicle/mutations';
+import { useLocationsAsEnumsQ, useLocationsQ } from '@data/location/queries';
+
 import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
@@ -17,15 +37,11 @@ import { Badge } from '@components/shadcn/Badge';
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import IconLabel from '@components/IconLabel';
 import { fuzzyMatchFn } from '@components/DataTable';
-import { VehicleAggregated } from '@hooks/queries';
-import { toLabel, enumMatchFn } from '@enums';
-import * as enums from '@enums';
 
 import PortalForm from './PortalForm';
 import PortalTable from './PortalTable';
 import PortalToolbar from './PortalToolbar';
 import PortalContent from './PortalContent';
-import { initVehicle, maxGearCount, minGearCount, vehicleZ } from './data';
 import { createSuccessToast, createErrorToast } from './toast';
 
 //
@@ -40,9 +56,7 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
     key: 'location',
     name: 'Location',
     renderFn: ({ location }) => {
-      const icon = enums.location.locationType.find(
-        (e) => e.value === location.locationType,
-      )?.icon;
+      const { icon } = locationEnums.find(location.locationType);
 
       return <BadgeGroup badges={[{ label: location.name, icon }]} />;
     },
@@ -51,12 +65,11 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
     key: 'vehicleType',
     name: 'Type',
     renderFn: ({ vehicleType, bikeType, strollerType }) => (
-      <IconLabel {...toLabel(enums.vehicle.vehicleType, vehicleType)}>
+      <IconLabel {...enums.find(vehicleType)}>
         {(strollerType || bikeType) && (
           <span className="text-muted-foreground pl-1">
-            {bikeType && toLabel(enums.vehicle.bikeType, bikeType).name}
-            {strollerType &&
-              toLabel(enums.vehicle.strollerType, strollerType).name}
+            {bikeType && enums.find(bikeType).name}
+            {strollerType && enums.find(strollerType).name}
           </span>
         )}
       </IconLabel>
@@ -67,9 +80,7 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
     name: 'Status',
     renderFn: ({ vehicleStatus }) => {
       if (vehicleStatus) {
-        const { icon, name: label } = enums.vehicle.vehicleStatus.find(
-          (e) => e.value === vehicleStatus,
-        )!;
+        const { icon, name: label } = enums.find(vehicleStatus);
 
         const variant = {
           [VehicleStatus.AVAILABLE]: 'successOutline',
@@ -91,8 +102,7 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
           .map(({ ticketType, customerFirstName }) => ({
             variant: 'warn' as 'warn',
             label: customerFirstName ?? '',
-            icon: enums.ticket.type.find(({ value }) => value === ticketType)!
-              .icon,
+            icon: ticketEnums.find(ticketType).icon,
           })) ?? [];
 
       const amountClosed = tickets?.filter((ticket) => !ticket.isOpen).length;
@@ -104,14 +114,12 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
   {
     key: 'brand',
     name: 'Brand',
-    renderFn: ({ brand }) =>
-      brand && <IconLabel {...toLabel(enums.vehicle.brand, brand)} />,
+    renderFn: ({ brand }) => brand && <IconLabel {...enums.find(brand)} />,
   },
   {
     key: 'size',
     name: 'Size',
-    renderFn: ({ size }) =>
-      size && <IconLabel {...toLabel(enums.vehicle.size, size)} />,
+    renderFn: ({ size }) => size && <IconLabel {...enums.find(size)} />,
   },
   {
     key: 'gearCount',
@@ -125,9 +133,7 @@ const columns: Array<DataTable.Column<VehicleAggregated>> = [
     key: 'brakeType',
     name: 'Brakes',
     renderFn: ({ brakeType }) =>
-      brakeType && (
-        <IconLabel {...toLabel(enums.vehicle.brakeType, brakeType)} />
-      ),
+      brakeType && <IconLabel {...enums.find(brakeType)} />,
   },
   {
     key: 'batchCount',
@@ -187,14 +193,11 @@ export interface InventoryShopProps {
 export default function InventoryShop({ mode }: InventoryShopProps) {
   const { id = '' } = useParams();
 
-  const vehiclesQ = Q.useVehiclesAggregated();
-  const vehicleQ = Q.useVehicle({ id });
-  const createVehicleM = M.useCreateVehicle();
-  const editVehicleM = M.useEditVehicle();
-
-  // Used here because DataForm isLoading should include locationsQ as it is
-  // used in one of the fields
-  const locationsQ = Q.useLocations();
+  const vehiclesQ = useVehiclesAggregatedQ();
+  const vehicleQ = useVehicleQ({ id });
+  const createVehicleM = useCreateVehicleM();
+  const editVehicleM = useEditVehicleM();
+  const locationsQ = useLocationsQ(); // <Fields /> doesn't handle error/loading
 
   const isTableDisabled = [Mode.CREATE, Mode.EDIT].includes(mode);
 
@@ -245,7 +248,7 @@ export default function InventoryShop({ mode }: InventoryShopProps) {
 //
 
 function Filters() {
-  const locationEnumsQ = Q.useLocationsAsEnums();
+  const locationEnumsQ = useLocationsAsEnumsQ();
   const locationEnumMap = { locationId: locationEnumsQ.data ?? [] };
 
   return (
@@ -253,7 +256,7 @@ function Filters() {
       <DataTable.FilterSearch
         placeholder="Search..."
         matchFn={(word, row: VehicleAggregated) =>
-          enumMatchFn(enums.vehicle, word, row) ||
+          enums.matchFn(word, row) ||
           fuzzyMatchFn(['comment', 'regTag'], word, row) ||
           word === String(row.gearCount) ||
           row.tickets.some((ticket) =>
@@ -271,33 +274,33 @@ function Filters() {
         <DataTable.FilterMultiSelect
           filterKey="vehicle-type"
           rowEnumAttrMap={{
-            vehicleType: enums.vehicle.vehicleType,
-            bikeType: enums.vehicle.bikeType,
-            strollerType: enums.vehicle.strollerType,
+            vehicleType: enums.vehicleType,
+            bikeType: enums.bikeType,
+            strollerType: enums.strollerType,
           }}
         />
       </DataTable.FilterPopover>
       <DataTable.FilterPopover label="Status">
         <DataTable.FilterMultiSelect
           filterKey="vehicle-status"
-          rowEnumAttrMap={{ vehicleStatus: enums.vehicle.vehicleStatus }}
+          rowEnumAttrMap={{ vehicleStatus: enums.vehicleStatus }}
         />
       </DataTable.FilterPopover>
       <DataTable.FilterPopover label="Details" hasSearch>
         <DataTable.FilterMultiSelect
           heading="Bike Size"
           filterKey="size"
-          rowEnumAttrMap={{ size: enums.vehicle.size }}
+          rowEnumAttrMap={{ size: enums.size }}
         />
         <DataTable.FilterMultiSelect
           heading="Brake Type"
           filterKey="brakes"
-          rowEnumAttrMap={{ brakeType: enums.vehicle.brakeType }}
+          rowEnumAttrMap={{ brakeType: enums.brakeType }}
         />
         <DataTable.FilterMultiSelect
           heading="Brand"
           filterKey="brands"
-          rowEnumAttrMap={{ brand: enums.vehicle.brand }}
+          rowEnumAttrMap={{ brand: enums.brand }}
         />
       </DataTable.FilterPopover>
     </>
@@ -306,7 +309,7 @@ function Filters() {
 
 function Fields() {
   const { body, mode } = DataForm.useDataForm();
-  const locationEnumsQ = Q.useLocationsAsEnums();
+  const locationEnumsQ = useLocationsAsEnumsQ();
 
   return (
     <>
@@ -328,7 +331,7 @@ function Fields() {
       <DataForm.Select
         label="Vehicle type"
         dataKey="vehicleType"
-        options={enums.vehicle.vehicleType}
+        options={enums.vehicleType}
         disabled={mode === Mode.EDIT}
       />
 
@@ -337,7 +340,7 @@ function Fields() {
           key={body.vehicleType}
           label="Stroller type"
           dataKey="strollerType"
-          options={enums.vehicle.strollerType}
+          options={enums.strollerType}
         />
       )}
 
@@ -354,7 +357,7 @@ function Fields() {
         <DataForm.Select
           label="Vehicle status"
           dataKey="vehicleStatus"
-          options={enums.vehicle.vehicleStatus}
+          options={enums.vehicleStatus}
         />
       )}
 
@@ -364,22 +367,18 @@ function Fields() {
             key={body.vehicleType}
             label="Bike type"
             dataKey="bikeType"
-            options={enums.vehicle.bikeType}
+            options={enums.bikeType}
           />
           <DataForm.Select
             label="Brand"
             dataKey="brand"
-            options={enums.vehicle.brand}
+            options={enums.brand}
           />
-          <DataForm.Select
-            label="Size"
-            dataKey="size"
-            options={enums.vehicle.size}
-          />
+          <DataForm.Select label="Size" dataKey="size" options={enums.size} />
           <DataForm.Select
             label="Brake type"
             dataKey="brakeType"
-            options={enums.vehicle.brakeType}
+            options={enums.brakeType}
           />
           <DataForm.Input
             type="number"
@@ -408,7 +407,7 @@ export interface ActionsProps {
 }
 
 export function Actions({ id, vehicleType }: ActionsProps) {
-  const deleteVehicleM = M.useDeleteVehicle();
+  const deleteVehicleM = useDeleteVehicleM();
 
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
