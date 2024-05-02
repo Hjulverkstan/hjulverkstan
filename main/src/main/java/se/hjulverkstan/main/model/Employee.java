@@ -18,7 +18,7 @@ public class Employee extends Auditable {
     @Setter(AccessLevel.PRIVATE)
     private Long id;
     private String employeeNumber;
-    private String name;
+    private String firstName;
     private String lastName;
     private String phoneNumber;
     private String email;

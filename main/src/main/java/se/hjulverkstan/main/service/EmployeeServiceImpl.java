@@ -69,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new RuntimeException(ELEMENT_NAME));
 
         selectedEmployee.setEmployeeNumber(employee.getEmployeeNumber());
-        selectedEmployee.setName(employee.getName());
+        selectedEmployee.setFirstName(employee.getFirstName());
         selectedEmployee.setLastName(employee.getLastName());
         selectedEmployee.setPhoneNumber(employee.getPhoneNumber());
         selectedEmployee.setEmail(employee.getEmail());
@@ -84,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto createEmployee(NewEmployeeDto newEmployee) {
         Employee employee = new Employee();
         employee.setEmployeeNumber(newEmployee.getEmployeeNumber());
-        employee.setName(newEmployee.getName());
+        employee.setFirstName(newEmployee.getFirstName());
         employee.setLastName(newEmployee.getLastName());
         employee.setPhoneNumber(newEmployee.getPhoneNumber());
         employee.setEmail(newEmployee.getEmail());

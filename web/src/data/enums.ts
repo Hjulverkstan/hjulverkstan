@@ -1,4 +1,4 @@
-import { LucideIcon } from 'lucide-react';
+import { ComponentType } from 'react';
 
 import { Row } from '@hooks/useHeadlessTable';
 
@@ -8,7 +8,7 @@ export interface EnumAttributes {
   value: string;
   name: string;
   dataKey: string;
-  icon?: LucideIcon;
+  icon?: ComponentType<any>;
   /* Following fields aggregated in some bussines logic down the line */
   children?: string[];
   count?: number;

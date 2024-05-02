@@ -5,6 +5,7 @@ import {
   parseResponseData,
 } from '../api';
 
+import { Ticket, TicketType } from './types';
 //
 
 export interface GetTicketsRes {
@@ -17,5 +18,93 @@ export const createGetTickets = () => ({
     instance
       .get<GetTicketsRes>(endpoints.ticket)
       .then((res) => res.data.tickets.map(parseResponseData) as Ticket[])
+      .catch(createErrorHandler(endpoints.ticket)),
+});
+
+export type GetTicketRes = Ticket;
+export interface GetTicketParams {
+  id: string;
+}
+
+export const createGetTicket = ({ id }: GetTicketParams) => ({
+  queryKey: ['ticket', id],
+  queryFn: () =>
+    instance
+      .get<GetTicketRes>(`${endpoints.ticket}/${id}`)
+      .then((res) => parseResponseData(res.data) as Ticket)
+      .catch(createErrorHandler(endpoints.ticket)),
+});
+
+// MUTATIONS
+
+const transformBody = ({
+  id,
+  ticketType,
+  isOpen,
+  startDate,
+  endDate,
+  repairDescription,
+  comment,
+  vehicleIds,
+  employeeId,
+  customerId,
+}: Partial<Ticket>) => ({
+  id,
+  ticketType,
+  isOpen,
+  startDate,
+  endDate,
+  comment,
+  repairDescription,
+  vehicleIds,
+  employeeId,
+  customerId,
+});
+
+const toTicketUrl = (ticketType: string, ticketId?: string) =>
+  endpoints.ticket +
+  ({
+    [TicketType.RENT]: '/rent',
+    [TicketType.REPAIR]: '/repair',
+    [TicketType.DONATE]: '/donate',
+  }[ticketType] ?? '') +
+  (ticketId ? `/${ticketId}` : '');
+
+//
+
+export type CreateTicketRes = Ticket;
+export type CreateTicketParams = Omit<Ticket, 'id'>;
+
+export const createCreateTicket = () => ({
+  mutationFn: (body: CreateTicketParams) =>
+    instance
+      .post<CreateTicketRes>(toTicketUrl(body.ticketType), transformBody(body))
+      .then((res) => parseResponseData(res.data) as Ticket)
+      .catch(createErrorHandler(endpoints.ticket)),
+});
+
+//
+
+export type EditTicketRes = Ticket;
+export type EditTicketParams = Ticket;
+
+export const createEditTicket = () => ({
+  mutationFn: (body: EditTicketParams) =>
+    instance
+      .put<EditTicketRes>(
+        toTicketUrl(body.ticketType, body.id),
+        transformBody(body),
+      )
+      .then((res) => parseResponseData(res.data) as Ticket)
+      .catch(createErrorHandler(endpoints.ticket)),
+});
+
+//
+
+export const createDeleteTicket = () => ({
+  mutationFn: (id: string) =>
+    instance
+      .delete<GetTicketRes>(`${endpoints.ticket}/${id}`)
+      .then((res) => parseResponseData(res.data) as Ticket)
       .catch(createErrorHandler(endpoints.ticket)),
 });

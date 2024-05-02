@@ -11,20 +11,14 @@ import * as api from './api';
 export const useLocationsQ = () =>
   useQuery<Location[], ErrorRes>(api.createGetLocations());
 
-export const useLocationsAsEnumsQ = () =>
+export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) =>
   useQuery<Location[], ErrorRes, EnumAttributes[]>({
     ...api.createGetLocations(),
     select: (locations) =>
-      locations.map((location) => {
-        const { icon } = enums.locationType.find(
-          (e) => e.value === location.locationType,
-        )!;
-
-        return {
-          dataKey: 'locationId',
-          icon,
-          name: location.name,
-          value: location.id,
-        };
-      }) ?? [],
+      locations?.map((location) => ({
+        dataKey,
+        icon: enums.find(location.locationType).icon,
+        name: location.name,
+        value: location.id,
+      })) ?? [],
   });

@@ -28,6 +28,10 @@ export const routes = [
 
 export const queryClient = new QueryClient({
   defaultOptions: {
+    mutations: {
+      retryDelay: (attemptIndex) => Math.min(1000 * 4 ** attemptIndex, 15000),
+      retry: (retryCount, error: any) => error.status !== 404 || retryCount > 2,
+    },
     queries: {
       retryDelay: (attemptIndex) => Math.min(1000 * 4 ** attemptIndex, 15000),
       retry: (retryCount, error: any) => error.status !== 404 || retryCount > 2,

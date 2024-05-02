@@ -18,7 +18,7 @@ import { PageContentProps } from '..';
 import ShopInventoryActions from './ShopInventoryActions';
 import ShopInventoryFilters from './ShopInventoryFilters';
 import ShopInventoryFields from './ShopInventoryFields';
-import columns from './columns';
+import useColumns from './columns';
 
 //
 
@@ -30,6 +30,8 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
   const createVehicleM = useCreateVehicleM();
   const editVehicleM = useEditVehicleM();
   const locationsQ = useLocationsQ(); // <Fields /> doesn't handle error/loading
+
+  const columns = useColumns();
 
   return (
     <DataTable.Provider
@@ -47,8 +49,8 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
             <ShopInventoryActions id={id} vehicleType={vehicleType} />
           )}
           columns={columns}
-          isLoading={vehiclesQ.isLoading}
-          error={vehiclesQ.error}
+          isLoading={vehiclesQ.isLoading || locationsQ.isLoading}
+          error={vehiclesQ.error || locationsQ.error}
         />
         {mode && (
           <DataForm.Provider

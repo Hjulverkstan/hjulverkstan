@@ -7,6 +7,7 @@ export const baseURL = 'http://localhost:8080/v1';
 export const endpoints = {
   vehicle: '/vehicle',
   ticket: '/ticket',
+  employee: '/employee',
   location: '/location',
   customer: '/customer',
   logIn: '/auth/login',

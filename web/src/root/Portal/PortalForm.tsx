@@ -83,27 +83,22 @@ export default function PortalForm({
   }[mode];
 
   return (
-    <div className="bg-muted flex w-60 flex-shrink-0 flex-col rounded-md border">
+    <div className="bg-muted flex w-64 flex-shrink-0 flex-col rounded-md border">
       <div className="flex h-10 items-center border-b p-2">
         <h3 className="flex-grow pl-2 align-middle text-sm font-medium">
           {title}
         </h3>
         <IconButton
-          disabled={!!error || isSubmitting || mode === Mode.EDIT}
+          disabled={isSubmitting || mode === Mode.EDIT}
           onClick={() => navigate(mode === Mode.EDIT ? `../${id}` : '..')}
           variant="ghost"
           icon={XIcon}
           tooltip="Close"
         />
       </div>
-      {error ? (
-        <Error error={error} />
-      ) : (
-        <div className="flex-grow space-y-4 overflow-y-scroll px-2 pb-3 pt-4">
-          {children}
-        </div>
-      )}
-
+      <div className="flex-grow space-y-4 overflow-y-scroll px-2 pb-3 pt-4">
+        {error ? <Error className="h-full" error={error} /> : children}
+      </div>
       <div className="10 flex flex-shrink gap-2 border-t px-2 py-2">
         {mode === Mode.EDIT && (
           <Button

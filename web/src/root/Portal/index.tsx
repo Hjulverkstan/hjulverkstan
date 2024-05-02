@@ -7,12 +7,14 @@ import { useAuth } from '@components/Auth';
 import PortalLayout from './PortalLayout';
 import PortalShopInventory from './PortalShopInventory';
 import PortalLogin from './PortalLogin';
+import PortalShopTickets from './PortalShopTickets';
 
 //
 
 const shopRoutes = [
   { path: '/', label: 'Start' },
   { path: '/inventory', label: 'Inventory', hasNestedRoutes: true },
+  { path: '/tickets', label: 'Tickets', hasNestedRoutes: true },
 ];
 
 //
@@ -53,6 +55,7 @@ export default function Portal() {
           path="inventory/*"
           element={mountPageContent(PortalShopInventory)}
         />
+        <Route path="tickets/*" element={mountPageContent(PortalShopTickets)} />
       </Route>
       <Route path="*" element={<Navigate replace to="shop" />} />
     </Routes>

@@ -78,3 +78,7 @@ export const toUpdatedArray = (
     ? // If nothing to remove or add keep the same memory reference of the array
       arr
     : arr.filter((el) => !remove.includes(el)).concat(add);
+
+export function uniq<T>(array: T[]): T[] {
+  return Array.from(new Set(array));
+}

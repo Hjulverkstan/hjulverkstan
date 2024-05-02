@@ -1,4 +1,4 @@
-import { Compass, Package, Wrench } from 'lucide-react';
+import { Package, ReceiptText, Wrench } from 'lucide-react';
 
 import { createFindFn, createMatchFn } from '../enums';
 import { TicketType } from './types';
@@ -6,9 +6,24 @@ import { TicketType } from './types';
 //
 
 export const type = [
-  { dataKey: 'type', value: TicketType.RENT, name: 'Rent', icon: Compass },
-  { dataKey: 'type', value: TicketType.REPAIR, name: 'Repair', icon: Wrench },
-  { dataKey: 'type', value: TicketType.DONATE, name: 'Donate', icon: Package },
+  {
+    dataKey: 'ticketType',
+    value: TicketType.RENT,
+    name: 'Rent',
+    icon: ReceiptText,
+  },
+  {
+    dataKey: 'ticketType',
+    value: TicketType.REPAIR,
+    name: 'Repair',
+    icon: Wrench,
+  },
+  {
+    dataKey: 'ticketType',
+    value: TicketType.DONATE,
+    name: 'Donate',
+    icon: Package,
+  },
 ];
 
 //

@@ -38,7 +38,7 @@ export const Input = ({
         }}
         className={U.cn(
           'bg-background h-8',
-          isDisabled && '!cursor-default opacity-70',
+          isDisabled && '!cursor-default !opacity-75',
         )}
       />
     </Field>

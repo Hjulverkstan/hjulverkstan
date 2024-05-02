@@ -26,7 +26,7 @@ export const minGearCount = 1;
 export const maxGearCount = 33;
 export const minBatchCount = 1;
 
-export const vehicleBaseZ = z.object({
+const vehicleBaseZ = z.object({
   vehicleType: z.nativeEnum(VehicleType, isReq('Vehicle type')),
   locationId: z.string(isReq('Location')),
 });

@@ -6,7 +6,9 @@ import { useTicketsQ } from '../ticket/queries';
 import { useCustomersQ } from '../customer/queries';
 import { useLocationsQ } from '../location/queries';
 import { ErrorRes } from '../api';
+import { EnumAttributes } from '../enums';
 import { Vehicle, VehicleAggregated } from './types';
+import * as enums from './enums';
 import * as api from './api';
 
 //
@@ -49,3 +51,17 @@ export const useVehiclesAggregatedQ = () =>
       })),
     [useVehiclesQ(), useTicketsQ(), useCustomersQ(), useLocationsQ()],
   );
+
+//
+
+export const useVehiclesAsEnumsQ = ({ dataKey = 'vehicleId' } = {}) =>
+  useQuery<Vehicle[], ErrorRes, EnumAttributes[]>({
+    ...api.createGetVehicles(),
+    select: (vehicles) =>
+      vehicles?.map((vehicle) => ({
+        dataKey,
+        icon: enums.find(vehicle.vehicleType).icon,
+        name: vehicle.regTag,
+        value: vehicle.id,
+      })) ?? [],
+  });

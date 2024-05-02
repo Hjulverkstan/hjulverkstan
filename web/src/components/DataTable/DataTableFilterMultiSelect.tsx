@@ -41,10 +41,19 @@ export const FilterMultiSelect = ({
         ...e,
         count: U.occurencesOfElInArray(
           e.value,
-          filteredData.map((row) => row[e.dataKey]).filter((x) => x),
+          filteredData
+            .map((row) => row[e.dataKey])
+            .flat()
+            .filter((x) => x),
         ),
       }))
-      .filter((e) => rawData.some((row) => row[e.dataKey] === e.value));
+      .filter((e) =>
+        rawData.some((row) =>
+          Array.isArray(row[e.dataKey])
+            ? row[e.dataKey].includes(e.value)
+            : row[e.dataKey] === e.value,
+        ),
+      );
   }, [enums, rawData, filterFnMap]);
 
   // Connect with <PopoverFilterRoot /> and its activeFilters
@@ -70,8 +79,11 @@ export const FilterMultiSelect = ({
     const filterFn = (row: any) =>
       selected.some((value) => {
         const enumAttr = enumsAggregated.find((e) => e.value === value)!;
+        const rowVal = row[enumAttr.dataKey];
 
-        return row[enumAttr.dataKey] === enumAttr.value;
+        return Array.isArray(rowVal)
+          ? rowVal.includes(enumAttr.value)
+          : rowVal === enumAttr.value;
       });
 
     setFilterFn(filterKey, !!selected.length && filterFn);

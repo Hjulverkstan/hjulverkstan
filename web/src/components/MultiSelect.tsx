@@ -1,10 +1,9 @@
 import { useMemo, Fragment } from 'react';
-import { MinusIcon } from 'lucide-react';
-import { CheckIcon } from '@radix-ui/react-icons';
 
 import * as U from '@utils';
-import * as Command from '@components/shadcn/Command';
 import { EnumAttributes } from '@data/enums';
+import * as Command from '@components/shadcn/Command';
+import MultiSelectItem from '@components/MutliSelectItem';
 
 interface MultiSelectProps {
   enums: EnumAttributes[];
@@ -100,13 +99,13 @@ export default function MultiSelect({
     <Command.Group heading={heading}>
       {rootEnums.map((enumAttr) => (
         <Fragment key={enumAttr.value}>
-          <SelectableItem
+          <MultiSelectItem
             enumAttr={enumAttr}
             checkBox={toCheckBoxValue(enumAttr.value)}
             onClick={() => onClick(enumAttr)}
           />
           {toChildrenEnums(enumAttr.children).map((child) => (
-            <SelectableItem
+            <MultiSelectItem
               isIndented
               key={child.value}
               enumAttr={child}
@@ -117,60 +116,5 @@ export default function MultiSelect({
         </Fragment>
       ))}
     </Command.Group>
-  );
-}
-
-//
-
-interface SelectableItemProps {
-  enumAttr: EnumAttributes;
-  isIndented?: boolean;
-  checkBox: 'checked' | 'unchecked' | 'intermediate';
-  onClick: () => void;
-}
-
-function SelectableItem({
-  enumAttr: e,
-  isIndented,
-  checkBox,
-  onClick,
-}: SelectableItemProps) {
-  return (
-    <Command.Item
-      key={e.value}
-      onSelect={onClick}
-      disabled={checkBox === 'unchecked' && !e.count}
-      className="w-full"
-    >
-      <div
-        className={U.cn(
-          'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border',
-          checkBox === 'unchecked'
-            ? 'border-secondary-foreground opacity-50'
-            : 'border-primary bg-primary text-primary-foreground',
-          isIndented && 'ml-4',
-        )}
-      >
-        {checkBox === 'checked' && <CheckIcon className="h-4 w-4" />}
-        {checkBox === 'intermediate' && <MinusIcon className="h-4 w-4" />}
-      </div>
-      <div
-        className={U.cn(
-          'flex flex-grow items-center',
-          checkBox !== 'unchecked' && !e.count && 'opacity-50',
-        )}
-      >
-        {e.icon && <e.icon className="text-muted-foreground mr-2 h-4 w-4" />}
-        <span>{e.name}</span>
-        {e.count !== undefined && (
-          <span
-            className="ml-auto flex h-4 w-4 items-center justify-center
-              font-mono text-xs"
-          >
-            {e.count}
-          </span>
-        )}
-      </div>
-    </Command.Item>
   );
 }

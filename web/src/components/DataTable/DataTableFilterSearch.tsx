@@ -4,7 +4,7 @@ import { Input } from '@components/shadcn/Input';
 
 //
 
-export type SearchMatchFn = (word: string, row: Row) => boolean;
+export type SearchMatchFn = (word: string, row: Record<string, any>) => boolean;
 
 export const fuzzyMatchFn = (keys: string[], word: string, row: Row) =>
   keys.some((key) => row[key]?.toLowerCase().includes(word));

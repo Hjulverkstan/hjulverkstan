@@ -69,13 +69,14 @@ const transformBody = ({
   ...(vehicleType === VehicleType.STROLLER ? { strollerType } : {}),
 });
 
-const toVehicleUrl = (vehicleType: string) =>
+const toVehicleUrl = (vehicleType: string, vehicleId?: string) =>
   endpoints.vehicle +
   ({
     [VehicleType.BIKE]: '/bike',
     [VehicleType.STROLLER]: '/stroller',
     [VehicleType.BATCH]: '/batch',
-  }[vehicleType] ?? '');
+  }[vehicleType] ?? '') +
+  (vehicleId ? `/${vehicleId}` : '');
 
 //
 
@@ -101,7 +102,10 @@ export type EditVehicleParams = Vehicle;
 export const createEditVehicle = () => ({
   mutationFn: (body: EditVehicleParams) =>
     instance
-      .put<EditVehicleRes>(toVehicleUrl(body.vehicleType), transformBody(body))
+      .put<EditVehicleRes>(
+        toVehicleUrl(body.vehicleType, body.id),
+        transformBody(body),
+      )
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });

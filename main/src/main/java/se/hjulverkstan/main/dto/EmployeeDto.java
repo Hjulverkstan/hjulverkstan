@@ -22,7 +22,7 @@ public class EmployeeDto {
     private String employeeNumber;
 
     @NotBlank(message = "First name is required")
-    private String name;
+    private String firstName;
 
     @NotBlank(message = "Last name is required")
     private String lastName;
@@ -50,7 +50,7 @@ public class EmployeeDto {
     public EmployeeDto(Employee employee) {
         this(employee.getId(),
                 employee.getEmployeeNumber(),
-                employee.getName(),
+                employee.getFirstName(),
                 employee.getLastName(),
                 employee.getPhoneNumber(),
                 employee.getEmail(),

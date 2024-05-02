@@ -17,7 +17,7 @@
     --primary-foreground: 210 5% 98%;
 
     --secondary: 220 15% 95%;
-    --secondary-foreground: 220 10% 50%;
+    --secondary-foreground: 220 10% 40%;
 
     --muted: 220 14% 97%;
     --muted-foreground: 220 9% 46%;
@@ -26,15 +26,15 @@
     --accent-foreground: 221 40% 11%;
 
     --success: 115 85% 47%;
-    --success-fill: 115 90% 90%;
+    --success-fill: 115 85% 94%;
     --success-foreground: 115 65% 25%;
 
     --warn: 50 100% 57%;
-    --warn-fill: 44 100% 88%;
+    --warn-fill: 44 95% 92%;
     --warn-foreground: 32 65% 35%;
 
     --destructive: 0 95% 60%;
-    --destructive-fill: 0 95% 94%;
+    --destructive-fill: 0 95% 96%;
     --destructive-foreground: 0 65% 40%;
 
     --border: 220 13% 91%;

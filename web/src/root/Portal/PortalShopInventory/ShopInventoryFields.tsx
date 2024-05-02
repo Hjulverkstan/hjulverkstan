@@ -22,13 +22,13 @@ export default function ShopInventoryFields() {
       <DataForm.Select
         label="Location"
         dataKey="locationId"
-        options={locationEnumsQ.data ?? []}
+        enums={locationEnumsQ.data ?? []}
       />
 
       <DataForm.Select
         label="Vehicle type"
         dataKey="vehicleType"
-        options={enums.vehicleType}
+        enums={enums.vehicleType}
         disabled={mode === DataForm.Mode.EDIT}
       />
 
@@ -37,7 +37,7 @@ export default function ShopInventoryFields() {
           key={body.vehicleType}
           label="Stroller type"
           dataKey="strollerType"
-          options={enums.strollerType}
+          enums={enums.strollerType}
         />
       )}
 
@@ -54,7 +54,7 @@ export default function ShopInventoryFields() {
         <DataForm.Select
           label="Vehicle status"
           dataKey="vehicleStatus"
-          options={enums.vehicleStatus}
+          enums={enums.vehicleStatus}
         />
       )}
 
@@ -64,18 +64,14 @@ export default function ShopInventoryFields() {
             key={body.vehicleType}
             label="Bike type"
             dataKey="bikeType"
-            options={enums.bikeType}
+            enums={enums.bikeType}
           />
-          <DataForm.Select
-            label="Brand"
-            dataKey="brand"
-            options={enums.brand}
-          />
-          <DataForm.Select label="Size" dataKey="size" options={enums.size} />
+          <DataForm.Select label="Brand" dataKey="brand" enums={enums.brand} />
+          <DataForm.Select label="Size" dataKey="size" enums={enums.size} />
           <DataForm.Select
             label="Brake type"
             dataKey="brakeType"
-            options={enums.brakeType}
+            enums={enums.brakeType}
           />
           <DataForm.Input
             type="number"

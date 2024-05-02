@@ -16,7 +16,7 @@ public class NewEmployeeDto {
     private String employeeNumber;
 
     @NotBlank(message = "First name is required")
-    private String name;
+    private String firstName;
 
     @NotBlank(message = "Last name is required")
     private String lastName;
