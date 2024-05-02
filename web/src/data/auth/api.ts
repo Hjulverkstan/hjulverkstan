@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 
 import { instance, endpoints } from '../api';
-import { LogInProps, LogInRes } from './types';
 
 /*
  * Here we create an error interceptor and a subscribe function.
@@ -46,7 +45,22 @@ instance.interceptors.response.use((x) => x, errorInterceptor);
 
 //
 
-export const logIn = (body: LogInProps) =>
+export interface LogInRes {
+  token: string;
+  refreshToken: string;
+  type: string;
+  username: string;
+  email: string;
+  id: number;
+  roles: string[];
+}
+
+export interface LogInParams {
+  username: string;
+  password: string;
+}
+
+export const logIn = (body: LogInParams) =>
   instance.post<LogInRes>(endpoints.logIn, body).then((res) => {
     return res.data;
   });
@@ -70,7 +84,7 @@ export const refreshToken = () =>
 
 declare global {
   interface Window {
-    logIn: ({ username, password }: LogInProps) => Promise<LogInRes>;
+    logIn: ({ username, password }: LogInParams) => Promise<LogInRes>;
     logOut: (id: number) => Promise<any>;
   }
 }
