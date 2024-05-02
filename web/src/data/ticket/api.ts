@@ -5,8 +5,6 @@ import {
   parseResponseData,
 } from '../api';
 
-import { Ticket } from '../types';
-
 //
 
 export interface GetTicketsRes {

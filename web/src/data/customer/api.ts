@@ -5,7 +5,7 @@ import {
   parseResponseData,
 } from '../api';
 
-import { Customer } from '../types';
+import { Customer } from './types';
 
 //
 

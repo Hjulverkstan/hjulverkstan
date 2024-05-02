@@ -1,4 +1,5 @@
-import { TicketType, Location } from '../types';
+import { TicketType } from '../ticket/types';
+import { Location } from '../location/types';
 
 export enum VehicleType {
   BIKE = 'BIKE',

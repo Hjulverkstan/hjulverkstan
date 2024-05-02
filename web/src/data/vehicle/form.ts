@@ -14,8 +14,6 @@ import {
 
 //
 
-console.log(isReq);
-
 export const initVehicle: Partial<Vehicle> = {
   vehicleType: VehicleType.BIKE,
   vehicleStatus: VehicleStatus.UNAVAILABLE,

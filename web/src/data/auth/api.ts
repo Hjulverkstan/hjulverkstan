@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
 import { instance, endpoints } from '../api';
-import { LogInProps, LogInRes } from '../types';
+import { LogInProps, LogInRes } from './types';
 
 /*
  * Here we create an error interceptor and a subscribe function.
