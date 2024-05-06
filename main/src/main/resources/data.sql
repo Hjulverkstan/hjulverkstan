@@ -51,6 +51,55 @@ INSERT INTO Ticket_Vehicle
 (5,         4         ),
 (6,         5         );
 
+--
+
+INSERT INTO General_Content
+(text_type,       name,                                      description,                             key,                                    created_at, updated_at, created_by, updated_by) VALUES
+('PLAIN',         'Service: Fix Label',                      'Service section, landing page',         'serviceFixLabel',                      NOW(),      NOW(),      1,          1),
+('PLAIN',         'Service: Fix Description',                'Service section, landing page',         'serviceFixDescription',                NOW(),      NOW(),      1,          1),
+('PLAIN',         'Service: Courses Label',                  'Service section, landing page',         'serviceCoursesLabel',                  NOW(),      NOW(),      1,          1),
+('PLAIN',         'Service: Courses Description',            'Service section, landing page',         'serviceCoursesDescription',            NOW(),      NOW(),      1,          1),
+('PLAIN',         'Service: Bike Pool Label',                'Service section, landing page',         'serviceBikePoolLabel',                 NOW(),      NOW(),      1,          1),
+('PLAIN',         'Service: Bike Pool Description',          'Service section, landing page',         'serviceBikePoolDescription',           NOW(),      NOW(),      1,          1),
+('PLAIN',         'Service: Safe Places Label',              'Service section, landing page',         'serviceSafePlacesLabel',               NOW(),      NOW(),      1,          1),
+('PLAIN',         'Service: Safe Places Description',        'Service section, landing page',         'serviceSafePlacesDescription',         NOW(),      NOW(),      1,          1),
+('PLAIN',         'Statistic: Bikes Repaired',               'Statistics section, landing page',      'statisticBikesRepaired',               NOW(),      NOW(),      1,          1),
+('PLAIN',         'Statistic: Bikes Saved',                  'Statistics section, landing page',      'statisticBikesSaved',                  NOW(),      NOW(),      1,          1),
+('PLAIN',         'Statistic: Bikes Lent',                   'Statistics section, landing page',      'statisticBikesLent',                   NOW(),      NOW(),      1,          1),
+('PLAIN',         'Statistic: Events Held',                  'Statistics section, landing page',      'statisticEventsHeld',                  NOW(),      NOW(),      1,          1),
+('PLAIN',         'Statistic: Employees Hired',              'Statistics section, landing page',      'statisticEmployeesHired',              NOW(),      NOW(),      1,          1),
+('PLAIN',         'Slogan',                                  'Slogan for landing page',               'slogan',                               NOW(),      NOW(),      1,          1);
+
+INSERT INTO Localised_Content
+(ref_type,          ref_id, lang,   field_name, content,                                                                                                                    created_at, updated_at, created_by, updated_by) VALUES
+('GeneralContent',  1,      'ENG',  'VALUE',    'Fix',                                                                                                                      NOW(),      NOW(),      1,          1),
+('GeneralContent',  1,      'SWE',  'VALUE',    'Fix',                                                                                                                      NOW(),      NOW(),      1,          1),
+('GeneralContent',  2,      'ENG',  'VALUE',    'We offer basic repairs for anything that rolls on wheels, such as bicycles, strollers, scooters and skateboards.',         NOW(),      NOW(),      1,          1),
+('GeneralContent',  2,      'SWE',  'VALUE',    'Vi erbjuder grundläggande reparationer för allt som rullar på hjul, såsom cyklar, barnvagnar, kickboards och skateboards', NOW(),      NOW(),      1,          1),
+('GeneralContent',  3,      'ENG',  'VALUE',    'Cycling Courses',                                                                                                          NOW(),      NOW(),      1,          1),
+('GeneralContent',  3,      'SWE',  'VALUE',    'Cykelkurser',                                                                                                              NOW(),      NOW(),      1,          1),
+('GeneralContent',  4,      'ENG',  'VALUE',    'Together with other organisations, we offer children and adults free cycling courses.',                                    NOW(),      NOW(),      1,          1),
+('GeneralContent',  4,      'SWE',  'VALUE',    'Tillsammans med andra organisationer erbjuder vi barn och vuxna kostnadsfria cykelkurser.',                                NOW(),      NOW(),      1,          1),
+('GeneralContent',  5,      'ENG',  'VALUE',    'Bicycle Pool',                                                                                                             NOW(),      NOW(),      1,          1),
+('GeneralContent',  5,      'SWE',  'VALUE',    'Cykelpool',                                                                                                                NOW(),      NOW(),      1,          1),
+('GeneralContent',  6,      'ENG',  'VALUE',    'A lending concept, where children and adults can borrow bicycles for a period of 1-2 weeks.',                              NOW(),      NOW(),      1,          1),
+('GeneralContent',  6,      'SWE',  'VALUE',    'Ett lånekoncept där både barn och vuxna kan låna cyklar gratis i upp till två veckor.',                                    NOW(),      NOW(),      1,          1),
+('GeneralContent',  7,      'ENG',  'VALUE',    'Safe Places',                                                                                                              NOW(),      NOW(),      1,          1),
+('GeneralContent',  7,      'SWE',  'VALUE',    'Trygga platser',                                                                                                           NOW(),      NOW(),      1,          1),
+('GeneralContent',  8,      'ENG',  'VALUE',    'We create safe places and a safe environment for people to meet, that are accessible to everyone.',                        NOW(),      NOW(),      1,          1),
+('GeneralContent',  8,      'SWE',  'VALUE',    'Vi skapar trygga platser och en säker miljö för människor att mötas, som är tillgängliga för alla.',                       NOW(),      NOW(),      1,          1),
+('GeneralContent',  9,      'ENG',  'VALUE',    'Bikes repaired',                                                                                                           NOW(),      NOW(),      1,          1),
+('GeneralContent',  9,      'SWE',  'VALUE',    'Reparerade cyklar',                                                                                                        NOW(),      NOW(),      1,          1),
+('GeneralContent', 10,      'ENG',  'VALUE',    'Bikes saved',                                                                                                              NOW(),      NOW(),      1,          1),
+('GeneralContent', 10,      'SWE',  'VALUE',    'Räddade cyklar',                                                                                                           NOW(),      NOW(),      1,          1),
+('GeneralContent', 11,      'ENG',  'VALUE',    'Bikes lent',                                                                                                               NOW(),      NOW(),      1,          1),
+('GeneralContent', 11,      'SWE',  'VALUE',    'Cyklar utlånade',                                                                                                          NOW(),      NOW(),      1,          1),
+('GeneralContent', 12,      'ENG',  'VALUE',    'Events held',                                                                                                              NOW(),      NOW(),      1,          1),
+('GeneralContent', 12,      'SWE',  'VALUE',    'Arrangerade evenemang',                                                                                                    NOW(),      NOW(),      1,          1),
+('GeneralContent', 13,      'ENG',  'VALUE',    'Employees hired',                                                                                                          NOW(),      NOW(),      1,          1),
+('GeneralContent', 13,      'SWE',  'VALUE',    'Personer anställda',                                                                                                       NOW(),      NOW(),      1,          1),
+('GeneralContent', 14,      'ENG',  'VALUE',    'A bike shop unlike any other',                                                                                             NOW(),      NOW(),      1,          1),
+('GeneralContent', 14,      'SWE',  'VALUE',    'En cykelbutik olik alla andra',                                                                                            NOW(),      NOW(),      1,          1);
 
 --
 
