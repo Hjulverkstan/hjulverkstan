@@ -45,9 +45,7 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
       </PortalToolbar>
       <PortalContent>
         <PortalTable
-          renderRowActionFn={({ id, vehicleType }) => (
-            <ShopInventoryActions id={id} vehicleType={vehicleType} />
-          )}
+          actionsComponent={ShopInventoryActions}
           columns={columns}
           isLoading={vehiclesQ.isLoading || locationsQ.isLoading}
           error={vehiclesQ.error || locationsQ.error}

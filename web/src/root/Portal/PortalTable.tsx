@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ComponentType, ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   ChevronRightIcon,
@@ -13,20 +13,28 @@ import { useDataTable } from '@components/DataTable';
 import Message from '@components/Message';
 import Error from '@components/Error';
 import Spinner from '@components/Spinner';
-import { ErrorRes } from '@api';
+import { ErrorRes } from '@adata/api';
 import { IconButton } from '@components/shadcn/Button';
+
+export interface PortalTableActionsProps<Row> {
+  row: Row;
+  disabled: boolean;
+  x: number;
+  y: number;
+}
 
 export interface PortalTableProps
   extends Pick<DataTable.BodyProps, 'columns' | 'renderRowActionFn'> {
   isLoading: boolean;
   error?: ErrorRes | null;
+  actionsComponent: ComponentType<PortalTableActionsProps<any>>;
 }
 
 export default function PortalTable({
   isLoading,
   error,
   columns,
-  renderRowActionFn,
+  actionsComponent: Actions,
 }: PortalTableProps) {
   const navigate = useNavigate();
   const { id = '' } = useParams();
@@ -48,7 +56,9 @@ export default function PortalTable({
           ) : !error ? (
             <DataTable.Body
               columns={columns}
-              renderRowActionFn={renderRowActionFn}
+              renderRowActionFn={(row, metadata) => (
+                <Actions row={row} {...metadata} />
+              )}
               selected={id}
               setSelected={(nextId) => navigate(id ? '../' + nextId : nextId)}
             />

@@ -1,40 +1,35 @@
-import { useState } from 'react';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
 
-import { TicketType } from '@data/ticket/types';
 import { useDeleteTicketM } from '@data/ticket/mutations';
-import { Ticket } from '@data/ticket/types';
+import { Ticket, TicketAggregated } from '@data/ticket/types';
 
-import * as DropdownMenu from '@components/shadcn/DropdownMenu';
-import { Dialog, DialogTrigger } from '@components/shadcn/Dialog';
-import { useToast } from '@components/shadcn/use-toast';
-import { IconButton } from '@components/shadcn/Button';
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
+import { IconButton } from '@components/shadcn/Button';
+import { Dialog, DialogTrigger } from '@components/shadcn/Dialog';
+import * as DropdownMenu from '@components/shadcn/DropdownMenu';
+import { useToast } from '@components/shadcn/use-toast';
 
 import { createErrorToast, createSuccessToast } from '../toast';
-
-export interface ShopTicketsActionsProps {
-  id: string;
-  ticketType: TicketType;
-}
+import { PortalTableActionsProps } from '../PortalTable';
 
 export default function ShopTicketsActions({
-  id,
-  ticketType,
-}: ShopTicketsActionsProps) {
+  row: ticket,
+  disabled,
+}: PortalTableActionsProps<TicketAggregated>) {
   const deleteTicketM = useDeleteTicketM();
 
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
   const onDelete = () => {
-    deleteTicketM.mutate(id, {
-      onSuccess: (ticket: Ticket) => {
+    deleteTicketM.mutate(ticket.id, {
+      onSuccess: (res: Ticket) => {
         toast(
           createSuccessToast({
             verbLabel: 'delete',
             dataLabel: 'ticket',
-            id: ticket.id,
+            id: res.id,
           }),
         );
       },
@@ -48,7 +43,11 @@ export default function ShopTicketsActions({
     <Dialog>
       <DropdownMenu.Root open={open} onOpenChange={setOpen}>
         <DropdownMenu.Trigger asChild>
-          <IconButton variant="ghost" icon={DotsHorizontalIcon} />
+          <IconButton
+            disabled={disabled}
+            variant="ghost"
+            icon={DotsHorizontalIcon}
+          />
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="end" className="w-[160px]">
           <DialogTrigger asChild>
@@ -63,8 +62,8 @@ export default function ShopTicketsActions({
           <ConfirmDeleteDialog
             onDelete={onDelete}
             onCancel={() => setOpen(false)}
-            entity={ticketType}
-            entityId={id}
+            entity={ticket.ticketType}
+            entityId={ticket.id}
           />
         </DropdownMenu.Content>
       </DropdownMenu.Root>

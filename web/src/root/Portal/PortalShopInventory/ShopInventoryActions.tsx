@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 
 import { useDeleteVehicleM } from '@data/vehicle/mutations';
-import { Vehicle } from '@data/vehicle/types';
+import { Vehicle, VehicleAggregated } from '@data/vehicle/types';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { Dialog, DialogTrigger } from '@components/shadcn/Dialog';
 import { useToast } from '@components/shadcn/use-toast';
@@ -10,29 +10,25 @@ import { IconButton } from '@components/shadcn/Button';
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 
 import { createErrorToast, createSuccessToast } from '../toast';
-
-export interface ShopInventoryActionsProps {
-  id: string;
-  vehicleType: string;
-}
+import { PortalTableActionsProps } from '../PortalTable';
 
 export default function ShopInventoryActions({
-  id,
-  vehicleType,
-}: ShopInventoryActionsProps) {
+  row: vehicle,
+  disabled,
+}: PortalTableActionsProps<VehicleAggregated>) {
   const deleteVehicleM = useDeleteVehicleM();
 
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
   const onDelete = () => {
-    deleteVehicleM.mutate(id, {
-      onSuccess: (vehicle: Vehicle) => {
+    deleteVehicleM.mutate(vehicle.id, {
+      onSuccess: (res: Vehicle) => {
         toast(
           createSuccessToast({
             verbLabel: 'delete',
             dataLabel: 'vehicle',
-            id: vehicle.id,
+            id: res.id,
           }),
         );
       },
@@ -46,7 +42,11 @@ export default function ShopInventoryActions({
     <Dialog>
       <DropdownMenu.Root open={open} onOpenChange={setOpen}>
         <DropdownMenu.Trigger asChild>
-          <IconButton variant="ghost" icon={DotsHorizontalIcon} />
+          <IconButton
+            disabled={disabled}
+            variant="ghost"
+            icon={DotsHorizontalIcon}
+          />
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="end" className="w-[160px]">
           <DialogTrigger asChild>
@@ -61,8 +61,8 @@ export default function ShopInventoryActions({
           <ConfirmDeleteDialog
             onDelete={onDelete}
             onCancel={() => setOpen(false)}
-            entity={vehicleType}
-            entityId={id}
+            entity={vehicle.vehicleType}
+            entityId={vehicle.regTag}
           />
         </DropdownMenu.Content>
       </DropdownMenu.Root>

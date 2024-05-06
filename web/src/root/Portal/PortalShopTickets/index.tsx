@@ -65,9 +65,7 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
       </PortalToolbar>
       <PortalContent>
         <PortalTable
-          renderRowActionFn={({ id, ticketType }) => (
-            <ShopTicketsActions id={id} ticketType={ticketType} />
-          )}
+          actionsComponent={ShopTicketsActions}
           columns={columns}
           isLoading={isLoading}
           error={error}
