@@ -21,7 +21,7 @@ export const useEmployeesAsEnumsQ = ({ dataKey = 'employeeId' } = {}) =>
       employees?.map((employee) => ({
         dataKey,
         icon: (props) => EmployeeIcon({ ...props, employee }),
-        name: `${employee.firstName} ${employee.lastName}`,
+        label: `${employee.firstName} ${employee.lastName}`,
         value: employee.id,
       })) ?? [],
   });

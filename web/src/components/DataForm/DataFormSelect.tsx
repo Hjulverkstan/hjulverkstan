@@ -36,9 +36,9 @@ export const Select = ({
     ? body[dataKey]?.length > 3
       ? `${body[dataKey]?.length} selected`
       : body[dataKey]
-          ?.map((value: string) => enums.find((e) => e.value === value)?.name)
+          ?.map((value: string) => enums.find((e) => e.value === value)?.label)
           .join(', ')
-    : enums.find((e) => e.value === body[dataKey])?.name;
+    : enums.find((e) => e.value === body[dataKey])?.label;
 
   const Icon =
     !isMultiSelect &&
@@ -46,7 +46,7 @@ export const Select = ({
     enums.find((e) => e.value === body[dataKey])?.icon;
 
   const sortedEnums = useMemo(
-    () => enums.sort(U.toSortFnByProp('name')),
+    () => enums.sort(U.toSortFnByProp('label')),
     [enums],
   );
 
@@ -61,8 +61,8 @@ export const Select = ({
 
     return (
       <Command.Item
-        key={e.name}
-        value={e.name}
+        key={e.label}
+        value={e.label}
         onSelect={() => {
           if (isMultiSelect) {
             setBodyProp(
@@ -80,7 +80,7 @@ export const Select = ({
       >
         <div className={U.cn('flex w-full items-center', fat && 'py-1')}>
           {e.icon && <e.icon className="mr-2 h-4 w-4" />}
-          <span className="flex-grow">{e.name}</span>
+          <span className="flex-grow">{e.label}</span>
           <CheckIcon
             className={U.cn(
               'ml-2 h-4 w-4',

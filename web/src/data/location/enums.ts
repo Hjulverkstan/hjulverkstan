@@ -9,13 +9,13 @@ export const locationType = [
   {
     dataKey: 'locationType',
     value: LocationType.SHOP,
-    name: 'Shop',
+    label: 'Shop',
     icon: Store,
   },
   {
     dataKey: 'locationType',
     value: LocationType.STORAGE,
-    name: 'Storage',
+    label: 'Storage',
     icon: Warehouse,
   },
 ];

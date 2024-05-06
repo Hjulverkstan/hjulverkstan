@@ -1,7 +1,7 @@
 import * as enums from '@data/vehicle/enums';
 
 import { useLocationsAsEnumsQ } from '@data/location/queries';
-import { VehicleAggregated } from '@data/vehicle/types';
+import { Vehicle } from '@data/vehicle/types';
 import * as DataTable from '@components/DataTable';
 
 export default function ShopInventoryFilters() {
@@ -11,7 +11,7 @@ export default function ShopInventoryFilters() {
     <>
       <DataTable.FilterSearch
         placeholder="Search..."
-        matchFn={(word, row: VehicleAggregated) =>
+        matchFn={(word, row: Vehicle) =>
           enums.matchFn(word, row) ||
           DataTable.fuzzyMatchFn(['comment', 'regTag'], word, row) ||
           word === String(row.gearCount) ||

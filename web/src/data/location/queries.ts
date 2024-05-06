@@ -18,7 +18,7 @@ export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) =>
       locations?.map((location) => ({
         dataKey,
         icon: enums.find(location.locationType).icon,
-        name: location.name,
+        label: location.name,
         value: location.id,
       })) ?? [],
   });

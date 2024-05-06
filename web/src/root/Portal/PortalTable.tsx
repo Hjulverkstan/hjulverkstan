@@ -13,7 +13,7 @@ import { useDataTable } from '@components/DataTable';
 import Message from '@components/Message';
 import Error from '@components/Error';
 import Spinner from '@components/Spinner';
-import { ErrorRes } from '@adata/api';
+import { ErrorRes } from '@data/api';
 import { IconButton } from '@components/shadcn/Button';
 
 export interface PortalTableActionsProps<Row> {

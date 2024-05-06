@@ -63,7 +63,7 @@ export const FilterMultiSelect = ({
       setActiveLabels(
         filterKey,
         selected.map(
-          (value) => enumsAggregated.find((e) => e.value === value)!.name,
+          (value) => enumsAggregated.find((e) => e.value === value)!.label,
         ),
       ),
     [selected, enumsAggregated],

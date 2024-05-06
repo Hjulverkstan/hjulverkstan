@@ -14,7 +14,11 @@ export default function ShopTicketFields() {
 
   return (
     <>
-      <DataForm.Select label="Type" dataKey="ticketType" enums={enums.type} />
+      <DataForm.Select
+        label="Type"
+        dataKey="ticketType"
+        enums={enums.ticketType}
+      />
 
       <DataForm.Switch
         label="Status"

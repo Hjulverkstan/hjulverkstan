@@ -9,13 +9,13 @@ export const type = [
   {
     dataKey: 'customerType',
     value: CustomerType.ORG,
-    name: 'Organization',
+    label: 'Organization',
     icon: Building,
   },
   {
     dataKey: 'customerType',
     value: CustomerType.PERSON,
-    name: 'Person',
+    label: 'Person',
     icon: UserCircle,
   },
 ];

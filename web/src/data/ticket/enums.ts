@@ -1,34 +1,65 @@
-import { Package, ReceiptText, Wrench } from 'lucide-react';
+import {
+  Calendar,
+  CheckCircle,
+  CircleDot,
+  Package,
+  ReceiptText,
+  Wrench,
+} from 'lucide-react';
 
 import { createFindFn, createMatchFn } from '../enums';
-import { TicketType } from './types';
+import { TicketStatus, TicketType } from './types';
 
 //
 
-export const type = [
+export const ticketType = [
   {
     dataKey: 'ticketType',
     value: TicketType.RENT,
-    name: 'Rent',
+    label: 'Rent',
     icon: ReceiptText,
   },
   {
     dataKey: 'ticketType',
     value: TicketType.REPAIR,
-    name: 'Repair',
+    label: 'Repair',
     icon: Wrench,
   },
   {
     dataKey: 'ticketType',
     value: TicketType.DONATE,
-    name: 'Donate',
+    label: 'Donate',
     icon: Package,
+  },
+];
+
+export const status = [
+  {
+    dataKey: 'status',
+    value: TicketStatus.DUE,
+    label: 'Due',
+    icon: Calendar,
+    variant: 'destructive' as 'destructive',
+  },
+  {
+    dataKey: 'status',
+    value: TicketStatus.OPEN,
+    label: 'Open',
+    icon: CircleDot,
+    variant: 'success' as 'successOutline',
+  },
+  {
+    dataKey: 'status',
+    value: TicketStatus.CLOSED,
+    label: 'Closed',
+    icon: CheckCircle,
+    variant: 'outline' as 'outline',
   },
 ];
 
 //
 
-const all = [...type];
+const all = [...ticketType, ...status];
 
 export const find = createFindFn(all);
 export const matchFn = createMatchFn(all);

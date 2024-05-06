@@ -3,7 +3,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@utils';
 
-const badgeVariants = cva(
+export const badgeVariants = cva(
   `focus:ring-ring inline-flex items-center rounded-md border px-2.5 py-0.5
   text-xs font-semibold transition-colors focus:outline-none focus:ring-2
   focus:ring-offset-2`,
@@ -52,16 +52,17 @@ export interface BadgeProps
   borderless?: boolean;
 }
 
-function Badge({ className, variant, borderless, ...props }: BadgeProps) {
-  return (
+export const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
+  ({ className, variant, borderless, ...props }, ref) => (
     <div
+      ref={ref}
       className={cn(
         badgeVariants({ variant, borderless: borderless ? 'yes' : 'no' }),
         className,
       )}
       {...props}
     />
-  );
-}
+  ),
+);
 
-export { Badge, badgeVariants };
+Badge.displayName = 'Badge';

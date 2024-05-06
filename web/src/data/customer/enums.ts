@@ -5,24 +5,24 @@ import { CustomerType } from './types';
 
 //
 
-export const type = [
+export const customerType = [
   {
     dataKey: 'customerType',
     value: CustomerType.ORG,
-    name: 'Organization',
+    label: 'Organization',
     icon: Building,
   },
   {
     dataKey: 'customerType',
     value: CustomerType.PERSON,
-    name: 'Person',
+    label: 'Person',
     icon: UserCircle,
   },
 ];
 
 //
 
-const all = [...type];
+const all = [...customerType];
 
 export const find = createFindFn(all);
 export const matchFn = createMatchFn(all);

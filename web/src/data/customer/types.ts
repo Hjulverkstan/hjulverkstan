@@ -9,11 +9,13 @@ export interface Customer {
   firstName: string;
   lastName: string;
   personalIdentityNumber: string;
-  organizationName?: string;
   phoneNumber: string;
   email: string;
   ticketIds: string[];
   comment?: string;
+  //
+  organizationName?: string;
+  //
   createdBy: string;
   createdAt: string;
   updatedBy: string;

@@ -1,6 +1,3 @@
-import { TicketType } from '../ticket/types';
-import { Location } from '../location/types';
-
 export enum VehicleType {
   BIKE = 'BIKE',
   STROLLER = 'STROLLER',
@@ -83,16 +80,4 @@ export interface Vehicle {
   updatedAt: number | null;
   createdBy: number | null;
   updatedBy: number | null;
-}
-
-// This is aggregated in ./queries.ts
-
-export interface VehicleAggregated extends Vehicle {
-  location: Location;
-  tickets: Array<{
-    id: string;
-    isOpen: boolean;
-    ticketType: TicketType;
-    customerFirstName?: string;
-  }>;
 }

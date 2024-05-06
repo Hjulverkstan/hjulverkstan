@@ -42,7 +42,7 @@ export default function MultiSelectItem({
         )}
       >
         {e.icon && <e.icon className="text-muted-foreground mr-2 h-4 w-4" />}
-        <span>{e.name}</span>
+        <span>{e.label}</span>
         {e.count !== undefined && (
           <span
             className="ml-auto flex h-4 w-4 items-center justify-center

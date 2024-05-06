@@ -19,15 +19,15 @@ export default function ShopTicketFilters() {
         placeholder="Search..."
         matchFn={(word: string, row: TicketAggregated) =>
           enums.matchFn(word, row) ||
-          DataTable.fuzzyMatchFn(['comment', 'regTag'], word, row) ||
-          locationEnumsQ.data?.some(({ name }) =>
-            name.toLowerCase().includes(word),
+          DataTable.fuzzyMatchFn(['comment'], word, row) ||
+          locationEnumsQ.data?.some(({ label }) =>
+            label.toLowerCase().includes(word),
           ) ||
-          vehicleEnumsQ.data?.some(({ name }) =>
-            name.toLowerCase().includes(word),
+          vehicleEnumsQ.data?.some(({ label }) =>
+            label.toLowerCase().includes(word),
           ) ||
-          customerEnumsQ.data?.some(({ name }) =>
-            name.toLowerCase().includes(word),
+          customerEnumsQ.data?.some(({ label }) =>
+            label.toLowerCase().includes(word),
           )
         }
       />

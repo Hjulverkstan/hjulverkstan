@@ -26,105 +26,108 @@ export const vehicleType = [
   {
     dataKey: 'vehicleType',
     value: VehicleType.BIKE,
-    name: 'Bike',
+    label: 'Bike',
     icon: Bike,
     children: Object.values(BikeType),
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.STROLLER,
-    name: 'Stroller',
+    label: 'Stroller',
     icon: Baby,
     children: Object.values(StrollerType),
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.SCOOTER,
-    name: 'Scooter',
+    label: 'Scooter',
     icon: AlertCircle,
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.SKATE,
-    name: 'Skate',
+    label: 'Skate',
     icon: AlertCircle,
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.BATCH,
-    name: 'Batch',
+    label: 'Batch',
     icon: Warehouse,
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.OTHER,
-    name: 'Other',
+    label: 'Other',
     icon: HelpCircle,
   },
 ];
 
 export const bikeType = [
-  { dataKey: 'bikeType', value: BikeType.BMX, name: 'BMX' },
-  { dataKey: 'bikeType', value: BikeType.CHILD, name: 'Child' },
-  { dataKey: 'bikeType', value: BikeType.ELECTRIC, name: 'Electric' },
-  { dataKey: 'bikeType', value: BikeType.HYBRID, name: 'Hybrid' },
-  { dataKey: 'bikeType', value: BikeType.LADY, name: 'Lady' },
-  { dataKey: 'bikeType', value: BikeType.MOUNTAINBIKE, name: 'Mountain' },
-  { dataKey: 'bikeType', value: BikeType.ROAD, name: 'Road' },
+  { dataKey: 'bikeType', value: BikeType.BMX, label: 'BMX' },
+  { dataKey: 'bikeType', value: BikeType.CHILD, label: 'Child' },
+  { dataKey: 'bikeType', value: BikeType.ELECTRIC, label: 'Electric' },
+  { dataKey: 'bikeType', value: BikeType.HYBRID, label: 'Hybrid' },
+  { dataKey: 'bikeType', value: BikeType.LADY, label: 'Lady' },
+  { dataKey: 'bikeType', value: BikeType.MOUNTAINBIKE, label: 'Mountain' },
+  { dataKey: 'bikeType', value: BikeType.ROAD, label: 'Road' },
 ];
 
 export const strollerType = [
-  { dataKey: 'strollerType', value: StrollerType.SINGLE, name: 'Single' },
-  { dataKey: 'strollerType', value: StrollerType.DOUBLE, name: 'Double' },
+  { dataKey: 'strollerType', value: StrollerType.SINGLE, label: 'Single' },
+  { dataKey: 'strollerType', value: StrollerType.DOUBLE, label: 'Double' },
 ];
 
 export const vehicleStatus = [
   {
     dataKey: 'vehicleStatus',
     value: VehicleStatus.AVAILABLE,
-    name: 'Available',
+    label: 'Available',
+    variant: 'successOutline',
     icon: CircleFadingPlus,
   },
   {
     dataKey: 'vehicleStatus',
     value: VehicleStatus.UNAVAILABLE,
-    name: 'Unavailable',
+    label: 'Unavailable',
+    variant: 'outline',
     icon: CircleDashed,
   },
   {
     dataKey: 'vehicleStatus',
     value: VehicleStatus.BROKEN,
-    name: 'Broken',
+    label: 'Broken',
+    variant: 'destructiveOutline',
     icon: CircleSlash,
   },
 ];
 
 export const brakeType = [
-  { dataKey: 'brakeType', value: BrakeType.CALIPER, name: 'Caliper' },
-  { dataKey: 'brakeType', value: BrakeType.DISC, name: 'Disc' },
-  { dataKey: 'brakeType', value: BrakeType.FOOTBRAKE, name: 'Footbrake' },
+  { dataKey: 'brakeType', value: BrakeType.CALIPER, label: 'Caliper' },
+  { dataKey: 'brakeType', value: BrakeType.DISC, label: 'Disc' },
+  { dataKey: 'brakeType', value: BrakeType.FOOTBRAKE, label: 'Footbrake' },
 ];
 
 export const size = [
-  { dataKey: 'size', value: BikeSize.EXTRA_SMALL, name: 'XS' },
-  { dataKey: 'size', value: BikeSize.SMALL, name: 'S' },
-  { dataKey: 'size', value: BikeSize.MEDIUM, name: 'M' },
-  { dataKey: 'size', value: BikeSize.LARGE, name: 'L' },
-  { dataKey: 'size', value: BikeSize.EXTRA_LARGE, name: 'XL' },
+  { dataKey: 'size', value: BikeSize.EXTRA_SMALL, label: 'XS' },
+  { dataKey: 'size', value: BikeSize.SMALL, label: 'S' },
+  { dataKey: 'size', value: BikeSize.MEDIUM, label: 'M' },
+  { dataKey: 'size', value: BikeSize.LARGE, label: 'L' },
+  { dataKey: 'size', value: BikeSize.EXTRA_LARGE, label: 'XL' },
 ];
 
 export const brand = [
-  { dataKey: 'brand', value: BikeBrand.MONARK, name: 'Monark' },
-  { dataKey: 'brand', value: BikeBrand.SKEPPSHULT, name: 'Skeppshult' },
-  { dataKey: 'brand', value: BikeBrand.YOSEMITE, name: 'Yosemite' },
-  { dataKey: 'brand', value: BikeBrand.CRESCENT, name: 'Crescent' },
-  { dataKey: 'brand', value: BikeBrand.SPECIALIZED, name: 'Specialized' },
-  { dataKey: 'brand', value: BikeBrand.NISHIKI, name: 'Nishiki' },
-  { dataKey: 'brand', value: BikeBrand.SJOSALA, name: 'Sjösala' },
-  { dataKey: 'brand', value: BikeBrand.KRONAN, name: 'Kronan' },
-  { dataKey: 'brand', value: BikeBrand.PELAGO, name: 'Pelago' },
-  { dataKey: 'brand', value: BikeBrand.BIANCHI, name: 'Bianchi' },
-  { dataKey: 'brand', value: BikeBrand.OTHER, name: 'Other' },
+  { dataKey: 'brand', value: BikeBrand.MONARK, label: 'Monark' },
+  { dataKey: 'brand', value: BikeBrand.SKEPPSHULT, label: 'Skeppshult' },
+  { dataKey: 'brand', value: BikeBrand.YOSEMITE, label: 'Yosemite' },
+  { dataKey: 'brand', value: BikeBrand.CRESCENT, label: 'Crescent' },
+  { dataKey: 'brand', value: BikeBrand.SPECIALIZED, label: 'Specialized' },
+  { dataKey: 'brand', value: BikeBrand.NISHIKI, label: 'Nishiki' },
+  { dataKey: 'brand', value: BikeBrand.SJOSALA, label: 'Sjösala' },
+  { dataKey: 'brand', value: BikeBrand.KRONAN, label: 'Kronan' },
+  { dataKey: 'brand', value: BikeBrand.PELAGO, label: 'Pelago' },
+  { dataKey: 'brand', value: BikeBrand.BIANCHI, label: 'Bianchi' },
+  { dataKey: 'brand', value: BikeBrand.OTHER, label: 'Other' },
 ];
 
 //

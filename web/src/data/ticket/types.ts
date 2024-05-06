@@ -23,6 +23,16 @@ export interface Ticket {
   updatedAt: string;
 }
 
+//
+
+export enum TicketStatus {
+  OPEN = 'OPEN',
+  DUE = 'DUE',
+  CLOSED = 'CLOSED',
+}
+
 export interface TicketAggregated extends Ticket {
   locationIds: string[];
+  status: TicketStatus;
+  daysLeft?: number;
 }

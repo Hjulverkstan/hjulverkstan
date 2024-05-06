@@ -1,39 +1,40 @@
-import { useState } from 'react';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
 
-import { useDeleteVehicleM } from '@data/vehicle/mutations';
-import { Vehicle } from '@data/vehicle/types';
-import * as DropdownMenu from '@components/shadcn/DropdownMenu';
-import { Dialog, DialogTrigger } from '@components/shadcn/Dialog';
-import { useToast } from '@components/shadcn/use-toast';
-import { IconButton } from '@components/shadcn/Button';
+import { useDeleteCustomerM } from '@data/customer/mutations';
+import { Customer } from '@data/customer/types';
+
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
+import { IconButton } from '@components/shadcn/Button';
+import { Dialog, DialogTrigger } from '@components/shadcn/Dialog';
+import * as DropdownMenu from '@components/shadcn/DropdownMenu';
+import { useToast } from '@components/shadcn/use-toast';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 
-export default function ShopInventoryActions({
-  row: vehicle,
+export default function ShopCustomersActions({
+  row: customer,
   disabled,
-}: PortalTableActionsProps<Vehicle>) {
-  const deleteVehicleM = useDeleteVehicleM();
+}: PortalTableActionsProps<Customer>) {
+  const deleteCustomerM = useDeleteCustomerM();
 
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
   const onDelete = () => {
-    deleteVehicleM.mutate(vehicle.id, {
-      onSuccess: (res: Vehicle) => {
+    deleteCustomerM.mutate(customer.id, {
+      onSuccess: (res: Customer) => {
         toast(
           createSuccessToast({
             verbLabel: 'delete',
-            dataLabel: 'vehicle',
-            id: res.id,
+            dataLabel: 'customer',
+            id: res.organizationName ?? `${res.firstName} ${res.lastName}`,
           }),
         );
       },
       onError: () => {
-        toast(createErrorToast({ verbLabel: 'delete', dataLabel: 'vehicle' }));
+        toast(createErrorToast({ verbLabel: 'delete', dataLabel: 'customer' }));
       },
     });
   };
@@ -61,8 +62,8 @@ export default function ShopInventoryActions({
           <ConfirmDeleteDialog
             onDelete={onDelete}
             onCancel={() => setOpen(false)}
-            entity={vehicle.vehicleType}
-            entityId={vehicle.regTag}
+            entity={customer.customerType}
+            entityId={customer.id}
           />
         </DropdownMenu.Content>
       </DropdownMenu.Root>

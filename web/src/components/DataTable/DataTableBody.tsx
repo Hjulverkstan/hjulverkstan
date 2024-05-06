@@ -29,7 +29,11 @@ export const Body = ({
       {paginatedData.map((row, y) => (
         <Table.Row
           disabled={disabled}
-          onClick={() => !disabled && setSelected(row.id)}
+          onClick={(e) =>
+            !disabled &&
+            (e.target as HTMLElement).tagName !== 'A' &&
+            setSelected(row.id)
+          }
           key={row.id}
           className="pl-4"
           isSelected={row.id === selected}

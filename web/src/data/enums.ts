@@ -1,15 +1,18 @@
 import { ComponentType } from 'react';
 
 import { Row } from '@hooks/useHeadlessTable';
+import { BadgeProps } from '@components/shadcn/Badge';
 
 //
 
 export interface EnumAttributes {
   value: string;
-  name: string;
+  label: string;
   dataKey: string;
   icon?: ComponentType<any>;
   /* Following fields aggregated in some bussines logic down the line */
+  variant?: BadgeProps['variant'];
+  tooltip?: string;
   children?: string[];
   count?: number;
 }
@@ -30,7 +33,7 @@ export const createFindFn = (enums: EnumAttributes[]) => (value: string) => {
 /**
  * Used to create a matchFn used by <DataTable.FilterSearch />. While we can
  * match any word on any fields we find on a row, with enums we want to match on
- * the localised name and not its enum value. Also when matching on enums the
+ * the localised label and not its enum value. Also when matching on enums the
  * word should start with the enum. For instance searching 'avail' should not
  * match for 'unavail'...
  */
@@ -39,5 +42,5 @@ export const createMatchFn =
   (enums: EnumAttributes[]) => (word: string, row: Row) =>
     enums.some(
       (e) =>
-        e.value === row[e.dataKey] && e.name.toLowerCase().startsWith(word),
+        e.value === row[e.dataKey] && e.label.toLowerCase().startsWith(word),
     );

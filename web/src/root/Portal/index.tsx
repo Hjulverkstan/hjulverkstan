@@ -1,20 +1,22 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
 import { ComponentType } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Mode } from '@components/DataForm';
 import { useAuth } from '@components/Auth';
+import { Mode } from '@components/DataForm';
 
 import PortalLayout from './PortalLayout';
-import PortalShopInventory from './PortalShopInventory';
 import PortalLogin from './PortalLogin';
+import PortalShopCustomers from './PortalShopCustomers';
+import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
 
 //
 
 const shopRoutes = [
-  { path: '/', label: 'Start' },
+  /* { path: '/', label: 'Start' }, */
   { path: '/inventory', label: 'Inventory', hasNestedRoutes: true },
-  { path: '/tickets', label: 'Tickets', hasNestedRoutes: true },
+  { path: '/ticketz', label: 'Tickets', hasNestedRoutes: true },
+  { path: '/customers', label: 'Customers', hasNestedRoutes: true },
 ];
 
 //
@@ -55,7 +57,12 @@ export default function Portal() {
           path="inventory/*"
           element={mountPageContent(PortalShopInventory)}
         />
-        <Route path="tickets/*" element={mountPageContent(PortalShopTickets)} />
+        <Route path="ticketz/*" element={mountPageContent(PortalShopTickets)} />
+        <Route
+          path="customers/*"
+          element={mountPageContent(PortalShopCustomers)}
+        />
+        <Route path="*" element={<Navigate replace to="../inventory" />} />
       </Route>
       <Route path="*" element={<Navigate replace to="shop" />} />
     </Routes>

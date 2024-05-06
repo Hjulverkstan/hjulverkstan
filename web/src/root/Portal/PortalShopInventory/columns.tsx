@@ -1,6 +1,5 @@
-import * as ticketEnums from '@data/ticket/enums';
 import * as enums from '@data/vehicle/enums';
-import { VehicleAggregated, VehicleStatus } from '@data/vehicle/types';
+import { Vehicle } from '@data/vehicle/types';
 
 import * as DataTable from '@components/DataTable';
 import BadgeGroup from '@components/BadgeGroup';
@@ -8,6 +7,7 @@ import { Badge } from '@components/shadcn/Badge';
 import IconLabel from '@components/IconLabel';
 import { useMemo } from 'react';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
+import { TicketBadges } from '../PortalShopTickets/useColumns';
 
 //
 
@@ -22,6 +22,7 @@ export default function useColumns() {
           name: 'Reg.',
           renderFn: ({ regTag }) => <Badge variant="outline">{regTag}</Badge>,
         },
+
         {
           key: 'locationId',
           name: 'Location',
@@ -32,6 +33,7 @@ export default function useColumns() {
               />
             ),
         },
+
         {
           key: 'vehicleType',
           name: 'Type',
@@ -39,64 +41,42 @@ export default function useColumns() {
             <IconLabel {...enums.find(vehicleType)}>
               {(strollerType || bikeType) && (
                 <span className="text-muted-foreground pl-1">
-                  {bikeType && enums.find(bikeType).name}
-                  {strollerType && enums.find(strollerType).name}
+                  {bikeType && enums.find(bikeType).label}
+                  {strollerType && enums.find(strollerType).label}
                 </span>
               )}
             </IconLabel>
           ),
         },
+
         {
           key: 'vehicleStatus',
           name: 'Status',
-          renderFn: ({ vehicleStatus }) => {
-            if (vehicleStatus) {
-              const { icon, name: label } = enums.find(vehicleStatus);
-
-              const variant = {
-                [VehicleStatus.AVAILABLE]: 'successOutline',
-                [VehicleStatus.UNAVAILABLE]: 'warnOutline',
-                [VehicleStatus.BROKEN]: 'destructiveOutline',
-              }[vehicleStatus] as any;
-
-              return <BadgeGroup badges={[{ label, icon, variant }]} />;
-            }
-          },
+          renderFn: ({ vehicleStatus }) =>
+            vehicleStatus && (
+              <BadgeGroup badges={[enums.find(vehicleStatus)]} />
+            ),
         },
+
         {
           key: 'ticketIds',
           name: 'Tickets',
-          renderFn: ({ tickets }) => {
-            const open =
-              tickets
-                ?.filter((ticket) => ticket.isOpen)
-                .map(({ ticketType, customerFirstName }) => ({
-                  variant: 'warn' as 'warn',
-                  label: customerFirstName ?? '',
-                  icon: ticketEnums.find(ticketType).icon,
-                })) ?? [];
-
-            const amountClosed = tickets?.filter(
-              (ticket) => !ticket.isOpen,
-            ).length;
-            const closed = amountClosed
-              ? [{ label: amountClosed + ' closed' }]
-              : [];
-
-            return <BadgeGroup badges={[...open, ...closed]} />;
-          },
+          renderFn: ({ ticketIds }) => <TicketBadges ticketIds={ticketIds} />,
         },
+
         {
           key: 'brand',
           name: 'Brand',
           renderFn: ({ brand }) =>
             brand && <IconLabel {...enums.find(brand)} />,
         },
+
         {
           key: 'size',
           name: 'Size',
           renderFn: ({ size }) => size && <IconLabel {...enums.find(size)} />,
         },
+
         {
           key: 'gearCount',
           name: 'Gears',
@@ -107,18 +87,21 @@ export default function useColumns() {
               </span>
             ),
         },
+
         {
           key: 'brakeType',
           name: 'Brakes',
           renderFn: ({ brakeType }) =>
             brakeType && <IconLabel {...enums.find(brakeType)} />,
         },
+
         {
           key: 'batchCount',
           name: 'Batch count',
           renderFn: ({ batchCount }) =>
             !!batchCount && <span>{batchCount}</span>,
         },
+
         {
           key: 'comment',
           name: 'Comment',
@@ -128,7 +111,7 @@ export default function useColumns() {
             </span>
           ),
         },
-      ] as Array<DataTable.Column<VehicleAggregated>>,
+      ] as Array<DataTable.Column<Vehicle>>,
     [locationEnumsQ.data],
   );
 }
