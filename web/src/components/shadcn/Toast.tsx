@@ -45,7 +45,14 @@ export const toastVariants = cva(
           `border-box border-destructive-border bg-destructive-fill
           text-destructive-foreground border`,
         ],
-        success: 'bg-success-fill text-success-foreground',
+        warn: [
+          `border-box border-warn-border bg-warn-fill text-warn-foreground
+          border`,
+        ],
+        success: [
+          `border-box border-success-border bg-success-fill
+          text-success-foreground border`,
+        ],
       },
     },
     defaultVariants: {
