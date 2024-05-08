@@ -8,6 +8,7 @@ import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { Separator } from '@components/shadcn/Separator';
 import { Tabs, TabsList, TabsTrigger } from '@components/shadcn/Tabs';
 import Spinner from '@components/Spinner';
+import useSlugs from '@hooks/useSlugs';
 
 export interface NavRoute {
   label: string;
@@ -96,13 +97,36 @@ function AvatarDropdown() {
         </DropdownMenu.Label>
         <DropdownMenu.Separator />
         <DropdownMenu.Group>
-          <DropdownMenu.Item>Shop</DropdownMenu.Item>
-          <DropdownMenu.Item>Admin</DropdownMenu.Item>
-          <DropdownMenu.Item>WebEdit</DropdownMenu.Item>
+          <AvatarDropdownAppItem appSlug="/shop" label="Shop" />
+          <AvatarDropdownAppItem appSlug="/admin" label="Admin" />
+          <AvatarDropdownAppItem appSlug="/web-edit" label="WebEdit" />
         </DropdownMenu.Group>
         <DropdownMenu.Separator />
         <DropdownMenu.Item onSelect={logOut}>Log out</DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
+  );
+}
+
+function AvatarDropdownAppItem({
+  label,
+  appSlug: itemAppSlug,
+}: {
+  appSlug: string;
+  label: string;
+}) {
+  const { baseUrl, appSlug } = useSlugs();
+  const navigate = useNavigate();
+
+  const isActive = appSlug === itemAppSlug;
+
+  return (
+    <DropdownMenu.Item
+      onClick={() => !isActive && navigate(baseUrl + itemAppSlug)}
+    >
+      <span className={isActive ? 'font-medium' : 'text-muted-foreground'}>
+        {label}
+      </span>
+    </DropdownMenu.Item>
   );
 }

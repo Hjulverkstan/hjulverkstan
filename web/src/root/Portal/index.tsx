@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from '@components/Auth';
 import { Mode } from '@components/DataForm';
 
+import PortalAdminLocations from './PortalAdminLocations';
 import PortalLayout from './PortalLayout';
 import PortalLogin from './PortalLogin';
 import PortalShopCustomers from './PortalShopCustomers';
@@ -13,10 +14,13 @@ import PortalShopTickets from './PortalShopTickets';
 //
 
 const shopRoutes = [
-  /* { path: '/', label: 'Start' }, */
   { path: '/inventory', label: 'Inventory', hasNestedRoutes: true },
   { path: '/ticketz', label: 'Tickets', hasNestedRoutes: true },
   { path: '/customers', label: 'Customers', hasNestedRoutes: true },
+];
+
+const adminRoutes = [
+  { path: '/locations', label: 'Locations', hasNestedRoutes: true },
 ];
 
 //
@@ -57,12 +61,31 @@ export default function Portal() {
           path="inventory/*"
           element={mountPageContent(PortalShopInventory)}
         />
+
         <Route path="ticketz/*" element={mountPageContent(PortalShopTickets)} />
+
         <Route
           path="customers/*"
           element={mountPageContent(PortalShopCustomers)}
         />
         <Route path="*" element={<Navigate replace to="../inventory" />} />
+      </Route>
+
+      <Route
+        path="admin/*"
+        element={
+          <PortalLayout
+            title="Admin"
+            baseUrl="/portal/admin"
+            routes={adminRoutes}
+          />
+        }
+      >
+        <Route
+          path="locations/*"
+          element={mountPageContent(PortalAdminLocations)}
+        />
+        <Route path="*" element={<Navigate replace to="../locations" />} />
       </Route>
       <Route path="*" element={<Navigate replace to="shop" />} />
     </Routes>

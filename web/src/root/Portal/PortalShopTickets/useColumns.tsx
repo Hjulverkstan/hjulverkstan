@@ -13,12 +13,12 @@ import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { Badge } from '@components/shadcn/Badge';
 import { format } from 'date-fns';
-import useBaseUrl from '@hooks/useBaseUrl';
+import useSlugs from '@hooks/useSlugs';
 
 //
 
 export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
-  const baseUrl = useBaseUrl();
+  const { coreUrl } = useSlugs();
 
   const ticketsQ = useTicketsQ();
   const ticketEnumsQ = useTicketsAsEnumsQ();
@@ -48,7 +48,7 @@ export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
 
     return {
       ...ticketEnum,
-      href: `${baseUrl}/ticketz/${ticketId}`,
+      href: `${coreUrl}/ticketz/${ticketId}`,
       tooltip: (
         <div className="flex">
           {customerEnum.icon && <customerEnum.icon className="mr-1 h-4 w-4" />}
@@ -75,7 +75,7 @@ export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
 }
 
 export default function useColumns() {
-  const baseUrl = useBaseUrl();
+  const { coreUrl } = useSlugs();
   const locationEnumsQ = useLocationsAsEnumsQ();
   const vehicleEnumsQ = useVehiclesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
@@ -108,7 +108,7 @@ export default function useColumns() {
                 badges={[
                   {
                     ...customerEnumsQ.data.find((e) => e.value === customerId)!,
-                    href: `${baseUrl}/customers/${customerId}`,
+                    href: `${coreUrl}/customers/${customerId}`,
                   },
                 ]}
               />
@@ -159,7 +159,7 @@ export default function useColumns() {
               <BadgeGroup
                 badges={vehicleIds.map((id) => ({
                   label: vehicleEnumsQ.data.find((e) => e.value === id)!.label,
-                  href: `${baseUrl}/inventory/${id}`,
+                  href: `${coreUrl}/inventory/${id}`,
                 }))}
               />
             ),
@@ -218,7 +218,7 @@ export default function useColumns() {
         },
       ] as Array<DataTable.Column<TicketAggregated>>,
     [
-      baseUrl,
+      coreUrl,
       locationEnumsQ.data,
       vehicleEnumsQ.data,
       customerEnumsQ.data,
