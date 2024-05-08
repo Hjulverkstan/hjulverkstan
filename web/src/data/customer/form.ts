@@ -23,8 +23,15 @@ export const customerZ = z.discriminatedUnion(
     }),
     customerBaseZ.extend({
       customerType: z.literal(CustomerType.PERSON),
-      //Keeping this for now
-      // personalIdentityNumber: z.string(isReq('Personal identification number')),
+      personalIdentityNumber: z
+        .string(isReq('Personal identification number'))
+        .or(z.null())
+        .refine((data) => !data || data.length === 10, {
+          message: 'Personal identification number must be 10 digits',
+        })
+        .refine((data) => !data || /^\d+$/.test(data), {
+          message: 'Personal identification number can only contain digits',
+        }),
     }),
   ],
   isReq('Customer type'),

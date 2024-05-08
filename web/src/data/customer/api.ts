@@ -55,7 +55,9 @@ const transformBody = ({
   customerType,
   firstName,
   lastName,
-  personalIdentityNumber,
+  personalIdentityNumber: !personalIdentityNumber
+    ? null
+    : personalIdentityNumber,
   phoneNumber,
   email,
   ticketIds,
