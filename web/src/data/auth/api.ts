@@ -23,7 +23,7 @@ export const subscribeToRefreshFailed = (callback: () => void) => {
 
 export const errorInterceptor = (error: AxiosError) => {
   const isRefreshRequest = error.response?.request.responseURL.endsWith(
-    endpoints.refreshToken,
+    endpoints.auth.refreshToken,
   );
 
   if (error.response?.status === 401 && !isRefreshRequest && onFailedCallback) {
@@ -61,22 +61,22 @@ export interface LogInParams {
 }
 
 export const logIn = (body: LogInParams) =>
-  instance.post<LogInRes>(endpoints.logIn, body).then((res) => {
+  instance.post<LogInRes>(endpoints.auth.logIn, body).then((res) => {
     return res.data;
   });
 
 export const logOut = (id: number) =>
-  instance.post(`${endpoints.logOut}/${id}`).then((res) => {
+  instance.post(`${endpoints.auth.logOut}/${id}`).then((res) => {
     return res.data;
   });
 
 export const verifyAuth = () =>
-  instance.get<LogInRes>(endpoints.verifyAuth).then((res) => {
+  instance.get<LogInRes>(endpoints.auth.verifyAuth).then((res) => {
     return res.data;
   });
 
 export const refreshToken = () =>
-  instance.get(endpoints.refreshToken).then((res) => {
+  instance.get(endpoints.auth.refreshToken).then((res) => {
     return res.data;
   });
 

@@ -10,10 +10,13 @@ export const endpoints = {
   employee: '/employee',
   location: '/location',
   customer: '/customer',
-  logIn: '/auth/login',
-  logOut: '/auth/signout',
-  refreshToken: '/auth/refreshtoken',
-  verifyAuth: '/auth/verify',
+  auth: {
+    logIn: '/auth/login',
+    logOut: '/auth/signout',
+    refreshToken: '/auth/refreshtoken',
+    verifyAuth: '/auth/verify',
+  },
+  user: '/user',
 };
 
 export const instance = axios.create({

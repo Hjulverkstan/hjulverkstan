@@ -4,8 +4,9 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from '@components/Auth';
 import { Mode } from '@components/DataForm';
 
-import PortalAdminLocations from './PortalAdminLocations';
 import PortalAdminEmployees from './PortalAdminEmployees';
+import PortalAdminLocations from './PortalAdminLocations';
+import PortalAdminUsers from './PortalAdminUsers';
 import PortalLayout from './PortalLayout';
 import PortalLogin from './PortalLogin';
 import PortalShopCustomers from './PortalShopCustomers';
@@ -92,6 +93,7 @@ export default function Portal() {
           path="employees/*"
           element={mountPageContent(PortalAdminEmployees)}
         />
+        <Route path="users/*" element={mountPageContent(PortalAdminUsers)} />
         <Route path="*" element={<Navigate replace to="../locations" />} />
       </Route>
       <Route path="*" element={<Navigate replace to="shop" />} />

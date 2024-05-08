@@ -3,7 +3,7 @@ import * as enums from '@data/location/enums';
 import * as DataTable from '@components/DataTable';
 import { Location } from '@data/location/types';
 
-export default function ShopLocationFilters() {
+export default function AdminLocationFilters() {
   return (
     <>
       <DataTable.FilterSearch

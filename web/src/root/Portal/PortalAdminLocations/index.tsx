@@ -14,14 +14,14 @@ import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
 import PortalToolbar from '../PortalToolbar';
 
-import ShopLocationsActions from './AdminLocationsActions';
-import ShopLocationsFields from './AdminLocationsFields';
-import ShopLocationsFilters from './AdminLocationsFilters';
+import AdminLocationsActions from './AdminLocationsActions';
+import AdminLocationsFields from './AdminLocationsFields';
+import AdminLocationsFilters from './AdminLocationsFilters';
 import useColumns from './useColumns';
 
 //
 
-export default function PortalShopLocations({ mode }: PageContentProps) {
+export default function PortalAdminLocations({ mode }: PageContentProps) {
   const { id = '' } = useParams();
 
   const locationsQ = useLocationsQ();
@@ -39,11 +39,11 @@ export default function PortalShopLocations({ mode }: PageContentProps) {
       data={locationsQ.data}
     >
       <PortalToolbar dataLabel="location">
-        <ShopLocationsFilters />
+        <AdminLocationsFilters />
       </PortalToolbar>
       <PortalContent>
         <PortalTable
-          actionsComponent={ShopLocationsActions}
+          actionsComponent={AdminLocationsActions}
           columns={columns}
           isLoading={locationsQ.isLoading}
           error={locationsQ.error}
@@ -65,7 +65,7 @@ export default function PortalShopLocations({ mode }: PageContentProps) {
               saveMutation={editLocationM.mutateAsync}
               createMutation={createLocationM.mutateAsync}
             >
-              <ShopLocationsFields />
+              <AdminLocationsFields />
             </PortalForm>
           </DataForm.Provider>
         )}

@@ -1,7 +1,7 @@
 import * as enums from '@data/location/enums';
 import * as DataForm from '@components/DataForm';
 
-export default function ShopLocationFields() {
+export default function AdminLocationFields() {
   return (
     <>
       <DataForm.Select

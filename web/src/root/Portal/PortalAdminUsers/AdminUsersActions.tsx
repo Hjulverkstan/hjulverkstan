@@ -1,8 +1,8 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
-import { useDeleteLocationM } from '@data/location/mutations';
-import { Location } from '@data/location/types';
+import { useDeleteUserM } from '@data/user/mutations';
+import { User } from '@data/user/types';
 
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { IconButton } from '@components/shadcn/Button';
@@ -13,28 +13,28 @@ import { useToast } from '@components/shadcn/use-toast';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 
-export default function AdminLocationsActions({
-  row: location,
+export default function AdminUsersActions({
+  row: user,
   disabled,
-}: PortalTableActionsProps<Location>) {
-  const deleteLocationM = useDeleteLocationM();
+}: PortalTableActionsProps<User>) {
+  const deleteUserM = useDeleteUserM();
 
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
   const onDelete = () => {
-    deleteLocationM.mutate(location.id, {
-      onSuccess: (res: Location) => {
+    deleteUserM.mutate(user.id, {
+      onSuccess: (res: User) => {
         toast(
           createSuccessToast({
             verbLabel: 'delete',
-            dataLabel: 'location',
-            id: res.name,
+            dataLabel: 'user',
+            id: res.username,
           }),
         );
       },
       onError: () => {
-        toast(createErrorToast({ verbLabel: 'delete', dataLabel: 'location' }));
+        toast(createErrorToast({ verbLabel: 'delete', dataLabel: 'user' }));
       },
     });
   };
@@ -62,8 +62,8 @@ export default function AdminLocationsActions({
           <ConfirmDeleteDialog
             onDelete={onDelete}
             onCancel={() => setOpen(false)}
-            entity={location.locationType}
-            entityId={location.id}
+            entity="user"
+            entityId={user.username}
           />
         </DropdownMenu.Content>
       </DropdownMenu.Root>

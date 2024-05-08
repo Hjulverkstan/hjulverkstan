@@ -40,7 +40,12 @@ export const createFindFn = (enums: EnumAttributes[]) => (value: string) => {
 
 export const createMatchFn =
   (enums: EnumAttributes[]) => (word: string, row: Row) =>
-    enums.some(
-      (e) =>
-        e.value === row[e.dataKey] && e.label.toLowerCase().startsWith(word),
-    );
+    enums.some((e) => {
+      const dataVal = row[e.dataKey];
+
+      return (
+        (Array.isArray(dataVal)
+          ? dataVal.includes(e.value)
+          : e.value === dataVal) && e.label.toLowerCase().startsWith(word)
+      );
+    });
