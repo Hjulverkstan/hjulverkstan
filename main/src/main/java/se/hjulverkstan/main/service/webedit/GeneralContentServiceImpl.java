@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.webedit.GeneralContentDto;
-import se.hjulverkstan.main.dto.webedit.GeneralContentUpdateDto;
+import se.hjulverkstan.main.dto.webedit.UpdateGeneralContentWithLangDto;
 import se.hjulverkstan.main.model.webedit.FieldNameType;
 import se.hjulverkstan.main.model.webedit.GeneralContent;
 import se.hjulverkstan.main.model.webedit.Language;
@@ -43,11 +43,11 @@ public class GeneralContentServiceImpl implements GeneralContentService {
     }
 
     @Override
-    public GeneralContentDto editGeneralContent(Long id, GeneralContentUpdateDto updateDto) {
+    public GeneralContentDto editGeneralContent(Long id, UpdateGeneralContentWithLangDto updateDto) {
         GeneralContent selectedGeneralContent = generalContentRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException("General Content " + id));
 
-        String newValue = updateDto.getLocalisationUpdateDto().getValue();
+        String newValue = updateDto.getUpdateGeneralContentDto().getValue();
         Language lang = updateDto.getLang();
 
         LocalisedContent localisedContent = selectedGeneralContent.getLocalisedContent().stream()

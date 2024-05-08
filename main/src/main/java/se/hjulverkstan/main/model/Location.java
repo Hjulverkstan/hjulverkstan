@@ -3,6 +3,7 @@ package se.hjulverkstan.main.model;
 import jakarta.persistence.*;
 import lombok.*;
 import se.hjulverkstan.main.model.base.Auditable;
+import se.hjulverkstan.main.model.webedit.Shop;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public class Location extends Auditable {
     private String comment;
     @OneToMany(mappedBy = "location")
     private List<Vehicle> vehicles;
+    @OneToOne(mappedBy = "location")
+    private Shop shop;
 }

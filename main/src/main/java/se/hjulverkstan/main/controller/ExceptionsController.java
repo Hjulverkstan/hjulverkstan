@@ -2,6 +2,7 @@ package se.hjulverkstan.main.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -92,6 +93,14 @@ public class ExceptionsController {
     public ResponseEntity<ApiError> badRequest(HttpServletRequest req, Exception ex) {
 
         ApiError apiError = new ApiError("Invalid credentials",  ex.getMessage(),  HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(apiError.getStatus())
+                .body(apiError);
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleDataIntegrityViolation(DataIntegrityViolationException ex, HttpServletRequest request) {
+        log.error("Data Integrity Violation: " + ex.getMessage());
+        String message = "Request could not be processed due to data integrity violation. ";
+        ApiError apiError = new ApiError("data_integrity_error", message, HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(apiError.getStatus())
                 .body(apiError);
     }

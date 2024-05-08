@@ -9,8 +9,8 @@ import se.hjulverkstan.main.model.webedit.Language;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GeneralContentUpdateDto {
+public class UpdateGeneralContentWithLangDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Language lang;
-    private LocalisationUpdateDto localisationUpdateDto;
+    private UpdateGeneralContentDto updateGeneralContentDto;
 }

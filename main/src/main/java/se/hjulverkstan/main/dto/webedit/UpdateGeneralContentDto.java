@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocalisationUpdateDto {
+public class UpdateGeneralContentDto {
     private String value;
 }

@@ -2,7 +2,7 @@ package se.hjulverkstan.main.service.webedit;
 
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.webedit.GeneralContentDto;
-import se.hjulverkstan.main.dto.webedit.GeneralContentUpdateDto;
+import se.hjulverkstan.main.dto.webedit.UpdateGeneralContentWithLangDto;
 import se.hjulverkstan.main.model.webedit.Language;
 
 import java.util.List;
@@ -22,5 +22,5 @@ public interface GeneralContentService {
      * @return GeneralContentDto reflecting the updated or unchanged GeneralContent, depending on the operation performed.
      * @throws ElementNotFoundException if no GeneralContent with the given ID is found.
      */
-    GeneralContentDto editGeneralContent(Long id, GeneralContentUpdateDto updateDto);
+    GeneralContentDto editGeneralContent(Long id, UpdateGeneralContentWithLangDto updateDto);
 }
