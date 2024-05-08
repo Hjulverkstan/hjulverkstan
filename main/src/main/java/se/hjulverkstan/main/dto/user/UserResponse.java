@@ -1,7 +1,7 @@
 package se.hjulverkstan.main.dto.user;
 
 import lombok.*;
-import se.hjulverkstan.main.model.Role;
+import se.hjulverkstan.main.model.ERole;
 
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public class UserResponse {
     private Long id;
     private String username;
     private String email;
-    private Set<Role> roles;
+    private Set<ERole> roles;
 
 
 }

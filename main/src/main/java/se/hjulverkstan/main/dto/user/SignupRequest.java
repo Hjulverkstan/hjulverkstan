@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import se.hjulverkstan.main.model.ERole;
 
 import java.util.Set;
 
@@ -30,7 +31,5 @@ public class SignupRequest {
     @Size(max = 120)
     private String password;
 
-    private Set<String> roles;
-
-
+    private Set<ERole> roles;
 }

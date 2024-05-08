@@ -1,36 +1,37 @@
 -- SEED Table
 
 INSERT INTO Location
-(address,           name,           location_type, comment,                    created_at,  updated_at, created_by, updated_by) VALUES
+(address,           name,      location_type, comment,                     created_at, updated_at, created_by, updated_by) VALUES
 ('123 Main Street', 'Hjällbo', 'SHOP',        'Sample location 1 comment', NOW(),      NOW(),      1,          1         ),
-('456 Elm Street',  'Backa', 'SHOP',        'Sample location 2 comment', NOW(),      NOW(),      1,          1         );
+('456 Elm Street',  'Backa',   'SHOP',        'Sample location 2 comment', NOW(),      NOW(),      1,          1         );
 
 --
 
 INSERT INTO Employee
 (employee_number, first_name,    last_name,  phone_number,   personal_identity_number, email,                       created_at, updated_at, created_by, updated_by, comment                    ) VALUES
-('3',             'John',        'Doe',      '+46712345678',    '9907039876',             'john.doe@example.com',      NOW(),      NOW(),      1,          1,          'Sample comment 1'         ),
-('5',             'Jane',        'Smith',    '+46723019838',    '0102034567',             'jane.smith@example.com',    NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
+('3',             'John',        'Doe',      '+46712345678', '9907039876',             'john.doe@example.com',      NOW(),      NOW(),      1,          1,          'Sample comment 1'         ),
+('5',             'Jane',        'Smith',    '+46723019838', '0102034567',             'jane.smith@example.com',    NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
 ('6',             'Alice',       'Johnson',  '555-111-2222', '7204082288',             'alice.johnson@example.com', NOW(),      NOW(),      1,          1,          'Sample employee 3 comment'),
 ('7',             'Bob',         'Williams', '555-333-4444', '0012247766',             'bob.williams@example.com',  NOW(),      NOW(),      1,          1,          'Sample employee 4 comment');
 
 --
 
 INSERT INTO Customer
-(customer_type,  first_name, last_name,  personal_identity_number, organization_name, phone_number, email,                  created_at, updated_at, created_by, updated_by) VALUES
+(customer_type,  first_name, last_name,  personal_identity_number, organization_name, phone_number,   email,                  created_at, updated_at, created_by, updated_by) VALUES
 ('PERSON',       'Tuva',     'Nilsson',  '1234567890',             null,             '+46798382301',  'tuva@example.com',     NOW(),      NOW(),      1,          1         ),
 ('PERSON',       'Emil',     'Berglund', '1234567890',             null,             '+46832103988',  'emil@example.com',     NOW(),      NOW(),      1,          1         ),
 ('ORGANIZATION', 'Bosse',    'Boström',  '7894561230',             'Biltema',        '+46798381201',  'bosseboss@biltema.se', NOW(),      NOW(),      1,          1         );
 
+--
 
 INSERT INTO vehicle
 (location_id, vehicle_type, vehicle_status, imageurl,          comment,                        bike_type,  gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class, created_at, updated_at, created_by, updated_by) VALUES
-(1,          'BIKE',       'AVAILABLE',    'image_url_1.jpg',  null,                           'CHILD',    1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  'HGJF',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(1,          'BIKE',       'AVAILABLE',    'image_url_1.jpg',  null,                           'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(1,          'BIKE',       'BROKEN',       'image_url_1.jpg',  'Can not ever be repaired...',  'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'VBNM',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(2,          'BIKE',       'AVAILABLE',    'image_url_1.jpg',  null,                           'BMX',      1,          'MEDIUM', 'DISC',         'KRONAN',      'DFGH',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(2,          'BIKE',       'UNAVAILABLE',  'image_url_2.jpg', 'This bike weighs nothing!',     'ROAD',     18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(2,          'BIKE',       'AVAILABLE',    'image_url_3.jpg', 'Bulletproof tires',             'ELECTRIC', 15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',        NOW(),      NOW(),      1,          1         );
+(1,           'BIKE',       'AVAILABLE',    'image_url_1.jpg', null,                           'CHILD',    1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  'HGJF',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(1,           'BIKE',       'AVAILABLE',    'image_url_1.jpg', null,                           'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(1,           'BIKE',       'BROKEN',       'image_url_1.jpg', 'Can not ever be repaired...',  'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'VBNM',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',    'image_url_1.jpg', null,                           'BMX',      1,          'MEDIUM', 'DISC',         'KRONAN',      'DFGH',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(2,           'BIKE',       'UNAVAILABLE',  'image_url_2.jpg', 'This bike weighs nothing!',    'ROAD',     18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',        NOW(),      NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',    'image_url_3.jpg', 'Bulletproof tires',            'ELECTRIC', 15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',        NOW(),      NOW(),      1,          1         );
 
 --
 
@@ -54,21 +55,21 @@ INSERT INTO Ticket_Vehicle
 --
 
 INSERT INTO General_Content
-(text_type,       name,                                      description,                             key,                                    created_at, updated_at, created_by, updated_by) VALUES
-('PLAIN',         'Service: Fix Label',                      'Service section, landing page',         'serviceFixLabel',                      NOW(),      NOW(),      1,          1),
-('PLAIN',         'Service: Fix Description',                'Service section, landing page',         'serviceFixDescription',                NOW(),      NOW(),      1,          1),
-('PLAIN',         'Service: Courses Label',                  'Service section, landing page',         'serviceCoursesLabel',                  NOW(),      NOW(),      1,          1),
-('PLAIN',         'Service: Courses Description',            'Service section, landing page',         'serviceCoursesDescription',            NOW(),      NOW(),      1,          1),
-('PLAIN',         'Service: Bike Pool Label',                'Service section, landing page',         'serviceBikePoolLabel',                 NOW(),      NOW(),      1,          1),
-('PLAIN',         'Service: Bike Pool Description',          'Service section, landing page',         'serviceBikePoolDescription',           NOW(),      NOW(),      1,          1),
-('PLAIN',         'Service: Safe Places Label',              'Service section, landing page',         'serviceSafePlacesLabel',               NOW(),      NOW(),      1,          1),
-('PLAIN',         'Service: Safe Places Description',        'Service section, landing page',         'serviceSafePlacesDescription',         NOW(),      NOW(),      1,          1),
-('PLAIN',         'Statistic: Bikes Repaired',               'Statistics section, landing page',      'statisticBikesRepaired',               NOW(),      NOW(),      1,          1),
-('PLAIN',         'Statistic: Bikes Saved',                  'Statistics section, landing page',      'statisticBikesSaved',                  NOW(),      NOW(),      1,          1),
-('PLAIN',         'Statistic: Bikes Lent',                   'Statistics section, landing page',      'statisticBikesLent',                   NOW(),      NOW(),      1,          1),
-('PLAIN',         'Statistic: Events Held',                  'Statistics section, landing page',      'statisticEventsHeld',                  NOW(),      NOW(),      1,          1),
-('PLAIN',         'Statistic: Employees Hired',              'Statistics section, landing page',      'statisticEmployeesHired',              NOW(),      NOW(),      1,          1),
-('PLAIN',         'Slogan',                                  'Slogan for landing page',               'slogan',                               NOW(),      NOW(),      1,          1);
+(text_type, name,                               description,                        key,                            created_at, updated_at, created_by, updated_by) VALUES
+('PLAIN',   'Service: Fix Label',               'Service section, landing page',    'serviceFixLabel',              NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Fix Description',         'Service section, landing page',    'serviceFixDescription',        NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Courses Label',           'Service section, landing page',    'serviceCoursesLabel',          NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Courses Description',     'Service section, landing page',    'serviceCoursesDescription',    NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Bike Pool Label',         'Service section, landing page',    'serviceBikePoolLabel',         NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Bike Pool Description',   'Service section, landing page',    'serviceBikePoolDescription',   NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Safe Places Label',       'Service section, landing page',    'serviceSafePlacesLabel',       NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Safe Places Description', 'Service section, landing page',    'serviceSafePlacesDescription', NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Bikes Repaired',        'Statistics section, landing page', 'statisticBikesRepaired',       NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Bikes Saved',           'Statistics section, landing page', 'statisticBikesSaved',          NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Bikes Lent',            'Statistics section, landing page', 'statisticBikesLent',           NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Events Held',           'Statistics section, landing page', 'statisticEventsHeld',          NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Employees Hired',       'Statistics section, landing page', 'statisticEmployeesHired',      NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Slogan',                           'Slogan for landing page',          'slogan',                       NOW(),      NOW(),      1,          1         );
 
 INSERT INTO Localised_Content
 (general_content_id, lang,   field_name, content,                                                                                                                    created_at, updated_at, created_by, updated_by) VALUES

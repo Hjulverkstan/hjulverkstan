@@ -19,9 +19,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 
     private final UserRepository userRepository;
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService{
     public UserResponse createUser(SignupRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            throw new AlreadyUsedException("Error: Email is already in use!");
+            throw new AlreadyUsedException("Error: Username is already in use!");
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -53,26 +54,10 @@ public class UserServiceImpl implements UserService{
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        Set<String> strRoles = signUpRequest.getRoles();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                if (role.equals("admin")) {
-                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(adminRole);
-                } else {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-                }
-            });
-        }
+        Set<Role> roles = signUpRequest.getRoles().stream().map(eRole -> roleRepository
+                .findByName(eRole)
+                .orElseThrow(() -> new ElementNotFoundException("Role"))
+        ).collect(Collectors.toSet());
 
         user.setRoles(roles);
         userRepository.save(user);
@@ -81,9 +66,9 @@ public class UserServiceImpl implements UserService{
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .roles(user.getRoles()).build();
+                .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
+                .build();
     }
-
 
 
     @Override
@@ -91,7 +76,7 @@ public class UserServiceImpl implements UserService{
         List<UserDto> userDtoList = new ArrayList<>();
         userRepository.findAll().forEach(user -> {
             UserDto userDto = UserDto.builder()
-                    .roles(user.getRoles())
+                    .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
                     .username(user.getUsername())
                     .password(user.getPassword())
                     .email(user.getEmail())
@@ -103,11 +88,19 @@ public class UserServiceImpl implements UserService{
 
         return getAllUserDto;
     }
+
     @Override
     public UserDto getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
-        return UserDto.builder().id(user.getId()).username(user.getUsername()).password(user.getPassword())
-                .email(user.getEmail()).roles(user.getRoles()).build();
+        return UserDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .email(user.getEmail())
+                .roles(user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toSet()))
+                .build();
     }
 
     @Override
@@ -118,20 +111,10 @@ public class UserServiceImpl implements UserService{
         user.setPassword(userDetail.getPassword());
         user.setEmail(userDetail.getEmail());
 
-        Set<String> strRoles = userDetail.getRoles();
-        Set<Role> roles = new HashSet<>();
-
-        strRoles.forEach(role -> {
-                if (role.equals("admin")) {
-                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(adminRole);
-                } else {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-                }
-            });
+        Set<Role> roles = userDetail.getRoles().stream().map(eRole -> roleRepository
+                .findByName(eRole)
+                .orElseThrow(() -> new ElementNotFoundException("Role"))
+        ).collect(Collectors.toSet());
 
         user.setRoles(roles);
         User updateUser = userRepository.save(user);
@@ -140,7 +123,10 @@ public class UserServiceImpl implements UserService{
                 .id(updateUser.getId())
                 .username(updateUser.getUsername())
                 .email(updateUser.getEmail())
-                .roles(updateUser.getRoles()).build();
+                .roles(user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toSet()))
+                .build();
     }
 
     @Override
@@ -148,7 +134,14 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
         userRepository.deleteById(id);
-        return UserDto.builder().id(user.getId()).username(user.getUsername()).password(user.getPassword())
-                .email(user.getEmail()).roles(user.getRoles()).build();
+        return UserDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .email(user.getEmail())
+                .roles(user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toSet()))
+                .build();
     }
 }
