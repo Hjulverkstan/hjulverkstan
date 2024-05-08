@@ -30,19 +30,16 @@ public class GeneralContentServiceImpl implements GeneralContentService {
 
     @Override
     public List<GeneralContentDto> getAllGeneralContentsByLang(Language lang) {
-        List<GeneralContent> generalContentList = generalContentRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
-
-        return generalContentList.stream()
+        return generalContentRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream()
                 .map(gc -> mapToGeneralContentDto(gc, lang))
                 .toList();
     }
 
     @Override
     public GeneralContentDto getGeneralContentByIdAndLang(Long id, Language lang) {
-        GeneralContent generalContent = generalContentRepository.findById(id)
+        return generalContentRepository.findById(id)
+                .map(gc -> mapToGeneralContentDto(gc, lang))
                 .orElseThrow(() -> new ElementNotFoundException("General Content " + id));
-
-        return mapToGeneralContentDto(generalContent, lang);
     }
 
     @Override
@@ -79,11 +76,10 @@ public class GeneralContentServiceImpl implements GeneralContentService {
         } else {
             // Create new LocalisedContent with value since it didn't exist.
             LocalisedContent lc = new LocalisedContent();
-            lc.setRefType("GeneralContent");
-            lc.setRefId(selectedGeneralContent.getId());
             lc.setLang(updateDto.getLang());
             lc.setFieldName(FieldNameType.VALUE);
             lc.setContent(newValue);
+            lc.setGeneralContent(selectedGeneralContent);
 
             selectedGeneralContent.getLocalisedContent().add(lc);
             localisedContentRepository.save(lc);
@@ -110,13 +106,13 @@ public class GeneralContentServiceImpl implements GeneralContentService {
         gcDto.setKey(generalContent.getKey());
 
         // Retrieve localised for the specified language or return null
-        String localisedContent = generalContent.getLocalisedContent().stream()
+        String localisedValue = generalContent.getLocalisedContent().stream()
                 .filter(lc -> lc.getLang() != null && lc.getLang().equals(lang))
                 .findFirst()
                 .map(LocalisedContent::getContent)
                 .orElse(null);
 
-        gcDto.setValue(localisedContent);
+        gcDto.setValue(localisedValue);
 
         return gcDto;
     }

@@ -12,19 +12,23 @@ import se.hjulverkstan.main.model.base.Auditable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"refType", "refId", "fieldName", "lang"})
+        @UniqueConstraint(columnNames = {"general_content_id", "lang", "field_name"})
 })
 public class LocalisedContent extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String refType; // Type of the referenced entity (e.g., 'GeneralContent', 'Event')
-    private Long refId; // ID of the referenced entity in its respective table
     @Enumerated(EnumType.STRING)
     private Language lang; // We use the ISO 639-2 three letter standard where Swedish = 'swe', English = 'eng'
     @Enumerated(EnumType.STRING)
     private FieldNameType fieldName; // Multi field objects like a shop can have several localised fields
     private String content; // The localised content
+
+    // Nullable foreign key columns for polymorphic use of this table
+    @ManyToOne
+    @JoinColumn(name = "general_content_id", referencedColumnName = "id", nullable = true)
+    GeneralContent generalContent;
+
 }
 
