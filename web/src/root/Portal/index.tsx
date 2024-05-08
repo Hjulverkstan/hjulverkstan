@@ -5,6 +5,7 @@ import { useAuth } from '@components/Auth';
 import { Mode } from '@components/DataForm';
 
 import PortalAdminLocations from './PortalAdminLocations';
+import PortalAdminEmployees from './PortalAdminEmployees';
 import PortalLayout from './PortalLayout';
 import PortalLogin from './PortalLogin';
 import PortalShopCustomers from './PortalShopCustomers';
@@ -21,6 +22,8 @@ const shopRoutes = [
 
 const adminRoutes = [
   { path: '/locations', label: 'Locations', hasNestedRoutes: true },
+  { path: '/employees', label: 'Employees', hasNestedRoutes: true },
+  { path: '/users', label: 'Users', hasNestedRoutes: true },
 ];
 
 //
@@ -84,6 +87,10 @@ export default function Portal() {
         <Route
           path="locations/*"
           element={mountPageContent(PortalAdminLocations)}
+        />
+        <Route
+          path="employees/*"
+          element={mountPageContent(PortalAdminEmployees)}
         />
         <Route path="*" element={<Navigate replace to="../locations" />} />
       </Route>

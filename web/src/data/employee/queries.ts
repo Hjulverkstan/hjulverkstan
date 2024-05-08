@@ -12,6 +12,16 @@ import * as api from './api';
 export const useEmployeesQ = () =>
   useQuery<Employee[], ErrorRes>(api.createGetEmployees());
 
+export interface UseEmployeeQProps {
+  id: string;
+}
+
+export const useEmployeeQ = ({ id }: UseEmployeeQProps) =>
+  useQuery<Employee, ErrorRes>({
+    ...api.createGetEmployee({ id }),
+    enabled: !!id,
+  });
+
 //
 
 export const useEmployeesAsEnumsQ = ({ dataKey = 'employeeId' } = {}) =>

@@ -8,19 +8,19 @@ INSERT INTO Location
 --
 
 INSERT INTO Employee
-(first_name,    last_name,  phone_number,   email,                       created_at, updated_at, created_by, updated_by, comment                    ) VALUES
-('John',  'Doe',      '123456789',    'john.doe@example.com',      NOW(),      NOW(),      1,          1,          'Sample comment 1'         ),
-('Jane',  'Smith',    '987654321',    'jane.smith@example.com',    NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
-('Alice', 'Johnson',  '555-111-2222', 'alice.johnson@example.com', NOW(),      NOW(),      1,          1,          'Sample employee 3 comment'),
-('Bob',   'Williams', '555-333-4444', 'bob.williams@example.com',  NOW(),      NOW(),      1,          1,          'Sample employee 4 comment');
+(employee_number, first_name,    last_name,  phone_number,   personal_identity_number, email,                       created_at, updated_at, created_by, updated_by, comment                    ) VALUES
+('3',             'John',        'Doe',      '+46712345678',    '9907039876',             'john.doe@example.com',      NOW(),      NOW(),      1,          1,          'Sample comment 1'         ),
+('5',             'Jane',        'Smith',    '+46723019838',    '0102034567',             'jane.smith@example.com',    NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
+('6',             'Alice',       'Johnson',  '555-111-2222', '7204082288',             'alice.johnson@example.com', NOW(),      NOW(),      1,          1,          'Sample employee 3 comment'),
+('7',             'Bob',         'Williams', '555-333-4444', '0012247766',             'bob.williams@example.com',  NOW(),      NOW(),      1,          1,          'Sample employee 4 comment');
 
 --
 
 INSERT INTO Customer
 (customer_type,  first_name, last_name,  personal_identity_number, organization_name, phone_number, email,                  created_at, updated_at, created_by, updated_by) VALUES
-('PERSON',       'Tuva',     'Nilsson',  '1234567890',             null,             '1234567890',  'tuva@example.com',     NOW(),      NOW(),      1,          1         ),
-('PERSON',       'Emil',     'Berglund', '1234567890',             null,             '1234567890',  'emil@example.com',     NOW(),      NOW(),      1,          1         ),
-('ORGANIZATION', 'Bosse',    'Boström',  '7894561230',             'Biltema',        '9876543210',  'bosseboss@biltema.se', NOW(),      NOW(),      1,          1         );
+('PERSON',       'Tuva',     'Nilsson',  '1234567890',             null,             '+46798382301',  'tuva@example.com',     NOW(),      NOW(),      1,          1         ),
+('PERSON',       'Emil',     'Berglund', '1234567890',             null,             '+46832103988',  'emil@example.com',     NOW(),      NOW(),      1,          1         ),
+('ORGANIZATION', 'Bosse',    'Boström',  '7894561230',             'Biltema',        '+46798381201',  'bosseboss@biltema.se', NOW(),      NOW(),      1,          1         );
 
 
 INSERT INTO vehicle
