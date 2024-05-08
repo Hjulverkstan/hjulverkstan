@@ -1,7 +1,7 @@
 import { useIsFetching } from 'react-query';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@components/Auth';
+import { ProtectedByRole, useAuth } from '@components/Auth';
 import { Avatar, AvatarFallback } from '@components/shadcn/Avatar';
 import { Button } from '@components/shadcn/Button';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
@@ -9,6 +9,7 @@ import { Separator } from '@components/shadcn/Separator';
 import { Tabs, TabsList, TabsTrigger } from '@components/shadcn/Tabs';
 import Spinner from '@components/Spinner';
 import useSlugs from '@hooks/useSlugs';
+import { AuthRole } from '@data/auth/types';
 
 export interface NavRoute {
   label: string;
@@ -95,12 +96,14 @@ function AvatarDropdown() {
             </p>
           </div>
         </DropdownMenu.Label>
-        <DropdownMenu.Separator />
-        <DropdownMenu.Group>
-          <AvatarDropdownAppItem appSlug="/shop" label="Shop" />
-          <AvatarDropdownAppItem appSlug="/admin" label="Admin" />
-          <AvatarDropdownAppItem appSlug="/web-edit" label="WebEdit" />
-        </DropdownMenu.Group>
+        <ProtectedByRole roles={[AuthRole.ADMIN]}>
+          <DropdownMenu.Separator />
+          <DropdownMenu.Group>
+            <AvatarDropdownAppItem appSlug="/shop" label="Shop" />
+            <AvatarDropdownAppItem appSlug="/admin" label="Admin" />
+            <AvatarDropdownAppItem appSlug="/web-edit" label="WebEdit" />
+          </DropdownMenu.Group>
+        </ProtectedByRole>
         <DropdownMenu.Separator />
         <DropdownMenu.Item onSelect={logOut}>Log out</DropdownMenu.Item>
       </DropdownMenu.Content>

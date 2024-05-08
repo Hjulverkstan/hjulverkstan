@@ -1,7 +1,7 @@
 import { ComponentType } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { useAuth } from '@components/Auth';
+import { ProtectedByRole, useAuth } from '@components/Auth';
 import { Mode } from '@components/DataForm';
 
 import PortalAdminEmployees from './PortalAdminEmployees';
@@ -12,6 +12,7 @@ import PortalLogin from './PortalLogin';
 import PortalShopCustomers from './PortalShopCustomers';
 import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
+import { AuthRole } from '@data/auth/types';
 
 //
 
@@ -78,11 +79,13 @@ export default function Portal() {
       <Route
         path="admin/*"
         element={
-          <PortalLayout
-            title="Admin"
-            baseUrl="/portal/admin"
-            routes={adminRoutes}
-          />
+          <ProtectedByRole roles={[AuthRole.ADMIN]} renderLandingPage>
+            <PortalLayout
+              title="Admin"
+              baseUrl="/portal/admin"
+              routes={adminRoutes}
+            />
+          </ProtectedByRole>
         }
       >
         <Route

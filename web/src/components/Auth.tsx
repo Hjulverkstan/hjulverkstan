@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   ReactNode,
   useContext,
@@ -6,11 +6,16 @@ import React, {
   useState,
 } from 'react';
 
-import { LogInRes } from '@data/auth/types';
 import * as api from '@data/auth/api';
+import { LogInRes } from '@data/auth/types';
 
 import { useToast } from '@components/shadcn/use-toast';
+import { AuthRole } from '@data/auth/types';
+import { Hand } from 'lucide-react';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { createErrorToast } from '../root/Portal/toast';
+import Message from './Message';
+import { Button } from './shadcn/Button';
 
 export interface UseAuthReturn {
   isInitialising: boolean;
@@ -120,3 +125,49 @@ export const Provider = ({ children }: AuthProviderProps) => {
 };
 
 Provider.displayName = 'AuthProvider';
+
+//
+
+interface ProtectedByRoleProps {
+  roles: AuthRole[];
+  redirectPath?: string;
+  renderLandingPage?: boolean;
+  children?: ReactNode;
+}
+
+export function ProtectedByRole({
+  roles,
+  redirectPath,
+  renderLandingPage,
+  children,
+}: ProtectedByRoleProps) {
+  const navigate = useNavigate();
+  const { auth } = useAuth();
+
+  if (!auth) {
+    console.error(
+      '<ProtectedByRole /> was rendered when there was not an authenticated user, users should se a sign in page if verification failed....',
+    );
+    return null;
+  }
+
+  if (!roles.every((role) => auth.roles.includes(role))) {
+    if (redirectPath) return <Navigate to={redirectPath} replace />;
+
+    if (renderLandingPage) {
+      return (
+        <Message
+          className="h-full"
+          icon={Hand}
+          message="You do not have permission to view this content"
+        >
+          <Button onClick={() => navigate(-1)}>Go back</Button>
+        </Message>
+      );
+    }
+
+    return null;
+  }
+
+  return children ? children : <Outlet />;
+}
