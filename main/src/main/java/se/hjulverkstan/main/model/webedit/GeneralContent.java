@@ -27,6 +27,6 @@ public class GeneralContent extends Auditable {
 
     private String key;
 
-    @OneToMany(mappedBy = "generalContent")
+    @OneToMany(mappedBy = "generalContent", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<LocalisedContent> localisedContent;
 }

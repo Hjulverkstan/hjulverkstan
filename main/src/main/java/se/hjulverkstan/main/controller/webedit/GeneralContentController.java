@@ -1,5 +1,6 @@
 package se.hjulverkstan.main.controller.webedit;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class GeneralContentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GeneralContentDto> editGeneralContent(@PathVariable Long id, @RequestBody UpdateGeneralContentWithLangDto entry) {
+    public ResponseEntity<GeneralContentDto> editGeneralContent(@PathVariable Long id, @Valid @RequestBody UpdateGeneralContentWithLangDto entry) {
         return new ResponseEntity<>(generalContentService.editGeneralContent(id, entry), HttpStatus.OK);
     }
 }

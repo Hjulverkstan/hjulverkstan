@@ -20,12 +20,10 @@ import java.util.List;
 @Transactional
 public class GeneralContentServiceImpl implements GeneralContentService {
     private final GeneralContentRepository generalContentRepository;
-    private final LocalisedContentRepository localisedContentRepository;
 
     @Autowired
-    public GeneralContentServiceImpl(GeneralContentRepository generalContentRepository, LocalisedContentRepository localisedContentRepository) {
+    public GeneralContentServiceImpl(GeneralContentRepository generalContentRepository) {
         this.generalContentRepository = generalContentRepository;
-        this.localisedContentRepository = localisedContentRepository;
     }
 
     @Override
@@ -58,7 +56,6 @@ public class GeneralContentServiceImpl implements GeneralContentService {
         // If new value is null delete the LocalisedContent if it exists
         if (newValue == null) {
             if (localisedContent != null) {
-                localisedContentRepository.delete(localisedContent);
                 selectedGeneralContent.getLocalisedContent().remove(localisedContent);
                 generalContentRepository.save(selectedGeneralContent);
                 return mapToGeneralContentDto(selectedGeneralContent, lang);
@@ -82,15 +79,13 @@ public class GeneralContentServiceImpl implements GeneralContentService {
             lc.setGeneralContent(selectedGeneralContent);
 
             selectedGeneralContent.getLocalisedContent().add(lc);
-            localisedContentRepository.save(lc);
             generalContentRepository.save(selectedGeneralContent);
-
         }
         return mapToGeneralContentDto(selectedGeneralContent, lang);
     }
 
     /**
-     * Converts a GeneralContent entity to a GeneralContentDto, including localized content for the specified language.
+     * Maps a GeneralContent entity to a GeneralContentDto, including localized content for the specified language.
      * Localized content is included if available; otherwise, the value is set to null.
      *
      * @param generalContent The GeneralContent entity to convert.
