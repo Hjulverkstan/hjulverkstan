@@ -16,7 +16,7 @@ export default function ShopTicketFilters() {
   return (
     <>
       <DataTable.FilterSearch
-        placeholder="Search..."
+        placeholder="Search in Tickets..."
         matchFn={(word: string, row: TicketAggregated) =>
           enums.matchFn(word, row) ||
           DataTable.fuzzyMatchFn(['comment'], word, row) ||

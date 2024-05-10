@@ -7,7 +7,7 @@ export default function AdminLocationFilters() {
   return (
     <>
       <DataTable.FilterSearch
-        placeholder="Search..."
+        placeholder="Search in Locations..."
         matchFn={(word: string, row: Location) =>
           enums.matchFn(word, row) ||
           DataTable.fuzzyMatchFn(['comment', 'name', 'address'], word, row)

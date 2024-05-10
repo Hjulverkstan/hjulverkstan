@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+import * as enums from '@data/vehicle/enums';
 import { useLocationsQ } from '@data/location/queries';
 import { initVehicle, vehicleZ } from '@data/vehicle/form';
 import { useCreateVehicleM, useEditVehicleM } from '@data/vehicle/mutations';
@@ -19,6 +20,7 @@ import ShopInventoryActions from './ShopInventoryActions';
 import ShopInventoryFilters from './ShopInventoryFilters';
 import ShopInventoryFields from './ShopInventoryFields';
 import useColumns from './columns';
+import { Vehicle } from '@data/vehicle/types';
 
 //
 
@@ -60,6 +62,10 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
           >
             <PortalForm
               dataLabel="Vehicle"
+              toToolbarName={(body: Vehicle) =>
+                body.regTag &&
+                `${enums.find(body.vehicleType).label} ${body.regTag}`
+              }
               error={vehicleQ.error || locationsQ.error}
               isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}
               saveMutation={editVehicleM.mutateAsync}

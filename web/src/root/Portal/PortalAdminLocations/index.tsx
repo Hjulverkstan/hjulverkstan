@@ -18,6 +18,7 @@ import AdminLocationsActions from './AdminLocationsActions';
 import AdminLocationsFields from './AdminLocationsFields';
 import AdminLocationsFilters from './AdminLocationsFilters';
 import useColumns from './useColumns';
+import { Location } from '@data/location/types';
 
 //
 
@@ -58,6 +59,7 @@ export default function PortalAdminLocations({ mode }: PageContentProps) {
           >
             <PortalForm
               dataLabel="Location"
+              toToolbarName={(body: Location) => body.name}
               error={locationQ.error}
               isSubmitting={
                 createLocationM.isLoading || editLocationM.isLoading

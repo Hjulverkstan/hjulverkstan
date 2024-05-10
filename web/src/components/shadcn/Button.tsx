@@ -16,19 +16,28 @@ export const buttonVariants = cva(
       variant: {
         default:
           'bg-primary text-primary-foreground hover:bg-primary/80 shadow',
-        destructive: [
-          'bg-destructive text-background hover:bg-destructive/80 shadow-sm',
-        ],
+        destructive: ['bg-destructive text-background hover:bg-destructive/80'],
         outline: [
           `border-input bg-background hover:bg-accent
-          hover:text-accent-foreground border shadow-sm`,
+          hover:text-accent-foreground border`,
         ],
         secondary: [
-          `bg-secondary text-secondary-foreground hover:bg-secondary/80
-          shadow-sm`,
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80 ',
         ],
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
+        accent: [
+          [
+            `data-[state=active]:text-accent-foreground
+            data-[state=active]:border-secondary-border bg-accent
+            hover:border-secondary-border text-muted-foreground
+            hover:text-accent-foreground border`,
+          ],
+        ],
+        ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',
+        link: 'text-primary underline-offset-4 !shadow-none hover:underline',
+      },
+      subVariant: {
+        default: 'shadow-sm',
+        flat: 'shadow-none',
       },
       size: {
         default: 'h-8 px-4 py-2',
@@ -43,6 +52,7 @@ export const buttonVariants = cva(
     defaultVariants: {
       variant: 'default',
       size: 'default',
+      subVariant: 'default',
     },
   },
 );
@@ -54,11 +64,16 @@ export interface ButtonProps
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, /* size, */ asChild = false, ...props }, ref) => {
+  (
+    { className, variant, subVariant, /* size, */ asChild = false, ...props },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, /* size, */ className }))}
+        className={cn(
+          buttonVariants({ variant, subVariant, /* size, */ className }),
+        )}
         ref={ref}
         {...props}
       />

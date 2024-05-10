@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+import * as U from '@utils';
 import { initUser, userZ } from '@data/user/form';
 import { useCreateUserM, useEditUserM } from '@data/user/mutations';
 import { useUserQ, useUsersQ } from '@data/user/queries';
@@ -18,6 +19,7 @@ import AdminUsersActions from './AdminUsersActions';
 import AdminUsersFields from './AdminUsersFields';
 import AdminUsersFilters from './AdminUsersFilters';
 import useColumns from './useColumns';
+import { User } from '@data/user/types';
 
 //
 
@@ -58,6 +60,9 @@ export default function PortalAdminUsers({ mode }: PageContentProps) {
           >
             <PortalForm
               dataLabel="User"
+              toToolbarName={({ username }: User) =>
+                username && U.capitalize(username)
+              }
               error={userQ.error}
               isSubmitting={createUserM.isLoading || editUserM.isLoading}
               saveMutation={editUserM.mutateAsync}

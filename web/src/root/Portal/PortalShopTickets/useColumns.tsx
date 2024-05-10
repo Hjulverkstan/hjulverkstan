@@ -86,8 +86,7 @@ export default function useColumns() {
       [
         {
           key: 'id',
-          name: 'No.',
-          renderHeaderFn: () => null,
+          name: '#',
           renderFn: ({ id }) => <Badge variant="outline">#{id}</Badge>,
         },
 

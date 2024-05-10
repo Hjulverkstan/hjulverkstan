@@ -19,10 +19,13 @@
     --secondary: 220 15% 95%;
     --secondary-foreground: 220 10% 40%;
 
+    --contrast: 222 10% 25%;
+    --contrast-foreground: 210 20% 98%;
+
     --muted: 220 14% 97%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 220 14% 94%;
+    --accent: 220 14% 93%;
     --accent-foreground: 221 40% 11%;
 
     --success: 115 85% 47%;
@@ -101,4 +104,12 @@ body {
 }
 #app {
   @apply h-full;
+}
+
+.css-glow-shadow {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 0.2rem 1rem 0.2rem;
+}
+
+.css-glow-inner {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0.5rem -0.25rem inset;
 }

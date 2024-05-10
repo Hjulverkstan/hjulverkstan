@@ -41,19 +41,16 @@ export default function PortalTable({
   const { page, pageCount, rawData, filteredData, isFiltered } = useDataTable();
 
   const noFilterResults =
-    rawData?.length && isFiltered && !filteredData?.length;
+    !!rawData?.length && isFiltered && !filteredData?.length;
 
   return (
-    <div
-      className="flex min-w-0 flex-grow flex-col overflow-hidden rounded-md
-        border"
-    >
+    <div className="flex min-w-0 flex-grow flex-col">
       <div className="flex flex-grow flex-col overflow-auto">
-        <DataTable.Root divClassName="h-full flex-grow">
+        <DataTable.Root>
           <DataTable.Header columns={columns} />
           {isLoading ? (
             <DataTable.BodySkeleton columns={columns} />
-          ) : !error ? (
+          ) : !error && !noFilterResults ? (
             <DataTable.Body
               columns={columns}
               renderRowActionFn={(row, metadata) => (
@@ -66,6 +63,7 @@ export default function PortalTable({
         </DataTable.Root>
         {noFilterResults && (
           <Message
+            className="flex-grow"
             icon={SearchX}
             message="The filters applied do not give any matches. Reset or remove those filters that contradict each other."
           />
@@ -93,7 +91,10 @@ export function Pagination({ children }: { children: ReactNode }) {
   const { disabled, page, pageCount, setPage } = useDataTable();
 
   return (
-    <div className="flex h-10 items-center justify-between border-t p-2">
+    <div
+      className="border-accent/80 flex h-11 items-center justify-between
+        border-t p-2"
+    >
       {children}
       <div className="flex items-center">
         <IconButton

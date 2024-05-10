@@ -10,7 +10,7 @@ export default function ShopCustomerFilters() {
   return (
     <>
       <DataTable.FilterSearch
-        placeholder="Search..."
+        placeholder="Search in Customers..."
         matchFn={(word: string, row: Customer) =>
           enums.matchFn(word, row) ||
           ticketEnumsQ.data?.some((e) => e.label.startsWith(word)) ||

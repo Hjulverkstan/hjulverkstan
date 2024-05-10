@@ -72,18 +72,25 @@ export const FilterPopover = ({
         <Popover.Trigger asChild>
           <Button
             disabled={disabled}
-            variant="outline"
-            className={U.cn(!isActive && 'border-dashed')}
+            variant="accent"
+            data-state={isActive && 'active'}
+            subVariant="flat"
           >
             {!isActive && <PlusCircledIcon className="mr-2 h-4 w-4" />}
             {label}
             {isActive && (
               <>
-                <Separator orientation="vertical" className="mx-2 h-4" />
+                <Separator
+                  orientation="vertical"
+                  className={U.cn(
+                    'ml-3 mr-2 h-4',
+                    isActive && 'bg-secondary-border',
+                  )}
+                />
                 <div className="ml--1 space-x-1 lg:flex">
                   <Badge
                     borderless
-                    variant="secondary"
+                    variant="constrast"
                     className="rounded-sm px-1 font-normal lg:hidden"
                   >
                     {activeLabels.length}
@@ -92,7 +99,7 @@ export const FilterPopover = ({
                     {activeLabels.length > 2 ? (
                       <Badge
                         borderless
-                        variant="secondary"
+                        variant="constrast"
                         className="rounded-sm px-1 font-normal"
                       >
                         {activeLabels.length}
@@ -101,7 +108,7 @@ export const FilterPopover = ({
                       activeLabels.map((label, i) => (
                         <Badge
                           borderless
-                          variant="secondary"
+                          variant="constrast"
                           key={i}
                           className="rounded-sm px-1 font-normal"
                         >

@@ -33,6 +33,7 @@ export const badgeVariants = cva(
         successOutline: [
           'border-box border-success-border text-success-foreground',
         ],
+        constrast: 'bg-contrast text-contrast-foreground',
         outline: ['text-foreground/70 border-foreground/12'],
       },
       borderless: {

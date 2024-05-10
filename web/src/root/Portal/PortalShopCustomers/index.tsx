@@ -19,6 +19,7 @@ import ShopCustomersActions from './ShopCustomersActions';
 import ShopCustomersFields from './ShopCustomersFields';
 import ShopCustomersFilters from './ShopCustomersFilters';
 import useColumns from './useColumns';
+import { Customer } from '@data/customer/types';
 
 //
 
@@ -62,6 +63,10 @@ export default function PortalShopCustomers({ mode }: PageContentProps) {
           >
             <PortalForm
               dataLabel="Customer"
+              toToolbarName={(body: Customer) =>
+                body.id &&
+                (body.organizationName || `${body.firstName} ${body.lastName}`)
+              }
               error={customerQ.error}
               isSubmitting={
                 createCustomerM.isLoading || editCustomerM.isLoading

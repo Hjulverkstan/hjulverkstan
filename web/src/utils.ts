@@ -5,8 +5,17 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+//
+
 export const clamp = (min: number, max: number, val: number) =>
   Math.max(Math.min(max, val), min);
+
+//
+
+export const capitalize = ([head, ...tail]: string) =>
+  head.toUpperCase() + tail.join('').toLowerCase();
+
+//
 
 export const toSortFnByProp = (prop: string) => (a: any, b: any) => {
   const isType = (type: any) =>
@@ -18,14 +27,20 @@ export const toSortFnByProp = (prop: string) => (a: any, b: any) => {
   else return String(a[prop]).localeCompare(String(b[prop]));
 };
 
+//
+
 export const toArrayValueCountMap = (array: string[]) =>
   array.reduce(
     (acc: Record<string, number>, el) => ({ ...acc, [el]: (acc[el] || 0) + 1 }),
     {},
   );
 
+//
+
 export const occurencesOfElInArray = <El>(el: El, xs: El[]) =>
   xs.reduce((count, x) => count + (x === el ? 1 : 0), 0);
+
+//
 
 export const omitKeys = (keys: string[], obj: Record<string, any>) =>
   Object.fromEntries(
@@ -36,6 +51,8 @@ export const pickKeys = (keys: string[], obj: Record<string, any>) =>
   Object.fromEntries(
     Object.entries(obj).filter(([key, _]) => keys.includes(key)),
   );
+
+//
 
 export const shallowEq = (
   a?: Record<string, any>,
@@ -51,6 +68,8 @@ export const shallowEq = (
 
   return true;
 };
+
+//
 
 type AnyFunction<A extends any[], R> = (...args: A) => R;
 
@@ -69,6 +88,8 @@ export function memoizeFn<F extends AnyFunction<any[], any>>(fn: F): F {
     return result;
   } as F;
 }
+
+//
 
 export const toUpdatedArray = (
   arr: string[],

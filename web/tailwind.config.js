@@ -27,6 +27,10 @@ module.exports = {
           foreground: 'hsl(var(--secondary-foreground))',
           border: 'hsl(var(--secondary-foreground) / 0.2)',
         },
+        contrast: {
+          DEFAULT: 'hsl(var(--contrast))',
+          foreground: 'hsl(var(--contrast-foreground))',
+        },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           fill: 'hsl(var(--destructive-fill))',

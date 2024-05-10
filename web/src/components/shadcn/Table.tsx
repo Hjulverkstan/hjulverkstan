@@ -26,7 +26,7 @@ export const Header = React.forwardRef<
   <thead
     ref={ref}
     className={cn(
-      'bg-background [&_th]:bg-background [&:tr]:border-b',
+      'bg-background [&_th]:bg-background border-accent/80 border-b',
       className,
     )}
     {...props}
@@ -58,10 +58,7 @@ export const Footer = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn(
-      'bg-muted/50 border-t font-medium [&>tr]:last:border-b-0',
-      className,
-    )}
+    className={cn('bg-muted/50 border-t font-medium', className)}
     {...props}
   />
 ));
@@ -81,7 +78,7 @@ export const Row = React.forwardRef<HTMLTableRowElement, RowProps>(
       ref={ref}
       data-state={isSelected ? 'selected' : 'default'}
       className={cn(
-        'border-b transition-colors',
+        '[&>td]:border-accent/80 transition-colors [&>td]:border-b',
         isSelected
           ? 'bg-muted [&>td]:bg-muted'
           : 'bg-background [&>td]:bg-background',
@@ -104,7 +101,7 @@ export const Head = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      `bg-background text-muted-foreground h-10 text-nowrap text-left
+      `bg-background text-muted-foreground h-10 text-nowrap py-0 text-left
       align-middle font-medium [&:has([role=checkbox])]:pr-0
       [&>[role=checkbox]]:translate-y-[2px]`,
       className,
@@ -124,7 +121,7 @@ export const Cell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      `text-nowrap p-2 px-3 align-middle [&:has([role=checkbox])]:pr-0
+      `text-nowrap p-2.5 px-3 align-middle [&:has([role=checkbox])]:pr-0
       [&>[role=checkbox]]:translate-y-[2px]`,
       className,
     )}

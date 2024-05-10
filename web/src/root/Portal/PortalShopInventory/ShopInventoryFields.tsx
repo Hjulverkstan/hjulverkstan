@@ -58,38 +58,44 @@ export default function ShopInventoryFields() {
         />
       )}
 
-      {body.vehicleType === VehicleType.BIKE && (
-        <>
-          <DataForm.Select
-            key={body.vehicleType}
-            label="Bike type"
-            dataKey="bikeType"
-            enums={enums.bikeType}
-          />
-          <DataForm.Select label="Brand" dataKey="brand" enums={enums.brand} />
-          <DataForm.Select label="Size" dataKey="size" enums={enums.size} />
-          <DataForm.Select
-            label="Brake type"
-            dataKey="brakeType"
-            enums={enums.brakeType}
-          />
-          <DataForm.Input
-            type="number"
-            placeholder="Set gear count"
-            min={minGearCount}
-            max={maxGearCount}
-            label="Gears"
-            dataKey="gearCount"
-            description="Gear count (ie 21 for 3x7)"
-          />
-        </>
-      )}
-
       <DataForm.Input
         placeholder="Write a comment..."
         label="Comment"
         dataKey="comment"
       />
+
+      <DataForm.Collapsible label="Vehicle details">
+        {body.vehicleType === VehicleType.BIKE && (
+          <>
+            <DataForm.Select
+              key={body.vehicleType}
+              label="Bike type"
+              dataKey="bikeType"
+              enums={enums.bikeType}
+            />
+            <DataForm.Select
+              label="Brand"
+              dataKey="brand"
+              enums={enums.brand}
+            />
+            <DataForm.Select label="Size" dataKey="size" enums={enums.size} />
+            <DataForm.Select
+              label="Brake type"
+              dataKey="brakeType"
+              enums={enums.brakeType}
+            />
+            <DataForm.Input
+              type="number"
+              placeholder="Set gear count"
+              min={minGearCount}
+              max={maxGearCount}
+              label="Gears"
+              dataKey="gearCount"
+              description="Gear count (ie 21 for 3x7)"
+            />
+          </>
+        )}
+      </DataForm.Collapsible>
     </>
   );
 }

@@ -21,6 +21,7 @@ export interface PortalFormProps {
   saveMutation: (body: any) => Promise<any>;
   error?: ErrorRes | null;
   dataLabel: string;
+  toToolbarName: (body: any) => string | undefined | false;
   children: ReactNode;
 }
 
@@ -31,6 +32,7 @@ export default function PortalForm({
   error,
   children,
   dataLabel,
+  toToolbarName,
   transformBodyOnSubmit = (x) => x,
 }: PortalFormProps) {
   const { id = '' } = useParams();
@@ -64,27 +66,30 @@ export default function PortalForm({
 
   const { title, handler, verb, icon } = {
     [Mode.READ]: {
-      title: dataLabel,
+      title: toToolbarName(body) || '',
       handler: () => navigate('edit'),
       icon: Pencil,
       verb: 'Edit',
     },
     [Mode.EDIT]: {
-      title: `Edit ${dataLabel.toLowerCase()}`,
+      title: toToolbarName(body) || '',
       handler: onSave,
       icon: Save,
       verb: 'Save',
     },
     [Mode.CREATE]: {
-      title: `Create ${dataLabel.toLowerCase()}`,
+      title: `Create ${dataLabel}`,
       handler: onCreate,
       verb: 'Create',
     },
   }[mode];
 
   return (
-    <div className="bg-muted flex w-64 flex-shrink-0 flex-col rounded-md border">
-      <div className="flex h-10 items-center border-b p-2">
+    <div className="bg-muted flex w-64 flex-shrink-0 flex-col border-l ">
+      <div
+        style={{ marginTop: '0.5px' }}
+        className="flex h-11 flex-shrink-0 items-center border-b px-2"
+      >
         <h3 className="flex-grow pl-2 align-middle text-sm font-medium">
           {title}
         </h3>
@@ -99,7 +104,7 @@ export default function PortalForm({
       <div className="flex-grow space-y-4 overflow-y-scroll px-2 pb-3 pt-4">
         {error ? <Error className="h-full" error={error} /> : children}
       </div>
-      <div className="10 flex flex-shrink gap-2 border-t px-2 py-2">
+      <div className="flex h-11 flex-shrink-0 items-center gap-2 border-t px-2">
         {mode === Mode.EDIT && (
           <Button
             onClick={() => navigate(mode === Mode.EDIT ? `../${id}` : '..')}

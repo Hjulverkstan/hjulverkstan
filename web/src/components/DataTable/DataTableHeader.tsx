@@ -16,10 +16,10 @@ export const Header = ({ columns }: HeaderProps) => {
   const visibleColumns = columns.filter(({ key }) => !hiddenCols.includes(key));
 
   return (
-    <Table.Header className="sticky top-0 z-20">
+    <Table.Header className="sticky top-0 z-20 h-11">
       <Table.Row>
         {visibleColumns.map((col, x) => (
-          <Table.Head key={col.key} className={U.cn(x === 0 && 'pl-4')}>
+          <Table.Head key={col.key} className={U.cn(x === 0 && 'pl-2')}>
             {col.renderHeaderFn ? col.renderHeaderFn() : <SortHead col={col} />}
           </Table.Head>
         ))}
@@ -49,7 +49,7 @@ function HeaderOptions({ columns }: HeaderOptionsProps) {
         <IconButton
           disabled={disabled}
           variant="ghost"
-          className="ml-auto"
+          className="m-auto"
           icon={MixerVerticalIcon}
           tooltip="Table options"
         />

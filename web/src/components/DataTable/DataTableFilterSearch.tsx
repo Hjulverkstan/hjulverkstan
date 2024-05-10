@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Row, useDataTable } from './';
+
+import * as U from '@utils';
 import { Input } from '@components/shadcn/Input';
+
+import { Row, useDataTable } from './';
+import { buttonVariants } from '@components/shadcn/Button';
 
 //
 
@@ -31,12 +35,16 @@ export const FilterSearch = ({ placeholder, matchFn }: FilterSearchProps) => {
       value={value}
       onChange={({ target: { value } }) => {
         const filterFn = (row: Row) =>
-          value.split(' ').every((word) => matchFn(word.toLowerCase(), row));
+          value?.split(' ').every((word) => matchFn(word.toLowerCase(), row));
 
         setValue(value);
         setFilterFn('ANY', !!value && filterFn);
       }}
-      className="h-8 w-[150px] lg:w-[250px]"
+      data-state={!!value && 'active'}
+      className={U.cn(
+        buttonVariants({ variant: 'accent', subVariant: 'flat' }),
+        'h-8 w-[150px] font-normal data-[state=active]:font-medium lg:w-[250px]',
+      )}
     />
   );
 };

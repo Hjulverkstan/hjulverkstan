@@ -22,6 +22,7 @@ import ShopTicketsActions from './ShopTicketsActions';
 import ShopTicketsFilters from './ShopTicketsFilters';
 import ShopTicketsFields from './ShopTicketsFields';
 import useColumns from './useColumns';
+import { Ticket } from '@data/ticket/types';
 
 //
 
@@ -80,6 +81,7 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
           >
             <PortalForm
               dataLabel="Ticket"
+              toToolbarName={(body: Ticket) => body.id && `Ticket #${body.id}`}
               error={ticketQ.error || locationsQ.error}
               isSubmitting={createTicketM.isLoading || editTicketM.isLoading}
               saveMutation={editTicketM.mutateAsync}

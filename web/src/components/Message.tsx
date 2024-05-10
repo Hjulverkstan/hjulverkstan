@@ -18,13 +18,14 @@ export default function Message({
   return (
     <div
       className={U.cn(
-        `bg-muted flex w-full flex-col items-center justify-center gap-2 px-10
-        py-14`,
+        'flex w-full flex-col items-center justify-center gap-2 px-10 py-14',
         className,
       )}
     >
       {Icon && <Icon className="text-muted-foreground h-5 w-5" />}
-      <p className="text-muted-foreground mx-auto text-sm">{message}</p>
+      <p className="text-muted-foreground mx-auto text-center text-sm">
+        {message}
+      </p>
       {children}
     </div>
   );

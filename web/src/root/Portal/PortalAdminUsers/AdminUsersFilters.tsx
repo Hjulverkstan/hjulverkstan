@@ -5,7 +5,7 @@ import { User } from '@data/user/types';
 export default function AdminUserFilters() {
   return (
     <DataTable.FilterSearch
-      placeholder="Search..."
+      placeholder="Search in Users..."
       matchFn={(word: string, row: User) =>
         enums.matchFn(word, row) ||
         DataTable.fuzzyMatchFn(['username', 'email'], word, row)

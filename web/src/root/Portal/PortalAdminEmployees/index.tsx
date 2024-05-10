@@ -18,6 +18,7 @@ import AdminEmployeesActions from './AdminEmployeesActions';
 import AdminEmployeesFields from './AdminEmployeesFields';
 import AdminEmployeesFilters from './AdminEmployeesFilters';
 import useColumns from './useColumns';
+import { Employee } from '@data/employee/types';
 
 //
 
@@ -57,6 +58,9 @@ export default function PortalAdminEmployees({ mode }: PageContentProps) {
             initCreateBody={initEmployee}
           >
             <PortalForm
+              toToolbarName={(body: Employee) =>
+                body.firstName && `${body.firstName} ${body.lastName}`
+              }
               dataLabel="Employee"
               error={employeeQ.error}
               isSubmitting={

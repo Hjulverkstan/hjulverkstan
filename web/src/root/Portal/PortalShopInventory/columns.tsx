@@ -24,17 +24,6 @@ export default function useColumns() {
         },
 
         {
-          key: 'locationId',
-          name: 'Location',
-          renderFn: ({ locationId }) =>
-            locationEnumsQ.data && (
-              <IconLabel
-                {...locationEnumsQ.data.find((e) => e.value === locationId)!}
-              />
-            ),
-        },
-
-        {
           key: 'vehicleType',
           name: 'Type',
           renderFn: ({ vehicleType, bikeType, strollerType }) => (
@@ -55,6 +44,17 @@ export default function useColumns() {
           renderFn: ({ vehicleStatus }) =>
             vehicleStatus && (
               <BadgeGroup badges={[enums.find(vehicleStatus)]} />
+            ),
+        },
+
+        {
+          key: 'locationId',
+          name: 'Location',
+          renderFn: ({ locationId }) =>
+            locationEnumsQ.data && (
+              <IconLabel
+                {...locationEnumsQ.data.find((e) => e.value === locationId)!}
+              />
             ),
         },
 

@@ -25,6 +25,7 @@ export default function PortalToolbar({
         <DataTable.FilterClear />
       </div>
       <IconButton
+        className="ml-2"
         disabled={disabled}
         onClick={() => navigate(id ? '../create' : 'create')}
         text={`Add ${dataLabel}`}

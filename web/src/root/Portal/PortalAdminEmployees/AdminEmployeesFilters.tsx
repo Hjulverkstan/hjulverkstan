@@ -4,7 +4,7 @@ import { Employee } from '@data/employee/types';
 export default function AdminEmployeeFilters() {
   return (
     <DataTable.FilterSearch
-      placeholder="Search..."
+      placeholder="Search in Employees..."
       matchFn={(word: string, row: Employee) =>
         DataTable.fuzzyMatchFn(
           [

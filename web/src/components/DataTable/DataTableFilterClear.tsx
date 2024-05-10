@@ -8,11 +8,11 @@ export const FilterClear = () => {
   return (
     isFiltered && (
       <IconButton
-        variant="ghost"
+        variant="accent"
+        subVariant="flat"
         onClick={clearAllFilters}
-        text="Reset"
-        className="h-8 px-2 lg:px-3"
         icon={Cross2Icon}
+        tooltip="Clear filters"
       />
     )
   );

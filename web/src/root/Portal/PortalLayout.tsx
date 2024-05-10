@@ -1,6 +1,7 @@
 import { useIsFetching } from 'react-query';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
+import * as U from '@utils';
 import { ProtectedByRole, useAuth } from '@components/Auth';
 import { Avatar, AvatarFallback } from '@components/shadcn/Avatar';
 import { Button } from '@components/shadcn/Button';
@@ -10,6 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from '@components/shadcn/Tabs';
 import Spinner from '@components/Spinner';
 import useSlugs from '@hooks/useSlugs';
 import { AuthRole } from '@data/auth/types';
+import { Mode } from '@components/DataForm';
 
 export interface NavRoute {
   label: string;
@@ -35,9 +37,18 @@ export default function PortalLayout({
 
   const route = routes.find(({ path }) => pathname.startsWith(baseUrl + path));
 
+  const shouldDarken = pathname
+    .split('/')
+    .some((slug) => slug === Mode.EDIT || slug === Mode.CREATE);
+
   return (
     <>
-      <div className="flex h-screen flex-col px-4 pt-2">
+      <div
+        className={U.cn(
+          'bg-muted flex h-screen flex-col px-4 pt-2',
+          shouldDarken && 'bg-accent/60',
+        )}
+      >
         <nav
           className="mb-2 flex flex-shrink items-center justify-center space-x-4
             py-1"
@@ -64,7 +75,7 @@ export default function PortalLayout({
             <AvatarDropdown />
           </div>
         </nav>
-        <Separator className="mb-4 opacity-40" />
+        <Separator className="mb-4 opacity-60" />
         <Outlet />
       </div>
     </>

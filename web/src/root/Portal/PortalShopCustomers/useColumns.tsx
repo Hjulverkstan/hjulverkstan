@@ -17,18 +17,18 @@ export default function useColumns() {
     () =>
       [
         {
-          key: 'customerType',
-          name: 'Type',
-          renderFn: ({ customerType }) => (
-            <IconLabel {...enums.find(customerType)} />
-          ),
-        },
-
-        {
           key: 'name',
           name: 'Name',
-          renderFn: ({ firstName, lastName, organizationName }) => (
-            <IconLabel label={organizationName ?? `${firstName} ${lastName}`}>
+          renderFn: ({
+            customerType,
+            firstName,
+            lastName,
+            organizationName,
+          }) => (
+            <IconLabel
+              icon={enums.find(customerType).icon}
+              label={organizationName ?? `${firstName} ${lastName}`}
+            >
               {organizationName && (
                 <span className="text-muted-foreground/60 pl-1">
                   ({firstName} {lastName})
