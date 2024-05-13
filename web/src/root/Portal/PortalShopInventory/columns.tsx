@@ -20,7 +20,9 @@ export default function useColumns() {
         {
           key: 'regTag',
           name: 'Reg.',
-          renderFn: ({ regTag }) => <Badge variant="outline">{regTag}</Badge>,
+          renderFn: ({ regTag }, { selected }) => (
+            <Badge variant={selected ? 'contrast' : 'outline'}>{regTag}</Badge>
+          ),
         },
 
         {

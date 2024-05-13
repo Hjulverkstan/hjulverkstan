@@ -90,7 +90,7 @@ export const FilterPopover = ({
                 <div className="ml--1 space-x-1 lg:flex">
                   <Badge
                     borderless
-                    variant="constrast"
+                    variant="contrast"
                     className="rounded-sm px-1 font-normal lg:hidden"
                   >
                     {activeLabels.length}
@@ -99,7 +99,7 @@ export const FilterPopover = ({
                     {activeLabels.length > 2 ? (
                       <Badge
                         borderless
-                        variant="constrast"
+                        variant="contrast"
                         className="rounded-sm px-1 font-normal"
                       >
                         {activeLabels.length}
@@ -108,7 +108,7 @@ export const FilterPopover = ({
                       activeLabels.map((label, i) => (
                         <Badge
                           borderless
-                          variant="constrast"
+                          variant="contrast"
                           key={i}
                           className="rounded-sm px-1 font-normal"
                         >

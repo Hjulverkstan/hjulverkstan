@@ -7,7 +7,7 @@ export interface Column<R extends Row> {
   /** Render the cell */
   renderFn: (
     row: R,
-    metaData: { x: number; y: number },
+    metaData: { x: number; y: number; disabled: boolean; selected: boolean },
   ) => JSX.Element | string | null | false | undefined;
 }
 

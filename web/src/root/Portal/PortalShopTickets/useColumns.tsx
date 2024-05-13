@@ -87,7 +87,9 @@ export default function useColumns() {
         {
           key: 'id',
           name: '#',
-          renderFn: ({ id }) => <Badge variant="outline">#{id}</Badge>,
+          renderFn: ({ id }, { selected }) => (
+            <Badge variant={selected ? 'contrast' : 'outline'}>#{id}</Badge>
+          ),
         },
 
         {
