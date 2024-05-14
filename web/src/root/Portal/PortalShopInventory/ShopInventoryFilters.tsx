@@ -1,9 +1,10 @@
 import * as enums from '@data/vehicle/enums';
 
-import { useLocationsAsEnumsQ } from '@data/location/queries';
-import { Vehicle } from '@data/vehicle/types';
 import * as DataTable from '@components/DataTable';
+import { enumsMatchUtil } from '@data/enums';
+import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
+import { Vehicle } from '@data/vehicle/types';
 
 export default function ShopInventoryFilters() {
   const locationEnumsQ = useLocationsAsEnumsQ();
@@ -17,18 +18,18 @@ export default function ShopInventoryFilters() {
           enums.matchFn(word, row) ||
           DataTable.fuzzyMatchFn(['comment', 'regTag'], word, row) ||
           word === String(row.gearCount) ||
-          ticketEnumsQ.data
-            ?.filter((e) => row.ticketIds.includes(e.value))
-            .some((e) => e.label.startsWith(word))
+          enumsMatchUtil({
+            enums: ticketEnumsQ.data,
+            isOf: row.ticketIds,
+            startsWith: word,
+          }) ||
+          enumsMatchUtil({
+            enums: locationEnumsQ.data,
+            isOf: row.locationId,
+            startsWith: word,
+          })
         }
       />
-
-      <DataTable.FilterPopover label="Location">
-        <DataTable.FilterMultiSelect
-          filterKey="location"
-          enums={locationEnumsQ.data ?? []}
-        />
-      </DataTable.FilterPopover>
 
       <DataTable.FilterPopover label="Type">
         <DataTable.FilterMultiSelect
@@ -45,6 +46,13 @@ export default function ShopInventoryFilters() {
         <DataTable.FilterMultiSelect
           filterKey="vehicle-status"
           enums={enums.vehicleStatus}
+        />
+      </DataTable.FilterPopover>
+
+      <DataTable.FilterPopover label="Location">
+        <DataTable.FilterMultiSelect
+          filterKey="location"
+          enums={locationEnumsQ.data ?? []}
         />
       </DataTable.FilterPopover>
 

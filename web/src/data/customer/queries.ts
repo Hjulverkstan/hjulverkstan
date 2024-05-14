@@ -23,7 +23,10 @@ export const useCustomerQ = ({ id }: UseCustomerQProps) =>
 
 //
 
-export const useCustomersAsEnumsQ = ({ dataKey = 'customerId' } = {}) =>
+export const useCustomersAsEnumsQ = ({
+  dataKey = 'customerId',
+  withOrgPerson = false,
+} = {}) =>
   useQuery<Customer[], ErrorRes, EnumAttributes[]>({
     ...api.createGetCustomers(),
     select: (customers) =>
@@ -33,7 +36,9 @@ export const useCustomersAsEnumsQ = ({ dataKey = 'customerId' } = {}) =>
         label:
           customer.customerType === CustomerType.PERSON
             ? `${customer.firstName} ${customer.lastName}`
-            : customer.organizationName!,
+            : withOrgPerson
+              ? `${customer.organizationName} (${customer.firstName} ${customer.lastName})`
+              : customer.organizationName!,
         value: customer.id,
       })) ?? [],
   });

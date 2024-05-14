@@ -7,6 +7,7 @@ import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { TicketBadges } from '../PortalShopTickets/useColumns';
+import BadgeGroup from '@components/BadgeGroup';
 
 //
 
@@ -19,22 +20,21 @@ export default function useColumns() {
         {
           key: 'name',
           name: 'Name',
-          renderFn: ({
-            customerType,
-            firstName,
-            lastName,
-            organizationName,
-          }) => (
-            <IconLabel
-              icon={enums.find(customerType).icon}
-              label={organizationName ?? `${firstName} ${lastName}`}
-            >
-              {organizationName && (
-                <span className="text-muted-foreground/60 pl-1">
-                  ({firstName} {lastName})
-                </span>
-              )}
-            </IconLabel>
+          renderFn: (
+            { customerType, firstName, lastName, organizationName },
+            { selected },
+          ) => (
+            <BadgeGroup
+              badges={[
+                {
+                  icon: enums.find(customerType).icon!,
+                  variant: selected ? 'contrast' : 'outline',
+                  label: organizationName
+                    ? `${organizationName} (${firstName} ${lastName})`
+                    : `${firstName} ${lastName}`,
+                },
+              ]}
+            />
           ),
         },
 

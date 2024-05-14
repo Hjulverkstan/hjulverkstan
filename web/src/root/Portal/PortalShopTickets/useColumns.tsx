@@ -139,20 +139,6 @@ export default function useColumns() {
         },
 
         {
-          key: 'locations',
-          name: 'Locations',
-          renderFn: ({ locationIds }) =>
-            locationEnumsQ.data && (
-              <BadgeGroup
-                badges={locationIds.map((id) => ({
-                  ...locationEnumsQ.data.find((e) => e.value === id)!,
-                  variant: 'outline',
-                }))}
-              />
-            ),
-        },
-
-        {
           key: 'vehicleIds',
           name: 'Vehicles',
           renderFn: ({ vehicleIds }) =>
@@ -161,6 +147,20 @@ export default function useColumns() {
                 badges={vehicleIds.map((id) => ({
                   label: vehicleEnumsQ.data.find((e) => e.value === id)!.label,
                   href: `${coreUrl}/inventory/${id}`,
+                }))}
+              />
+            ),
+        },
+
+        {
+          key: 'locations',
+          name: 'Vehicle Locations',
+          renderFn: ({ locationIds }) =>
+            locationEnumsQ.data && (
+              <BadgeGroup
+                badges={locationIds.map((id) => ({
+                  ...locationEnumsQ.data.find((e) => e.value === id)!,
+                  variant: 'outline',
                 }))}
               />
             ),

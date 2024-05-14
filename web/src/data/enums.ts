@@ -49,3 +49,34 @@ export const createMatchFn =
           : e.value === dataVal) && e.label.toLowerCase().startsWith(word)
       );
     });
+
+// For easier matching sepecially when making matchFns for the serachbar in
+// portal pages. See implementations for reference.
+
+interface EnumsMatchWordProps {
+  enums?: EnumAttributes[];
+  includes?: string;
+  startsWith?: string;
+  isOf?: string | string[];
+}
+
+export const enumsMatchUtil = ({
+  enums,
+  includes,
+  startsWith,
+  isOf,
+}: EnumsMatchWordProps) => {
+  const isOfArr = Array.isArray(isOf) ? isOf : [isOf];
+
+  if (startsWith === undefined && includes === undefined) {
+    throw new Error('enumsMatchWord is missing prop includes or startsWith');
+  }
+
+  return !!enums?.some(
+    (e) =>
+      (!isOf || isOfArr.includes(e.value)) &&
+      (startsWith
+        ? e.label.toLowerCase().startsWith(startsWith.toLowerCase())
+        : e.label.toLowerCase().includes(includes!.toLowerCase())),
+  );
+};
