@@ -8,6 +8,7 @@ import {
 } from '@radix-ui/react-icons';
 import { SearchX } from 'lucide-react';
 
+import * as U from '@utils';
 import * as DataTable from '@components/DataTable';
 import { useDataTable } from '@components/DataTable';
 import Message from '@components/Message';
@@ -46,7 +47,9 @@ export default function PortalTable({
   return (
     <div className="flex min-w-0 flex-grow flex-col">
       <div className="flex flex-grow flex-col overflow-auto">
-        <DataTable.Root>
+        <DataTable.Root
+          divClassName={U.cn(!error && !noFilterResults && 'flex-grow')}
+        >
           <DataTable.Header columns={columns} />
           {isLoading ? (
             <DataTable.BodySkeleton columns={columns} />
