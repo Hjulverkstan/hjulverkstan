@@ -64,8 +64,8 @@ export default function ShopInventoryFields() {
         dataKey="comment"
       />
 
-      <DataForm.Collapsible label="Vehicle details">
-        {body.vehicleType === VehicleType.BIKE && (
+      {body.vehicleType === VehicleType.BIKE && (
+        <DataForm.Collapsible label="Vehicle details">
           <>
             <DataForm.Select
               key={body.vehicleType}
@@ -94,8 +94,8 @@ export default function ShopInventoryFields() {
               description="Gear count (ie 21 for 3x7)"
             />
           </>
-        )}
-      </DataForm.Collapsible>
+        </DataForm.Collapsible>
+      )}
     </>
   );
 }
