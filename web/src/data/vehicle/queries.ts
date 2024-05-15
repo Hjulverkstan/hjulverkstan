@@ -4,7 +4,7 @@ import { ErrorRes } from '../api';
 import { EnumAttributes } from '../enums';
 import * as api from './api';
 import * as enums from './enums';
-import { Vehicle } from './types';
+import { Vehicle, VehicleType } from './types';
 
 //
 
@@ -32,7 +32,8 @@ export const useVehiclesAsEnumsQ = ({ dataKey = 'vehicleId' } = {}) =>
       vehicles?.map((vehicle) => ({
         dataKey,
         icon: enums.find(vehicle.vehicleType).icon,
-        label: vehicle.regTag,
+        label:
+          vehicle.vehicleType === VehicleType.BATCH ? 'Batch' : vehicle.regTag,
         value: vehicle.id,
       })) ?? [],
   });
