@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 
 import { useDeleteVehicleM } from '@data/vehicle/mutations';
-import { Vehicle } from '@data/vehicle/types';
+import { Vehicle, VehicleType } from '@data/vehicle/types';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { Dialog, DialogTrigger } from '@components/shadcn/Dialog';
 import { useToast } from '@components/shadcn/use-toast';
@@ -62,7 +62,11 @@ export default function ShopInventoryActions({
             onDelete={onDelete}
             onCancel={() => setOpen(false)}
             entity={vehicle.vehicleType}
-            entityId={vehicle.regTag}
+            entityId={
+              vehicle.vehicleType === VehicleType.BATCH
+                ? 'Batch'
+                : vehicle.regTag
+            }
           />
         </DropdownMenu.Content>
       </DropdownMenu.Root>
