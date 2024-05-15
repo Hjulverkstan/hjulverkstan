@@ -4,6 +4,7 @@ import { Ticket, TicketType } from '@data/ticket/types';
 
 export const initTicket = {
   vehicleIds: [],
+  isOpen: true,
 } as Partial<Ticket>;
 
 const ticketBaseZ = z.object({

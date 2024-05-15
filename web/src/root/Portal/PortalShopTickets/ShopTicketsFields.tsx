@@ -1,9 +1,9 @@
-import * as enums from '@data/ticket/enums';
-import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
-import { useEmployeesAsEnumsQ } from '@data/employee/queries';
-import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import * as DataForm from '@components/DataForm';
+import { useCustomersAsEnumsQ } from '@data/customer/queries';
+import { useEmployeesAsEnumsQ } from '@data/employee/queries';
+import * as enums from '@data/ticket/enums';
 import { TicketType } from '@data/ticket/types';
+import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
 
 export default function ShopTicketFields() {
   const { body } = DataForm.useDataForm();
@@ -20,11 +20,15 @@ export default function ShopTicketFields() {
         enums={enums.ticketType}
       />
 
-      <DataForm.Switch
-        label="Status"
-        dataKey="isOpen"
-        switchLabel="Toggle is open"
-      />
+      {(body.ticketType === TicketType.RENT ||
+        body.ticketType === TicketType.REPAIR) && (
+        <DataForm.Switch
+          label="Status"
+          dataKey="isOpen"
+          onLabel="Ticket is open"
+          offLabel="Ticket is closed"
+        />
+      )}
 
       <DataForm.Select
         label="Customer"

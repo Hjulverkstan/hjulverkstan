@@ -4,12 +4,14 @@ import * as U from '@utils';
 import { Field, FieldProps, useDataForm } from './';
 
 export interface DataFormSwitchProps extends Omit<FieldProps, 'children'> {
-  switchLabel: string;
+  onLabel: string;
+  offLabel: string;
 }
 
 export const Switch = ({
   label,
-  switchLabel,
+  onLabel,
+  offLabel,
   dataKey,
   description,
 }: DataFormSwitchProps) => {
@@ -28,7 +30,9 @@ export const Switch = ({
           isSkeleton={isSkeleton}
           disabled={isDisabled}
         />
-        <span>{switchLabel}</span>
+        <span>
+          {body[dataKey] !== undefined && (body[dataKey] ? onLabel : offLabel)}
+        </span>
       </div>
     </Field>
   );

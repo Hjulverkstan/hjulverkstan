@@ -54,7 +54,7 @@ const transformBody = ({
 }: Partial<Ticket>) => ({
   id,
   ticketType,
-  isOpen,
+  isOpen: ticketType === TicketType.DONATE ? undefined : isOpen,
   startDate,
   endDate,
   comment,
