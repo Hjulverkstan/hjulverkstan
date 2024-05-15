@@ -18,7 +18,10 @@ export const createGetEmployees = () => ({
   queryFn: () =>
     instance
       .get<GetEmployeesRes>(endpoints.employee)
-      .then((res) => res.data.employees.map(parseResponseData) as Employee[])
+      .then(
+        (res) =>
+          res.data.employees.map(parseResponseData).reverse() as Employee[],
+      )
       .catch(createErrorHandler(endpoints.employee)),
 });
 

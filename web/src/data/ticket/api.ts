@@ -6,6 +6,7 @@ import {
 } from '../api';
 
 import { Ticket, TicketType } from './types';
+
 //
 
 export interface GetTicketsRes {
@@ -17,7 +18,9 @@ export const createGetTickets = () => ({
   queryFn: () =>
     instance
       .get<GetTicketsRes>(endpoints.ticket)
-      .then((res) => res.data.tickets.map(parseResponseData) as Ticket[])
+      .then(
+        (res) => res.data.tickets.map(parseResponseData).reverse() as Ticket[],
+      )
       .catch(createErrorHandler(endpoints.ticket)),
 });
 

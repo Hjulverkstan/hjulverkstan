@@ -17,7 +17,10 @@ export const createGetVehicles = () => ({
   queryFn: () =>
     instance
       .get<GetVehiclesRes>(endpoints.vehicle)
-      .then((res) => res.data.vehicles.map(parseResponseData) as Vehicle[])
+      .then(
+        (res) =>
+          res.data.vehicles.map(parseResponseData).reverse() as Vehicle[],
+      )
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 

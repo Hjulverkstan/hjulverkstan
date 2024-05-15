@@ -18,7 +18,10 @@ export const createGetLocations = () => ({
   queryFn: () =>
     instance
       .get<GetLocationsRes>(endpoints.location)
-      .then((res) => res.data.locations.map(parseResponseData) as Location[])
+      .then(
+        (res) =>
+          res.data.locations.map(parseResponseData).reverse() as Location[],
+      )
       .catch(createErrorHandler(endpoints.location)),
 });
 

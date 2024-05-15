@@ -18,7 +18,10 @@ export const createGetCustomers = () => ({
   queryFn: () =>
     instance
       .get<GetCustomersRes>(endpoints.customer)
-      .then((res) => res.data.customers.map(parseResponseData) as Customer[])
+      .then(
+        (res) =>
+          res.data.customers.map(parseResponseData).reverse() as Customer[],
+      )
       .catch(createErrorHandler(endpoints.customer)),
 });
 

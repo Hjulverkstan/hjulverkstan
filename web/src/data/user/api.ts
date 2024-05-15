@@ -18,7 +18,7 @@ export const createGetUsers = () => ({
   queryFn: () =>
     instance
       .get<GetUsersRes>(endpoints.user)
-      .then((res) => res.data.users.map(parseResponseData) as User[])
+      .then((res) => res.data.users.map(parseResponseData).reverse() as User[])
       .catch(createErrorHandler(endpoints.user)),
 });
 
