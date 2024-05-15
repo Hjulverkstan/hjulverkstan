@@ -70,7 +70,7 @@ export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) => {
           label: `#${ticket.id}`,
           variant: {
             [TicketStatus.CLOSED]: 'outline',
-            [TicketStatus.DUE]: 'warn',
+            [TicketStatus.DUE]: 'destructive',
             [TicketStatus.OPEN]: 'success',
           }[ticket.status] as 'outline' | 'warn' | 'success',
           value: ticket.id,

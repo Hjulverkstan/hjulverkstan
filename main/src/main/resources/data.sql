@@ -8,11 +8,11 @@ INSERT INTO Location
 --
 
 INSERT INTO Employee
-(employee_number, first_name,    last_name,  phone_number,   personal_identity_number, email,                       created_at, updated_at, created_by, updated_by, comment                    ) VALUES
-('3',             'John',        'Doe',      '+46712345678', '9907039876',             'john.doe@example.com',      NOW(),      NOW(),      1,          1,          'Sample comment 1'         ),
-('5',             'Jane',        'Smith',    '+46723019838', '0102034567',             'jane.smith@example.com',    NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
-('6',             'Alice',       'Johnson',  '555-111-2222', '7204082288',             'alice.johnson@example.com', NOW(),      NOW(),      1,          1,          'Sample employee 3 comment'),
-('7',             'Bob',         'Williams', '555-333-4444', '0012247766',             'bob.williams@example.com',  NOW(),      NOW(),      1,          1,          'Sample employee 4 comment');
+(employee_number, first_name,              last_name,              phone_number,      personal_identity_number, email,                                 created_at, updated_at, created_by, updated_by, comment                    ) VALUES
+('3',             'Christopher ',          'Lo-Martire',           '+46712345678',    '9907039876',             'christopher.lomartire@example.com',   NOW(),      NOW(),      1,          1,          'Sample comment 1'         ),
+('5',             'Samuel',                'Siesjö',               '+46723019838',    '0102034567',             'samuel.siesjo@example.com',           NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
+('6',             'Jona',                  'Cwejman',              '555-111-2222',    '7204082288',             'jona.cqwejman@example.com',           NOW(),      NOW(),      1,          1,          'Sample employee 3 comment'),
+('7',             'Azfar',                 'Imtiaz',               '555-333-4444',    '0012247766',             'azfar.imtiaz@example.com',            NOW(),      NOW(),      1,          1,          'Sample employee 4 comment');
 
 --
 
@@ -25,32 +25,36 @@ INSERT INTO Customer
 --
 
 INSERT INTO vehicle
-(location_id, vehicle_type, vehicle_status, imageurl,          comment,                        bike_type,  gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class, created_at, updated_at, created_by, updated_by) VALUES
-(1,           'BIKE',       'AVAILABLE',    'image_url_1.jpg', null,                           'CHILD',    1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  'HGJF',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(1,           'BIKE',       'AVAILABLE',    'image_url_1.jpg', null,                           'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(1,           'BIKE',       'BROKEN',       'image_url_1.jpg', 'Can not ever be repaired...',  'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'VBNM',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(2,           'BIKE',       'AVAILABLE',    'image_url_1.jpg', null,                           'BMX',      1,          'MEDIUM', 'DISC',         'KRONAN',      'DFGH',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(2,           'BIKE',       'UNAVAILABLE',  'image_url_2.jpg', 'This bike weighs nothing!',    'ROAD',     18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',        NOW(),      NOW(),      1,          1         ),
-(2,           'BIKE',       'AVAILABLE',    'image_url_3.jpg', 'Bulletproof tires',            'ELECTRIC', 15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',        NOW(),      NOW(),      1,          1         );
+(location_id, vehicle_type, vehicle_status,   imageurl,            comment,                        bike_type,  gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class,   created_at, updated_at, created_by, updated_by) VALUES
+(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                           'CHILD',    1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  'HGJF',     'BIKE',          NOW(),      NOW(),      1,          1         ),
+(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                           'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',          NOW(),      NOW(),      1,          1         ),
+(1,           'BIKE',       'BROKEN',         'image_url_1.jpg',   'Can not ever be repaired...',  'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'VBNM',     'BIKE',          NOW(),      NOW(),      1,          1         ),
+(2,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                           'BMX',      1,          'MEDIUM', 'DISC',         'KRONAN',      'DFGH',     'BIKE',          NOW(),      NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',    'ROAD',     18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',          NOW(),      NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_3.jpg',   'Bulletproof tires',            'ELECTRIC', 15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',          NOW(),      NOW(),      1,          1         );
 
 --
 
 INSERT INTO Ticket
-(ticket_type, is_open, employee_id, customer_id, start_date,            end_date,             comment,                  repair_description,                    created_at, updated_at, created_by, updated_by) VALUES
-('RENT',      true,    1,           1,           '2024-03-06 10:00:00', '2024-08-06 18:00:00', 'I like this guy',       null,                                  NOW(),      NOW(),      1,          1         ),
-('DONATE',    false,   1,           1,           '2024-03-06 08:00:00', '2024-03-06 12:00:00', null,                    null,                                  NOW(),      NOW(),      1,          1         ),
-('REPAIR',    true,    3,           2,           '2024-03-06 13:00:00', '2024-03-06 15:00:00', 'Lets prioritise this',  'Flat tire front and loose handlebar', NOW(),      NOW(),      1,          1         ),
-('REPAIR',    true,    3,           3,           '2024-03-06 13:00:00', '2024-06-06 15:00:00', null,                    'Pedals broken',                       NOW(),      NOW(),      1,          1         ),
-('RENT',      false,   1,           1,           '2024-03-06 10:00:00', '2024-08-06 18:00:00', 'Could be back earlier', null,                                  NOW(),      NOW(),      1,          1         );
+(ticket_type, is_open, employee_id, customer_id, start_date,            end_date,                   comment,                     repair_description,                           created_at, updated_at, created_by, updated_by) VALUES
+('RENT',      true,    1,           1,           '2024-05-16 10:00:00', '2024-06-16 18:00:00',      'I like this guy',           null,                                         NOW(),      NOW(),      1,          1         ),
+('DONATE',    false,   1,           3,           '2024-03-06 08:00:00', '2024-03-06 12:00:00',      null,                        null,                                         NOW(),      NOW(),      1,          1         ),
+('RENT',      true,    3,           2,           '2024-05-01 13:00:00', '2024-05-14 15:00:00',      'Lets prioritise this',      null,                                         NOW(),      NOW(),      1,          1         ),
+('RENT',      true,    3,           1,           '2024-05-10 13:00:00', '2024-05-28 15:00:00',      null,                        null,                                         NOW(),      NOW(),      1,          1         ),
+('REPAIR',    false,   2,           1,           '2024-03-06 10:00:00', '2024-04-06 18:00:00',      'Could be back earlier',     'Flat tire front and loose handlebar',        NOW(),      NOW(),      1,          1         ),
+('RENT',      false,   1,           2,           '2024-03-06 10:00:00', '2024-04-06 18:00:00',      null                   ,     null,                                         NOW(),      NOW(),      1,          1         ),
+('REPAIR',    false,   2,           1,           '2024-03-06 10:00:00', '2024-04-06 18:00:00',      'Important',                 'Adjust gears and lubricate',                 NOW(),      NOW(),      1,          1         );
 
 INSERT INTO Ticket_Vehicle
 (vehicle_id, ticket_id) VALUES
 (1,         1         ),
-(2,         2         ),
 (3,         2         ),
-(4,         3         ),
-(5,         4         ),
-(6,         5         );
+(5,         2         ),
+(2,         3         ),
+(4,         4         ),
+(6,         5         ),
+(6,         6         ),
+(6,         7         );
 
 --
 
@@ -116,9 +120,9 @@ INSERT INTO Localised_Content
 --
 
 INSERT INTO users
-(id, username, email,               password                                                      ) VALUES
-(1,  'admin',  'admin@example.com', '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO'),
-(2,  'user',   'user@example.com',  '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO');
+(id, username,       email,                     password                                                      ) VALUES
+(1,  'christopher',  'admin@example.com',       '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO'),
+(2,  'user',         'user@example.com',        '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO');
 
 INSERT INTO roles
 (id, name       ) VALUES
