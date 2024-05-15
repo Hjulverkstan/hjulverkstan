@@ -27,6 +27,7 @@ import java.util.List;
 public class ExceptionsController {
 
     @ExceptionHandler(NoResourceFoundException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ResponseEntity<ApiError> noResourceFoundException(HttpServletRequest req, NoResourceFoundException e) {
         String message = String.format("Route %s not found", req.getRequestURI());
         log.error(message);
@@ -36,6 +37,7 @@ public class ExceptionsController {
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ResponseEntity<ApiError> noMethodSupportException(HttpServletRequest req, HttpRequestMethodNotSupportedException e) {
         String message = String.format("the method %s for the route %s is not found",req.getMethod(), req.getRequestURI());
         log.error(message);
@@ -62,6 +64,7 @@ public class ExceptionsController {
     }
 
     @ExceptionHandler(value = { Exception.class })
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ApiError> generalExceptionHandler(Exception e){
 
         System.err.println("Internal Error : " + e.getMessage());
@@ -88,14 +91,16 @@ public class ExceptionsController {
 
     }
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({BadCredentialsException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiError> badRequest(HttpServletRequest req, Exception ex) {
 
         ApiError apiError = new ApiError("Invalid credentials",  ex.getMessage(),  HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(apiError.getStatus())
                 .body(apiError);
     }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiError> handleDataIntegrityViolation(DataIntegrityViolationException ex, HttpServletRequest request) {
         log.error("Data Integrity Violation: " + ex.getMessage());
@@ -104,5 +109,4 @@ public class ExceptionsController {
         return ResponseEntity.status(apiError.getStatus())
                 .body(apiError);
     }
-
 }
