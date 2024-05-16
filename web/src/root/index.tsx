@@ -26,17 +26,17 @@ export const routes = [
   },
 ];
 
+const commonOptions = {
+  retryDelay: (attemptIndex: number) => Math.min(4000 * attemptIndex, 15000),
+  retry: (retryCount: number, error: any) =>
+    (error.status >= 500 || error.status === 401 || error.status === 403) &&
+    retryCount > 2,
+};
+
 export const queryClient = new QueryClient({
   defaultOptions: {
-    mutations: {
-      retryDelay: (attemptIndex) => Math.min(1000 * 4 ** attemptIndex, 15000),
-      retry: (retryCount, error: any) => error.status !== 404 || retryCount > 2,
-    },
-    queries: {
-      retryDelay: (attemptIndex) => Math.min(1000 * 4 ** attemptIndex, 15000),
-      retry: (retryCount, error: any) => error.status !== 404 || retryCount > 2,
-      refetchIntervalInBackground: true,
-    },
+    mutations: { ...commonOptions },
+    queries: { ...commonOptions, refetchIntervalInBackground: true },
   },
 });
 

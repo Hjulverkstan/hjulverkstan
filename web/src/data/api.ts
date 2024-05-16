@@ -26,10 +26,10 @@ export const instance = axios.create({
 });
 
 /* Error responses that are not 400s should be errors in the request chain */
-instance.interceptors.response.use((res) => {
-  if (res.data.error) return Promise.reject(res.data);
-  return res;
-});
+instance.interceptors.response.use(
+  (res) => (res.data.error ? Promise.reject(res.data) : res),
+  (err) => Promise.reject(err),
+);
 
 //
 
