@@ -4,6 +4,7 @@ import { useEmployeesAsEnumsQ } from '@data/employee/queries';
 import * as enums from '@data/ticket/enums';
 import { TicketType } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
+import { max, parseISO } from 'date-fns';
 
 export default function ShopTicketFields() {
   const { body } = DataForm.useDataForm();
@@ -50,12 +51,19 @@ export default function ShopTicketFields() {
         fat
       />
 
-      <DataForm.DatePicker label="Start Date" dataKey="startDate" />
+      <DataForm.DatePicker
+        label="Start Date"
+        dataKey="startDate"
+        fromDate={new Date()}
+      />
 
       {(body.ticketType === TicketType.RENT ||
         body.ticketType === TicketType.REPAIR) && (
         <DataForm.DatePicker
-          fromDate={body.startDate}
+          fromDate={max([
+            body.startDate ? parseISO(body.startDate) : new Date(),
+            new Date(),
+          ])}
           label="End Date"
           dataKey="endDate"
         />

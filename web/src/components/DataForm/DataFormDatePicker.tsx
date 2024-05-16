@@ -11,7 +11,7 @@ import { useDataForm } from './DataFormProvider';
 import { useState } from 'react';
 
 export interface DataFormDateProps extends Omit<FieldProps, 'children'> {
-  fromDate?: string;
+  fromDate?: Date;
 }
 
 export const DatePicker = ({
@@ -46,7 +46,7 @@ export const DatePicker = ({
         </Popover.Trigger>
         <Popover.Content className="w-auto p-0">
           <Calendar
-            fromDate={fromDate !== undefined ? new Date(fromDate) : undefined}
+            fromDate={fromDate}
             mode="single"
             selected={body[dataKey]}
             onSelect={(value?: Date) => {
