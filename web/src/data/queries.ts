@@ -1,4 +1,4 @@
-import { QueryKey } from 'react-query';
+import { QueryKey } from '@tanstack/react-query';
 
 import { queryClient } from '@root';
 

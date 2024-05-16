@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { UseQueryResult } from 'react-query';
+import { UseQueryResult } from '@tanstack/react-query';
 
 interface UseAggregatedQueryResult<Error, Data> {
   isLoading: boolean;

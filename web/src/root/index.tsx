@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import ThemeProvider from '@components/shadcn/ThemeProvider';
 import Toaster from '@components/shadcn/Toaster';
