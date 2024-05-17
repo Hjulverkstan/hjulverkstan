@@ -11,9 +11,9 @@ public interface UserService {
 
     GetAllUserDto getAllUsers();
 
-    UserDto getUserById(Long id);
+    UserResponse getUserById(Long id);
 
     UserResponse updateUser(Long id, SignupRequest userDetail);
 
-    UserDto deleteUser(Long id);
+    UserResponse deleteUser(Long id);
 }

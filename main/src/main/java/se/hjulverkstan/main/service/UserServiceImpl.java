@@ -1,22 +1,18 @@
 package se.hjulverkstan.main.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.AlreadyUsedException;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.responses.GetAllUserDto;
 import se.hjulverkstan.main.dto.user.SignupRequest;
-import se.hjulverkstan.main.dto.user.UserDto;
 import se.hjulverkstan.main.dto.user.UserResponse;
-import se.hjulverkstan.main.model.ERole;
 import se.hjulverkstan.main.model.Role;
 import se.hjulverkstan.main.model.User;
 import se.hjulverkstan.main.repository.RoleRepository;
 import se.hjulverkstan.main.repository.UserRepository;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -73,15 +69,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetAllUserDto getAllUsers() {
-        List<UserDto> userDtoList = new ArrayList<>();
+        List<UserResponse> userDtoList = new ArrayList<>();
         userRepository.findAll().forEach(user -> {
-            UserDto userDto = UserDto.builder()
-                    .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
+            UserResponse userResponse = UserResponse.builder()
+                    .id(user.getId())
                     .username(user.getUsername())
-                    .password(user.getPassword())
                     .email(user.getEmail())
-                    .id(user.getId()).build();
-            userDtoList.add(userDto);
+                    .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
+                    .build();
+            userDtoList.add(userResponse);
         });
         GetAllUserDto getAllUserDto = new GetAllUserDto();
         getAllUserDto.setUsers(userDtoList);
@@ -90,12 +86,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(Long id) {
+    public UserResponse getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
-        return UserDto.builder()
+        return UserResponse.builder()
                 .id(user.getId())
                 .username(user.getUsername())
-                .password(user.getPassword())
                 .email(user.getEmail())
                 .roles(user.getRoles().stream()
                         .map(Role::getName)
@@ -130,14 +125,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto deleteUser(Long id) {
+    public UserResponse deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
         userRepository.deleteById(id);
-        return UserDto.builder()
+        return UserResponse.builder()
                 .id(user.getId())
                 .username(user.getUsername())
-                .password(user.getPassword())
                 .email(user.getEmail())
                 .roles(user.getRoles().stream()
                         .map(Role::getName)
