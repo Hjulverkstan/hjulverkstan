@@ -115,8 +115,7 @@ INSERT INTO Localised_Content
 ('ENG',  'VALUE',        'A bike shop unlike any other',                                                                                                                                                    NOW(),      NOW(),      1,          1,          14,                 null),
 ('SWE',  'VALUE',        'En cykelbutik olik alla andra',                                                                                                                                                   NOW(),      NOW(),      1,          1,          14,                 null),
 ('ENG',  'BODY_TEXT',    'At Skolspåret 15, we offer basic servicing of your bike, such as fixing pedals, adjusting gears, checking tires, air pressure, and lubrication, among other things.',             NOW(),      NOW(),      1,          1,          null,               1),
-('SWE',  'BODY_TEXT',    'På Skolspåret 15 erbjuder vi basservice av din hoj, till exempel fixa pedaler, justera växlar, kontroll av däck, lufttryck och uppsmörjning m.m.',                                NOW(),      NOW(),      1,          1,          null,               1);
-
+('SWE',  'BODY_TEXT',    'På Skolspåret 15 erbjuder vi enkla reparationer på din cykel, så som att laga pedalerna, justera växlarna, kolla hjulen, lufttrycket och insmörjning.',                           NOW(),      NOW(),      1,          1,          null,               1);
 
 --
 
