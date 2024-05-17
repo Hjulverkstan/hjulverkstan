@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class LocalizedContentAndShopServiceImpl implements LocalizedContentAndShopService {
+public class LocalisationServiceImpl implements LocalisationService {
 
     private final GeneralContentService generalContentService;
     private final LocalisedContentRepository localisedContentRepository;
     private final ShopService shopService;
 
-    public LocalizedContentAndShopServiceImpl(GeneralContentService generalContentService, LocalisedContentRepository localisedContentRepository, ShopService shopService) {
+    public LocalisationServiceImpl(GeneralContentService generalContentService, LocalisedContentRepository localisedContentRepository, ShopService shopService) {
         this.generalContentService = generalContentService;
         this.localisedContentRepository = localisedContentRepository;
         this.shopService = shopService;
@@ -30,7 +30,7 @@ public class LocalizedContentAndShopServiceImpl implements LocalizedContentAndSh
 
 
     @Override
-    public AllWebEditEntitiesByLangDto getAllLocalisedData(Language fallbackLang) {
+    public AllWebEditEntitiesByLangDto getAllLocalisedEntitiesWithFallback(Language fallbackLang) {
         Set<Language> langs = localisedContentRepository.findDistinctLangs()
                 .orElseThrow(() -> new ElementNotFoundException("Languages"));
 
@@ -40,10 +40,10 @@ public class LocalizedContentAndShopServiceImpl implements LocalizedContentAndSh
         for (Language lang : langs) {
             AllWebEditEntitiesDto allEntitiesDto = new AllWebEditEntitiesDto();
 
-            Set<GeneralContentStrippedDto> strippedGeneralContent = mapToGeneralContentStrippedDto(lang, fallbackLang, generalContentService);
+            Set<GeneralContentStrippedDto> strippedGeneralContent = mapToGeneralContentDto(lang, fallbackLang, generalContentService);
             allEntitiesDto.setGeneralContentStripped(strippedGeneralContent);
 
-            Set<ShopDto> strippedShops = mapToShopStrippedDto(lang, fallbackLang, shopService);
+            Set<ShopDto> strippedShops = mapToAllShopsWithFallbackLangDto(lang, fallbackLang, shopService);
             allEntitiesDto.setShop(strippedShops);
 
 
@@ -54,7 +54,7 @@ public class LocalizedContentAndShopServiceImpl implements LocalizedContentAndSh
         return allDto;
     }
 
-    private static Set<ShopDto> mapToShopStrippedDto(Language lang, Language fallbackLang, ShopService shopService) {
+    private static Set<ShopDto> mapToAllShopsWithFallbackLangDto(Language lang, Language fallbackLang, ShopService shopService) {
 
         List<ShopDto> shopDtos = shopService.getAllShopsByLang(lang);
         return shopDtos.stream().peek(shop -> {
@@ -65,19 +65,28 @@ public class LocalizedContentAndShopServiceImpl implements LocalizedContentAndSh
         }).collect(Collectors.toSet());
     }
 
-    private static Set<GeneralContentStrippedDto> mapToGeneralContentStrippedDto(Language lang, Language fallbackLang, GeneralContentService generalContentService) {
-        List<GeneralContentDto> generalContentByLang = generalContentService.getAllGeneralContentsByLang(lang);
+    private static Set<GeneralContentStrippedDto> mapToGeneralContentDto(Language lang, Language fallbackLang, GeneralContentService generalContentService) {
+        List<GeneralContentDto> generalContentByLang = fetchGeneralContentByLang(lang, generalContentService);
         return generalContentByLang.stream()
-                .map(gc -> {
-                    GeneralContentStrippedDto stripped = new GeneralContentStrippedDto();
-                    stripped.setKey(gc.getKey());
-                    if (gc.getValue() != null) {
-                        stripped.setValue(gc.getValue());
-                    } else {
-                        String fallback = generalContentService.getGeneralContentByIdAndLang(gc.getId(), fallbackLang).getValue();
-                        stripped.setValue(fallback);
-                    }
-                    return stripped;
-                }).collect(Collectors.toSet());
+                .map(gc -> mapToStrippedDto(gc, fallbackLang, generalContentService))
+                .collect(Collectors.toSet());
+    }
+
+    private static List<GeneralContentDto> fetchGeneralContentByLang(Language lang, GeneralContentService generalContentService) {
+        return generalContentService.getAllGeneralContentsByLang(lang);
+    }
+
+    private static GeneralContentStrippedDto mapToStrippedDto(GeneralContentDto gc, Language fallbackLang, GeneralContentService generalContentService) {
+        GeneralContentStrippedDto stripped = new GeneralContentStrippedDto();
+        stripped.setKey(gc.getKey());
+
+        if (gc.getValue() != null) {
+            stripped.setValue(gc.getValue());
+        } else {
+            String fallback = generalContentService.getGeneralContentByIdAndLang(gc.getId(), fallbackLang).getValue();
+            stripped.setValue(fallback);
+        }
+
+        return stripped;
     }
 }
