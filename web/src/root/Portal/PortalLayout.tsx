@@ -9,7 +9,7 @@ import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { Separator } from '@components/shadcn/Separator';
 import { Tabs, TabsList, TabsTrigger } from '@components/shadcn/Tabs';
 import Spinner from '@components/Spinner';
-import useSlugs from '@hooks/useSlugs';
+import usePortalSlugs from '@hooks/useSlugs';
 import { AuthRole } from '@data/auth/types';
 import { Mode } from '@components/DataForm';
 
@@ -129,7 +129,7 @@ function AvatarDropdownAppItem({
   appSlug: string;
   label: string;
 }) {
-  const { baseUrl, appSlug } = useSlugs();
+  const { baseUrl, appSlug } = usePortalSlugs();
   const navigate = useNavigate();
 
   const isActive = appSlug === itemAppSlug;

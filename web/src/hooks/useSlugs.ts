@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 
-export default function useSlugs(): {
+export default function usePortalSlugs(): {
   url: string;
   baseUrl: string;
   coreUrl?: string;

@@ -16,6 +16,9 @@ export const endpoints = {
     refreshToken: '/auth/refreshtoken',
     verifyAuth: '/auth/verify',
   },
+  webedit: {
+    all: '/webedit/get-all',
+  },
   user: '/user',
 };
 
