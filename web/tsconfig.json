@@ -24,7 +24,8 @@
       "@enums": ["./src/enums"],
       "@data": ["./src/data"],
       "@data/*": ["./src/data/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "include": [
     "src/**/*" 

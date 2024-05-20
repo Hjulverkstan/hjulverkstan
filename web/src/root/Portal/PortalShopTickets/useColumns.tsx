@@ -13,12 +13,12 @@ import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { Badge } from '@components/shadcn/Badge';
 import { format } from 'date-fns';
-import useSlugs from '@hooks/useSlugs';
+import usePortalSlugs from '@hooks/useSlugs';
 
 //
 
 export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
-  const { coreUrl } = useSlugs();
+  const { coreUrl } = usePortalSlugs();
 
   const ticketsQ = useTicketsQ();
   const ticketEnumsQ = useTicketsAsEnumsQ();
@@ -75,7 +75,7 @@ export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
 }
 
 export default function useColumns() {
-  const { coreUrl } = useSlugs();
+  const { coreUrl } = usePortalSlugs();
   const locationEnumsQ = useLocationsAsEnumsQ();
   const vehicleEnumsQ = useVehiclesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();

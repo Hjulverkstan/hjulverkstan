@@ -7,6 +7,9 @@ export default defineConfig({
   build: {
     minify: false,
   },
+  ssr: {
+    noExternal: ['react-helmet-async'],
+  },
   resolve: {
     alias: {
       '@components': path.resolve(__dirname, './src/components'),

@@ -22,7 +22,7 @@ export const subscribeToRefreshFailed = (callback: () => void) => {
 };
 
 export const errorInterceptor = (error: AxiosError) => {
-  const isRefreshRequest = error.response?.request.responseURL.endsWith(
+  const isRefreshRequest = error.response?.request.responseURL?.endsWith(
     endpoints.auth.refreshToken,
   );
 

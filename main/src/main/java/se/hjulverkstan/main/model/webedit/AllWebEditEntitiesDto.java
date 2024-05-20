@@ -11,7 +11,6 @@ import java.util.Set;
 @Setter
 @ToString
 public class AllWebEditEntitiesDto {
-
-    private Set<GeneralContentStrippedDto> generalContentStripped;
+    private Set<GeneralContentStrippedDto> generalContent;
     private Set<ShopDto> shop;
 }

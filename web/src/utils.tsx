@@ -1,4 +1,6 @@
+import { AxiosInstance } from 'axios';
 import { ClassValue, clsx } from 'clsx';
+import localeCodes from 'locale-codes';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -37,7 +39,7 @@ export const toArrayValueCountMap = (array: string[]) =>
 
 //
 
-export const occurencesOfElInArray = <El>(el: El, xs: El[]) =>
+export const occurencesOfElInArray = <El,>(el: El, xs: El[]) =>
   xs.reduce((count, x) => count + (x === el ? 1 : 0), 0);
 
 //
@@ -103,3 +105,58 @@ export const toUpdatedArray = (
 export function uniq<T>(array: T[]): T[] {
   return Array.from(new Set(array));
 }
+
+//
+
+export const langCodeToLocale = (langCode: string) => {
+  const locale = localeCodes.all.find(
+    (entry) => entry['iso639-2']?.toLowerCase() === langCode.toLowerCase(),
+  )?.['iso639-1'];
+
+  if (!locale) throw Error(`Could not convert lang ${langCode} to locale`);
+
+  return locale;
+};
+
+export const localeToLangCode = (locale: string) => {
+  const langCode = localeCodes.all.find(
+    (entry) => entry?.['iso639-1']?.toLowerCase() === locale.toLowerCase(),
+  )?.['iso639-2'];
+
+  if (!langCode) throw Error(`Could not convert locale ${locale} to langCode`);
+
+  return langCode;
+};
+
+//
+
+/**
+ * useAxiosCookieJar add interceptors to resend cookies from responses
+ * in requests. We use this on server side as there is no browser to store the
+ * cookies for us. Returns function to clear interceptors...
+ */
+
+export const useAxiosCookieJar = (instance: AxiosInstance) => {
+  let cookies: any;
+
+  const resInterceptorId = instance.interceptors.response.use(
+    (res) => {
+      cookies = res.headers['set-cookie']
+        ?.map((cookie) => cookie.split(';')[0])
+        .join('; ');
+
+      return res;
+    },
+    (err) => Promise.reject(err),
+  );
+
+  const reqInterceptorId = instance.interceptors.request.use((config) => {
+    config.headers.Cookie = cookies;
+    return config;
+  });
+
+  return () => {
+    instance.interceptors.response.eject(resInterceptorId);
+    instance.interceptors.request.eject(reqInterceptorId);
+  };
+};

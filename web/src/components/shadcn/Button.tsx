@@ -22,7 +22,10 @@ export const buttonVariants = cva(
           hover:text-accent-foreground border`,
         ],
         secondary: [
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80 ',
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow',
+        ],
+        contrast: [
+          'bg-contrast text-contrast-foreground hover:bg-contrast/80 ',
         ],
         accent: [
           [
