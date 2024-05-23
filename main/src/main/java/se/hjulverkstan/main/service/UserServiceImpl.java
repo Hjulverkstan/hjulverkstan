@@ -1,5 +1,6 @@
 package se.hjulverkstan.main.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.AlreadyUsedException;
@@ -70,15 +71,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public GetAllUserDto getAllUsers() {
         List<UserResponse> userDtoList = new ArrayList<>();
-        userRepository.findAll().forEach(user -> {
-            UserResponse userResponse = UserResponse.builder()
-                    .id(user.getId())
-                    .username(user.getUsername())
-                    .email(user.getEmail())
-                    .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
-                    .build();
-            userDtoList.add(userResponse);
-        });
+        userRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
+                .forEach(user -> {
+                    UserResponse userResponse = UserResponse.builder()
+                            .id(user.getId())
+                            .username(user.getUsername())
+                            .email(user.getEmail())
+                            .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
+                            .build();
+                    userDtoList.add(userResponse);
+                });
         GetAllUserDto getAllUserDto = new GetAllUserDto();
         getAllUserDto.setUsers(userDtoList);
 

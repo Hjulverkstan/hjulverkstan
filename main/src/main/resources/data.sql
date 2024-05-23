@@ -122,7 +122,8 @@ INSERT INTO Localised_Content
 INSERT INTO users
 (id, username,       email,                     password                                                      ) VALUES
 (1,  'christopher',  'admin@example.com',       '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO'),
-(2,  'user',         'user@example.com',        '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO');
+(2,  'user',         'user@example.com',        '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO'),
+(3,  'admin',        'admin2@example.com',      '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO');
 
 INSERT INTO roles
 (id, name       ) VALUES
@@ -133,4 +134,6 @@ INSERT INTO user_roles
 (role_id, user_id) VALUES
 (1,       1      ),
 (2,       1      ),
-(2,       2      );
+(2,       2      ),
+(1,       3      ),
+(2,       3      );

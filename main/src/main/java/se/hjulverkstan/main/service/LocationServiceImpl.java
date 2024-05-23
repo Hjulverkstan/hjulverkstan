@@ -2,6 +2,7 @@ package se.hjulverkstan.main.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.CouldNotDeleteException;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
@@ -32,7 +33,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public GetAllLocationDto getAllLocation() {
-        List<Location> locations = locationRepository.findAll();
+        List<Location> locations = locationRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<LocationDto> responseList = new ArrayList<>();
 
         for (Location location : locations) {

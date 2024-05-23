@@ -2,6 +2,7 @@ package se.hjulverkstan.main.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.Exceptions.UnsupportedTicketTypeException;
@@ -40,7 +41,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public GetAllTicketDto getAllTicket() {
-        List<Ticket> tickets = ticketRepository.findAll();
+        List<Ticket> tickets = ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<TicketDto> responseList = new ArrayList<>();
 
         for (Ticket ticket : tickets) {

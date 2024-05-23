@@ -1,5 +1,6 @@
 package se.hjulverkstan.main.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
@@ -26,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public GetAllCustomerDto getAllCustomer() {
-        List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<CustomerDto> responseList = new ArrayList<>();
 
         for (Customer customer : customers) {

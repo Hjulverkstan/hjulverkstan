@@ -1,6 +1,7 @@
 package se.hjulverkstan.main.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.Exceptions.AlreadyUsedException;
@@ -56,7 +57,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public GetAllVehicleDto getAllVehicles() {
 
-        List<Vehicle> listOfVehicles = vehicleRepository.findAll();
+        List<Vehicle> listOfVehicles = vehicleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<VehicleDto> responseList = new ArrayList<>();
 
         for (Vehicle vehicle : listOfVehicles) {

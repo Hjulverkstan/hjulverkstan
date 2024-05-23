@@ -31,7 +31,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public List<ShopDto> getAllShopsByLang(Language lang) {
-        List<Shop> shopList = shopRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        List<Shop> shopList = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
 
         return shopList.stream()
                 .map(shop -> mapShopToDto(shop, lang))

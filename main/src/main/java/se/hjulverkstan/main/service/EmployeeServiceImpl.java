@@ -2,6 +2,7 @@ package se.hjulverkstan.main.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.EmployeeDto;
@@ -29,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public GetAllEmployeeDto getAllEmployee() {
-        List<Employee> employees = employeeRepository.findAll();
+        List<Employee> employees = employeeRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<EmployeeDto> responseList = new ArrayList<>();
 
         for (Employee employee : employees) {
