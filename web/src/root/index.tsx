@@ -138,7 +138,7 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
   <Route
     key={route.path + locale}
     path={locale ? `/${locale}${route.path}` : route.path}
-    element={() => (
+    element={
       <>
         <RouteHelmet route={route} locale={locale ?? fallBackLocale} />
         <LocaleProvider value={locale ?? fallBackLocale}>
@@ -148,7 +148,7 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
           <RedirectDelayed path={`/${fallBackLocale}${route.path}`} />
         )}
       </>
-    )}
+    }
   />
 );
 
