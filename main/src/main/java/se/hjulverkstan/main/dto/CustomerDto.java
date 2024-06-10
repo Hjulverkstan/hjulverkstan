@@ -41,6 +41,9 @@ public class CustomerDto {
     @Email(message = "Customer email must be valid")
     private String email;
 
+    @NotBlank(message = "Customer address is required")
+    private String address;
+
     private List<Long> ticketIds;
 
     private String comment;
@@ -59,6 +62,7 @@ public class CustomerDto {
                 customer.getPersonalIdentityNumber(),
                 customer.getOrganizationName(),
                 customer.getPhoneNumber(),
+                customer.getAddress(),
                 customer.getEmail(),
                 customer.getTickets()
                         .stream()

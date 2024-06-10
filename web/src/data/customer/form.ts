@@ -12,6 +12,7 @@ const customerBaseZ = z.object({
   email: reqString('Email').email({
     message: 'The email is not a valid email address',
   }),
+  address: reqString('Address'),
 });
 
 export const customerZ = z.discriminatedUnion(

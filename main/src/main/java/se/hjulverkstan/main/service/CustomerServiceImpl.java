@@ -70,6 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
         selectedCustomer.setOrganizationName(customer.getOrganizationName());
         selectedCustomer.setPhoneNumber(customer.getPhoneNumber());
         selectedCustomer.setEmail(customer.getEmail());
+        selectedCustomer.setAddress(customer.getAddress());
         selectedCustomer.setComment(customer.getComment());
 
         customerRepository.save(selectedCustomer);
@@ -91,6 +92,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setOrganizationName(newCustomer.getOrganizationName());
         customer.setPhoneNumber(newCustomer.getPhoneNumber());
         customer.setEmail(newCustomer.getEmail());
+        customer.setAddress(newCustomer.getAddress());
         customer.setTickets(new ArrayList<>());
         customer.setComment(newCustomer.getComment());
 

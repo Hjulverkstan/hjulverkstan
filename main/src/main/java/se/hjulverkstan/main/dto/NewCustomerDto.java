@@ -32,5 +32,8 @@ public class NewCustomerDto {
     @NotBlank(message = "Customer email is required")
     private String email;
 
+    @NotBlank(message = "Customer address is required")
+    private String address;
+
     private String comment;
 }

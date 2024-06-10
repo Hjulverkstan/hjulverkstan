@@ -17,7 +17,13 @@ export default function ShopCustomerFilters() {
         matchFn={(word: string, row: Customer) =>
           enums.matchFn(word, row) ||
           DataTable.fuzzyMatchFn(
-            ['comment', 'personalIdentityNumber', 'phoneNumber', 'email'],
+            [
+              'comment',
+              'personalIdentityNumber',
+              'phoneNumber',
+              'email',
+              'address',
+            ],
             word,
             row,
           ) ||

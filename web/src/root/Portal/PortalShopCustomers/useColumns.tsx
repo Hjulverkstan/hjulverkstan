@@ -65,6 +65,12 @@ export default function useColumns() {
         },
 
         {
+          key: 'address',
+          name: 'Address',
+          renderFn: ({ address }) => <IconLabel label={address} />,
+        },
+
+        {
           key: 'comment',
           name: 'Comment',
           renderFn: (row) => (

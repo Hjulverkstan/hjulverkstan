@@ -51,6 +51,7 @@ const transformBody = ({
   phoneNumber,
   email,
   ticketIds,
+  address,
   comment,
   organizationName,
 }: Partial<Customer>) => ({
@@ -64,6 +65,7 @@ const transformBody = ({
   phoneNumber,
   email,
   ticketIds,
+  address,
   comment,
   organizationName,
 });

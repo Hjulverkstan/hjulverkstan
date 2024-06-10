@@ -54,6 +54,13 @@ export default function ShopCustomerFields() {
       />
 
       <DataForm.Input
+        type="addr"
+        placeholder="Write customer's address..."
+        label="Address"
+        dataKey="address"
+      />
+
+      <DataForm.Input
         placeholder="Write a comment..."
         label="Comment"
         dataKey="comment"

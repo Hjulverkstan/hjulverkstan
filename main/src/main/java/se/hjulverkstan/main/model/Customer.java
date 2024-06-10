@@ -23,6 +23,7 @@ public class Customer extends Auditable {
     private String organizationName;
     private String phoneNumber;
     private String email;
+    private String address;
 
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets;

@@ -12,6 +12,7 @@ export interface Customer {
   phoneNumber: string;
   email: string;
   ticketIds: string[];
+  address: string;
   comment?: string;
   //
   organizationName?: string;
