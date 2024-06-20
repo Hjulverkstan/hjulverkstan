@@ -19,18 +19,24 @@ Run our setup shellscript to configure all git configs
 sh ./setup.sh
 ```
 
-Run a postgres server
+Install Java JDK v21 from [JDK Archive](https://jdk.java.net/archive/).
+
+Install [postgres](https://www.postgresql.org/download/) and create a user + database or use podman for containerisation (more performance heavy)
 
 ```bash
-podman run --name postgresql -e POSTGRES_PASSWORD=pass -d -p 5432:5432 -v pgdata:/var/lib/postgresql/data postgres:latest
+podman run --name postgresql -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=hjulverkstan -d -p 5432:5432 -v pgdata:/var/lib/postgresql/data postgres:latest
 ```
 
-Run backend in dev mode
+Copy `main/env.properties.template` to `main/env.properties` and replace values if needed to match postgres setup.
+
+Run backend in dev mode by setting up a SpringBoot run configuration in IDEA and go to options > add program arguments and paste in `-D spring-boot.run.profiles=dev`. Alternatively if you wan to run the backend from the terminal:
 
 ```bash
 cd main
 ./mvnw spring-boot:run -D spring-boot.run.profiles=dev
 ```
+
+If you encounter an issue with importing `env.properties` (happens to some people) then you may replace the first line of `main/src/main/resources/applicaiton.properties` with an absolute path to your `env.properties`, ie: ` spring.config.import=file:/path/to/git/repo/main/env.properties` (just make sure to not commit this change).
 
 Run frontend in dev mode
 
@@ -38,16 +44,6 @@ Run frontend in dev mode
 cd web
 npm run dev
 ```
-
-## Decisions
-
-- Minimal customisation for users, devs handle ENUMs
-- No parts
-- No reservations
-
-- Requests
- - max 5 async requests
- - 1-2 no problem, 3 possible, 4 not good (dependent requests)
 
 ## Guide lines
 
@@ -118,11 +114,4 @@ We are aligned with the principles from functional programming:
      - **How** is it done
      - **Ref** issue reference number for Jira
 
-### Backend specific
-
-- REST
-  - Return obj on POST
-  - Mutations through one POST using props on json obj (not split different updated to different endpints for same entity)
-  - GET uses json body instead of query params
-- Type and optional properties over a relationship to a type in another table with properties in it
 
