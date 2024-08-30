@@ -9,10 +9,10 @@ INSERT INTO Location
 
 INSERT INTO Employee
 (employee_number, first_name,              last_name,              phone_number,      personal_identity_number, email,                                 created_at, updated_at, created_by, updated_by, comment                    ) VALUES
-('3',             'Christopher ',          'Lo-Martire',           '+46712345678',    '9907039876',             'christopher.lomartire@example.com',   NOW(),      NOW(),      1,          1,          'Sample comment 1'         ),
-('5',             'Samuel',                'Siesjö',               '+46723019838',    '0102034567',             'samuel.siesjo@example.com',           NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
-('6',             'Jona',                  'Cwejman',              '555-111-2222',    '7204082288',             'jona.cqwejman@example.com',           NOW(),      NOW(),      1,          1,          'Sample employee 3 comment'),
-('7',             'Azfar',                 'Imtiaz',               '555-333-4444',    '0012247766',             'azfar.imtiaz@example.com',            NOW(),      NOW(),      1,          1,          'Sample employee 4 comment');
+('3',             'Christopher ',          'Lo-Martire',           '+46712345678',    '990703-9876',             'christopher.lomartire@example.com',   NOW(),      NOW(),      1,          1,          'Sample comment 1'         ),
+('5',             'Samuel',                'Siesjö',               '+46723019838',    '010203-4567',             'samuel.siesjo@example.com',           NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
+('6',             'Jona',                  'Cwejman',              '555-111-2222',    '720408-2288',             'jona.cqwejman@example.com',           NOW(),      NOW(),      1,          1,          'Sample employee 3 comment'),
+('7',             'Azfar',                 'Imtiaz',               '555-333-4444',    '001224-7766',             'azfar.imtiaz@example.com',            NOW(),      NOW(),      1,          1,          'Sample employee 4 comment');
 
 --
 
