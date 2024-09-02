@@ -111,14 +111,6 @@ const useHeadlessTable = <R extends Row>({
   );
 
   const isFiltered = !!Object.keys(filterFnMap).length;
-  const pageCount = Math.ceil(data.length / pageSize);
-
-  //
-
-  useEffect(() => {
-    // When data shrinks and you are on a page that does not exist eny more
-    if (page > pageCount - 1) setPage(pageCount - 1);
-  }, [pageCount, page]);
 
   //
 
@@ -143,6 +135,15 @@ const useHeadlessTable = <R extends Row>({
     () => sortedData.slice(page * pageSize, (page + 1) * pageSize),
     [page, pageSize, sortedData],
   );
+
+  //
+  
+  const pageCount = Math.ceil(filteredData.length / pageSize);
+
+  useEffect(() => {
+    // When data shrinks and you are on a page that does not exist eny more
+    if (page > pageCount - 1) setPage(pageCount - 1);
+  }, [pageCount, page]);
 
   //
 
