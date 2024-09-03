@@ -19,7 +19,7 @@ export default function PortalToolbar({
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-between pb-5">
+    <div className="flex items-center justify-between pb-4">
       <div className="flex flex-1 items-center space-x-2">
         {children}
         <DataTable.FilterClear />
