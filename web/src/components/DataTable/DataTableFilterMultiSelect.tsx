@@ -15,14 +15,16 @@ export interface FilterMultiSelectProps {
    */
   enums: EnumAttributes[];
   heading?: string;
+  initSelected?: string[];
 }
 
 export const FilterMultiSelect = ({
   filterKey,
   enums,
   heading,
+  initSelected = [],
 }: FilterMultiSelectProps) => {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(initSelected);
   const { setActiveLabels } = useFilterPopover();
 
   const { filterFnMap, setFilterFn, rawData } = useDataTable({

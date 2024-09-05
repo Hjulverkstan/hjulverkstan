@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useDeleteVehicleM } from '@data/vehicle/mutations';
 import { Vehicle, VehicleType } from '@data/vehicle/types';
@@ -12,10 +13,22 @@ import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 
+export enum VehicleShortcutAction {
+  CREATE_TICKET = 'CREATE_TICKET',
+  FILTER_BY_VEHICLE = 'FILTER_BY_VEHICLE',
+}
+
+export interface VehicleShortcutLocationState {
+  action: VehicleShortcutAction;
+  vehicleId: string;
+}
+
 export default function ShopInventoryActions({
   row: vehicle,
   disabled,
 }: PortalTableActionsProps<Vehicle>) {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const deleteVehicleM = useDeleteVehicleM();
 
   const [open, setOpen] = useState(false);
@@ -68,6 +81,36 @@ export default function ShopInventoryActions({
                 : vehicle.regTag
             }
           />
+
+          <DropdownMenu.Separator />
+
+          <DropdownMenu.Item
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate((id ? '../..' : '..') + '/ticketz/create', {
+                state: {
+                  vehicleId: vehicle.id,
+                  action: VehicleShortcutAction.CREATE_TICKET,
+                },
+              });
+            }}
+          >
+            Create ticket
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate((id ? '../..' : '..') + '/ticketz/', {
+                state: {
+                  vehicleId: vehicle.id,
+                  action: VehicleShortcutAction.FILTER_BY_VEHICLE,
+                },
+              });
+            }}
+          >
+            See Tickets
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </Dialog>

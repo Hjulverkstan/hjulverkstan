@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { useCustomersQ } from '@data/customer/queries';
 import { useEmployeesQ } from '@data/employee/queries';
@@ -23,11 +23,23 @@ import ShopTicketsFilters from './ShopTicketsFilters';
 import ShopTicketsFields from './ShopTicketsFields';
 import useColumns from './useColumns';
 import { Ticket } from '@data/ticket/types';
+import {
+  VehicleShortcutAction,
+  VehicleShortcutLocationState,
+} from '../PortalShopInventory/ShopInventoryActions';
 
 //
 
 export default function PortalShopTickets({ mode }: PageContentProps) {
   const { id = '' } = useParams();
+  const locationState = useLocation().state as VehicleShortcutLocationState;
+
+  const shouldInjectWithVehicleId =
+    locationState?.action === VehicleShortcutAction.CREATE_TICKET;
+
+  const initTicketInjected = shouldInjectWithVehicleId
+    ? { ...initTicket, vehicleIds: [locationState?.vehicleId] }
+    : initTicket;
 
   const ticketsQ = useTicketsAggregatedQ();
   const ticketQ = useTicketQ({ id });
@@ -77,7 +89,7 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
             isLoading={ticketQ.isLoading || locationsQ.isLoading}
             data={ticketQ.data}
             zodSchema={ticketZ}
-            initCreateBody={initTicket}
+            initCreateBody={initTicketInjected}
           >
             <PortalForm
               dataLabel="Ticket"
