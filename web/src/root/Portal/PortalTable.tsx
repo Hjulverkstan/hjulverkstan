@@ -1,4 +1,4 @@
-import { ComponentType, ReactNode } from 'react';
+import { ComponentType, ReactNode, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   ChevronRightIcon,
@@ -39,11 +39,28 @@ export default function PortalTable({
 }: PortalTableProps) {
   const navigate = useNavigate();
   const { id = '' } = useParams();
-  const { page, pageCount, rawData, filteredData, isFiltered, pageSize } =
-    useDataTable();
+  const {
+    page,
+    pageCount,
+    rawData,
+    filteredData,
+    isFiltered,
+    pageSize,
+    setPage,
+  } = useDataTable();
 
   const noFilterResults =
     !!rawData?.length && isFiltered && !filteredData?.length;
+
+  useEffect(() => {
+    if (id && rawData.length > 0) {
+      const selectedIndex = filteredData.findIndex((item) => item.id === id);
+      if (selectedIndex !== -1) {
+        const correctPage = Math.floor(selectedIndex / pageSize);
+        setPage(correctPage);
+      }
+    }
+  }, [id, filteredData, pageSize, setPage]);
 
   return (
     <div className="flex min-w-0 flex-grow flex-col">
