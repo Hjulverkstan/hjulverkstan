@@ -3,3 +3,11 @@ cd web || exit
 
 pwd
 npx lint-staged
+cd ..
+
+cd cdk || exit
+
+pwd
+npx lint-staged
+
+

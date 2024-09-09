@@ -13,7 +13,7 @@
     "serve": "cd dist/static && npx http-server -p 8000 -P http://localhost:8000?/",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,md}\"",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,md}\"",
-    "format": "prettier --config ../.prettierrc --write \"**/*.{js,jsx,ts,tsx,md}\""
+    "format": "prettier --config .prettierrc.js --write \"**/*.{js,jsx,ts,tsx,md}\""
   },
   "author": "",
   "license": "ISC",
@@ -75,7 +75,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "prettier --config ../.prettierrc --write",
+      "prettier --config .prettierrc.js --write",
       "eslint --fix"
     ],
     "*.{html,css,less,ejs}": [

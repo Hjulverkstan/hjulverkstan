@@ -16,7 +16,7 @@ export default ({ globals, js, ts, react, prettier }) => {
   if (!ts) throwErr('typescript-eslint', 'ts')
   if (!prettier) throwErr('eslint-config-prettier', 'prettier')
 
-  if (!react) console.log(`You have not passed react from 'eslint-plugin-react'. If you are using in your project please import it and pass it to the eslint.base.mjs function in your eslint config`);
+  if (!react) console.log(`[INFO] You have not passed react from 'eslint-plugin-react'. If you are using in your project please import it and pass it to the eslint.base.mjs function in your eslint config`);
 
   return [
     {
@@ -24,7 +24,7 @@ export default ({ globals, js, ts, react, prettier }) => {
         globals: { ...globals.browser, ...globals.node },
       },
       files: ['**/*.{js,jsx,ts,tsx}'],
-      plugins: { react },
+      ...(react ? { plugins: react } : {}),
       rules: {
         "react/prop-types": "off",
         "react/no-unknown-property": "off",

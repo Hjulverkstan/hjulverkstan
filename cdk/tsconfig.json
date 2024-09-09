@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "ES6",
     "lib": [
       "es2020",
       "dom"
@@ -10,6 +10,7 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "moduleResolution": "node",
     "noImplicitThis": true,
     "alwaysStrict": true,
     "noUnusedLocals": false,
