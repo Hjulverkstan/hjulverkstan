@@ -12,6 +12,7 @@ import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 export enum VehicleShortcutAction {
   CREATE_TICKET = 'CREATE_TICKET',
@@ -33,6 +34,7 @@ export default function ShopInventoryActions({
 
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
+  const hasTickets = !!vehicle.ticketIds.length;
 
   const onDelete = () => {
     deleteVehicleM.mutate(vehicle.id, {
@@ -62,15 +64,29 @@ export default function ShopInventoryActions({
           />
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="end" className="w-[160px]">
-          <DialogTrigger asChild>
-            <DropdownMenu.Item
-              onClick={(e) => e.stopPropagation()}
-              onSelect={(e) => e.preventDefault()}
-            >
-              Delete
-              <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
-            </DropdownMenu.Item>
-          </DialogTrigger>
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger>
+                <DialogTrigger asChild>
+                  <DropdownMenu.Item
+                    onClick={(e) => e.stopPropagation()}
+                    onSelect={(e) => e.preventDefault()}
+                    disabled={hasTickets}
+                  >
+                    Delete
+                    <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
+                  </DropdownMenu.Item>
+                </DialogTrigger>
+              </Tooltip.Trigger>
+
+              {hasTickets && (
+                <Tooltip.Content className="bg-primary text-white">
+                  Delete ticket first.
+                </Tooltip.Content>
+              )}
+            </Tooltip.Root>
+          </Tooltip.Provider>
+
           <ConfirmDeleteDialog
             onDelete={onDelete}
             onCancel={() => setOpen(false)}

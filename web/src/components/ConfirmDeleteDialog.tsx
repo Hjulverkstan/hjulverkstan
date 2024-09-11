@@ -30,7 +30,7 @@ export default function ConfirmDeleteDialog({
       <DialogHeader>
         <DialogTitle>{`Delete ${item}`}</DialogTitle>
         <DialogDescription>
-          {`You are trying to delete a ${item} with id ${id}.`}
+          : `You are trying to delete a ${item} with id ${id}.`
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
