@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 
 import * as U from '@utils';
 
@@ -81,6 +81,12 @@ export interface UseHeadlessTableReturn<R extends Row> {
    * the value false.
    */
   setFilterFn: (key: string, filterFn: ((row: R) => boolean) | false) => void;
+  /**
+   * Subscribe to the clearAllFilters event that can be fired by the clearAllFilters() fn. This is
+   * implemented so that a clear all filters button can be used, all implemented filters which host
+   * their own state can then clear themselves and clear their filterFns.
+   */
+  subscribeToClearAllFilters: (callback: () => void) => () => void;
   clearAllFilters: () => void;
 }
 
@@ -137,7 +143,7 @@ const useHeadlessTable = <R extends Row>({
   );
 
   //
-  
+
   const pageCount = Math.ceil(filteredData.length / pageSize);
 
   useEffect(() => {
@@ -171,7 +177,16 @@ const useHeadlessTable = <R extends Row>({
         : U.omitKeys([key], obj),
     );
 
-  const clearAllFilters = () => setFilterFnMap({});
+  //
+
+  const listeners = useRef<(() => void)[]>([]);
+
+  const subscribeToClearAllFilters = (callback: () => void) => {
+    listeners.current.push(callback);
+    return () => listeners.current.filter((fn) => fn !== callback);
+  };
+
+  const clearAllFilters = () => listeners.current.forEach((fn) => fn());
 
   return {
     rawData: data,
@@ -190,6 +205,7 @@ const useHeadlessTable = <R extends Row>({
     toggleColSort,
     toggleColHidden,
     setFilterFn,
+    subscribeToClearAllFilters,
     clearAllFilters,
   };
 };

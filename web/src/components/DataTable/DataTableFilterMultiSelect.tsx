@@ -22,9 +22,12 @@ export const FilterMultiSelect = ({
   enums,
   heading,
 }: FilterMultiSelectProps) => {
-  const { setActiveLabels } = useFilterPopover();
-  const { filterFnMap, setFilterFn, rawData } = useDataTable();
   const [selected, setSelected] = useState<string[]>([]);
+  const { setActiveLabels } = useFilterPopover();
+
+  const { filterFnMap, setFilterFn, rawData } = useDataTable({
+    onClearAllFilters: () => setSelected([]),
+  });
 
   // Add count to each enum and reject if not in the data of the table (rawData)
 
@@ -58,36 +61,32 @@ export const FilterMultiSelect = ({
 
   // Connect with <PopoverFilterRoot /> and its activeFilters
 
-  useEffect(
-    () =>
+  useEffect(() => {
+    if (enumsAggregated.length) {
       setActiveLabels(
         filterKey,
         selected.map(
           (value) => enumsAggregated.find((e) => e.value === value)!.label,
         ),
-      ),
-    [selected, enumsAggregated],
-  );
-
-  // Connect with DataTable filterFn api
+      );
+    }
+  }, [selected, enumsAggregated]);
 
   useEffect(() => {
-    if (!filterFnMap[filterKey]) setSelected([]); // Clear on reset
-  }, [filterFnMap[filterKey]]);
+    if (enumsAggregated.length) {
+      const filterFn = (row: any) =>
+        selected.some((value) => {
+          const enumAttr = enumsAggregated.find((e) => e.value === value)!;
+          const rowVal = row[enumAttr.dataKey];
 
-  useEffect(() => {
-    const filterFn = (row: any) =>
-      selected.some((value) => {
-        const enumAttr = enumsAggregated.find((e) => e.value === value)!;
-        const rowVal = row[enumAttr.dataKey];
+          return Array.isArray(rowVal)
+            ? rowVal.includes(enumAttr.value)
+            : rowVal === enumAttr.value;
+        });
 
-        return Array.isArray(rowVal)
-          ? rowVal.includes(enumAttr.value)
-          : rowVal === enumAttr.value;
-      });
-
-    setFilterFn(filterKey, !!selected.length && filterFn);
-  }, [selected]);
+      setFilterFn(filterKey, !!selected.length && filterFn);
+    }
+  }, [selected, enumsAggregated]);
 
   //
 
