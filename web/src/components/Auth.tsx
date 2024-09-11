@@ -7,7 +7,7 @@ import {
 } from 'react';
 
 import * as api from '@data/auth/api';
-import { LogInRes } from '@data/auth/types';
+import { LogInRes } from '@data/auth/api';
 
 import { useToast } from '@components/shadcn/use-toast';
 import { AuthRole } from '@data/auth/types';
@@ -51,60 +51,64 @@ export const Provider = ({ children }: AuthProviderProps) => {
 
   const logIn = (username: string, password: string) => {
     setIsLoading(true);
+
     api
       .logIn({ username, password })
-      .then((res) => {
-        setIsLoading(false);
-        setState(res);
-      })
-      .catch((err: any) => {
-        console.error(err);
-        setIsLoading(false);
+      .then((res) => setState(res))
+      .catch(() =>
         toast(
           createErrorToast({
             verbLabel: 'log in',
             dataLabel: 'user',
           }),
-        );
-      });
+        ),
+      )
+      .finally(() => setIsLoading(false));
   };
 
   const logOut = () => {
-    if (state?.id) {
+    if (state) {
       setIsLoading(true);
+
       api
         .logOut(state.id)
-        .then(() => {
-          setIsLoading(false);
-          setState(null);
-        })
-        .catch((err: any) => {
-          console.error(err);
-          setIsLoading(false);
+        .then(() => setState(null))
+        .catch(() =>
           toast(
             createErrorToast({
               verbLabel: 'log out',
               dataLabel: 'user',
             }),
-          );
-        });
+          ),
+        )
+        .finally(() => setIsLoading(false));
     }
   };
 
   useEffect(() => {
-    // Verify needs to be rerun on 401s so that if a new accestoken is
-    // acquired (by refreshtoken logic on 401s) we can verify our access agian.
+    /**
+     * This is how we check our authentication cookies' validity, i.e. are we
+     * authorized. Since all requests go through the refresh middleware
+     * (see [auth/api.ts](../data/auth/api.ts), if the verify request fails with
+     * a 401, the middleware will attempt to refresh the session.
+     *
+     * Therefore, on refresh success, run verify again to retrieve session
+     * information*.
+     **/
 
-    const reqFn = () =>
-      api.verifyAuth().then((res) => {
-        setIsInitialising(false);
-        setState(res);
-      });
+    const verify = () => api.verifyAuth().then((res) => setState(res));
 
-    reqFn().catch(() => reqFn().catch(() => setIsInitialising(false)));
+    verify()
+      .catch((err) => err.refreshSuccess && verify())
+      .finally(() => setIsInitialising(false));
   }, []);
 
   useEffect(() => {
+    /**
+     * Any failed fresh request means we are no longer signed in. By setting
+     * state to null our UI
+     **/
+
     api.subscribeToRefreshFailed(() => {
       setIsLoading(false);
       setState(null);
