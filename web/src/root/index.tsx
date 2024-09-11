@@ -19,22 +19,27 @@ import Portal from './Portal';
 // React Query Config
 
 /**
- * We have three retries with increasing delay, bit only on auth and internal
- * errors. Retries on auth errors are required for the auth layer to funciton
- * properly. See [link](link)
+ * We configure some retry logic for React Query, queries should always retry
+ * three times and all requests should retry if the auth
+ * [interceptor middleware](../data/api.ts#errorInteceptor) just successfully
+ * refreshed the session on a 401.
  */
 
-const commonOptions = {
-  retryDelay: (attemptIndex: number) => Math.min(4000 * attemptIndex, 15000),
-  retry: (retryCount: number, error: any) =>
-    (error.status >= 500 || error.status === 401 || error.status === 403) &&
-    retryCount > 2,
-};
+const retryDelay = (attemptIndex: number) =>
+  Math.min(4000 * attemptIndex, 15000);
 
 export const queryClient = new QueryClient({
   defaultOptions: {
-    mutations: { ...commonOptions },
-    queries: { ...commonOptions, refetchIntervalInBackground: true },
+    queries: {
+      retryDelay,
+      retry: (retryCount, error: any) =>
+        retryCount < 3 || error?.refreshSuccess,
+      refetchIntervalInBackground: true,
+    },
+    mutations: {
+      retryDelay,
+      retry: (retryCount, error: any) => error?.refreshSuccess,
+    },
   },
 });
 
