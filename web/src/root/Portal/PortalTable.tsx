@@ -39,7 +39,8 @@ export default function PortalTable({
 }: PortalTableProps) {
   const navigate = useNavigate();
   const { id = '' } = useParams();
-  const { page, pageCount, rawData, filteredData, isFiltered } = useDataTable();
+  const { page, pageCount, rawData, filteredData, isFiltered, pageSize } =
+    useDataTable();
 
   const noFilterResults =
     !!rawData?.length && isFiltered && !filteredData?.length;
@@ -79,7 +80,19 @@ export default function PortalTable({
             className="text-muted-foreground items-center pl-2 text-sm
               font-normal"
           >
-            Page {page + 1} of {pageCount}
+            Page {page + 1} of {pageCount} -{' '}
+            {filteredData.length < pageSize ? (
+              <>Showing {filteredData.length} of </>
+            ) : (
+              <>Showing {pageSize} of </>
+            )}
+            {isFiltered ? (
+              <>
+                {filteredData.length} filtered items ({rawData.length} total)
+              </>
+            ) : (
+              <>{rawData.length} items.</>
+            )}
           </div>
           <Spinner visible={isLoading} />
         </div>
