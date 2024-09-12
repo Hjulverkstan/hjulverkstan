@@ -16,6 +16,8 @@ import Error from '@components/Error';
 import Spinner from '@components/Spinner';
 import { ErrorRes } from '@data/api';
 import { IconButton } from '@components/shadcn/Button';
+import useKeyPress from '@hooks/useKeyPress';
+import { Mode } from '@components/DataForm';
 
 export interface PortalTableActionsProps<Row> {
   row: Row;
@@ -28,6 +30,7 @@ export interface PortalTableProps
   extends Pick<DataTable.BodyProps, 'columns' | 'renderRowActionFn'> {
   isLoading: boolean;
   error?: ErrorRes | null;
+  mode?: Mode;
   actionsComponent: ComponentType<PortalTableActionsProps<any>>;
 }
 
@@ -35,6 +38,7 @@ export default function PortalTable({
   isLoading,
   error,
   columns,
+  mode,
   actionsComponent: Actions,
 }: PortalTableProps) {
   const navigate = useNavigate();
@@ -61,6 +65,29 @@ export default function PortalTable({
       }
     }
   }, [id, filteredData, pageSize, setPage]);
+
+  const canNavigateWithArrrows = mode === undefined || mode === Mode.READ;
+  const selectedIndex = filteredData.findIndex((item) => item.id === id);
+
+  useKeyPress('ArrowDown', () => {
+    if (!canNavigateWithArrrows) return;
+
+    const nextIndex = selectedIndex + 1;
+    if (nextIndex < filteredData.length) {
+      const nextId = filteredData[nextIndex].id;
+      navigate(mode ? `../${nextId}` : `./${nextId}`);
+    }
+  });
+
+  useKeyPress('ArrowUp', () => {
+    if (!canNavigateWithArrrows) return;
+
+    const nextIndex = selectedIndex - 1;
+    if (nextIndex >= 0) {
+      const nextId = filteredData[nextIndex].id;
+      navigate(mode ? `../${nextId}` : `./${nextId}`);
+    }
+  });
 
   return (
     <div className="flex min-w-0 flex-grow flex-col">

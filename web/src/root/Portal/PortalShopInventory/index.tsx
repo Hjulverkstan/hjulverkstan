@@ -52,6 +52,7 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
           columns={columns}
           isLoading={vehiclesQ.isLoading || locationsQ.isLoading}
           error={vehiclesQ.error || locationsQ.error}
+          mode={mode}
         />
         {mode && (
           <DataForm.Provider
