@@ -4,7 +4,7 @@ import * as enums from '@data/vehicle/enums';
 import { useLocationsQ } from '@data/location/queries';
 import { initVehicle, vehicleZ } from '@data/vehicle/form';
 import { useCreateVehicleM, useEditVehicleM } from '@data/vehicle/mutations';
-import { useVehicleQ, useVehiclesQ } from '@data/vehicle/queries';
+import { useVehicleQ, useVehiclesAggregatedQ } from '@data/vehicle/queries';
 
 import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
@@ -27,7 +27,7 @@ import { Vehicle } from '@data/vehicle/types';
 export default function PortalShopInventory({ mode }: PageContentProps) {
   const { id = '' } = useParams();
 
-  const vehiclesQ = useVehiclesQ();
+  const vehiclesQ = useVehiclesAggregatedQ();
   const vehicleQ = useVehicleQ({ id });
   const createVehicleM = useCreateVehicleM();
   const editVehicleM = useEditVehicleM();
