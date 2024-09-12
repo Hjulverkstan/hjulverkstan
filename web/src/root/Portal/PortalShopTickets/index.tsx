@@ -82,6 +82,7 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
           columns={columns}
           isLoading={isLoading}
           error={error}
+          mode={mode}
         />
         {mode && (
           <DataForm.Provider

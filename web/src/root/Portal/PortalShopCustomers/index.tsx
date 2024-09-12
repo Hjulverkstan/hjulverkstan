@@ -52,6 +52,7 @@ export default function PortalShopCustomers({ mode }: PageContentProps) {
           columns={columns}
           isLoading={customersQ.isLoading || ticketsQ.isLoading}
           error={customersQ.error || ticketsQ.error}
+          mode={mode}
         />
         {mode && (
           <DataForm.Provider

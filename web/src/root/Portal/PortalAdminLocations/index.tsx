@@ -48,6 +48,7 @@ export default function PortalAdminLocations({ mode }: PageContentProps) {
           columns={columns}
           isLoading={locationsQ.isLoading}
           error={locationsQ.error}
+          mode={mode}
         />
         {mode && (
           <DataForm.Provider
