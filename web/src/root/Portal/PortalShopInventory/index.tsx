@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 
 import * as enums from '@data/vehicle/enums';
 import { useLocationsQ } from '@data/location/queries';
-import { initVehicle, vehicleZ } from '@data/vehicle/form';
+import { initVehicle, useVehicleZ } from '@data/vehicle/form';
 import { useCreateVehicleM, useEditVehicleM } from '@data/vehicle/mutations';
 import { useVehicleQ, useVehiclesAggregatedQ } from '@data/vehicle/queries';
 
@@ -34,6 +34,7 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
   const locationsQ = useLocationsQ(); // <Fields /> doesn't handle error/loading
 
   const columns = useColumns();
+  const vehicleZ = useVehicleZ();
 
   return (
     <DataTable.Provider
