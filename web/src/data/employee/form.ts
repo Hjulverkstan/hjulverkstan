@@ -1,6 +1,8 @@
 import { z } from 'zod';
-import { reqString, isReq } from '../form';
+
 import { Employee } from '@data/employee/types';
+
+import { swedishPIN, reqString } from '../form';
 
 export const initEmployee = {} as Partial<Employee>;
 
@@ -11,12 +13,5 @@ export const employeeZ = z.object({
   email: reqString('Email').email({
     message: 'The email is not a valid email address',
   }),
-  personalIdentityNumber: z
-    .string(isReq('Personal identification number'))
-    .refine((data) => data.length === 10, {
-      message: 'Personal identification number must be 10 digits',
-    })
-    .refine((data) => /^\d+$/.test(data), {
-      message: 'Personal identification number can only contain digits',
-    }),
+  personalIdentityNumber: swedishPIN,
 });

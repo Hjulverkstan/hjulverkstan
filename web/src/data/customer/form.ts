@@ -1,6 +1,8 @@
 import { z } from 'zod';
-import { reqString, isReq } from '../form';
+
 import { Customer, CustomerType } from '@data/customer/types';
+
+import { reqString, isReq, swedishPIN } from '../form';
 
 export const initCustomer = {} as Partial<Customer>;
 
@@ -14,25 +16,13 @@ const customerBaseZ = z.object({
   }),
 });
 
-export const customerZ = z.discriminatedUnion(
-  'customerType',
-  [
-    customerBaseZ.extend({
-      customerType: z.literal(CustomerType.ORG),
-      organizationName: reqString('Organization number'),
-    }),
-    customerBaseZ.extend({
-      customerType: z.literal(CustomerType.PERSON),
-      personalIdentityNumber: z
-        .string(isReq('Personal identification number'))
-        .or(z.null())
-        .refine((data) => !data || data.length === 10, {
-          message: 'Personal identification number must be 10 digits',
-        })
-        .refine((data) => !data || /^\d+$/.test(data), {
-          message: 'Personal identification number can only contain digits',
-        }),
-    }),
-  ],
-  isReq('Customer type'),
-);
+export const customerZ = z.discriminatedUnion('customerType', [
+  customerBaseZ.extend({
+    customerType: z.literal(CustomerType.ORG),
+    organizationName: reqString('Organization number'),
+  }),
+  customerBaseZ.extend({
+    customerType: z.literal(CustomerType.PERSON),
+    personalIdentityNumber: swedishPIN,
+  }),
+]);
