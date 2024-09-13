@@ -1,15 +1,7 @@
-# Hjulverkstan
+![Hjulverkstan header"](https://raw.githubusercontent.com/Hjulverkstan/.github/images/hjulverkstan-banner.png)
 
-<center style="margin-bottom:64px">
-<div style="font-size: 80px">🚲</div>
-<h1>Hjulverkstan</h1>
-<p>Public website and internal administrator for the bike shop, integration focused project by Save The Children.</p>
-<!-- <a href=""> -->
-<!--  <img src="" /> -->
-<!-- </a> -->
-</center>
 
-> This readme is work in progress, come back in a week for more goodies
+> This readme is in its early stages.
 
 ## Local development
 
