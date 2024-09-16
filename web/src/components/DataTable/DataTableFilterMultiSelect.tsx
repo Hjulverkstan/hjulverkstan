@@ -1,10 +1,13 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import * as U from '@utils';
 import { EnumAttributes } from '@data/enums';
 import MultiSelect from '@components/MultiSelect';
 
 import { Row, useDataTable, useFilterPopover } from './';
+
+import usePersistentState from '@hooks/usePersistentState';
+import usePortalSlugs from '@hooks/useSlugs';
 
 export interface FilterMultiSelectProps {
   /* Used to register the built in filter function with DataTable */
@@ -24,7 +27,11 @@ export const FilterMultiSelect = ({
   heading,
   initSelected = [],
 }: FilterMultiSelectProps) => {
-  const [selected, setSelected] = useState<string[]>(initSelected);
+  const { appSlug, pageSlug } = usePortalSlugs();
+  const [selected, setSelected] = usePersistentState(
+    `${appSlug}-${pageSlug}-${filterKey}-multiSelectFilter`,
+    initSelected,
+  );
   const { setActiveLabels } = useFilterPopover();
 
   const { filterFnMap, setFilterFn, rawData } = useDataTable({

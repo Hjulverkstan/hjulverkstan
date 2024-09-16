@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 
 import * as U from '@utils';
@@ -12,6 +12,8 @@ import {
 } from '@components/shadcn/Popover';
 
 import { Row, useDataTable } from './';
+import usePersistentState from '@hooks/usePersistentState';
+import usePortalSlugs from '@hooks/useSlugs';
 
 //
 
@@ -28,11 +30,25 @@ export interface FilterSearchProps {
 }
 
 export const FilterSearch = ({ placeholder, matchFn }: FilterSearchProps) => {
-  const [value, setValue] = useState('');
+  const { appSlug, pageSlug } = usePortalSlugs();
+  const [value, setValue] = usePersistentState<string>(
+    `${appSlug}-${pageSlug}-searchFilter`,
+    '', // initState for usePersistentState, also functions as fallback for readStore.
+  );
 
   const { disabled, setFilterFn } = useDataTable({
     onClearAllFilters: () => setValue(''),
   });
+
+  // Ensures that the search result is saved based on the search text input.
+  useEffect(() => {
+    const filterFn = (row: Row) =>
+      value
+        ?.split(' ')
+        .every((word: string) => matchFn(word.toLowerCase(), row));
+
+    setFilterFn('ANY', !!value && filterFn);
+  }, [value, matchFn, setFilterFn]);
 
   return (
     <div className="relative flex items-center">
@@ -41,15 +57,7 @@ export const FilterSearch = ({ placeholder, matchFn }: FilterSearchProps) => {
           disabled={disabled}
           placeholder={placeholder}
           value={value}
-          onChange={({ target: { value } }) => {
-            const filterFn = (row: Row) =>
-              value
-                ?.split(' ')
-                .every((word) => matchFn(word.toLowerCase(), row));
-
-            setValue(value);
-            setFilterFn('ANY', !!value && filterFn);
-          }}
+          onChange={(e) => setValue(e.target.value)}
           data-state={!!value && 'active'}
           className={U.cn(
             buttonVariants({ variant: 'accent', subVariant: 'flat' }),
