@@ -43,18 +43,23 @@ public class TicketController {
     }
 
     @PutMapping("/rent/{id}")
-    public ResponseEntity<TicketDto> editTicketRent(@PathVariable Long id, @Valid @RequestBody TicketRentDto ticket) {
+    public ResponseEntity<TicketDto> editTicketRent(@PathVariable Long id, @Valid @RequestBody EditTicketRentDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
     }
 
     @PutMapping("/repair/{id}")
-    public ResponseEntity<TicketDto> editTicketRepair(@PathVariable Long id, @Valid @RequestBody TicketRepairDto ticket) {
+    public ResponseEntity<TicketDto> editTicketRepair(@PathVariable Long id, @Valid @RequestBody EditTicketRepairDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
     }
 
     @PutMapping("/donate/{id}")
-    public ResponseEntity<TicketDto> editTicketDonate(@PathVariable Long id, @Valid @RequestBody TicketDonateDto ticket) {
+    public ResponseEntity<TicketDto> editTicketDonate(@PathVariable Long id, @Valid @RequestBody EditTicketDonateDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<TicketDto> updateTicketStatus(@PathVariable Long id, @Valid @RequestBody TicketStatusDto body) {
+        return new ResponseEntity<>(service.updateTicketStatus(id, body), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

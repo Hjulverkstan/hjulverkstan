@@ -3,6 +3,7 @@ package se.hjulverkstan.main.model;
 import jakarta.persistence.*;
 import lombok.*;
 import se.hjulverkstan.main.model.base.Auditable;
+import se.hjulverkstan.Exceptions.UnsupportedTicketStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,9 +20,15 @@ public class Ticket extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Long id;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "ticket_type", insertable = false, updatable = false)
     private TicketType ticketType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ticket_status")
+    private TicketStatus ticketStatus;
+
     private LocalDateTime startDate;
     private String comment;
 
@@ -39,4 +46,17 @@ public class Ticket extends Auditable {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    public boolean isValidTicketStatusTransition(TicketStatus newStatus) {
+        return true;
+    }
+
+    public void setTicketStatus(TicketStatus newStatus) {
+        if (isValidTicketStatusTransition(newStatus)) {
+            this.ticketStatus = newStatus;
+        } else {
+            throw new UnsupportedTicketStatusException("Invalid status transition for ticket type: " + this.ticketType);
+        }
+    }
+
 }

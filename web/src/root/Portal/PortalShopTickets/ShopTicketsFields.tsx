@@ -7,7 +7,7 @@ import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
 import { max, parseISO } from 'date-fns';
 
 export default function ShopTicketFields() {
-  const { body } = DataForm.useDataForm();
+  const { body, mode } = DataForm.useDataForm();
 
   const vehicleEnumsQ = useVehiclesAsEnumsQ();
   const employeeEnumsQ = useEmployeesAsEnumsQ();
@@ -19,17 +19,8 @@ export default function ShopTicketFields() {
         label="Type"
         dataKey="ticketType"
         enums={enums.ticketType}
+        disabled={mode === DataForm.Mode.EDIT}
       />
-
-      {(body.ticketType === TicketType.RENT ||
-        body.ticketType === TicketType.REPAIR) && (
-        <DataForm.Switch
-          label="Status"
-          dataKey="isOpen"
-          onLabel="Ticket is open"
-          offLabel="Ticket is closed"
-        />
-      )}
 
       <DataForm.Select
         label="Customer"

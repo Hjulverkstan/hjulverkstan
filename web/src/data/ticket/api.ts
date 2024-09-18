@@ -5,7 +5,7 @@ import {
   parseResponseData,
 } from '../api';
 
-import { Ticket, TicketType } from './types';
+import { Ticket, TicketStatus, TicketType } from './types';
 
 //
 
@@ -43,7 +43,7 @@ export const createGetTicket = ({ id }: GetTicketParams) => ({
 const transformBody = ({
   id,
   ticketType,
-  isOpen,
+  ticketStatus,
   startDate,
   endDate,
   repairDescription,
@@ -54,7 +54,7 @@ const transformBody = ({
 }: Partial<Ticket>) => ({
   id,
   ticketType,
-  isOpen: ticketType === TicketType.DONATE ? undefined : isOpen,
+  ticketStatus: ticketType === TicketType.DONATE ? undefined : ticketStatus,
   startDate,
   endDate,
   comment,
@@ -110,4 +110,18 @@ export const createDeleteTicket = () => ({
       .delete<GetTicketRes>(`${endpoints.ticket}/${id}`)
       .then((res) => parseResponseData(res.data) as Ticket)
       .catch(createErrorHandler(endpoints.ticket)),
+});
+
+export const createUpdateTicketStatus = () => ({
+  mutationFn: ({
+    id,
+    ticketStatus,
+  }: {
+    id: string;
+    ticketStatus: TicketStatus;
+  }) =>
+    instance
+      .put<Ticket>(`${endpoints.ticket}/${id}/status`, { ticketStatus })
+      .then((res) => parseResponseData(res.data) as Ticket)
+      .catch(createErrorHandler(`${endpoints.ticket}/${id}/status`)),
 });

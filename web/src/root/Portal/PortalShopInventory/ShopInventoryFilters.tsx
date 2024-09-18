@@ -15,7 +15,7 @@ const ticketTypesEnums = ticketEnums.ticketType.map((e) => ({
   ...e,
   dataKey: 'ticketTypes',
 }));
-const ticketStatusesEnums = ticketEnums.status.map((e) => ({
+const ticketStatusesEnums = ticketEnums.ticketStatus.map((e) => ({
   ...e,
   dataKey: 'ticketStatuses',
 }));

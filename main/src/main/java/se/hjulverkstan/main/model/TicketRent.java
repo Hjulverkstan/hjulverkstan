@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import se.hjulverkstan.Exceptions.UnsupportedTicketStatusException;
 
 import java.time.LocalDateTime;
 
@@ -17,5 +18,12 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class TicketRent extends Ticket {
     private LocalDateTime endDate;
-    private boolean isOpen;
+
+    @Override
+    public boolean isValidTicketStatusTransition(TicketStatus newStatus) {
+        return newStatus == TicketStatus.READY ||
+                newStatus == TicketStatus.IN_PROGRESS ||
+                newStatus == TicketStatus.CLOSED;
+    }
+
 }

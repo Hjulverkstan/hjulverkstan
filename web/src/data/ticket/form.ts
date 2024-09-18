@@ -4,7 +4,6 @@ import { Ticket, TicketType } from '@data/ticket/types';
 
 export const initTicket = {
   vehicleIds: [],
-  isOpen: true,
 } as Partial<Ticket>;
 
 const ticketBaseZ = z.object({
@@ -21,13 +20,11 @@ export const ticketZ = z.discriminatedUnion(
     ticketBaseZ.extend({
       ticketType: z.literal(TicketType.RENT),
       endDate: z.string(isReq('End date')),
-      isOpen: z.boolean(isReq('Ticket status')),
     }),
     ticketBaseZ.extend({
       ticketType: z.literal(TicketType.REPAIR),
       repairDescription: z.string(isReq('Repair description')),
       endDate: z.string(isReq('End date')),
-      isOpen: z.boolean(isReq('Ticket status')),
     }),
     ticketBaseZ.extend({
       ticketType: z.literal(TicketType.DONATE),

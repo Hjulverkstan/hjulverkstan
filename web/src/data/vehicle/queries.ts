@@ -43,13 +43,9 @@ export const useVehiclesAggregatedQ = () =>
             vehicleTickets.map((ticket) => ticket.ticketType),
           ),
           ticketStatuses: U.uniq(
-            vehicleTickets.map((ticket) => {
-              return ticket.isOpen
-                ? ticket.endDate && new Date(ticket.endDate) < new Date()
-                  ? TicketStatus.DUE
-                  : TicketStatus.OPEN
-                : TicketStatus.CLOSED;
-            }),
+            vehicleTickets
+              .map((ticket) => ticket.ticketStatus)
+              .filter((status): status is TicketStatus => status !== undefined),
           ),
         };
       }),

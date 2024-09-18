@@ -7,6 +7,7 @@ export enum TicketType {
 export interface Ticket {
   id: string;
   ticketType: TicketType;
+  ticketStatus?: TicketStatus;
   startDate: string;
   comment: string | null;
   vehicleIds: string[];
@@ -14,7 +15,6 @@ export interface Ticket {
   customerId: string;
   //
   endDate?: string;
-  isOpen?: boolean;
   repairDescription?: string;
   //
   createdBy: string;
@@ -26,13 +26,33 @@ export interface Ticket {
 //
 
 export enum TicketStatus {
-  OPEN = 'OPEN',
-  DUE = 'DUE',
+  READY = 'READY',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETE = 'COMPLETE',
   CLOSED = 'CLOSED',
 }
 
 export interface TicketAggregated extends Ticket {
   locationIds: string[];
-  status: TicketStatus;
   daysLeft?: number;
 }
+
+// Used to know which ticket status are available on a certain type of ticket
+
+export const ticketTypeTicketStatusMap = {
+  [TicketType.DONATE]: undefined,
+  [TicketType.REPAIR]: [
+    TicketStatus.READY,
+    TicketStatus.IN_PROGRESS,
+    TicketStatus.COMPLETE,
+    TicketStatus.CLOSED,
+  ],
+  [TicketType.RENT]: [
+    TicketStatus.READY,
+    TicketStatus.IN_PROGRESS,
+    TicketStatus.CLOSED,
+  ],
+};
+
+export const ticketTypeToTicketStatus = (type: TicketType) =>
+  ticketTypeTicketStatusMap[type];

@@ -1,15 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { differenceInDays } from 'date-fns';
 
 import { useVehiclesQ } from '@data/vehicle/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
 import * as U from '@utils';
-
-import { useMemo } from 'react';
+import { EnumAttributes } from '../enums';
 import { ErrorRes } from '../api';
 import * as api from './api';
 import * as enums from './enums';
 import { Ticket, TicketAggregated, TicketStatus } from './types';
+import { differenceInDays } from 'date-fns';
 
 //
 
@@ -38,11 +37,6 @@ export const useTicketsAggregatedQ = () =>
         return {
           ...ticket,
           daysLeft,
-          status: ticket.isOpen
-            ? daysLeft && daysLeft < 0
-              ? TicketStatus.DUE
-              : TicketStatus.OPEN
-            : TicketStatus.CLOSED,
           locationIds: U.uniq(
             ticket.vehicleIds.map(
               (vehicleId) =>
@@ -57,25 +51,22 @@ export const useTicketsAggregatedQ = () =>
 
 //
 
-export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) => {
-  const query = useTicketsAggregatedQ();
-
-  return useMemo(
-    () => ({
-      ...query,
-      data:
-        query.data?.map((ticket) => ({
-          dataKey,
-          icon: enums.find(ticket.ticketType).icon,
-          label: `#${ticket.id}`,
+export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) =>
+  useQuery<Ticket[], ErrorRes, EnumAttributes[]>({
+    ...api.createGetTickets(),
+    select: (tickets): EnumAttributes[] =>
+      tickets?.map((ticket) => ({
+        dataKey,
+        icon: enums.find(ticket.ticketType).icon,
+        label: `#${ticket.id}`,
+        value: ticket.id,
+        ...(ticket.ticketStatus && {
           variant: {
             [TicketStatus.CLOSED]: 'outline',
-            [TicketStatus.DUE]: 'destructive',
-            [TicketStatus.OPEN]: 'success',
-          }[ticket.status] as 'outline' | 'warn' | 'success',
-          value: ticket.id,
-        })) ?? [],
-    }),
-    [query.data],
-  );
-};
+            [TicketStatus.IN_PROGRESS]: 'success',
+            [TicketStatus.READY]: 'warn',
+            [TicketStatus.COMPLETE]: 'success',
+          }[ticket.ticketStatus] as EnumAttributes['variant'],
+        }),
+      })) ?? [],
+  });

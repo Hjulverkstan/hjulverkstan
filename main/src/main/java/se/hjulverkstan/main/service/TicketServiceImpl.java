@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.Exceptions.UnsupportedTicketTypeException;
+
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
 import se.hjulverkstan.main.dto.tickets.*;
 import se.hjulverkstan.main.model.*;
@@ -81,33 +82,30 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDto editTicket(Long id, TicketDto ticketDto) {
+    public TicketDto editTicket(Long id, EditTicketDto editTicketDto) {
         Ticket selectedTicket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
         // Sub-ticket attributes
-        if (ticketDto instanceof TicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
+        if (editTicketDto instanceof EditTicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
             ticketRepair.setEndDate(repairDto.getEndDate());
-            ticketRepair.setOpen(repairDto.getIsOpen());
 
-        } else if (ticketDto instanceof TicketRentDto rentDto && selectedTicket instanceof TicketRent ticketRent) {
-            ticketRent.setOpen(rentDto.getIsOpen());
+        } else if (editTicketDto instanceof EditTicketRentDto rentDto && selectedTicket instanceof TicketRent ticketRent) {
             ticketRent.setEndDate(rentDto.getEndDate());
-
         }
 
         // General Ticket attributes
-        selectedTicket.setStartDate(ticketDto.getStartDate());
-        selectedTicket.setComment(ticketDto.getComment());
+        selectedTicket.setStartDate(editTicketDto.getStartDate());
+        selectedTicket.setComment(editTicketDto.getComment());
 
-        List<Vehicle> vehicles = getTicketVehicleList(ticketDto.getVehicleIds());
+        List<Vehicle> vehicles = getTicketVehicleList(editTicketDto.getVehicleIds());
         selectedTicket.setVehicles(vehicles);
         vehicles.forEach(vehicle -> {
             if (!vehicle.getTickets().contains(selectedTicket)) vehicle.getTickets().add(selectedTicket);
         });
 
-        Employee newEmployee = getTicketEmployee(ticketDto.getEmployeeId());
+        Employee newEmployee = getTicketEmployee(editTicketDto.getEmployeeId());
         Employee oldEmployee = selectedTicket.getEmployee();
         if (!oldEmployee.equals(newEmployee)) {
             oldEmployee.getTickets().remove(selectedTicket);
@@ -115,7 +113,7 @@ public class TicketServiceImpl implements TicketService {
             selectedTicket.setEmployee(newEmployee);
         }
 
-        Customer newCustomer = getTicketCustomer(ticketDto.getCustomerId());
+        Customer newCustomer = getTicketCustomer(editTicketDto.getCustomerId());
         Customer oldCustomer = selectedTicket.getCustomer();
         if (!oldCustomer.equals(newCustomer)) {
             oldCustomer.getTickets().remove(selectedTicket);
@@ -135,11 +133,13 @@ public class TicketServiceImpl implements TicketService {
         //Sub-ticket attributes
         if (newTicket instanceof NewTicketRepairDto repairDto && ticket instanceof TicketRepair ticketRepair) {
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
-            ticketRepair.setOpen(repairDto.getIsOpen());
+            ticketRepair.setTicketStatus(TicketStatus.READY);
             ticketRepair.setEndDate(repairDto.getEndDate());
         } else if (newTicket instanceof NewTicketRentDto rentDto && ticket instanceof TicketRent ticketRent) {
             ticketRent.setEndDate(rentDto.getEndDate());
-            ticketRent.setOpen(rentDto.getIsOpen());
+            ticketRent.setTicketStatus(TicketStatus.READY);
+        } else if (newTicket instanceof NewTicketDonateDto && ticket instanceof TicketDonate) {
+            ticket.setTicketStatus(null);
         }
 
         // General Ticket attributes
@@ -162,6 +162,27 @@ public class TicketServiceImpl implements TicketService {
         ticket.setCustomer(customer);
 
         ticketRepository.save(ticket);
+        return convertToDto(ticket);
+    }
+
+    @Override
+    public TicketDto updateTicketStatus(Long id, TicketStatusDto ticketStatusDto) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException("Ticket with id " + id + " not found"));
+
+        /*
+        TODO: Implement proper validation strategy
+         Not sure what pattern we should be using here.
+         Ways that validation could be done:
+         - Define separate DTOs for every ticket type and using instance of the ticket from the db apply validation
+           using the dto.
+         - Rewrite the validation logic in this service
+         - Reuse the validation methods from the entity layer
+        */
+
+        ticket.setTicketStatus(ticketStatusDto.getTicketStatus());
+        ticketRepository.save(ticket);
+
         return convertToDto(ticket);
     }
 
@@ -203,4 +224,5 @@ public class TicketServiceImpl implements TicketService {
         }
         return new TicketDto(ticket);
     }
+
 }

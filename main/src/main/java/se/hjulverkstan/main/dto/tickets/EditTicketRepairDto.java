@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketRepairDto extends TicketDto {
+public class EditTicketRepairDto extends EditTicketDto {
     @NotBlank(message = "Repair description is required")
     private String repairDescription;
     private LocalDateTime endDate;
 
-    public TicketRepairDto(TicketRepair ticket) {
+    public EditTicketRepairDto(TicketRepair ticket) {
         super(ticket);
         this.repairDescription = ticket.getRepairDescription();
         this.endDate = ticket.getEndDate();
