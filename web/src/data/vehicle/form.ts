@@ -13,6 +13,7 @@ import {
 } from './types';
 import { useMemo } from 'react';
 import { useVehiclesQ } from '@data/vehicle/queries';
+import { useParams } from 'react-router-dom';
 
 //
 
@@ -34,8 +35,14 @@ const vehicleBaseZ = z.object({
 });
 
 export function useVehicleZ() {
+  // Fetches the id parameter from the url, which would be the current vehicle.
+  const { id = '' } = useParams();
   const vehiclesQ = useVehiclesQ();
-  const regTags = vehiclesQ.data?.map((vehicle: any) => vehicle.regTag) || [];
+
+  // If regTags possibly being undefined ends up as a problem, just add '?? []' at the end.
+  const regTags = vehiclesQ.data
+    ?.filter((vehicle) => vehicle.id !== id)
+    .map((vehicle) => vehicle.regTag);
 
   return useMemo(
     () => {
