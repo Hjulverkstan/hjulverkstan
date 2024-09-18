@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketRentDto extends TicketDto {
+public class EditTicketRentDto extends EditTicketDto {
     private LocalDateTime endDate;
 
-    public TicketRentDto(TicketRent ticket) {
+    public EditTicketRentDto(TicketRent ticket) {
         super(ticket);
         this.endDate=ticket.getEndDate();
     }

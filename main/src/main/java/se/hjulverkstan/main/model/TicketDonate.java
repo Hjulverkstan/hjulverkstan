@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import se.hjulverkstan.Exceptions.UnsupportedTicketStatusException;
 
 @Entity
 @DiscriminatorValue("DONATE")
@@ -14,5 +15,10 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class TicketDonate extends Ticket {
+
+    @Override
+    public boolean isValidTicketStatusTransition(TicketStatus newStatus) {
+        return newStatus == null;
+    }
 
 }

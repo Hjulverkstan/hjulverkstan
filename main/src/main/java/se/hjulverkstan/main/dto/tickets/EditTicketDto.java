@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.model.Ticket;
 import se.hjulverkstan.main.model.TicketType;
-import se.hjulverkstan.main.model.TicketStatus;
 import se.hjulverkstan.main.model.Vehicle;
 
 import java.time.LocalDateTime;
@@ -17,12 +16,8 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TicketDto {
+public class EditTicketDto {
     private Long id;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @NotNull(message = "Ticket type is required")
-    private TicketType ticketType;
 
     @NotNull(message = "Start date is required")
     private LocalDateTime startDate;
@@ -38,23 +33,19 @@ public class TicketDto {
     @NotNull(message = "Customer is required")
     private Long customerId;
 
-    private TicketStatus ticketStatus;
-
     // Metadata
     private Long createdBy;
     private LocalDateTime createdAt;
     private Long updatedBy;
     private LocalDateTime updatedAt;
 
-    public TicketDto(Ticket ticket) {
+    public EditTicketDto(Ticket ticket) {
         this(ticket.getId(),
-                ticket.getTicketType(),
                 ticket.getStartDate(),
                 ticket.getComment(),
                 ticket.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 ticket.getEmployee().getId(),
                 ticket.getCustomer().getId(),
-                ticket.getTicketStatus(),
                 ticket.getCreatedBy(),
                 ticket.getCreatedAt(),
                 ticket.getUpdatedBy(),

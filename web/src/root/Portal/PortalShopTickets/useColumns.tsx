@@ -117,23 +117,27 @@ export default function useColumns() {
         },
 
         {
-          key: 'status',
+          key: 'ticketStatus',
           name: 'Status',
-          renderFn: ({ status, daysLeft }) => (
+          renderFn: ({ ticketStatus, daysLeft }) => (
             <BadgeGroup
-              badges={[
-                {
-                  ...enums.find(status),
-                  tooltip:
-                    (daysLeft &&
-                      status !== TicketStatus.CLOSED &&
-                      ((daysLeft === 0 && 'Ends today') ||
-                        (daysLeft > 0 && `${daysLeft} days left`) ||
-                        (daysLeft < 0 &&
-                          `${-daysLeft} days passed end date`))) ||
-                    undefined,
-                },
-              ]}
+              badges={
+                ticketStatus != null
+                  ? [
+                      {
+                        ...enums.find(ticketStatus),
+                        tooltip:
+                          (daysLeft &&
+                            ticketStatus !== TicketStatus.CLOSED &&
+                            ((daysLeft === 0 && 'Ends today') ||
+                              (daysLeft > 0 && `${daysLeft} days left`) ||
+                              (daysLeft < 0 &&
+                                `${-daysLeft} days passed end date`))) ||
+                          undefined,
+                      },
+                    ]
+                  : []
+              }
             />
           ),
         },
