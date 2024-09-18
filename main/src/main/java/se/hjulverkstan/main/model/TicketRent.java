@@ -17,5 +17,11 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class TicketRent extends Ticket {
     private LocalDateTime endDate;
-    private boolean isOpen;
+
+    @Override
+    public boolean isValidTicketStatusTransition(TicketStatus newStatus) {
+        return newStatus == TicketStatus.READY ||
+                newStatus == TicketStatus.IN_PROGRESS ||
+                newStatus == TicketStatus.CLOSED;
+    }
 }

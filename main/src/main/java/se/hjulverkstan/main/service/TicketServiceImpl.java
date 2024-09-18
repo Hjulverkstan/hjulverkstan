@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
+import se.hjulverkstan.Exceptions.UnsupportedTicketStatusException;
 import se.hjulverkstan.Exceptions.UnsupportedTicketTypeException;
+
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
 import se.hjulverkstan.main.dto.tickets.*;
 import se.hjulverkstan.main.model.*;
@@ -89,12 +91,9 @@ public class TicketServiceImpl implements TicketService {
         if (ticketDto instanceof TicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
             ticketRepair.setEndDate(repairDto.getEndDate());
-            ticketRepair.setOpen(repairDto.getIsOpen());
 
         } else if (ticketDto instanceof TicketRentDto rentDto && selectedTicket instanceof TicketRent ticketRent) {
-            ticketRent.setOpen(rentDto.getIsOpen());
             ticketRent.setEndDate(rentDto.getEndDate());
-
         }
 
         // General Ticket attributes
@@ -135,11 +134,13 @@ public class TicketServiceImpl implements TicketService {
         //Sub-ticket attributes
         if (newTicket instanceof NewTicketRepairDto repairDto && ticket instanceof TicketRepair ticketRepair) {
             ticketRepair.setRepairDescription(repairDto.getRepairDescription());
-            ticketRepair.setOpen(repairDto.getIsOpen());
+            ticketRepair.setTicketStatus(TicketStatus.READY);
             ticketRepair.setEndDate(repairDto.getEndDate());
         } else if (newTicket instanceof NewTicketRentDto rentDto && ticket instanceof TicketRent ticketRent) {
             ticketRent.setEndDate(rentDto.getEndDate());
-            ticketRent.setOpen(rentDto.getIsOpen());
+            ticketRent.setTicketStatus(TicketStatus.READY);
+        } else if (newTicket instanceof NewTicketDonateDto && ticket instanceof TicketDonate) {
+            ticket.setTicketStatus(null);
         }
 
         // General Ticket attributes
@@ -162,6 +163,31 @@ public class TicketServiceImpl implements TicketService {
         ticket.setCustomer(customer);
 
         ticketRepository.save(ticket);
+        return convertToDto(ticket);
+    }
+
+    @Override
+    public TicketDto updateTicketStatus(Long id, TicketStatusDto ticketStatusDto) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException("Ticket with id " + id + " not found"));
+
+        if (ticket instanceof TicketRepair) {
+            if (!ticket.isValidTicketStatusTransition(ticketStatusDto.getTicketStatus())) {
+                throw new UnsupportedTicketStatusException("Invalid status transition for TicketRepair");
+            }
+        } else if (ticket instanceof TicketRent) {
+            if (!ticket.isValidTicketStatusTransition(ticketStatusDto.getTicketStatus())) {
+                throw new UnsupportedTicketStatusException("Invalid status transition for TicketRent");
+            }
+        } else if (ticket instanceof TicketDonate) {
+            if (ticketStatusDto.getTicketStatus() != null) {
+                throw new UnsupportedTicketStatusException("TicketDonate cannot have any status other than null");
+            }
+        }
+
+        ticket.setTicketStatus(ticketStatusDto.getTicketStatus());
+        ticketRepository.save(ticket);
+
         return convertToDto(ticket);
     }
 
@@ -203,4 +229,5 @@ public class TicketServiceImpl implements TicketService {
         }
         return new TicketDto(ticket);
     }
+
 }

@@ -8,7 +8,6 @@ import * as U from '@utils';
 import { Vehicle, VehicleType, VehicleAggregated } from './types';
 import { useTicketsQ } from '@data/ticket/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
-import { TicketStatus } from '@data/ticket/types';
 
 //
 
@@ -43,13 +42,7 @@ export const useVehiclesAggregatedQ = () =>
             vehicleTickets.map((ticket) => ticket.ticketType),
           ),
           ticketStatuses: U.uniq(
-            vehicleTickets.map((ticket) => {
-              return ticket.isOpen
-                ? ticket.endDate && new Date(ticket.endDate) < new Date()
-                  ? TicketStatus.DUE
-                  : TicketStatus.OPEN
-                : TicketStatus.CLOSED;
-            }),
+            vehicleTickets.map((ticket) => ticket.ticketStatus),
           ),
         };
       }),

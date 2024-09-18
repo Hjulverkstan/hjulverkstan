@@ -57,6 +57,11 @@ public class TicketController {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/status")
+    public ResponseEntity<TicketDto> updateTicketStatus(@PathVariable Long id, @Valid @RequestBody TicketStatusDto body) {
+        return new ResponseEntity<>(service.updateTicketStatus(id, body), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<TicketDto> deleteTicket(@PathVariable Long id) {
         return new ResponseEntity<>(service.deleteTicket(id), HttpStatus.OK);
