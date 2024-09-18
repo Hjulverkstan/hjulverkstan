@@ -1,4 +1,11 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
 
 import * as U from '@utils';
 import * as Command from '@components/shadcn/Command';
@@ -14,19 +21,31 @@ import { Badge } from '@components/shadcn/Badge';
 
 export interface UseFilterPopoverReturn {
   setActiveLabels: (filterKey: string, labels: string[]) => void;
+  subscribeToClearFilters: (callback: () => void) => () => void;
 }
 
 const FilterPopoverContext = createContext<UseFilterPopoverReturn | undefined>(
   undefined,
 );
 
-export const useFilterPopover = () => {
+export const useFilterPopover = ({
+  onClear,
+}: { onClear?: () => void } = {}) => {
   const context = useContext(FilterPopoverContext);
 
-  if (!context)
+  if (!context) {
     throw new Error(
-      'useFilterPopover must be a decendant of <PopoverFilter />',
+      'useFilterPopover must be a descendant of <PopoverFilter />',
     );
+  }
+
+  // Subscribe to clear filters action
+  useEffect(() => {
+    if (onClear) {
+      const unsubscribe = context.subscribeToClearFilters(onClear);
+      return () => unsubscribe();
+    }
+  }, [onClear, context]);
 
   return context;
 };
@@ -34,40 +53,80 @@ export const useFilterPopover = () => {
 //
 
 export interface FilterPopoverProps {
-  label: string;
+  label: ReactNode;
   children: ReactNode;
   hasSearch?: boolean;
+  width?: number;
+  /**
+   * Mount the children without using the cmdk wrapper used in order to render
+   * components from [<Command />](../shadcn/Command.tsx)
+   */
+  withoutCmdk?: boolean;
+  hideIcon?: boolean;
 }
 
 export const FilterPopover = ({
   label,
   children,
   hasSearch,
+  withoutCmdk = false,
+  width = 200,
+  hideIcon = false,
 }: FilterPopoverProps) => {
   const { disabled, setFilterFn } = useDataTable();
-
   const [activeLabelsMap, setActiveLabelsMap] = useState<
     Record<string, string[]>
   >({});
-
-  const setActiveLabels = (filterKey: string, labels: string[]) =>
-    setActiveLabelsMap({ ...activeLabelsMap, [filterKey]: labels });
+  const [isOpen, setIsOpen] = useState(false);
 
   const activeLabels = Object.values(activeLabelsMap).flat();
   const isActive = !!activeLabels.length;
   const filterKeys = Object.keys(activeLabelsMap);
 
-  const resetFilters = () =>
+  const setActiveLabels = (filterKey: string, labels: string[]) =>
+    setActiveLabelsMap({ ...activeLabelsMap, [filterKey]: labels });
+
+  const resetFilters = () => {
     filterKeys.forEach((filterKey) => setFilterFn(filterKey, false));
+    setActiveLabelsMap({}); // Clear all active labels
+    clearAllListeners(); // Notify listeners
+  };
+
+  const listeners = useRef<(() => void)[]>([]);
+
+  const subscribeToClearFilters = (callback: () => void) => {
+    listeners.current.push(callback);
+    return () => {
+      listeners.current = listeners.current.filter((fn) => fn !== callback);
+    };
+  };
+
+  const clearAllListeners = () => {
+    listeners.current.forEach((fn) => fn());
+  };
 
   // We want to manually control open but passing persistMount to
   // <Popover.Content />. If the content was unmounted when closed our state
   // logic and useEffect would not work.
 
-  const [isOpen, setIsOpen] = useState(false);
+  const clearFilterContent = isActive && (
+    <>
+      <Command.Separator />
+      <Command.Group>
+        <Command.Item
+          onSelect={resetFilters}
+          className="justify-center text-center"
+        >
+          Clear filters
+        </Command.Item>
+      </Command.Group>
+    </>
+  );
 
   return (
-    <FilterPopoverContext.Provider value={{ setActiveLabels }}>
+    <FilterPopoverContext.Provider
+      value={{ setActiveLabels, subscribeToClearFilters }}
+    >
       <Popover.Root onOpenChange={setIsOpen} open={isOpen}>
         <Popover.Trigger asChild>
           <Button
@@ -76,7 +135,9 @@ export const FilterPopover = ({
             data-state={isActive && 'active'}
             subVariant="flat"
           >
-            {!isActive && <PlusCircledIcon className="mr-2 h-4 w-4" />}
+            {!isActive && !hideIcon && (
+              <PlusCircledIcon className="mr-2 h-4 w-4" />
+            )}
             {label}
             {isActive && (
               <>
@@ -123,31 +184,26 @@ export const FilterPopover = ({
           </Button>
         </Popover.Trigger>
         <Popover.Content
-          className="w-[200px] p-0"
+          className={`w-[${width}] p-0`}
           align="start"
           persistMount
           isOpen={isOpen}
         >
-          <Command.Root>
-            {hasSearch && <Command.Input placeholder="Search" />}
-            <Command.List>
-              <Command.Empty>No results found.</Command.Empty>
+          {withoutCmdk ? (
+            <>
               {children}
-              {isActive && (
-                <>
-                  <Command.Separator />
-                  <Command.Group>
-                    <Command.Item
-                      onSelect={resetFilters}
-                      className="justify-center text-center"
-                    >
-                      Clear filters
-                    </Command.Item>
-                  </Command.Group>
-                </>
-              )}
-            </Command.List>
-          </Command.Root>
+              {clearFilterContent}
+            </>
+          ) : (
+            <Command.Root>
+              {hasSearch && <Command.Input placeholder="Search" />}
+              <Command.List>
+                <Command.Empty>No results found.</Command.Empty>
+                {children}
+                {clearFilterContent}
+              </Command.List>
+            </Command.Root>
+          )}
         </Popover.Content>
       </Popover.Root>
     </FilterPopoverContext.Provider>

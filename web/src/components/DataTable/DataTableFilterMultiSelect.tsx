@@ -25,14 +25,15 @@ export const FilterMultiSelect = ({
   initSelected = [],
 }: FilterMultiSelectProps) => {
   const [selected, setSelected] = useState<string[]>(initSelected);
-  const { setActiveLabels } = useFilterPopover();
+  const { setActiveLabels } = useFilterPopover({
+    onClear: () => setSelected([]), // Handle clearing the selected state
+  });
 
   const { filterFnMap, setFilterFn, rawData } = useDataTable({
     onClearAllFilters: () => setSelected([]),
   });
 
   // Add count to each enum and reject if not in the data of the table (rawData)
-
   const enumsAggregated = useMemo(() => {
     const { [filterKey]: _, ...filterFnMapOthers } = filterFnMap;
 
@@ -62,7 +63,6 @@ export const FilterMultiSelect = ({
   }, [enums, rawData, filterFnMap]);
 
   // Connect with <PopoverFilterRoot /> and its activeFilters
-
   useEffect(() => {
     if (enumsAggregated.length) {
       setActiveLabels(

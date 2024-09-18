@@ -13,6 +13,7 @@ import {
   VehicleShortcutLocationState,
 } from '../PortalShopInventory/ShopInventoryActions';
 import { useLocation } from 'react-router-dom';
+import { CalendarIcon } from 'lucide-react';
 
 export default function ShopTicketFilters() {
   const ticketEnumsQ = useTicketsAsEnumsQ();
@@ -109,6 +110,19 @@ export default function ShopTicketFilters() {
           heading="Type"
           filterKey="type"
           enums={enums.ticketType}
+        />
+      </DataTable.FilterPopover>
+
+      <DataTable.FilterPopover
+        label={<CalendarIcon className="h-4 w-4" />}
+        withoutCmdk
+        hideIcon={true}
+      >
+        <DataTable.FilterDate
+          dataKeyFrom="startDate"
+          dataKeyTo="endDate"
+          filterKey="date-range"
+          label="Filter by date"
         />
       </DataTable.FilterPopover>
     </>
