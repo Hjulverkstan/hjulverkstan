@@ -22,6 +22,7 @@ export * from './DataTableSortHead';
 export * from './DataTableBody';
 export * from './DataTableBodySkeleton';
 export * from './DataTableFilterClear';
+export * from './DataTableFilterDate';
 export * from './DataTableFilterSearch';
 export * from './DataTableFilterPopover';
 export * from './DataTableFilterMultiSelect';
