@@ -13,6 +13,7 @@ export enum VehicleStatus {
   AVAILABLE = 'AVAILABLE',
   UNAVAILABLE = 'UNAVAILABLE',
   BROKEN = 'BROKEN',
+  ARCHIVED = 'ARCHIVED',
 }
 
 export enum BrakeType {
@@ -61,7 +62,7 @@ export enum BikeBrand {
 export interface Vehicle {
   id: string;
   vehicleType: VehicleType;
-  vehicleStatus: VehicleStatus;
+  vehicleStatus?: VehicleStatus;
   imageURL: string;
   comment: string;
   ticketIds: string[];

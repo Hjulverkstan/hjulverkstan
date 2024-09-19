@@ -19,7 +19,7 @@ import { useParams } from 'react-router-dom';
 
 export const initVehicle: Partial<Vehicle> = {
   vehicleType: VehicleType.BIKE,
-  vehicleStatus: VehicleStatus.UNAVAILABLE,
+  vehicleStatus: undefined,
   ticketIds: [],
 };
 

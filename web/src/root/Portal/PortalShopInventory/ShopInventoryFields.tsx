@@ -69,15 +69,6 @@ export default function ShopInventoryFields() {
         />
       )}
 
-      {body.vehicleType !== VehicleType.BATCH &&
-        body.isCustomerOwned === false && (
-          <DataForm.Select
-            label="Vehicle status"
-            dataKey="vehicleStatus"
-            enums={enums.vehicleStatus}
-          />
-        )}
-
       <DataForm.Input
         placeholder="Write a comment..."
         label="Comment"

@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { CheckIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useDeleteVehicleM } from '@data/vehicle/mutations';
-import { Vehicle, VehicleType } from '@data/vehicle/types';
+import {
+  useDeleteVehicleM,
+  useUpdateVehicleStatusM,
+} from '@data/vehicle/mutations';
+import { Vehicle, VehicleStatus, VehicleType } from '@data/vehicle/types';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { IconButton } from '@components/shadcn/Button';
 import { useToast } from '@components/shadcn/use-toast';
@@ -13,6 +16,7 @@ import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import * as Tooltip from '@radix-ui/react-tooltip';
+import * as enums from '@data/vehicle/enums';
 
 export enum VehicleShortcutAction {
   CREATE_TICKET = 'CREATE_TICKET',
@@ -34,6 +38,7 @@ export default function ShopInventoryActions({
 
   const { id } = useParams<{ id: string }>();
   const deleteVehicleM = useDeleteVehicleM();
+  const updateVehicleStatusM = useUpdateVehicleStatusM();
 
   const [open, setOpen] = useState(false);
 
@@ -68,6 +73,31 @@ export default function ShopInventoryActions({
         }
       />,
     );
+
+  const onStatusUpdate = (newStatus: VehicleStatus) => {
+    updateVehicleStatusM.mutate(
+      { id: vehicle.id, vehicleStatus: newStatus },
+      {
+        onSuccess: (res: Vehicle) => {
+          toast(
+            createSuccessToast({
+              verbLabel: 'update status on',
+              dataLabel: 'vehicle',
+              id: res.id,
+            }),
+          );
+        },
+        onError: () => {
+          toast(
+            createErrorToast({
+              verbLabel: 'update status on',
+              dataLabel: 'vehicle',
+            }),
+          );
+        },
+      },
+    );
+  };
 
   return (
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>
@@ -126,6 +156,34 @@ export default function ShopInventoryActions({
         >
           See Tickets
         </DropdownMenu.Item>
+
+        {!vehicle.isCustomerOwned && (
+          <>
+            <DropdownMenu.Sub>
+              <DropdownMenu.SubTrigger>Status</DropdownMenu.SubTrigger>
+              <DropdownMenu.SubContent
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                {Object.values(VehicleStatus).map((status) => (
+                  <DropdownMenu.Item
+                    key={status}
+                    onSelect={() => onStatusUpdate(status)}
+                    disabled={status === vehicle.vehicleStatus} // Disable current status
+                  >
+                    {enums.find(status).label}
+                    {status === vehicle.vehicleStatus && (
+                      <span className="ml-auto">
+                        <CheckIcon className="h-4 w-4" />
+                      </span>
+                    )}
+                  </DropdownMenu.Item>
+                ))}
+              </DropdownMenu.SubContent>
+            </DropdownMenu.Sub>
+          </>
+        )}
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
