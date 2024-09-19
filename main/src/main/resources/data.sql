@@ -25,13 +25,14 @@ INSERT INTO Customer
 
 INSERT INTO vehicle
 (location_id, vehicle_type, vehicle_status,   imageurl,            comment,                       is_customer_owned, bike_type,  gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class,   created_at, updated_at, created_by, updated_by) VALUES
-(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          true,              'CHILD',    1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  'HGJF',     'BIKE',          '2024-05-16 10:00:00',      NOW(),      1,          1         ),
+(1,           'BIKE',       'ARCHIVED',       'image_url_1.jpg',   null,                          true,              'CHILD',    1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  'HGJF',     'BIKE',          '2024-05-16 10:00:00',      NOW(),      1,          1         ),
 (1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',          '2024-05-17 10:00:00',      NOW(),      1,          1         ),
 (1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'LADY',     15,         'MEDIUM', 'FOOTBRAKE',    'MONARK',      'YTLO',     'BIKE',          '2024-05-18 10:00:00',      NOW(),      1,          1         ),
-(1,           'BIKE',       'BROKEN',         'image_url_1.jpg',   'Can not ever be repaired...', true,              'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'VBNM',     'BIKE',          '2024-05-19 10:00:00',      NOW(),      1,          1         ),
-(2,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          true,              'BMX',      1,          'MEDIUM', 'DISC',         'KRONAN',      'DFGH',     'BIKE',          '2024-05-20 10:00:00',      NOW(),      1,          1         ),
+(1,           'BIKE',       null,             'image_url_1.jpg',   'Can not ever be repaired...', true,              'ROAD',     12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'VBNM',     'BIKE',          '2024-05-19 10:00:00',      NOW(),      1,          1         ),
+(2,           'BIKE',       null,             'image_url_1.jpg',   null,                          true,              'BMX',      1,          'MEDIUM', 'DISC',         'KRONAN',      'DFGH',     'BIKE',          '2024-05-20 10:00:00',      NOW(),      1,          1         ),
 (2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',     18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',          '2024-05-21 10:00:00',      NOW(),      1,          1         ),
 (2,           'BIKE',       'AVAILABLE',      'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC', 15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',          '2024-05-22 10:00:00',      NOW(),      1,          1         );
+
 --
 
 INSERT INTO Ticket

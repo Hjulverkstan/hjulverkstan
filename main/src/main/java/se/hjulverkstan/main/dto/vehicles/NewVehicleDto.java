@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.custom_annotations.VehicleFieldValidation;
+import se.hjulverkstan.main.custom_annotations.FullVehicleFieldValidation;
 import se.hjulverkstan.main.model.Vehicle;
 import se.hjulverkstan.main.model.VehicleStatus;
 import se.hjulverkstan.main.model.VehicleType;
@@ -15,7 +15,7 @@ import se.hjulverkstan.main.custom_annotations.VehicleValidation;
 @AllArgsConstructor
 @NoArgsConstructor
 @VehicleValidation
-public class NewVehicleDto implements VehicleFieldValidation {
+public class NewVehicleDto implements FullVehicleFieldValidation {
     private String regTag;
     @NotNull(message = "Vehicle type is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING)

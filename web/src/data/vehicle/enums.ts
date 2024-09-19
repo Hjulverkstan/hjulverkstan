@@ -1,5 +1,6 @@
 import {
   AlertCircle,
+  Archive,
   Baby,
   Bike,
   Building,
@@ -101,6 +102,13 @@ export const vehicleStatus = [
     label: 'Broken',
     variant: 'destructiveOutline' as 'destructiveOutline',
     icon: CircleSlash,
+  },
+  {
+    dataKey: 'vehicleStatus',
+    value: VehicleStatus.ARCHIVED,
+    label: 'Archived',
+    variant: 'destructiveOutline' as 'destructiveOutline',
+    icon: Archive,
   },
 ];
 

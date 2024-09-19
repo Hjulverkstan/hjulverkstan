@@ -4,7 +4,7 @@ import {
   createErrorHandler,
   parseResponseData,
 } from '../api';
-import { Vehicle, VehicleType } from './types';
+import { Vehicle, VehicleType, VehicleStatus } from './types';
 
 // QUERIES
 
@@ -123,4 +123,20 @@ export const createDeleteVehicle = () => ({
       .delete<GetVehicleRes>(`${endpoints.vehicle}/${id}`)
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
+});
+
+export const createUpdateVehicleStatus = () => ({
+  mutationFn: ({
+    id,
+    vehicleStatus,
+  }: {
+    id: string;
+    vehicleStatus: VehicleStatus;
+  }) =>
+    instance
+      .put<Vehicle>(`${endpoints.vehicle}/${id}/status`, {
+        newStatus: vehicleStatus,
+      })
+      .then((res) => parseResponseData(res.data) as Vehicle)
+      .catch(createErrorHandler(`${endpoints.vehicle}/${id}/status`)),
 });
