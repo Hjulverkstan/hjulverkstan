@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useDeleteVehicleM } from '@data/vehicle/mutations';
-import { Vehicle, VehicleType } from '@data/vehicle/types';
+import {
+  useDeleteVehicleM,
+  useUpdateVehicleStatusM,
+} from '@data/vehicle/mutations';
+import { Vehicle, VehicleStatus, VehicleType } from '@data/vehicle/types';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { IconButton } from '@components/shadcn/Button';
 import { useToast } from '@components/shadcn/use-toast';
@@ -13,6 +16,7 @@ import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import * as Tooltip from '@radix-ui/react-tooltip';
+import { vehicleStatus } from '@data/vehicle/enums';
 
 export enum VehicleShortcutAction {
   CREATE_TICKET = 'CREATE_TICKET',
@@ -34,6 +38,7 @@ export default function ShopInventoryActions({
 
   const { id } = useParams<{ id: string }>();
   const deleteVehicleM = useDeleteVehicleM();
+  const updateVehicleStatusM = useUpdateVehicleStatusM();
 
   const [open, setOpen] = useState(false);
 
@@ -68,6 +73,31 @@ export default function ShopInventoryActions({
         }
       />,
     );
+
+  const onStatusUpdate = (newStatus: VehicleStatus) => {
+    updateVehicleStatusM.mutate(
+      { id: vehicle.id, vehicleStatus: newStatus },
+      {
+        onSuccess: (res: Vehicle) => {
+          toast(
+            createSuccessToast({
+              verbLabel: 'update status on',
+              dataLabel: 'vehicle',
+              id: res.id,
+            }),
+          );
+        },
+        onError: () => {
+          toast(
+            createErrorToast({
+              verbLabel: 'update status on',
+              dataLabel: 'vehicle',
+            }),
+          );
+        },
+      },
+    );
+  };
 
   return (
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>
@@ -126,6 +156,28 @@ export default function ShopInventoryActions({
         >
           See Tickets
         </DropdownMenu.Item>
+
+        {vehicle.vehicleStatus !== VehicleStatus.ARCHIVED && (
+          <DropdownMenu.Item
+            onClick={(e) => {
+              e.stopPropagation();
+              onStatusUpdate(VehicleStatus.ARCHIVED);
+            }}
+          >
+            Archive
+          </DropdownMenu.Item>
+        )}
+
+        {vehicle.vehicleStatus == VehicleStatus.ARCHIVED && (
+          <DropdownMenu.Item
+            onClick={(e) => {
+              e.stopPropagation();
+              onStatusUpdate(VehicleStatus.ARCHIVED);
+            }}
+          >
+            Unarchive
+          </DropdownMenu.Item>
+        )}
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
