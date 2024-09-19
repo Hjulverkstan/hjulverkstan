@@ -13,6 +13,7 @@ INSERT INTO Employee
 ('5',             'Samuel',                'Siesjö',               '+46723019838',    '010203-4567',             'samuel.siesjo@example.com',           NOW(),      NOW(),      1,          1,          'Sample comment 2'         ),
 ('6',             'Jona',                  'Cwejman',              '555-111-2222',    '720408-2288',             'jona.cqwejman@example.com',           NOW(),      NOW(),      1,          1,          'Sample employee 3 comment'),
 ('7',             'Azfar',                 'Imtiaz',               '555-333-4444',    '001224-7766',             'azfar.imtiaz@example.com',            NOW(),      NOW(),      1,          1,          'Sample employee 4 comment');
+
 --
 
 INSERT INTO Customer

@@ -2,6 +2,7 @@ package se.hjulverkstan.main.custom_annotations;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import se.hjulverkstan.main.dto.vehicles.EditVehicleBatchDto;
 import se.hjulverkstan.main.dto.vehicles.NewVehiclebatchDto;
 
 import org.slf4j.Logger;
@@ -21,7 +22,8 @@ public class VehicleFieldValidator implements ConstraintValidator<VehicleValidat
     public boolean isValid(BaseVehicleFieldValidation vehicleFieldValidation, ConstraintValidatorContext context) {
 
         try {
-            boolean isBatch = vehicleFieldValidation instanceof NewVehiclebatchDto;
+
+            boolean isBatch = vehicleFieldValidation instanceof NewVehiclebatchDto || vehicleFieldValidation instanceof EditVehicleBatchDto;
             boolean isFullValidation = vehicleFieldValidation instanceof FullVehicleFieldValidation;
 
             context.disableDefaultConstraintViolation();

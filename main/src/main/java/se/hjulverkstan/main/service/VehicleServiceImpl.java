@@ -105,7 +105,6 @@ public class VehicleServiceImpl implements VehicleService {
 
         selectedVehicle.setImageURL(editVehicle.getImageURL());
         selectedVehicle.setComment(editVehicle.getComment());
-       // selectedVehicle.setCustomerOwned(editVehicle.getIsCustomerOwned());
 
         Location location = locationRepository.findById(editVehicle.getLocationId()).orElseThrow(() ->
                 new ElementNotFoundException(ELEMENT_LOCATION));
@@ -123,12 +122,11 @@ public class VehicleServiceImpl implements VehicleService {
         // Set regTag to null if customerOwned
         selectedVehicle.setRegTag(selectedVehicle.isCustomerOwned() ? null : editVehicle.getRegTag());
 
-      /*  if (selectedVehicle.isCustomerOwned()) {
-            // For customer-owned vehicles, allow only ARCHIVED status
-            if (editVehicle.getVehicleStatus() != null && editVehicle.getVehicleStatus() != VehicleStatus.ARCHIVED) {
-                throw new UnsupportedVehicleStatusException("A customer owned vehicle can only have the status ARCHIVED or no status at all");
-            }
-        } */
+        // Set vehicleStatus to null if customerOwned
+        selectedVehicle.setRegTag(selectedVehicle.isCustomerOwned() ? null : editVehicle.getRegTag());
+
+        // Set vehicleStatus to null if customerOwned
+        selectedVehicle.setVehicleStatus(selectedVehicle.isCustomerOwned() ? null : selectedVehicle.getVehicleStatus());
 
         vehicleRepository.save(selectedVehicle);
 
