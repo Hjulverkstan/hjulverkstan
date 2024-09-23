@@ -217,6 +217,22 @@ export default function useColumns() {
             </span>
           ),
         },
+
+        {
+          key: 'createdat',
+          name: 'Created at',
+          renderFn: ({ createdAt }) => (
+            <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
+          ),
+        },
+
+        {
+          key: 'updatedat',
+          name: 'Updated at',
+          renderFn: ({ updatedAt }) => (
+            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
+          ),
+        },
       ] as Array<DataTable.Column<TicketAggregated>>,
     [
       coreUrl,

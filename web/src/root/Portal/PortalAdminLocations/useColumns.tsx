@@ -5,6 +5,7 @@ import { Location } from '@data/location/types';
 
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
+import { format } from 'date-fns';
 
 //
 
@@ -47,6 +48,22 @@ export default function useColumns() {
             <span className="text-muted-foreground text-elipsis">
               {row.comment}
             </span>
+          ),
+        },
+
+        {
+          key: 'createdat',
+          name: 'Created at',
+          renderFn: ({ createdAt }) => (
+            <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
+          ),
+        },
+
+        {
+          key: 'updatedat',
+          name: 'Updated at',
+          renderFn: ({ updatedAt }) => (
+            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
           ),
         },
       ] as Array<DataTable.Column<Location>>,
