@@ -170,12 +170,17 @@ const useHeadlessTable = <R extends Row>({
   const setFilterFn = (
     key: string,
     filterFn: ((row: any) => boolean) | false,
-  ) =>
-    setFilterFnMap((obj) =>
-      filterFn
-        ? { ...obj, [key]: U.memoizeFn(filterFn) }
-        : U.omitKeys([key], obj),
-    );
+  ) => {
+    // Don't update filterFnMap if intention is to reset the filter and it is
+    // already reset
+    if (filterFn || (!filterFn && filterFnMap[key])) {
+      return setFilterFnMap((obj) =>
+        filterFn
+          ? { ...obj, [key]: U.memoizeFn(filterFn) }
+          : U.omitKeys([key], obj),
+      );
+    }
+  };
 
   //
 
