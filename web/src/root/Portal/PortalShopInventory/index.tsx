@@ -19,7 +19,7 @@ import { PageContentProps } from '..';
 import ShopInventoryActions from './ShopInventoryActions';
 import ShopInventoryFilters from './ShopInventoryFilters';
 import ShopInventoryFields from './ShopInventoryFields';
-import useColumns from './columns';
+import useColumns from './useColumns';
 import { Vehicle } from '@data/vehicle/types';
 
 //
