@@ -57,6 +57,11 @@ export const status = [
   },
 ];
 
+export const ticketEnums = {
+  ticketType,
+  status,
+};
+
 //
 
 const all = [...ticketType, ...status];

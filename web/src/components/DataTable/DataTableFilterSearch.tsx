@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 
 import * as U from '@utils';
@@ -29,11 +29,10 @@ export interface FilterSearchProps {
 
 export const FilterSearch = ({ placeholder, matchFn }: FilterSearchProps) => {
   const [value, setValue] = useState('');
-  const { disabled, setFilterFn, isFiltered } = useDataTable();
 
-  useEffect(() => {
-    if (!isFiltered) setValue(''); // Clear on reset
-  }, [isFiltered]);
+  const { disabled, setFilterFn } = useDataTable({
+    onClearAllFilters: () => setValue(''),
+  });
 
   return (
     <div className="relative flex items-center">

@@ -49,6 +49,7 @@ export default function PortalAdminUsers({ mode }: PageContentProps) {
           columns={columns}
           isLoading={usersQ.isLoading}
           error={usersQ.error}
+          mode={mode}
         />
         {mode && (
           <DataForm.Provider

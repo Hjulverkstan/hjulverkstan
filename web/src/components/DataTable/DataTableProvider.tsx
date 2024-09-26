@@ -1,4 +1,10 @@
-import { useContext, createContext, useMemo, ReactNode } from 'react';
+import {
+  useContext,
+  createContext,
+  useMemo,
+  ReactNode,
+  useEffect,
+} from 'react';
 
 import useHeadlessTable, {
   UseHeadlessTableReturn,
@@ -22,10 +28,21 @@ const DataTableContext = createContext<UseDataTableReturn<any> | undefined>(
  * DataTable. (it is built on useHeadlessTable)
  */
 
-export const useDataTable = <R extends Row>() => {
+interface UseDataTableProps {
+  onClearAllFilters?: () => void;
+}
+
+export const useDataTable = <R extends Row>(
+  { onClearAllFilters } = {} as UseDataTableProps,
+) => {
   const table = useContext<UseDataTableReturn<R> | undefined>(DataTableContext);
 
   if (!table) throw Error('useTable must be in a <TableProvider />');
+
+  useEffect(() => {
+    if (onClearAllFilters)
+      return table.subscribeToClearAllFilters(onClearAllFilters);
+  }, []);
 
   return table;
 };

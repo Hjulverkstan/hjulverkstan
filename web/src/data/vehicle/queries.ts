@@ -4,7 +4,11 @@ import { ErrorRes } from '../api';
 import { EnumAttributes } from '../enums';
 import * as api from './api';
 import * as enums from './enums';
-import { Vehicle, VehicleType } from './types';
+import * as U from '@utils';
+import { Vehicle, VehicleType, VehicleAggregated } from './types';
+import { useTicketsQ } from '@data/ticket/queries';
+import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
+import { TicketStatus } from '@data/ticket/types';
 
 //
 
@@ -24,6 +28,33 @@ export const useVehicleQ = ({ id }: UseVehicleProps) =>
   });
 
 //
+
+export const useVehiclesAggregatedQ = () =>
+  useAggregatedQueries(
+    (vehicles, tickets): VehicleAggregated[] =>
+      vehicles.map((vehicle) => {
+        const vehicleTickets = tickets.filter((ticket) =>
+          vehicle.ticketIds.includes(ticket.id),
+        );
+
+        return {
+          ...vehicle,
+          ticketTypes: U.uniq(
+            vehicleTickets.map((ticket) => ticket.ticketType),
+          ),
+          ticketStatuses: U.uniq(
+            vehicleTickets.map((ticket) => {
+              return ticket.isOpen
+                ? ticket.endDate && new Date(ticket.endDate) < new Date()
+                  ? TicketStatus.DUE
+                  : TicketStatus.OPEN
+                : TicketStatus.CLOSED;
+            }),
+          ),
+        };
+      }),
+    [useVehiclesQ(), useTicketsQ()],
+  );
 
 export const useVehiclesAsEnumsQ = ({ dataKey = 'vehicleId' } = {}) =>
   useQuery<Vehicle[], ErrorRes, EnumAttributes[]>({

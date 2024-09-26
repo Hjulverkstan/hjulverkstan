@@ -48,6 +48,7 @@ export default function PortalAdminEmployees({ mode }: PageContentProps) {
           columns={columns}
           isLoading={employeesQ.isLoading}
           error={employeesQ.error}
+          mode={mode}
         />
         {mode && (
           <DataForm.Provider

@@ -1,5 +1,6 @@
 package se.hjulverkstan.main.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 import se.hjulverkstan.main.security.jwt.AuthEntryPointJwt;
 import se.hjulverkstan.main.security.jwt.AuthTokenFilter;
 import se.hjulverkstan.main.security.services.UserDetailsServiceImplementation;
@@ -25,10 +27,14 @@ public class WebSecurityConfig {
     private final UserDetailsServiceImplementation userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
 
+    @Autowired
+    private final CorsConfigurationSource corsConfigurationSource;
+
     public WebSecurityConfig(UserDetailsServiceImplementation userDetailsService,
-                             AuthEntryPointJwt unauthorizedHandler) {
+                             AuthEntryPointJwt unauthorizedHandler, CorsConfigurationSource corsConfigurationSource) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
+        this.corsConfigurationSource = corsConfigurationSource;
     }
 
     @Bean
@@ -59,7 +65,9 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
+                .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {

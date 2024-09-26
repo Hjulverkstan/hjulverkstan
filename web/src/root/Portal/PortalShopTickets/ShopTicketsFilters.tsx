@@ -8,14 +8,27 @@ import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { TicketAggregated } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
+import {
+  VehicleShortcutAction,
+  VehicleShortcutLocationState,
+} from '../PortalShopInventory/ShopInventoryActions';
+import { useLocation } from 'react-router-dom';
 
 export default function ShopTicketFilters() {
   const ticketEnumsQ = useTicketsAsEnumsQ();
+  const locationState = useLocation().state as VehicleShortcutLocationState;
 
   const locationEnumsQ = useLocationsAsEnumsQ({ dataKey: 'locationIds' });
   const vehicleEnumsQ = useVehiclesAsEnumsQ({ dataKey: 'vehicleIds' });
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
+
+  const shouldInjectWithVehicleId =
+    locationState?.action === VehicleShortcutAction.FILTER_BY_VEHICLE;
+
+  const initSelected = shouldInjectWithVehicleId
+    ? [locationState.vehicleId]
+    : [];
 
   return (
     <>
@@ -74,6 +87,7 @@ export default function ShopTicketFilters() {
         <DataTable.FilterMultiSelect
           heading="Vehicles"
           filterKey="vehicle-ids"
+          initSelected={initSelected}
           enums={vehicleEnumsQ.data ?? []}
         />
       </DataTable.FilterPopover>
