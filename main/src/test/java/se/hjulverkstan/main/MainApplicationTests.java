@@ -9,6 +9,7 @@ class MainApplicationTests {
 	@Test
 	void contextLoads() {
 		assertTrue(true, "This is working fine");
+		assertFalse(false , "only a change for testing ci/cd");
 	}
 
 }
