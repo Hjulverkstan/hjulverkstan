@@ -63,7 +63,7 @@ jobs:
         run: |
           mkdir -p deployment/target
           cp -r codedeploy/* deployment/
-          cp target/hjulverkstan-1.0.0.jar deployment/target/app.jar
+          cp main/target/hjulverkstan-1.0.0.jar deployment/target/app.jar
           zip -r deployment-$BUILD_NUMBER.zip deployment
 
       - name: Publish Deployment Artifact
