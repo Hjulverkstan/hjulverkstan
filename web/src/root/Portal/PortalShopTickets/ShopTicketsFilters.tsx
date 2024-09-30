@@ -114,7 +114,7 @@ export default function ShopTicketFilters() {
       </DataTable.FilterPopover>
 
       <DataTable.FilterPopover
-        label={<CalendarIcon className="h-4 w-4" />}
+        label={<CalendarIcon />}
         withoutCmdk
         hideIcon={true}
       >

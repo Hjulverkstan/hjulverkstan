@@ -1,50 +1,60 @@
 import React, { useState } from 'react';
 import * as DataTable from '@components/DataTable';
-import { Root, Trigger, Content, Item, Value } from '@components/shadcn/Select'; // Importera nödvändiga Select-komponenter
-import { CalendarIcon } from 'lucide-react';
 
 export interface PortalFilterDateProps {
-  fields: { label: string; dataKeyFrom: string; dataKeyTo?: string }[];
-  filterKey: string;
-  label?: React.ReactNode;
+  label: React.ReactNode;
+  filterOptions: { label: string; dataKeyFrom: string; dataKeyTo?: string }[];
+  withoutCmdk?: boolean;
+  hideIcon?: boolean;
 }
 
 export const PortalFilterDate = ({
-  fields,
-  filterKey,
   label,
+  filterOptions,
+  withoutCmdk = true,
+  hideIcon = true,
 }: PortalFilterDateProps) => {
-  const [selectedField, setSelectedField] = useState(fields[0]);
+  const [selectedFilter, setSelectedFilter] = useState<string>('');
+
+  const handleFilterSelection = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectedFilter(event.target.value);
+  };
+
+  const selectedOption = filterOptions.find(
+    (option) => option.label === selectedFilter,
+  );
 
   return (
     <DataTable.FilterPopover
-      label={label || <CalendarIcon className="h-4 w-4" />}
+      label={label}
+      withoutCmdk={withoutCmdk}
+      hideIcon={hideIcon}
     >
-      <Root
-        value={selectedField.dataKeyFrom}
-        onValueChange={(value) => {
-          const field = fields.find((field) => field.dataKeyFrom === value);
-          setSelectedField(field || fields[0]);
-        }}
+      <select
+        value={selectedFilter}
+        onChange={handleFilterSelection}
+        className="w-full"
       >
-        <Trigger>
-          <Value placeholder="Select a field">{selectedField.label}</Value>
-        </Trigger>
-        <Content>
-          {fields.map((field) => (
-            <Item key={field.dataKeyFrom} value={field.dataKeyFrom}>
-              {field.label}
-            </Item>
-          ))}
-        </Content>
-      </Root>
-
-      <DataTable.FilterDate
-        dataKeyFrom={selectedField.dataKeyFrom}
-        dataKeyTo={selectedField.dataKeyTo || selectedField.dataKeyFrom}
-        filterKey={filterKey}
-        label="Filter by date"
-      />
+        {filterOptions.map((option) => (
+          <option key={option.label} value={option.label}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      {selectedOption && (
+        <div className="mt-4">
+          <DataTable.FilterDate
+            dataKeyFrom={selectedOption.dataKeyFrom}
+            dataKeyTo={selectedOption.dataKeyTo || selectedOption.dataKeyFrom}
+            filterKey={selectedOption.label}
+            label={label}
+            withoutCmdk={withoutCmdk}
+            hideIcon={hideIcon}
+          />
+        </div>
+      )}
     </DataTable.FilterPopover>
   );
 };
