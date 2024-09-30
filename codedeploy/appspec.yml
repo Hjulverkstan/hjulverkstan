@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: /target
+    destination: /home/ec2-user
+hooks:
+  BeforeInstall:
+    - location: stop_server.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: start.sh
+      timeout: 300
+      runas: root

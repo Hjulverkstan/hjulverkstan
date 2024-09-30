@@ -1,0 +1,137 @@
+name: Deploy Spring Boot Hello World APP
+
+on:
+  push:
+    branches:
+      - main
+      - jeus
+
+env:
+  BUILD_NUMBER: ${{ github.run_number }}
+
+jobs:
+
+  get-environment:
+    name: Get Environment
+    runs-on: ubuntu-22.04
+    outputs:
+      environment-name: ${{ steps.environment-name.outputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Branch Name
+        run: |
+          BRANCH=${GITHUB_REF##*/}
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+
+      - name: Create Environment File
+        id: environment-name
+        run: |
+          set -e
+          if [ $BRANCH = jeus ]; then
+            echo "Staging Configuration"
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          elif [ $BRANCH = main ]; then
+            echo "Production Configuration"
+            echo "environment=production" >> $GITHUB_OUTPUT
+          else
+            echo "Wrong Branch"
+            exit 0
+          fi
+
+  build:
+    needs: [get-environment]
+    name: Build ${{ needs.get-environment.outputs.environment-name }} Environment
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout the Code
+        uses: actions/checkout@v4
+
+      - name: Set Up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '21'
+
+      - name: Build API APP - JAR
+        run: |
+          cd main
+          ./mvnw clean package
+
+      - name: Create Deployment Bundle
+        run: |
+          mkdir -p deployment/target
+          cp -r codedeploy/* deployment/
+          cp target/hjulverkstan-1.0.0.jar deployment/target/app.jar
+          zip -r deployment-$BUILD_NUMBER.zip deployment
+
+      - name: Publish Deployment Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-artifact
+          path: ${{github.workspace}}/deployment-${{ github.run_number }}.zip
+
+  deploy:
+    needs: [get-environment, build]
+    name: Deploy to ${{ needs.get-environment.outputs.environment-name }} Environment
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download Deployment Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: deployment-artifact
+
+      - name: Check Deployment Artifact
+        run: |
+          if [ ! -f ./deployment-$BUILD_NUMBER.zip ]; then
+            echo "Error: Deployment artifact not found. Make sure it is created in the build job."
+            exit 1
+          fi
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-duration-seconds: 1200
+          role-session-name: MySessionName
+
+      - name: Deploy to AWS CodeDeploy
+        run: |
+          aws s3 cp deployment-$BUILD_NUMBER.zip s3://${{ vars.CODE_DEPLOY_BUCKET }}/revisions/deployment-$BUILD_NUMBER.zip
+          echo "Deployment Successful"
+#          deploymentId=$(aws deploy create-deployment \
+#              --application-name ${{ vars.CODE_DEPLOY_APPLICATION }} \
+#              --deployment-group-name ${{ vars.CODE_DEPLOY_GROUP }} \
+#              --s3-location bucket=${{ vars.CODE_DEPLOY_BUCKET }},key=api/deployment-$BUILD_NUMBER.zip,bundleType=zip \
+#              --file-exists-behavior OVERWRITE \
+#              --description "Staging api-backend deployment - $BUILD_NUMBER" --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentId')
+#
+#          # check deployment status
+#          deploymentStatus=""
+#          while : ; do
+#            status=$(aws deploy get-deployment --deployment-id $deploymentId --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentInfo.status')
+#
+#            if [ "$status" != "Created" ] && [ "$status" != "InProgress" ] && [ "$status" != "Pending" ]; then
+#              if [ "$status" == "Succeeded" ]; then
+#                echo "Deployment Successful"
+#                export deploymentStatus=0
+#                break
+#              else
+#                export deploymentStatus=1
+#                echo "Deployment failed. Check the AWS Codedeploy for more information"
+#                break
+#              fi
+#            fi
+#
+#            sleep 10
+#          done
+#          exit $deploymentStatus
+#
+#
+#  s3://development-devcodedeploybucket869b9f9d-ettisiwyjq5g/revisions/

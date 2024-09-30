@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.hjulverkstan</groupId>
-	<artifactId>main</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>hjulverkstan</artifactId>
+	<version>1.0.0</version>
 	<name>main</name>
 	<description>backend for Hjulverkstan webapp</description>
 	<properties>

@@ -7,9 +7,12 @@ import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as ecs_patterns from 'aws-cdk-lib/aws-ecs-patterns';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as codedeploy from 'aws-cdk-lib/aws-codedeploy';
 import { Credentials, DatabaseInstance, DatabaseInstanceEngine, PostgresEngineVersion } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
+import { CfnOutput } from 'aws-cdk-lib/core';
 
 export class Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -22,10 +25,6 @@ export class Stack extends cdk.Stack {
       maxAzs: 2
     });
 
-    const cluster = new ecs.Cluster(this, "Cluster", {
-      vpc: vpc
-    });
-
     // Create an S3 bucket
     const bucket = new s3.Bucket(this, 'ReactS3Bucket', {
       versioned: true,
@@ -34,6 +33,11 @@ export class Stack extends cdk.Stack {
       encryption: s3.BucketEncryption.KMS_MANAGED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       bucketName: 'stack-s3',
+    });
+
+    new CfnOutput(this, 'ReactS3BucketPrint', {
+      value: bucket.bucketName,
+      description: 'The name of the S3 bucket',
     });
 
     // Import existing hosted zone
@@ -75,14 +79,125 @@ export class Stack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    new ecs_patterns.ApplicationLoadBalancedFargateService(this, "FargateService", {
-      cluster: cluster,
-      cpu: 256,
-      desiredCount: 6,
-      taskImageOptions: { image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample") },
-      memoryLimitMiB: 2048,
-      publicLoadBalancer: true
+    // new ecs_patterns.ApplicationLoadBalancedFargateService(this, "FargateService", {
+    //   cluster: cluster,
+    //   cpu: 256,
+    //   desiredCount: 6,
+    //   taskImageOptions: { image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample") },
+    //   memoryLimitMiB: 2048,
+    //   publicLoadBalancer: true
+    // });
+
+
+    // Create an S3 bucket for CodeDeploy
+    const codeDeployBucket = new s3.Bucket(this, 'dev_codeDeploy_bucket', {
+      versioned: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY // Set to RETAIN for production
     });
 
+    // Create an IAM Role for CodeDeploy
+    const codeDeployRole = new iam.Role(this, 'dev_codeDeploy_role', {
+      assumedBy: new iam.ServicePrincipal('codedeploy.amazonaws.com')
+    });
+
+    // Attach policies to allow access to the S3 bucket and logging
+    codeDeployRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      resources: [codeDeployBucket.bucketArn],
+      actions: ['s3:GetObject', 's3:ListBucket']
+    }));
+
+    codeDeployRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      resources: ['*'], // You might want to restrict this further
+      actions: [
+        'cloudwatch:PutMetricData',
+        'logs:CreateLogGroup',
+        'logs:CreateLogStream',
+        'logs:PutLogEvents',
+        'ec2:DescribeInstances',
+        'codedeploy:*'
+      ]
+    }));
+
+    codeDeployRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSCodeDeployRole'));
+
+    const userDataScript = `#!/bin/bash
+            sudo yum update -y
+            sudo yum install ruby
+            sudo yum install wget
+            wget https://aws-codedeploy-eu-north-1.s3.eu-north-1.amazonaws.com/latest/install
+            chmod a+x install
+            sudo ./install auto
+            sudo systemctl start codedeploy-agent
+            
+            echo "Java Install........."
+            sudo yum install -y java-21-amazon-corretto.x86_64
+            java --version
+        `;
+
+    // Define the key pair
+    const keyPair = ec2.KeyPair.fromKeyPairName(this, 'KEYPAIR', 'awsbikejeus');
+
+
+    // Create a security group
+    const securityGroup = new ec2.SecurityGroup(this, 'MySecurityGroup', {
+      vpc,
+      allowAllOutbound: true // Allow outbound traffic
+    });
+
+    // Define ingress rules
+    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'Allow SSH access');
+    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(8080), 'Allow 8080 access to the service');
+
+    // Create an EC2 role for CodeDeploy
+    const ec2CodeDeployRole = new iam.Role(this, 'CodeDeployRole', {
+      assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSCodeDeployRole'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonEC2RoleforSSM')
+      ]
+    });
+
+
+    // Create an EC2 instance
+    const backendInstance = new ec2.Instance(this, 'dev_backend_ec2', {
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MEDIUM), // Change to your preferred type
+      machineImage: ec2.MachineImage.latestAmazonLinux2023(),
+      vpc,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PUBLIC
+      },
+      securityGroup,
+      keyPair: keyPair,
+      userData: ec2.UserData.custom(userDataScript),
+      associatePublicIpAddress: true,
+      role: ec2CodeDeployRole
+    });
+
+    // Create a CodeDeploy application
+    const codeDeployApp = new codedeploy.CfnApplication(this, 'dev_back_codedeploy', {
+      applicationName: 'dev_back_bike_application',
+      computePlatform: 'Server' // For EC2 instances
+    });
+
+    // Create a CodeDeploy deployment group
+    new codedeploy.CfnDeploymentGroup(this, 'dev_back_deploymentgroup', {
+      applicationName: codeDeployApp.applicationName as string,
+      deploymentGroupName: 'dev_back_deploymentgroup_name',
+      serviceRoleArn: codeDeployRole.roleArn,
+      ec2TagFilters: [{
+        key: 'Name', // Tag the instance with a name
+        value: 'Development/dev_backend_ec2',
+        type: 'KEY_AND_VALUE'
+      }]
+    });
+
+    // Output the public IP of the EC2 instance
+    new CfnOutput(this, 'InstancePublicIp', {
+      value: backendInstance.instancePublicIp,
+      description: 'Public IP of the EC2 instance'
+    });
   }
+
 }
