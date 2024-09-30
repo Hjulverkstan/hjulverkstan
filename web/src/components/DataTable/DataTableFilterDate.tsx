@@ -1,25 +1,26 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Calendar } from '@components/shadcn/Calendar';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { DateRange } from 'react-day-picker';
-import { Row, useDataTable } from './';
-import { max, min, parseISO, startOfDay } from 'date-fns';
+import {
+  areIntervalsOverlapping,
+  isWithinInterval,
+  max,
+  min,
+  startOfDay,
+} from 'date-fns';
 
-/**
- * A date range filter for DataTable.
- *
- * @param {string} dataKeyFrom - Key for the "from" date in the row object.
- * @param {string} dataKeyTo - Key for the "to" date (optional, defaults to dataKeyFrom).
- * @param {string} filterKey - Unique key for registering the filter.
- * @param {React.ReactNode} label - To show calendar icon instead of text.
- *
- * This component uses `useDataTable` to apply a date range filter. It resets the time to midnight
- * in order to filter correctly. The filter is cleared when no dates are selected. It subscribes to
- * "clear all filters" events to reset the date range.
- */
+import * as U from '@utils';
+import { Calendar } from '@components/shadcn/Calendar';
+import usePersistentState from '@hooks/usePersistentState';
+import usePortalSlugs from '@hooks/useSlugs';
+
+import { Row, useDataTable, useFilterPopover } from './';
 
 export interface DataTableFilterDateProps {
+  /* Key for the "from" date in the row object. */
   dataKeyFrom: string;
+  /* Key for the "to" date (optional, defaults to dataKeyFrom). */
   dataKeyTo: string;
+  /* Unique key for registering the filter with <DataTable.Provider /> */
   filterKey: string;
   label: React.ReactNode;
 }
@@ -29,58 +30,107 @@ export const FilterDate = ({
   dataKeyTo,
   filterKey,
 }: DataTableFilterDateProps) => {
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+  const { appSlug, pageSlug } = usePortalSlugs();
+  const [dateRange, setDateRange] = usePersistentState<DateRange | undefined>(
+    `${appSlug}-${pageSlug}-${filterKey}`,
+  );
+
+  // Connect to clear all filters and the clear from popover
+
+  const { setActiveLabels } = useFilterPopover({
+    onClear: () => setDateRange(undefined),
+  });
 
   const { setFilterFn, rawData, filterFnMap } = useDataTable({
     onClearAllFilters: () => setDateRange(undefined),
   });
 
-  /**
-   *  Extract the min and max date of the data table data, with all other
-   *  filters applied, excluding this filter. We do this by manually applying
-   *  all the other filters filterFns.
-   */
+  // Create intervals used to disabled calendar days not in the dataset
 
-  const { minDate, maxDate } = useMemo(() => {
-    const { [filterKey]: _, ...filterFnMapOthers } = filterFnMap;
+  const intervalsFromDataSet = useMemo(() => {
+    const filterFnMapOthers = U.omitKeys([filterKey], filterFnMap);
 
-    const filteredByOtherFilters = rawData.filter((row: Row) =>
-      Object.values(filterFnMapOthers).every((fn) => fn(row)),
+    return (
+      rawData
+        // Apply all other filters but our filter to get the relevant data set
+        .filter((row: Row) =>
+          Object.values(filterFnMapOthers).every((fn) => fn(row)),
+        )
+        // For those rows that have dates, create intervals
+        .reduce<Array<{ start: Date; end: Date }>>((acc, row) => {
+          if (row[dataKeyFrom]) {
+            const start =
+              row[dataKeyFrom] && startOfDay(new Date(row[dataKeyFrom]));
+
+            const end = row[dataKeyTo]
+              ? startOfDay(new Date(row[dataKeyTo]))
+              : start;
+
+            return [...acc, { start, end }];
+          }
+
+          return acc;
+        }, [])
     );
+  }, [rawData, filterFnMap, filterKey]);
 
-    return {
-      minDate: min(
-        filteredByOtherFilters.map((el) => parseISO(el[dataKeyFrom])),
-      ),
-      maxDate: max(
-        filteredByOtherFilters.map((el) =>
-          parseISO(el[dataKeyTo] || el[dataKeyFrom]),
-        ),
-      ),
-    };
-  }, [rawData, filterFnMap]);
+  const minDate = useMemo(
+    () => min(intervalsFromDataSet.map((interval) => interval.start)),
+    [intervalsFromDataSet],
+  );
+
+  const maxDate = useMemo(
+    () => max(intervalsFromDataSet.map((interval) => interval.end)),
+    [intervalsFromDataSet],
+  );
+
+  // This is used by the <Calendar /> to know which days should be disabled
+  const disabledMatchFn = useCallback(
+    (day: Date) => {
+      return intervalsFromDataSet.every((interval) => {
+        return !isWithinInterval(day, interval);
+      });
+    },
+    [intervalsFromDataSet],
+  );
+
+  const { from, to } = dateRange ?? {};
 
   useEffect(() => {
-    if (!dateRange) {
+    if (!from) {
       setFilterFn(filterKey, false);
+      setActiveLabels(filterKey, []);
     } else {
-      const selectedTo = startOfDay(dateRange.to ? dateRange.to : maxDate);
-      const selectedFrom = startOfDay(
-        dateRange.from ? dateRange.from : minDate,
-      );
+      const selectedFrom = startOfDay(from);
+      const selectedTo = startOfDay(to ?? from);
 
       setFilterFn(filterKey, (row: any) => {
-        const fromDate = startOfDay(new Date(row[dataKeyFrom]));
-        const toDate = startOfDay(new Date(row[dataKeyTo] || row[dataKeyFrom]));
+        const rowFrom = startOfDay(new Date(row[dataKeyFrom]));
+        const rowTo = row[dataKeyTo] && startOfDay(new Date(row[dataKeyTo]));
 
-        return fromDate >= selectedFrom && toDate <= selectedTo;
+        return areIntervalsOverlapping(
+          { start: selectedFrom, end: selectedTo },
+          { start: rowFrom, end: rowTo },
+          { inclusive: true },
+        );
       });
+
+      setActiveLabels(filterKey, ['on']);
     }
-  }, [dateRange, filterKey, dataKeyFrom, dataKeyTo, minDate, maxDate]);
+  }, [
+    from,
+    to,
+    filterKey,
+    dataKeyFrom,
+    dataKeyTo,
+    minDate?.getTime(),
+    maxDate?.getTime(),
+  ]);
 
   return (
     <Calendar
       mode="range"
+      disabled={disabledMatchFn}
       fromDate={minDate}
       toDate={maxDate}
       selected={dateRange}
@@ -88,5 +138,3 @@ export const FilterDate = ({
     />
   );
 };
-
-FilterDate.displayName = 'DataTableFilterDate';

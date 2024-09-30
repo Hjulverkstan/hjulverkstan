@@ -73,7 +73,7 @@ export const FilterPopover = ({
   width = 200,
   hideIcon = false,
 }: FilterPopoverProps) => {
-  const { disabled, setFilterFn } = useDataTable();
+  const { disabled } = useDataTable();
   const [activeLabelsMap, setActiveLabelsMap] = useState<
     Record<string, string[]>
   >({});
@@ -81,28 +81,24 @@ export const FilterPopover = ({
 
   const activeLabels = Object.values(activeLabelsMap).flat();
   const isActive = !!activeLabels.length;
-  const filterKeys = Object.keys(activeLabelsMap);
 
   const setActiveLabels = (filterKey: string, labels: string[]) =>
     setActiveLabelsMap({ ...activeLabelsMap, [filterKey]: labels });
 
-  const resetFilters = () => {
-    filterKeys.forEach((filterKey) => setFilterFn(filterKey, false));
-    setActiveLabelsMap({}); // Clear all active labels
-    clearAllListeners(); // Notify listeners
-  };
-
-  const listeners = useRef<(() => void)[]>([]);
+  const clearFilterListeners = useRef<(() => void)[]>([]);
 
   const subscribeToClearFilters = (callback: () => void) => {
-    listeners.current.push(callback);
+    clearFilterListeners.current.push(callback);
     return () => {
-      listeners.current = listeners.current.filter((fn) => fn !== callback);
+      clearFilterListeners.current = clearFilterListeners.current.filter(
+        (fn) => fn !== callback,
+      );
     };
   };
 
-  const clearAllListeners = () => {
-    listeners.current.forEach((fn) => fn());
+  const resetFilters = () => {
+    setActiveLabelsMap({}); // Clear all active labels
+    clearFilterListeners.current.forEach((fn) => fn());
   };
 
   // We want to manually control open but passing persistMount to
@@ -192,7 +188,7 @@ export const FilterPopover = ({
           {withoutCmdk ? (
             <>
               {children}
-              {clearFilterContent}
+              <Command.Root>{clearFilterContent}</Command.Root>
             </>
           ) : (
             <Command.Root>

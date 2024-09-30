@@ -1,10 +1,13 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import * as U from '@utils';
 import { EnumAttributes } from '@data/enums';
 import MultiSelect from '@components/MultiSelect';
 
 import { Row, useDataTable, useFilterPopover } from './';
+
+import usePersistentState from '@hooks/usePersistentState';
+import usePortalSlugs from '@hooks/useSlugs';
 
 export interface FilterMultiSelectProps {
   /* Used to register the built in filter function with DataTable */
@@ -24,16 +27,19 @@ export const FilterMultiSelect = ({
   heading,
   initSelected = [],
 }: FilterMultiSelectProps) => {
-  const [selected, setSelected] = useState<string[]>(initSelected);
-  const { setActiveLabels } = useFilterPopover({
-    onClear: () => setSelected([]), // Handle clearing the selected state
-  });
+  const { appSlug, pageSlug } = usePortalSlugs();
+  const [selected, setSelected] = usePersistentState(
+    `${appSlug}-${pageSlug}-${filterKey}-multiSelectFilter`,
+    initSelected,
+  );
+  const { setActiveLabels } = useFilterPopover();
 
   const { filterFnMap, setFilterFn, rawData } = useDataTable({
     onClearAllFilters: () => setSelected([]),
   });
 
   // Add count to each enum and reject if not in the data of the table (rawData)
+
   const enumsAggregated = useMemo(() => {
     const { [filterKey]: _, ...filterFnMapOthers } = filterFnMap;
 
@@ -63,6 +69,7 @@ export const FilterMultiSelect = ({
   }, [enums, rawData, filterFnMap]);
 
   // Connect with <PopoverFilterRoot /> and its activeFilters
+
   useEffect(() => {
     if (enumsAggregated.length) {
       setActiveLabels(

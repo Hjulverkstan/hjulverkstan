@@ -9,7 +9,11 @@ import {
 export const readStore = (key: string, fallback: any) => {
   try {
     const item = window.localStorage.getItem(key);
-    return item ? JSON.parse(item) : fallback;
+    return item === 'undefined'
+      ? undefined
+      : item
+        ? JSON.parse(item)
+        : fallback;
   } catch (error) {
     console.error(`Error reading localStorage key “${key}”:`, error);
     return fallback;
