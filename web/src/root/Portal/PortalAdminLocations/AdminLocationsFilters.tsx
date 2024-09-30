@@ -2,6 +2,8 @@ import * as enums from '@data/location/enums';
 
 import * as DataTable from '@components/DataTable';
 import { Location } from '@data/location/types';
+import { CalendarIcon } from 'lucide-react';
+import { PortalFilterDate } from '../PortalFilterDate';
 
 export default function AdminLocationFilters() {
   return (
@@ -20,6 +22,14 @@ export default function AdminLocationFilters() {
           enums={enums.locationType}
         />
       </DataTable.FilterPopover>
+
+      <PortalFilterDate
+        label={<CalendarIcon />}
+        filterOptions={[
+          { label: 'Created At', dataKeyFrom: 'createdAt' },
+          { label: 'Edited At', dataKeyFrom: 'updatedAt' },
+        ]}
+      />
     </>
   );
 }

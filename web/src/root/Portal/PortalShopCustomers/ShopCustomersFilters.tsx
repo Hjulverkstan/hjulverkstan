@@ -5,6 +5,8 @@ import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { Customer } from '@data/customer/types';
 import { enumsMatchUtil } from '@data/enums';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
+import { CalendarIcon } from 'lucide-react';
+import { PortalFilterDate } from '../PortalFilterDate';
 
 export default function ShopCustomerFilters() {
   const ticketEnumsQ = useTicketsAsEnumsQ();
@@ -40,6 +42,14 @@ export default function ShopCustomerFilters() {
           enums={enums.customerType}
         />
       </DataTable.FilterPopover>
+
+      <PortalFilterDate
+        label={<CalendarIcon />}
+        filterOptions={[
+          { label: 'Created At', dataKeyFrom: 'createdAt' },
+          { label: 'Edited At', dataKeyFrom: 'updatedAt' },
+        ]}
+      />
     </>
   );
 }
