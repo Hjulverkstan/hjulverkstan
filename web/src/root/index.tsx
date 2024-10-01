@@ -95,6 +95,7 @@ function RouteHelmet({
           />
           {locales.map((locale) => (
             <link
+              key={locale}
               rel="alternative"
               href={`${import.meta.env.DOMAIN}/${locale}${route.path}`}
               hrefLang={locale}
