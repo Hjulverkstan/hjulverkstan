@@ -113,9 +113,7 @@ jobs:
               --s3-location bucket=${{ vars.CODE_DEPLOY_BUCKET }},key=api/deployment-$BUILD_NUMBER.zip,bundleType=zip \
               --file-exists-behavior OVERWRITE \
               --description "Development env backend deployment - $BUILD_NUMBER" --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentId')
-
-#          # check deployment status
-          deploymentStatus=""
+          deploymentStatus="" 
           while : ; do
             status=$(aws deploy get-deployment --deployment-id $deploymentId --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentInfo.status')
 
