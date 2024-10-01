@@ -1,2 +1,2 @@
 #!/bin/bash
-nohup java -jar /home/ec2-user/app.jar
+nohup java -jar /home/ec2-user/app.jar --spring.datasource.url=jdbc:postgresql://dev-stack-postgresdb113281d2-b60blmm1y9bc.c9uou2ceme20.eu-north-1.rds.amazonaws.com:5432/hjulverkstan?createDatabaseIfNotExists=true --spring.jpa.generate-ddl=true --spring.datasource.username=postgres --spring.datasource.password=secretpass --spring.jpa.hibernate.ddl-auto=create  --cors.allowedOrigins=http://dev.hjulverkstan.com:8080 > /dev/null 2>&1 &

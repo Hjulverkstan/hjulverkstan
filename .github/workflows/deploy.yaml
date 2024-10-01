@@ -63,7 +63,6 @@ jobs:
         run: |
           mkdir -p deployment/target
           cp -r codedeploy/* deployment/
-          echo -n "--spring.datasource.url=jdbc:postgresql://${{vars.RDS_URL}}:${{vars.DB_PORT}}/${{vars.DB_NAME}}?createDatabaseIfNotExists=true --spring.jpa.generate-ddl=true --spring.datasource.username=${{vars.DB_USER}} --spring.datasource.password=${{secrets.DB_PASSWORD}} --spring.jpa.hibernate.ddl-auto=create  --cors.allowedOrigins=${{vars.CORS_DOMAINS}} > /dev/null 2>&1 & " >> codedeploy/start.sh
           cp main/target/hjulverkstan-1.0.0.jar deployment/target/app.jar
           zip -r deployment-$BUILD_NUMBER.zip deployment
 
