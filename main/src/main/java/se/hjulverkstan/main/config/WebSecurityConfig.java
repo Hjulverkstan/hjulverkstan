@@ -26,12 +26,11 @@ import se.hjulverkstan.main.security.services.UserDetailsServiceImplementation;
 public class WebSecurityConfig {
     private final UserDetailsServiceImplementation userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
-
-    @Autowired
     private final CorsConfigurationSource corsConfigurationSource;
 
     public WebSecurityConfig(UserDetailsServiceImplementation userDetailsService,
-                             AuthEntryPointJwt unauthorizedHandler, CorsConfigurationSource corsConfigurationSource) {
+                             AuthEntryPointJwt unauthorizedHandler,
+                             CorsConfigurationSource corsConfigurationSource) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
         this.corsConfigurationSource = corsConfigurationSource;

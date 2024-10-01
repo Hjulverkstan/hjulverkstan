@@ -63,6 +63,7 @@ jobs:
         run: |
           mkdir -p deployment/target
           cp -r codedeploy/* deployment/
+          echo -n "--spring.datasource.url=jdbc:postgresql://${{vars.RDS_URL}}:${{vars.DB_PORT}}/${{vars.DB_NAME}}?createDatabaseIfNotExists=true --spring.jpa.generate-ddl=true --spring.datasource.username=${{vars.DB_USER}} --spring.datasource.password=${{secrets.DB_PASSWORD}} --spring.jpa.hibernate.ddl-auto=create  --cors.allowedOrigins=${{vars.CORS_DOMAINS}} > /dev/null 2>&1 & " >> codedeploy/start.sh
           cp main/target/hjulverkstan-1.0.0.jar deployment/target/app.jar
           zip -r deployment-$BUILD_NUMBER.zip deployment
 
@@ -105,33 +106,31 @@ jobs:
         run: |
           aws s3 cp deployment-$BUILD_NUMBER.zip s3://${{ vars.CODE_DEPLOY_BUCKET }}/revisions/deployment-$BUILD_NUMBER.zip
           echo "Deployment Successful"
-#          deploymentId=$(aws deploy create-deployment \
-#              --application-name ${{ vars.CODE_DEPLOY_APPLICATION }} \
-#              --deployment-group-name ${{ vars.CODE_DEPLOY_GROUP }} \
-#              --s3-location bucket=${{ vars.CODE_DEPLOY_BUCKET }},key=api/deployment-$BUILD_NUMBER.zip,bundleType=zip \
-#              --file-exists-behavior OVERWRITE \
-#              --description "Staging api-backend deployment - $BUILD_NUMBER" --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentId')
-#
+        
+          deploymentId=$(aws deploy create-deployment \
+              --application-name ${{ vars.CODE_DEPLOY_APPLICATION }} \
+              --deployment-group-name ${{ vars.CODE_DEPLOY_GROUP }} \
+              --s3-location bucket=${{ vars.CODE_DEPLOY_BUCKET }},key=api/deployment-$BUILD_NUMBER.zip,bundleType=zip \
+              --file-exists-behavior OVERWRITE \
+              --description "Development env backend deployment - $BUILD_NUMBER" --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentId')
+
 #          # check deployment status
-#          deploymentStatus=""
-#          while : ; do
-#            status=$(aws deploy get-deployment --deployment-id $deploymentId --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentInfo.status')
-#
-#            if [ "$status" != "Created" ] && [ "$status" != "InProgress" ] && [ "$status" != "Pending" ]; then
-#              if [ "$status" == "Succeeded" ]; then
-#                echo "Deployment Successful"
-#                export deploymentStatus=0
-#                break
-#              else
-#                export deploymentStatus=1
-#                echo "Deployment failed. Check the AWS Codedeploy for more information"
-#                break
-#              fi
-#            fi
-#
-#            sleep 10
-#          done
-#          exit $deploymentStatus
-#
-#
-#  s3://development-devcodedeploybucket869b9f9d-ettisiwyjq5g/revisions/
+          deploymentStatus=""
+          while : ; do
+            status=$(aws deploy get-deployment --deployment-id $deploymentId --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentInfo.status')
+
+            if [ "$status" != "Created" ] && [ "$status" != "InProgress" ] && [ "$status" != "Pending" ]; then
+              if [ "$status" == "Succeeded" ]; then
+                echo "Deployment Successful"
+                export deploymentStatus=0
+                break
+              else
+                export deploymentStatus=1
+                echo "Deployment failed. Check the AWS Codedeploy for more information"
+                break
+              fi
+            fi
+
+            sleep 10
+          done
+          exit $deploymentStatus

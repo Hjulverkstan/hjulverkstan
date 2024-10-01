@@ -5,7 +5,6 @@ import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
-import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -13,6 +12,7 @@ import * as codedeploy from 'aws-cdk-lib/aws-codedeploy';
 import { Credentials, DatabaseInstance, DatabaseInstanceEngine, PostgresEngineVersion } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 import { CfnOutput } from 'aws-cdk-lib/core';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 
 export class Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -67,16 +67,31 @@ export class Stack extends cdk.Stack {
     });
 
     // Define database credentials
+    const availabilityZone = 'eu-north-1a';
     const dbUsername = 'postgres';
     const dbPassword = cdk.SecretValue.unsafePlainText('secretpass');
     // Create RDS instance
-    new DatabaseInstance(this, 'PostgresDB', {
+    const rdsInstance =new DatabaseInstance(this, 'PostgresDB', {
       engine,
       instanceType,
       vpc,
       vpcSubnets: { subnetType: SubnetType.PRIVATE_WITH_EGRESS },
       credentials: Credentials.fromUsername(dbUsername, { password: dbPassword }),
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+      availabilityZone: availabilityZone,
+    });
+
+    new CfnOutput(this, 'DbEndpoint', {
+      value: rdsInstance.dbInstanceEndpointAddress, // The endpoint address
+      description: 'The endpoint address of the Postgres database',
+    });
+
+    const secret = new secretsmanager.Secret(this, 'MySecret', {
+      secretName: 'MyApp/MySecret',
+      generateSecretString: {
+        secretStringTemplate: JSON.stringify({ username: 'user' }),
+        generateStringKey: 'password',
+      },
     });
 
     // new ecs_patterns.ApplicationLoadBalancedFargateService(this, "FargateService", {
@@ -124,8 +139,8 @@ export class Stack extends cdk.Stack {
 
     const userDataScript = `#!/bin/bash
             sudo yum update -y
-            sudo yum install ruby
-            sudo yum install wget
+            sudo yum install ruby -y
+            sudo yum install wget -y
             wget https://aws-codedeploy-eu-north-1.s3.eu-north-1.amazonaws.com/latest/install
             chmod a+x install
             sudo ./install auto
@@ -188,7 +203,7 @@ export class Stack extends cdk.Stack {
       serviceRoleArn: codeDeployRole.roleArn,
       ec2TagFilters: [{
         key: 'Name', // Tag the instance with a name
-        value: 'Development/dev_backend_ec2',
+        value: 'Dev-Stack/dev_backend_ec2',
         type: 'KEY_AND_VALUE'
       }]
     });

@@ -16,6 +16,6 @@ build/
 
 ### VS Code ###
 .vscode/
-
+INFO.md
 package-lock.json
 .log/
