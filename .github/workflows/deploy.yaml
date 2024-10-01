@@ -109,25 +109,25 @@ jobs:
           deploymentId=$(aws deploy create-deployment \
               --application-name ${{ vars.CODE_DEPLOY_APPLICATION }} \
               --deployment-group-name ${{ vars.CODE_DEPLOY_GROUP }} \
-              --s3-location bucket=${{ vars.CODE_DEPLOY_BUCKET }},key=api/deployment-$BUILD_NUMBER.zip,bundleType=zip \
+              --s3-location bucket=${{ vars.CODE_DEPLOY_BUCKET }},key=revisions/deployment-$BUILD_NUMBER.zip,bundleType=zip \
               --file-exists-behavior OVERWRITE \
               --description "Development env backend deployment - $BUILD_NUMBER" --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentId')
           deploymentStatus="" 
-#          while : ; do
-#            status=$(aws deploy get-deployment --deployment-id $deploymentId --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentInfo.status')
-#
-#            if [ "$status" != "Created" ] && [ "$status" != "InProgress" ] && [ "$status" != "Pending" ]; then
-#              if [ "$status" == "Succeeded" ]; then
-#                echo "Deployment Successful"
-#                export deploymentStatus=0
-#                break
-#              else
-#                export deploymentStatus=1
-#                echo "Deployment failed. Check the AWS Codedeploy for more information"
-#                break
-#              fi
-#            fi
-#
-#            sleep 10
-#          done
-#          exit $deploymentStatus
+          while : ; do
+            status=$(aws deploy get-deployment --deployment-id $deploymentId --region ${{ secrets.AWS_REGION }} | jq -r '.deploymentInfo.status')
+
+            if [ "$status" != "Created" ] && [ "$status" != "InProgress" ] && [ "$status" != "Pending" ]; then
+              if [ "$status" == "Succeeded" ]; then
+                echo "Deployment Successful"
+                export deploymentStatus=0
+                break
+              else
+                export deploymentStatus=1
+                echo "Deployment failed. Check the AWS Codedeploy for more information"
+                break
+              fi
+            fi
+
+            sleep 10
+          done
+          exit $deploymentStatus
