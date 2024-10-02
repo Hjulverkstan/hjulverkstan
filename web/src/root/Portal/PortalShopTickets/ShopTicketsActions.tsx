@@ -9,8 +9,9 @@ import {
   Ticket,
   TicketAggregated,
   TicketStatus,
-  TicketType,
+  ticketTypeToTicketStatus,
 } from '@data/ticket/types';
+import * as enums from '@data/ticket/enums';
 
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { IconButton } from '@components/shadcn/Button';
@@ -20,21 +21,6 @@ import { useToast } from '@components/shadcn/use-toast';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
-
-const STATUS_OPTIONS_BY_TICKET_TYPE = {
-  [TicketType.RENT]: [
-    { label: 'Ready', value: TicketStatus.READY },
-    { label: 'In Progress', value: TicketStatus.IN_PROGRESS },
-    { label: 'Closed', value: TicketStatus.CLOSED },
-  ],
-  [TicketType.REPAIR]: [
-    { label: 'Ready', value: TicketStatus.READY },
-    { label: 'In Progress', value: TicketStatus.IN_PROGRESS },
-    { label: 'Complete', value: TicketStatus.COMPLETE },
-    { label: 'Closed', value: TicketStatus.CLOSED },
-  ],
-  [TicketType.DONATE]: [],
-};
 
 export default function ShopTicketsActions({
   row: ticket,
@@ -88,8 +74,7 @@ export default function ShopTicketsActions({
     );
   };
 
-  const allowedStatuses =
-    STATUS_OPTIONS_BY_TICKET_TYPE[ticket.ticketType] || [];
+  const allowedStatuses = ticketTypeToTicketStatus(ticket.ticketType);
 
   return (
     <Dialog>
@@ -118,7 +103,7 @@ export default function ShopTicketsActions({
             entityId={ticket.id}
           />
 
-          {allowedStatuses.length > 0 && (
+          {allowedStatuses?.length && (
             <DropdownMenu.Sub>
               <DropdownMenu.Separator />
               <DropdownMenu.SubTrigger>Status</DropdownMenu.SubTrigger>
@@ -127,18 +112,14 @@ export default function ShopTicketsActions({
                   e.stopPropagation();
                 }}
               >
-                {allowedStatuses.map(({ label, value }) => (
+                {allowedStatuses.map((ticketStatus) => (
                   <DropdownMenu.Item
-                    key={value}
-                    onSelect={() => {
-                      if (value !== ticket.ticketStatus) {
-                        onStatusUpdate(value);
-                      }
-                    }}
-                    disabled={value === ticket.ticketStatus}
+                    key={ticketStatus}
+                    onSelect={() => onStatusUpdate(ticketStatus)}
+                    disabled={ticketStatus === ticket.ticketStatus}
                   >
-                    {label}
-                    {value === ticket.ticketStatus && (
+                    {enums.find(ticketStatus).label}
+                    {ticketStatus === ticket.ticketStatus && (
                       <span className="ml-auto">
                         <CheckIcon className="h-4 w-4" />
                       </span>
