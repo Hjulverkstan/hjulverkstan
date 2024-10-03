@@ -2,7 +2,7 @@ package se.hjulverkstan.main.dto.vehicles;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import se.hjulverkstan.main.model.VehicleBatch;
+import se.hjulverkstan.main.model.vehicle.VehicleBatch;
 
 @Setter
 @Getter

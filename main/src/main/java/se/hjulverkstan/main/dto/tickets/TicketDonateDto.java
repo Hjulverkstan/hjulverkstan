@@ -2,8 +2,8 @@ package se.hjulverkstan.main.dto.tickets;
 
 import jakarta.validation.constraints.Null;
 import lombok.*;
-import se.hjulverkstan.main.model.TicketDonate;
-import se.hjulverkstan.main.model.TicketStatus;
+import se.hjulverkstan.main.model.ticket.TicketDonate;
+import se.hjulverkstan.main.model.ticket.TicketStatus;
 
 @Getter
 @Setter

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.model.TicketStatus;
+import se.hjulverkstan.main.model.ticket.TicketStatus;
 
 @Data
 @AllArgsConstructor

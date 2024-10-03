@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import se.hjulverkstan.Exceptions.ApiError;
-import se.hjulverkstan.Exceptions.ApiException;
-import se.hjulverkstan.Exceptions.TokenRefreshException;
+import se.hjulverkstan.main.common.exception.ApiError;
+import se.hjulverkstan.main.common.exception.ApiException;
+import se.hjulverkstan.main.common.exception.TokenRefreshException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,9 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
-import se.hjulverkstan.main.security.jwt.AuthEntryPointJwt;
-import se.hjulverkstan.main.security.jwt.AuthTokenFilter;
-import se.hjulverkstan.main.security.services.UserDetailsServiceImplementation;
+import se.hjulverkstan.main.security.AuthEntryPointJwt;
+import se.hjulverkstan.main.security.AuthTokenFilter;
+import se.hjulverkstan.main.service.user.UserDetailsServiceImplementation;
 
 @Configuration
 @EnableWebSecurity
@@ -26,8 +26,6 @@ import se.hjulverkstan.main.security.services.UserDetailsServiceImplementation;
 public class WebSecurityConfig {
     private final UserDetailsServiceImplementation userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
-
-    @Autowired
     private final CorsConfigurationSource corsConfigurationSource;
 
     public WebSecurityConfig(UserDetailsServiceImplementation userDetailsService,

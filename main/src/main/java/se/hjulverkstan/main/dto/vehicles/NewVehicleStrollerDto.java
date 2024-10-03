@@ -3,8 +3,8 @@ package se.hjulverkstan.main.dto.vehicles;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import se.hjulverkstan.main.model.StrollerType;
-import se.hjulverkstan.main.model.VehicleStroller;
+import se.hjulverkstan.main.model.vehicle.StrollerType;
+import se.hjulverkstan.main.model.vehicle.VehicleStroller;
 
 @Setter
 @Getter

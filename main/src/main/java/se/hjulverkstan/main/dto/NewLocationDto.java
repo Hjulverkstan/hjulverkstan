@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.model.LocationType;
+import se.hjulverkstan.main.model.location.LocationType;
 
 @Data
 @AllArgsConstructor

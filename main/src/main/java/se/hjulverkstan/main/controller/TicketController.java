@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
 import se.hjulverkstan.main.dto.tickets.*;
-import se.hjulverkstan.main.service.TicketService;
+import se.hjulverkstan.main.service.ticket.TicketService;
 
 @RestController
 @RequestMapping("v1/ticket")

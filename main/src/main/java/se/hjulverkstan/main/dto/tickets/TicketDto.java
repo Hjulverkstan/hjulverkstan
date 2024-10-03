@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.model.Ticket;
-import se.hjulverkstan.main.model.TicketType;
-import se.hjulverkstan.main.model.TicketStatus;
-import se.hjulverkstan.main.model.Vehicle;
+import se.hjulverkstan.main.model.ticket.Ticket;
+import se.hjulverkstan.main.model.ticket.TicketType;
+import se.hjulverkstan.main.model.ticket.TicketStatus;
+import se.hjulverkstan.main.model.vehicle.Vehicle;
 
 import java.time.LocalDateTime;
 import java.util.List;

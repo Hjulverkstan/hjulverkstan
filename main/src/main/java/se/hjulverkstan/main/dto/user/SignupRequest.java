@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import se.hjulverkstan.main.model.ERole;
+import se.hjulverkstan.main.model.user.ERole;
 
 import java.util.Set;
 

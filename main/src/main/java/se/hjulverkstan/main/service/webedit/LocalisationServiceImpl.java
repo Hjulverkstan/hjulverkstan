@@ -2,7 +2,7 @@ package se.hjulverkstan.main.service.webedit;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.hjulverkstan.Exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.common.exception.ElementNotFoundException;
 import se.hjulverkstan.main.dto.webedit.AllWebEditEntitiesByLangDto;
 import se.hjulverkstan.main.dto.webedit.GeneralContentDto;
 import se.hjulverkstan.main.dto.webedit.ShopDto;

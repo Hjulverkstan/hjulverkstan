@@ -1,6 +1,6 @@
 package se.hjulverkstan.main.service.webedit;
 
-import se.hjulverkstan.Exceptions.UnsupportedArgumentException;
+import se.hjulverkstan.main.common.exception.UnsupportedArgumentException;
 import se.hjulverkstan.main.dto.webedit.LangCountPerEntityDto;
 
 public interface LangCountService {

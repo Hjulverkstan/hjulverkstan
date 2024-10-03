@@ -2,7 +2,7 @@ package se.hjulverkstan.main.dto.tickets;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import se.hjulverkstan.main.model.TicketRepair;
+import se.hjulverkstan.main.model.ticket.TicketRepair;
 import java.time.LocalDateTime;
 
 @Getter

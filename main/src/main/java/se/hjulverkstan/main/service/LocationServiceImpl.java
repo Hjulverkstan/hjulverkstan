@@ -4,13 +4,13 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import se.hjulverkstan.Exceptions.CouldNotDeleteException;
-import se.hjulverkstan.Exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.common.exception.CouldNotDeleteException;
+import se.hjulverkstan.main.common.exception.ElementNotFoundException;
 import se.hjulverkstan.main.dto.LocationDto;
 import se.hjulverkstan.main.dto.NewLocationDto;
 import se.hjulverkstan.main.dto.responses.GetAllLocationDto;
-import se.hjulverkstan.main.model.Location;
-import se.hjulverkstan.main.model.Vehicle;
+import se.hjulverkstan.main.model.location.Location;
+import se.hjulverkstan.main.model.vehicle.Vehicle;
 import se.hjulverkstan.main.repository.LocationRepository;
 import se.hjulverkstan.main.repository.VehicleRepository;
 

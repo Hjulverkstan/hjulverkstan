@@ -1,7 +1,7 @@
 package se.hjulverkstan.main.dto.user;
 
 import lombok.*;
-import se.hjulverkstan.main.model.ERole;
+import se.hjulverkstan.main.model.user.ERole;
 
 import java.util.Set;
 

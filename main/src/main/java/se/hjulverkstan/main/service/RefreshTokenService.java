@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import se.hjulverkstan.Exceptions.ElementNotFoundException;
-import se.hjulverkstan.Exceptions.TokenRefreshException;
-import se.hjulverkstan.main.model.RefreshToken;
-import se.hjulverkstan.main.model.User;
+import se.hjulverkstan.main.common.exception.ElementNotFoundException;
+import se.hjulverkstan.main.common.exception.TokenRefreshException;
+import se.hjulverkstan.main.model.auth.RefreshToken;
+import se.hjulverkstan.main.model.user.User;
 import se.hjulverkstan.main.repository.RefreshTokenRepository;
 import se.hjulverkstan.main.repository.UserRepository;
 

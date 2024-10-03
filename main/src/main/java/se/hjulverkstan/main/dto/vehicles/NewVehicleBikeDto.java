@@ -3,11 +3,11 @@ package se.hjulverkstan.main.dto.vehicles;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import se.hjulverkstan.main.model.VehicleBrakeType;
-import se.hjulverkstan.main.model.BikeSize;
-import se.hjulverkstan.main.model.BikeType;
-import se.hjulverkstan.main.model.VehicleBike;
-import se.hjulverkstan.main.model.VehicleBrand;
+import se.hjulverkstan.main.model.vehicle.VehicleBrakeType;
+import se.hjulverkstan.main.model.vehicle.BikeSize;
+import se.hjulverkstan.main.model.vehicle.BikeType;
+import se.hjulverkstan.main.model.vehicle.VehicleBike;
+import se.hjulverkstan.main.model.vehicle.VehicleBrand;
 
 @Setter
 @Getter

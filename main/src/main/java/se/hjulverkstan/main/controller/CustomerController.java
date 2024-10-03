@@ -4,10 +4,10 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.hjulverkstan.main.dto.CustomerDto;
-import se.hjulverkstan.main.dto.NewCustomerDto;
+import se.hjulverkstan.main.dto.user.CustomerDto;
+import se.hjulverkstan.main.dto.user.NewCustomerDto;
 import se.hjulverkstan.main.dto.responses.GetAllCustomerDto;
-import se.hjulverkstan.main.service.CustomerService;
+import se.hjulverkstan.main.service.user.CustomerService;
 
 @RestController
 @RequestMapping("v1/customer")

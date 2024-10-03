@@ -1,7 +1,7 @@
 package se.hjulverkstan.main.dto.tickets;
 
 import lombok.*;
-import se.hjulverkstan.main.model.TicketDonate;
+import se.hjulverkstan.main.model.ticket.TicketDonate;
 
 @Getter
 @Setter

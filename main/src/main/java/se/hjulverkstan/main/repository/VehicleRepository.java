@@ -2,7 +2,7 @@ package se.hjulverkstan.main.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import se.hjulverkstan.main.model.Vehicle;
+import se.hjulverkstan.main.model.vehicle.Vehicle;
 
 import java.util.Optional;
 

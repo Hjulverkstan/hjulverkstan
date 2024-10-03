@@ -1,7 +1,7 @@
 package se.hjulverkstan.main.dto.tickets;
 
 import lombok.*;
-import se.hjulverkstan.main.model.TicketRent;
+import se.hjulverkstan.main.model.ticket.TicketRent;
 import java.time.LocalDateTime;
 
 @Getter

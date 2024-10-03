@@ -1,10 +1,8 @@
 package se.hjulverkstan.main.dto.tickets;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import se.hjulverkstan.main.model.TicketRepair;
-import se.hjulverkstan.main.model.TicketStatus;
+import se.hjulverkstan.main.model.ticket.TicketRepair;
 
 import java.time.LocalDateTime;
 
