@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
   useRef,
+  useCallback,
 } from 'react';
 
 import * as U from '@utils';
@@ -82,8 +83,7 @@ export const FilterPopover = ({
   const activeLabels = Object.values(activeLabelsMap).flat();
   const isActive = !!activeLabels.length;
 
-  const setActiveLabels = (filterKey: string, labels: string[]) =>
-    setActiveLabelsMap({ ...activeLabelsMap, [filterKey]: labels });
+  // For the usePopoverFilter hook
 
   const clearFilterListeners = useRef<(() => void)[]>([]);
 
@@ -95,6 +95,16 @@ export const FilterPopover = ({
       );
     };
   };
+
+  // For the usePopoverFilter hook
+
+  const setActiveLabels = useCallback(
+    (filterKey: string, labels: string[]) =>
+      setActiveLabelsMap((state) => ({ ...state, [filterKey]: labels })),
+    [],
+  );
+
+  // For the reset button in the popover filter
 
   const resetFilters = () => {
     setActiveLabelsMap({}); // Clear all active labels

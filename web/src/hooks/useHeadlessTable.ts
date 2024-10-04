@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 
 import * as U from '@utils';
 
@@ -79,12 +79,19 @@ export interface UseHeadlessTableReturn<R extends Row> {
    * Function to set a filter function, does not have to map to a column key,
    * the key is just for registering the filter fn. To clear a function pass
    * the value false.
+   *
+   * Important note: As a consumer of setFilterFn, you are responsible for only
+   * updating a filterFn if it has new filter logic. If you set this on every
+   * render, even though it has not changed. You can cause infinite render
+   * loops as there are many subscribers to the filterFnMap that setFilterFn
+   * updates.
    */
   setFilterFn: (key: string, filterFn: ((row: R) => boolean) | false) => void;
   /**
-   * Subscribe to the clearAllFilters event that can be fired by the clearAllFilters() fn. This is
-   * implemented so that a clear all filters button can be used, all implemented filters which host
-   * their own state can then clear themselves and clear their filterFns.
+   * Subscribe to the clearAllFilters event that can be fired by the
+   * clearAllFilters() fn. This is implemented so that a clear all filters
+   * button can be used, all implemented filters which host their own state
+   * can then clear themselves and clear their filterFns.
    */
   subscribeToClearAllFilters: (callback: () => void) => () => void;
   clearAllFilters: () => void;
@@ -153,45 +160,55 @@ const useHeadlessTable = <R extends Row>({
 
   //
 
-  const setPage = (newPage: number) =>
-    setPageState(U.clamp(0, pageCount - 1, newPage));
+  const setPage = useCallback(
+    (newPage: number) => setPageState(U.clamp(0, pageCount - 1, newPage)),
+    [pageCount],
+  );
 
-  const toggleColSort = (key: string) =>
-    setSortState((prev) => ({
-      key,
-      dir: prev.key !== key ? 1 : prev.dir === 1 ? -1 : prev.dir + 1,
-    }));
+  const toggleColSort = useCallback(
+    (key: string) =>
+      setSortState((prev) => ({
+        key,
+        dir: prev.key !== key ? 1 : prev.dir === 1 ? -1 : prev.dir + 1,
+      })),
+    [],
+  );
 
-  const toggleColHidden = (key: string) =>
-    setHiddenCols((list) =>
-      list.includes(key) ? list.filter((el) => el !== key) : [...list, key],
-    );
+  const toggleColHidden = useCallback(
+    (key: string) =>
+      setHiddenCols((list) =>
+        list.includes(key) ? list.filter((el) => el !== key) : [...list, key],
+      ),
+    [],
+  );
 
-  const setFilterFn = (
-    key: string,
-    filterFn: ((row: any) => boolean) | false,
-  ) => {
-    // Don't update filterFnMap if intention is to reset the filter and it is
-    // already reset
-    if (filterFn || (!filterFn && filterFnMap[key])) {
-      return setFilterFnMap((obj) =>
+  const setFilterFn = useCallback(
+    (key: string, filterFn: ((row: any) => boolean) | false) =>
+      setFilterFnMap((obj) =>
         filterFn
           ? { ...obj, [key]: U.memoizeFn(filterFn) }
-          : U.omitKeys([key], obj),
-      );
-    }
-  };
+          : // Don't update filterFnMap if intention is to reset the filter and it is
+            // already reset
+            obj[key]
+            ? U.omitKeys([key], obj)
+            : obj,
+      ),
+    [],
+  );
 
   //
 
   const listeners = useRef<(() => void)[]>([]);
 
-  const subscribeToClearAllFilters = (callback: () => void) => {
+  const subscribeToClearAllFilters = useCallback((callback: () => void) => {
     listeners.current.push(callback);
     return () => listeners.current.filter((fn) => fn !== callback);
-  };
+  }, []);
 
-  const clearAllFilters = () => listeners.current.forEach((fn) => fn());
+  const clearAllFilters = useCallback(
+    () => listeners.current.forEach((fn) => fn()),
+    [],
+  );
 
   return {
     rawData: data,
