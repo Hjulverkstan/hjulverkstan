@@ -2,14 +2,30 @@ import { useQuery } from '@tanstack/react-query';
 
 import { EnumAttributes } from '../enums';
 import { ErrorRes } from '../api';
-import { Customer, CustomerType } from './types';
+import { AggregatedCustomer, Customer, CustomerType } from './types';
 import * as api from './api';
 import * as enums from './enums';
+import { differenceInYears, parse } from 'date-fns';
 
 //
 
+export const calculateAge = (persIdNo: string) =>
+  differenceInYears(
+    new Date(),
+    parse(persIdNo.substring(0, 8), 'yyyyMMdd', new Date()),
+  );
+
 export const useCustomersQ = () =>
-  useQuery<Customer[], ErrorRes>(api.createGetCustomers());
+  useQuery<Customer[], ErrorRes>({
+    ...api.createGetCustomers(),
+    select: (customers) =>
+      customers.map((customer) => ({
+        ...customer,
+        age: calculateAge(customer.personalIdentityNumber),
+      })) as AggregatedCustomer[],
+  });
+
+//
 
 export interface UseCustomerQProps {
   id: string;

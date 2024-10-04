@@ -6,6 +6,7 @@ import { enumsMatchUtil } from '@data/enums';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { Vehicle } from '@data/vehicle/types';
+import React from 'react';
 
 // Enum for filtering on the ticketTypes and ticketStatuses props that we aggregated onto a vehicle
 // see [useVehicleAggregatedQ](/src/data/vehicle/queries.ts).
@@ -83,6 +84,11 @@ export default function ShopInventoryFilters() {
       </DataTable.FilterPopover>
 
       <DataTable.FilterPopover label="Details" hasSearch>
+        <DataTable.FilterSlider
+          filterKey="gears"
+          dataKey="gearCount"
+          heading="Gear Count"
+        />
         <DataTable.FilterMultiSelect
           heading="Bike Size"
           filterKey="size"

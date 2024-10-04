@@ -5,6 +5,7 @@ import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { Customer } from '@data/customer/types';
 import { enumsMatchUtil } from '@data/enums';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
+import React from 'react';
 
 export default function ShopCustomerFilters() {
   const ticketEnumsQ = useTicketsAsEnumsQ();
@@ -39,6 +40,9 @@ export default function ShopCustomerFilters() {
           filterKey="customer-type"
           enums={enums.customerType}
         />
+      </DataTable.FilterPopover>
+      <DataTable.FilterPopover withoutCmdk label="Age">
+        <DataTable.FilterSlider filterKey="age" dataKey="age" />
       </DataTable.FilterPopover>
     </>
   );
