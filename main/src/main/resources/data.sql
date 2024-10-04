@@ -18,9 +18,9 @@ INSERT INTO Employee
 
 INSERT INTO Customer
 (customer_type,  first_name, last_name,  personal_identity_number, organization_name, phone_number,   email,                  created_at, updated_at, created_by, updated_by) VALUES
-('PERSON',       'Tuva',     'Nilsson',  '1234567890',             null,             '+46798382301',  'tuva@example.com',     NOW(),      NOW(),      1,          1         ),
-('PERSON',       'Emil',     'Berglund', '1234567890',             null,             '+46832103988',  'emil@example.com',     NOW(),      NOW(),      1,          1         ),
-('ORGANIZATION', 'Bosse',    'Boström',  '7894561230',             'Biltema',        '+46798381201',  'bosseboss@biltema.se', NOW(),      NOW(),      1,          1         );
+('PERSON',       'Tuva',     'Nilsson',  '19900101-1237',             null,             '+46798382301',  'tuva@example.com',     NOW(),      NOW(),      1,          1         ),
+('PERSON',       'Emil',     'Berglund', '19851224-5672',             null,             '+46832103988',  'emil@example.com',     NOW(),      NOW(),      1,          1         ),
+('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Biltema',        '+46798381201',  'bosseboss@biltema.se', NOW(),      NOW(),      1,          1         );
 
 --
 

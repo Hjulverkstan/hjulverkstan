@@ -1,20 +1,13 @@
 import { useMemo } from 'react';
-import { parse, differenceInYears } from 'date-fns';
 
 import * as enums from '@data/customer/enums';
-import { Customer } from '@data/customer/types';
+import { AggregatedCustomer } from '@data/customer/types';
 
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { TicketBadges } from '../PortalShopTickets/useColumns';
 import BadgeGroup from '@components/BadgeGroup';
-
-const calculateAge = (persIdNo: string) =>
-  differenceInYears(
-    new Date(),
-    parse(persIdNo.substring(0, 8), 'yyyyMMdd', new Date()),
-  );
 
 export default function useColumns() {
   const ticketEnumsQ = useTicketsAsEnumsQ();
@@ -52,8 +45,7 @@ export default function useColumns() {
         {
           key: 'persidnr',
           name: 'Pers. Identity No.',
-          renderFn: ({ personalIdentityNumber }) => {
-            const age = calculateAge(personalIdentityNumber);
+          renderFn: ({ personalIdentityNumber, age }) => {
             return (
               <IconLabel label={`${personalIdentityNumber.slice(0, -4)}****`}>
                 <span className="pl-1 text-gray-500"> (age: {age})</span>
@@ -83,7 +75,7 @@ export default function useColumns() {
             </span>
           ),
         },
-      ] as Array<DataTable.Column<Customer>>,
+      ] as Array<DataTable.Column<AggregatedCustomer>>,
     [ticketEnumsQ.data],
   );
 }

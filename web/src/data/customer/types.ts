@@ -21,3 +21,7 @@ export interface Customer {
   updatedBy: string;
   updatedAt: string;
 }
+
+export interface AggregatedCustomer extends Customer {
+  age: number;
+}
