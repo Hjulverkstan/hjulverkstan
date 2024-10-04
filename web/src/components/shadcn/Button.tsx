@@ -64,22 +64,39 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  tooltip?: string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant, subVariant, /* size, */ asChild = false, ...props },
+    {
+      className,
+      variant,
+      subVariant,
+      /* size, */ asChild = false,
+      tooltip,
+      ...props
+    },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'button';
     return (
-      <Comp
-        className={cn(
-          buttonVariants({ variant, subVariant, /* size, */ className }),
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          <Comp
+            className={cn(
+              buttonVariants({ variant, subVariant, /* size, */ className }),
+            )}
+            ref={ref}
+            {...props}
+          />
+        </Tooltip.Trigger>
+        {tooltip && (
+          <Tooltip.Content>
+            <p>{tooltip}</p>
+          </Tooltip.Content>
         )}
-        ref={ref}
-        {...props}
-      />
+      </Tooltip.Root>
     );
   },
 );
@@ -91,33 +108,23 @@ Button.displayName = 'Button';
 export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
   icon?: any;
   text?: string;
-  tooltip?: string;
 }
 
 export const IconButton = React.forwardRef<any, IconButtonProps>(
-  ({ className, tooltip, text, icon: Icon, ...props }, ref) => {
+  ({ className, text, icon: Icon, ...props }, ref) => {
     return (
-      <Tooltip.Root>
-        <Tooltip.Trigger asChild>
-          <Button
-            className={cn(
-              'data-[state=open]:bg-muted flex h-8 p-0',
-              text ? 'pl-3 pr-4' : 'w-8',
-              className,
-            )}
-            ref={ref}
-            {...props}
-          >
-            {Icon && <Icon className="h-4 w-4" />}
-            {text && <span className="pl-2">{text}</span>}
-          </Button>
-        </Tooltip.Trigger>
-        {tooltip && (
-          <Tooltip.Content>
-            <p>{tooltip}</p>
-          </Tooltip.Content>
+      <Button
+        className={cn(
+          'data-[state=open]:bg-muted flex h-8 p-0',
+          text ? 'pl-3 pr-4' : 'w-8',
+          className,
         )}
-      </Tooltip.Root>
+        ref={ref}
+        {...props}
+      >
+        {Icon && <Icon className="h-4 w-4" />}
+        {text && <span className="pl-2">{text}</span>}
+      </Button>
     );
   },
 );

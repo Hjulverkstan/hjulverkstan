@@ -26,3 +26,4 @@ export * from './DataTableFilterDate';
 export * from './DataTableFilterSearch';
 export * from './DataTableFilterPopover';
 export * from './DataTableFilterMultiSelect';
+export * from './DataTableFilterSlider';

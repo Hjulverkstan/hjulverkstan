@@ -71,7 +71,7 @@ export const FilterPopover = ({
   children,
   hasSearch,
   withoutCmdk = false,
-  width = 200,
+  width = 250,
   hideIcon = false,
 }: FilterPopoverProps) => {
   const { disabled } = useDataTable();
@@ -190,7 +190,8 @@ export const FilterPopover = ({
           </Button>
         </Popover.Trigger>
         <Popover.Content
-          className={`w-[${width}] p-0`}
+          className="p-0"
+          style={{ width }}
           align="start"
           persistMount
           isOpen={isOpen}

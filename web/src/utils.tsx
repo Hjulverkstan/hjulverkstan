@@ -57,16 +57,36 @@ export const pickKeys = (keys: string[], obj: Record<string, any>) =>
 //
 
 export const shallowEq = (
-  a?: Record<string, any>,
-  b?: Record<string, any>,
+  a?: Record<string, any> | any[],
+  b?: Record<string, any> | any[],
 ): boolean => {
   if (a === b) return true;
 
-  if (typeof a !== 'object' || typeof b !== 'object') return false;
+  if (
+    typeof a !== 'object' ||
+    typeof b !== 'object' ||
+    a === null ||
+    b === null
+  ) {
+    return false;
+  }
+
+  // Handle arrays
+
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+    return true;
+  }
+
+  // Handle objects
 
   if (Object.keys(a).length !== Object.keys(b).length) return false;
 
-  for (const key of Object.keys(a)) if (a[key] !== b[key]) return false;
+  for (const key of Object.keys(a))
+    if ((a as Record<string, any>)[key] !== (b as Record<string, any>)[key])
+      return false;
 
   return true;
 };
