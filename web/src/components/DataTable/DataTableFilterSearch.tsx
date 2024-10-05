@@ -33,7 +33,7 @@ export const FilterSearch = ({ placeholder, matchFn }: FilterSearchProps) => {
   const { appSlug, pageSlug } = usePortalSlugs();
   const [value, setValue] = usePersistentState<string>(
     `${appSlug}-${pageSlug}-searchFilter`,
-    '', // initState for usePersistentState, also functions as fallback for readStore.
+    '',
   );
 
   const { disabled, setFilterFn } = useDataTable({

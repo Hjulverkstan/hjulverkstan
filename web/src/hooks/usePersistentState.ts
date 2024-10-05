@@ -6,17 +6,13 @@ import {
   SetStateAction,
 } from 'react';
 
-export const readStore = (key: string, fallback: any) => {
+export const readStore = (key: string) => {
   try {
     const item = window.localStorage.getItem(key);
-    return item === 'undefined'
-      ? undefined
-      : item
-        ? JSON.parse(item)
-        : fallback;
+    return item === 'undefined' || item === null ? undefined : JSON.parse(item);
   } catch (error) {
     console.error(`Error reading localStorage key “${key}”:`, error);
-    return fallback;
+    return undefined;
   }
 };
 
@@ -37,15 +33,23 @@ export const writeStore = (key: string, val: any) => {
  * where a page reload would load the other tabs latest changes.
  *
  * @param {string} key - The localStorage key to store the state.
- * @param {any} [initState] - The initial state if no value in localStorage.
- * @returns A [state, setState] tupple just like useState.
+ * @param [initState] - If is function, will receive value from store and return
+ *   init state to be passed the internal useState(initState), if not function
+ *   defined, will pass directly to useState(initState).
+ * @returns A [state, setState] tuple just like useState.
  */
 
 function usePersistentState<S>(
   key: string,
-  initState?: S | (() => S),
+  initState?: S | ((fromStore?: S) => S),
 ): [S, Dispatch<SetStateAction<S>>] {
-  const [state, setState] = useState(readStore(key, initState));
+  const toInitState =
+    typeof initState === 'function'
+      ? (initState as (s?: S) => S)
+      : (fromStore?: S) => fromStore ?? initState;
+
+  const [state, setState] = useState(() => toInitState(readStore(key)));
+
   const writeState = useCallback(() => writeStore(key, state), [key, state]);
 
   useEffect(() => {
@@ -55,7 +59,7 @@ function usePersistentState<S>(
     return () => window.removeEventListener('beforeunload', writeState);
   }, [writeState]);
 
-  return [state, setState];
+  return [state as S, setState as Dispatch<SetStateAction<S>>];
 }
 
 export default usePersistentState;
