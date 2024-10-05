@@ -23,16 +23,20 @@ export interface DataTableFilterDateProps {
   /* Unique key for registering the filter with <DataTable.Provider /> */
   filterKey: string;
   label: React.ReactNode;
+  /* Override the persisted state and set to no selected dateRange */
+  shouldClearPersistedState?: boolean;
 }
 
 export const FilterDate = ({
   dataKeyFrom,
   dataKeyTo,
   filterKey,
+  shouldClearPersistedState,
 }: DataTableFilterDateProps) => {
   const { appSlug, pageSlug } = usePortalSlugs();
   const [dateRange, setDateRange] = usePersistentState<DateRange | undefined>(
     `${appSlug}-${pageSlug}-${filterKey}`,
+    (fromStore) => (shouldClearPersistedState ? undefined : fromStore),
   );
 
   // Connect to clear all filters and the clear from popover

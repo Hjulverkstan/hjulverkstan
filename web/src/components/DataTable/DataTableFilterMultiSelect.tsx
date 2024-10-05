@@ -18,19 +18,20 @@ export interface FilterMultiSelectProps {
    */
   enums: EnumAttributes[];
   heading?: string;
-  initSelected?: any[];
+  toInitSelected?: (fromStore?: any[]) => any[] | undefined;
 }
 
 export const FilterMultiSelect = ({
   filterKey,
   enums,
   heading,
-  initSelected,
+  toInitSelected = (fromStore) => fromStore,
 }: FilterMultiSelectProps) => {
   const { appSlug, pageSlug } = usePortalSlugs();
   const [selected, setSelected] = usePersistentState<any[]>(
     `${appSlug}-${pageSlug}-${filterKey}-multiSelectFilter`,
-    (fromStore) => initSelected || fromStore || [],
+    (fromStore) =>
+      (toInitSelected && toInitSelected(fromStore)) ?? fromStore ?? [],
   );
 
   const { setActiveLabels } = useFilterPopover();
