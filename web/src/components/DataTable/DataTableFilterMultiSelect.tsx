@@ -68,34 +68,31 @@ export const FilterMultiSelect = ({
       );
   }, [enums, rawData, filterFnMap]);
 
+  const dataIsLoaded = !!rawData.length;
+
   // Connect with <PopoverFilterRoot /> and its activeFilters
 
   useEffect(() => {
-    if (enumsAggregated.length) {
+    if (dataIsLoaded) {
       setActiveLabels(
         filterKey,
-        selected.map(
-          (value) => enumsAggregated.find((e) => e.value === value)!.label,
-        ),
+        selected.map((value) => enums.find((e) => e.value === value)!.label),
+      );
+
+      setFilterFn(
+        filterKey,
+        !!selected.length &&
+          ((row) =>
+            selected.some((value) => {
+              const { dataKey } = enums.find((e) => e.value === value)!;
+
+              return Array.isArray(row[dataKey])
+                ? row[dataKey].includes(value)
+                : row[dataKey] === value;
+            })),
       );
     }
-  }, [selected, enumsAggregated]);
-
-  useEffect(() => {
-    if (enumsAggregated.length) {
-      const filterFn = (row: any) =>
-        selected.some((value) => {
-          const enumAttr = enumsAggregated.find((e) => e.value === value)!;
-          const rowVal = row[enumAttr.dataKey];
-
-          return Array.isArray(rowVal)
-            ? rowVal.includes(enumAttr.value)
-            : rowVal === enumAttr.value;
-        });
-
-      setFilterFn(filterKey, !!selected.length && filterFn);
-    }
-  }, [selected, enumsAggregated]);
+  }, [selected, dataIsLoaded, enums]);
 
   //
 
