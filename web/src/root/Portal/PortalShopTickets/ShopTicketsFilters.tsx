@@ -1,21 +1,26 @@
-import * as enums from '@data/ticket/enums';
+import { useLocation, useParams } from 'react-router-dom';
+import { CalendarIcon } from 'lucide-react';
 
 import * as DataTable from '@components/DataTable';
+import * as enums from '@data/ticket/enums';
 import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
 import { enumsMatchUtil } from '@data/enums';
-import { useLocationsAsEnumsQ } from '@data/location/queries';
-import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { TicketAggregated } from '@data/ticket/types';
+import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
+import {
+  useTicketsAggregatedQ,
+  useTicketsAsEnumsQ,
+} from '@data/ticket/queries';
+
 import {
   VehicleShortcutAction,
   VehicleShortcutLocationState,
 } from '../PortalShopInventory/ShopInventoryActions';
-import { useLocation } from 'react-router-dom';
-import { CalendarIcon } from 'lucide-react';
 
 export default function ShopTicketFilters() {
+  const ticketsQ = useTicketsAggregatedQ();
   const ticketEnumsQ = useTicketsAsEnumsQ();
   const locationState = useLocation().state as VehicleShortcutLocationState;
 
@@ -24,49 +29,83 @@ export default function ShopTicketFilters() {
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
 
-  const shouldInjectWithVehicleId =
-    locationState?.action === VehicleShortcutAction.FILTER_BY_VEHICLE;
+  const { id } = useParams();
+  const ticketByParam = id && ticketsQ.data?.find((t) => t.id === id);
 
-  const initSelected = shouldInjectWithVehicleId
-    ? [locationState.vehicleId]
-    : [];
+  // This shortcut action can be triggered an passed through location state
+  // from the inventory page
+  const vehicleIdToSelect =
+    locationState?.action === VehicleShortcutAction.FILTER_BY_VEHICLE &&
+    locationState.vehicleId;
+
+  const expectedVisibleTickets = vehicleIdToSelect
+    ? // User expects to see the tickets from the "See tickets" vehicle shortcut
+      ticketsQ.data?.filter((t) => t.vehicleIds.includes(vehicleIdToSelect))
+    : ticketByParam
+      ? // The user expects to see the ticket navigated to by the url
+        [ticketByParam]
+      : undefined;
+
+  // By passing this to the toInitSelect of all multi select filters, we can
+  // check if each filter has a persisted selection that will hide the
+  // expectedVisibleTickets and clear it if so.
+  const clearIfExcludesExpectedTicketsByProp =
+    (prop: keyof TicketAggregated) => (fromStore?: any[]) =>
+      (fromStore &&
+        expectedVisibleTickets?.some((t) =>
+          Array.isArray(t[prop])
+            ? !t[prop].some((v) => fromStore.includes(v))
+            : !fromStore.includes(t[prop]),
+        ) &&
+        []) ||
+      fromStore;
+
+  const filterSearchMatchFn = (word: string, row: TicketAggregated) =>
+    enums.matchFn(word, row) ||
+    DataTable.fuzzyMatchFn(
+      ['comment', 'startDate', 'endDate', 'repairDescription'],
+      word,
+      row,
+    ) ||
+    enumsMatchUtil({
+      enums: employeeEnumsQ.data,
+      isOf: row.employeeId,
+      includes: word,
+    }) ||
+    enumsMatchUtil({
+      enums: customerEnumsQ.data,
+      isOf: row.customerId,
+      includes: word,
+    }) ||
+    enumsMatchUtil({
+      enums: vehicleEnumsQ.data,
+      isOf: row.vehicleIds,
+      includes: word,
+    }) ||
+    enumsMatchUtil({
+      enums: ticketEnumsQ.data,
+      isOf: row.id,
+      startsWith: word,
+    }) ||
+    enumsMatchUtil({
+      enums: locationEnumsQ.data,
+      isOf: row.locationIds,
+      startsWith: word,
+    });
 
   return (
     <>
       <DataTable.FilterSearch
         placeholder="Search in Tickets..."
-        matchFn={(word: string, row: TicketAggregated) =>
-          enums.matchFn(word, row) ||
-          DataTable.fuzzyMatchFn(
-            ['comment', 'startDate', 'endDate', 'repairDescription'],
-            word,
-            row,
-          ) ||
-          enumsMatchUtil({
-            enums: employeeEnumsQ.data,
-            isOf: row.employeeId,
-            includes: word,
-          }) ||
-          enumsMatchUtil({
-            enums: customerEnumsQ.data,
-            isOf: row.customerId,
-            includes: word,
-          }) ||
-          enumsMatchUtil({
-            enums: vehicleEnumsQ.data,
-            isOf: row.vehicleIds,
-            includes: word,
-          }) ||
-          enumsMatchUtil({
-            enums: ticketEnumsQ.data,
-            isOf: row.id,
-            startsWith: word,
-          }) ||
-          enumsMatchUtil({
-            enums: locationEnumsQ.data,
-            isOf: row.locationIds,
-            startsWith: word,
-          })
+        matchFn={filterSearchMatchFn}
+        toInitSelected={(fromStore) =>
+          // If the persisted search excludes the expected visible tickets
+          fromStore &&
+          expectedVisibleTickets?.some(
+            (t) => !filterSearchMatchFn(fromStore, t),
+          )
+            ? ''
+            : fromStore
         }
       />
 
@@ -76,6 +115,7 @@ export default function ShopTicketFilters() {
         <DataTable.FilterMultiSelect
           filterKey="customer-id"
           enums={customerEnumsQ.data ?? []}
+          toInitSelected={clearIfExcludesExpectedTicketsByProp('customerId')}
         />
       </DataTable.FilterPopover>
 
@@ -84,12 +124,15 @@ export default function ShopTicketFilters() {
           heading="Locations"
           filterKey="location-ids"
           enums={locationEnumsQ.data ?? []}
+          toInitSelected={clearIfExcludesExpectedTicketsByProp('locationIds')}
         />
         <DataTable.FilterMultiSelect
           heading="Vehicles"
           filterKey="vehicle-ids"
-          initSelected={initSelected}
           enums={vehicleEnumsQ.data ?? []}
+          toInitSelected={(fromStore) =>
+            vehicleIdToSelect ? [vehicleIdToSelect] : fromStore
+          }
         />
       </DataTable.FilterPopover>
 
@@ -97,6 +140,7 @@ export default function ShopTicketFilters() {
         <DataTable.FilterMultiSelect
           filterKey="employee-id"
           enums={employeeEnumsQ.data ?? []}
+          toInitSelected={clearIfExcludesExpectedTicketsByProp('employeeId')}
         />
       </DataTable.FilterPopover>
 
@@ -105,11 +149,13 @@ export default function ShopTicketFilters() {
           heading="Status"
           filterKey="status"
           enums={enums.ticketStatus}
+          toInitSelected={clearIfExcludesExpectedTicketsByProp('ticketStatus')}
         />
         <DataTable.FilterMultiSelect
           heading="Type"
           filterKey="type"
           enums={enums.ticketType}
+          toInitSelected={clearIfExcludesExpectedTicketsByProp('ticketType')}
         />
       </DataTable.FilterPopover>
 
@@ -123,6 +169,7 @@ export default function ShopTicketFilters() {
           dataKeyTo="endDate"
           filterKey="date-range"
           label="Filter by date"
+          shouldClearPersistedState={!!expectedVisibleTickets}
         />
       </DataTable.FilterPopover>
     </>

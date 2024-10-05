@@ -27,13 +27,19 @@ export const fuzzyMatchFn = (keys: string[], word: string, row: Row) =>
 export interface FilterSearchProps {
   placeholder: string;
   matchFn: SearchMatchFn;
+  toInitSelected?: (fromStore?: string) => string | undefined;
 }
 
-export const FilterSearch = ({ placeholder, matchFn }: FilterSearchProps) => {
+export const FilterSearch = ({
+  placeholder,
+  matchFn,
+  toInitSelected,
+}: FilterSearchProps) => {
   const { appSlug, pageSlug } = usePortalSlugs();
   const [value, setValue] = usePersistentState<string>(
     `${appSlug}-${pageSlug}-searchFilter`,
-    '',
+    (fromStore) =>
+      (toInitSelected ? toInitSelected(fromStore) : fromStore) ?? '',
   );
 
   const { disabled, setFilterFn } = useDataTable({
