@@ -106,11 +106,13 @@ export const FilterDate = ({
       setActiveLabels(filterKey, []);
     } else {
       const selectedFrom = startOfDay(from);
-      const selectedTo = startOfDay(to ?? from);
+      const selectedTo = to ? startOfDay(to) : selectedFrom;
 
       setFilterFn(filterKey, (row: any) => {
         const rowFrom = startOfDay(new Date(row[dataKeyFrom]));
-        const rowTo = row[dataKeyTo] && startOfDay(new Date(row[dataKeyTo]));
+        const rowTo = row[dataKeyTo]
+          ? startOfDay(new Date(row[dataKeyTo]))
+          : rowFrom;
 
         return areIntervalsOverlapping(
           { start: selectedFrom, end: selectedTo },
