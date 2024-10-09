@@ -1,9 +1,10 @@
 import {
-  Calendar,
   CheckCircle,
-  CircleDot,
+  Check,
+  XCircle,
   Package,
   ReceiptText,
+  RefreshCw,
   Wrench,
 } from 'lucide-react';
 
@@ -33,38 +34,45 @@ export const ticketType = [
   },
 ];
 
-export const status = [
+export const ticketStatus = [
   {
-    dataKey: 'status',
-    value: TicketStatus.DUE,
-    label: 'Due',
-    icon: Calendar,
+    dataKey: 'ticketStatus',
+    value: TicketStatus.READY,
+    label: 'Ready',
+    icon: CheckCircle,
     variant: 'destructive' as 'destructive',
   },
   {
-    dataKey: 'status',
-    value: TicketStatus.OPEN,
-    label: 'Open',
-    icon: CircleDot,
+    dataKey: 'ticketStatus',
+    value: TicketStatus.IN_PROGRESS,
+    label: 'In progress',
+    icon: RefreshCw,
     variant: 'success' as 'successOutline',
   },
   {
-    dataKey: 'status',
+    dataKey: 'ticketStatus',
+    value: TicketStatus.COMPLETE,
+    label: 'Complete',
+    icon: Check,
+    variant: 'outline' as 'outline',
+  },
+  {
+    dataKey: 'ticketStatus',
     value: TicketStatus.CLOSED,
     label: 'Closed',
-    icon: CheckCircle,
+    icon: XCircle,
     variant: 'outline' as 'outline',
   },
 ];
 
 export const ticketEnums = {
   ticketType,
-  status,
+  ticketStatus,
 };
 
 //
 
-const all = [...ticketType, ...status];
+const all = [...ticketType, ...ticketStatus];
 
 export const find = createFindFn(all);
 export const matchFn = createMatchFn(all);

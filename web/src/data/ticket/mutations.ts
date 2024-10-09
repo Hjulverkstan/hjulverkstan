@@ -28,3 +28,13 @@ export const useDeleteTicketM = () =>
     ...api.createDeleteTicket(),
     onSuccess: () => invalidateQueries([api.createGetTickets().queryKey]),
   });
+
+export const useUpdateTicketStatusM = () =>
+  useMutation({
+    ...api.createUpdateTicketStatus(),
+    onSuccess: ({ id }) =>
+      invalidateQueries([
+        api.createGetTickets().queryKey,
+        api.createGetTicket({ id }).queryKey,
+      ]),
+  });

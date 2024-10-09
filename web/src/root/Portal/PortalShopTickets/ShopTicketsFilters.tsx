@@ -104,7 +104,7 @@ export default function ShopTicketFilters() {
         <DataTable.FilterMultiSelect
           heading="Status"
           filterKey="status"
-          enums={enums.status}
+          enums={enums.ticketStatus}
         />
         <DataTable.FilterMultiSelect
           heading="Type"

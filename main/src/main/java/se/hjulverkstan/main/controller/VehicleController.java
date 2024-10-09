@@ -1,15 +1,14 @@
 package se.hjulverkstan.main.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.vehicles.*;
 import se.hjulverkstan.main.dto.responses.*;
-import se.hjulverkstan.main.model.BatchGroup;
-import se.hjulverkstan.main.model.SingleVehicleGroup;
-import se.hjulverkstan.main.service.VehicleService;
+import se.hjulverkstan.main.model.vehicle.BatchGroup;
+import se.hjulverkstan.main.model.vehicle.SingleVehicleGroup;
+import se.hjulverkstan.main.service.vehicle.VehicleService;
 
 @RestController
 @RequestMapping("v1/vehicle")

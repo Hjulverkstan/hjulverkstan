@@ -6,10 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.model.SingleVehicleGroup;
-import se.hjulverkstan.main.model.Vehicle;
-import se.hjulverkstan.main.model.VehicleStatus;
-import se.hjulverkstan.main.model.VehicleType;
+import se.hjulverkstan.main.model.vehicle.SingleVehicleGroup;
+import se.hjulverkstan.main.model.vehicle.Vehicle;
+import se.hjulverkstan.main.model.vehicle.VehicleStatus;
+import se.hjulverkstan.main.model.vehicle.VehicleType;
 
 @Data
 @AllArgsConstructor

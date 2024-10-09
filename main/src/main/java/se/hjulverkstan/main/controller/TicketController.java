@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
 import se.hjulverkstan.main.dto.tickets.*;
-import se.hjulverkstan.main.service.TicketService;
+import se.hjulverkstan.main.service.ticket.TicketService;
 
 @RestController
 @RequestMapping("v1/ticket")
@@ -55,6 +55,11 @@ public class TicketController {
     @PutMapping("/donate/{id}")
     public ResponseEntity<TicketDto> editTicketDonate(@PathVariable Long id, @Valid @RequestBody TicketDonateDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<TicketDto> updateTicketStatus(@PathVariable Long id, @Valid @RequestBody TicketStatusDto body) {
+        return new ResponseEntity<>(service.updateTicketStatus(id, body), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

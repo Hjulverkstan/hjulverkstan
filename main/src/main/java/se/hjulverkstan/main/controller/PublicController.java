@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
 import se.hjulverkstan.main.dto.vehicles.VehicleDto;
-import se.hjulverkstan.main.service.VehicleService;
+import se.hjulverkstan.main.service.vehicle.VehicleService;
 
 @RestController
 @RequestMapping("/v1/public")

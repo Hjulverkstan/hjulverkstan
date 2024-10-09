@@ -6,7 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.model.*;
+import se.hjulverkstan.main.model.ticket.Ticket;
+import se.hjulverkstan.main.model.vehicle.SingleVehicleGroup;
+import se.hjulverkstan.main.model.vehicle.Vehicle;
+import se.hjulverkstan.main.model.vehicle.VehicleStatus;
+import se.hjulverkstan.main.model.vehicle.VehicleType;
 
 import java.time.LocalDateTime;
 import java.util.List;

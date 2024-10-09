@@ -1,7 +1,7 @@
 package se.hjulverkstan.main.dto.vehicles;
 
 import lombok.*;
-import se.hjulverkstan.main.model.VehicleGeneric;
+import se.hjulverkstan.main.model.vehicle.VehicleGeneric;
 
 @ToString
 @EqualsAndHashCode(callSuper = true)

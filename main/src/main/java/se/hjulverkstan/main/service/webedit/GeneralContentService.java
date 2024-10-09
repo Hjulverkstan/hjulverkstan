@@ -1,6 +1,6 @@
 package se.hjulverkstan.main.service.webedit;
 
-import se.hjulverkstan.Exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.common.exception.ElementNotFoundException;
 import se.hjulverkstan.main.dto.webedit.GeneralContentDto;
 import se.hjulverkstan.main.dto.webedit.UpdateGeneralContentWithLangDto;
 import se.hjulverkstan.main.model.webedit.Language;

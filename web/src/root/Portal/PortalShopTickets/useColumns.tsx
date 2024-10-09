@@ -117,16 +117,18 @@ export default function useColumns() {
         },
 
         {
-          key: 'status',
+          key: 'ticketStatus',
           name: 'Status',
-          renderFn: ({ status, daysLeft }) => (
+          renderFn: ({ ticketStatus, daysLeft }) => (
             <BadgeGroup
               badges={[
                 {
-                  ...enums.find(status),
+                  ...(ticketStatus != null
+                    ? enums.find(ticketStatus)
+                    : { label: 'No status', variant: 'outline' }), // Fallback för null
                   tooltip:
                     (daysLeft &&
-                      status !== TicketStatus.CLOSED &&
+                      ticketStatus !== TicketStatus.CLOSED &&
                       ((daysLeft === 0 && 'Ends today') ||
                         (daysLeft > 0 && `${daysLeft} days left`) ||
                         (daysLeft < 0 &&

@@ -5,9 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.model.Ticket;
-import se.hjulverkstan.main.model.TicketType;
-import se.hjulverkstan.main.model.Vehicle;
+import se.hjulverkstan.main.model.ticket.Ticket;
+import se.hjulverkstan.main.model.ticket.TicketType;
+import se.hjulverkstan.main.model.ticket.TicketStatus;
+import se.hjulverkstan.main.model.vehicle.Vehicle;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,6 +38,8 @@ public class TicketDto {
     @NotNull(message = "Customer is required")
     private Long customerId;
 
+    private TicketStatus ticketStatus;
+
     // Metadata
     private Long createdBy;
     private LocalDateTime createdAt;
@@ -51,6 +54,7 @@ public class TicketDto {
                 ticket.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 ticket.getEmployee().getId(),
                 ticket.getCustomer().getId(),
+                ticket.getTicketStatus(),
                 ticket.getCreatedBy(),
                 ticket.getCreatedAt(),
                 ticket.getUpdatedBy(),

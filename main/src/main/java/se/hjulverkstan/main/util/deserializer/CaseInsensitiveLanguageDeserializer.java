@@ -3,7 +3,7 @@ package se.hjulverkstan.main.util.deserializer;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import se.hjulverkstan.Exceptions.UnsupportedArgumentException;
+import se.hjulverkstan.main.common.exception.UnsupportedArgumentException;
 import se.hjulverkstan.main.model.webedit.Language;
 
 import java.io.IOException;

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.responses.GetAllUserDto;
 import se.hjulverkstan.main.dto.user.SignupRequest;
 import se.hjulverkstan.main.dto.user.UserResponse;
-import se.hjulverkstan.main.service.UserServiceImpl;
+import se.hjulverkstan.main.service.user.UserServiceImpl;
 
 @RestController
 @RequestMapping("v1/user")

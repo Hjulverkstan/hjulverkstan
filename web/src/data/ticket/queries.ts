@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { differenceInDays } from 'date-fns';
 
 import { useVehiclesQ } from '@data/vehicle/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
@@ -31,18 +30,9 @@ export const useTicketsAggregatedQ = () =>
   useAggregatedQueries(
     (tickets, vehicles): TicketAggregated[] =>
       tickets.map((ticket) => {
-        const daysLeft = ticket.endDate
-          ? differenceInDays(new Date(ticket.endDate), new Date())
-          : undefined;
-
         return {
           ...ticket,
-          daysLeft,
-          status: ticket.isOpen
-            ? daysLeft && daysLeft < 0
-              ? TicketStatus.DUE
-              : TicketStatus.OPEN
-            : TicketStatus.CLOSED,
+          status: ticket.ticketStatus,
           locationIds: U.uniq(
             ticket.vehicleIds.map(
               (vehicleId) =>
@@ -70,9 +60,10 @@ export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) => {
           label: `#${ticket.id}`,
           variant: {
             [TicketStatus.CLOSED]: 'outline',
-            [TicketStatus.DUE]: 'destructive',
-            [TicketStatus.OPEN]: 'success',
-          }[ticket.status] as 'outline' | 'warn' | 'success',
+            [TicketStatus.IN_PROGRESS]: 'success',
+            [TicketStatus.READY]: 'warn',
+            [TicketStatus.COMPLETE]: 'success',
+          }[ticket.ticketStatus] as 'outline' | 'warn' | 'success',
           value: ticket.id,
         })) ?? [],
     }),

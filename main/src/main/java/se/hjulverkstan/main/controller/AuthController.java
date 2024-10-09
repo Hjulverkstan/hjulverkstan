@@ -8,12 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.annotation.*;
-import se.hjulverkstan.Exceptions.MissingArgumentException;
-import se.hjulverkstan.Exceptions.TokenRefreshException;
+import se.hjulverkstan.main.common.exception.MissingArgumentException;
+import se.hjulverkstan.main.common.exception.TokenRefreshException;
 import se.hjulverkstan.main.dto.MessageResponse;
 import se.hjulverkstan.main.dto.auth.LoginRequest;
 import se.hjulverkstan.main.dto.auth.UserDetails;
-import se.hjulverkstan.main.security.services.AuthService;
+import se.hjulverkstan.main.service.auth.AuthService;
 import se.hjulverkstan.main.service.CookieService;
 import se.hjulverkstan.main.service.CookieServiceImpl;
 

@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import se.hjulverkstan.main.model.Location;
+import se.hjulverkstan.main.model.location.Location;
 import se.hjulverkstan.main.model.base.Auditable;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class Shop extends Auditable {
 
     @OneToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id")
-    private Location location;
+    private Location location; //TODO:Jeus it is incorrect.  Shop --> location --> Vehicles
 
     @OneToMany(mappedBy = "shop", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<LocalisedContent> localisedContent;

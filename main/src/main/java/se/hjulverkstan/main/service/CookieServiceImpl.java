@@ -4,10 +4,10 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import se.hjulverkstan.Exceptions.TokenRefreshException;
+import se.hjulverkstan.main.common.exception.TokenRefreshException;
 import se.hjulverkstan.main.dto.auth.UserDetails;
-import se.hjulverkstan.main.model.RefreshToken;
-import se.hjulverkstan.main.security.jwt.JwtUtils;
+import se.hjulverkstan.main.model.auth.RefreshToken;
+import se.hjulverkstan.main.security.JwtUtils;
 
 import java.util.HashMap;
 import java.util.Map;

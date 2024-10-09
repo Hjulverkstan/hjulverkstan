@@ -37,14 +37,14 @@ INSERT INTO vehicle
 --
 
 INSERT INTO Ticket
-(ticket_type, is_open, employee_id, customer_id, start_date,            end_date,                   comment,                     repair_description,                           created_at, updated_at, created_by, updated_by) VALUES
-('REPAIR',    false,   2,           1,           '2024-03-06 10:00:00', '2024-03-12 18:00:00',      'Important',                 'Adjust gears and lubricate',                 NOW(),      NOW(),      1,          1         ),
-('RENT',      false,   1,           2,           '2024-03-15 10:00:00', '2024-04-02 18:00:00',      null                   ,     null,                                         NOW(),      NOW(),      1,          1         ),
-('REPAIR',    false,   2,           1,           '2024-04-01 10:00:00', '2024-04-06 18:00:00',      'Could be back earlier',     'Flat tire front and loose handlebar',        NOW(),      NOW(),      1,          1         ),
-('RENT',      true,    3,           1,           '2024-05-10 13:00:00', '2024-05-28 15:00:00',      null,                        null,                                         NOW(),      NOW(),      1,          1         ),
-('RENT',      true,    3,           2,           '2024-05-01 13:00:00', '2024-05-14 15:00:00',      'Lets prioritise this',      null,                                         NOW(),      NOW(),      1,          1         ),
-('DONATE',    false,   1,           3,           '2024-03-06 08:00:00', '2024-03-06 12:00:00',      null,                        null,                                         NOW(),      NOW(),      1,          1         ),
-('RENT',      true,    1,           1,           '2024-05-16 10:00:00', '2024-06-16 18:00:00',      'I like this guy',           null,                                         NOW(),      NOW(),      1,          1         );
+(ticket_type, ticket_status, employee_id, customer_id, start_date,            end_date,                   comment,                     repair_description,                           created_at, updated_at, created_by, updated_by) VALUES
+('REPAIR',    'CLOSED',   2,           1,           '2024-03-06 10:00:00', '2024-03-12 18:00:00',      'Important',                 'Adjust gears and lubricate',                 NOW(),      NOW(),      1,          1         ),
+('RENT',      'CLOSED',   1,           2,           '2024-03-15 10:00:00', '2024-04-02 18:00:00',      null                   ,     null,                                         NOW(),      NOW(),      1,          1         ),
+('REPAIR',    'CLOSED',   2,           1,           '2024-04-01 10:00:00', '2024-04-06 18:00:00',      'Could be back earlier',     'Flat tire front and loose handlebar',        NOW(),      NOW(),      1,          1         ),
+('RENT',      'IN_PROGRESS',    3,           1,           '2024-05-10 13:00:00', '2024-05-28 15:00:00',      null,                        null,                                         NOW(),      NOW(),      1,          1         ),
+('RENT',      'IN_PROGRESS',    3,           2,           '2024-05-01 13:00:00', '2024-05-14 15:00:00',      'Lets prioritise this',      null,                                         NOW(),      NOW(),      1,          1         ),
+('DONATE',    null,   1,           3,           '2024-03-06 08:00:00', '2024-03-06 12:00:00',      null,                        null,                                         NOW(),      NOW(),      1,          1         ),
+('RENT',      'IN_PROGRESS',    1,           1,           '2024-05-16 10:00:00', '2024-06-16 18:00:00',      'I like this guy',           null,                                         NOW(),      NOW(),      1,          1         );
 
 INSERT INTO Ticket_Vehicle
 (vehicle_id, ticket_id) VALUES
