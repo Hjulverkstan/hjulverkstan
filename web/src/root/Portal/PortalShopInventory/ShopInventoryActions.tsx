@@ -120,6 +120,7 @@ export default function ShopInventoryActions({
               },
             });
           }}
+          disabled={!hasTickets}
         >
           See Tickets
         </DropdownMenu.Item>
