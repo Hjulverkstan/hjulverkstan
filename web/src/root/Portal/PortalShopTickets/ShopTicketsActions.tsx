@@ -15,9 +15,9 @@ import * as enums from '@data/ticket/enums';
 
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { IconButton } from '@components/shadcn/Button';
-import { Dialog, DialogTrigger } from '@components/shadcn/Dialog';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { useToast } from '@components/shadcn/use-toast';
+import { useDialogManager } from '@components/DialogManager';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
@@ -26,13 +26,15 @@ export default function ShopTicketsActions({
   row: ticket,
   disabled,
 }: PortalTableActionsProps<TicketAggregated>) {
+  const { openDialog } = useDialogManager();
+  const { toast } = useToast();
+
+  const [open, setOpen] = useState(false);
+
   const deleteTicketM = useDeleteTicketM();
   const updateTicketStatusM = useUpdateTicketStatusM();
 
-  const [open, setOpen] = useState(false);
-  const { toast } = useToast();
-
-  const onDelete = () => {
+    const onDelete = () => {
     deleteTicketM.mutate(ticket.id, {
       onSuccess: (res: Ticket) => {
         toast(
@@ -47,6 +49,15 @@ export default function ShopTicketsActions({
         toast(createErrorToast({ verbLabel: 'delete', dataLabel: 'ticket' }));
       },
     });
+  };
+  const handleDeleteClick = () => {
+    openDialog(
+      <ConfirmDeleteDialog
+        onDelete={onDelete}
+        entity={ticket.ticketType}
+        entityId={ticket.id}
+      />,
+    );
   };
 
   const onStatusUpdate = (newStatus: TicketStatus) => {
@@ -77,31 +88,22 @@ export default function ShopTicketsActions({
   const allowedStatuses = ticketTypeToTicketStatus(ticket.ticketType);
 
   return (
-    <Dialog>
-      <DropdownMenu.Root open={open} onOpenChange={setOpen}>
-        <DropdownMenu.Trigger asChild>
-          <IconButton
-            disabled={disabled}
-            variant="ghost"
-            icon={DotsHorizontalIcon}
-          />
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content align="end" className="w-[160px]">
-          <DialogTrigger asChild>
-            <DropdownMenu.Item
-              onClick={(e) => e.stopPropagation()}
-              onSelect={(e) => e.preventDefault()}
-            >
-              Delete
-              <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
-            </DropdownMenu.Item>
-          </DialogTrigger>
-          <ConfirmDeleteDialog
-            onDelete={onDelete}
-            onCancel={() => setOpen(false)}
-            entity={ticket.ticketType}
-            entityId={ticket.id}
-          />
+    <DropdownMenu.Root open={open} onOpenChange={setOpen}>
+      <DropdownMenu.Trigger asChild>
+        <IconButton
+          disabled={disabled}
+          variant="ghost"
+          icon={DotsHorizontalIcon}
+        />
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content align="end" className="w-[160px]">
+        <DropdownMenu.Item
+          onClick={(e) => e.stopPropagation()}
+          onSelect={() => handleDeleteClick()}
+        >
+          Delete
+          <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
+        </DropdownMenu.Item>
 
           {allowedStatuses?.length && (
             <DropdownMenu.Sub>
@@ -131,6 +133,5 @@ export default function ShopTicketsActions({
           )}
         </DropdownMenu.Content>
       </DropdownMenu.Root>
-    </Dialog>
   );
 }
