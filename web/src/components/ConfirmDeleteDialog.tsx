@@ -11,7 +11,7 @@ import { Trash2 } from 'lucide-react';
 
 interface confirmDeleteDialogProps {
   onDelete: () => void;
-  onCancel: () => void;
+  onCancel?: () => void;
   entity: string;
   entityId: string;
 }
@@ -30,7 +30,7 @@ export default function ConfirmDeleteDialog({
       <DialogHeader>
         <DialogTitle>{`Delete ${item}`}</DialogTitle>
         <DialogDescription>
-          : `You are trying to delete a ${item} with id ${id}.`
+          {`You are trying to delete a ${item} with id ${id}.`}
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
