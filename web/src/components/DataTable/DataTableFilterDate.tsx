@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import {
   areIntervalsOverlapping,
+  format,
+  getMonth,
   isWithinInterval,
   max,
   min,
@@ -16,33 +18,55 @@ import usePortalSlugs from '@hooks/useSlugs';
 import { Row, useDataTable, useFilterPopover } from './';
 
 export interface DataTableFilterDateProps {
+  disabled?: boolean;
   /* Key for the "from" date in the row object. */
-  dataKeyFrom: string;
+  dataKeyFrom?: string;
   /* Key for the "to" date (optional, defaults to dataKeyFrom). */
-  dataKeyTo: string;
+  dataKeyTo?: string;
   /* Unique key for registering the filter with <DataTable.Provider /> */
   filterKey: string;
-  label: React.ReactNode;
   /* Override the persisted state and set to no selected dateRange */
   shouldClearPersistedState?: boolean;
+  /*
+   * Because we want to subscribe to popover filter on clear outside the popover
+   * context in the case of <PortalFilterDate />
+   */
+  onClear?: () => void;
 }
 
 export const FilterDate = ({
+  disabled,
   dataKeyFrom,
   dataKeyTo,
   filterKey,
   shouldClearPersistedState,
+  onClear,
 }: DataTableFilterDateProps) => {
   const { appSlug, pageSlug } = usePortalSlugs();
   const [dateRange, setDateRange] = usePersistentState<DateRange | undefined>(
-    `${appSlug}-${pageSlug}-${filterKey}`,
+    `${appSlug}-${pageSlug}-${filterKey}-filterDate`,
     (fromStore) => (shouldClearPersistedState ? undefined : fromStore),
   );
+
+  const [month, setMonth] = useState(new Date());
+
+  // Used by <PortalFilterDate /> to be cleared if this filter is loaded with no
+  // selected date range
+
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    setIsInitialized(true);
+    if (!isInitialized && !dateRange && onClear) onClear();
+  }, [isInitialized, dateRange, onClear]);
 
   // Connect to clear all filters and the clear from popover
 
   const { setActiveLabels } = useFilterPopover({
-    onClear: () => setDateRange(undefined),
+    onClear: () => {
+      setDateRange(undefined);
+      if (onClear) onClear();
+    },
   });
 
   const { setFilterFn, rawData, filterFnMap } = useDataTable({
@@ -54,54 +78,79 @@ export const FilterDate = ({
   const intervalsFromDataSet = useMemo(() => {
     const filterFnMapOthers = U.omitKeys([filterKey], filterFnMap);
 
-    return (
-      rawData
-        // Apply all other filters but our filter to get the relevant data set
-        .filter((row: Row) =>
-          Object.values(filterFnMapOthers).every((fn) => fn(row)),
-        )
-        // For those rows that have dates, create intervals
-        .reduce<Array<{ start: Date; end: Date }>>((acc, row) => {
-          if (row[dataKeyFrom]) {
-            const start =
-              row[dataKeyFrom] && startOfDay(new Date(row[dataKeyFrom]));
+    return !dataKeyFrom || !dataKeyTo
+      ? undefined
+      : rawData
+          // Apply all other filters but our filter to get the relevant data set
+          .filter((row: Row) =>
+            Object.values(filterFnMapOthers).every((fn) => fn(row)),
+          )
+          // For those rows that have dates, create intervals
+          .reduce<Array<{ start: Date; end: Date }>>((acc, row) => {
+            if (row[dataKeyFrom]) {
+              const start =
+                row[dataKeyFrom] && startOfDay(new Date(row[dataKeyFrom]));
 
-            const end = row[dataKeyTo]
-              ? startOfDay(new Date(row[dataKeyTo]))
-              : start;
+              const end = row[dataKeyTo]
+                ? startOfDay(new Date(row[dataKeyTo]))
+                : start;
 
-            return [...acc, { start, end }];
-          }
+              return [...acc, { start, end }];
+            }
 
-          return acc;
-        }, [])
-    );
-  }, [rawData, filterFnMap, filterKey]);
+            return acc;
+          }, []);
+  }, [rawData, filterFnMap, filterKey, dataKeyFrom, dataKeyTo]);
 
   const minDate = useMemo(
-    () => min(intervalsFromDataSet.map((interval) => interval.start)),
+    () =>
+      intervalsFromDataSet &&
+      min(intervalsFromDataSet.map((interval) => interval.start)),
     [intervalsFromDataSet],
   );
 
   const maxDate = useMemo(
-    () => max(intervalsFromDataSet.map((interval) => interval.end)),
+    () =>
+      intervalsFromDataSet &&
+      max(intervalsFromDataSet.map((interval) => interval.end)),
     [intervalsFromDataSet],
   );
 
   // This is used by the <Calendar /> to know which days should be disabled
+
   const disabledMatchFn = useCallback(
-    (day: Date) => {
-      return intervalsFromDataSet.every((interval) => {
-        return !isWithinInterval(day, interval);
-      });
-    },
+    (day: Date) =>
+      !!intervalsFromDataSet?.every(
+        (interval) => !isWithinInterval(day, interval),
+      ),
     [intervalsFromDataSet],
   );
+
+  // Clear selection if outside accepted date range from the data set.
+
+  useEffect(() => {
+    if (
+      intervalsFromDataSet?.length &&
+      ((dateRange?.from && disabledMatchFn(dateRange.from)) ||
+        (dateRange?.to && disabledMatchFn(dateRange.to)))
+    ) {
+      setDateRange(undefined);
+    }
+  }, [intervalsFromDataSet, minDate, maxDate, dateRange]);
+
+  // Clamp the selected month to the accepted date range from the data set.
+
+  useEffect(() => {
+    if (maxDate && getMonth(month) > getMonth(maxDate)) setMonth(maxDate);
+    if (minDate && getMonth(month) < getMonth(minDate)) setMonth(minDate);
+  }, [minDate, maxDate, month]);
+
+  // Propagate popover label and data table filter function
 
   const { from, to } = dateRange ?? {};
 
   useEffect(() => {
-    if (!from) {
+    if (!from || !dataKeyFrom || !dataKeyTo) {
       setFilterFn(filterKey, false);
       setActiveLabels(filterKey, []);
     } else {
@@ -121,7 +170,11 @@ export const FilterDate = ({
         );
       });
 
-      setActiveLabels(filterKey, ['on']);
+      const label = to
+        ? `${format(selectedFrom, 'yyyy-MM-dd')} - ${format(selectedTo, 'yyyy-MM-dd')}`
+        : `${format(selectedFrom, 'yyyy-MM-dd')}`;
+
+      setActiveLabels(filterKey, [label]);
     }
   }, [
     from,
@@ -136,7 +189,10 @@ export const FilterDate = ({
   return (
     <Calendar
       mode="range"
-      disabled={disabledMatchFn}
+      month={month}
+      onMonthChange={setMonth}
+      disableNavigation={!!disabled}
+      disabled={disabled ? () => true : disabledMatchFn}
       fromDate={minDate}
       toDate={maxDate}
       selected={dateRange}

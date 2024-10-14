@@ -5,6 +5,7 @@ import * as enums from '@data/user/enums';
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import BadgeGroup from '@components/BadgeGroup';
+import { format } from 'date-fns';
 
 //
 
@@ -33,6 +34,22 @@ export default function useColumns() {
                 .filter((e) => roles.includes(e.value))
                 .map((badge) => ({ ...badge, variant: 'outline' }))}
             />
+          ),
+        },
+
+        {
+          key: 'createdat',
+          name: 'Created at',
+          renderFn: ({ createdAt }) => (
+            <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
+          ),
+        },
+
+        {
+          key: 'updatedat',
+          name: 'Edited at',
+          renderFn: ({ updatedAt }) => (
+            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
           ),
         },
       ] as Array<DataTable.Column<User>>,

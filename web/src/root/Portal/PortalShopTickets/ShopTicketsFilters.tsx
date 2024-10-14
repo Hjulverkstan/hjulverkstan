@@ -1,5 +1,4 @@
 import { useLocation, useParams } from 'react-router-dom';
-import { CalendarIcon } from 'lucide-react';
 
 import * as DataTable from '@components/DataTable';
 import * as enums from '@data/ticket/enums';
@@ -14,6 +13,7 @@ import {
   useTicketsAsEnumsQ,
 } from '@data/ticket/queries';
 
+import { PortalFilterDate } from '../PortalFilterDate';
 import {
   VehicleShortcutAction,
   VehicleShortcutLocationState,
@@ -109,8 +109,6 @@ export default function ShopTicketFilters() {
         }
       />
 
-      {/* TODO: Filter by start date and end date */}
-
       <DataTable.FilterPopover label="Customer" hasSearch>
         <DataTable.FilterMultiSelect
           filterKey="customer-id"
@@ -159,19 +157,18 @@ export default function ShopTicketFilters() {
         />
       </DataTable.FilterPopover>
 
-      <DataTable.FilterPopover
-        label={<CalendarIcon className="h-4 w-4" />}
-        withoutCmdk
-        hideIcon={true}
-      >
-        <DataTable.FilterDate
-          dataKeyFrom="startDate"
-          dataKeyTo="endDate"
-          filterKey="date-range"
-          label="Filter by date"
-          shouldClearPersistedState={!!expectedVisibleTickets}
-        />
-      </DataTable.FilterPopover>
+      <PortalFilterDate
+        shouldClearPersistedState={!!expectedVisibleTickets}
+        filterOptions={[
+          {
+            label: 'Start Date - End Date',
+            dataKeyFrom: 'startDate',
+            dataKeyTo: 'endDate',
+          },
+          { label: 'Created At', dataKeyFrom: 'createdAt' },
+          { label: 'Edited At', dataKeyFrom: 'updatedAt' },
+        ]}
+      />
     </>
   );
 }
