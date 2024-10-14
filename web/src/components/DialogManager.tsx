@@ -52,7 +52,7 @@ export const Provider = ({ children }: DialogProviderProps) => {
   return (
     <DialogManagerContext.Provider value={{ openDialog, closeDialog }}>
       {children}
-      {dialogs.length && (
+      {!!dialogs.length && (
         <Dialog
           key={dialogs[0].id.toString()}
           open={true}
