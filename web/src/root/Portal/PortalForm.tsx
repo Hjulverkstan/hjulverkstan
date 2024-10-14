@@ -23,6 +23,9 @@ export interface PortalFormProps {
   dataLabel: string;
   toToolbarName: (body: any) => string | undefined | false;
   children: ReactNode;
+  /* Disables editing of the form. If a string is provided, it shows a tooltip
+  message explaining why editing is disabled. */
+  disableEdit?: string | false;
 }
 
 export default function PortalForm({
@@ -34,9 +37,10 @@ export default function PortalForm({
   dataLabel,
   toToolbarName,
   transformBodyOnSubmit = (x) => x,
+  disableEdit,
 }: PortalFormProps) {
   const { id = '' } = useParams();
-  const { mode, body, submitError } = useDataForm();
+  const { mode, body, submitError, isLoading, isSkeleton } = useDataForm();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -114,22 +118,35 @@ export default function PortalForm({
             Cancel
           </Button>
         )}
-        <Tooltip.Root disableHoverableContent={!submitError}>
+        <Tooltip.Root>
           <Tooltip.Trigger asChild>
             <span tabIndex={0} className="w-[100%-0.25rem] flex-grow">
               <IconButton
                 className="w-full"
                 key={mode}
-                disabled={!!error || isSubmitting || !!submitError}
+                disabled={
+                  !!error ||
+                  isSubmitting ||
+                  !!submitError ||
+                  !!disableEdit ||
+                  isLoading ||
+                  isSkeleton
+                }
                 onClick={handler}
                 variant={mode === Mode.READ ? 'outline' : 'default'}
                 icon={icon}
                 text={verb}
-                tooltip={verb}
               />
             </span>
           </Tooltip.Trigger>
           {submitError && <Tooltip.Content>{submitError}</Tooltip.Content>}
+          <Tooltip.Content>
+            {disableEdit
+              ? disableEdit
+              : submitError
+                ? submitError
+                : 'Click to proceed'}
+          </Tooltip.Content>
         </Tooltip.Root>
       </div>
     </div>
