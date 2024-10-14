@@ -6,4 +6,8 @@ export interface GeneralContentStripped {
 export interface GeneralContent extends GeneralContentStripped {
   description: string;
   name: string;
+
+  // Might not be nescessary
+  id: string;
+  title: string;
 }
