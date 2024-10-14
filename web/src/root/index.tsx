@@ -5,7 +5,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import * as Auth from '@components/Auth';
-import * as Dialog from '@components/DialogManager';
+import * as DialogManager from '@components/DialogManager';
 import ThemeProvider from '@components/shadcn/ThemeProvider';
 import Toaster from '@components/shadcn/Toaster';
 import * as Tooltip from '@components/shadcn/Tooltip';
@@ -176,7 +176,7 @@ export default function Root() {
       <ThemeProvider storageKey="vite-ui-theme">
         <QueryClientProvider client={queryClient}>
           <Tooltip.Provider delayDuration={500}>
-            <Dialog.Provider>
+            <DialogManager.Provider>
               <Routes>
                 {routesCSR.map(renderRoute)}
                 {routesSSR.map((route) => renderLocalizedRoute(route))}
@@ -190,7 +190,7 @@ export default function Root() {
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
               <Toaster />
-            </Dialog.Provider>
+            </DialogManager.Provider>
           </Tooltip.Provider>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
