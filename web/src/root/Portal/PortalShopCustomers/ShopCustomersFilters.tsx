@@ -5,7 +5,7 @@ import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { Customer } from '@data/customer/types';
 import { enumsMatchUtil } from '@data/enums';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
-import React from 'react';
+import { PortalFilterDate } from '../PortalFilterDate';
 
 export default function ShopCustomerFilters() {
   const ticketEnumsQ = useTicketsAsEnumsQ();
@@ -44,6 +44,13 @@ export default function ShopCustomerFilters() {
       <DataTable.FilterPopover withoutCmdk label="Age">
         <DataTable.FilterSlider filterKey="age" dataKey="age" />
       </DataTable.FilterPopover>
+
+      <PortalFilterDate
+        filterOptions={[
+          { label: 'Created At', dataKeyFrom: 'createdAt' },
+          { label: 'Edited At', dataKeyFrom: 'updatedAt' },
+        ]}
+      />
     </>
   );
 }

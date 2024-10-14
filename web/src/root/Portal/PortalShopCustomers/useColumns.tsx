@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { format } from 'date-fns';
 
 import * as enums from '@data/customer/enums';
 import { AggregatedCustomer } from '@data/customer/types';
@@ -73,6 +74,22 @@ export default function useColumns() {
             <span className="text-muted-foreground text-elipsis">
               {row.comment}
             </span>
+          ),
+        },
+
+        {
+          key: 'createdat',
+          name: 'Created at',
+          renderFn: ({ createdAt }) => (
+            <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
+          ),
+        },
+
+        {
+          key: 'updatedat',
+          name: 'Edited at',
+          renderFn: ({ updatedAt }) => (
+            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
           ),
         },
       ] as Array<DataTable.Column<AggregatedCustomer>>,

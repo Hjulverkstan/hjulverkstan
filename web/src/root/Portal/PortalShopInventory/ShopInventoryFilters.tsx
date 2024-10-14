@@ -6,7 +6,7 @@ import { enumsMatchUtil } from '@data/enums';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { Vehicle } from '@data/vehicle/types';
-import React from 'react';
+import { PortalFilterDate } from '../PortalFilterDate';
 
 // Enum for filtering on the ticketTypes and ticketStatuses props that we aggregated onto a vehicle
 // see [useVehicleAggregatedQ](/src/data/vehicle/queries.ts).
@@ -105,6 +105,13 @@ export default function ShopInventoryFilters() {
           enums={enums.brand}
         />
       </DataTable.FilterPopover>
+
+      <PortalFilterDate
+        filterOptions={[
+          { label: 'Created At', dataKeyFrom: 'createdAt' },
+          { label: 'Edited At', dataKeyFrom: 'updatedAt' },
+        ]}
+      />
     </>
   );
 }
