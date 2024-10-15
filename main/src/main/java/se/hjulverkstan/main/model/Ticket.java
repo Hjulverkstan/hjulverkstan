@@ -31,6 +31,7 @@ public class Ticket extends Auditable {
 
     private LocalDateTime startDate;
     private String comment;
+    private LocalDateTime statusUpdatedAt;
 
     @ManyToMany
     @JoinTable(
@@ -54,6 +55,7 @@ public class Ticket extends Auditable {
     public void setTicketStatus(TicketStatus newStatus) {
         if (isValidTicketStatusTransition(newStatus)) {
             this.ticketStatus = newStatus;
+            this.statusUpdatedAt = LocalDateTime.now();
         } else {
             throw new UnsupportedTicketStatusException("Invalid status transition for ticket type: " + this.ticketType);
         }
