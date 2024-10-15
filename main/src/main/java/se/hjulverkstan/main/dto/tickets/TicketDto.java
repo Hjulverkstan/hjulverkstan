@@ -45,6 +45,7 @@ public class TicketDto {
     private LocalDateTime createdAt;
     private Long updatedBy;
     private LocalDateTime updatedAt;
+    private LocalDateTime statusUpdatedAt;
 
     public TicketDto(Ticket ticket) {
         this(ticket.getId(),
@@ -58,7 +59,8 @@ public class TicketDto {
                 ticket.getCreatedBy(),
                 ticket.getCreatedAt(),
                 ticket.getUpdatedBy(),
-                ticket.getUpdatedAt()
-        );
+                ticket.getUpdatedAt(),
+                ticket.getStatusUpdatedAt()
+                );
     }
 }

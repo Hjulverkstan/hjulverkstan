@@ -21,6 +21,7 @@ export interface Ticket {
   createdAt: string;
   updatedBy: string;
   updatedAt: string;
+  statusUpdatedAt?: string;
 }
 
 //
@@ -35,6 +36,7 @@ export enum TicketStatus {
 export interface TicketAggregated extends Ticket {
   locationIds: string[];
   daysLeft?: number;
+  daysSinceUpdate?: number;
 }
 
 // Used to know which ticket status are available on a certain type of ticket

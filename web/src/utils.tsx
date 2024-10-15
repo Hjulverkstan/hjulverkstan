@@ -184,3 +184,14 @@ export const useAxiosCookieJar = (instance: AxiosInstance) => {
     instance.interceptors.request.eject(reqInterceptorId);
   };
 };
+
+//
+
+export const formatDays = (dayCount?: number) =>
+  dayCount === 0
+    ? 'today'
+    : dayCount === 1
+      ? '1 day ago'
+      : dayCount && dayCount > 1
+        ? `${dayCount} days ago}`
+        : undefined;

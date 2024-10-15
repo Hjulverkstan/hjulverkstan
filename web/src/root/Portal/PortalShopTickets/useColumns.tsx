@@ -7,6 +7,7 @@ import * as enums from '@data/ticket/enums';
 import { TicketAggregated, TicketStatus } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
 import { useTicketsAsEnumsQ, useTicketsQ } from '@data/ticket/queries';
+import * as U from '@utils';
 
 import BadgeGroup from '@components/BadgeGroup';
 import * as DataTable from '@components/DataTable';
@@ -119,27 +120,22 @@ export default function useColumns() {
         {
           key: 'ticketStatus',
           name: 'Status',
-          renderFn: ({ ticketStatus, daysLeft }) => (
-            <BadgeGroup
-              badges={
-                ticketStatus != null
-                  ? [
-                      {
-                        ...enums.find(ticketStatus),
-                        tooltip:
-                          (daysLeft &&
-                            ticketStatus !== TicketStatus.CLOSED &&
-                            ((daysLeft === 0 && 'Ends today') ||
-                              (daysLeft > 0 && `${daysLeft} days left`) ||
-                              (daysLeft < 0 &&
-                                `${-daysLeft} days passed end date`))) ||
-                          undefined,
-                      },
-                    ]
-                  : []
-              }
-            />
-          ),
+          renderFn: ({ ticketStatus, daysSinceUpdate }) =>
+            ticketStatus && (
+              <BadgeGroup
+                badges={[
+                  {
+                    ...enums.find(ticketStatus),
+                    tooltip:
+                      daysSinceUpdate === undefined
+                        ? undefined
+                        : ticketStatus === TicketStatus.CLOSED
+                          ? `Closed ${U.formatDays(daysSinceUpdate)}`
+                          : `Status updated ${U.formatDays(daysSinceUpdate)}`,
+                  },
+                ]}
+              />
+            ),
         },
 
         {

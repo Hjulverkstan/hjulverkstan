@@ -34,9 +34,14 @@ export const useTicketsAggregatedQ = () =>
           ? differenceInDays(new Date(ticket.endDate), new Date())
           : undefined;
 
+        const daysSinceUpdate = ticket.statusUpdatedAt
+          ? differenceInDays(new Date(), new Date(ticket.statusUpdatedAt))
+          : undefined;
+
         return {
           ...ticket,
           daysLeft,
+          daysSinceUpdate,
           locationIds: U.uniq(
             ticket.vehicleIds.map(
               (vehicleId) =>

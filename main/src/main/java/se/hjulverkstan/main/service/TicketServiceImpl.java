@@ -181,6 +181,7 @@ public class TicketServiceImpl implements TicketService {
         */
 
         ticket.setTicketStatus(ticketStatusDto.getTicketStatus());
+
         ticketRepository.save(ticket);
 
         return convertToDto(ticket);
