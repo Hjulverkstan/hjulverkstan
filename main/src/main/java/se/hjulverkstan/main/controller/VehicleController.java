@@ -53,7 +53,6 @@ public class VehicleController {
     }
 
     @PutMapping(("/batch/{id}"))
-
     public ResponseEntity<EditVehicleDto> editBatch(@PathVariable Long id, @Valid @RequestBody EditVehicleBatchDto vehicleBatchDto) {
         return new ResponseEntity<>(vehicleService.editVehicle(id, vehicleBatchDto), HttpStatus.OK);
     }
