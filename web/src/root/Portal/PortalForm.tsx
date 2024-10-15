@@ -40,7 +40,7 @@ export default function PortalForm({
   disableEdit,
 }: PortalFormProps) {
   const { id = '' } = useParams();
-  const { mode, body, submitError, isLoading, isSkeleton } = useDataForm();
+  const { mode, body, submitError, isLoading } = useDataForm();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -134,8 +134,7 @@ export default function PortalForm({
                   isSubmitting ||
                   !!submitError ||
                   !!disableEdit ||
-                  isLoading ||
-                  isSkeleton
+                  isLoading
                 }
                 onClick={handler}
                 variant={mode === Mode.READ ? 'outline' : 'default'}
