@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { ClassValue, clsx } from 'clsx';
 import localeCodes from 'locale-codes';
+import { FC } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -184,6 +185,19 @@ export const useAxiosCookieJar = (instance: AxiosInstance) => {
     instance.interceptors.request.eject(reqInterceptorId);
   };
 };
+
+/**
+ * This is a React higher-order-component. It is used to trigger destroy and
+ * remount of a component by having its `key` prop mapped to by a `toKey`
+ * function
+ *
+ * @param toKey This is the function that will set the value of the `key` props.
+ * @param Comp What ever component you wish to lobotomize.
+ */
+
+export const withLobotomizer =
+  <Props,>(toKey: (props: Props) => string, Comp: FC<Props>): FC<Props> =>
+  (props) => <Comp key={toKey(props)} {...props} />;
 
 //
 
