@@ -161,8 +161,23 @@ public class VehicleServiceImpl implements VehicleService {
         }
     }
 
-    private EditVehicleDto convertToEditDto(Vehicle vehicle) {
-        return new EditVehicleDto(vehicle);
+    private EditVehicleDto convertToEditDto(Vehicle vehicle){
+        if (vehicle instanceof VehicleBike) {
+            return new EditVehicleBikeDto((VehicleBike) vehicle);
+
+        } else if (vehicle instanceof VehicleStroller) {
+            return new EditVehicleStrollerDto((VehicleStroller) vehicle);
+
+        } else if (vehicle instanceof VehicleGeneric) {
+            return new EditVehicleGenericDto((VehicleGeneric) vehicle);
+
+        } else if (vehicle instanceof VehicleBatch) {
+            return new EditVehicleBatchDto((VehicleBatch) vehicle);
+
+        } else {
+            return new EditVehicleDto(vehicle);
+        }
+
     }
 
     private static Vehicle createSpecificVehicleType(NewVehicleDto newVehicle) {

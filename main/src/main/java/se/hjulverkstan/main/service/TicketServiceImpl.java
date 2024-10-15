@@ -180,6 +180,17 @@ public class TicketServiceImpl implements TicketService {
          - Reuse the validation methods from the entity layer
         */
 
+        // Check if the ticket is a rental ticket and status is set to IN_PROGRESS
+        if (ticket instanceof TicketRent && ticketStatusDto.getTicketStatus() == TicketStatus.IN_PROGRESS) {
+            List<Vehicle> vehicles = ticket.getVehicles();
+            for (Vehicle vehicle : vehicles) {
+                if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE) {
+                    vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
+                    vehicleRepository.save(vehicle);
+                }
+            }
+        }
+
         ticket.setTicketStatus(ticketStatusDto.getTicketStatus());
 
         ticketRepository.save(ticket);

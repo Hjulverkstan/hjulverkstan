@@ -9,6 +9,7 @@ import {
   Ticket,
   TicketAggregated,
   TicketStatus,
+  TicketType,
   ticketTypeToTicketStatus,
 } from '@data/ticket/types';
 import * as enums from '@data/ticket/enums';
@@ -21,6 +22,10 @@ import { useDialogManager } from '@components/DialogManager';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
+import { Vehicle } from '@data/vehicle/types';
+import { createGetVehicle } from '@data/vehicle/api';
+import { useQueries } from '@tanstack/react-query';
+import UpdateVehicleStatusesDialog from '@components/UpdateVehicleStatusesDialog';
 
 export default function ShopTicketsActions({
   row: ticket,
@@ -34,7 +39,22 @@ export default function ShopTicketsActions({
   const deleteTicketM = useDeleteTicketM();
   const updateTicketStatusM = useUpdateTicketStatusM();
 
-    const onDelete = () => {
+  // Fetch vehicles associated with the ticket
+  const vehicleQueries = useQueries({
+    queries: ticket.vehicleIds.map((id) => {
+      const getVehicleQuery = createGetVehicle({ id });
+      return {
+        queryKey: getVehicleQuery.queryKey,
+        queryFn: getVehicleQuery.queryFn,
+      };
+    }),
+  });
+
+  const vehicles = vehicleQueries
+    .map((query) => query.data)
+    .filter((data): data is Vehicle => data !== undefined); // Type guard
+
+  const onDelete = () => {
     deleteTicketM.mutate(ticket.id, {
       onSuccess: (res: Ticket) => {
         toast(
@@ -50,6 +70,7 @@ export default function ShopTicketsActions({
       },
     });
   };
+
   const handleDeleteClick = () => {
     openDialog(
       <ConfirmDeleteDialog
@@ -64,7 +85,7 @@ export default function ShopTicketsActions({
     updateTicketStatusM.mutate(
       { id: ticket.id, ticketStatus: newStatus },
       {
-        onSuccess: (res: Ticket) => {
+        onSuccess: (res) => {
           toast(
             createSuccessToast({
               verbLabel: 'update status on',
@@ -72,6 +93,12 @@ export default function ShopTicketsActions({
               id: res.id,
             }),
           );
+          if (
+            newStatus === TicketStatus.CLOSED &&
+            ticket.ticketType === TicketType.RENT
+          ) {
+            openDialog(<UpdateVehicleStatusesDialog vehicles={vehicles} />);
+          }
         },
         onError: () => {
           toast(
@@ -105,33 +132,33 @@ export default function ShopTicketsActions({
           <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
 
-          {allowedStatuses?.length && (
-            <DropdownMenu.Sub>
-              <DropdownMenu.Separator />
-              <DropdownMenu.SubTrigger>Status</DropdownMenu.SubTrigger>
-              <DropdownMenu.SubContent
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                {allowedStatuses.map((ticketStatus) => (
-                  <DropdownMenu.Item
-                    key={ticketStatus}
-                    onSelect={() => onStatusUpdate(ticketStatus)}
-                    disabled={ticketStatus === ticket.ticketStatus}
-                  >
-                    {enums.find(ticketStatus).label}
-                    {ticketStatus === ticket.ticketStatus && (
-                      <span className="ml-auto">
-                        <CheckIcon className="h-4 w-4" />
-                      </span>
-                    )}
-                  </DropdownMenu.Item>
-                ))}
-              </DropdownMenu.SubContent>
-            </DropdownMenu.Sub>
-          )}
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
+        {allowedStatuses?.length && (
+          <DropdownMenu.Sub>
+            <DropdownMenu.Separator />
+            <DropdownMenu.SubTrigger>Status</DropdownMenu.SubTrigger>
+            <DropdownMenu.SubContent
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              {allowedStatuses.map((ticketStatus) => (
+                <DropdownMenu.Item
+                  key={ticketStatus}
+                  onSelect={() => onStatusUpdate(ticketStatus)}
+                  disabled={ticketStatus === ticket.ticketStatus}
+                >
+                  {enums.find(ticketStatus).label}
+                  {ticketStatus === ticket.ticketStatus && (
+                    <span className="ml-auto">
+                      <CheckIcon className="h-4 w-4" />
+                    </span>
+                  )}
+                </DropdownMenu.Item>
+              ))}
+            </DropdownMenu.SubContent>
+          </DropdownMenu.Sub>
+        )}
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   );
 }
