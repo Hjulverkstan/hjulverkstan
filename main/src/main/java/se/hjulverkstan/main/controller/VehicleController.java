@@ -48,23 +48,28 @@ public class VehicleController {
     }
 
     @PutMapping(("/{id}"))
-    public ResponseEntity<VehicleDto> editGeneric(@PathVariable Long id, @Valid @RequestBody VehicleGenericDto vehicleGenericDto) {
+    public ResponseEntity<EditVehicleDto> editGeneric(@PathVariable Long id, @Valid @RequestBody EditVehicleGenericDto vehicleGenericDto) {
         return new ResponseEntity<>(vehicleService.editVehicle(id, vehicleGenericDto), HttpStatus.OK);
     }
 
     @PutMapping(("/batch/{id}"))
-    public ResponseEntity<VehicleDto> editBatch(@PathVariable Long id, @Valid @RequestBody VehicleBatchDto vehicleBatchDto) {
+    public ResponseEntity<EditVehicleDto> editBatch(@PathVariable Long id, @Valid @RequestBody EditVehicleBatchDto vehicleBatchDto) {
         return new ResponseEntity<>(vehicleService.editVehicle(id, vehicleBatchDto), HttpStatus.OK);
     }
 
     @PutMapping(("/bike/{id}"))
-    public ResponseEntity<VehicleDto> editBike(@PathVariable Long id, @Valid @RequestBody VehicleBikeDto vehicleBikeDto) {
+    public ResponseEntity<EditVehicleDto> editBike(@PathVariable Long id, @Valid @RequestBody EditVehicleBikeDto vehicleBikeDto) {
         return new ResponseEntity<>(vehicleService.editVehicle(id, vehicleBikeDto), HttpStatus.OK);
     }
 
     @PutMapping(("/stroller/{id}"))
-    public ResponseEntity<VehicleDto> editStroller(@PathVariable Long id, @Valid @RequestBody VehicleStrollerDto vehicleStrollerDto) {
+    public ResponseEntity<EditVehicleDto> editStroller(@PathVariable Long id, @Valid @RequestBody EditVehicleStrollerDto vehicleStrollerDto) {
         return new ResponseEntity<>(vehicleService.editVehicle(id, vehicleStrollerDto), HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<VehicleDto> editVehicleStatus(@PathVariable Long id, @Valid @RequestBody NewVehicleStatusDto newStatus) {
+        return new ResponseEntity<>(vehicleService.editVehicleStatus(id, newStatus), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

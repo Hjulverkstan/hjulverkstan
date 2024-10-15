@@ -1,7 +1,9 @@
 package se.hjulverkstan.main.service;
 
 import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
+import se.hjulverkstan.main.dto.vehicles.EditVehicleDto;
 import se.hjulverkstan.main.dto.vehicles.NewVehicleDto;
+import se.hjulverkstan.main.dto.vehicles.NewVehicleStatusDto;
 import se.hjulverkstan.main.dto.vehicles.VehicleDto;
 
 public interface VehicleService {
@@ -13,5 +15,6 @@ public interface VehicleService {
 
     VehicleDto getVehicleById(Long id);
 
-    VehicleDto editVehicle(Long id, VehicleDto Vehicle);
+    EditVehicleDto editVehicle(Long id, EditVehicleDto Vehicle);
+    VehicleDto editVehicleStatus(Long id, NewVehicleStatusDto newStatus);
 }

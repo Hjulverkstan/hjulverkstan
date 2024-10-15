@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.Exceptions.AlreadyUsedException;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
+import se.hjulverkstan.Exceptions.UnsupportedVehicleStatusException;
 import se.hjulverkstan.Exceptions.UnsupportedVehicleTypeException;
 import se.hjulverkstan.main.dto.vehicles.*;
 import se.hjulverkstan.main.dto.responses.*;
@@ -58,7 +59,9 @@ public class VehicleServiceImpl implements VehicleService {
         }
 
         if (vehicle.isCustomerOwned()) {
-            vehicle.setVehicleStatus(null);
+            if (newVehicle.getVehicleStatus() != null && newVehicle.getVehicleStatus() != VehicleStatus.ARCHIVED) {
+                throw new UnsupportedVehicleStatusException("A customer owned vehicle can only have the status ARCHIVED or no status at all");
+            }
         }
 
         Location location = locationRepository.findById(newVehicle.getLocationId()).orElseThrow(() -> new ElementNotFoundException(ELEMENT_LOCATION));
@@ -95,15 +98,14 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleDto editVehicle(Long id, VehicleDto editVehicle) {
+    public EditVehicleDto editVehicle(Long id, EditVehicleDto editVehicle) {
         Vehicle selectedVehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
 
         editSpecificVehicleProperties(editVehicle, selectedVehicle);
 
-        selectedVehicle.setVehicleStatus(editVehicle.getVehicleStatus());
         selectedVehicle.setImageURL(editVehicle.getImageURL());
         selectedVehicle.setComment(editVehicle.getComment());
-        selectedVehicle.setCustomerOwned(editVehicle.getIsCustomerOwned());
+       // selectedVehicle.setCustomerOwned(editVehicle.getIsCustomerOwned());
 
         Location location = locationRepository.findById(editVehicle.getLocationId()).orElseThrow(() ->
                 new ElementNotFoundException(ELEMENT_LOCATION));
@@ -121,11 +123,31 @@ public class VehicleServiceImpl implements VehicleService {
         // Set regTag to null if customerOwned
         selectedVehicle.setRegTag(selectedVehicle.isCustomerOwned() ? null : editVehicle.getRegTag());
 
-        // Set vehicleStatus to null if customerOwned
-        selectedVehicle.setVehicleStatus(selectedVehicle.isCustomerOwned() ? null : selectedVehicle.getVehicleStatus());
+      /*  if (selectedVehicle.isCustomerOwned()) {
+            // For customer-owned vehicles, allow only ARCHIVED status
+            if (editVehicle.getVehicleStatus() != null && editVehicle.getVehicleStatus() != VehicleStatus.ARCHIVED) {
+                throw new UnsupportedVehicleStatusException("A customer owned vehicle can only have the status ARCHIVED or no status at all");
+            }
+        } */
 
         vehicleRepository.save(selectedVehicle);
 
+        return convertToEditDto(selectedVehicle);
+    }
+
+    @Override
+    public VehicleDto editVehicleStatus(Long id, NewVehicleStatusDto newStatus) {
+        Vehicle selectedVehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
+
+        selectedVehicle.setVehicleStatus(newStatus.getNewStatus());
+
+        if (selectedVehicle.isCustomerOwned()) {
+            if (newStatus.getNewStatus() != null && newStatus.getNewStatus() != VehicleStatus.ARCHIVED) {
+                throw new UnsupportedVehicleStatusException("Customer-owned vehicles can only have the status ARCHIVED or no status at all.");
+            }
+        }
+
+        vehicleRepository.save(selectedVehicle);
         return convertToDto(selectedVehicle);
     }
 
@@ -148,6 +170,10 @@ public class VehicleServiceImpl implements VehicleService {
         }
     }
 
+    private EditVehicleDto convertToEditDto(Vehicle vehicle) {
+        return new EditVehicleDto(vehicle);
+    }
+
     private static Vehicle createSpecificVehicleType(NewVehicleDto newVehicle) {
         if (newVehicle instanceof NewVehicleBikeDto newBikeDto) {
             return getVehicleBike(newBikeDto);
@@ -166,21 +192,21 @@ public class VehicleServiceImpl implements VehicleService {
         }
     }
 
-    private static void editSpecificVehicleProperties(VehicleDto editVehicle, Vehicle selectedVehicle) {
-        if (editVehicle instanceof VehicleBikeDto editBikeDto && selectedVehicle instanceof VehicleBike selectedBike) {
+    private static void editSpecificVehicleProperties(EditVehicleDto editVehicle, Vehicle selectedVehicle) {
+        if (editVehicle instanceof EditVehicleBikeDto editBikeDto && selectedVehicle instanceof VehicleBike selectedBike) {
             selectedBike.setBikeType(editBikeDto.getBikeType());
             selectedBike.setGearCount(editBikeDto.getGearCount());
             selectedBike.setSize(editBikeDto.getSize());
             selectedBike.setBrakeType(editBikeDto.getBrakeType());
             selectedBike.setBrand(editBikeDto.getBrand());
 
-        } else if (editVehicle instanceof VehicleStrollerDto editStrollerDto && selectedVehicle instanceof VehicleStroller selectedStroller) {
+        } else if (editVehicle instanceof EditVehicleStrollerDto editStrollerDto && selectedVehicle instanceof VehicleStroller selectedStroller) {
             selectedStroller.setStrollerType(editStrollerDto.getStrollerType());
 
-        } else if (editVehicle instanceof VehicleGenericDto editGenericDto && selectedVehicle instanceof VehicleGeneric selectedGeneric) {
+        } else if (editVehicle instanceof EditVehicleGenericDto editGenericDto && selectedVehicle instanceof VehicleGeneric selectedGeneric) {
             selectedGeneric.setVehicleType(editGenericDto.getVehicleType());
 
-        } else if (editVehicle instanceof VehicleBatchDto editBatchDto && selectedVehicle instanceof VehicleBatch selectedBatch) {
+        } else if (editVehicle instanceof EditVehicleBatchDto editBatchDto && selectedVehicle instanceof VehicleBatch selectedBatch) {
             selectedBatch.setBatchCount(editBatchDto.getBatchCount());
         } else {
             throw new UnsupportedVehicleTypeException(ELEMENT_VEHICLE);
