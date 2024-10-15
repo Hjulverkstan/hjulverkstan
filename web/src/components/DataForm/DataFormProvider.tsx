@@ -6,6 +6,7 @@ import {
   createContext,
   useEffect,
   ReactNode,
+  useCallback,
 } from 'react';
 
 import * as U from '@utils';
@@ -17,7 +18,6 @@ import { Mode, Data } from './';
 export interface UseDataFormReturn<D = Data> {
   isLoading: boolean;
   isDisabled: boolean;
-  isSkeleton: boolean;
   body: Partial<D>;
   setBodyProp: (dataKey: string, value: any) => void;
   fieldErrorMap: Record<string, string>;
@@ -32,7 +32,7 @@ const DataFormContext = createContext<undefined | UseDataFormReturn<Data>>(
 export const useDataForm = () => {
   const form = useContext<UseDataFormReturn<any> | undefined>(DataFormContext);
 
-  if (!form) throw Error('useDataForm must be in a <Form.Root />');
+  if (!form) throw Error('useDataForm must be in a <DataForm.Provider />');
 
   return form;
 };
@@ -40,18 +40,20 @@ export const useDataForm = () => {
 //
 
 interface DataFormProps<D> {
+  // Data to repopulate the form when in EDIT / READ.
   data?: D;
+  // Display the error state
   error?: string;
   isLoading: boolean;
+  // Changing mode will remount the form and boot up with the correct mechanics.
   mode: Mode;
+  // Used to validate the form
   zodSchema: ZodType<any>;
+  // Required to populate the body when in CREATE mode.
   initCreateBody: Partial<D>;
+  // Here you fill with the other DataForm components to construct your form.
   children: ReactNode;
 }
-
-/**
- *
- */
 
 const issuesToPathErrorMap = (issues: ZodIssue[]) =>
   issues.reduce<Record<string, string>>(
@@ -60,95 +62,110 @@ const issuesToPathErrorMap = (issues: ZodIssue[]) =>
     {},
   );
 
-export const Provider = <D extends Data>({
-  mode,
-  isLoading,
-  data,
-  zodSchema,
-  initCreateBody,
-  children,
-}: DataFormProps<D>) => {
-  const { toast } = useToast();
+/**
+ * The <DataForm.Provider /> houses the logic for the DataForm components. The
+ * purpose is to provide a package-solution building forms on CRUD entities. It
+ * handles the standard modes READ, EDIT and CREATE accordingly and gives all
+ * the necessary components to construct most form, with validation mechanics
+ * built-in.
+ *
+ */
 
-  const [state, setState] = useState<Partial<D> | undefined>();
-  const [initializedMode, setInitializedMode] = useState<Mode | undefined>();
+// Wrap the Provider with the withLobotomizer hoc to simplify its business
+// logic. By doing so, the component will be destroyed and remounted when ever
+// the `mode` prop is changed. This way, we don't need to manually reset
+// states and reinitialize the component using complicated useEffects when ever
+// the mode changes.
 
-  const updateState = (state: Partial<D>) => {
-    setState(state);
-    setInitializedMode(mode);
-  };
-
-  useEffect(() => {
-    if (mode === Mode.CREATE) updateState(initCreateBody);
-    else if (data) setInitializedMode(mode);
-  }, [mode]);
-
-  useEffect(() => {
-    if (mode === Mode.READ && data) updateState(data);
-
-    if (mode === Mode.EDIT && data) {
-      const isOverridingData = state && !U.shallowEq(state, data);
-
-      if (isOverridingData) toast(createRefreshToast(() => updateState(data)));
-      else updateState(data);
-    }
-  }, [data]);
-
-  //
-
-  const body: Partial<D> =
-    mode !== initializedMode
-      ? mode === Mode.CREATE
-        ? initCreateBody
-        : state ?? data ?? {}
-      : state!;
-
-  const isSkeleton = mode !== Mode.CREATE && !Object.keys(body).length;
-  const isDisabled = isSkeleton || mode === Mode.READ;
-
-  const bodyIssues = useMemo(() => {
-    const zodRet = zodSchema.safeParse(body);
-    return zodRet.success ? [] : zodRet.error.issues;
-  }, [body]);
-
-  const fieldErrorMap = useMemo(
-    () =>
-      issuesToPathErrorMap(
-        mode === Mode.CREATE
-          ? bodyIssues.filter(
-              ({ path }) => initCreateBody[path[0]] !== body[path[0]],
-            )
-          : mode === Mode.EDIT
-            ? bodyIssues
-            : [],
-      ),
-    [mode, bodyIssues],
-  );
-
-  const submitError = useMemo(
-    () => (mode === Mode.READ ? undefined : bodyIssues[0]?.message),
-    [mode, bodyIssues],
-  );
-
-  //
-
-  const setBodyProp = (dataKey: string, value: any) =>
-    setState((prev) => prev && { ...prev, [dataKey]: value });
-
-  const form = {
-    body,
+export const Provider = U.withLobotomizer(
+  (props) => props.mode,
+  <D extends Data>({
     mode,
-    setBodyProp,
-    isLoading,
-    isDisabled,
-    isSkeleton,
-    fieldErrorMap,
-    submitError,
-  };
+    isLoading: isLoadingProp,
+    data,
+    zodSchema,
+    initCreateBody,
+    children,
+  }: DataFormProps<D>) => {
+    const { toast } = useToast();
 
-  return (
-    <DataFormContext.Provider value={form}>{children}</DataFormContext.Provider>
-  );
-};
+    const [body, setBody] = useState<Partial<D>>(
+      mode === Mode.CREATE ? initCreateBody : {},
+    );
+
+    // Derive the data form context value
+
+    const isLoading = !body;
+    const isDisabled = isLoadingProp || isLoading || mode === Mode.READ;
+
+    const bodyIssues = useMemo(() => {
+      const zodRet = zodSchema.safeParse(body);
+      return zodRet.success ? [] : zodRet.error.issues;
+    }, [body]);
+
+    const fieldErrorMap = useMemo(
+      () =>
+        issuesToPathErrorMap(
+          mode === Mode.CREATE
+            ? // Only show errors on user-modified fields in create mode.
+              bodyIssues.filter(
+                ({ path }) => initCreateBody[path[0]] !== body[path[0]],
+              )
+            : // Don't show errors if mode is read...
+              mode === Mode.EDIT
+              ? bodyIssues
+              : [],
+        ),
+      [mode, bodyIssues],
+    );
+
+    const submitError = mode === Mode.READ ? undefined : bodyIssues[0]?.message;
+
+    const setBodyProp = useCallback(
+      (dataKey: string, value: any) =>
+        setBody((prev) => prev && { ...prev, [dataKey]: value }),
+      [],
+    );
+
+    const form = {
+      body,
+      mode,
+      setBodyProp,
+      isLoading,
+      isDisabled,
+      fieldErrorMap,
+      submitError,
+    };
+
+    // Update body on new data but prompt user first if new change while editing
+
+    const [initializedData, setInitializedData] = useState(data);
+
+    useEffect(() => {
+      if (mode !== Mode.CREATE && data) {
+        const applyData = () => {
+          setBody(data as D);
+          setInitializedData(data);
+        };
+
+        const isOverridingDataInEdit =
+          mode === Mode.EDIT &&
+          initializedData &&
+          !U.shallowEq(initializedData, data);
+
+        if (isOverridingDataInEdit) toast(createRefreshToast(applyData));
+        else applyData();
+      }
+    }, [initializedData, data, mode]);
+
+    //
+
+    return (
+      <DataFormContext.Provider value={form}>
+        {children}
+      </DataFormContext.Provider>
+    );
+  },
+);
 
 Provider.displayName = 'DataFormProvider';
