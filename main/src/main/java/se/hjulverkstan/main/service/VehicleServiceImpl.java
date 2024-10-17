@@ -15,7 +15,7 @@ import se.hjulverkstan.main.repository.VehicleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -33,7 +33,13 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDto createVehicle(NewVehicleDto newVehicle) {
-        if (newVehicle.getRegTag() != null &&  vehicleRepository.findByRegTag(newVehicle.getRegTag()).isPresent()) {
+
+        if (newVehicle instanceof NewVehiclebatchDto && newVehicle.getIsCustomerOwned() == null) {
+            newVehicle.setIsCustomerOwned(Boolean.FALSE);
+        }
+
+
+        if (newVehicle.getRegTag() != null && !newVehicle.getIsCustomerOwned() && vehicleRepository.findByRegTag(newVehicle.getRegTag()).isPresent()) {
             throw new AlreadyUsedException("A vehicle with that regtag already exists");
         }
 
@@ -44,11 +50,20 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setComment(newVehicle.getComment());
         vehicle.setTickets(new ArrayList<>());
         vehicle.setVehicleType(newVehicle.getVehicleType());
+        vehicle.setCustomerOwned((newVehicle.getIsCustomerOwned()));
+
+
+        if (!vehicle.isCustomerOwned()) {
+            vehicle.setRegTag(newVehicle.getRegTag());
+        }
+
+        if (vehicle.isCustomerOwned()) {
+            vehicle.setVehicleStatus(null);
+        }
 
         Location location = locationRepository.findById(newVehicle.getLocationId()).orElseThrow(() -> new ElementNotFoundException(ELEMENT_LOCATION));
         vehicle.setLocation(location);
 
-        vehicle.setRegTag(newVehicle.getRegTag());
         vehicleRepository.save(vehicle);
 
         return convertToDto(vehicle);
@@ -88,13 +103,25 @@ public class VehicleServiceImpl implements VehicleService {
         selectedVehicle.setVehicleStatus(editVehicle.getVehicleStatus());
         selectedVehicle.setImageURL(editVehicle.getImageURL());
         selectedVehicle.setComment(editVehicle.getComment());
-
+        selectedVehicle.setCustomerOwned(editVehicle.getIsCustomerOwned());
 
         Location location = locationRepository.findById(editVehicle.getLocationId()).orElseThrow(() ->
                 new ElementNotFoundException(ELEMENT_LOCATION));
         selectedVehicle.setLocation(location);
 
-        selectedVehicle.setRegTag(editVehicle.getRegTag());
+        // Check if regTag already exists except for the vehicle being edited
+        if (editVehicle.getRegTag() != null && !selectedVehicle.isCustomerOwned()) {
+            Optional<Vehicle> existingVehicle = vehicleRepository.findByRegTag(editVehicle.getRegTag());
+            if (existingVehicle.isPresent() && !existingVehicle.get().getId().equals(selectedVehicle.getId())) {
+                throw new AlreadyUsedException("A vehicle with that regtag already exists");
+            }
+        }
+
+        // Set regTag to null if customerOwned
+        selectedVehicle.setRegTag(selectedVehicle.isCustomerOwned() ? null : editVehicle.getRegTag());
+
+        // Set vehicleStatus to null if customerOwned
+        selectedVehicle.setVehicleStatus(selectedVehicle.isCustomerOwned() ? null : selectedVehicle.getVehicleStatus());
 
         vehicleRepository.save(selectedVehicle);
 
@@ -184,7 +211,6 @@ public class VehicleServiceImpl implements VehicleService {
     private static VehicleBatch getVehicleBatch(NewVehiclebatchDto newBatchDto) {
         VehicleBatch vehicleBatch = new VehicleBatch();
         vehicleBatch.setBatchCount(newBatchDto.getBatchCount());
-       // vehicleBatch.setVehicleType(newBatchDto.getVehicleType());
         return vehicleBatch;
     }
 }

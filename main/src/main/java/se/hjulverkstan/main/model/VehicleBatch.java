@@ -15,4 +15,5 @@ import lombok.ToString;
 @DiscriminatorValue("BATCH")
 public class VehicleBatch extends Vehicle {
     private int batchCount;
+
 }

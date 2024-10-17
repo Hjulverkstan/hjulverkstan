@@ -22,6 +22,9 @@ public class Vehicle extends Auditable {
     private VehicleStatus vehicleStatus;
     private String imageURL;
     private String comment;
+    private boolean isCustomerOwned;
+
+
     @ManyToMany(mappedBy = "vehicles")
     private List<Ticket> tickets;
     @ManyToOne
