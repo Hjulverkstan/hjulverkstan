@@ -8,6 +8,7 @@ export interface InputProps extends Omit<FieldProps, 'children'> {
   type?: string;
   min?: number;
   max?: number;
+  disabled?: boolean;
 }
 
 export const Input = ({
@@ -18,8 +19,11 @@ export const Input = ({
   dataKey,
   placeholder,
   description,
+  disabled,
 }: InputProps) => {
   const { body, setBodyProp, isDisabled, isSkeleton } = useDataForm();
+
+  const formIsDisabled = isDisabled || disabled;
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
@@ -28,9 +32,9 @@ export const Input = ({
         min={min}
         max={max}
         id={dataKey}
-        disabled={isDisabled}
+        disabled={formIsDisabled}
         placeholder={placeholder}
-        value={isSkeleton ? '' : body[dataKey] ?? ''}
+        value={isSkeleton ? '' : (body[dataKey] ?? '')}
         onChange={({ target: { value } }) => {
           if (body[dataKey] !== value) {
             setBodyProp(dataKey, type === 'number' ? Number(value) : value);
@@ -38,7 +42,7 @@ export const Input = ({
         }}
         className={U.cn(
           'bg-background h-8',
-          isDisabled && '!cursor-default !opacity-75',
+          formIsDisabled && '!cursor-default !opacity-75',
         )}
       />
     </Field>

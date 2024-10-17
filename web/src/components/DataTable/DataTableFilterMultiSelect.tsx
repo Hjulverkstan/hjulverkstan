@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import * as U from '@utils';
 import { EnumAttributes } from '@data/enums';
 import MultiSelect from '@components/MultiSelect';
 
@@ -10,7 +9,7 @@ import usePersistentState from '@hooks/usePersistentState';
 import usePortalSlugs from '@hooks/useSlugs';
 
 export interface FilterMultiSelectProps {
-  /* Used to register the built in filter function with DataTable */
+  /* Used to register the built-in filter function with DataTable */
   filterKey: string;
   /* A map of which enums should be used but under what dataKey they are
    * found on a row. This is then flattened but since this component is
@@ -53,13 +52,10 @@ export const FilterMultiSelect = ({
     return enums
       .map((e) => ({
         ...e,
-        count: U.occurencesOfElInArray(
-          e.value,
-          filteredData
-            .map((row) => row[e.dataKey])
-            .flat()
-            .filter((x) => x),
-        ),
+        count: filteredData
+          .map((row) => row[e.dataKey])
+          .flat()
+          .filter((x) => x === e.value).length,
       }))
       .filter((e) =>
         rawData.some((row) =>

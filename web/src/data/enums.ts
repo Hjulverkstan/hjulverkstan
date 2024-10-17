@@ -6,11 +6,11 @@ import { BadgeProps } from '@components/shadcn/Badge';
 //
 
 export interface EnumAttributes {
-  value: string;
+  value: any;
   label: string;
   dataKey: string;
   icon?: ComponentType<any>;
-  /* Following fields aggregated in some bussines logic down the line */
+  /* Following fields aggregated in some business logic down the line */
   variant?: BadgeProps['variant'];
   tooltip?: string;
   children?: string[];
@@ -19,7 +19,7 @@ export interface EnumAttributes {
 
 //
 
-export const createFindFn = (enums: EnumAttributes[]) => (value: string) => {
+export const createFindFn = (enums: EnumAttributes[]) => (value: any) => {
   const enumAttr = enums.find((e) => e.value === value);
 
   if (!enumAttr)
@@ -50,7 +50,7 @@ export const createMatchFn =
       );
     });
 
-// For easier matching sepecially when making matchFns for the serachbar in
+// For easier matching especially when making matchFns for the searchbar in
 // portal pages. See implementations for reference.
 
 interface EnumsMatchWordProps {
@@ -73,7 +73,9 @@ export const enumsMatchUtil = ({
   }
 
   return !!enums?.some(
-    (e) =>
+    (
+      e: any, // reminder for if a problem occurs due to this 'any'.
+    ) =>
       (!isOf || isOfArr.includes(e.value)) &&
       (startsWith
         ? e.label.toLowerCase().startsWith(startsWith.toLowerCase())

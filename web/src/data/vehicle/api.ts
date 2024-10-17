@@ -41,6 +41,7 @@ export const createGetVehicle = ({ id }: GetVehicleParams) => ({
 // MUTATIONS
 
 const transformBody = ({
+  isCustomerOwned,
   id,
   locationId,
   imageURL,
@@ -57,15 +58,16 @@ const transformBody = ({
   strollerType,
   batchCount,
 }: Partial<Vehicle>) => ({
+  isCustomerOwned,
   id,
   locationId: Number(locationId),
   imageURL,
   ticketIds,
   comment,
   vehicleType,
-  ...(vehicleType !== VehicleType.BATCH
-    ? { regTag, vehicleStatus }
-    : { batchCount }),
+  ...(!isCustomerOwned && vehicleType !== VehicleType.BATCH ? { regTag } : {}),
+
+  ...(vehicleType !== VehicleType.BATCH ? { vehicleStatus } : { batchCount }),
   ...(vehicleType === VehicleType.BIKE
     ? { size, gearCount, brakeType, brand, bikeType }
     : {}),

@@ -7,6 +7,7 @@ import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { Vehicle } from '@data/vehicle/types';
 import { PortalFilterDate } from '../PortalFilterDate';
+import { isCustomerOwned } from '@data/vehicle/enums';
 
 // Enum for filtering on the ticketTypes and ticketStatuses props that we aggregated onto a vehicle
 // see [useVehicleAggregatedQ](/src/data/vehicle/queries.ts).
@@ -18,6 +19,10 @@ const ticketTypesEnums = ticketEnums.ticketType.map((e) => ({
 const ticketStatusesEnums = ticketEnums.ticketStatus.map((e) => ({
   ...e,
   dataKey: 'ticketStatuses',
+}));
+const ownershipEnums = isCustomerOwned.map((e) => ({
+  ...e,
+  dataKey: 'isCustomerOwned',
 }));
 
 export default function ShopInventoryFilters() {
@@ -47,12 +52,18 @@ export default function ShopInventoryFilters() {
 
       <DataTable.FilterPopover label="Type">
         <DataTable.FilterMultiSelect
+          heading="Vehicle type"
           filterKey="vehicle-type"
           enums={[
             ...enums.vehicleType,
             ...enums.bikeType,
             ...enums.strollerType,
           ]}
+        />
+        <DataTable.FilterMultiSelect
+          heading="Ownership"
+          filterKey="ownership-type"
+          enums={[...ownershipEnums]}
         />
       </DataTable.FilterPopover>
 

@@ -2,22 +2,24 @@ import {
   AlertCircle,
   Baby,
   Bike,
+  Building,
   CircleDashed,
   CircleFadingPlus,
   CircleSlash,
   HelpCircle,
+  UserCheck,
   Warehouse,
 } from 'lucide-react';
 
 import { createFindFn, createMatchFn } from '../enums';
 import {
-  VehicleType,
+  BikeBrand,
+  BikeSize,
   BikeType,
+  BrakeType,
   StrollerType,
   VehicleStatus,
-  BrakeType,
-  BikeSize,
-  BikeBrand,
+  VehicleType,
 } from './types';
 
 //
@@ -132,6 +134,25 @@ export const brand = [
 
 //
 
+export const isCustomerOwned = [
+  {
+    dataKey: 'isCustomerOwned',
+    value: true,
+    label: 'Customer',
+    variant: 'secondary' as 'secondary',
+    icon: UserCheck,
+  },
+  {
+    dataKey: 'isCustomerOwned',
+    value: false,
+    label: 'Hjulverkstan',
+    variant: 'outline' as 'outline',
+    icon: Building,
+  },
+];
+
+//
+
 export const all = [
   ...vehicleType,
   ...bikeType,
@@ -140,6 +161,7 @@ export const all = [
   ...brakeType,
   ...size,
   ...brand,
+  ...isCustomerOwned,
 ];
 
 export const find = createFindFn(all);

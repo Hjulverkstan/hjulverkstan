@@ -62,7 +62,9 @@ export default function ShopInventoryActions({
         onDelete={onDelete}
         entity={vehicle.vehicleType}
         entityId={
-          vehicle.vehicleType === VehicleType.BATCH ? 'Batch' : vehicle.regTag
+          vehicle.vehicleType === VehicleType.BATCH
+            ? 'Batch'
+            : vehicle.regTag || vehicle.id
         }
       />,
     );

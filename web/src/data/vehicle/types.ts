@@ -82,6 +82,8 @@ export interface Vehicle {
   updatedAt: number | null;
   createdBy: number | null;
   updatedBy: number | null;
+  //
+  isCustomerOwned?: string;
 }
 
 export interface VehicleAggregated extends Vehicle {

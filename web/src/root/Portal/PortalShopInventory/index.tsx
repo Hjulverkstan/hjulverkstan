@@ -65,8 +65,9 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
             <PortalForm
               dataLabel="Vehicle"
               toToolbarName={(body: Vehicle) =>
-                body.regTag &&
-                `${enums.find(body.vehicleType).label} ${body.regTag}`
+                (body.regTag &&
+                  `${enums.find(body.vehicleType).label} ${body.regTag}`) ||
+                (body.id && `${enums.find(body.vehicleType).label} #${body.id}`)
               }
               error={vehicleQ.error || locationsQ.error}
               isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}

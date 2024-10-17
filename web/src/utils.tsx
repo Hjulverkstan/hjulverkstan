@@ -115,12 +115,16 @@ export function memoizeFn<F extends AnyFunction<any[], any>>(fn: F): F {
 
 export const toUpdatedArray = (
   arr: string[],
-  { remove = [] as string[] | string, add = [] as string[] | string },
+  { remove = [] as any[] | any, add = [] as any[] | any },
 ) =>
-  !remove.length && !add.length
+  remove.length === 0 && add.length === 0
     ? // If nothing to remove or add keep the same memory reference of the array
       arr
-    : arr.filter((el) => !remove.includes(el)).concat(add);
+    : arr
+        .filter((el) =>
+          Array.isArray(remove) ? !remove.includes(el) : el !== remove,
+        )
+        .concat(add);
 
 export function uniq<T>(array: T[]): T[] {
   return Array.from(new Set(array));
