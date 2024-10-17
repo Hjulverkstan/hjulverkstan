@@ -16,7 +16,7 @@ import { instance, endpoints } from '../api';
  * - Store and use the current refresh request promise so that redundant refresh
  *   requests are not triggered in parallel.
  *
- * - Successfull refresh requests adds a boolean to the error before rejecting,
+ * - Successful refresh requests adds a boolean to the error before rejecting,
  *   this enables:
  *   1. [<Auth />](../../components/Auth.tsx) to run its verify request again.
  *   2. React query will always retry, see our
@@ -37,16 +37,14 @@ export const errorInterceptor = (error: AxiosError) => {
   );
 
   if (error.response?.status === 401 && !isRefreshRequest && onFailedCallback) {
-    if (!currentRefreshRequest) {
-      currentRefreshRequest = refreshToken()
+    return (currentRefreshRequest =
+      currentRefreshRequest ??
+      refreshToken()
         .catch(onFailedCallback)
-        .then(() => Promise.reject({ error, refreshSuccess: true }))
+        .then(() => Promise.reject({ ...error, refreshSuccess: true }))
         .finally(() => {
           currentRefreshRequest = null;
-        });
-    }
-
-    return currentRefreshRequest;
+        }));
   }
 
   return Promise.reject(error);
@@ -100,7 +98,12 @@ declare global {
   }
 }
 
-if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
-  window.logIn = logIn;
-  window.logOut = logOut;
+try {
+  // @ts-expect-error: process is available with vite in dev.
+  if (process.env.NODE_ENV === 'development') {
+    window.logIn = logIn;
+    window.logOut = logOut;
+  }
+} catch {
+  console.info('Environment is not dev, no auth api added to window object');
 }
