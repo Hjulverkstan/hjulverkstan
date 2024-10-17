@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { EnumAttributes } from '../enums';
-import { ErrorRes } from '../api';
+import { StandardError } from '../api';
 import { AggregatedCustomer, Customer, CustomerType } from './types';
 import * as api from './api';
 import * as enums from './enums';
@@ -16,7 +16,7 @@ export const calculateAge = (persIdNo: string) =>
   );
 
 export const useCustomersQ = () =>
-  useQuery<Customer[], ErrorRes>({
+  useQuery<Customer[], StandardError>({
     ...api.createGetCustomers(),
     select: (customers) =>
       customers.map((customer) => ({
@@ -32,7 +32,7 @@ export interface UseCustomerQProps {
 }
 
 export const useCustomerQ = ({ id }: UseCustomerQProps) =>
-  useQuery<Customer, ErrorRes>({
+  useQuery<Customer, StandardError>({
     ...api.createGetCustomer({ id }),
     enabled: !!id,
   });
@@ -43,7 +43,7 @@ export const useCustomersAsEnumsQ = ({
   dataKey = 'customerId',
   withOrgPerson = false,
 } = {}) =>
-  useQuery<Customer[], ErrorRes, EnumAttributes[]>({
+  useQuery<Customer[], StandardError, EnumAttributes[]>({
     ...api.createGetCustomers(),
     select: (customers) =>
       customers?.map((customer) => ({

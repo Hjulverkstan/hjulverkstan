@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { ErrorRes } from '../api';
+import { StandardError } from '../api';
 import { EnumAttributes } from '../enums';
 import { Location } from './types';
 import * as enums from './enums';
@@ -9,14 +9,14 @@ import * as api from './api';
 //
 
 export const useLocationsQ = () =>
-  useQuery<Location[], ErrorRes>(api.createGetLocations());
+  useQuery<Location[], StandardError>(api.createGetLocations());
 
 export interface UseLocationQProps {
   id: string;
 }
 
 export const useLocationQ = ({ id }: UseLocationQProps) =>
-  useQuery<Location, ErrorRes>({
+  useQuery<Location, StandardError>({
     ...api.createGetLocation({ id }),
     enabled: !!id,
   });
@@ -24,7 +24,7 @@ export const useLocationQ = ({ id }: UseLocationQProps) =>
 //
 
 export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) =>
-  useQuery<Location[], ErrorRes, EnumAttributes[]>({
+  useQuery<Location[], StandardError, EnumAttributes[]>({
     ...api.createGetLocations(),
     select: (locations) =>
       locations?.map((location) => ({

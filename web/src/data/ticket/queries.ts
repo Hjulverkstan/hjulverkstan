@@ -4,7 +4,7 @@ import { useVehiclesQ } from '@data/vehicle/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
 import * as U from '@utils';
 import { EnumAttributes } from '../enums';
-import { ErrorRes } from '../api';
+import { StandardError } from '../api';
 import * as api from './api';
 import * as enums from './enums';
 import { Ticket, TicketAggregated, TicketStatus } from './types';
@@ -13,7 +13,7 @@ import { differenceInDays } from 'date-fns';
 //
 
 export const useTicketsQ = () =>
-  useQuery<Ticket[], ErrorRes>(api.createGetTickets());
+  useQuery<Ticket[], StandardError>(api.createGetTickets());
 
 //
 
@@ -22,7 +22,10 @@ export interface UseTicketQProps {
 }
 
 export const useTicketQ = ({ id }: UseTicketQProps) =>
-  useQuery<Ticket, ErrorRes>({ ...api.createGetTicket({ id }), enabled: !!id });
+  useQuery<Ticket, StandardError>({
+    ...api.createGetTicket({ id }),
+    enabled: !!id,
+  });
 
 //
 
@@ -57,7 +60,7 @@ export const useTicketsAggregatedQ = () =>
 //
 
 export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) =>
-  useQuery<Ticket[], ErrorRes, EnumAttributes[]>({
+  useQuery<Ticket[], StandardError, EnumAttributes[]>({
     ...api.createGetTickets(),
     select: (tickets): EnumAttributes[] =>
       tickets?.map((ticket) => ({

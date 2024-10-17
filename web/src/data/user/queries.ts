@@ -1,19 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { ErrorRes } from '../api';
+import { StandardError } from '../api';
 import * as api from './api';
 import { User } from './types';
 
 //
 
-export const useUsersQ = () => useQuery<User[], ErrorRes>(api.createGetUsers());
+export const useUsersQ = () =>
+  useQuery<User[], StandardError>(api.createGetUsers());
 
 export interface UseUserQProps {
   id: string;
 }
 
 export const useUserQ = ({ id }: UseUserQProps) =>
-  useQuery<User, ErrorRes>({
+  useQuery<User, StandardError>({
     ...api.createGetUser({ id }),
     enabled: !!id,
   });

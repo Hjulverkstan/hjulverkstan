@@ -14,7 +14,7 @@ import { useDataTable } from '@components/DataTable';
 import Message from '@components/Message';
 import Error from '@components/Error';
 import Spinner from '@components/Spinner';
-import { ErrorRes } from '@data/api';
+import { StandardError } from '@data/api';
 import { IconButton } from '@components/shadcn/Button';
 import useKeyPress from '@hooks/useKeyPress';
 import { Mode } from '@components/DataForm';
@@ -29,7 +29,7 @@ export interface PortalTableActionsProps<Row> {
 export interface PortalTableProps
   extends Pick<DataTable.BodyProps, 'columns' | 'renderRowActionFn'> {
   isLoading: boolean;
-  error?: ErrorRes | null;
+  error?: StandardError | null;
   mode?: Mode;
   actionsComponent: ComponentType<PortalTableActionsProps<any>>;
 }
