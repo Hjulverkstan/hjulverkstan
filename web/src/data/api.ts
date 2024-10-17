@@ -39,33 +39,60 @@ instance.interceptors.response.use(
 
 //
 
-/**
- * Should be used in .catch() on all request. Used to unify the error format
- * and inject the endpoint value used to create custom error messages.
- */
-
 export interface ErrorRes {
+  code: string;
+  message: string;
+  status: number;
+  refreshSuccess?: true;
+}
+
+export interface StandardError {
   error: string;
   endpoint: string;
   message: string;
   status: number;
+  refreshSuccess?: true;
 }
 
+/**
+ * Should be used in .catch() on all requests. Used to unify the error format
+ * and inject the endpoint value used to create custom error messages.
+ */
+
 export const createErrorHandler =
-  (endpoint: string) => (error: AxiosError<Omit<ErrorRes, 'endpoint'>>) =>
-    Promise.reject({
+  (endpoint: string) => (inputErr: AxiosError<ErrorRes> | ErrorRes) => {
+    const toValByProp = (prop: keyof ErrorRes) =>
+      inputErr instanceof AxiosError
+        ? inputErr.response?.data[prop]
+        : inputErr[prop];
+
+    const status = toValByProp('status');
+    const message = toValByProp('message');
+    const error = toValByProp('code');
+    const refreshSuccess = toValByProp('refreshSuccess');
+
+    const outputErr = {
       endpoint,
-      ...(error.response?.data ?? {
-        error: error.code,
-        message: error.message,
-        status: 400,
-      }),
-    });
+      status: status ?? 400,
+      error: error ?? 'UNKNOWN_ERROR',
+      message: message ?? 'N/A',
+      refreshSuccess,
+    };
+
+    if (!status || !error || !message) {
+      console.warn(
+        'Incomplete error response in api layer, some values have been inferred',
+        { inputErr, outputErr },
+      );
+    }
+
+    return Promise.reject(outputErr);
+  };
 
 /**
  * Should be used on all responses to convert ids to strings. Manually use
- * this function to map over your data before exposing it to the hooks layer
- * or if retrieveing singular object just pass it...
+ * this function to map over your data before exposing it to the hooks layer,
+ * or if retrieving a singular object pass it...
  */
 
 export const parseResponseData = (obj: Record<string, any>) => {

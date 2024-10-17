@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { ErrorRes } from '../api';
+import { StandardError } from '../api';
 import { EnumAttributes } from '../enums';
 import * as api from './api';
 import * as enums from './enums';
@@ -13,7 +13,7 @@ import { TicketStatus } from '@data/ticket/types';
 //
 
 export const useVehiclesQ = () =>
-  useQuery<Vehicle[], ErrorRes>(api.createGetVehicles());
+  useQuery<Vehicle[], StandardError>(api.createGetVehicles());
 
 //
 
@@ -22,7 +22,7 @@ export interface UseVehicleProps {
 }
 
 export const useVehicleQ = ({ id }: UseVehicleProps) =>
-  useQuery<Vehicle, ErrorRes>({
+  useQuery<Vehicle, StandardError>({
     ...(id ? api.createGetVehicle({ id }) : {}),
     enabled: !!id,
   });
@@ -53,7 +53,7 @@ export const useVehiclesAggregatedQ = () =>
   );
 
 export const useVehiclesAsEnumsQ = ({ dataKey = 'vehicleId' } = {}) =>
-  useQuery<Vehicle[], ErrorRes, EnumAttributes[]>({
+  useQuery<Vehicle[], StandardError, EnumAttributes[]>({
     ...api.createGetVehicles(),
     select: (vehicles) =>
       vehicles?.map((vehicle) => ({
