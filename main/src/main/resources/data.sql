@@ -17,10 +17,11 @@ INSERT INTO Employee
 --
 
 INSERT INTO Customer
-(customer_type,  first_name, last_name,  personal_identity_number,    organization_name,phone_number,    email,                  created_at, updated_at, created_by, updated_by) VALUES
-('PERSON',       'Tuva',     'Nilsson',  '19900101-1237',             null,             '+46798382301',  'tuva@example.com',     NOW(),      NOW(),      1,          1         ),
-('PERSON',       'Emil',     'Berglund', '19851224-5672',             null,             '+46832103988',  'emil@example.com',     NOW(),      NOW(),      1,          1         ),
-('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Biltema',        '+46798381201',  'bosseboss@biltema.se', NOW(),      NOW(),      1,          1         );
+(customer_type,  first_name, last_name,  personal_identity_number,    organization_name,  phone_number,    email,                  created_at, updated_at,  created_by,  updated_by) VALUES
+('PERSON',       'Tuva',     'Nilsson',  '19900101-1237',             null,               '+46798382301',  'tuva@example.com',     NOW(),      NOW(),       1,           1         ),
+('PERSON',       'Emil',     'Berglund', '19851224-5672',             null,               '+46832103988',  'emil@example.com',     NOW(),      NOW(),       1,           1         ),
+('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Biltema',          '+46798381201',  'bosseboss@biltema.se', NOW(),      NOW(),       1,           1         );
+
 
 --
 
@@ -45,6 +46,7 @@ INSERT INTO Ticket
 ('RENT',      'IN_PROGRESS',    3,            2,               '2024-05-01 13:00:00',     '2024-05-14 15:00:00',      'Lets prioritise this',      null,                                         NOW(),         NOW(),         1,            1         ),
 ('DONATE',    null,             1,            3,               '2024-03-06 08:00:00',     '2024-03-06 12:00:00',      null,                        null,                                         NOW(),         NOW(),         1,            1         ),
 ('RENT',      'IN_PROGRESS',    1,            1,               '2024-05-16 10:00:00',     '2024-06-16 18:00:00',      'I like this guy',           null,                                         NOW(),         NOW(),         1,            1         );
+
 
 INSERT INTO Ticket_Vehicle
 (vehicle_id, ticket_id) VALUES

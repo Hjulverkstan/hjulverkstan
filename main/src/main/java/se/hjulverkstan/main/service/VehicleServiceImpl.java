@@ -119,10 +119,6 @@ public class VehicleServiceImpl implements VehicleService {
         }
 
 
-        // Set regTag to null if customerOwned
-        selectedVehicle.setRegTag(selectedVehicle.isCustomerOwned() ? null : editVehicle.getRegTag());
-
-        // Set vehicleStatus to null if customerOwned
         selectedVehicle.setRegTag(selectedVehicle.isCustomerOwned() ? null : editVehicle.getRegTag());
 
         vehicleRepository.save(selectedVehicle);
