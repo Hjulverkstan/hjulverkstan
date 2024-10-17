@@ -10,20 +10,39 @@ export default function ShopInventoryFields() {
 
   return (
     <>
-      {body.vehicleType !== VehicleType.BATCH && (
-        <DataForm.Input
-          type="string"
-          placeholder="ex 'WASD'"
-          label="Regtag"
-          dataKey="regTag"
-        />
-      )}
-
       <DataForm.Select
         label="Location"
         dataKey="locationId"
         enums={locationEnumsQ.data ?? []}
       />
+
+      <DataForm.Select
+        label="Ownership"
+        dataKey="isCustomerOwned"
+        enums={enums.isCustomerOwned}
+        disabled={mode !== DataForm.Mode.CREATE}
+      />
+
+      {body.vehicleType !== VehicleType.BATCH &&
+        body.isCustomerOwned === false && (
+          <DataForm.Input
+            type="string"
+            placeholder="ex 'WASD'"
+            label="Regtag"
+            dataKey="regTag"
+            disabled={body.isCustomerOwned === true}
+          />
+        )}
+
+      {mode !== DataForm.Mode.CREATE && body.isCustomerOwned === true && (
+        <DataForm.Input
+          type={'string'}
+          placeholder={'ID'}
+          label={'ID'}
+          dataKey={'id'}
+          disabled={true}
+        />
+      )}
 
       <DataForm.Select
         label="Vehicle type"
@@ -50,13 +69,14 @@ export default function ShopInventoryFields() {
         />
       )}
 
-      {body.vehicleType !== VehicleType.BATCH && (
-        <DataForm.Select
-          label="Vehicle status"
-          dataKey="vehicleStatus"
-          enums={enums.vehicleStatus}
-        />
-      )}
+      {body.vehicleType !== VehicleType.BATCH &&
+        body.isCustomerOwned === false && (
+          <DataForm.Select
+            label="Vehicle status"
+            dataKey="vehicleStatus"
+            enums={enums.vehicleStatus}
+          />
+        )}
 
       <DataForm.Input
         placeholder="Write a comment..."

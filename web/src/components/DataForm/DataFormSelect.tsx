@@ -42,7 +42,8 @@ export const Select = ({
 
   const Icon =
     !isMultiSelect &&
-    body[dataKey] &&
+    body[dataKey] !== undefined &&
+    body[dataKey] !== null &&
     enums.find((e) => e.value === body[dataKey])?.icon;
 
   const sortedEnums = useMemo(
@@ -52,7 +53,7 @@ export const Select = ({
 
   const hasData = Array.isArray(body[dataKey])
     ? body[dataKey].length
-    : body[dataKey];
+    : body[dataKey] !== undefined && body[dataKey] !== null;
 
   const renderItem = (e: EnumAttributes) => {
     const isSelected = isMultiSelect
@@ -65,13 +66,11 @@ export const Select = ({
         value={e.label}
         onSelect={() => {
           if (isMultiSelect) {
-            setBodyProp(
-              dataKey,
-              U.toUpdatedArray(body[dataKey], {
-                add: isSelected ? [] : e.value,
-                remove: isSelected ? e.value : [],
-              }),
-            );
+            const updatedBody = U.toUpdatedArray(body[dataKey], {
+              add: isSelected ? [] : e.value,
+              remove: isSelected ? e.value : [],
+            });
+            setBodyProp(dataKey, updatedBody);
           } else {
             setBodyProp(dataKey, e.value);
             setOpen(false);

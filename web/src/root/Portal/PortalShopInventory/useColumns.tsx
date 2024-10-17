@@ -3,7 +3,6 @@ import { Vehicle } from '@data/vehicle/types';
 
 import * as DataTable from '@components/DataTable';
 import BadgeGroup from '@components/BadgeGroup';
-import { Badge } from '@components/shadcn/Badge';
 import IconLabel from '@components/IconLabel';
 import { useMemo } from 'react';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
@@ -20,9 +19,17 @@ export default function useColumns() {
       [
         {
           key: 'regTag',
-          name: 'Reg.',
-          renderFn: ({ regTag }, { selected }) => (
-            <Badge variant={selected ? 'contrast' : 'outline'}>{regTag}</Badge>
+          name: '#',
+          renderFn: ({ regTag, id, isCustomerOwned }, { selected }) => (
+            <BadgeGroup
+              badges={[
+                {
+                  ...enums.find(isCustomerOwned),
+                  ...(selected ? { variant: 'contrast' } : {}),
+                  label: isCustomerOwned ? `#${id}` : regTag,
+                },
+              ]}
+            />
           ),
         },
 

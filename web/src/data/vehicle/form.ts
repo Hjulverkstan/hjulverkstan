@@ -42,32 +42,26 @@ export function useVehicleZ() {
   // If regTags possibly being undefined ends up as a problem, just add '?? []' at the end.
   const regTags = vehiclesQ.data
     ?.filter((vehicle) => vehicle.id !== id)
-    .map((vehicle) => vehicle.regTag);
+    .map((vehicle) => vehicle.regTag?.toLowerCase());
 
-  return useMemo(
-    () => {
-      const commonProps = {
-        vehicleStatus: z.nativeEnum(VehicleStatus, isReq('Status')),
-        regTag: z
-          .string(isReq('Reg Tag'))
-          .min(1, {
-            message: 'Reg Tag is required',
-          })
-          .refine((reg) => !regTags.includes(reg), {
-            message: 'This Reg Tag is already in use.',
-          }),
-      };
+  return useMemo(() => {
+    const commonProps = {
+      isCustomerOwned: z.boolean(isReq('Ownership')),
+      vehicleStatus: z.nativeEnum(VehicleStatus, isReq('Status')).optional(),
+      regTag: z.string().optional(),
+    };
 
-      return z.discriminatedUnion(
+    return z
+      .discriminatedUnion(
         'vehicleType',
         [
           vehicleBaseZ.extend({
             ...commonProps,
             vehicleType: z.literal(VehicleType.BIKE),
             bikeType: z.nativeEnum(BikeType, isReq('Bike Type')),
-            brakeType: z.nativeEnum(BrakeType, isReq('Brake Type')),
-            size: z.nativeEnum(BikeSize, isReq('Size')),
             brand: z.nativeEnum(BikeBrand, isReq('Brand')),
+            size: z.nativeEnum(BikeSize, isReq('Size')),
+            brakeType: z.nativeEnum(BrakeType, isReq('Brake Type')),
             gearCount: z
               .number(isReq('Gear Count'))
               .min(minGearCount, {
@@ -101,9 +95,38 @@ export function useVehicleZ() {
             vehicleType: z.literal(VehicleType.OTHER),
           }),
         ],
-        isReq('Vehicle type'),
-      );
-    },
-    [regTags], // Dependency array for useMemo
-  );
+        isReq('Vehicle Type'),
+      )
+      .superRefine((data, ctx) => {
+        /**
+         * As the regTag validation is dependent on isCustomerOwned and one
+         * seems to not be able to nest a discriminated union in another
+         * discriminated union, we settle for using superRefine here instead.
+         * The downside of this is that this validation is only applied all
+         * validations in the schema are successful. Thus postponing the
+         * validation in superRefine till the end of the user flow.
+         */
+
+        // @ts-expect-error: regTag cannot be added to data type
+        const regTag = data.regTag as string | undefined;
+
+        if (data.vehicleType !== VehicleType.BATCH && !data.isCustomerOwned) {
+          if (!regTag) {
+            ctx.addIssue({
+              code: 'custom',
+              path: ['regTag'],
+              message: 'Reg Tag is required.',
+            });
+          }
+
+          if (regTag && regTags?.includes(regTag.toLowerCase())) {
+            ctx.addIssue({
+              code: 'custom',
+              path: ['regTag'],
+              message: 'This Reg Tag is already in use.',
+            });
+          }
+        }
+      });
+  }, [regTags]);
 }
