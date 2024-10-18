@@ -11,12 +11,12 @@ import se.hjulverkstan.main.model.VehicleStatus;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewVehicleStatusDto {
+public class EditVehicleStatusDto {
     @NotNull(message = "New status is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleStatus newStatus;
 
-    public NewVehicleStatusDto(Vehicle vehicle) {
+    public EditVehicleStatusDto(Vehicle vehicle) {
         this.newStatus = vehicle.getVehicleStatus();
     }
 

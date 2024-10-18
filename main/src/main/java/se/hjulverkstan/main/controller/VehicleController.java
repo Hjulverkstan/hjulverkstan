@@ -67,8 +67,8 @@ public class VehicleController {
         return new ResponseEntity<>(vehicleService.editVehicle(id, vehicleStrollerDto), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<VehicleDto> editVehicleStatus(@PathVariable Long id, @Valid @RequestBody NewVehicleStatusDto newStatus) {
+    @PostMapping("/{id}/status")
+    public ResponseEntity<VehicleDto> editVehicleStatus(@PathVariable Long id, @Valid @RequestBody EditVehicleStatusDto newStatus) {
         return new ResponseEntity<>(vehicleService.editVehicleStatus(id, newStatus), HttpStatus.OK);
     }
 

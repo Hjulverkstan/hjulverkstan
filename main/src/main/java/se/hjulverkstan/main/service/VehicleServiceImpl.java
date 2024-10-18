@@ -127,7 +127,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleDto editVehicleStatus(Long id, NewVehicleStatusDto newStatus) {
+    public VehicleDto editVehicleStatus(Long id, EditVehicleStatusDto newStatus) {
         Vehicle selectedVehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
 
         selectedVehicle.setVehicleStatus(newStatus.getNewStatus());
