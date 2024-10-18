@@ -42,6 +42,11 @@ public class TicketController {
         return new ResponseEntity<>(service.createTicket(newTicket), HttpStatus.OK);
     }
 
+    @PostMapping("/receive")
+    public ResponseEntity<TicketDto> createTicketReceive(@Valid @RequestBody NewTicketReceiveDto newTicket) {
+        return new ResponseEntity<>(service.createTicket(newTicket), HttpStatus.OK);
+    }
+
     @PutMapping("/rent/{id}")
     public ResponseEntity<TicketDto> editTicketRent(@PathVariable Long id, @Valid @RequestBody EditTicketRentDto ticket) {
         return new ResponseEntity<>(service.editTicket(id, ticket), HttpStatus.OK);

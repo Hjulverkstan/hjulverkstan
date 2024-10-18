@@ -2,6 +2,7 @@ export enum TicketType {
   RENT = 'RENT',
   REPAIR = 'REPAIR',
   DONATE = 'DONATE',
+  RECEIVE = 'RECEIVE',
 }
 
 export interface Ticket {
@@ -54,6 +55,7 @@ export const ticketTypeTicketStatusMap = {
     TicketStatus.IN_PROGRESS,
     TicketStatus.CLOSED,
   ],
+  [TicketType.RECEIVE]: undefined,
 };
 
 export const ticketTypeToTicketStatus = (type: TicketType) =>

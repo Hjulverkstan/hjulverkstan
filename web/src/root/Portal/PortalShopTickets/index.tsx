@@ -96,8 +96,10 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
               dataLabel="Ticket"
               toToolbarName={(body: Ticket) => body.id && `Ticket #${body.id}`}
               disableEdit={
-                ticketQ.data?.ticketType === TicketType.DONATE &&
-                'Donate tickets cannot be edited'
+                (ticketQ.data?.ticketType === TicketType.DONATE &&
+                  'Donate tickets cannot be edited') ||
+                (ticketQ.data?.ticketType === TicketType.RECEIVE &&
+                  'Receive tickets cannot be edited')
               }
               error={ticketQ.error || locationsQ.error}
               isSubmitting={createTicketM.isLoading || editTicketM.isLoading}
