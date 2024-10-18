@@ -140,6 +140,8 @@ public class TicketServiceImpl implements TicketService {
             ticketRent.setTicketStatus(TicketStatus.READY);
         } else if (newTicket instanceof NewTicketDonateDto && ticket instanceof TicketDonate) {
             ticket.setTicketStatus(null);
+        } else if (newTicket instanceof NewTicketReceiveDto && ticket instanceof TicketReceive) {
+            ticket.setTicketStatus(null);
         }
 
         // General Ticket attributes
@@ -211,6 +213,8 @@ public class TicketServiceImpl implements TicketService {
             return new TicketRepair();
         } else if (newTicket instanceof NewTicketDonateDto) {
             return new TicketDonate();
+        } else if (newTicket instanceof NewTicketReceiveDto) {
+            return new TicketReceive();
         }
         throw new UnsupportedTicketTypeException("Unsupported ticket type provided");
     }
@@ -222,6 +226,8 @@ public class TicketServiceImpl implements TicketService {
             return new TicketRepairDto((TicketRepair) ticket);
         } else if (ticket instanceof TicketDonate) {
             return new TicketDonateDto((TicketDonate) ticket);
+        } else if (ticket instanceof TicketReceive) {
+            return new TicketReceiveDto((TicketReceive) ticket);
         }
         return new TicketDto(ticket);
     }

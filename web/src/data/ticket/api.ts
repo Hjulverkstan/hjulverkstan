@@ -54,7 +54,10 @@ const transformBody = ({
 }: Partial<Ticket>) => ({
   id,
   ticketType,
-  ticketStatus: ticketType === TicketType.DONATE ? undefined : ticketStatus,
+  ticketStatus:
+    ticketType === TicketType.DONATE || ticketType === TicketType.RECEIVE
+      ? undefined
+      : ticketStatus,
   startDate,
   endDate,
   comment,
@@ -70,6 +73,7 @@ const toTicketUrl = (ticketType: string, ticketId?: string) =>
     [TicketType.RENT]: '/rent',
     [TicketType.REPAIR]: '/repair',
     [TicketType.DONATE]: '/donate',
+    [TicketType.RECEIVE]: '/receive',
   }[ticketType] ?? '') +
   (ticketId ? `/${ticketId}` : '');
 

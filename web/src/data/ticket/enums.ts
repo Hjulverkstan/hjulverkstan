@@ -1,11 +1,12 @@
 import {
-  CheckCircle,
   Check,
-  XCircle,
-  Package,
+  CheckCircle,
   ReceiptText,
   RefreshCw,
   Wrench,
+  XCircle,
+  LogOut,
+  LogIn,
 } from 'lucide-react';
 
 import { createFindFn, createMatchFn } from '../enums';
@@ -30,7 +31,13 @@ export const ticketType = [
     dataKey: 'ticketType',
     value: TicketType.DONATE,
     label: 'Donate',
-    icon: Package,
+    icon: LogOut,
+  },
+  {
+    dataKey: 'ticketType',
+    value: TicketType.RECEIVE,
+    label: 'Receive',
+    icon: LogIn,
   },
 ];
 

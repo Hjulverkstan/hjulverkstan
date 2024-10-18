@@ -29,6 +29,9 @@ export const ticketZ = z.discriminatedUnion(
     ticketBaseZ.extend({
       ticketType: z.literal(TicketType.DONATE),
     }),
+    ticketBaseZ.extend({
+      ticketType: z.literal(TicketType.RECEIVE),
+    }),
   ],
   isReq('Ticket type'),
 );
