@@ -60,7 +60,9 @@ export const useVehiclesAsEnumsQ = ({ dataKey = 'vehicleId' } = {}) =>
         dataKey,
         icon: enums.find(vehicle.vehicleType).icon,
         label:
-          vehicle.vehicleType === VehicleType.BATCH ? 'Batch' : vehicle.regTag,
+          vehicle.vehicleType === VehicleType.BATCH
+            ? 'Batch'
+            : vehicle.regTag || `#${vehicle.id}`,
         value: vehicle.id,
       })) ?? [],
   });
