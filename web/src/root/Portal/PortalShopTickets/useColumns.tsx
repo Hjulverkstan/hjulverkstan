@@ -182,7 +182,7 @@ export default function useColumns() {
           name: 'Start Date',
           renderFn: (row) => (
             <span className="text-muted-foreground text-elipsis">
-              {format(row.startDate, 'yyyy-MM-dd')}
+              {row.startDate ? format(row.startDate, 'yyyy-MM-dd') : ''}
             </span>
           ),
         },
@@ -193,7 +193,7 @@ export default function useColumns() {
           renderFn: (row) =>
             row.endDate && (
               <span className="text-muted-foreground text-elipsis">
-                {format(row.endDate, 'yyyy-MM-dd')}
+                {row.endDate ? format(row.endDate, 'yyyy-MM-dd') : 'N/A'}
               </span>
             ),
         },

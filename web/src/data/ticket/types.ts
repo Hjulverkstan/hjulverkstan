@@ -9,7 +9,7 @@ export interface Ticket {
   id: string;
   ticketType: TicketType;
   ticketStatus?: TicketStatus;
-  startDate: string;
+  startDate: string | undefined;
   comment: string | null;
   vehicleIds: string[];
   employeeId: string;

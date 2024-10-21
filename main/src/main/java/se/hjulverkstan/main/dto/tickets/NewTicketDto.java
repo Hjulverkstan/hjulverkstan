@@ -21,7 +21,6 @@ public class NewTicketDto {
     @NotNull(message = "Ticket type is required")
     private TicketType ticketType;
 
-    @NotNull(message = "Start date is required")
     private LocalDateTime startDate;
 
     private String comment;
@@ -38,7 +37,9 @@ public class NewTicketDto {
 
     public NewTicketDto(Ticket ticket) {
         this(ticket.getTicketType(),
-                ticket.getStartDate(),
+                ticket.getTicketType() == TicketType.DONATE || ticket.getTicketType() == TicketType.RECEIVE
+                        ? null
+                        : ticket.getStartDate(),
                 ticket.getComment(),
                 ticket.getVehicles().stream().map(Vehicle::getId).collect(Collectors.toList()),
                 ticket.getEmployee().getId(),

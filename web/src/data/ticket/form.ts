@@ -14,6 +14,13 @@ const ticketBaseZ = z.object({
   customerId: z.string(isReq('Customer id')),
 });
 
+const ticketBaseZSecond = z.object({
+  ticketType: z.nativeEnum(TicketType, isReq('Ticket type')),
+  vehicleIds: z.array(z.string(isReq('Vehicle ids'))),
+  employeeId: z.string(isReq('Employee id')),
+  customerId: z.string(isReq('Customer id')),
+});
+
 export const ticketZ = z.discriminatedUnion(
   'ticketType',
   [
@@ -26,10 +33,10 @@ export const ticketZ = z.discriminatedUnion(
       repairDescription: z.string(isReq('Repair description')),
       endDate: z.string(isReq('End date')),
     }),
-    ticketBaseZ.extend({
+    ticketBaseZSecond.extend({
       ticketType: z.literal(TicketType.DONATE),
     }),
-    ticketBaseZ.extend({
+    ticketBaseZSecond.extend({
       ticketType: z.literal(TicketType.RECEIVE),
     }),
   ],
