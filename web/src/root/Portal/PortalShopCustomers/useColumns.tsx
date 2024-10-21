@@ -17,7 +17,7 @@ export default function useColumns() {
     () =>
       [
         {
-          key: 'name',
+          key: 'firstName',
           name: 'Name',
           renderFn: (
             { customerType, firstName, lastName, organizationName },
@@ -38,13 +38,13 @@ export default function useColumns() {
         },
 
         {
-          key: 'tickets',
+          key: 'ticketIds',
           name: 'Tickets',
           renderFn: ({ ticketIds }) => <TicketBadges ticketIds={ticketIds} />,
         },
 
         {
-          key: 'persidnr',
+          key: 'personalIdentityNumber',
           name: 'Pers. Identity No.',
           renderFn: ({ personalIdentityNumber, age }) => {
             return (
@@ -56,7 +56,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'phonenr',
+          key: 'phoneNumber',
           name: 'Phone No.',
           renderFn: ({ phoneNumber }) => <IconLabel label={phoneNumber} />,
         },
@@ -78,7 +78,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'createdat',
+          key: 'createdAt',
           name: 'Created at',
           renderFn: ({ createdAt }) => (
             <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
@@ -86,7 +86,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'updatedat',
+          key: 'updatedAt',
           name: 'Edited at',
           renderFn: ({ updatedAt }) => (
             <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
