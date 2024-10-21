@@ -144,9 +144,16 @@ public class TicketServiceImpl implements TicketService {
             ticket.setTicketStatus(null);
         }
 
+        if (newTicket instanceof NewTicketDonateDto && ticket instanceof TicketDonate) {
+            ticket.setStartDate(null);
+        } else if (newTicket instanceof NewTicketReceiveDto && ticket instanceof TicketReceive) {
+            ticket.setStartDate(null);
+        } else {
+            ticket.setStartDate(newTicket.getStartDate());
+        }
+
         // General Ticket attributes
         ticket.setTicketType(newTicket.getTicketType());
-        ticket.setStartDate(newTicket.getStartDate());
         ticket.setComment(newTicket.getComment());
 
         List<Vehicle> vehicles = getTicketVehicleList(newTicket.getVehicleIds());

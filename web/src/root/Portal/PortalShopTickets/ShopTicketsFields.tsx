@@ -42,11 +42,14 @@ export default function ShopTicketFields() {
         fat
       />
 
-      <DataForm.DatePicker
-        label="Start Date"
-        dataKey="startDate"
-        fromDate={new Date()}
-      />
+      {(body.ticketType === TicketType.RENT ||
+        body.ticketType === TicketType.REPAIR) && (
+        <DataForm.DatePicker
+          label="Start Date"
+          dataKey="startDate"
+          fromDate={new Date()}
+        />
+      )}
 
       {(body.ticketType === TicketType.RENT ||
         body.ticketType === TicketType.REPAIR) && (
