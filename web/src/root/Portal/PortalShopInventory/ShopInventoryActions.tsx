@@ -16,7 +16,7 @@ import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { vehicleStatus } from '@data/vehicle/enums';
+import * as enums from '@data/vehicle/enums';
 
 export enum VehicleShortcutAction {
   CREATE_TICKET = 'CREATE_TICKET',
@@ -157,26 +157,44 @@ export default function ShopInventoryActions({
           See Tickets
         </DropdownMenu.Item>
 
-        {vehicle.vehicleStatus !== VehicleStatus.ARCHIVED && (
-          <DropdownMenu.Item
-            onClick={(e) => {
-              e.stopPropagation();
-              onStatusUpdate(VehicleStatus.ARCHIVED);
-            }}
-          >
-            Archive
-          </DropdownMenu.Item>
-        )}
+        {!vehicle.isCustomerOwned && (
+          <>
+            {vehicle.vehicleStatus !== VehicleStatus.ARCHIVED && (
+              <DropdownMenu.Item
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStatusUpdate(VehicleStatus.ARCHIVED);
+                }}
+              >
+                Archive
+              </DropdownMenu.Item>
+            )}
 
-        {vehicle.vehicleStatus == VehicleStatus.ARCHIVED && (
-          <DropdownMenu.Item
-            onClick={(e) => {
-              e.stopPropagation();
-              onStatusUpdate(VehicleStatus.ARCHIVED);
-            }}
-          >
-            Unarchive
-          </DropdownMenu.Item>
+            {vehicle.vehicleStatus === VehicleStatus.ARCHIVED && (
+              <>
+                <DropdownMenu.Separator />
+                <DropdownMenu.Sub>
+                  <DropdownMenu.SubTrigger>Unarchive</DropdownMenu.SubTrigger>
+                  <DropdownMenu.SubContent
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    {Object.values(VehicleStatus)
+                      .filter((status) => status !== VehicleStatus.ARCHIVED) // Show all statuses except ARCHIVED
+                      .map((status) => (
+                        <DropdownMenu.Item
+                          key={status}
+                          onSelect={() => onStatusUpdate(status)} // Update to selected status
+                        >
+                          {enums.find(status).label}
+                        </DropdownMenu.Item>
+                      ))}
+                  </DropdownMenu.SubContent>
+                </DropdownMenu.Sub>
+              </>
+            )}
+          </>
         )}
       </DropdownMenu.Content>
     </DropdownMenu.Root>

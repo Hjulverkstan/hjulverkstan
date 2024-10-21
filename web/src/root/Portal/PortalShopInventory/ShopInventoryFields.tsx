@@ -1,6 +1,6 @@
 import * as enums from '@data/vehicle/enums';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
-import { VehicleType } from '@data/vehicle/types';
+import { VehicleStatus, VehicleType } from '@data/vehicle/types';
 import { maxGearCount, minGearCount } from '@data/vehicle/form';
 import * as DataForm from '@components/DataForm';
 
@@ -74,7 +74,9 @@ export default function ShopInventoryFields() {
           <DataForm.Select
             label="Vehicle status"
             dataKey="vehicleStatus"
-            enums={enums.vehicleStatus}
+            enums={enums.vehicleStatus.filter(
+              (status) => status.value !== VehicleStatus.ARCHIVED,
+            )}
           />
         )}
 

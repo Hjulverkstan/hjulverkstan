@@ -26,6 +26,9 @@ public class VehicleFieldValidator implements ConstraintValidator<VehicleValidat
             boolean isBatch = vehicleFieldValidation instanceof NewVehiclebatchDto || vehicleFieldValidation instanceof EditVehicleBatchDto;
             boolean isFullValidation = vehicleFieldValidation instanceof FullVehicleFieldValidation;
 
+            FullVehicleFieldValidation fullValidation = (FullVehicleFieldValidation) vehicleFieldValidation;
+            Boolean isCustomerOwned = fullValidation.getIsCustomerOwned();
+
             context.disableDefaultConstraintViolation();
 
             if (isBatch) {
@@ -33,17 +36,17 @@ public class VehicleFieldValidator implements ConstraintValidator<VehicleValidat
             }
 
             // Validate regTag for all DTOs
-            if (vehicleFieldValidation.getRegTag() == null || vehicleFieldValidation.getRegTag().isBlank()) {
-                context.buildConstraintViolationWithTemplate("RegTag is required.")
-                        .addPropertyNode("regTag")
-                        .addConstraintViolation();
-                return false;
-            }
+           if (!isCustomerOwned) {
+               if (vehicleFieldValidation.getRegTag() == null || vehicleFieldValidation.getRegTag().isBlank()) {
+                   context.buildConstraintViolationWithTemplate("RegTag is required.")
+                           .addPropertyNode("regTag")
+                           .addConstraintViolation();
+                   return false;
+               }
+           }
 
             // Validate fields specific to FullVehicleFieldValidation
             if (isFullValidation) {
-                FullVehicleFieldValidation fullValidation = (FullVehicleFieldValidation) vehicleFieldValidation;
-                Boolean isCustomerOwned = fullValidation.getIsCustomerOwned();
 
                 // Validate isCustomerOwned
                 if (isCustomerOwned == null) {
