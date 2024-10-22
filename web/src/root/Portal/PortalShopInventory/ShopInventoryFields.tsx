@@ -3,6 +3,7 @@ import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { VehicleType } from '@data/vehicle/types';
 import { maxGearCount, minGearCount } from '@data/vehicle/form';
 import * as DataForm from '@components/DataForm';
+import { Mode } from '@components/DataForm';
 
 export default function ShopInventoryFields() {
   const { body, mode } = DataForm.useDataForm();
@@ -22,6 +23,16 @@ export default function ShopInventoryFields() {
         enums={enums.isCustomerOwned}
         disabled={mode !== DataForm.Mode.CREATE}
       />
+
+      {mode === Mode.CREATE &&
+        body.vehicleType !== VehicleType.BATCH &&
+        !body.isCustomerOwned && (
+          <DataForm.Select
+            label="Vehicle status"
+            dataKey="vehicleStatus"
+            enums={enums.vehicleStatus}
+          />
+        )}
 
       {body.vehicleType !== VehicleType.BATCH &&
         body.isCustomerOwned === false && (

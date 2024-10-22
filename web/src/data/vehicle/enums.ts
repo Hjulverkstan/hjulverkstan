@@ -107,7 +107,7 @@ export const vehicleStatus = [
     dataKey: 'vehicleStatus',
     value: VehicleStatus.ARCHIVED,
     label: 'Archived',
-    variant: 'destructiveOutline' as 'destructiveOutline',
+    variant: 'secondary' as 'secondary',
     icon: Archive,
   },
 ];

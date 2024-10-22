@@ -65,13 +65,18 @@ const transformBody = ({
   ticketIds,
   comment,
   vehicleType,
-  ...(!isCustomerOwned && vehicleType !== VehicleType.BATCH ? { regTag } : {}),
 
-  ...(vehicleType !== VehicleType.BATCH ? { vehicleStatus } : { batchCount }),
-  ...(vehicleType === VehicleType.BIKE
-    ? { size, gearCount, brakeType, brand, bikeType }
+  ...(!isCustomerOwned && vehicleType !== VehicleType.BATCH
+    ? { regTag, vehicleStatus }
     : {}),
-  ...(vehicleType === VehicleType.STROLLER ? { strollerType } : {}),
+
+  ...(vehicleType === VehicleType.BATCH
+    ? { batchCount }
+    : vehicleType === VehicleType.BIKE
+      ? { size, gearCount, brakeType, brand, bikeType }
+      : vehicleType === VehicleType.STROLLER
+        ? { strollerType }
+        : {}),
 });
 
 const toVehicleUrl = (vehicleType: string, vehicleId?: string) =>

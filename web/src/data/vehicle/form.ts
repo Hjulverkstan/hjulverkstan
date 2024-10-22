@@ -19,7 +19,6 @@ import { useParams } from 'react-router-dom';
 
 export const initVehicle: Partial<Vehicle> = {
   vehicleType: VehicleType.BIKE,
-  vehicleStatus: undefined,
   ticketIds: [],
 };
 
@@ -107,11 +106,16 @@ export function useVehicleZ() {
          * validation in superRefine till the end of the user flow.
          */
 
-        // @ts-expect-error: regTag cannot be added to data type
-        const regTag = data.regTag as string | undefined;
-
         if (data.vehicleType !== VehicleType.BATCH && !data.isCustomerOwned) {
-          if (!regTag) {
+          if (!data.vehicleStatus) {
+            ctx.addIssue({
+              code: 'custom',
+              path: ['vehicleStatus'],
+              message: 'Vehicle Status is required.',
+            });
+          }
+
+          if (!data.regTag) {
             ctx.addIssue({
               code: 'custom',
               path: ['regTag'],
@@ -119,7 +123,7 @@ export function useVehicleZ() {
             });
           }
 
-          if (regTag && regTags?.includes(regTag.toLowerCase())) {
+          if (data.regTag && regTags?.includes(data.regTag.toLowerCase())) {
             ctx.addIssue({
               code: 'custom',
               path: ['regTag'],
