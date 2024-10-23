@@ -32,8 +32,11 @@ INSERT INTO vehicle
 (2,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          true,              'BMX',          1,          'MEDIUM', 'DISC',         'KRONAN',      null,       'BIKE',          '2024-05-20 10:00:00', NOW(),      1,          1         ),
 (2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
 (2,           'BIKE',       'AVAILABLE',      'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       null,             'image_url_2.jpg',   null,                          true,              'MOUNTAINBIKE', 28,         'LARGE',  'CALIPER',      'PELAGO',      null,       'BIKE',          '2024-06-21 10:00:00', NOW(),      1,          1         );
-
+(1,           'BIKE',       null,             'image_url_2.jpg',   null,                          true,              'MOUNTAINBIKE', 28,         'LARGE',  'CALIPER',      'PELAGO',      null,       'BIKE',          '2024-06-21 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   null,                          false,             'MOUNTAINBIKE', 9,          'LARGE',  'CALIPER',      'PELAGO',      'KODE',     'BIKE',          '2024-06-21 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   null,                          false,             'MOUNTAINBIKE', 9,          'LARGE',  'CALIPER',      'PELAGO',      'CODE',     'BIKE',          '2024-06-21 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   null,                          false,             'MOUNTAINBIKE', 31,         'LARGE',  'CALIPER',      'PELAGO',      'ADAM',     'BIKE',          '2024-10-22 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   null,                          false,             'LADY',         28,         'MEDIUM', 'DISC',         'YOSEMITE',    'CHRI',     'BIKE',          '2024-10-22 12:00:00', NOW(),      1,          1         );
 --
 
 INSERT INTO Ticket
