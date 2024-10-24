@@ -22,7 +22,7 @@ import { useDialogManager } from '@components/DialogManager';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
-import { Vehicle } from '@data/vehicle/types';
+import { Vehicle, VehicleStatus } from '@data/vehicle/types';
 import { createGetVehicle } from '@data/vehicle/api';
 import { useQueries } from '@tanstack/react-query';
 import UpdateVehicleStatusesDialog from '@components/UpdateVehicleStatusesDialog';
@@ -93,9 +93,18 @@ export default function ShopTicketsActions({
               id: res.id,
             }),
           );
+          const notCustomerOwnedVehicles = vehicles.filter(
+            (vehicle) =>
+              vehicle.vehicleStatus !== VehicleStatus.ARCHIVED &&
+              vehicle.vehicleStatus !== null &&
+              vehicle.vehicleStatus !== undefined,
+          );
+
           if (
             newStatus === TicketStatus.CLOSED &&
-            ticket.ticketType === TicketType.RENT
+            (ticket.ticketType === TicketType.RENT ||
+              ticket.ticketType === TicketType.REPAIR) &&
+            notCustomerOwnedVehicles.length > 0
           ) {
             openDialog(<UpdateVehicleStatusesDialog vehicles={vehicles} />);
           }
