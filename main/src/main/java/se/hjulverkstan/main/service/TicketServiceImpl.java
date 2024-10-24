@@ -170,6 +170,16 @@ public class TicketServiceImpl implements TicketService {
         customer.getTickets().add(ticket);
         ticket.setCustomer(customer);
 
+        // Update vehicle status to UNAVAILABLE if it's a repair ticket, not closed and not customer owned
+        if (ticket instanceof TicketRepair && ticket.getTicketStatus() != TicketStatus.CLOSED) {
+            for (Vehicle vehicle : vehicles) {
+                if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE && !vehicle.isCustomerOwned()) {
+                    vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
+                    vehicleRepository.save(vehicle);
+                }
+            }
+        }
+
         ticketRepository.save(ticket);
         return convertToDto(ticket);
     }
@@ -179,7 +189,7 @@ public class TicketServiceImpl implements TicketService {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException("Ticket with id " + id + " not found"));
 
-        /*
+                /*
         TODO: Implement proper validation strategy
          Not sure what pattern we should be using here.
          Ways that validation could be done:
@@ -189,23 +199,43 @@ public class TicketServiceImpl implements TicketService {
          - Reuse the validation methods from the entity layer
         */
 
-        // Check if the ticket is a rental ticket and status is set to IN_PROGRESS
-        if (ticket instanceof TicketRent && ticketStatusDto.getTicketStatus() == TicketStatus.IN_PROGRESS) {
-            List<Vehicle> vehicles = ticket.getVehicles();
-            for (Vehicle vehicle : vehicles) {
-                if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE) {
-                    vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
-                    vehicleRepository.save(vehicle);
+        TicketStatus newStatus = ticketStatusDto.getTicketStatus();
+        boolean isRepairTicket = ticket instanceof TicketRepair;
+        boolean isRentTicket = ticket instanceof TicketRent;
+
+        List<Vehicle> vehicles = ticket.getVehicles();
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.isCustomerOwned()) {
+                if (newStatus == TicketStatus.CLOSED) {
+                    vehicle.setVehicleStatus(VehicleStatus.ARCHIVED);
+                } else {
+                    vehicle.setVehicleStatus(null);
+                }
+                vehicleRepository.save(vehicle);
+            } else {
+                if (isRentTicket) {
+                    if (newStatus == TicketStatus.IN_PROGRESS) {
+                        if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE) {
+                            vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
+                            vehicleRepository.save(vehicle);
+                        }
+                    }
+                } else if (isRepairTicket) {
+                        if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE) {
+                            vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
+                            vehicleRepository.save(vehicle);
+                        }
                 }
             }
         }
 
-        ticket.setTicketStatus(ticketStatusDto.getTicketStatus());
-
+        ticket.setTicketStatus(newStatus);
         ticketRepository.save(ticket);
 
         return convertToDto(ticket);
     }
+
 
     private Customer getTicketCustomer(Long customerId) {
         return customerRepository.findById(customerId)

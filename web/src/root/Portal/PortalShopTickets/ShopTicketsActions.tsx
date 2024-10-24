@@ -93,11 +93,21 @@ export default function ShopTicketsActions({
               id: res.id,
             }),
           );
+          const notCustomerOwnedVehicles = vehicles.filter(
+            (vehicle) => !vehicle.isCustomerOwned,
+          );
+
           if (
-            newStatus === TicketStatus.CLOSED &&
-            ticket.ticketType === TicketType.RENT
+            res.ticketStatus === TicketStatus.CLOSED &&
+            (ticket.ticketType === TicketType.RENT ||
+              ticket.ticketType === TicketType.REPAIR) &&
+            notCustomerOwnedVehicles.length > 0
           ) {
-            openDialog(<UpdateVehicleStatusesDialog vehicles={vehicles} />);
+            openDialog(
+              <UpdateVehicleStatusesDialog
+                vehicles={notCustomerOwnedVehicles}
+              />,
+            );
           }
         },
         onError: () => {
