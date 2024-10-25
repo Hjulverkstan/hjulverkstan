@@ -1,33 +1,132 @@
 # Setup local development
 
-Run our setup shellscript to configure all git configs
+## Prerequisite overview
+
+- Node.js v20
+- Postgres v14
+- JDK v21
+- Git
+
+## Prerequisite steps
+
+### Postgres
+
+
+Run the [Postgres Installer](https://www.postgresql.org/download/):
+
+1. Proceed by clicking next.
+2. Speficy a password and write it down.
+3. Unclick the Stack Builder.
+4. Finnish the installer.
+
+Create the database:
+
+1. Open psql, on windows it is a seperate program, on linux/mac you can run `psql -U root -p`
+2. Enter the password you specified in the installer
+3. Create the database by running in the prompt:
+   ```sql
+   CREATE DATABASE hjulverkstan;
+   ```
+4. Verify that the table exists
+   ```sql
+   \l
+   ```
+   
+### Node.js
+
+Run the [Node Installer](https://nodejs.org/en)
+
+### Git
+
+On Windows you need to install [git for Windows/git bash](https://git-scm.com/downloads/win) yourself .
+
+## Setup git repository
+
+### Clone the repo
+
+On Windows open Git Bash, for linux/mac just use the terminal of choice.
+
+```bash
+git clone https://github.com/Hjulverkstan/hjulverkstan.git
+```
+
+### Set git config [important!]
+
+Run the setup shell script:
 
 ```bash
 sh ./setup.sh
 ```
 
-Install Java JDK v21 from [JDK Archive](https://jdk.java.net/archive/).
+### Configure the database connection variables
 
-Install [postgres](https://www.postgresql.org/download/) and create a user + database or use podman for containerisation (more performance heavy)
+Copy the `main/env.properties.template` to `main/env.properties` and make sure the values match your postgres configuration.
+
+## Run the project
+
+> Regardless of IDE, if you encounter an error that env.properties file is not found from the Spring application, copy the absolute path of your env.properties file (with IDEA you can right-click the file and 'Copy Path/Reference' -> 'Absolute Path') directly into the `main/src/main/resources/application.properties file` like so:
+> 
+> `spring.config.import=file:/Users/your_name/repos/hjulverkstan/main/env.properties`
+> 
+> Note that we use forwards slashes here and without any windows disk prefix like `C:`
+
+### IntelliJ IDEA Ultimate
+
+**1.** Install [IDEA Ultimate](https://www.jetbrains.com/idea/download/) for your OS of choice and activate your licence.
+
+**2.** Open cloned repository in IDEA
+
+**3.** Navigate to the file `main/src/main/java/se/hjulverkstan/main/MainApplication` and install the JDK from the banner in the code editor. (this way you do not have to do it manually. In case you lose this banner you can always create a new java project in IDEA and install the JDK from there).
+
+**4.** Run the backend and frontend from the run toolbar.
+
+### From terminal
+
+#### Install JDK
+
+#### Windows
+
+Install OpenJDK v21 from Command Prompt / Powershell using the built in Windows package manager:
 
 ```bash
-podman run --name postgresql -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=hjulverkstan -d -p 5432:5432 -v pgdata:/var/lib/postgresql/data postgres:latest
+winget install --name EclipseAdoptium.Temurin.21.JDK
 ```
 
-Copy `main/env.properties.template` to `main/env.properties` and replace values if needed to match postgres setup.
+#### MacOS
 
-Run backend in dev mode by setting up a SpringBoot run configuration in IDEA and go to options > add program arguments and paste in `-D spring-boot.run.profiles=dev`. Alternatively if you wan to run the backend from the terminal:
+Install Homebrew
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+And then OpenJDK v21
+
+```bash
+brew install openjdk@21
+```
+
+#### Linux
+
+Download and install from [JDK Archive](https://jdk.java.net/archive/)
+
+### Run the stack
+
+#### Backend
 
 ```bash
 cd main
-./mvnw spring-boot:run -D spring-boot.run.profiles=dev
+./mvn spring-boot:run -D spring-boot.run.profiles=dev
 ```
 
-If you encounter an issue with importing `env.properties` (happens to some people) then you may replace the first line of `main/src/main/resources/applicaiton.properties` with an absolute path to your `env.properties`, ie: ` spring.config.import=file:/path/to/git/repo/main/env.properties` (just make sure to not commit this change).
-
-Run frontend in dev mode
+#### Frontend
 
 ```bash
 cd web
 npm run dev
 ```
+
+Click on the link that has the form of http://localhost:5173
+The hjulverkstan page will open up.
+Click on 'Go to Portal' to log into the Portal.
+Use admin as username and password as password.
