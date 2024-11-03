@@ -17,8 +17,8 @@ jobs:
     outputs:
       environment-name: ${{ steps.environment-name.outputs.environment }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+#      - name: Checkout
+#        uses: actions/checkout@v3
 
       - name: Get Branch Name
         run: |
@@ -30,6 +30,9 @@ jobs:
     name: Build ${{ needs.get-environment.outputs.environment-name }} Environment
     runs-on: ubuntu-22.04
     steps:
+      - name: Checkout the Code
+        uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
