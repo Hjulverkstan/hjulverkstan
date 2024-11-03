@@ -113,7 +113,7 @@ export const createEditVehicle = () => ({
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 
-//
+//Check something is working or not
 
 export const createDeleteVehicle = () => ({
   mutationFn: (id: string) =>
