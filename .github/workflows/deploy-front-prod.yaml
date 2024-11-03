@@ -2,8 +2,8 @@ name: Deploy Spring Boot Hello World APP
 
 on:
   push:
-    paths:
-      - 'web/**'
+#    paths:
+#      - 'web/**'
     branches:
       - jeus
 
