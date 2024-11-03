@@ -46,7 +46,7 @@ jobs:
           pwd
           ls -alsh
           cd web
-          npm run build
+          npm run build:ssr && npm run build:static
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
