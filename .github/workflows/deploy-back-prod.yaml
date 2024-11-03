@@ -2,15 +2,15 @@ name: Deploy Spring Boot Hello World APP
 
 on:
   push:
+    paths:
+      - 'main/**'
     branches:
       - main
-      - jeus
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
 
 jobs:
-
   get-environment:
     name: Get Environment
     runs-on: ubuntu-22.04

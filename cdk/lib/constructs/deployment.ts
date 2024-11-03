@@ -3,13 +3,11 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as codedeploy from 'aws-cdk-lib/aws-codedeploy';
-import { Credentials, DatabaseInstance, DatabaseInstanceEngine, PostgresEngineVersion } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 export class deployment {
 
   constructor(scope: Construct, id: string) {
 
-    // Create an S3 bucket for CodeDeploy
     const codeDeployBucket = new s3.Bucket(scope, 'dev_codeDeploy_bucket', {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Set to RETAIN for production
@@ -20,7 +18,6 @@ export class deployment {
       assumedBy: new iam.ServicePrincipal('codedeploy.amazonaws.com'),
     });
 
-    // Attach policies to allow access to the S3 bucket and logging
     codeDeployRole.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       resources: [codeDeployBucket.bucketArn],

@@ -1,0 +1,57 @@
+name: Deploy Spring Boot Hello World APP
+
+on:
+  push:
+    paths:
+      - 'web/**'
+    branches:
+      - jeus
+
+env:
+  BUILD_NUMBER: ${{ github.run_number }}
+
+jobs:
+  get-environment:
+    name: Get Environment
+    runs-on: ubuntu-22.04
+    outputs:
+      environment-name: ${{ steps.environment-name.outputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Branch Name
+        run: |
+          BRANCH=${GITHUB_REF##*/}
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+
+  build:
+    needs: [get-environment]
+    name: Build ${{ needs.get-environment.outputs.environment-name }} Environment
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build React Project
+        run: npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-east-1'  # Change this to your preferred region
+
+      - name: Sync to S3
+        run: |
+          aws s3 sync ./build s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER --delete
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id E2V9EBR2ZAX0OB --paths "/*"
