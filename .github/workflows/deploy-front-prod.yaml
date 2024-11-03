@@ -39,7 +39,10 @@ jobs:
         run: npm install
 
       - name: Build React Project
-        run: npm run build
+        run: |
+          pwd
+          cd web
+          npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
