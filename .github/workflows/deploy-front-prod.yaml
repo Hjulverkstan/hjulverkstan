@@ -48,6 +48,7 @@ jobs:
           pwd
           ls -alsh
           cd web
+          echo "new changes"
           npm run build
 
       - name: Configure AWS Credentials
