@@ -45,12 +45,11 @@ jobs:
 
       - name: Build React Project
         run: |
-          pwd
-          ls -alsh
           cd web
+          echo "-------------------SOME-INFO-----------------------"
           node -v
           npm -v  
-          echo "new changes------------------------------------------"
+          echo "---------------------------------------------------"
           npm run build
 
       - name: Configure AWS Credentials
@@ -62,6 +61,7 @@ jobs:
 
       - name: Sync to S3
         run: |
+          ls -alsh
           aws s3 sync ./build s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER --delete
 
       - name: Invalidate CloudFront Cache
