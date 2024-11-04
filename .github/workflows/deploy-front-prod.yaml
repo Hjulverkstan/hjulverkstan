@@ -62,7 +62,7 @@ jobs:
       - name: Sync to S3
         run: |
           ls -alsh
-          aws s3 sync ./build s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER --delete
+          aws s3 sync ./dist s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER --delete
 
       - name: Invalidate CloudFront Cache
         run: |
