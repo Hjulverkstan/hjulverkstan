@@ -64,7 +64,7 @@ jobs:
           cd web
           ls -alsh
           aws s3 sync ./dist s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER --delete
-          aws s3 cp s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER s3://${{ vars.FRONT_END_BUCKET }}/deployment-$BUILD_NUMBER --recursive
+          aws s3 cp s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER/static s3://${{ vars.FRONT_END_BUCKET }}/ --recursive
 
       - name: Invalidate CloudFront Cache
         run: |
