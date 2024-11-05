@@ -2,10 +2,10 @@ name: Deploy Spring Boot Hello World APP
 
 on:
   push:
-    paths:
-      - 'main/**'
+#    paths:
+#      - 'main/**'
     branches:
-      - main
+      - jeus
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}

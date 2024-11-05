@@ -7,6 +7,7 @@ import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as targets from 'aws-cdk-lib/aws-route53-targets';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export class frontend {
 
@@ -16,27 +17,43 @@ export class frontend {
     const certificateArn = 'arn:aws:acm:us-east-1:730335549373:certificate/ea2780e0-0343-4b48-902c-3588aa19c016';
     const certificate = acm.Certificate.fromCertificateArn(scope, 'ImportedCertificate', certificateArn);
 
-
+    const s3CorsRule: s3.CorsRule = {
+      allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.HEAD],
+      allowedOrigins: ['*'],
+      allowedHeaders: ['*'],
+      maxAge: 300,
+    };
 
 
     const bucket = new s3.Bucket(scope, 'ReactS3Bucket', {
-      versioned: true,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      encryption: s3.BucketEncryption.KMS_MANAGED,
+      bucketName: 'front-end-s3',
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      bucketName: 'stack-s3',
+      accessControl: s3.BucketAccessControl.PRIVATE,
+      cors: [s3CorsRule]
     });
+
 
     new CfnOutput(scope, 'ReactS3BucketPrint', {
       value: bucket.bucketName,
       description: 'The name of the S3 bucket',
     });
+    //
+    const originAccessIdentity = new cloudfront.OriginAccessIdentity(scope, 'OriginAccessIdentity');
+    bucket.grantRead(originAccessIdentity);
 
-    const distribution = new cloudfront.Distribution(scope, 'MyDistribution', {
-      defaultBehavior: { origin: new origins.S3Origin(bucket) },
-      domainNames: ['hjulverkstan.org'],
-      certificate: certificate
+    const distribution = new cloudfront.CloudFrontWebDistribution(scope, 'MyDistribution', {
+      originConfigs: [
+        {
+          s3OriginSource: {
+            s3BucketSource: bucket,
+            originAccessIdentity: originAccessIdentity,
+          },
+          behaviors: [{ isDefaultBehavior: true }],
+        },
+      ],
+      viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(certificate, {
+        aliases: ['hjulverkstan.org'],
+      }),
     });
 
     // Import existing hosted zone
@@ -54,7 +71,4 @@ export class frontend {
     });
 
   }
-
-
-
 }
