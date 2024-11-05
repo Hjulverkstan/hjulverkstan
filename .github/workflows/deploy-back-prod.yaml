@@ -1,9 +1,9 @@
-name: Deploy Spring Boot Hello World APP
+name: Deploy Backend production
 
 on:
   push:
-#    paths:
-#      - 'main/**'
+    paths:
+      - 'main/**'
     branches:
       - jeus
 

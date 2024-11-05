@@ -1,4 +1,4 @@
-name: Deploy Spring Boot Hello World APP
+name: Deploy Frontend Production
 
 on:
   push:
@@ -64,7 +64,8 @@ jobs:
           cd web
           ls -alsh
           aws s3 sync ./dist s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER --delete
+          aws s3 cp s3://${{ vars.CODE_DEPLOY_BUCKET }}/front-revisions/deployment-$BUILD_NUMBER s3://${{ vars.FRONT_END_BUCKET }}/deployment-$BUILD_NUMBER --recursive
 
       - name: Invalidate CloudFront Cache
         run: |
-          aws cloudfront create-invalidation --distribution-id E2V9EBR2ZAX0OB --paths "/*"
+          aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIBUTION_ID }} --paths "/*"
