@@ -1,6 +1,7 @@
 package se.hjulverkstan.main.service;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.AlreadyUsedException;
@@ -139,5 +140,12 @@ public class UserServiceImpl implements UserService {
                         .map(Role::getName)
                         .collect(Collectors.toSet()))
                 .build();
+    }
+
+
+    public static void main (String[] args){
+         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        System.out.println(encoder.encode("admin"));
+
     }
 }

@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 
 // Config
 
-export const baseURL = 'http://localhost:8080/v1';
+export const baseURL = 'http://localhost:8085/v1';
 
 export const endpoints = {
   vehicle: '/vehicle',

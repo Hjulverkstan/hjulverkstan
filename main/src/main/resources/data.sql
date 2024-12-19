@@ -123,7 +123,7 @@ INSERT INTO users
 (id, username,       email,                     password                                                      ) VALUES
 (1,  'christopher',  'admin@example.com',       '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO'),
 (2,  'user',         'user@example.com',        '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO'),
-(3,  'admin',        'admin2@example.com',      '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO');
+(3,  'admin',        'admin2@example.com',      '$2a$10$lQoPUio3MLsxF83X6dEeO.HyLYar5PdZ8xOwOS3tOk/izMWsOh5Au');
 
 INSERT INTO roles
 (id, name       ) VALUES

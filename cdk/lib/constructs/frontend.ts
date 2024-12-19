@@ -8,14 +8,15 @@ import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
-
+import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
 export class frontend {
 
-  constructor(scope: Construct, id: string) {
+  // constructor(scope: Construct, id: string , certificate:  certificatemanager.ICertificate , hostedZone: route53.IHostedZone) {
+  constructor(scope: Construct, id: string ,  certificate:  certificatemanager.ICertificate, hostedZone: route53.IHostedZone ) {
 
     // Import an existing certificate
-    const certificateArn = 'arn:aws:acm:us-east-1:730335549373:certificate/ea2780e0-0343-4b48-902c-3588aa19c016';
-    const certificate = acm.Certificate.fromCertificateArn(scope, 'ImportedCertificate', certificateArn);
+    // const certificateArn = 'arn:aws:acm:us-east-1:730335549373:certificate/ea2780e0-0343-4b48-902c-3588aa19c016';
+    // const certificate = acm.Certificate.fromCertificateArn(scope, 'ImportedCertificate', certificateArn);
 
     const s3CorsRule: s3.CorsRule = {
       allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.HEAD],
@@ -57,18 +58,18 @@ export class frontend {
     });
 
     // Import existing hosted zone
-    const hostedZoneId = 'Z06587302B0UA1QW934WE';
-    const zoneName = 'hjulverkstan.org';
-    const hostedZone = route53.HostedZone.fromHostedZoneAttributes(scope, 'ImportedHostedZone', {
-      hostedZoneId: hostedZoneId,
-      zoneName: zoneName
-    });
+    // const hostedZoneId = 'Z06587302B0UA1QW934WE';
+    // const zoneName = 'hjulverkstan.org';
+    // const hostedZone = route53.HostedZone.fromHostedZoneAttributes(scope, 'ImportedHostedZone', {
+    //   hostedZoneId: hostedZoneId,
+    //   zoneName: zoneName
+    // });
 
-    new route53.ARecord(scope, 'AliasRecord', {
-      zone: hostedZone,
-      recordName: 'hjulverkstan.org',
-      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
-    });
+    // new route53.ARecord(scope, 'AliasRecord', {
+    //   zone: hostedZone,
+    //   recordName: 'api.hjulverkstan.org',
+    //   target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
+    // });
 
   }
 }

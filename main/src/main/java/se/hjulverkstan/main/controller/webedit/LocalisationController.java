@@ -20,6 +20,8 @@ public class LocalisationController {
 
     @GetMapping("get-all")
     public ResponseEntity<AllWebEditEntitiesByLangDto> getAllLocalisedContentWithFallbackLang(@RequestParam String fallbackLang) {
+        System.out.println("----------------------------------GETALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+
         Language fallbackLangValidated = validateLanguage(fallbackLang);
         return new ResponseEntity<>(localizedContentAndShopServiceImpl.getAllLocalisedEntitiesWithFallback(fallbackLangValidated), HttpStatus.OK);
     }

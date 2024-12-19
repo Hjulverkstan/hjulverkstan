@@ -21,7 +21,9 @@
   },
   "dependencies": {
     "aws-cdk-lib": "2.137.0",
+    "clipboardy": "^4.0.0",
     "constructs": "^10.0.0",
+    "node-fetch": "^3.3.2",
     "source-map-support": "^0.5.21"
-}
+  }
 }
