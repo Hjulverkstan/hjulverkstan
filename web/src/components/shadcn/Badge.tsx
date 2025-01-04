@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
-
 import { cn } from '@utils';
 
 export const badgeVariants = cva(
@@ -14,26 +13,31 @@ export const badgeVariants = cva(
           `border-secondary-border bg-secondary text-secondary-foreground
           hover:bg-secondary/80`,
         ],
-        destructive: [
-          `border-box border-destructive-border bg-destructive-fill
-          text-destructive-foreground hover:bg-destructive-fill/80`,
+        red: [
+          `border-red-border bg-red-fill text-red-foreground
+          hover:bg-red-fill/80`,
         ],
-        destructiveOutline: [
-          'border-box border-destructive-border text-destructive-foreground',
+        redOutline: ['border-red-border text-red-foreground'],
+        yellow: [
+          `border-yellow-border bg-yellow-fill text-yellow-foreground
+          hover:bg-yellow-fill/80`,
         ],
-        warn: [
-          `border-box border-warn-border bg-warn-fill text-warn-foreground
-          hover:bg-warn-fill/80`,
+        yellowOutline: ['border-yellow-border text-yellow-foreground'],
+        green: [
+          `border-green-border bg-green-fill text-green-foreground
+          hover:bg-green-fill/80`,
         ],
-        warnOutline: ['border-box border-warn-border text-warn-foreground'],
-        success: [
-          `border-box border-success-border bg-success-fill
-          text-success-foreground hover:bg-success-fill/80`,
+        greenOutline: ['border-green-border text-green-foreground'],
+        blue: [
+          `border-blue-border bg-blue-fill text-blue-foreground
+          hover:bg-blue-fill/80`,
         ],
-        successOutline: [
-          'border-box border-success-border text-success-foreground',
+        blueOutline: ['border-blue-border text-blue-foreground'],
+        purple: [
+          `border-purple-border bg-purple-fill text-purple-foreground
+          hover:bg-purple-fill/80`,
         ],
-        contrast: 'bg-contrast text-contrast-foreground border-contrast',
+        purpleOutline: ['border-purple-border text-purple-foreground'],
         outline: ['text-foreground/70 border-foreground/12'],
       },
       borderless: {

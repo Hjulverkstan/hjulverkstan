@@ -31,23 +31,35 @@ module.exports = {
           DEFAULT: 'hsl(var(--contrast))',
           foreground: 'hsl(var(--contrast-foreground))',
         },
-        destructive: {
+        red: {
           DEFAULT: 'hsl(var(--destructive))',
           fill: 'hsl(var(--destructive-fill))',
           foreground: 'hsl(var(--destructive-foreground))',
           border: 'hsl(var(--destructive-foreground) / 0.2)',
         },
-        warn: {
+        yellow: {
           DEFAULT: 'hsl(var(--warn))',
           fill: 'hsl(var(--warn-fill))',
           foreground: 'hsl(var(--warn-foreground))',
           border: 'hsl(var(--warn-foreground) / 0.2)',
         },
-        success: {
+        green: {
           DEFAULT: 'hsl(var(--success))',
           fill: 'hsl(var(--success-fill))',
           foreground: 'hsl(var(--success-foreground))',
           border: 'hsl(var(--success-foreground) / 0.25)',
+        },
+        blue: {
+          DEFAULT: '#3b82f6',
+          fill: '#bfdbfe',
+          foreground: '#1e3a8a',
+          border: '#2563eb',
+        },
+        purple: {
+          DEFAULT: '#8b5cf6',
+          fill: '#d8b4fe',
+          foreground: '#4c1d95',
+          border: '#7c3aed',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
