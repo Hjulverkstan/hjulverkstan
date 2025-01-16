@@ -1,5 +1,15 @@
 ![Hjulverkstan header"](https://raw.githubusercontent.com/Hjulverkstan/.github/images/hjulverkstan-banner.png)
 
+<p>
+  <a href="https://www.alten.se" alt="Alten Sweden">
+     <img src="https://raw.githubusercontent.com/Hjulverkstan/.github/images/badge-alten.svg" />
+  </a>
+ &nbsp;
+  <a href="https://räddabarnen.se" alt="Rädda Barnen">
+     <img src="https://raw.githubusercontent.com/Hjulverkstan/.github/images/badge-stc.svg" />
+  </a>
+</p>
+
 This project is licensed under the terms of the MIT license.
 
 Hjulverkstan (translated as ‘The Wheel Shop’) is a local initiative by [Save the Children](rb.se) in Gothenburg, aimed at supporting integration and providing assistance to community members through bicycle workshops centers. These workshops offer their services for free, such as repairs, rentals, and cycling lessons.
