@@ -5,7 +5,7 @@
      <img src="https://raw.githubusercontent.com/Hjulverkstan/.github/images/badge-alten.svg" />
   </a>
  &nbsp;
-  <a href="https://räddabarnen.se" alt="Rädda Barnen">
+  <a href="https://raddabarnen.se" alt="Rädda Barnen">
      <img src="https://raw.githubusercontent.com/Hjulverkstan/.github/images/badge-stc.svg" />
   </a>
 </p>
