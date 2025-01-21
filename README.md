@@ -30,7 +30,7 @@ Here is an overview and guide on how to get started in the project. If you are l
   * [ ] [Git Strategy](/GUIDELINES.md#git-strategy-)
   * [ ] [Rules](/GUIDELINES.md#rules-)
 * [ ] Catch up on the domain-specific documentation:
-  * [ ] [Front End](/web/README.md)
+  * [ ] [Front End Readme](/web/README.md)
     * [ ] [Prerequisites](#prerequisites)
     * [ ] [Background & Motivation](#background--motivation)
     * [ ] [Three Layer Cake](#three-layer-cake)
@@ -38,6 +38,7 @@ Here is an overview and guide on how to get started in the project. If you are l
     * [ ] [SSG Strategy](#ssg-strategy)
     * [ ] [Localization routing](#localization-routing)
     * [ ] [Component Comments](#component-comments)
+  * [ ] [Front End Guidelines](/web/GUIDELINES.md) – General project agnostic guidelines about our approach to React development.
   * [ ] [Back End](/main/README.md) [TODO]
       * [ ] [Motivation]()
       * [ ] [Specific Guidelines]()
