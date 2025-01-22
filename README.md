@@ -10,7 +10,7 @@
   </a>
 </p>
 
-> This project is now open sourced as of `2025-01-22` and licenced under the terms of the MIT licence.
+> This project is now open source as of `2025-01-22` and licenced under the terms of the MIT licence.
 
 ## Short intro
 
@@ -45,9 +45,7 @@ Here is an overview and guide on how to get started in the project. If you are l
   * [ ] [AWS CDK]() [TODO]
 * [ ] Run the project locally with our [Setup guide](/SETUP.md)
 
-## Extended Intro
-
-### Background
+### Extended Intro
 
 **[todo]: Write more about the background of Hjulverkstan**
 
@@ -57,7 +55,7 @@ A few links about Hjulverkstan for now (all in swedish):
 - [poseidon.goteborg.se (swedish)](https://poseidon.goteborg.se/nyheter/nu-oppnar-hjulverkstan-i-backa/)
 - [vartgoteborg.se (swedish)](https://vartgoteborg.se/p/hjulverkstan-oppnar-i-backa/)
 
-### Progression Recap
+## Progression Recap
 
 This application's development started in the beginning of 2024 and is not yet released to production. This project has grown with the help from student internships and consultants from Alten's Gothenburg office, most of which have been between assignments. Here is an overview of the involvement and progression:
 
@@ -104,7 +102,7 @@ Developers with contributions in this period:
 - DevOps Support: [Jeus](https://github.com/orgs/Hjulverkstan/people/jeus)
 - Misc Support: [Frida Betåven](https://github.com/orgs/Hjulverkstan/people/stortoppen)
 
-### Roadmap
+## Roadmap
 
 2025 has much in store and the intention is to go to production. For a more detailed view of the backlog see the [Hjulverkstan GitHub Project View](https://github.com/orgs/Hjulverkstan/projects/1) in progress. A short overview of prioritized tasks to complete is:
 
@@ -119,7 +117,7 @@ Developers with contributions in this period:
 * Complete deployment to AWS
 * Complete pipelines for CI/CD
 
-### Call for Help
+## Call for Help
 
 We’re excited to invite contributors to join Hjulverkstan’s open-source journey. While most progress has been made around the internship period, going open source, we hope to engage and build more consistent momentum. As we continue to develop and refine our platform, there’s plenty of meaningful work to be done. Whether you’re a developer, designer, or content creator, your skills can make a tangible difference.
 
