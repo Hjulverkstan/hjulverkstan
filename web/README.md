@@ -1,4 +1,6 @@
-# Hjulverkstan Web (Frontend)
+![Hjulverkstan header"](https://raw.githubusercontent.com/Hjulverkstan/.github/images/hjulverkstan-banner-web.png)
+
+> Welcome to the front end module of the Hjulverkstan monorepo, here is a [link](../README.md) to the main project readme.
 
 ## Prerequisites
 
