@@ -13,6 +13,7 @@ import PortalShopCustomers from './PortalShopCustomers';
 import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
 import { AuthRole } from '@data/auth/types';
+import PortalWebEditGeneralContents from './PortalWebEditGeneralContent';
 
 //
 
@@ -26,6 +27,12 @@ const adminRoutes = [
   { path: '/locations', label: 'Locations', hasNestedRoutes: true },
   { path: '/employees', label: 'Employees', hasNestedRoutes: true },
   { path: '/users', label: 'Users', hasNestedRoutes: true },
+];
+
+const webEditRoutes = [
+  { path: '/general-content' },
+  { label: 'General Content' },
+  { hasNestedRoutes: true },
 ];
 
 //
@@ -100,6 +107,23 @@ export default function Portal() {
         <Route path="*" element={<Navigate replace to="../locations" />} />
       </Route>
       <Route path="*" element={<Navigate replace to="shop" />} />
+
+      <Route
+        path="webedit/*"
+        element={
+          <PortalLayout
+            title="Web Edit"
+            baseUrl="/portal/webedit"
+            routes={webEditRoutes}
+          />
+        }
+      >
+        <Route
+          path="general-content/*"
+          element={mountPageContent(PortalWebEditGeneralContents)}
+        />
+        <Route path="*" element={<Navigate replace to="general-content" />} />
+      </Route>
     </Routes>
   );
 }
