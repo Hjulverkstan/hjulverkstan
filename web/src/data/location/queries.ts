@@ -9,7 +9,17 @@ import * as api from './api';
 //
 
 export const useLocationsQ = () =>
-  useQuery<Location[], StandardError>(api.createGetLocations());
+  useQuery<Location[], StandardError>({
+    ...api.createGetLocations(),
+    select: (locations) => {
+      return locations
+        .map((location) => ({
+          ...location,
+          vehicleCount: location.vehicleIds?.length || 0,
+        }))
+        .sort((a, b) => b.vehicleCount - a.vehicleCount);
+    },
+  });
 
 export interface UseLocationQProps {
   id: string;
