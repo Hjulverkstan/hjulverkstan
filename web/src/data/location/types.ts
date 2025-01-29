@@ -11,6 +11,7 @@ export interface Location {
   name: string;
   comment: string;
   //
+  vehicleCount: number;
   createdBy: string;
   createdAt: string;
   updatedBy: string;

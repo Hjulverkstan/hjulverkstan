@@ -29,12 +29,12 @@ export default function useColumns() {
 
         {
           key: 'address',
-          address: 'Address',
+          name: 'Address',
           renderFn: ({ address }) => <IconLabel label={address} />,
         },
 
         {
-          key: 'vehicle-count',
+          key: 'vehicleCount',
           name: 'Vehicle count',
           renderFn: ({ vehicleIds }) => (
             <IconLabel label={vehicleIds.length.toString()} />
@@ -52,7 +52,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'createdat',
+          key: 'createdAt',
           name: 'Created at',
           renderFn: ({ createdAt }) => (
             <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
@@ -60,7 +60,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'updatedat',
+          key: 'updatedAt',
           name: 'Edited at',
           renderFn: ({ updatedAt }) => (
             <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
