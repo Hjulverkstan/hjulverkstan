@@ -1,8 +1,8 @@
 export interface Shop {
   id: string;
   name: string;
-  addres: string;
-  latitute: number;
+  address: string;
+  latitude: number;
   longitude: number;
   imageUrl: string;
   openHours: OpenHours;

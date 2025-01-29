@@ -19,4 +19,3 @@ public class GeneralContentDto {
     private String key;
     private String value;
 }
-

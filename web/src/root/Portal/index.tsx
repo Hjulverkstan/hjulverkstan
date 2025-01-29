@@ -12,9 +12,9 @@ import PortalLogin from './PortalLogin';
 import PortalShopCustomers from './PortalShopCustomers';
 import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
+import PortalWebEditShops from './PortalWebEditShops';
 import { AuthRole } from '@data/auth/types';
-
-//
+import PortalWebEditGeneralContents from './PortalWebEditGeneralContent';
 
 const shopRoutes = [
   { path: '/inventory', label: 'Inventory', hasNestedRoutes: true },
@@ -28,7 +28,10 @@ const adminRoutes = [
   { path: '/users', label: 'Users', hasNestedRoutes: true },
 ];
 
-//
+const webEditRoutes = [
+  { path: '/general-content', label: 'General Content', hasNestedRoutes: true },
+  { path: '/shops', label: 'Shops', hasNestedRoutes: true },
+];
 
 export interface PageContentProps {
   mode?: Mode;
@@ -66,9 +69,7 @@ export default function Portal() {
           path="inventory/*"
           element={mountPageContent(PortalShopInventory)}
         />
-
         <Route path="ticketz/*" element={mountPageContent(PortalShopTickets)} />
-
         <Route
           path="customers/*"
           element={mountPageContent(PortalShopCustomers)}
@@ -98,6 +99,27 @@ export default function Portal() {
         />
         <Route path="users/*" element={mountPageContent(PortalAdminUsers)} />
         <Route path="*" element={<Navigate replace to="../locations" />} />
+      </Route>
+
+      <Route
+        path="web-edit/*"
+        element={
+          <PortalLayout
+            title="Web Edit"
+            baseUrl="/portal/web-edit"
+            routes={webEditRoutes}
+          />
+        }
+      >
+        <Route
+          path="general-content/*"
+          element={mountPageContent(PortalWebEditGeneralContents)}
+        />
+        <Route path="shops/*" element={mountPageContent(PortalWebEditShops)} />
+        <Route
+          path="*"
+          element={<Navigate replace to="general-content" />}
+        />{' '}
       </Route>
       <Route path="*" element={<Navigate replace to="shop" />} />
     </Routes>

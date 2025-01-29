@@ -1,9 +1,8 @@
-export interface GeneralContentStripped {
-  key: string;
-  value: string;
-}
-
-export interface GeneralContent extends GeneralContentStripped {
-  description: string;
+export interface GeneralContent {
+  id: string;
   name: string;
+  description: string;
+  value: string;
+  createdAt: string;
+  updatedAt: string;
 }

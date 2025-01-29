@@ -16,6 +16,7 @@ import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
+import { PortalLangProvider } from './Portal/PortalLang';
 
 // React Query Config
 
@@ -177,19 +178,21 @@ export default function Root() {
         <QueryClientProvider client={queryClient}>
           <Tooltip.Provider delayDuration={500}>
             <DialogManager.Provider>
-              <Routes>
-                {routesCSR.map(renderRoute)}
-                {routesSSR.map((route) => renderLocalizedRoute(route))}
-                {locales
-                  .map((locale) =>
-                    routesSSR.map((route) =>
-                      renderLocalizedRoute(route, locale),
-                    ),
-                  )
-                  .flat()}
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-              <Toaster />
+              <PortalLangProvider>
+                <Routes>
+                  {routesCSR.map(renderRoute)}
+                  {routesSSR.map((route) => renderLocalizedRoute(route))}
+                  {locales
+                    .map((locale) =>
+                      routesSSR.map((route) =>
+                        renderLocalizedRoute(route, locale),
+                      ),
+                    )
+                    .flat()}
+                  <Route path="*" element={<PageNotFound />} />
+                </Routes>
+                <Toaster />
+              </PortalLangProvider>
             </DialogManager.Provider>
           </Tooltip.Provider>
           <ReactQueryDevtools initialIsOpen={false} />

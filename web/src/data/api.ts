@@ -18,6 +18,9 @@ export const endpoints = {
   },
   webedit: {
     all: '/webedit/get-all',
+    generalContent: '/web-edit/general-content',
+    shop: '/web-edit/shop',
+    count: '/web-edit/count',
   },
   user: '/user',
 };
