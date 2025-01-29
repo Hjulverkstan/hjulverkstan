@@ -132,24 +132,54 @@ export function uniq<T>(array: T[]): T[] {
 
 //
 
-export const langCodeToLocale = (langCode: string) => {
+export const langCodeToLocale = (langCode: string): string => {
   const locale = localeCodes.all.find(
     (entry) => entry['iso639-2']?.toLowerCase() === langCode.toLowerCase(),
   )?.['iso639-1'];
 
-  if (!locale) throw Error(`Could not convert lang ${langCode} to locale`);
+  if (locale) return locale;
 
-  return locale;
+  const fallbackLangToLocaleMap: Record<string, string> = {
+    SWE: 'swe',
+    ENG: 'eng',
+    ARA: 'ara',
+    PER: 'per',
+    SOM: 'som',
+    BOS: 'bos',
+    TUR: 'tur',
+  };
+
+  const fallbackLocale = fallbackLangToLocaleMap[langCode.toUpperCase()];
+  if (!fallbackLocale) {
+    throw new Error(`Could not convert lang ${langCode} to locale`);
+  }
+
+  return fallbackLocale;
 };
 
-export const localeToLangCode = (locale: string) => {
+export const localeToLangCode = (locale: string): string => {
   const langCode = localeCodes.all.find(
-    (entry) => entry?.['iso639-1']?.toLowerCase() === locale.toLowerCase(),
+    (entry) => entry['iso639-1']?.toLowerCase() === locale.toLowerCase(),
   )?.['iso639-2'];
 
-  if (!langCode) throw Error(`Could not convert locale ${locale} to langCode`);
+  if (langCode) return langCode;
 
-  return langCode;
+  const fallbackLocaleToLangMap: Record<string, string> = {
+    swe: 'SWE',
+    eng: 'ENG',
+    ara: 'ARA',
+    per: 'PER',
+    som: 'SOM',
+    bos: 'BOS',
+    tur: 'TUR',
+  };
+
+  const fallbackLangCode = fallbackLocaleToLangMap[locale.toLowerCase()];
+  if (!fallbackLangCode) {
+    throw new Error(`Could not convert locale ${locale} to langCode`);
+  }
+
+  return fallbackLangCode;
 };
 
 //
