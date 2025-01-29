@@ -24,13 +24,15 @@ export default function PortalToolbar({
         {children}
         <DataTable.FilterClear />
       </div>
-      <IconButton
-        className="ml-2"
-        disabled={disabled}
-        onClick={() => navigate(id ? '../create' : 'create')}
-        text={`Add ${dataLabel}`}
-        icon={PlusIcon}
-      />
+      {dataLabel !== 'generalContent' && (
+        <IconButton
+          className="ml-2"
+          disabled={disabled}
+          onClick={() => navigate(id ? '../create' : 'create')}
+          text={`Add ${dataLabel}`}
+          icon={PlusIcon}
+        />
+      )}
     </div>
   );
 }
