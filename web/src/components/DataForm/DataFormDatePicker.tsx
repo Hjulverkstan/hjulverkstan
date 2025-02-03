@@ -21,7 +21,7 @@ export const DatePicker = ({
   fromDate,
 }: DataFormDateProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isSkeleton, isDisabled, body, setBodyProp } = useDataForm();
+  const { isLoading, isDisabled, body, setBodyProp } = useDataForm();
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
@@ -36,7 +36,7 @@ export const DatePicker = ({
             )}
             icon={CalendarIcon}
             text={
-              isSkeleton
+              isLoading
                 ? ''
                 : body[dataKey]
                   ? format(body[dataKey], 'PPP')

@@ -27,7 +27,7 @@ export const Select = ({
   disabled,
   fat,
 }: SelectProps) => {
-  const { isSkeleton, body, setBodyProp, isDisabled } = useDataForm();
+  const { isLoading, body, setBodyProp, isDisabled } = useDataForm();
   const [open, setOpen] = useState(false);
 
   const isDisabledUnion = isDisabled || disabled;
@@ -109,7 +109,7 @@ export const Select = ({
             )}
           >
             {Icon && <Icon className="mr-2 h-4 w-4" />}
-            {isSkeleton
+            {isLoading
               ? ''
               : hasData
                 ? buttonLabel

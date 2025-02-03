@@ -15,7 +15,7 @@ export const Switch = ({
   dataKey,
   description,
 }: DataFormSwitchProps) => {
-  const { body, setBodyProp, isDisabled, isSkeleton } = useDataForm();
+  const { body, setBodyProp, isDisabled, isLoading } = useDataForm();
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
@@ -27,7 +27,7 @@ export const Switch = ({
         <SwitchDumb
           checked={body[dataKey]}
           onCheckedChange={(val) => setBodyProp(dataKey, val)}
-          isSkeleton={isSkeleton}
+          isSkeleton={isLoading}
           disabled={isDisabled}
         />
         <span>

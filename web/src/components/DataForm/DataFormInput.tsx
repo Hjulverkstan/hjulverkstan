@@ -21,7 +21,7 @@ export const Input = ({
   description,
   disabled,
 }: InputProps) => {
-  const { body, setBodyProp, isDisabled, isSkeleton } = useDataForm();
+  const { body, setBodyProp, isDisabled } = useDataForm();
 
   const formIsDisabled = isDisabled || disabled;
 
@@ -34,7 +34,7 @@ export const Input = ({
         id={dataKey}
         disabled={formIsDisabled}
         placeholder={placeholder}
-        value={isSkeleton ? '' : (body[dataKey] ?? '')}
+        value={body[dataKey]}
         onChange={({ target: { value } }) => {
           if (body[dataKey] !== value) {
             setBodyProp(dataKey, type === 'number' ? Number(value) : value);
