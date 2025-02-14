@@ -34,31 +34,32 @@ export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
   )
     return null;
 
-  const badges = ticketIds.map((ticketId) => {
-    const { customerId, employeeId } = ticketsQ.data.find(
-      (t) => t.id === ticketId,
-    )!;
+  const badges = ticketIds
+    .filter((ticketId) => ticketsQ.data.find((t) => t.id == ticketId))
+    .map((ticketId) => {
+      const ticket = ticketsQ.data.find((t) => t.id === ticketId)!;
+      const ticketEnum = ticketEnumsQ.data.find((e) => e.value === ticketId)!;
+      const customerEnum = customerEnumsQ.data.find(
+        (e) => e.value === ticket.customerId,
+      )!;
+      const employeeEnum = employeeEnumsQ.data.find(
+        (e) => e.value === ticket.employeeId,
+      )!;
 
-    const ticketEnum = ticketEnumsQ.data.find((e) => e.value === ticketId)!;
-    const customerEnum = customerEnumsQ.data.find(
-      (e) => e.value === customerId,
-    )!;
-    const employeeEnum = employeeEnumsQ.data.find(
-      (e) => e.value === employeeId,
-    )!;
-
-    return {
-      ...ticketEnum,
-      href: `${coreUrl}/ticketz/${ticketId}`,
-      tooltip: (
-        <div className="flex">
-          {customerEnum.icon && <customerEnum.icon className="mr-1 h-4 w-4" />}
-          {customerEnum.label}
-          {' / '}@{employeeEnum.label}
-        </div>
-      ),
-    };
-  });
+      return {
+        ...ticketEnum,
+        href: `${coreUrl}/ticketz/${ticketId}`,
+        tooltip: (
+          <div className="flex">
+            {customerEnum.icon && (
+              <customerEnum.icon className="mr-1 h-4 w-4" />
+            )}
+            {customerEnum.label}
+            {' / '}@{employeeEnum.label}
+          </div>
+        ),
+      };
+    });
 
   const open = badges.filter((b) => b.variant !== 'outline');
   const closedCount = badges.filter((b) => b.variant === 'outline').length;
