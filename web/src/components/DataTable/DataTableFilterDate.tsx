@@ -141,9 +141,12 @@ export const FilterDate = ({
   // Clamp the selected month to the accepted date range from the data set.
 
   useEffect(() => {
-    if (maxDate && getMonth(month) > getMonth(maxDate)) setMonth(maxDate);
-    if (minDate && getMonth(month) < getMonth(minDate)) setMonth(minDate);
-  }, [minDate, maxDate, month]);
+    setMonth((prevMonth) => {
+      if (maxDate && getMonth(prevMonth) > getMonth(maxDate)) return maxDate;
+      if (minDate && getMonth(prevMonth) < getMonth(minDate)) return minDate;
+      return prevMonth;
+    });
+  }, [minDate, maxDate]);
 
   // Propagate popover label and data table filter function
 
