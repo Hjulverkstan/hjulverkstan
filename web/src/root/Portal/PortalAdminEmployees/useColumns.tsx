@@ -12,7 +12,7 @@ export default function useColumns() {
     () =>
       [
         {
-          key: 'name',
+          key: 'firstName',
           name: 'Name',
           renderFn: ({ firstName, lastName }) => (
             <IconLabel label={`${firstName} ${lastName}`} />
@@ -20,7 +20,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'persidnr',
+          key: 'personalIdentityNumber',
           name: 'Pers. Identity No.',
           renderFn: ({ personalIdentityNumber }) => (
             <IconLabel label={personalIdentityNumber} />
@@ -28,7 +28,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'phonenr',
+          key: 'phoneNumber',
           name: 'Phone No.',
           renderFn: ({ phoneNumber }) => <IconLabel label={phoneNumber} />,
         },
@@ -40,7 +40,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'no',
+          key: 'employeeNumber',
           name: 'Empl. No.',
           renderFn: ({ employeeNumber }) => (
             <IconLabel label={employeeNumber} />
@@ -48,7 +48,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'createdat',
+          key: 'createdAt',
           name: 'Created at',
           renderFn: ({ createdAt }) => (
             <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
@@ -56,7 +56,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'updatedat',
+          key: 'updatedAt',
           name: 'Edited at',
           renderFn: ({ updatedAt }) => (
             <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
