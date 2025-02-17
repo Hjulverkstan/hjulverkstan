@@ -22,10 +22,8 @@ import { useDialogManager } from '@components/DialogManager';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
-import { Vehicle } from '@data/vehicle/types';
-import { createGetVehicle } from '@data/vehicle/api';
-import { useQueries } from '@tanstack/react-query';
 import UpdateVehicleStatusesDialog from '@components/UpdateVehicleStatusesDialog';
+import { useVehiclesQ } from '@data/vehicle/queries';
 
 export default function ShopTicketsActions({
   row: ticket,
@@ -40,19 +38,12 @@ export default function ShopTicketsActions({
   const updateTicketStatusM = useUpdateTicketStatusM();
 
   // Fetch vehicles associated with the ticket
-  const vehicleQueries = useQueries({
-    queries: ticket.vehicleIds.map((id) => {
-      const getVehicleQuery = createGetVehicle({ id });
-      return {
-        queryKey: getVehicleQuery.queryKey,
-        queryFn: getVehicleQuery.queryFn,
-      };
-    }),
-  });
+  const vehiclesQ = useVehiclesQ();
 
-  const vehicles = vehicleQueries
-    .map((query) => query.data)
-    .filter((data): data is Vehicle => data !== undefined); // Type guard
+  const vehicles =
+    vehiclesQ.data?.filter((vehicle) =>
+      ticket.vehicleIds.includes(vehicle.id),
+    ) ?? [];
 
   const onDelete = () => {
     deleteTicketM.mutate(ticket.id, {
