@@ -15,7 +15,6 @@ import java.util.Set;
 @ToString
 public class SignupRequest {
 
-
     private Long id;
 
     @NotBlank
