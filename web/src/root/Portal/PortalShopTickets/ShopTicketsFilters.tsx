@@ -18,6 +18,7 @@ import {
   VehicleShortcutAction,
   VehicleShortcutLocationState,
 } from '../PortalShopInventory/ShopInventoryActions';
+import { matchDateWithoutTimestamp } from '@utils';
 
 export default function ShopTicketFilters() {
   const ticketsQ = useTicketsAggregatedQ();
@@ -62,11 +63,14 @@ export default function ShopTicketFilters() {
 
   const filterSearchMatchFn = (word: string, row: TicketAggregated) =>
     enums.matchFn(word, row) ||
-    DataTable.fuzzyMatchFn(
-      ['comment', 'startDate', 'endDate', 'repairDescription'],
-      word,
-      row,
-    ) ||
+    DataTable.fuzzyMatchFn(['comment', 'repairDescription'], word, row) ||
+    matchDateWithoutTimestamp(word, row.startDate) ||
+    matchDateWithoutTimestamp(word, row.endDate) ||
+    enumsMatchUtil({
+      enums: employeeEnumsQ.data,
+      isOf: row.employeeId,
+      includes: word,
+    }) ||
     enumsMatchUtil({
       enums: employeeEnumsQ.data,
       isOf: row.employeeId,
