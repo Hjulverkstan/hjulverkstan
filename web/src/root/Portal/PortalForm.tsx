@@ -51,7 +51,10 @@ export default function PortalForm({
         .catch((err: any) => {
           console.error(err);
           toast(
-            createErrorToast({ verbLabel: 'create', dataLabel: 'vehicle' }),
+            createErrorToast({
+              verbLabel: 'create',
+              dataLabel: `${dataLabel}`,
+            }),
           );
         });
     }
@@ -63,7 +66,9 @@ export default function PortalForm({
         .then((res: any) => navigate('../' + res.id))
         .catch((err: any) => {
           console.error(err);
-          toast(createErrorToast({ verbLabel: 'save', dataLabel: 'vehicle' }));
+          toast(
+            createErrorToast({ verbLabel: 'save', dataLabel: `${dataLabel}` }),
+          );
         });
     }
   };
