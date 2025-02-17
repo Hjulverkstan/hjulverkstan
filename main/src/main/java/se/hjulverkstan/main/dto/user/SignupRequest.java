@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import se.hjulverkstan.main.model.ERole;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
