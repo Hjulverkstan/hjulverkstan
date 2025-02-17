@@ -195,3 +195,12 @@ export const formatDays = (dayCount?: number) =>
       : dayCount && dayCount > 1
         ? `${dayCount} days ago}`
         : undefined;
+
+export function matchDateWithoutTimestamp(
+  search: string,
+  dateStr?: string,
+): boolean {
+  if (!dateStr) return false;
+  const formattedDate = dateStr.split('T')[0];
+  return formattedDate.toLowerCase().includes(search.toLowerCase());
+}
