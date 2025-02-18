@@ -38,7 +38,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'createdat',
+          key: 'createdAt',
           name: 'Created at',
           renderFn: ({ createdAt }) => (
             <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
@@ -46,7 +46,7 @@ export default function useColumns() {
         },
 
         {
-          key: 'updatedat',
+          key: 'updatedAt',
           name: 'Edited at',
           renderFn: ({ updatedAt }) => (
             <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
