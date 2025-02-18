@@ -55,9 +55,15 @@ A few links about Hjulverkstan for now (all in swedish):
 - [poseidon.goteborg.se (swedish)](https://poseidon.goteborg.se/nyheter/nu-oppnar-hjulverkstan-i-backa/)
 - [vartgoteborg.se (swedish)](https://vartgoteborg.se/p/hjulverkstan-oppnar-i-backa/)
 
-## Progression Recap
+## Development Recap
 
-This application's development started in the beginning of 2024 and is not yet released to production. This project has grown with the help from student internships and consultants from Alten's Gothenburg office, most of which have been between assignments. Here is an overview of the involvement and progression:
+ <a href="https://github.com/Hjulverkstan/hjulverkstan/blob/main/.screenshots/" alt="Project screenshots">
+     <img src="https://raw.githubusercontent.com/Hjulverkstan/.github/images/screenshots.png" />
+  </a>
+
+<p>&nbsp;</p>
+
+This application's development started in the beginning of 2024 and is not yet released to production. This project has grown with the help from student internships and consultants from Alten's Gothenburg office, most of which have been between assignments and with time to help. Here is an overview of the involvement and progression:
 
 **Project kickoff** – interns and various Alten employees meet Save the Children and start to refine the goals at hand.
 
@@ -103,6 +109,12 @@ Developers with contributions in this period:
 - Misc Support: [Frida Betåven](https://github.com/orgs/Hjulverkstan/people/stortoppen)
 
 ## Roadmap
+
+ <a href="https://github.com/orgs/Hjulverkstan/projects/1/" alt="Project backlog">
+     <img src="https://raw.githubusercontent.com/Hjulverkstan/.github/images/backlogs.png" />
+  </a>
+
+<p>&nbsp;</p>
 
 2025 has much in store and the intention is to go to production. For a more detailed view of the backlog see the [Hjulverkstan GitHub Project View](https://github.com/orgs/Hjulverkstan/projects/1) in progress. A short overview of prioritized tasks to complete is:
 
