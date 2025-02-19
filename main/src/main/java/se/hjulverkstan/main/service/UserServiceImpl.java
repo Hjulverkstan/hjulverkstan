@@ -7,7 +7,7 @@ import se.hjulverkstan.Exceptions.AlreadyUsedException;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.responses.GetAllUserDto;
 import se.hjulverkstan.main.dto.user.SignupRequest;
-import se.hjulverkstan.main.dto.user.UserResponse;
+import se.hjulverkstan.main.dto.user.UserDto;
 import se.hjulverkstan.main.model.Role;
 import se.hjulverkstan.main.model.User;
 import se.hjulverkstan.main.repository.RoleRepository;
@@ -32,11 +32,30 @@ public class UserServiceImpl implements UserService {
         this.encoder = encoder;
     }
 
-
     public static String ELEMENT_NAME = "User";
 
     @Override
-    public UserResponse createUser(SignupRequest signUpRequest) {
+    public GetAllUserDto getAllUsers() {
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<UserDto> responseList = new ArrayList<>();
+
+        for (User user : users) {
+            responseList.add(new UserDto(user));
+        }
+
+        return new GetAllUserDto(responseList);
+    }
+
+    @Override
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
+
+        return new UserDto(user);
+    }
+
+    @Override
+    public UserDto createUser(SignupRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             throw new AlreadyUsedException("Error: Username is already in use!");
@@ -59,49 +78,11 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return UserResponse.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
-                .build();
-    }
-
-
-    @Override
-    public GetAllUserDto getAllUsers() {
-        List<UserResponse> userDtoList = new ArrayList<>();
-        userRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
-                .forEach(user -> {
-                    UserResponse userResponse = UserResponse.builder()
-                            .id(user.getId())
-                            .username(user.getUsername())
-                            .email(user.getEmail())
-                            .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
-                            .build();
-                    userDtoList.add(userResponse);
-                });
-        GetAllUserDto getAllUserDto = new GetAllUserDto();
-        getAllUserDto.setUsers(userDtoList);
-
-        return getAllUserDto;
+        return new UserDto(user);
     }
 
     @Override
-    public UserResponse getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
-        return UserResponse.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .roles(user.getRoles().stream()
-                        .map(Role::getName)
-                        .collect(Collectors.toSet()))
-                .build();
-    }
-
-    @Override
-    public UserResponse updateUser(Long id, SignupRequest userDetail) {
+    public UserDto updateUser(Long id, SignupRequest userDetail) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
         user.setUsername(userDetail.getUsername());
@@ -116,28 +97,15 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         User updateUser = userRepository.save(user);
 
-        return UserResponse.builder()
-                .id(updateUser.getId())
-                .username(updateUser.getUsername())
-                .email(updateUser.getEmail())
-                .roles(user.getRoles().stream()
-                        .map(Role::getName)
-                        .collect(Collectors.toSet()))
-                .build();
+        return new UserDto(updateUser);
     }
 
     @Override
-    public UserResponse deleteUser(Long id) {
+    public UserDto deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
         userRepository.deleteById(id);
-        return UserResponse.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .roles(user.getRoles().stream()
-                        .map(Role::getName)
-                        .collect(Collectors.toSet()))
-                .build();
+
+        return new UserDto(user);
     }
 }
