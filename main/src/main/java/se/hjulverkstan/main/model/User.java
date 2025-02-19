@@ -7,6 +7,9 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import se.hjulverkstan.main.model.base.Auditable;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,15 +22,14 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User extends Auditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
     @Size(max = 20)
     private String username;
-
 
     @NotBlank
     @Size(max = 100)
