@@ -7,8 +7,10 @@ export interface AllEntitiesRaw {
 }
 
 export interface AllEntities {
-  generalContent: Record<string, string>;
+  generalContent: GeneralContentStripped[];
   shop: Shop[];
 }
+
+export type LangCode = 'swe' | 'eng' | 'ara' | 'per' | 'som' | 'bos' | 'tur';
 
 export type LocaleAllEntitiesMap = Record<string, AllEntities>;
