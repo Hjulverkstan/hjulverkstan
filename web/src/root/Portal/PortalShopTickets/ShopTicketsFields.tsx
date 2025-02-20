@@ -9,7 +9,9 @@ import { max, parseISO } from 'date-fns';
 export default function ShopTicketFields() {
   const { body, mode } = DataForm.useDataForm();
 
-  const vehicleEnumsQ = useVehiclesAsEnumsQ();
+  const vehicleEnumsQ = useVehiclesAsEnumsQ({
+    filterCustomerOwned: body.ticketType === TicketType.RENT ? true : undefined,
+  });
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
 
