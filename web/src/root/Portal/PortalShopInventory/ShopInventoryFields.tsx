@@ -11,11 +11,9 @@ export default function ShopInventoryFields() {
 
   return (
     <>
-      <DataForm.Image
-        label="Image"
-        dataKey="imageUrl"
-        disableImageUpload="Open on a mobile device to upload images."
-      />
+      {(mode === Mode.EDIT || mode === Mode.READ) && (
+        <DataForm.Image label="Image" dataKey="imageUrl" disableImageUpload />
+      )}
 
       <DataForm.Select
         label="Location"

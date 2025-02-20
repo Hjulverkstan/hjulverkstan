@@ -1,44 +1,44 @@
 import { Field, FieldProps, useDataForm } from './';
-import { useState } from 'react';
 import { Button } from '@components/shadcn/Button';
 import { TrashIcon } from '@radix-ui/react-icons';
 
 export interface ImageProps extends Omit<FieldProps, 'children'> {
-  disableImageUpload?: string;
+  disableImageUpload?: boolean;
 }
 
 export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
   const { body, setBodyProp } = useDataForm();
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = () => {
     setBodyProp(dataKey, '');
-    setIsDeleting(true);
   };
 
   return (
     <Field label={label} dataKey={dataKey}>
-      <div className="w-62 flex h-72 flex-col gap-2">
-        <Button onClick={handleDelete} className="h-12 w-12">
-          <TrashIcon />
-          {/*remove this later*/}
-          {isDeleting}
-        </Button>
-        {disableImageUpload ? (
-          <p className="text-gray-500">{disableImageUpload}</p>
-        ) : body[dataKey] ? (
-          <div className="w-62 flex h-64 flex-col gap-2">
+      <div
+        className="relative flex h-[300px] w-full max-w-[300px] flex-col
+          items-center justify-center gap-2 overflow-hidden rounded-lg border"
+      >
+        {disableImageUpload && (
+          <p className="text-gray-500">
+            Open on a mobile device to upload images
+          </p>
+        )}
+        {body[dataKey] && (
+          <div className="relative h-full w-full">
+            <Button onClick={handleDelete} className="right-2 top-2 h-12 w-12">
+              <TrashIcon />
+            </Button>
             <img
               src={body[dataKey]}
               alt="Uploaded"
               className="h-full w-full object-cover"
             />
           </div>
-        ) : (
-          !disableImageUpload && <Button>UPLOAD IMAGE</Button>
         )}
       </div>
     </Field>
   );
 };
+
 Image.displayName = 'DataFormImage';
