@@ -61,4 +61,8 @@ public class Ticket extends Auditable {
         }
     }
 
+    public boolean isOpen() {
+        return this.ticketStatus != null && this.ticketStatus != TicketStatus.CLOSED;
+    }
+
 }
