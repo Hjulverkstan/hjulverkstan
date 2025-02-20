@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.Exceptions.UnsupportedTicketTypeException;
 
+import se.hjulverkstan.Exceptions.UnsupportedTicketVehiclesException;
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
 import se.hjulverkstan.main.dto.tickets.*;
 import se.hjulverkstan.main.model.*;
@@ -105,6 +106,14 @@ public class TicketServiceImpl implements TicketService {
             if (!vehicle.getTickets().contains(selectedTicket)) vehicle.getTickets().add(selectedTicket);
         });
 
+        if (selectedTicket instanceof TicketRent) {
+            if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned)){
+                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental Tickets!");
+            }
+            vehicleRepository.saveAll(vehicles);
+        }
+
+
         Employee newEmployee = getTicketEmployee(editTicketDto.getEmployeeId());
         Employee oldEmployee = selectedTicket.getEmployee();
         if (!oldEmployee.equals(newEmployee)) {
@@ -158,9 +167,19 @@ public class TicketServiceImpl implements TicketService {
 
         List<Vehicle> vehicles = getTicketVehicleList(newTicket.getVehicleIds());
         ticket.setVehicles(vehicles);
+
+
         vehicles.forEach(vehicle -> {
             if (!vehicle.getTickets().contains(ticket)) vehicle.getTickets().add(ticket);
         });
+
+        if (ticket instanceof TicketRent) {
+            if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned)){
+                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental Tickets!");
+            }
+            vehicleRepository.saveAll(vehicles);
+        }
+
 
         Employee employee = getTicketEmployee(newTicket.getEmployeeId());
         employee.getTickets().add(ticket);
@@ -222,10 +241,10 @@ public class TicketServiceImpl implements TicketService {
                         }
                     }
                 } else if (isRepairTicket) {
-                        if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE) {
-                            vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
-                            vehicleRepository.save(vehicle);
-                        }
+                    if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE) {
+                        vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
+                        vehicleRepository.save(vehicle);
+                    }
                 }
             }
         }

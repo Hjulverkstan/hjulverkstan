@@ -52,17 +52,28 @@ export const useVehiclesAggregatedQ = () =>
     [useVehiclesQ(), useTicketsQ()],
   );
 
-export const useVehiclesAsEnumsQ = ({ dataKey = 'vehicleId' } = {}) =>
+export const useVehiclesAsEnumsQ = ({
+  dataKey = 'vehicleId',
+  filterCustomerOwned,
+}: { dataKey?: string; filterCustomerOwned?: boolean } = {}) =>
   useQuery<Vehicle[], StandardError, EnumAttributes[]>({
     ...api.createGetVehicles(),
     select: (vehicles) =>
-      vehicles?.map((vehicle) => ({
-        dataKey,
-        icon: enums.find(vehicle.vehicleType).icon,
-        label:
-          vehicle.vehicleType === VehicleType.BATCH
-            ? 'Batch'
-            : vehicle.regTag || `#${vehicle.id}`,
-        value: vehicle.id,
-      })) ?? [],
+      vehicles
+        ?.filter((vehicle) =>
+          filterCustomerOwned === undefined
+            ? true
+            : filterCustomerOwned
+              ? !vehicle.isCustomerOwned
+              : vehicle.isCustomerOwned,
+        )
+        .map((vehicle) => ({
+          dataKey,
+          icon: enums.find(vehicle.vehicleType).icon,
+          label:
+            vehicle.vehicleType === VehicleType.BATCH
+              ? 'Batch'
+              : vehicle.regTag || `#${vehicle.id}`,
+          value: vehicle.id,
+        })) ?? [],
   });
