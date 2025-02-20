@@ -18,6 +18,9 @@ import { PortalTableActionsProps } from '../PortalTable';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import * as enums from '@data/vehicle/enums';
 
+import { useTicketsQ } from '@data/ticket/queries';
+import { TicketStatus } from '@data/ticket/types';
+
 export enum VehicleShortcutAction {
   CREATE_TICKET = 'CREATE_TICKET',
   FILTER_BY_VEHICLE = 'FILTER_BY_VEHICLE',
@@ -43,6 +46,16 @@ export default function ShopInventoryActions({
   const [open, setOpen] = useState(false);
 
   const hasTickets = !!vehicle.ticketIds.length;
+
+  const ticketsQ = useTicketsQ();
+  const vehicleTickets =
+    ticketsQ.data?.filter((ticket) => vehicle.ticketIds.includes(ticket.id)) ??
+    [];
+  const hasActiveTicket = vehicleTickets.some(
+    (ticket) =>
+      ticket.ticketStatus !== undefined &&
+      ticket.ticketStatus !== TicketStatus.CLOSED,
+  );
 
   const onDelete = () => {
     deleteVehicleM.mutate(vehicle.id, {
@@ -159,29 +172,40 @@ export default function ShopInventoryActions({
 
         {!vehicle.isCustomerOwned && (
           <>
-            <DropdownMenu.Sub>
-              <DropdownMenu.SubTrigger>Status</DropdownMenu.SubTrigger>
-              <DropdownMenu.SubContent
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                {Object.values(VehicleStatus).map((status) => (
-                  <DropdownMenu.Item
-                    key={status}
-                    onSelect={() => onStatusUpdate(status)}
-                    disabled={status === vehicle.vehicleStatus} // Disable current status
-                  >
-                    {enums.find(status).label}
-                    {status === vehicle.vehicleStatus && (
-                      <span className="ml-auto">
-                        <CheckIcon className="h-4 w-4" />
-                      </span>
-                    )}
-                  </DropdownMenu.Item>
-                ))}
-              </DropdownMenu.SubContent>
-            </DropdownMenu.Sub>
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <DropdownMenu.Sub>
+                  <Tooltip.Trigger asChild>
+                    <DropdownMenu.SubTrigger
+                      onClick={(e) => e.stopPropagation()}
+                      disabled={hasActiveTicket}
+                    >
+                      Status
+                    </DropdownMenu.SubTrigger>
+                  </Tooltip.Trigger>
+                  {hasActiveTicket && (
+                    <Tooltip.Content className="bg-primary text-white">
+                      Vehicle status cannot be changed when it has an active
+                      ticket.
+                    </Tooltip.Content>
+                  )}
+                  <DropdownMenu.SubContent>
+                    {Object.values(VehicleStatus).map((status) => (
+                      <DropdownMenu.Item
+                        key={status}
+                        onSelect={() => onStatusUpdate(status)}
+                        disabled={
+                          status === vehicle.vehicleStatus || hasActiveTicket
+                        }
+                      >
+                        {enums.find(status).label}
+                        {status === vehicle.vehicleStatus && <CheckIcon />}
+                      </DropdownMenu.Item>
+                    ))}
+                  </DropdownMenu.SubContent>
+                </DropdownMenu.Sub>
+              </Tooltip.Root>
+            </Tooltip.Provider>
           </>
         )}
       </DropdownMenu.Content>
