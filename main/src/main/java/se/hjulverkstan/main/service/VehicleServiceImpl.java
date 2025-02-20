@@ -128,7 +128,14 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDto editVehicleStatus(Long id, EditVehicleStatusDto newStatus) {
-        Vehicle selectedVehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
+        Vehicle selectedVehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
+
+        for (Ticket ticket : selectedVehicle.getTickets()) {
+            if (ticket.isOpen()) {
+                throw new UnsupportedVehicleStatusException("Vehicle status cannot be changed when it has an active ticket.");
+            }
+        }
 
         selectedVehicle.setVehicleStatus(newStatus.getNewStatus());
 
