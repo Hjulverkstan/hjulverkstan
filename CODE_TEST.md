@@ -1,31 +1,47 @@
 # AADS Fullstack Code Test
 
-This code test test's a developers understanding of **Java/Spring** and **TypeScript/React** but puts emphasis on communicative skills and effort. The point is to review the Open Source project [Hjulverkstan](https://github.com/Hjulverkstan/hjulverkstan) that Alten has created. Some parts of the application have been given tender attention and others have not yet been reviewed. Different parts have been written by developers with varying experience ranging from not yet graduate interns to seniors. While we care to give perfection to the whole of the application, the process of this project takes time. Your review could help take the project further.
+In this code test, you will explore [Hjulverkstan](https://github.com/Hjulverkstan/hjulverkstan), an open-source project by Alten. The project is intended to function correctly, but the quality of different parts of the application varies since it has been developed by people with different levels of experience, ranging from interns to senior developers.
+
+Your task is to familiarize yourself with the codebase, provide feedback, and then submit a small Pull Request (PR) addressing something related to your feedback. This reflects what we appreciate in new team members: taking ownership, giving feedback, engaging in discussions, and helping where it is most necessary.
 
 ## Instructions
 
 ### 1. Clone the repo.
 
-Clone the repo and change the remote to a new private repo on you GitHub so that your work may be saved in a private environment – this will then by the end of the test be shared with us thourgh GitHub.
+Clone the repository and change the remote to a new private repository on your GitHub. This allows your work to remain private. At the end of the test, you will share it with us via GitHub.
 
-### 2. Write two Issues.
+### 2. Write a feedback issue for both the frontend and backend.
 
-Take the time to go through the code and pick one point in the backend and one in the frontend to give feedback on, preferably that which to your attention is the **most important to improve**. At least one of the issues should find something substantial, if you do not find both parts of the stack to have needed inprovements large enough to give an interesting discussion on, instead focus on that which **peaks your interest** the most and discuss that. Let's cover what it is we want to see in the discussions you put forward:
+Take the time to go through the code and:
 
-In these reviews we are looking for how you **communicate technically** and your **unique values and interest** in system design and development, that is what makes good code to you and what makes you think that. We think that machine learning models are not yet able to give nuance enough to do this.
+- Identify one key topic in the backend that could be improved—preferably the **most important aspect to enhance** (don't worry about the lack of tests). There is no deliberately planted issue to find, but we believe there is room for improvement.
+- Do the same for the frontend. If you don’t find anything significant enough to spark an interesting discussion, focus instead on what **piques your interest** the most and discuss that.
 
-Write your feedback in two separate issues in you private repo. Spend at least one hour reading the code and writing your two reviews. Attention to detail within the repo is appreciated.
+Let's cover what it is we want to see in the discussions you put forward:
+
+In these reviews, we are looking at how you **communicate technically** and express your **unique values and interests** in system design and development. In other words, what do you consider good code, and why?
+
+Write your feedback in two separate issues in your private repo, one for the backend and one for the frontend. Spend at least one hour reading the code and writing the two reviews. Attention to detail within the repo is appreciated.
+
+> **Don't worry if you don’t have React experience**—you don't need to find faults in the React application. Instead, take the time to study it and tell us what you find most interesting.  
+> We understand that if you lack React experience, this step may take longer. We appreciate you taking the time to do it, as learning React will be necessary for this role.
 
 ### 3. Write a Pull Request.
 
-Now you are to write a PR on one of these issues. The commits(s) are to be equal to approximately on hour of development. You may have discussed something in your review that is would take more time improve, if so divide the work strategically and package your work neatly so that it could picked up by someone else to persue fruther.
+Now you are going to extend your discussion on the backend into some practical improvement. The commit(s) should reflect approximately **one hour of development**.
 
-Write a description in your PR to integrate you disccusion into the solution you present so that the motivation behind your work is clear.
+You may have discussed something in your review that would take more than an hour to improve. If so, divide the work strategically and package your contributions neatly so that someone else could continue improving it.
 
-We look for how you divide and plan your work – and of course at the code it self.
+Write a description in your PR explaining how your discussion connects to the solution you've implemented. This ensures that the motivation behind your work is clear.
 
-### 4. Finalise and send in.
+We look at how you **divide and plan your work**—and, of course, at the **code itself**.
 
-When finished invite [Jona Cwejman](https://github.com/Cwejman) and [Azfar Imtiaz](https://github.com/azfar-imtiaz) to access the repo. We should then be able read the issues and review your PR.
+### 4. Finalize and send in.
 
-Note that all of this work is done in a private repo, a clone of [hjulverkstan](https://github.com/Hjulverkstan/hjulverkstan) and not a fork – so that it is kept private. If you would like to share your work publically and contribute your feedback to the project you may do so when the inteview process is complete.
+Once you have finished, invite [Jona Cwejman](https://github.com/Cwejman) and [Azfar Imtiaz](https://github.com/azfar-imtiaz) to access the repository.
+
+We should then be able to review your issues and PR.
+
+> **Important:** All of this work should be done in a private repo, which is a **clone** of [Hjulverkstan](https://github.com/Hjulverkstan/hjulverkstan), **not** a fork—this ensures it remains private.  
+
+If you would like to share your work publicly and contribute your feedback to the project, you may do so **after the interview process is complete**.
