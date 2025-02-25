@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import se.hjulverkstan.Exceptions.ApiError;
-import se.hjulverkstan.Exceptions.ApiException;
-import se.hjulverkstan.Exceptions.TokenRefreshException;
+import se.hjulverkstan.Exceptions.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,4 +108,5 @@ public class ExceptionsController {
         return ResponseEntity.status(apiError.getStatus())
                 .body(apiError);
     }
+
 }
