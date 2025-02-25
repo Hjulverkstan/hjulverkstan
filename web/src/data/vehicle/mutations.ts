@@ -29,6 +29,13 @@ export const useDeleteVehicleM = () =>
     onSuccess: () => invalidateQueries([api.createGetVehicles().queryKey]),
   });
 
+export const useDeleteVehicleImageM = () =>
+  useMutation({
+    ...api.createDeleteImage(),
+    onSuccess: (imageURL) =>
+      invalidateQueries([api.createGetImage({ imageURL }).queryKey]),
+  });
+
 export const useUpdateVehicleStatusM = () =>
   useMutation({
     ...api.createUpdateVehicleStatus(),

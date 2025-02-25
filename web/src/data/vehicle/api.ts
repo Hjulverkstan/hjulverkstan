@@ -28,6 +28,9 @@ export type GetVehicleRes = Vehicle;
 export interface GetVehicleParams {
   id: string;
 }
+export interface GetImageParams {
+  imageURL: string;
+}
 
 export const createGetVehicle = ({ id }: GetVehicleParams) => ({
   queryKey: ['vehicle', id],
@@ -37,6 +40,21 @@ export const createGetVehicle = ({ id }: GetVehicleParams) => ({
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
 });
+
+export const createGetImage = ({ imageURL }: GetImageParams) => {
+  if (!imageURL) {
+    throw new Error('imageURL is required');
+  }
+
+  return {
+    queryKey: ['image', imageURL],
+    queryFn: () =>
+      instance
+        .get<GetVehicleRes>(`${endpoints.image}/${imageURL}`)
+        .then((res) => parseResponseData(res.data) as Vehicle)
+        .catch(createErrorHandler(endpoints.image)),
+  };
+};
 
 // MUTATIONS
 
@@ -128,6 +146,14 @@ export const createDeleteVehicle = () => ({
       .delete<GetVehicleRes>(`${endpoints.vehicle}/${id}`)
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(endpoints.vehicle)),
+});
+
+export const createDeleteImage = () => ({
+  mutationFn: (imageURL: string) =>
+    instance
+      .delete(`${endpoints.image}/delete/${encodeURIComponent(imageURL)}`)
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.image)),
 });
 
 export const createUpdateVehicleStatus = () => ({
