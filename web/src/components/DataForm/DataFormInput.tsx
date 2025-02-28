@@ -34,10 +34,17 @@ export const Input = ({
         id={dataKey}
         disabled={formIsDisabled}
         placeholder={placeholder}
-        value={body[dataKey]}
+        value={body[dataKey] ?? ''}
         onChange={({ target: { value } }) => {
           if (body[dataKey] !== value) {
-            setBodyProp(dataKey, type === 'number' ? Number(value) : value);
+            setBodyProp(
+              dataKey,
+              value.trim() === ''
+                ? undefined
+                : type === 'number'
+                  ? Number(value)
+                  : value,
+            );
           }
         }}
         className={U.cn(

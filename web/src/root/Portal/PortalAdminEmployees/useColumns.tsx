@@ -23,7 +23,7 @@ export default function useColumns() {
           key: 'personalIdentityNumber',
           name: 'Pers. Identity No.',
           renderFn: ({ personalIdentityNumber }) => (
-            <IconLabel label={personalIdentityNumber} />
+            <IconLabel label={personalIdentityNumber || ''} />
           ),
         },
 
@@ -40,10 +40,12 @@ export default function useColumns() {
         },
 
         {
-          key: 'employeeNumber',
-          name: 'Empl. No.',
-          renderFn: ({ employeeNumber }) => (
-            <IconLabel label={employeeNumber} />
+          key: 'comment',
+          name: 'Comment',
+          renderFn: (row) => (
+            <span className="text-muted-foreground text-elipsis">
+              {row.comment}
+            </span>
           ),
         },
 

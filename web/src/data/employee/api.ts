@@ -44,17 +44,21 @@ export const createGetEmployee = ({ id }: GetEmployeeParams) => ({
 
 const transformBody = ({
   id,
-  employeeType,
-  vehicleIds,
-  address,
-  name,
+  firstName,
+  lastName,
+  personalIdentityNumber,
+  phoneNumber,
+  email,
+  ticketIds,
   comment,
 }: Partial<Employee>) => ({
   id,
-  employeeType,
-  vehicleIds,
-  address,
-  name,
+  firstName,
+  lastName,
+  personalIdentityNumber,
+  phoneNumber,
+  email,
+  ticketIds,
   comment,
 });
 
