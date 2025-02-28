@@ -20,6 +20,7 @@ public class Vehicle extends Auditable {
     private VehicleType vehicleType;
     @Enumerated(EnumType.STRING)
     private VehicleStatus vehicleStatus;
+    @Column(name = "image_url")
     private String imageURL;
     private String comment;
     private boolean isCustomerOwned;

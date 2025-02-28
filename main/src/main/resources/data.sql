@@ -24,7 +24,7 @@ INSERT INTO Customer
 --
 
 INSERT INTO vehicle
-(location_id, vehicle_type, vehicle_status,   imageurl,            comment,                       is_customer_owned, bike_type,      gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class,   created_at,            updated_at, created_by, updated_by) VALUES
+(location_id, vehicle_type, vehicle_status,   image_url,            comment,                       is_customer_owned, bike_type,      gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class,   created_at,            updated_at, created_by, updated_by) VALUES
 (1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          true,              'CHILD',        1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  null,       'BIKE',          '2024-05-16 10:00:00', NOW(),      1,          1         ),
 (1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',          '2024-05-17 10:00:00', NOW(),      1,          1         ),
 (1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'LADY',         15,         'MEDIUM', 'FOOTBRAKE',    'MONARK',      'YTLO',     'BIKE',          '2024-05-18 10:00:00', NOW(),      1,          1         ),
@@ -62,29 +62,29 @@ INSERT INTO Ticket_Vehicle
 --
 
 INSERT INTO General_Content
-(text_type, name,                               description,                        key,                            created_at, updated_at, created_by, updated_by) VALUES
-('PLAIN',   'Service: Fix Label',               'Service section, landing page',    'serviceFixLabel',              NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Fix Description',         'Service section, landing page',    'serviceFixDescription',        NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Courses Label',           'Service section, landing page',    'serviceCoursesLabel',          NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Courses Description',     'Service section, landing page',    'serviceCoursesDescription',    NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Bike Pool Label',         'Service section, landing page',    'serviceBikePoolLabel',         NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Bike Pool Description',   'Service section, landing page',    'serviceBikePoolDescription',   NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Safe Places Label',       'Service section, landing page',    'serviceSafePlacesLabel',       NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Safe Places Description', 'Service section, landing page',    'serviceSafePlacesDescription', NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Bikes Repaired',        'Statistics section, landing page', 'statisticBikesRepaired',       NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Bikes Saved',           'Statistics section, landing page', 'statisticBikesSaved',          NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Bikes Lent',            'Statistics section, landing page', 'statisticBikesLent',           NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Events Held',           'Statistics section, landing page', 'statisticEventsHeld',          NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Employees Hired',       'Statistics section, landing page', 'statisticEmployeesHired',      NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Slogan',                           'Slogan for landing page',          'slogan',                       NOW(),      NOW(),      1,          1         );
+(text_type, name,                               description,                        key,                                image_url,                                                                                                          created_at, updated_at, created_by, updated_by) VALUES
+('PLAIN',   'Service: Fix Label',               'Service section, landing page',    'serviceFixLabel',                  '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Fix Description',         'Service section, landing page',    'serviceFixDescription',            '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Courses Label',           'Service section, landing page',    'serviceCoursesLabel',              '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Courses Description',     'Service section, landing page',    'serviceCoursesDescription',        '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Bike Pool Label',         'Service section, landing page',    'serviceBikePoolLabel',             '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Bike Pool Description',   'Service section, landing page',    'serviceBikePoolDescription',       '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Safe Places Label',       'Service section, landing page',    'serviceSafePlacesLabel',           '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Safe Places Description', 'Service section, landing page',    'serviceSafePlacesDescription',     '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Bikes Repaired',        'Statistics section, landing page', 'statisticBikesRepaired',           '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Bikes Saved',           'Statistics section, landing page', 'statisticBikesSaved',              '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Bikes Lent',            'Statistics section, landing page', 'statisticBikesLent',               '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Events Held',           'Statistics section, landing page', 'statisticEventsHeld',              '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Statistic: Employees Hired',       'Statistics section, landing page', 'statisticEmployeesHired',          '',                                                                                                                 NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Slogan',                           'Slogan for landing page',          'slogan',                           'https://hjulverkstan.s3.eu-north-1.amazonaws.com/18dd4c5e-e408-4ebc-86ef-8541b4f3e4b9.jpg',                        NOW(),      NOW(),      1,          1         );
 
 INSERT INTO Open_Hours
 (mon,               tue,               wed,               thu,               fri,               sat,               sun) VALUES
 (null,              '15:00 - 18:00',   null,              '15:00 - 18:00',   null,              null,              null);
 
 INSERT INTO Shop
-(name,                    address,                    latitude,            longitude,           image_url,         open_hours_id, has_temporary_hours, location_id,  created_at, updated_at, created_by, updated_by) VALUES
-('Hjällbo',               'Skolspåret 15',            57.7696674324115,    12.013638901161615,  null,              1,             false,               1,            NOW(),      NOW(),      1,          1);
+(name,                    address,                    latitude,            longitude,           image_url,                                                                                                  open_hours_id, has_temporary_hours, location_id,  created_at, updated_at, created_by, updated_by) VALUES
+('Hjällbo',               'Skolspåret 15',            57.7696674324115,    12.013638901161615,  'https://hjulverkstan.s3.eu-north-1.amazonaws.com/18dd4c5e-e408-4ebc-86ef-8541b4f3e4b9.jpg',                1,             false,               1,            NOW(),      NOW(),      1,          1);
 
 INSERT INTO Localised_Content
 (lang,   field_name,     content,                                                                                                                                                                           created_at, updated_at, created_by, updated_by, general_content_id, shop_id) VALUES
