@@ -1,6 +1,5 @@
 import * as U from '@utils';
 import { Input as InputDumb } from '@components/shadcn/Input';
-
 import { Field, FieldProps, useDataForm } from './';
 
 export interface InputProps extends Omit<FieldProps, 'children'> {
@@ -22,8 +21,9 @@ export const Input = ({
   disabled,
 }: InputProps) => {
   const { body, setBodyProp, isDisabled, isSkeleton } = useDataForm();
-
   const formIsDisabled = isDisabled || disabled;
+
+  const value = isSkeleton ? '' : body[dataKey] ?? '';
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
@@ -34,7 +34,7 @@ export const Input = ({
         id={dataKey}
         disabled={formIsDisabled}
         placeholder={placeholder}
-        value={isSkeleton ? '' : (body[dataKey] ?? '')}
+        value={value}
         onChange={({ target: { value } }) => {
           if (body[dataKey] !== value) {
             setBodyProp(dataKey, type === 'number' ? Number(value) : value);

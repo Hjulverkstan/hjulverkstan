@@ -133,7 +133,13 @@ export const Provider = <D extends Data>({
   //
 
   const setBodyProp = (dataKey: string, value: any) =>
-    setState((prev) => prev && { ...prev, [dataKey]: value });
+    setState((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        [dataKey]: value,
+      };
+    });
 
   const form = {
     body,
