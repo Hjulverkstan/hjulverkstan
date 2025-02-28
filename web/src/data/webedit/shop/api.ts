@@ -52,7 +52,7 @@ const transformBody = (formData: Record<string, any> & { lang: Language }) => ({
     address: formData.address,
     latitude: formData.latitude,
     longitude: formData.longitude,
-    imageUrl: formData.imageUrl,
+    imageURL: formData.imageURL,
     openHours: {
       mon: formData['openHours.mon'],
       tue: formData['openHours.tue'],

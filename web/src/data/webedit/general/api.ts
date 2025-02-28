@@ -48,13 +48,13 @@ export const createGetGeneralContent = ({
 
 const transformBody = ({
   value,
-  imageUrl,
+  imageURL,
   lang,
 }: Partial<GeneralContent> & { lang: string }) => ({
   lang,
   generalContent: {
     value: value,
-    imageUrl: imageUrl ?? null,
+    imageURL: imageURL ?? null,
   },
 });
 

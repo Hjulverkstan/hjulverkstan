@@ -37,4 +37,6 @@ public class ShopDto {
 
     @NotBlank(message = "Body text in at least one language is required for creating a shop")
     private String bodyText;
+    private String createdAt;
+    private String updatedAt;
 }

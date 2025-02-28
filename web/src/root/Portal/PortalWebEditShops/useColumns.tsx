@@ -46,10 +46,10 @@ export default function useColumns() {
           ),
         },
         {
-          key: 'imageUrl',
+          key: 'imageURL',
           name: 'Image',
-          renderFn: ({ imageUrl }: { imageUrl: any }) => (
-            <span>{imageUrl}</span>
+          renderFn: ({ imageURL }: { imageURL: any }) => (
+            <span>{imageURL}</span>
           ),
         },
         {
