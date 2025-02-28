@@ -19,10 +19,10 @@ export default function useColumns() {
           renderFn: ({ value }: { value: any }) => <span>{value}</span>,
         },
         {
-          key: 'imageUrl',
+          key: 'imageURL',
           name: 'Image',
-          renderFn: ({ imageUrl }: { imageUrl: any }) => (
-            <span>{imageUrl}</span>
+          renderFn: ({ imageURL }: { imageURL: any }) => (
+            <span>{imageURL}</span>
           ),
         },
         {

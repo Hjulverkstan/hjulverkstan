@@ -4,7 +4,7 @@ export interface Shop {
   address: string;
   latitude: number;
   longitude: number;
-  imageUrl?: string | null;
+  imageURL?: string | null;
   openHours: OpenHours;
   hasTemporaryHours: boolean;
   locationId: string;

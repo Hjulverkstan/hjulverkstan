@@ -3,7 +3,7 @@ import { reqString } from '@data/form';
 import { Shop } from '@data/webedit/shop/types';
 
 export const initShop: Partial<Shop> = {
-  imageUrl: '',
+  imageURL: '',
 };
 
 export const shopZ = z.object({
@@ -12,7 +12,7 @@ export const shopZ = z.object({
 
   latitude: z.number().optional(),
   longitude: z.number().optional(),
-  imageUrl: z.string().nullable().optional(),
+  imageURL: z.string().nullable().optional(),
   openHours: z
     .object({
       mon: z.string().nullable().optional(),

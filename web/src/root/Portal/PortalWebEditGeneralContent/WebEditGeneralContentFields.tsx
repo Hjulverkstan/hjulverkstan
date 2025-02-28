@@ -28,7 +28,7 @@ export default function WebEditGeneralContentFields() {
       />
       <DataForm.Input
         label="Image URL"
-        dataKey="imageUrl"
+        dataKey="imageURL"
         placeholder="Enter image URL"
       />
     </>

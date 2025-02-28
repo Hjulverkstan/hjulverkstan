@@ -31,7 +31,7 @@ export default function WebEditShopFields() {
 
       <DataForm.Input
         label="Image URL"
-        dataKey="imageUrl"
+        dataKey="imageURL"
         placeholder="Enter image URL (optional)"
       />
 
@@ -91,7 +91,7 @@ export default function WebEditShopFields() {
         </>
         <DataForm.Input
           label="Image URL"
-          dataKey="imageUrl"
+          dataKey="imageURL"
           placeholder="Enter image URL"
         />
       </DataForm.Collapsible>
