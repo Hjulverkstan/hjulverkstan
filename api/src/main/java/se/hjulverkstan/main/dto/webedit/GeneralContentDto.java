@@ -18,5 +18,7 @@ public class GeneralContentDto {
     private String description;
     private String key;
     private String value;
+    private String imageURL;
+    private String updatedAt;
 }
 
