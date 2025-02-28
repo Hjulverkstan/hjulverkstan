@@ -1,9 +1,10 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode } from 'react';
 import usePersistentState from '@hooks/usePersistentState';
 import * as Select from '@components/shadcn/Select';
 import { useLangCount } from '@data/webedit/queries';
 import { languageEnums } from '@data/webedit/enums';
 import { Language } from '@data/webedit/language';
+import useStrictContext from '@hooks/useStrictContext';
 
 const PortalLangContext = createContext<{
   selectedLang: Language;
@@ -24,7 +25,7 @@ export const PortalLangProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const usePortalLang = () => {
-  const context = useContext(PortalLangContext);
+  const context = useStrictContext(PortalLangContext);
   if (!context) {
     throw new Error('usePortalLang must be used within PortalLangProvider');
   }
