@@ -64,12 +64,6 @@ Copy the `main/env.properties.template` to `main/env.properties` and make sure t
 
 ## Run the project
 
-> Regardless of IDE, if you encounter an error that env.properties file is not found from the Spring application, copy the absolute path of your env.properties file (with IDEA you can right-click the file and 'Copy Path/Reference' -> 'Absolute Path') directly into the `main/src/main/resources/application.properties file` like so:
-> 
-> `spring.config.import=file:/Users/your_name/repos/hjulverkstan/main/env.properties`
-> 
-> Note that we use forwards slashes here and without any windows disk prefix like `C:`
-
 ### IntelliJ IDEA Ultimate
 
 **1.** Install [IDEA Ultimate](https://www.jetbrains.com/idea/download/) for your OS of choice and activate your licence.
