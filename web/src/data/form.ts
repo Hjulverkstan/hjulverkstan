@@ -44,7 +44,9 @@ export function isValidSwedishPIN(pin: string): boolean {
 }
 
 export const swedishPIN = z
-  .string(isReq('Personal identification number'))
+  .string()
+  .optional()
+  .nullable()
   .refine((data) => !data || /^\d{8}-\d{4}$/.test(data), {
     message:
       'Personal identification number must be in the format YYYYMMDD-XXXX',
