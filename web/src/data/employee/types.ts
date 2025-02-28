@@ -1,11 +1,12 @@
 export interface Employee {
   id: string;
-  employeeNumber: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
   email: string;
-  personalIdentityNumber: string;
+  personalIdentityNumber?: string;
+  ticketIds: string[];
+  comment?: string;
   createdBy: string;
   createdAt: string;
   updatedBy: string;

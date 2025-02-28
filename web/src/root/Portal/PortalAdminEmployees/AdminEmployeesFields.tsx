@@ -16,7 +16,7 @@ export default function AdminLocationFields() {
       />
 
       <DataForm.Input
-        placeholder="7312240001"
+        placeholder="19731224-0001"
         label="Personal identity nr"
         dataKey="personalIdentityNumber"
       />
@@ -33,6 +33,12 @@ export default function AdminLocationFields() {
         placeholder="emailaddress@domain.com"
         label="Email"
         dataKey="email"
+      />
+
+      <DataForm.Input
+        placeholder="Write a comment..."
+        label="Comment"
+        dataKey="comment"
       />
     </>
   );

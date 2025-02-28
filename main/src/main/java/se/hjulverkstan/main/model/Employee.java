@@ -17,7 +17,6 @@ public class Employee extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Long id;
-    private String employeeNumber;
     private String firstName;
     private String lastName;
     private String phoneNumber;
