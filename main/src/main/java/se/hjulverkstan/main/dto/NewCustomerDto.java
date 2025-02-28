@@ -3,6 +3,7 @@ package se.hjulverkstan.main.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,10 @@ public class NewCustomerDto {
     @NotBlank(message = "Customer last name is required")
     private String lastName;
 
+    @Pattern(
+            regexp = "^\\d{8}-\\d{4}$",
+            message = "Personal Identity Number must be in the format YYYYMMDD-XXXX"
+    )
     private String personalIdentityNumber;
 
     private String organizationName;

@@ -1,9 +1,6 @@
 package se.hjulverkstan.main.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewEmployeeDto {
-    @NotBlank(message = "Employee number is required")
-    private String employeeNumber;
 
     @NotBlank(message = "First name is required")
     private String firstName;
@@ -27,8 +22,10 @@ public class NewEmployeeDto {
     @NotBlank(message = "Email is required")
     private String email;
 
-    @NotBlank(message = "Personal Identity Number is required")
-    @Size(min = 10, max = 10, message = "Personal Identity Number must be at lest 10 numbers long")
+    @Pattern(
+            regexp = "^\\d{8}-\\d{4}$",
+            message = "Personal Identity Number must be in the format YYYYMMDD-XXXX"
+    )
     private String personalIdentityNumber;
 
     private String comment;
