@@ -13,6 +13,8 @@ import PortalShopCustomers from './PortalShopCustomers';
 import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
 import { AuthRole } from '@data/auth/types';
+import MobileImageInventory from './PortalMobileInventory';
+import useIsMobile from '@hooks/useIsMobile';
 
 //
 
@@ -46,9 +48,13 @@ const mountPageContent = (Content: ComponentType<PageContentProps>) => (
 
 export default function Portal() {
   const { auth, isInitialising } = useAuth();
+  const mobile = useIsMobile();
 
   if (isInitialising) return null;
   if (!auth) return <PortalLogin />;
+
+  // If on mobile, render this separate mobile page
+  if (mobile) return <MobileImageInventory />;
 
   return (
     <Routes>
