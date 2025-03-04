@@ -46,8 +46,8 @@ export function useVehicleZ() {
   return useMemo(() => {
     const commonProps = {
       isCustomerOwned: z.boolean(isReq('Ownership')),
-      vehicleStatus: z.nativeEnum(VehicleStatus),
-      regTag: z.string(),
+      vehicleStatus: z.nativeEnum(VehicleStatus).optional(),
+      regTag: z.string().optional(),
     };
 
     return z
