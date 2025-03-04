@@ -26,6 +26,7 @@ public class GeneralContent extends Auditable {
     private String description;
 
     private String key;
+    private String imageURL;
 
     @OneToMany(mappedBy = "generalContent", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<LocalisedContent> localisedContent;
