@@ -3,6 +3,7 @@ package se.hjulverkstan.main.service;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.apache.tika.Tika;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import se.hjulverkstan.Exceptions.*;
 import se.hjulverkstan.main.dto.ImageUploadResponse;
+import se.hjulverkstan.main.repository.ImageRepository;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -101,12 +103,21 @@ public class S3ServiceImpl implements S3Service {
     }
 
     @Override
-    public void deleteFileByKey(String key) {
-
+    public String extractKeyFromURL(String URL) {
+        String keyWithParams = URL.substring(URL.lastIndexOf("/") + 1);
+        int queryIndex = keyWithParams.indexOf("?");
+        String fileKey = queryIndex != -1 ? keyWithParams.substring(0, queryIndex) : keyWithParams;
+        return fileKey;
     }
 
     @Override
-    public String extractKeyFromURL(String URL) {
-        return "";
+    public void deleteFileByKey(String key) {
+        try {
+            DeleteObjectRequest deleteRequest = new DeleteObjectRequest(bucketName, key);
+            amazonS3.deleteObject(deleteRequest);
+        } catch (Exception e) {
+            throw new S3DeleteException("Error deleting file from S3: " + e.getMessage());
+        }
     }
+
 }
