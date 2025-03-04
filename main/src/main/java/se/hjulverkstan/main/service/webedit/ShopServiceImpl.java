@@ -66,7 +66,7 @@ public class ShopServiceImpl implements ShopService {
         shop.setAddress(shopDto.getAddress());
         shop.setLatitude(shopDto.getLatitude());
         shop.setLongitude(shopDto.getLongitude());
-        shop.setImageUrl(shopDto.getImageUrl());
+        shop.setImageURL(shopDto.getImageURL());
         shop.setOpenHours(mapOpenHoursDtoToEntity(null, shopDto.getOpenHours()));
         shop.setHasTemporaryHours(shopDto.getHasTemporaryHours() != null && shopDto.getHasTemporaryHours());
 
@@ -100,7 +100,7 @@ public class ShopServiceImpl implements ShopService {
         selectedShop.setAddress(shopDto.getAddress());
         selectedShop.setLatitude(shopDto.getLatitude());
         selectedShop.setLongitude(shopDto.getLongitude());
-        selectedShop.setImageUrl(shopDto.getImageUrl());
+        selectedShop.setImageURL(shopDto.getImageURL());
         selectedShop.setOpenHours(mapOpenHoursDtoToEntity(selectedShop.getOpenHours(), shopDto.getOpenHours()));
         selectedShop.setHasTemporaryHours(shopDto.getHasTemporaryHours());
 
@@ -166,7 +166,7 @@ public class ShopServiceImpl implements ShopService {
         shopDto.setAddress(shop.getAddress());
         shopDto.setLatitude(shop.getLatitude());
         shopDto.setLongitude(shop.getLongitude());
-        shopDto.setImageUrl(shop.getImageUrl());
+        shopDto.setImageURL(shop.getImageURL());
 
         OpenHoursDto openHoursDto = mapOpenHoursToDto(shop.getOpenHours());
         shopDto.setOpenHours(openHoursDto);
