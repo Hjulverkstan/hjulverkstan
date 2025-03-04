@@ -1,24 +1,32 @@
 package se.hjulverkstan.main.service;
 
-import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import se.hjulverkstan.Exceptions.ElementNotFoundException;
-import se.hjulverkstan.Exceptions.UnsupportedTicketTypeException;
 
+import jakarta.transaction.Transactional;
+import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.Exceptions.UnsupportedTicketVehiclesException;
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
-import se.hjulverkstan.main.dto.tickets.*;
-import se.hjulverkstan.main.model.*;
+import se.hjulverkstan.main.dto.tickets.EditTicketDto;
+import se.hjulverkstan.main.dto.tickets.NewTicketDto;
+import se.hjulverkstan.main.dto.tickets.TicketDto;
+import se.hjulverkstan.main.dto.tickets.TicketStatusDto;
+import se.hjulverkstan.main.model.Customer;
+import se.hjulverkstan.main.model.Employee;
+import se.hjulverkstan.main.model.Ticket;
+import se.hjulverkstan.main.model.TicketStatus;
+import se.hjulverkstan.main.model.TicketType;
+import se.hjulverkstan.main.model.Vehicle;
+import se.hjulverkstan.main.model.VehicleStatus;
 import se.hjulverkstan.main.repository.CustomerRepository;
 import se.hjulverkstan.main.repository.EmployeeRepository;
 import se.hjulverkstan.main.repository.TicketRepository;
 import se.hjulverkstan.main.repository.VehicleRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -88,12 +96,12 @@ public class TicketServiceImpl implements TicketService {
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
         // Sub-ticket attributes
-        if (editTicketDto instanceof EditTicketRepairDto repairDto && selectedTicket instanceof TicketRepair ticketRepair) {
-            ticketRepair.setRepairDescription(repairDto.getRepairDescription());
-            ticketRepair.setEndDate(repairDto.getEndDate());
+        if (editTicketDto.getTicketType() == TicketType.REPAIR && selectedTicket.getTicketType() == TicketType.REPAIR) {
+            selectedTicket.setRepairDescription(editTicketDto.getRepairDescription());
+            selectedTicket.setEndDate(editTicketDto.getEndDate());
 
-        } else if (editTicketDto instanceof EditTicketRentDto rentDto && selectedTicket instanceof TicketRent ticketRent) {
-            ticketRent.setEndDate(rentDto.getEndDate());
+        } else if (editTicketDto.getTicketType() == TicketType.RENT && selectedTicket.getTicketType()==TicketType.RENT) {
+            selectedTicket.setEndDate(editTicketDto.getEndDate());
         }
 
         // General Ticket attributes
@@ -106,7 +114,7 @@ public class TicketServiceImpl implements TicketService {
             if (!vehicle.getTickets().contains(selectedTicket)) vehicle.getTickets().add(selectedTicket);
         });
 
-        if (selectedTicket instanceof TicketRent) {
+        if (selectedTicket.getTicketType() == TicketType.RENT) {
             if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned)){
                 throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental Tickets!");
             }
@@ -137,29 +145,27 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public TicketDto createTicket(NewTicketDto newTicket) {
         // Handles different ticket types. Accepts loan, repair & donate tickets.
-        Ticket ticket = createSpecificTicketType(newTicket);
+        Ticket ticket = new Ticket();
 
         //Sub-ticket attributes
-        if (newTicket instanceof NewTicketRepairDto repairDto && ticket instanceof TicketRepair ticketRepair) {
-            ticketRepair.setRepairDescription(repairDto.getRepairDescription());
-            ticketRepair.setTicketStatus(TicketStatus.READY);
-            ticketRepair.setEndDate(repairDto.getEndDate());
-        } else if (newTicket instanceof NewTicketRentDto rentDto && ticket instanceof TicketRent ticketRent) {
-            ticketRent.setEndDate(rentDto.getEndDate());
-            ticketRent.setTicketStatus(TicketStatus.READY);
-        } else if (newTicket instanceof NewTicketDonateDto && ticket instanceof TicketDonate) {
-            ticket.setTicketStatus(null);
-        } else if (newTicket instanceof NewTicketReceiveDto && ticket instanceof TicketReceive) {
-            ticket.setTicketStatus(null);
-        }
-
-        if (newTicket instanceof NewTicketDonateDto && ticket instanceof TicketDonate) {
-            ticket.setStartDate(null);
-        } else if (newTicket instanceof NewTicketReceiveDto && ticket instanceof TicketReceive) {
-            ticket.setStartDate(null);
-        } else {
+        // Handling each Tickets types directly from the attribute instead of instances
+        if (newTicket.getTicketType() == TicketType.REPAIR && ticket.getTicketType() == TicketType.REPAIR) {
+            ticket.setRepairDescription(newTicket.getRepairDescription());
+            ticket.setTicketStatus(TicketStatus.READY);
             ticket.setStartDate(newTicket.getStartDate());
+            ticket.setEndDate(newTicket.getEndDate());
+        } else if (newTicket.getTicketType() == TicketType.RENT && ticket.getTicketType() == TicketType.RENT) {
+            ticket.setEndDate(newTicket.getEndDate());
+            ticket.setTicketStatus(TicketStatus.READY);
+            ticket.setStartDate(newTicket.getStartDate());
+        } else if (newTicket.getTicketType() == TicketType.DONATE && ticket.getTicketType() == TicketType.DONATE) {
+            ticket.setTicketStatus(null);
+            ticket.setStartDate(null);
+        } else if (newTicket.getTicketType() == TicketType.RECEIVE && ticket.getTicketType() == TicketType.RECEIVE) {
+            ticket.setTicketStatus(null);
+            ticket.setStartDate(null);
         }
+       //merged the two parts for more readability
 
         // General Ticket attributes
         ticket.setTicketType(newTicket.getTicketType());
@@ -173,7 +179,7 @@ public class TicketServiceImpl implements TicketService {
             if (!vehicle.getTickets().contains(ticket)) vehicle.getTickets().add(ticket);
         });
 
-        if (ticket instanceof TicketRent) {
+        if (ticket.getTicketType() == TicketType.RENT) {
             if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned)){
                 throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental Tickets!");
             }
@@ -190,7 +196,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.setCustomer(customer);
 
         // Update vehicle status to UNAVAILABLE if it's a repair ticket, not closed and not customer owned
-        if (ticket instanceof TicketRepair && ticket.getTicketStatus() != TicketStatus.CLOSED) {
+        if (ticket.getTicketType() == TicketType.REPAIR && ticket.getTicketStatus() != TicketStatus.CLOSED) {
             for (Vehicle vehicle : vehicles) {
                 if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE && !vehicle.isCustomerOwned()) {
                     vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
@@ -219,8 +225,8 @@ public class TicketServiceImpl implements TicketService {
         */
 
         TicketStatus newStatus = ticketStatusDto.getTicketStatus();
-        boolean isRepairTicket = ticket instanceof TicketRepair;
-        boolean isRentTicket = ticket instanceof TicketRent;
+        boolean isRepairTicket = ticket.getTicketType() == TicketType.REPAIR;
+        boolean isRentTicket = ticket.getTicketType() == TicketType.RENT;
 
         List<Vehicle> vehicles = ticket.getVehicles();
 
@@ -273,6 +279,8 @@ public class TicketServiceImpl implements TicketService {
                 .collect(Collectors.toList());
     }
 
+    // In the end The createSpecificTicketType has become not needed at all
+    /**
     private Ticket createSpecificTicketType(NewTicketDto newTicket) {
         if (newTicket instanceof NewTicketRentDto) {
             return new TicketRent();
@@ -285,17 +293,9 @@ public class TicketServiceImpl implements TicketService {
         }
         throw new UnsupportedTicketTypeException("Unsupported ticket type provided");
     }
+    */
 
     private TicketDto convertToDto(Ticket ticket) {
-        if (ticket instanceof TicketRent) {
-            return new TicketRentDto((TicketRent) ticket);
-        } else if (ticket instanceof TicketRepair) {
-            return new TicketRepairDto((TicketRepair) ticket);
-        } else if (ticket instanceof TicketDonate) {
-            return new TicketDonateDto((TicketDonate) ticket);
-        } else if (ticket instanceof TicketReceive) {
-            return new TicketReceiveDto((TicketReceive) ticket);
-        }
         return new TicketDto(ticket);
     }
 
