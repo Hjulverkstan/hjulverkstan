@@ -7,8 +7,7 @@ public interface S3Service {
 
     ImageUploadResponse uploadFile(MultipartFile file);
 
+    String extractKeyFromUrl(String url);
     void deleteFileByKey(String key);
-
-    String extractKeyFromURL(String URL);
 
 }
