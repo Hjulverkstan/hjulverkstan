@@ -13,8 +13,8 @@ import PortalShopCustomers from './PortalShopCustomers';
 import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
 import { AuthRole } from '@data/auth/types';
-import MobileImageInventory from './PortalMobileInventory';
 import useIsMobile from '@hooks/useIsMobile';
+import MobileImageInventory from './PortalMobileInventory/index';
 
 //
 

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Pencil, Save, XIcon } from 'lucide-react';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 
 import * as Tooltip from '@components/shadcn/Tooltip';
 import { ErrorRes } from '@api';
@@ -12,12 +12,12 @@ import Error from '@components/Error';
 import { createErrorToast } from './toast';
 
 export interface PortalFormProps {
-  /* Optionaly tranform the body on submit before passed to mutate function */
+  /* Optionally tranform the body on submit before passed to mutate function */
   transformBodyOnSubmit?: (input: any) => any;
   isSubmitting: boolean;
-  /* muateAsync from useMutation() */
+  /* mutateAsync from useMutation() */
   createMutation: (body: any) => Promise<any>;
-  /* muateAsync from useMutation() */
+  /* mutateAsync from useMutation() */
   saveMutation: (body: any) => Promise<any>;
   error?: ErrorRes | null;
   dataLabel: string;
@@ -93,11 +93,32 @@ export default function PortalForm({
     },
   }[mode];
 
+  // Auto-save on mobile when image changes (debounced)
+  const autoSaveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    // Only auto-save if we're in EDIT mode and on mobile.
+    if (window.innerWidth < 768 && mode === Mode.EDIT) {
+      if (autoSaveTimeout.current) clearTimeout(autoSaveTimeout.current);
+      autoSaveTimeout.current = setTimeout(() => {
+        onSave();
+      }, 1000); // Adjust debounce delay as needed
+    }
+    return () => {
+      if (autoSaveTimeout.current) clearTimeout(autoSaveTimeout.current);
+    };
+  }, [body.imageURL, mode]); // assuming the image field is "imageURL"
+
   return (
-    <div className="bg-muted flex w-64 flex-shrink-0 flex-col border-l ">
+    // hidden and a md: to flex for nothing.
+    // Contains the PortalForm
+    <div
+      className="md:bg-muted flex h-full w-full flex-shrink-0 flex-col sm:w-64
+        md:h-auto md:border-l"
+    >
+      {/* Contains the header of the PortalForm */}
       <div
         style={{ marginTop: '0.5px' }}
-        className="flex h-11 flex-shrink-0 items-center border-b px-2"
+        className="hidden h-11 flex-shrink-0 items-center border-b px-2 md:flex"
       >
         <h3 className="flex-grow pl-2 align-middle text-sm font-medium">
           {title}
@@ -110,9 +131,14 @@ export default function PortalForm({
           tooltip="Close"
         />
       </div>
-      <div className="flex-grow space-y-4 overflow-y-scroll px-2 pb-3 pt-4">
+      <div
+        className="flex-grow space-y-0 overflow-visible px-0 pb-0 pt-0
+          md:space-y-4 md:overflow-y-scroll md:px-2 md:pb-3 md:pt-4"
+      >
         {error ? <Error className="h-full" error={error} /> : children}
       </div>
+
+      {/* Contains the footer of the PortalForm, where you save and cancel */}
       <div className="flex h-11 flex-shrink-0 items-center gap-2 border-t px-2">
         {mode === Mode.EDIT && (
           <Button

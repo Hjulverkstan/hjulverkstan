@@ -8,6 +8,7 @@ export interface FieldProps {
   description?: string;
   dataKey: string;
   children: ReactNode;
+  hideLabel?: boolean;
 }
 
 export const Field = ({
@@ -15,14 +16,17 @@ export const Field = ({
   label,
   description,
   children,
+  hideLabel,
 }: FieldProps) => {
   const { fieldErrorMap } = useDataForm();
 
   return (
-    <div className="flex flex-col space-y-2">
-      <Label className="px-2" htmlFor={dataKey}>
-        {label}
-      </Label>
+    <div className="flex flex-col space-y-2 max-sm:h-full">
+      {!hideLabel && (
+        <Label className="px-2" htmlFor={dataKey}>
+          {label}
+        </Label>
+      )}
       {children}
       {description && (
         <p className="text-muted-foreground px-2 text-[0.8rem]">
