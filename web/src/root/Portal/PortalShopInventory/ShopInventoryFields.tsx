@@ -15,7 +15,7 @@ export default function ShopInventoryFields() {
         <DataForm.Image
           label="Image"
           dataKey="imageURL"
-          disableImageUpload="Open portal on a mobile device to upload images."
+          // disableImageUpload="Open portal on a mobile device to upload images."
         />
       )}
 
