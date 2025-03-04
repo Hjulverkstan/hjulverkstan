@@ -24,7 +24,7 @@ public class ShopDto {
     @NotNull(message = "Longitude is required")
     private Double longitude;
 
-    private String imageUrl;
+    private String imageURL;
 
     @NotNull(message = "Must provide at least one day of open hours")
     private OpenHoursDto openHours;

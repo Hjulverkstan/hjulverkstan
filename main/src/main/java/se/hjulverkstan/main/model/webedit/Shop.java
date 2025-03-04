@@ -24,7 +24,7 @@ public class Shop extends Auditable {
     private String address;
     private Double latitude;
     private Double longitude;
-    private String imageUrl;
+    private String imageURL;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "open_hours_id", referencedColumnName = "id")
