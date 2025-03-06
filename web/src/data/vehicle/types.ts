@@ -1,4 +1,5 @@
 import { TicketStatus, TicketType } from '@data/ticket/types';
+import { Warning } from '@data/warning/types';
 
 export enum VehicleType {
   BIKE = 'BIKE',
@@ -90,4 +91,5 @@ export interface Vehicle {
 export interface VehicleAggregated extends Vehicle {
   ticketTypes: TicketType[];
   ticketStatuses: TicketStatus[];
+  warnings?: Warning[];
 }
