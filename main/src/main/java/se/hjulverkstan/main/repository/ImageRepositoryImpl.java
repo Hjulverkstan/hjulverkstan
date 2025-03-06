@@ -34,13 +34,13 @@ public class ImageRepositoryImpl implements ImageRepository {
                 .setParameter("fileKey", fileKey)
                 .executeUpdate();
 
-        entityManager.createNativeQuery("UPDATE event SET imageURL = NULL WHERE imageURL LIKE CONCAT('%', :fileKey)")
-                .setParameter("fileKey", fileKey)
-                .executeUpdate();
-
-        entityManager.createNativeQuery("UPDATE blog SET imageURL = NULL WHERE imageURL LIKE CONCAT('%', :fileKey)")
-                .setParameter("fileKey", fileKey)
-                .executeUpdate();
+//        entityManager.createNativeQuery("UPDATE event SET imageURL = NULL WHERE imageURL LIKE CONCAT('%', :fileKey)")
+//                .setParameter("fileKey", fileKey)
+//                .executeUpdate();
+//
+//        entityManager.createNativeQuery("UPDATE blog SET imageURL = NULL WHERE imageURL LIKE CONCAT('%', :fileKey)")
+//                .setParameter("fileKey", fileKey)
+//                .executeUpdate();
 
         entityManager.createNativeQuery("UPDATE General_Content SET imageURL = NULL WHERE imageURL LIKE CONCAT('%', :fileKey)")
                 .setParameter("fileKey", fileKey)
@@ -51,8 +51,8 @@ public class ImageRepositoryImpl implements ImageRepository {
     public List<String> getAllUsedS3URLs() {
         List<String> vehicleUrls = entityManager.createNativeQuery("SELECT imageURL FROM vehicle").getResultList();
         List<String> shopUrls = entityManager.createNativeQuery("SELECT imageURL FROM Shop").getResultList();
-        List<String> eventUrls = entityManager.createNativeQuery("SELECT imageURL FROM event").getResultList();
-        List<String> blogUrls = entityManager.createNativeQuery("SELECT imageURL FROM blog").getResultList();
+//        List<String> eventUrls = entityManager.createNativeQuery("SELECT imageURL FROM event").getResultList();
+//        List<String> blogUrls = entityManager.createNativeQuery("SELECT imageURL FROM blog").getResultList();
         List<String> generalContentUrls = entityManager.createNativeQuery("SELECT imageURL FROM General_Content").getResultList();
 
         Set<String> urls = new HashSet<>();
@@ -62,12 +62,12 @@ public class ImageRepositoryImpl implements ImageRepository {
         if(shopUrls != null) {
             urls.addAll(shopUrls);
         }
-        if(eventUrls != null) {
-            urls.addAll(eventUrls);
-        }
-        if(blogUrls != null) {
-            urls.addAll(blogUrls);
-        }
+//        if(eventUrls != null) {
+//            urls.addAll(eventUrls);
+//        }
+//        if(blogUrls != null) {
+//            urls.addAll(blogUrls);
+//        }
         if(generalContentUrls != null) {
             urls.addAll(generalContentUrls);
         }

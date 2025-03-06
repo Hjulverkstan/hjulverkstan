@@ -12,5 +12,5 @@ export const useUploadImageM = () =>
 export const useDeleteImageM = () =>
   useMutation({
     ...api.createDeleteImage(),
-    onSuccess: (imageURL) => invalidateQueries([imageURL]),
+    onSuccess: (imageURL: string) => invalidateQueries([[imageURL]]),
   });

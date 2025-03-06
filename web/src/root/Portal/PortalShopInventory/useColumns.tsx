@@ -18,6 +18,13 @@ export default function useColumns() {
     () =>
       [
         {
+          key: 'imageURL',
+          name: 'Image',
+          renderFn: ({ imageURL }: { imageURL: any }) => (
+            <span>{imageURL}</span>
+          ),
+        },
+        {
           key: 'regTag',
           name: '#',
           renderFn: ({ regTag, id, isCustomerOwned }, { selected }) => (
