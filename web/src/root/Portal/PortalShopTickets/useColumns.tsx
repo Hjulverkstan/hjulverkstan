@@ -8,15 +8,12 @@ import { TicketAggregated, TicketStatus } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
 import { useTicketsAsEnumsQ, useTicketsQ } from '@data/ticket/queries';
 import * as U from '@utils';
-
 import BadgeGroup from '@components/BadgeGroup';
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
-import { Badge } from '@components/shadcn/Badge';
 import { format } from 'date-fns';
 import usePortalSlugs from '@hooks/useSlugs';
-
-//
+import { find as warningFind } from '@data/warning/enums';
 
 export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
   const { coreUrl } = usePortalSlugs();
@@ -89,11 +86,52 @@ export default function useColumns() {
         {
           key: 'id',
           name: '#',
-          renderFn: ({ id }, { selected }) => (
-            <Badge variant={selected ? 'contrast' : 'outline'}>#{id}</Badge>
-          ),
-        },
+          renderFn: ({ id, warnings = [] }, { selected }) => {
+            const hasWarnings = warnings.length > 0;
+            const tooltip = hasWarnings ? (
+              <div>
+                {warnings.map((warning, i) => (
+                  <span key={i}>
+                    {warningFind(warning).tooltip}
+                    {i < warnings.length - 1 && <br />}
+                  </span>
+                ))}
+              </div>
+            ) : undefined;
+            const variant = hasWarnings
+              ? 'destructive'
+              : selected
+                ? 'contrast'
+                : 'outline';
 
+            const WarningIcons = () => (
+              <>
+                {warnings.map((warning, i) => {
+                  const warningInfo = warningFind(warning);
+                  return (
+                    <warningInfo.icon
+                      key={i}
+                      className="mr-1 inline-block h-4 w-4"
+                    />
+                  );
+                })}
+              </>
+            );
+
+            return (
+              <BadgeGroup
+                badges={[
+                  {
+                    icon: hasWarnings ? WarningIcons : undefined,
+                    label: `#${id}`,
+                    variant,
+                    tooltip,
+                  },
+                ]}
+              />
+            );
+          },
+        },
         {
           key: 'ticketType',
           name: 'Type',

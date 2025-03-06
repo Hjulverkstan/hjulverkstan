@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { TicketBadges } from '../PortalShopTickets/useColumns';
 import { format } from 'date-fns';
+import { find as warningFind } from '@data/warning/enums';
 
 //
 
@@ -20,19 +21,55 @@ export default function useColumns() {
         {
           key: 'regTag',
           name: '#',
-          renderFn: ({ regTag, id, isCustomerOwned }, { selected }) => (
-            <BadgeGroup
-              badges={[
-                {
-                  ...enums.find(isCustomerOwned),
-                  ...(selected ? { variant: 'contrast' } : {}),
-                  label: isCustomerOwned ? `#${id}` : regTag,
-                },
-              ]}
-            />
-          ),
-        },
+          renderFn: (
+            { regTag, id, isCustomerOwned, warnings = [] },
+            { selected },
+          ) => {
+            const baseBadge = enums.find(isCustomerOwned);
+            const hasWarnings = warnings.length > 0;
+            const tooltip = hasWarnings ? (
+              <div>
+                {warnings.map((warning, i) => (
+                  <span key={i}>
+                    {warningFind(warning).tooltip}
+                    {i < warnings.length - 1 && <br />}
+                  </span>
+                ))}
+              </div>
+            ) : undefined;
+            const variant = hasWarnings
+              ? 'destructive'
+              : selected
+                ? 'contrast'
+                : baseBadge.variant || 'secondary';
+            const WarningIcons = () => (
+              <>
+                {warnings.map((warning, i) => {
+                  const warningInfo = warningFind(warning);
+                  return (
+                    <warningInfo.icon
+                      key={i}
+                      className="mr-1 inline-block h-4 w-4"
+                    />
+                  );
+                })}
+              </>
+            );
 
+            return (
+              <BadgeGroup
+                badges={[
+                  {
+                    icon: hasWarnings ? WarningIcons : baseBadge.icon,
+                    label: isCustomerOwned ? `#${id}` : regTag,
+                    variant,
+                    tooltip,
+                  },
+                ]}
+              />
+            );
+          },
+        },
         {
           key: 'vehicleType',
           name: 'Type',
