@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { TicketBadges } from '../PortalShopTickets/useColumns';
 import { format } from 'date-fns';
+import WarningBadge from '@components/WarningBadge';
 
 //
 
@@ -20,17 +21,32 @@ export default function useColumns() {
         {
           key: 'regTag',
           name: '#',
-          renderFn: ({ regTag, id, isCustomerOwned }, { selected }) => (
-            <BadgeGroup
-              badges={[
-                {
-                  ...enums.find(isCustomerOwned),
-                  ...(selected ? { variant: 'contrast' } : {}),
-                  label: isCustomerOwned ? `#${id}` : regTag,
-                },
-              ]}
-            />
-          ),
+          renderFn: (
+            { regTag, id, isCustomerOwned, warnings = [] },
+            { selected },
+          ) => {
+            const baseBadge = enums.find(isCustomerOwned);
+
+            const variant = selected
+              ? 'contrast'
+              : warnings.length
+                ? 'destructive'
+                : 'outline';
+
+            return warnings.length ? (
+              <WarningBadge id={id} warnings={warnings} variant={variant} />
+            ) : (
+              <BadgeGroup
+                badges={[
+                  {
+                    icon: baseBadge.icon,
+                    label: isCustomerOwned ? `#${id}` : regTag,
+                    variant,
+                  },
+                ]}
+              />
+            );
+          },
         },
 
         {

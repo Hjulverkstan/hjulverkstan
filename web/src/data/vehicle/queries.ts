@@ -6,6 +6,7 @@ import * as api from './api';
 import * as enums from './enums';
 import * as U from '@utils';
 import { Vehicle, VehicleType, VehicleAggregated } from './types';
+import { Warning } from '@data/warning/types';
 import { useTicketsQ } from '@data/ticket/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
 import { TicketStatus } from '@data/ticket/types';
@@ -36,7 +37,10 @@ export const useVehiclesAggregatedQ = () =>
         const vehicleTickets = tickets.filter((ticket) =>
           vehicle.ticketIds.includes(ticket.id),
         );
-
+        const warnings: Warning[] =
+          vehicle.isCustomerOwned && vehicleTickets.length === 0
+            ? [Warning.ORPHAN]
+            : [];
         return {
           ...vehicle,
           ticketTypes: U.uniq(
@@ -47,6 +51,7 @@ export const useVehiclesAggregatedQ = () =>
               .map((ticket) => ticket.ticketStatus)
               .filter((status): status is TicketStatus => status !== undefined),
           ),
+          warnings,
         };
       }),
     [useVehiclesQ(), useTicketsQ()],

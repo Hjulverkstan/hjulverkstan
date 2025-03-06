@@ -8,15 +8,12 @@ import { TicketAggregated, TicketStatus } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
 import { useTicketsAsEnumsQ, useTicketsQ } from '@data/ticket/queries';
 import * as U from '@utils';
-
 import BadgeGroup from '@components/BadgeGroup';
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
-import { Badge } from '@components/shadcn/Badge';
 import { format } from 'date-fns';
 import usePortalSlugs from '@hooks/useSlugs';
-
-//
+import WarningBadge from '@components/WarningBadge';
 
 export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
   const { coreUrl } = usePortalSlugs();
@@ -89,9 +86,26 @@ export default function useColumns() {
         {
           key: 'id',
           name: '#',
-          renderFn: ({ id }, { selected }) => (
-            <Badge variant={selected ? 'contrast' : 'outline'}>#{id}</Badge>
-          ),
+          renderFn: ({ id, warnings = [] }, { selected }) => {
+            const variant = selected
+              ? 'contrast'
+              : warnings.length
+                ? 'destructive'
+                : 'outline';
+
+            return warnings.length ? (
+              <WarningBadge id={id} warnings={warnings} variant={variant} />
+            ) : (
+              <BadgeGroup
+                badges={[
+                  {
+                    label: `#${id}`,
+                    variant,
+                  },
+                ]}
+              />
+            );
+          },
         },
 
         {
