@@ -1,7 +1,7 @@
 import { AlertTriangle } from 'lucide-react';
 
 import { endpoints } from '@data/api';
-import { ErrorRes } from '@data/types';
+import { ErrorRes } from '@data/warning/types';
 
 import Message from './Message';
 
