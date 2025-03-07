@@ -192,7 +192,9 @@ export default function Root() {
               <Toaster />
             </DialogManager.Provider>
           </Tooltip.Provider>
-          <ReactQueryDevtools initialIsOpen={false} />
+          <div className="hidden sm:block">
+            <ReactQueryDevtools initialIsOpen={false} />
+          </div>
         </QueryClientProvider>
       </ThemeProvider>
     </Auth.Provider>
