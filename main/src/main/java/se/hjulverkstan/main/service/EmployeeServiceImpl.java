@@ -69,7 +69,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee selectedEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(ELEMENT_NAME));
 
-        selectedEmployee.setEmployeeNumber(employee.getEmployeeNumber());
         selectedEmployee.setFirstName(employee.getFirstName());
         selectedEmployee.setLastName(employee.getLastName());
         selectedEmployee.setPhoneNumber(employee.getPhoneNumber());
@@ -84,7 +83,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto createEmployee(NewEmployeeDto newEmployee) {
         Employee employee = new Employee();
-        employee.setEmployeeNumber(newEmployee.getEmployeeNumber());
         employee.setFirstName(newEmployee.getFirstName());
         employee.setLastName(newEmployee.getLastName());
         employee.setPhoneNumber(newEmployee.getPhoneNumber());

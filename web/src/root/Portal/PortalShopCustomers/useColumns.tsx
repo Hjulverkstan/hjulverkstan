@@ -46,13 +46,19 @@ export default function useColumns() {
         {
           key: 'personalIdentityNumber',
           name: 'Pers. Identity No.',
-          renderFn: ({ personalIdentityNumber, age }) => {
-            return (
-              <IconLabel label={`${personalIdentityNumber.slice(0, -4)}****`}>
+          renderFn: ({ personalIdentityNumber, age }) => (
+            <IconLabel
+              label={
+                personalIdentityNumber
+                  ? `${personalIdentityNumber.slice(0, -4)}****`
+                  : ''
+              }
+            >
+              {personalIdentityNumber && (
                 <span className="pl-1 text-gray-500"> (age: {age})</span>
-              </IconLabel>
-            );
-          },
+              )}
+            </IconLabel>
+          ),
         },
 
         {

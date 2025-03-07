@@ -8,7 +8,7 @@ export interface Customer {
   customerType: CustomerType;
   firstName: string;
   lastName: string;
-  personalIdentityNumber: string;
+  personalIdentityNumber?: string;
   phoneNumber: string;
   email: string;
   ticketIds: string[];
@@ -23,5 +23,5 @@ export interface Customer {
 }
 
 export interface AggregatedCustomer extends Customer {
-  age: number;
+  age?: number;
 }

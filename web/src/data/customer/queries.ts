@@ -9,11 +9,13 @@ import { differenceInYears, parse } from 'date-fns';
 
 //
 
-export const calculateAge = (persIdNo: string) =>
-  differenceInYears(
-    new Date(),
-    parse(persIdNo.substring(0, 8), 'yyyyMMdd', new Date()),
-  );
+export const calculateAge = (persIdNo?: string | null) =>
+  !persIdNo
+    ? undefined
+    : differenceInYears(
+        new Date(),
+        parse(persIdNo.substring(0, 8), 'yyyyMMdd', new Date()),
+      );
 
 export const useCustomersQ = () =>
   useQuery<Customer[], StandardError>({

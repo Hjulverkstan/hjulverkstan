@@ -13,5 +13,5 @@ export const employeeZ = z.object({
   email: reqString('Email').email({
     message: 'The email is not a valid email address',
   }),
-  personalIdentityNumber: swedishPIN,
+  personalIdentityNumber: z.string().optional().pipe(swedishPIN),
 });
