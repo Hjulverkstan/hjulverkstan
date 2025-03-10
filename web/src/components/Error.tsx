@@ -12,6 +12,7 @@ export enum ErrorEndpoint {
 export interface ErrorProps {
   error: ErrorRes;
   className?: string;
+  endpoint?: string;
 }
 
 const messages: Record<string, any> = {
@@ -19,6 +20,7 @@ const messages: Record<string, any> = {
     DEFAULT: 'Server is not responding.',
   },
   NOT_FOUND: {
+    [endpoints.image]: 'Image not available.',
     [endpoints.vehicle]: 'Vehicle not found.',
     DEFAULT: 'What you where looking for no longer exists.',
   },
