@@ -34,7 +34,7 @@ export default function ShopCustomerFields() {
       />
 
       <DataForm.Input
-        placeholder="7312240001"
+        placeholder="19731224-0001"
         label="Personal identity nr"
         dataKey="personalIdentityNumber"
       />
