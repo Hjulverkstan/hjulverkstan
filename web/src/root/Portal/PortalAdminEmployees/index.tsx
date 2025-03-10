@@ -65,7 +65,7 @@ export default function PortalAdminEmployees({ mode }: PageContentProps) {
               dataLabel="Employee"
               error={employeeQ.error}
               isSubmitting={
-                createEmployeeM.isLoading || editEmployeeM.isLoading
+                createEmployeeM.isPending || editEmployeeM.isPending
               }
               saveMutation={editEmployeeM.mutateAsync}
               createMutation={createEmployeeM.mutateAsync}
