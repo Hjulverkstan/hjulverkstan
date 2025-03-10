@@ -70,7 +70,7 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
                 (body.id && `${enums.find(body.vehicleType).label} #${body.id}`)
               }
               error={vehicleQ.error || locationsQ.error}
-              isSubmitting={createVehicleM.isLoading || editVehicleM.isLoading}
+              isSubmitting={createVehicleM.isPending || editVehicleM.isPending}
               saveMutation={editVehicleM.mutateAsync}
               createMutation={createVehicleM.mutateAsync}
             >
