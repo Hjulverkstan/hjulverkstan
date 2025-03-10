@@ -34,9 +34,7 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
         : (event as React.DragEvent<HTMLDivElement>).dataTransfer.files[0];
 
     if (!file) return;
-
     registerManualIssue('image', 'Cannot save while image is uploading.');
-
     uploadImageM
       .mutateAsync({ file })
       .then((imageURL) => {
@@ -78,13 +76,64 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
         }`}
       >
         {mode === Mode.EDIT && body[dataKey] && (
-          <IconButton
+          <IconButton icon={Trash2Icon} onClick={handleDelete} />
+        )}
+        {!disableImageUpload && mode === Mode.EDIT && body[dataKey] && (
+          <>
+            <IconButton icon={ImageUpIcon} onClick={handleUploadClick} />
+            <input
+              ref={fileInputRef}
+              type="file"
+              id={`file-upload-${dataKey}`}
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+          </>
+        )}
+        {body[dataKey] ? (
+          <div>
+            {!imageError ? (
+              <img
+                src={body[dataKey]}
+                alt="Uploaded"
+                className="h-full w-full object-cover"
+                onError={handleError}
+              />
+            ) : (
+              <Error
+                error={{ error: 'NOT_FOUND', endpoint: endpoints.image }}
+              />
+            )}
+          </div>
+        ) : disableImageUpload ? (
+          <p>{disableImageUpload}</p>
+        ) : (
+          !disableImageUpload &&
+          mode === Mode.EDIT && (
+            <div
+              className="relative flex h-full w-full flex-col items-center
+                justify-center text-center"
+              onDragOver={handleDragEvent}
+              onDragEnter={handleDragEvent}
+              onDragLeave={handleDragEvent}
+              onDrop={handleDropEvent}
+            >
+              <input
+                type="file"
+                id={`file-upload-${dataKey}`}
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+              <div>
+                <ImageUpIcon className="h-5 w-5 text-gray-600" />
+              </div>
+              <label htmlFor={`file-upload-${dataKey}`}>browse</label>
+              registerManualIssue('image', 'Cannot save while image is
+              uploading.');
             variant="destructive"
             className="absolute right-2 top-2 z-10"
-            icon={Trash2Icon}
-            onClick={handleDelete}
-          />
-        )}
         {uploadImageM.isPending ? (
           <div
             className="flex h-8 w-8 items-center justify-center rounded-full
@@ -148,27 +197,11 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
                   onDragLeave={handleDragEvent}
                   onDrop={handleDropEvent}
                 >
-                  <input
-                    type="file"
-                    id={`file-upload-${dataKey}`}
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-                  <div
                     className="flex h-8 w-8 items-center justify-center
                       rounded-full bg-gray-200 p-2"
-                  >
-                    <ImageUpIcon className="h-5 w-5 text-gray-600" />
-                  </div>
                   <p className="text-sm text-gray-500">Drag images here, or</p>
-                  <label
-                    htmlFor={`file-upload-${dataKey}`}
                     className="cursor-pointer text-sm font-bold text-pink-600
                       transition-opacity hover:opacity-60"
-                  >
-                    browse
-                  </label>
                 </div>
               )
             )}
