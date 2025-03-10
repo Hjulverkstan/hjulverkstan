@@ -1,3 +1,4 @@
+import { Warning } from '@data/warning/types';
 export enum TicketType {
   RENT = 'RENT',
   REPAIR = 'REPAIR',
@@ -38,6 +39,7 @@ export interface TicketAggregated extends Ticket {
   locationIds: string[];
   daysLeft?: number;
   daysSinceUpdate?: number;
+  warnings?: Warning[];
 }
 
 // Used to know which ticket status are available on a certain type of ticket

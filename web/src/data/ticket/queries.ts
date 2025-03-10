@@ -8,6 +8,7 @@ import { StandardError } from '../api';
 import * as api from './api';
 import * as enums from './enums';
 import { Ticket, TicketAggregated, TicketStatus } from './types';
+import { Warning } from '@data/warning/types';
 import { differenceInDays } from 'date-fns';
 
 //
@@ -41,6 +42,19 @@ export const useTicketsAggregatedQ = () =>
           ? differenceInDays(new Date(), new Date(ticket.statusUpdatedAt))
           : undefined;
 
+        const warnings: Warning[] = [
+          ...(ticket.startDate &&
+          new Date(ticket.startDate) < new Date() &&
+          ticket.ticketStatus === 'READY'
+            ? [Warning.DUE_PICKUP]
+            : []),
+          ...(ticket.endDate &&
+          new Date(ticket.endDate) < new Date() &&
+          ticket.ticketStatus === 'IN_PROGRESS'
+            ? [Warning.DUE_RETURN]
+            : []),
+        ];
+
         return {
           ...ticket,
           daysLeft,
@@ -52,6 +66,7 @@ export const useTicketsAggregatedQ = () =>
                   .locationId,
             ),
           ),
+          warnings,
         };
       }),
     [useTicketsQ(), useVehiclesQ()],

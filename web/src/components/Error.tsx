@@ -1,14 +1,11 @@
 import { AlertTriangle } from 'lucide-react';
-
 import { endpoints } from '@data/api';
 import { ErrorRes } from '@data/types';
 
 import Message from './Message';
-
 export enum ErrorEndpoint {
   VEHICLE,
 }
-
 export interface ErrorProps {
   error: ErrorRes;
   className?: string;
