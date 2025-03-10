@@ -5,6 +5,7 @@ import { useLocationsQ } from '@data/location/queries';
 import { initVehicle, useVehicleZ } from '@data/vehicle/form';
 import { useCreateVehicleM, useEditVehicleM } from '@data/vehicle/mutations';
 import { useVehicleQ, useVehiclesAggregatedQ } from '@data/vehicle/queries';
+import { useDeleteImageM } from '@data/image/mutations';
 
 import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
@@ -32,6 +33,7 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
   const createVehicleM = useCreateVehicleM();
   const editVehicleM = useEditVehicleM();
   const locationsQ = useLocationsQ(); // <Fields /> doesn't handle error/loading
+  const deleteImageM = useDeleteImageM();
 
   const columns = useColumns();
   const vehicleZ = useVehicleZ();
@@ -71,7 +73,13 @@ export default function PortalShopInventory({ mode }: PageContentProps) {
               }
               error={vehicleQ.error || locationsQ.error}
               isSubmitting={createVehicleM.isPending || editVehicleM.isPending}
-              saveMutation={editVehicleM.mutateAsync}
+              saveMutation={({ tempDeleteImageURL, ...body }) =>
+                tempDeleteImageURL
+                  ? deleteImageM
+                      .mutateAsync({ imageURL: tempDeleteImageURL })
+                      .then(() => editVehicleM.mutateAsync(body))
+                  : editVehicleM.mutateAsync(body)
+              }
               createMutation={createVehicleM.mutateAsync}
             >
               <ShopInventoryFields />

@@ -11,6 +11,14 @@ export default function ShopInventoryFields() {
 
   return (
     <>
+      {(mode === Mode.EDIT || mode === Mode.READ) && (
+        <DataForm.Image
+          label="Image"
+          dataKey="imageURL"
+          disableImageUpload="Open portal on a mobile device to upload images."
+        />
+      )}
+
       <DataForm.Select
         label="Location"
         dataKey="locationId"
