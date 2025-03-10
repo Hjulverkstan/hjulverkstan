@@ -23,8 +23,14 @@ export interface UseVehicleProps {
 
 export const useVehicleQ = ({ id }: UseVehicleProps) =>
   useQuery<Vehicle, StandardError>({
-    ...(id ? api.createGetVehicle({ id }) : {}),
+    queryKey: id ? ['vehicle', id] : ['vehicle'],
+    queryFn: id
+      ? api.createGetVehicle({ id }).queryFn
+      : async () => {
+          throw new Error('No id provided');
+        },
     enabled: !!id,
+    initialData: undefined,
   });
 
 //
