@@ -14,8 +14,10 @@ export interface ImageProps extends Omit<FieldProps, 'children'> {
 export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
   const { body, setBodyProp, mode, registerManualIssue } = useDataForm();
   const uploadImageM = useUploadImageM();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageError, setImageError] = useState(false);
+
   const handleDelete = () => {
     setBodyProp('tempDeleteImageURL', body[dataKey]);
     setBodyProp(dataKey, null);
@@ -32,10 +34,9 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
         : (event as React.DragEvent<HTMLDivElement>).dataTransfer.files[0];
 
     if (!file) return;
-    if (uploadImageM.isPending) {
-      registerManualIssue('image', 'Cannot save while image is uploading.');
-      return;
-    }
+
+    registerManualIssue('image', 'Cannot save while image is uploading.');
+
     uploadImageM
       .mutateAsync({ file })
       .then((imageURL) => {
@@ -78,73 +79,75 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
       >
         {mode === Mode.EDIT && body[dataKey] && (
           <IconButton
-            className="absolute right-2 top-2 z-10 bg-red-600"
+            variant="destructive"
+            className="absolute right-2 top-2 z-10"
             icon={Trash2Icon}
             onClick={handleDelete}
           />
         )}
-        {!disableImageUpload && mode === Mode.EDIT && body[dataKey] && (
-          <>
-            <IconButton
-              className="absolute right-12 top-2 z-10 bg-white text-gray-600"
-              icon={ImageUpIcon}
-              onClick={handleUploadClick}
-            />
-            <input
-              ref={fileInputRef}
-              type="file"
-              id={`file-upload-${dataKey}`}
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-          </>
-        )}
-        {body[dataKey] ? (
+        {uploadImageM.isPending ? (
           <div
-            className="relative flex h-full w-full items-center justify-center
-              bg-gray-100"
+            className="flex h-8 w-8 items-center justify-center rounded-full
+              bg-gray-200 p-2"
           >
-            {!imageError ? (
-              <img
-                src={body[dataKey]}
-                alt="Uploaded"
-                className="h-full w-full object-cover"
-                onError={handleError}
-              />
-            ) : (
-              <Error
-                error={{ error: 'NOT_FOUND', endpoint: endpoints.image }}
-              />
-            )}
+            <Spinner className="h-5 w-5 flex-shrink-0 " visible />
           </div>
-        ) : disableImageUpload ? (
-          <p
-            className="absolute flex h-full w-full items-center justify-center
-              text-center text-gray-500"
-          >
-            {disableImageUpload}
-          </p>
         ) : (
-          !disableImageUpload &&
-          mode === Mode.EDIT && (
-            <div
-              className="relative flex h-full w-full flex-col items-center
-                justify-center text-center"
-              onDragOver={handleDragEvent}
-              onDragEnter={handleDragEvent}
-              onDragLeave={handleDragEvent}
-              onDrop={handleDropEvent}
-            >
-              {uploadImageM.isPending ? (
+          <>
+            {!disableImageUpload && mode === Mode.EDIT && body[dataKey] && (
+              <>
+                <IconButton
+                  variant="outline"
+                  className="absolute right-12 top-2 z-10"
+                  icon={ImageUpIcon}
+                  onClick={handleUploadClick}
+                />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  id={`file-upload-${dataKey}`}
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+              </>
+            )}
+            {body[dataKey] ? (
+              <div
+                className="relative flex h-full w-full items-center
+                  justify-center bg-gray-100"
+              >
+                {!imageError ? (
+                  <img
+                    src={body[dataKey]}
+                    alt="Uploaded"
+                    className="h-full w-full object-cover"
+                    onError={handleError}
+                  />
+                ) : (
+                  <Error
+                    error={{ error: 'NOT_FOUND', endpoint: endpoints.image }}
+                  />
+                )}
+              </div>
+            ) : disableImageUpload ? (
+              <p
+                className="absolute flex h-full w-full items-center
+                  justify-center text-center text-sm text-gray-500"
+              >
+                {disableImageUpload}
+              </p>
+            ) : (
+              !disableImageUpload &&
+              mode === Mode.EDIT && (
                 <div
-                  className="flex h-10 w-10 items-center justify-center
-                    rounded-full bg-gray-100 p-2"
+                  className="relative flex h-full w-full flex-col items-center
+                    justify-center text-center"
+                  onDragOver={handleDragEvent}
+                  onDragEnter={handleDragEvent}
+                  onDragLeave={handleDragEvent}
+                  onDrop={handleDropEvent}
                 >
-                  <Spinner className="h-5 w-5 flex-shrink-0" visible />
-                </div>
-              ) : (
-                <>
                   <input
                     type="file"
                     id={`file-upload-${dataKey}`}
@@ -153,22 +156,23 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
                     className="hidden"
                   />
                   <div
-                    className="flex h-10 w-10 items-center justify-center
-                      rounded-full bg-gray-100 p-2"
+                    className="flex h-8 w-8 items-center justify-center
+                      rounded-full bg-gray-200 p-2"
                   >
                     <ImageUpIcon className="h-5 w-5 text-gray-600" />
                   </div>
-                  <p className="text-gray-500">Drag images here, or</p>
+                  <p className="text-sm text-gray-500">Drag images here, or</p>
                   <label
                     htmlFor={`file-upload-${dataKey}`}
-                    className="cursor-pointer font-bold text-pink-600"
+                    className="cursor-pointer text-sm font-bold text-pink-600
+                      transition-opacity hover:opacity-60"
                   >
                     browse
                   </label>
-                </>
-              )}
-            </div>
-          )
+                </div>
+              )
+            )}
+          </>
         )}
       </div>
     </Field>
