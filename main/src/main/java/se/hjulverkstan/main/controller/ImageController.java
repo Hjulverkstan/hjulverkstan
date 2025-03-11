@@ -32,6 +32,6 @@ public class ImageController {
         String fileKey = s3Service.extractKeyFromURL(imageURL);
         s3Service.deleteFileByKey(fileKey);
         imageService.deleteSpecificS3URLFromAllEntities(fileKey);
-        return new ResponseEntity<>(new ImageDeleteResponse(imageURL,"Image deleted successfully."), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
