@@ -65,7 +65,7 @@ export default function PortalAdminUsers({ mode }: PageContentProps) {
                 username && U.capitalize(username)
               }
               error={userQ.error}
-              isSubmitting={createUserM.isLoading || editUserM.isLoading}
+              isSubmitting={createUserM.isPending || editUserM.isPending}
               saveMutation={editUserM.mutateAsync}
               createMutation={createUserM.mutateAsync}
             >

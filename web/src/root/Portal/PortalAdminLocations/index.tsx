@@ -63,7 +63,7 @@ export default function PortalAdminLocations({ mode }: PageContentProps) {
               toToolbarName={(body: Location) => body.name}
               error={locationQ.error}
               isSubmitting={
-                createLocationM.isLoading || editLocationM.isLoading
+                createLocationM.isPending || editLocationM.isPending
               }
               saveMutation={editLocationM.mutateAsync}
               createMutation={createLocationM.mutateAsync}

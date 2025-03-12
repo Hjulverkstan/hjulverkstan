@@ -102,7 +102,7 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
                   'Receive tickets cannot be edited')
               }
               error={ticketQ.error || locationsQ.error}
-              isSubmitting={createTicketM.isLoading || editTicketM.isLoading}
+              isSubmitting={createTicketM.isPending || editTicketM.isPending}
               saveMutation={editTicketM.mutateAsync}
               createMutation={createTicketM.mutateAsync}
             >
