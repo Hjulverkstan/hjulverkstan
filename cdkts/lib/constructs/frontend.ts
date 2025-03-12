@@ -30,7 +30,9 @@ export class frontend {
       bucketName: 'front-end-s3',
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       accessControl: s3.BucketAccessControl.PRIVATE,
-      cors: [s3CorsRule]
+      cors: [s3CorsRule],
+      autoDeleteObjects: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY    
     });
 
 

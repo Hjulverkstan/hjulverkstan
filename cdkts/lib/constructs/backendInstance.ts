@@ -89,46 +89,46 @@ export class backendInstance {
 
 
 
- const domain = 'api.hjulverkstan.org';
-    const apiDomain = new apig.DomainName(scope, 'ApiDomain', {
-      domainName: domain,
-      certificate,
-      endpointType: apig.EndpointType.EDGE,
-    });
+//  const domain = 'apits.hjulverkstan.org';
+//     const apiDomain = new apig.DomainName(scope, 'ApiDomain', {
+//       domainName: domain,
+//       certificate,
+//       endpointType: apig.EndpointType.EDGE,
+//     });
 
-    const api = new apig.RestApi(scope, 'MyApiGateway', {
-      restApiName: 'My Service',
-      description: 'This service serves my API.',
-      domainName: {
-        domainName: domain,
-        certificate,
-      },
-    });
+//     const api = new apig.RestApi(scope, 'MyApiGateway', {
+//       restApiName: 'My Service',
+//       description: 'This service serves my API.',
+//       domainName: {
+//         domainName: domain,
+//         certificate,
+//       },
+//     });
 
-    api.root.addMethod('GET', getWidgetsIntegration);
+//     api.root.addMethod('GET', getWidgetsIntegration);
 
-    // Base Path Mapping for the API
-    new apig.BasePathMapping(scope, 'BasePathMapping', {
-      domainName: apiDomain,
-      restApi: api,
-      basePath: 'api', // The base path as specified
-    });
-    const hostedZone1 = route53.HostedZone.fromLookup(scope, 'ImportedHostedZone', {
-      domainName: domain,
-    });
+//     // Base Path Mapping for the API
+//     new apig.BasePathMapping(scope, 'BasePathMapping', {
+//       domainName: apiDomain,
+//       restApi: api,
+//       basePath: 'api', // The base path as specified
+//     });
+    // const hostedZone1 = route53.HostedZone.fromLookup(scope, 'ImportedHostedZone', {
+    //   domainName: domain,
+    // });
 
-    const zone = route53.PublicHostedZone.fromHostedZoneAttributes(scope, 'MyZone', {
-        hostedZoneId: hostedZone1.hostedZoneId,
-        zoneName: 'hjulverkstanv.org', // Change to your domain
-    });
+    // const zone = route53.PublicHostedZone.fromHostedZoneAttributes(scope, 'MyZone', {
+    //     hostedZoneId: hostedZone1.hostedZoneId,
+    //     zoneName: 'hjulverkstanv.org', // Change to your domain
+    // });
 
 
     // Route 53 Record for API Gateway
-    new route53.ARecord(scope, 'ApiAliasRecord', {
-      recordName: 'api',
-      target: route53.RecordTarget.fromAlias(new targets.ApiGateway(api)),
-      zone,
-    });
+    // new route53.ARecord(scope, 'ApiAliasRecord', {
+    //   recordName: 'api',
+    //   target: route53.RecordTarget.fromAlias(new targets.ApiGateway(api)),
+    //   zone,
+    // });
 
   }
 }

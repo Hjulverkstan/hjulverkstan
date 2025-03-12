@@ -44,8 +44,8 @@ export class deployment {
     codeDeployRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSCodeDeployRole'));
 
     // Create a CodeDeploy application
-    const codeDeployApp = new codedeploy.CfnApplication(scope, 'dev_back_codedeploy', {
-      applicationName: 'dev_back_bike_application',
+    const codeDeployApp = new codedeploy.CfnApplication(scope, 'dev_back_codedeploy_ts', {
+      applicationName: 'dev_back_bike_application_ts',
       computePlatform: 'Server' // For EC2 instances
     });
 

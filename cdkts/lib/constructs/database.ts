@@ -10,7 +10,17 @@ export class database {
 
 
   constructor(scope: Construct , id: string) {
-    const engine = DatabaseInstanceEngine.postgres({ version: PostgresEngineVersion.VER_16_2 });
+
+    const postgresFullVersion = process.env.POSTGRESMAJORVERSION ?? "11.22";
+    const postgresMajorVersion = process.env.POSTGRESENGINEVERSION ?? "11";
+
+    const engine = DatabaseInstanceEngine.postgres({
+      version: PostgresEngineVersion.of(
+        postgresFullVersion,
+        postgresMajorVersion,
+      ),
+    });
+
     const instanceType = InstanceType.of(InstanceClass.T3, InstanceSize.MICRO);
     const vpc = new Vpc(scope, "Vpc", {
       maxAzs: 2

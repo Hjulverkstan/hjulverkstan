@@ -1,13 +1,15 @@
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
-import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import { Construct } from 'constructs';
 import { backendInstance } from './constructs/backendInstance';
 import { deployment } from './constructs/deployment';
 import { database } from './constructs/database';
 import { frontend } from './constructs/frontend';
 import * as route53 from 'aws-cdk-lib/aws-route53';
-export class Stack extends cdk.Stack {
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+// import * as sqs from 'aws-cdk-lib/aws-sqs';
+
+export class CdktsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -37,5 +39,4 @@ export class Stack extends cdk.Stack {
       },
     });
   }
-
 }
