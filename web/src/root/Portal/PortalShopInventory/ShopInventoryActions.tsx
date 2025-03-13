@@ -29,6 +29,7 @@ export enum VehicleShortcutAction {
 export interface VehicleShortcutLocationState {
   action: VehicleShortcutAction;
   vehicleId: string;
+  isCustomerOwned?: boolean;
 }
 
 export default function ShopInventoryActions({
@@ -149,6 +150,7 @@ export default function ShopInventoryActions({
               state: {
                 vehicleId: vehicle.id,
                 action: VehicleShortcutAction.CREATE_TICKET,
+                isCustomerOwned: vehicle.isCustomerOwned,
               },
             });
           }}

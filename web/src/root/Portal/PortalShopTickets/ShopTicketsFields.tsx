@@ -3,8 +3,13 @@ import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
 import * as enums from '@data/ticket/enums';
 import { TicketType } from '@data/ticket/types';
-import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
+import { useVehiclesAsEnumsQ, useVehiclesQ } from '@data/vehicle/queries';
 import { max, parseISO } from 'date-fns';
+import { useLocation } from 'react-router-dom';
+import {
+  VehicleShortcutAction,
+  VehicleShortcutLocationState,
+} from '../PortalShopInventory/ShopInventoryActions';
 
 export default function ShopTicketFields() {
   const { body, mode } = DataForm.useDataForm();
@@ -14,13 +19,26 @@ export default function ShopTicketFields() {
   });
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
+  const vehiclesQ = useVehiclesQ();
+
+  const locationState = useLocation().state as VehicleShortcutLocationState;
+  const isFromInventory =
+    locationState?.action === VehicleShortcutAction.CREATE_TICKET;
+
+  const hasCustomerOwned = vehiclesQ.data?.some(
+    (v) => (body.vehicleIds ?? []).includes(v.id) && v.isCustomerOwned,
+  );
 
   return (
     <>
       <DataForm.Select
         label="Type"
         dataKey="ticketType"
-        enums={enums.ticketType}
+        enums={
+          hasCustomerOwned || (isFromInventory && locationState.isCustomerOwned)
+            ? enums.ticketType.filter((t) => t.value !== TicketType.RENT)
+            : enums.ticketType
+        }
         disabled={mode === DataForm.Mode.EDIT}
       />
 
