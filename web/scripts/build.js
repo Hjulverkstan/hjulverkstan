@@ -40,7 +40,7 @@ const buildRoute = ({ path, title, isSSR, data }) => {
 
   const html = htmlTemplate
     .replace(`<!--title-->`, title)
-    .replace(`<!--app-html-->`, appHtml)
+    .replace(`<!--app-html-->`, isSSR ? appHtml : '<!--CSR-->')
     .replace('__jsonFromBuildScript__', JSON.stringify(data))
     .replace(
       `<!--helmet-->`,
@@ -55,7 +55,7 @@ const buildRoute = ({ path, title, isSSR, data }) => {
 
   const outputDir = `${rootPath}/dist/static${actualPath}`;
   fs.mkdirSync(outputDir, { recursive: true });
-  fs.writeFileSync(outputDir + '/index.html', isSSR ? html : '');
+  fs.writeFileSync(outputDir + '/index.html', html);
 
   console.log(`[INFO]: * Rendered [${path}] (${appHtml.length} chars)`);
 };
