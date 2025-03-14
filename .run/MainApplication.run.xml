@@ -3,9 +3,6 @@
     <option name="ACTIVE_PROFILES" value="dev" />
     <option name="ALTERNATIVE_JRE_PATH" value="openjdk-21" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="envFilePaths">
-      <option value="$PROJECT_DIR$/.env" />
-    </option>
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <module name="main" />
     <option name="PROGRAM_PARAMETERS" value="-D spring-boot.run.profiles=dev" />

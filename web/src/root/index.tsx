@@ -97,13 +97,13 @@ function RouteHelmet({
         <>
           <link
             rel="canonical"
-            href={`${import.meta.env.DOMAIN}/${locale ?? fallBackLocale}${route.path}`}
+            href={`${import.meta.env.WEB_DOMAIN}/${locale ?? fallBackLocale}${route.path}`}
           />
           {locales.map((locale) => (
             <link
               key={locale}
               rel="alternative"
-              href={`${import.meta.env.DOMAIN}/${locale}${route.path}`}
+              href={`${import.meta.env.WEB_DOMAIN}/${locale}${route.path}`}
               hrefLang={locale}
             />
           ))}
