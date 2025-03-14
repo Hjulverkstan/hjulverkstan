@@ -13,3 +13,4 @@ export * from './DataFormInput';
 export * from './DataFormDatePicker';
 export * from './DataFormSwitch';
 export * from './DataFormCollapsible';
+export * from './DataFormImage';
