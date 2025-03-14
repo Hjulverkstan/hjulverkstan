@@ -58,9 +58,11 @@ Run the setup shell script:
 sh ./setup.sh
 ```
 
-### Configure the database connection variables
+### Configure the environment variables 
 
-Copy the `main/env.properties.template` to `main/env.properties` and make sure the values match your postgres configuration.
+Copy the `.env.template` to `.env`, it should be plug and play except for s3 functionality, for this you will need to acuire the AWS secrets by a permitted developer.
+
+> If using IntelliJ IDEA Ultimate the .idea folder will already have a run configuration configured that will read automatically from the .env file.
 
 ## Run the project
 
@@ -73,6 +75,13 @@ Copy the `main/env.properties.template` to `main/env.properties` and make sure t
 **3.** Navigate to the file `main/src/main/java/se/hjulverkstan/main/MainApplication` and install the JDK from the banner in the code editor. (this way you do not have to do it manually. In case you lose this banner you can always create a new java project in IDEA and install the JDK from there).
 
 **4.** Run the backend and frontend from the run toolbar.
+
+### IntelliJ IDEA Comunity Edition
+
+In community edition there is no built-in run configuration for spring but using the maven runner works fine. We do not have one commited to the `.idea` directory but should be straight forward to setup. Remember to:
+
+- set the spring profile to `dev`
+- apply the environment variables
 
 ### From terminal
 
@@ -107,6 +116,14 @@ Download and install from [JDK Archive](https://jdk.java.net/archive/)
 ### Run the stack
 
 #### Backend
+
+From bash (or git bash on windows):
+
+```bash
+export $(grep -v '^#' .env | xargs)
+```
+
+This will populate the environment variables configured in the previous [step](#configure-the-environment-variables-).
 
 ```bash
 cd main

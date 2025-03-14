@@ -19,3 +19,4 @@ build/
 
 package-lock.json
 .log/
+.env

@@ -5,10 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "node --inspect --env-file=.development.env scripts/dev",
+    "dev": "node --inspect --env-file=../.env scripts/dev",
     "debug": "node --inspect-brk dev",
     "build:ssr": "vite build --ssr src/server.tsx --outDir dist/ssr",
-    "build:static": "vite build --outDir dist/static && node --env-file=.development.env scripts/build",
+    "build:static": "vite build --outDir dist/static && node --env-file=../.env scripts/build",
     "build": "npm run build:ssr && npm run build:static",
     "serve": "cd dist/static && npx http-server -p 8000 -P http://localhost:8000?/",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,md}\"",
