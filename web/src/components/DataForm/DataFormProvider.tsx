@@ -21,6 +21,7 @@ export interface UseDataFormReturn<D = Data> {
   body: Partial<D>;
   setBodyProp: (dataKey: string, value: any) => void;
   fieldErrorMap: Record<string, string>;
+  registerManualIssue: (key: string, message: string | null) => void;
   submitError?: string;
   mode: Mode;
 }
@@ -94,14 +95,31 @@ export const Provider = U.withLobotomizer(
     );
 
     // Derive the data form context value
-
     const isLoading = !body;
     const isDisabled = isLoadingProp || isLoading || mode === Mode.READ;
+
+    const [manualIssuesMap, setManualIssueMap] = useState({});
+
+    const registerManualIssue = (key: string, message: string | null) =>
+      setManualIssueMap((map) => {
+        if (message) return { [key]: message };
+        else {
+          delete map[key];
+          return map;
+        }
+      });
+
+    const manualIssues = Object.values(manualIssuesMap);
 
     const bodyIssues = useMemo(() => {
       const zodRet = zodSchema.safeParse(body);
       return zodRet.success ? [] : zodRet.error.issues;
     }, [body]);
+
+    const allIssues = [
+      ...bodyIssues,
+      ...manualIssues.map((message) => ({ message })),
+    ];
 
     const fieldErrorMap = useMemo(
       () =>
@@ -135,6 +153,8 @@ export const Provider = U.withLobotomizer(
       isDisabled,
       fieldErrorMap,
       submitError,
+      allIssues,
+      registerManualIssue,
     };
 
     // Update body on new data but prompt user first if new change while editing
