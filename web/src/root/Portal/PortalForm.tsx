@@ -63,7 +63,7 @@ export default function PortalForm({
   const onSave = () => {
     if (!submitError) {
       saveMutation(transformBodyOnSubmit(body))
-        .then((res: any) => navigate('../' + res.id))
+        .then(() => navigate('../'))
         .catch((err: any) => {
           console.error(err);
           toast(
