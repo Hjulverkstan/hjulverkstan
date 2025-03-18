@@ -11,40 +11,40 @@ export class database {
 
   constructor(scope: Construct , id: string) {
 
-    const postgresFullVersion = process.env.POSTGRESMAJORVERSION ?? "11.22";
-    const postgresMajorVersion = process.env.POSTGRESENGINEVERSION ?? "11";
+    // const postgresFullVersion = process.env.POSTGRESMAJORVERSION ?? "11.22";
+    // const postgresMajorVersion = process.env.POSTGRESENGINEVERSION ?? "11";
 
-    const engine = DatabaseInstanceEngine.postgres({
-      version: PostgresEngineVersion.of(
-        postgresFullVersion,
-        postgresMajorVersion,
-      ),
-    });
+    // const engine = DatabaseInstanceEngine.postgres({
+    //   version: PostgresEngineVersion.of(
+    //     postgresFullVersion,
+    //     postgresMajorVersion,
+    //   ),
+    // });
 
-    const instanceType = InstanceType.of(InstanceClass.T3, InstanceSize.MICRO);
-    const vpc = new Vpc(scope, "Vpc", {
-      maxAzs: 2
-    });
-    // Define database credentials
-    const availabilityZone = 'eu-north-1a';
-    const dbUsername = 'postgres';
-    const dbPassword = cdk.SecretValue.unsafePlainText('secretpass');
+    // const instanceType = InstanceType.of(InstanceClass.T3, InstanceSize.MICRO);
+    // const vpc = new Vpc(scope, "Vpc", {
+    //   maxAzs: 2
+    // });
+    // // Define database credentials
+    // const availabilityZone = 'eu-north-1a';
+    // const dbUsername = 'postgres';
+    // const dbPassword = cdk.SecretValue.unsafePlainText('secretpass');
 
-    // Create RDS instance
-    const rdsInstance =new DatabaseInstance(scope, 'PostgresDB', {
-      engine,
-      instanceType,
-      vpc,
-      vpcSubnets: { subnetType: SubnetType.PRIVATE_WITH_EGRESS },
-      credentials: Credentials.fromUsername(dbUsername, { password: dbPassword }),
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      availabilityZone: availabilityZone,
-    });
+    // // Create RDS instance
+    // const rdsInstance =new DatabaseInstance(scope, 'PostgresDB', {
+    //   engine,
+    //   instanceType,
+    //   vpc,
+    //   vpcSubnets: { subnetType: SubnetType.PRIVATE_WITH_EGRESS },
+    //   credentials: Credentials.fromUsername(dbUsername, { password: dbPassword }),
+    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
+    //   availabilityZone: availabilityZone,
+    // });
 
-    new CfnOutput(scope, 'DbEndpoint', {
-      value: rdsInstance.dbInstanceEndpointAddress, // The endpoint address
-      description: 'The endpoint address of the Postgres database',
-    });
+    // new CfnOutput(scope, 'DbEndpoint', {
+    //   value: rdsInstance.dbInstanceEndpointAddress, // The endpoint address
+    //   description: 'The endpoint address of the Postgres database',
+    // });
 
 
   }

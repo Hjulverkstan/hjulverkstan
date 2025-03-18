@@ -1,5 +1,8 @@
+import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as s3assets from 'aws-cdk-lib/aws-s3-assets';
+import * as path from 'path';
 import { Construct } from 'constructs';
 import { CfnOutput } from 'aws-cdk-lib/core';
 import * as apig from 'aws-cdk-lib/aws-apigateway';
@@ -18,75 +21,66 @@ export class backendInstance {
   public instance: ec2.Instance;
 
   // constructor(scope: Construct, id: string, certificate:  certificatemanager.ICertificate , hostedZone: route53.IHostedZone) {
-  constructor(scope: Construct, id: string ,  certificate:  certificatemanager.ICertificate,  hostedZone: route53.IHostedZone) {
-
-    const vpc = new ec2.Vpc(scope, 'MyVpc', { maxAzs: 1 });
-    const instanceType = ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MEDIUM);
-    const keyPair = ec2.KeyPair.fromKeyPairName(scope, 'KEYPAIR', 'awsbikejeus');
-    const securityGroup = new ec2.SecurityGroup(scope, 'MySecurityGroup', {
-      vpc,
-      allowAllOutbound: true,
-    });
-
-    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'Allow SSH access');
-    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(8080), 'Allow 8080 access to the service');
+  constructor(scope: Construct, id: string ,  certificate:  certificatemanager.ICertificate,  hostedZone: route53.IHostedZone,props?: cdk.StackProps) {
 
 
-    const userDataScript = `#!/bin/bash
-            sudo yum update -y
-            sudo yum install ruby -y
-            sudo yum install wget -y
-            wget https://aws-codedeploy-eu-north-1.s3.eu-north-1.amazonaws.com/latest/install
-            chmod a+x install
-            sudo ./install auto
-            sudo systemctl start codedeploy-agent
-            
-            echo "Java Install........."
-            sudo yum install -y java-21-amazon-corretto.x86_64
-            java --version
-        `;
-
-    const ec2CodeDeployRole = new iam.Role(scope, 'CodeDeployRole', {
-      assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSCodeDeployRole'),
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonEC2RoleforSSM'),
+     // ✅ VPC
+     const vpc = new ec2.Vpc(scope, 'Vpc', {
+      maxAzs: 1, 
+      natGateways: 0, // No NAT gateway since we need public access
+      subnetConfiguration: [
+        {
+          cidrMask: 24,
+          name: 'PublicSubnet',
+          subnetType: ec2.SubnetType.PUBLIC, // ✅ Ensure public subnet
+        },
       ],
     });
-
-
-    const backendInstance = new ec2.Instance(scope, 'dev_backend_ec2', {
-      instanceType: instanceType,
-      machineImage: ec2.MachineImage.latestAmazonLinux2023(),
-      vpc,
-      vpcSubnets: {
-        subnetType: ec2.SubnetType.PUBLIC,
+     // ✅ Security Group
+     const securityGroup = new ec2.SecurityGroup(scope, 'SecurityGroup', {
+       vpc,
+       description: 'Allow SSH and HTTP',
+       allowAllOutbound: true,
+     });
+     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'Allow SSH');
+     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(8080), 'Allow HTTP');
+ 
+     // ✅ IAM Role for EC2
+     const role = new iam.Role(scope, 'Ec2InstanceRole', {
+       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
+       managedPolicies: [
+         iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
+       ],
+     });
+ 
+     // ✅ EC2 Instance
+     const instance = new ec2.Instance(scope, 'Instance', {
+       vpc,
+       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
+       machineImage: ec2.MachineImage.latestAmazonLinux(),
+       securityGroup,
+       role,
+       keyName: 'my-key-pair', // Replace with your EC2 key pair
+       vpcSubnets: {
+        subnetType: ec2.SubnetType.PUBLIC, // ✅ Ensures public IP is assigned
       },
-      securityGroup,
-      keyPair: keyPair,
-      userData: ec2.UserData.custom(userDataScript),
-      associatePublicIpAddress: true,
-      role: ec2CodeDeployRole,
+     });
+
+ 
+       // ✅ User Data Script - Installs Docker & Starts Service
+       instance.addUserData(
+        `#!/bin/bash`,
+        `yum update -y`,
+        `yum install -y docker`,
+        `systemctl start docker`,
+        `systemctl enable docker`
+      );
+ 
+     // ✅ Output Public IP of EC2
+     new cdk.CfnOutput(scope, 'InstancePublicIp', {
+      value: `http://${instance.instancePublicIp}:8080`,
+      description: 'Access Java application via this URL',
     });
-
-    new CfnOutput(scope, 'InstancePublicIp', {
-      value: backendInstance.instancePublicIp,
-      description: 'Public IP of the EC2 instance',
-    });
-
-
-    //###########################API_GATEWAY
-    const getWidgetsIntegration = new apig.HttpIntegration(
-      `http://${backendInstance.instancePublicDnsName}:8080/v1`,
-    );
-
-
-
-
-
-
-
-
 
 
 //  const domain = 'apits.hjulverkstan.org';
