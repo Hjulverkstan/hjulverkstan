@@ -61,9 +61,9 @@ const transformBody = ({
   isCustomerOwned,
   id,
   locationId: Number(locationId),
-  imageURL,
+  imageURL: imageURL ?? null,
   ticketIds,
-  comment,
+  comment: comment ?? null,
   vehicleType,
 
   ...(!isCustomerOwned && vehicleType !== VehicleType.BATCH

@@ -55,11 +55,11 @@ const transformBody = ({
   id,
   firstName,
   lastName,
-  personalIdentityNumber,
+  personalIdentityNumber: personalIdentityNumber ?? null,
   phoneNumber,
   email,
   ticketIds,
-  comment,
+  comment: comment ?? null,
 });
 
 export type CreateEmployeeRes = Employee;

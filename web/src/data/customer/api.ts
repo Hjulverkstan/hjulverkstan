@@ -58,11 +58,11 @@ const transformBody = ({
   customerType,
   firstName,
   lastName,
-  personalIdentityNumber,
+  personalIdentityNumber: personalIdentityNumber ?? null,
   phoneNumber,
   email,
   ticketIds,
-  comment,
+  comment: comment ?? null,
   organizationName,
 });
 
