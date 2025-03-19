@@ -74,7 +74,6 @@ public class WebSecurityConfig {
                     auth.requestMatchers("/v1/auth/login",
                                     "/v1/auth/refreshtoken",
                                     "/v1/auth/signout/*",
-                                    "/v1/user/signup",
                                     "v1/public/**",
                                     "/api/v3/api-docs/**",
                                     "/api/swagger-ui/**",
