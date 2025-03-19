@@ -56,11 +56,11 @@ const transformBody = ({
   ticketType,
   ticketStatus:
     ticketType === TicketType.DONATE || ticketType === TicketType.RECEIVE
-      ? undefined
+      ? null
       : ticketStatus,
   startDate,
   endDate,
-  comment,
+  comment: comment ?? null,
   repairDescription,
   vehicleIds,
   employeeId,

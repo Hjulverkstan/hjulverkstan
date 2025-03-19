@@ -55,7 +55,7 @@ const transformBody = ({
   vehicleIds,
   address,
   name,
-  comment,
+  comment: comment ?? null,
 });
 
 export type CreateLocationRes = Location;
