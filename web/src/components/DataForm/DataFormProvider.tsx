@@ -91,7 +91,7 @@ export const Provider = U.withLobotomizer(
     const { toast } = useToast();
 
     const [body, setBody] = useState<Partial<D>>(
-      mode === Mode.CREATE ? initCreateBody : {},
+      mode === Mode.CREATE ? initCreateBody : data ?? {},
     );
 
     // Derive the data form context value
