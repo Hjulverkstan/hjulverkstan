@@ -10,16 +10,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.Exceptions.InvalidDataException;
 import se.hjulverkstan.main.model.Ticket;
 import se.hjulverkstan.main.model.TicketStatus;
 import se.hjulverkstan.main.model.TicketType;
 import se.hjulverkstan.main.model.Vehicle;
-import se.hjulverkstan.main.util.TicketUtils;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ValidTicket
 public class TicketDto {
     private Long id;
 
@@ -72,9 +71,5 @@ public class TicketDto {
             ticket.getEndDate(),
             ticket.getRepairDescription()
             );
-            String error = TicketUtils.ValidateTicket(ticket);
-            if (error != null) {
-                throw new InvalidDataException(error);
-            }
     }
 }
