@@ -3,24 +3,43 @@ import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
 import * as enums from '@data/ticket/enums';
 import { TicketType } from '@data/ticket/types';
-import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
+import { useVehiclesAsEnumsQ, useVehiclesQ } from '@data/vehicle/queries';
 import { max, parseISO } from 'date-fns';
 
 export default function ShopTicketFields() {
   const { body, mode } = DataForm.useDataForm();
 
-  const vehicleEnumsQ = useVehiclesAsEnumsQ({
-    filterCustomerOwned: body.ticketType === TicketType.RENT ? true : undefined,
-  });
+  const vehiclesQ = useVehiclesQ();
+
+  const firstIsCustomerOwned = body.vehicleIds?.length
+    ? vehiclesQ.data?.find((v) => v.id === body.vehicleIds[0])?.isCustomerOwned
+    : undefined;
+
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
+  const vehicleEnumsQ = useVehiclesAsEnumsQ({
+    filterCustomerOwned:
+      body.ticketType === TicketType.RENT ||
+      body.ticketType === TicketType.DONATE
+        ? true
+        : firstIsCustomerOwned === undefined
+          ? undefined
+          : !firstIsCustomerOwned,
+  });
 
   return (
     <>
       <DataForm.Select
         label="Type"
         dataKey="ticketType"
-        enums={enums.ticketType}
+        enums={
+          firstIsCustomerOwned
+            ? enums.ticketType.filter(
+                (t) =>
+                  t.value !== TicketType.RENT && t.value !== TicketType.DONATE,
+              )
+            : enums.ticketType
+        }
         disabled={mode === DataForm.Mode.EDIT}
       />
 

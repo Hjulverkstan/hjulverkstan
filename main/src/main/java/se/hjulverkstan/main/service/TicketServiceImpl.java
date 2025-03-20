@@ -106,11 +106,15 @@ public class TicketServiceImpl implements TicketService {
             if (!vehicle.getTickets().contains(selectedTicket)) vehicle.getTickets().add(selectedTicket);
         });
 
-        if (selectedTicket instanceof TicketRent) {
+        if (selectedTicket instanceof TicketRent || selectedTicket instanceof TicketDonate) {
             if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned)){
-                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental Tickets!");
+                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental or Donate Tickets!");
             }
             vehicleRepository.saveAll(vehicles);
+        }
+
+        if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned) && vehicles.stream().anyMatch(v ->!v.isCustomerOwned())){
+            throw new UnsupportedTicketVehiclesException("Cannot select both Customer Owned and Non Customer Owned Vehicles!");
         }
 
 
@@ -173,13 +177,16 @@ public class TicketServiceImpl implements TicketService {
             if (!vehicle.getTickets().contains(ticket)) vehicle.getTickets().add(ticket);
         });
 
-        if (ticket instanceof TicketRent) {
+        if (ticket instanceof TicketRent || ticket instanceof TicketDonate) {
             if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned)){
-                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental Tickets!");
+                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental or Donate Tickets!");
             }
             vehicleRepository.saveAll(vehicles);
         }
 
+        if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned) && vehicles.stream().anyMatch(v ->!v.isCustomerOwned())){
+            throw new UnsupportedTicketVehiclesException("Cannot select both Customer Owned and Non Customer Owned Vehicles!");
+        }
 
         Employee employee = getTicketEmployee(newTicket.getEmployeeId());
         employee.getTickets().add(ticket);

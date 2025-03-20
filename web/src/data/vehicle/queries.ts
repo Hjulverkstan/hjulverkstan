@@ -57,10 +57,15 @@ export const useVehiclesAggregatedQ = () =>
     [useVehiclesQ(), useTicketsQ()],
   );
 
+export interface UseVehiclesAsEnumsQProps {
+  dataKey?: string;
+  filterCustomerOwned?: boolean;
+}
+
 export const useVehiclesAsEnumsQ = ({
   dataKey = 'vehicleId',
   filterCustomerOwned,
-}: { dataKey?: string; filterCustomerOwned?: boolean } = {}) =>
+}: UseVehiclesAsEnumsQProps = {}) =>
   useQuery<Vehicle[], StandardError, EnumAttributes[]>({
     ...api.createGetVehicles(),
     select: (vehicles) =>
