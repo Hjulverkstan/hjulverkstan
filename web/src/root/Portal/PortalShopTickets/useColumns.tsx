@@ -16,7 +16,7 @@ import usePortalSlugs from '@hooks/useSlugs';
 import WarningBadge from '@components/WarningBadge';
 
 export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
-  const { coreUrl } = usePortalSlugs();
+  const { coreUrl, appSlug } = usePortalSlugs();
 
   const ticketsQ = useTicketsQ();
   const ticketEnumsQ = useTicketsAsEnumsQ();
@@ -45,7 +45,7 @@ export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
 
       return {
         ...ticketEnum,
-        href: `${coreUrl}/ticketz/${ticketId}`,
+        href: `${coreUrl.replace(appSlug, '/shop')}/ticketz/${ticketId}`,
         tooltip: (
           <div className="flex">
             {customerEnum.icon && (
