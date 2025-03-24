@@ -31,7 +31,7 @@ public class S3ServiceImpl implements S3Service {
     private static final List<String> ALLOWED_MIME_TYPES = Arrays.asList("image/jpeg", "image/png", "image/gif");
     private static final Tika TIKA = new Tika();
 
-    @Value("hjulverkstan.aws-s3.bucket-name")
+    @Value("${hjulverkstan.aws-s3.bucket-name}")
     private String bucketName;
 
     public S3ServiceImpl(AmazonS3 amazonS3) {
