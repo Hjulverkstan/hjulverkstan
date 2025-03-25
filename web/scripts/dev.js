@@ -34,9 +34,12 @@ app.use(vite.middlewares);
 app.use(express.static(path.join(rootPath, 'public')));
 
 const findRoute = (routes, matchUrl) =>
-  routes.find(({ path }) =>
-    path === '/' ? matchUrl === '/' : matchUrl.startsWith(path),
-  );
+  routes.find(({ path }) => {
+    const actualPath = path.replace('/*', '');
+    return actualPath === '/'
+      ? matchUrl === '/'
+      : matchUrl.startsWith(actualPath);
+  });
 
 app.use('*', async ({ originalUrl: url }, res) => {
   const { routesSSR, routesCSR, renderSSR, getDataForPreloadingServerSide } =
