@@ -6,10 +6,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
+import { config } from 'dotenv';
 
 // Setup
 
 const rootPath = path.resolve(fileURLToPath(import.meta.url) + '../../..');
+const toImportUrl = (url) => new URL('file://' + path.resolve(rootPath, url));
+
+config({ path: path.resolve(rootPath, '../.env') }); // Load env vars from .env file
 
 const htmlTemplate = fs.readFileSync(
   path.resolve(rootPath, 'dist/static/index.html'),
@@ -17,7 +21,7 @@ const htmlTemplate = fs.readFileSync(
 );
 
 const { renderSSR, getDataForPreloadingServerSide, routesSSR, routesCSR } =
-  await import(path.resolve(rootPath, 'dist/ssr/server.js'));
+  await import(toImportUrl('dist/ssr/server.js'));
 
 /**
  * The guts of building a route. Note that we call renderSSR (from server.ts) on
