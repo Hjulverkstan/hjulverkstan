@@ -44,16 +44,16 @@ const buildRoute = ({ path, title, isSSR, data }) => {
 
   const html = htmlTemplate
     .replace(`<!--title-->`, title)
-    .replace(`<!--app-html-->`, isSSR ? appHtml : '<!--CSR-->')
+    .replace(`<!--app-html-->`, isSSR ? appHtml : '')
     .replace('__jsonFromBuildScript__', JSON.stringify(data))
     .replace(
       `<!--helmet-->`,
       `
-        ${helmet.title.toString()}
-        ${helmet.priority.toString()}
-        ${helmet.meta.toString()}
-        ${helmet.link.toString()}
-        ${helmet.script.toString()}
+      ${helmet.title.toString()}
+      ${helmet.priority.toString()}
+      ${helmet.meta.toString()}
+      ${helmet.link.toString()}
+      ${helmet.script.toString()}
     `,
     );
 
