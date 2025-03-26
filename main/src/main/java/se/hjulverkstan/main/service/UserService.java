@@ -3,17 +3,16 @@ package se.hjulverkstan.main.service;
 import se.hjulverkstan.main.dto.responses.GetAllUserDto;
 import se.hjulverkstan.main.dto.user.SignupRequest;
 import se.hjulverkstan.main.dto.user.UserDto;
-import se.hjulverkstan.main.dto.user.UserResponse;
 
 public interface UserService {
 
-    UserResponse createUser(SignupRequest signUpRequest);
+    UserDto createUser(SignupRequest signUpRequest);
 
     GetAllUserDto getAllUsers();
 
-    UserResponse getUserById(Long id);
+    UserDto getUserById(Long id);
 
-    UserResponse updateUser(Long id, SignupRequest userDetail);
+    UserDto updateUser(Long id, SignupRequest userDetail);
 
-    UserResponse deleteUser(Long id);
+    UserDto deleteUser(Long id);
 }

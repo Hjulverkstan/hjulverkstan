@@ -31,12 +31,11 @@ public class UserDetailsImplementation extends User implements UserDetails {
 
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImplementation(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
+    public UserDetailsImplementation(User user, Collection<? extends GrantedAuthority> authorities) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
         this.authorities = authorities;
     }
 
@@ -46,12 +45,7 @@ public class UserDetailsImplementation extends User implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
-        return new UserDetailsImplementation(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword(),
-                authorities);
+        return new UserDetailsImplementation(user, authorities);
     }
 
     @Override
