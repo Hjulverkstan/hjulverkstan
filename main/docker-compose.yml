@@ -1,39 +1,29 @@
 version: '3.8'
 
 services:
-
   postgres:
     image: postgres:latest
     container_name: postgres_db
     restart: always
-    environment:
-      POSTGRES_USER: myadmin
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: hjulverkstan 
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
   app:
-    image: openjdk:21-jdk-slim
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: java_app
     working_dir: /app
-    volumes:
-      - ./app:/app
-    command: ["java", "-jar", "/app/release.jar"]
-    environment:
-      WEB_SSR_API_USERNAME: christopher
-      WEB_SSR_API_PASSWORD: password
-      WEB_DOMAIN: http://localhost:5173
-      API_DB_HOST: postgres      
-      API_DB_PORT: 5432
-      API_DB_DATABASE: hjulverkstan
-      API_DB_USER: myadmin
-      API_DB_PASSWORD: mypassword
-      API_AWS_S3_REGION: eu-north-1
-      API_AWS_S3_BUCKET_NAME: hjulverkstan
+    env_file:
+      - .env
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:

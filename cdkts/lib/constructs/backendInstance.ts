@@ -1,15 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import * as s3assets from 'aws-cdk-lib/aws-s3-assets';
-import * as path from 'path';
 import { Construct } from 'constructs';
-import { CfnOutput } from 'aws-cdk-lib/core';
-import * as apig from 'aws-cdk-lib/aws-apigateway';
 import * as route53 from 'aws-cdk-lib/aws-route53';
-import * as targets from 'aws-cdk-lib/aws-route53-targets';
-import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as customResources from 'aws-cdk-lib/custom-resources';
 
 export interface IngressRule {
   peer: ec2.IPeer;
@@ -24,6 +20,7 @@ export class backendInstance {
   constructor(scope: Construct, id: string ,  certificate:  certificatemanager.ICertificate,  hostedZone: route53.IHostedZone,props?: cdk.StackProps) {
 
 
+    const subdomain = "www.api.dev.hjulverkstan.org";
      // ✅ VPC
      const vpc = new ec2.Vpc(scope, 'Vpc', {
       maxAzs: 1, 
@@ -42,8 +39,11 @@ export class backendInstance {
        description: 'Allow SSH and HTTP',
        allowAllOutbound: true,
      });
+
      securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'Allow SSH');
-     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(8080), 'Allow HTTP');
+     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80), 'Allow HTTP');
+     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443), 'Allow HTTPS');
+     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(8080), 'Allow App Traffic');
  
      // ✅ IAM Role for EC2
      const role = new iam.Role(scope, 'Ec2InstanceRole', {
@@ -57,10 +57,9 @@ export class backendInstance {
      const instance = new ec2.Instance(scope, 'Instance', {
        vpc,
        instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
-       machineImage: ec2.MachineImage.latestAmazonLinux(),
-       securityGroup,
+       machineImage: ec2.MachineImage.latestAmazonLinux2023(),
        role,
-       keyName: 'my-key-pair', // Replace with your EC2 key pair
+       keyName: 'ec-putty-key', // Replace with your EC2 key pair
        vpcSubnets: {
         subnetType: ec2.SubnetType.PUBLIC, // ✅ Ensures public IP is assigned
       },
@@ -73,7 +72,11 @@ export class backendInstance {
         `yum update -y`,
         `yum install -y docker`,
         `systemctl start docker`,
-        `systemctl enable docker`
+        'sudo systemctl enable docker',
+        'sudo usermod -aG docker ec2-user',
+        'curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose',
+        'chmod +x /usr/local/bin/docker-compose',
+        'docker-compose --version'
       );
  
      // ✅ Output Public IP of EC2
@@ -82,47 +85,17 @@ export class backendInstance {
       description: 'Access Java application via this URL',
     });
 
-
-//  const domain = 'apits.hjulverkstan.org';
-//     const apiDomain = new apig.DomainName(scope, 'ApiDomain', {
-//       domainName: domain,
-//       certificate,
-//       endpointType: apig.EndpointType.EDGE,
-//     });
-
-//     const api = new apig.RestApi(scope, 'MyApiGateway', {
-//       restApiName: 'My Service',
-//       description: 'This service serves my API.',
-//       domainName: {
-//         domainName: domain,
-//         certificate,
-//       },
-//     });
-
-//     api.root.addMethod('GET', getWidgetsIntegration);
-
-//     // Base Path Mapping for the API
-//     new apig.BasePathMapping(scope, 'BasePathMapping', {
-//       domainName: apiDomain,
-//       restApi: api,
-//       basePath: 'api', // The base path as specified
-//     });
-    // const hostedZone1 = route53.HostedZone.fromLookup(scope, 'ImportedHostedZone', {
-    //   domainName: domain,
-    // });
-
-    // const zone = route53.PublicHostedZone.fromHostedZoneAttributes(scope, 'MyZone', {
-    //     hostedZoneId: hostedZone1.hostedZoneId,
-    //     zoneName: 'hjulverkstanv.org', // Change to your domain
-    // });
+    // ✅ Create an A record in Route 53 to map the subdomain to the EC2 instance
+    new route53.ARecord(scope, 'ApiDevSubdomainRecord', {
+      recordName: subdomain, // The subdomain name
+      target: route53.RecordTarget.fromIpAddresses(instance.instancePublicIp), // Point to EC2 public IP
+      zone: hostedZone, // The hosted zone where the domain is managed
+    });
 
 
-    // Route 53 Record for API Gateway
-    // new route53.ARecord(scope, 'ApiAliasRecord', {
-    //   recordName: 'api',
-    //   target: route53.RecordTarget.fromAlias(new targets.ApiGateway(api)),
-    //   zone,
-    // });
-
+    // Verification for subdomain record creation
+    new cdk.CfnOutput(scope, 'SubdomainRecordVerification', {
+      value: `Subdomain 'api-dev.hjulverkstan.org' created and pointing to IP: ${instance.instancePublicIp}`,
+    });
   }
 }

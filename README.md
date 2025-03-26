@@ -3,6 +3,19 @@
 
 > This readme is in its early stages.
 
+##Deploy new Code base
+
+Copy Docker,docker-compose.yml and .env file to EC2 instance
+--Copy using putty to EC2 instance and execute following command after connection through Ec2
+-- Login to EC2 instance using Putty (ec-putty-key will be used for connection)
+-- Select ec2-user
+--docker-compose build
+--docker-compose up -d
+--Verified end point here
+http://www.api.dev.hjulverkstan.org:8080/api/swagger-ui/index.html#/vehicle-controller/getAllVehicles
+--Docker structure can be seen in main/docker-compose 
+Note: When you restart EC2 server then you need to run docker-compose steps above
+
 ## Local development
 
 Run our setup shellscript to configure all git configs
