@@ -78,6 +78,8 @@ public class UserServiceImpl implements UserService {
                             .username(user.getUsername())
                             .email(user.getEmail())
                             .roles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
+                            .createdAt(user.getCreatedAt())
+                            .updatedAt(user.getUpdatedAt())
                             .build();
                     userDtoList.add(userResponse);
                 });
