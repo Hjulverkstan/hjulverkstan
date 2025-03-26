@@ -24,13 +24,12 @@ import java.util.Set;
 @NoArgsConstructor
 public class User extends Auditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
     @Size(max = 20)
     private String username;
-
 
     @NotBlank
     @Size(max = 100)
