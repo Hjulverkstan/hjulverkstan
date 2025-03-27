@@ -1,8 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 // Config
-
-export const baseURL = 'http://localhost:8080/v1';
+export const baseURL = import.meta.env.VITE_WEB_API;
 
 export const endpoints = {
   vehicle: '/vehicle',
