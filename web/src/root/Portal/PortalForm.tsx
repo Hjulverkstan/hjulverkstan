@@ -12,12 +12,12 @@ import Error from '@components/Error';
 import { createErrorToast } from './toast';
 
 export interface PortalFormProps {
-  /* Optionaly tranform the body on submit before passed to mutate function */
+  /* Optionally tranform the body on submit before passed to mutate function */
   transformBodyOnSubmit?: (input: any) => any;
   isSubmitting: boolean;
-  /* muateAsync from useMutation() */
+  /* mutateAsync from useMutation() */
   createMutation: (body: any) => Promise<any>;
-  /* muateAsync from useMutation() */
+  /* mutateAsync from useMutation() */
   saveMutation: (body: any) => Promise<any>;
   error?: ErrorRes | null;
   dataLabel: string;
@@ -94,7 +94,9 @@ export default function PortalForm({
   }[mode];
 
   return (
+    // Contains the PortalForm
     <div className="bg-muted flex w-64 flex-shrink-0 flex-col border-l ">
+      {/* Contains the header of the PortalForm */}
       <div
         style={{ marginTop: '0.5px' }}
         className="flex h-11 flex-shrink-0 items-center border-b px-2"
@@ -113,6 +115,8 @@ export default function PortalForm({
       <div className="flex-grow space-y-4 overflow-y-scroll px-2 pb-3 pt-4">
         {error ? <Error className="h-full" error={error} /> : children}
       </div>
+
+      {/* Contains the footer of the PortalForm, where you save and cancel */}
       <div className="flex h-11 flex-shrink-0 items-center gap-2 border-t px-2">
         {mode === Mode.EDIT && (
           <Button
