@@ -6,6 +6,8 @@ import Spinner from '@components/Spinner';
 import { ImageUpIcon, Trash2Icon } from 'lucide-react';
 import { endpoints } from '@data/api';
 import { IconButton } from '@components/shadcn/Button';
+import { createErrorToast } from '../../root/Portal/toast';
+import { useToast } from '@components/shadcn/use-toast';
 
 export interface ImageProps extends Omit<FieldProps, 'children'> {
   disableImageUpload?: string;
@@ -14,6 +16,7 @@ export interface ImageProps extends Omit<FieldProps, 'children'> {
 export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
   const { body, setBodyProp, mode, registerManualIssue } = useDataForm();
   const uploadImageM = useUploadImageM();
+  const { toast } = useToast();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageError, setImageError] = useState(false);
@@ -41,6 +44,14 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
       .mutateAsync({ file })
       .then((imageURL) => {
         setBodyProp(dataKey, imageURL);
+      })
+      .catch(() => {
+        toast(
+          createErrorToast({
+            verbLabel: 'Upload',
+            dataLabel: 'Image',
+          }),
+        );
       })
       .finally(() => {
         registerManualIssue('image', null);
