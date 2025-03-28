@@ -9,15 +9,15 @@ import { Button, IconButton } from '@components/shadcn/Button';
 import { useToast } from '@components/shadcn/use-toast';
 import Error from '@components/Error';
 
-import { createErrorToast } from './toast';
+import { createErrorToast, createSuccessToast } from './toast';
 
 export interface PortalFormProps {
-  /* Optionaly tranform the body on submit before passed to mutate function */
+  /* Optionally tranform the body on submit before passed to mutate function */
   transformBodyOnSubmit?: (input: any) => any;
   isSubmitting: boolean;
-  /* muateAsync from useMutation() */
+  /* mutateAsync from useMutation() */
   createMutation: (body: any) => Promise<any>;
-  /* muateAsync from useMutation() */
+  /* mutateAsync from useMutation() */
   saveMutation: (body: any) => Promise<any>;
   error?: ErrorRes | null;
   dataLabel: string;
@@ -47,7 +47,16 @@ export default function PortalForm({
   const onCreate = () => {
     if (!submitError) {
       createMutation(transformBodyOnSubmit(body))
-        .then((res: any) => navigate('../' + res.id))
+        .then((res: any) => {
+          navigate('../' + res.id);
+          toast(
+            createSuccessToast({
+              verbLabel: 'create',
+              dataLabel: `${dataLabel}`,
+              id,
+            }),
+          );
+        })
         .catch((err: any) => {
           console.error(err);
           toast(
@@ -63,7 +72,16 @@ export default function PortalForm({
   const onSave = () => {
     if (!submitError) {
       saveMutation(transformBodyOnSubmit(body))
-        .then((res: any) => navigate('../' + res.id))
+        .then((res: any) => {
+          navigate('../' + res.id);
+          toast(
+            createSuccessToast({
+              verbLabel: 'save',
+              dataLabel: `${dataLabel}`,
+              id,
+            }),
+          );
+        })
         .catch((err: any) => {
           console.error(err);
           toast(
