@@ -27,7 +27,9 @@ public class DotenvApplicationContextInitializer implements ApplicationContextIn
      */
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        String projectRootPath = Paths.get("").toAbsolutePath().toString().replace("/main", "");
+        String projectRootPath = Paths.get("").toAbsolutePath().toString()
+                .replace("\\main", "")
+                .replace("/main", "");
 
         Dotenv dotenv = Dotenv.configure()
                 .directory(projectRootPath)
