@@ -28,8 +28,8 @@ export async function getDataForPreloadingServerSide(
   const ejectCookieJar = U.useAxiosCookieJar(instance);
 
   await logIn({
-    username: env.WEB_SSR_API_USERNAME,
-    password: env.WEB_SSR_API_PASSWORD,
+    username: env.BUILD_WEB_SSR_API_USERNAME,
+    password: env.BUILD_WEB_SSR_API_PASSWORD,
   });
 
   const res = await getAllWebEditEntitiesByLang({ fallBackLocale });
