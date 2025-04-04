@@ -61,17 +61,19 @@ public class CookieServiceImpl implements CookieService {
         cookie.setPath("/");
         // Token expiry time -30 seconds. If cookie expires before the token the browser won't send expired tokens.
         cookie.setMaxAge(jwtExpirationMs / 1000 - 30);
-        cookie.setSecure(true);
+        cookie.setSecure(false);
+        cookie.setAttribute("SameSite", "Lax");
         response.addCookie(cookie);
     }
 
     private void setRefreshCookie(HttpServletResponse response, String token) {
         Cookie cookie = new Cookie("refreshToken", token);
         cookie.setHttpOnly(true);
-        cookie.setPath("/v1/auth");
+        cookie.setPath("/");
         // Token expiry time -30 seconds. If cookie expires before the token the browser won't send expired tokens.
         cookie.setMaxAge(refreshTokenDurationMs.intValue() / 1000 - 30);
-        cookie.setSecure(true);
+        cookie.setSecure(false);
+        cookie.setAttribute("SameSite", "Lax");
         response.addCookie(cookie);
     }
 
