@@ -9,10 +9,9 @@ import se.hjulverkstan.main.dto.EmployeeDto;
 import se.hjulverkstan.main.dto.NewEmployeeDto;
 import se.hjulverkstan.main.dto.responses.GetAllEmployeeDto;
 import se.hjulverkstan.main.model.Employee;
-import se.hjulverkstan.main.model.Location;
 import se.hjulverkstan.main.model.Ticket;
 import se.hjulverkstan.main.repository.EmployeeRepository;
-import se.hjulverkstan.main.repository.LocationRepository;
+import se.hjulverkstan.main.repository.TicketRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +21,12 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     public static final String ELEMENT_NAME = "Employee";
+    private final TicketRepository ticketRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, TicketRepository ticketRepository) {
         this.employeeRepository = employeeRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             List<Ticket> tickets = employee.getTickets();
             //TODO: how to handle removing employee here?
             tickets.forEach(ticket -> ticket.setEmployee(null));
+            ticketRepository.saveAll(tickets);
         }
 
         employeeRepository.delete(employee);
