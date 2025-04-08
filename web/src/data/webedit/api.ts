@@ -19,13 +19,15 @@ export interface GetAllWebEditEntitiesByLangProps {
   fallBackLocale: string;
 }
 
-export const getAllWebEditEntitiesByLang = ({
-  fallBackLocale,
-}: GetAllWebEditEntitiesByLangProps) =>
+export const getAllWebEditEntitiesByLang = (
+  { fallBackLocale }: GetAllWebEditEntitiesByLangProps,
+  baseURL?: string,
+) =>
   instance
     .get<GetAllEndpointsRes>(endpoints.webedit.all, {
       params: { fallbackLang: U.localeToLangCode(fallBackLocale) },
       timeout: 10000,
+      ...(baseURL && { baseURL }),
     })
     .then(
       (res) =>
