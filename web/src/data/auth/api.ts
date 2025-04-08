@@ -69,10 +69,16 @@ export interface LogInParams {
   password: string;
 }
 
-export const logIn = (body: LogInParams) =>
-  instance.post<LogInRes>(endpoints.auth.logIn, body).then((res) => {
-    return res.data;
-  });
+export const logIn = (body: LogInParams, baseURL?: string) =>
+  instance
+    .post<LogInRes>(
+      endpoints.auth.logIn,
+      body,
+      baseURL ? { baseURL } : undefined,
+    )
+    .then((res) => {
+      return res.data;
+    });
 
 export const logOut = (id: number) =>
   instance.post(`${endpoints.auth.logOut}/${id}`).then((res) => {

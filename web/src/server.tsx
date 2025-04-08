@@ -3,12 +3,12 @@ import { StaticRouter } from 'react-router-dom/server';
 
 import * as U from '@utils';
 import { logIn } from '@data/auth/api';
-import { instance } from '@data/api';
 import { PreloadedDataProvider } from '@hooks/usePreloadedData';
 import { getAllWebEditEntitiesByLang } from '@data/webedit/api';
 
 import Root, { fallBackLocale } from '@root';
 import { HelmetProvider } from 'react-helmet-async';
+import { instance } from '@data/api';
 
 // Re-export as this is needed by the build script
 
@@ -25,14 +25,21 @@ export async function getDataForPreloadingServerSide(
 ) {
   // First add the cookie jar interceptors so that authentication cookies can
   // be stored when run on server side.
+
   const ejectCookieJar = U.useAxiosCookieJar(instance);
 
-  await logIn({
-    username: env.BUILD_WEB_SSR_API_USERNAME,
-    password: env.BUILD_WEB_SSR_API_PASSWORD,
-  });
+  await logIn(
+    {
+      username: env.VITE_BUILD_USERNAME,
+      password: env.VITE_BUILD_PASSWORD,
+    },
+    env.VITE_BACKEND_URL,
+  );
 
-  const res = await getAllWebEditEntitiesByLang({ fallBackLocale });
+  const res = await getAllWebEditEntitiesByLang(
+    { fallBackLocale },
+    env.VITE_BACKEND_URL,
+  );
 
   ejectCookieJar();
   return res;
