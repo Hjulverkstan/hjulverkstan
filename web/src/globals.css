@@ -3,12 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root, .light {
     --background: 0 0% 100%;
-    --foreground: 224 72% 4%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 224 72% 4%;
+    --foreground: 224 20% 4%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 224 72% 4%;
@@ -16,23 +13,25 @@
     --primary: 338 85% 57%;
     --primary-foreground: 210 5% 98%;
 
-    --secondary: 220 15% 95%;
+    --secondary: 220 4% 95%;
     --secondary-foreground: 220 10% 40%;
 
-    --contrast: 222 10% 25%;
+    --contrast: 222 6% 25%;
     --contrast-foreground: 210 20% 98%;
 
-    --muted: 220 14% 97%;
+    --muted: 220 5% 97.5%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 220 14% 93%;
-    --accent-foreground: 221 40% 11%;
+    --accent: 220 5% 93%;
+    --accent-foreground: 221 15% 11%;
 
     --success: 115 85% 47%;
+    --success-accent: 115 52% 50%;
     --success-fill: 115 85% 94%;
     --success-foreground: 115 65% 25%;
 
     --warn: 50 100% 57%;
+    --warn-accent: 47 80% 45%;
     --warn-fill: 44 95% 92%;
     --warn-foreground: 32 65% 35%;
 
@@ -40,7 +39,8 @@
     --destructive-fill: 0 95% 96%;
     --destructive-foreground: 0 65% 40%;
 
-    --border: 220 13% 91%;
+    --border: 220 6% 91%;
+    --border-dark: 220 6% 89%;
     --input: 220 13% 91%;
     --ring: 224 71% 4%;
 
@@ -48,42 +48,45 @@
   }
 
   .dark {
-    --background: 222 11% 15%;
-    --foreground: 210 20% 98%;
+    --background: 220 3% 10%;
+    --foreground: 224 8% 99%;
 
-    --card: 224 71% 4%;
-    --card-foreground: 210 20% 98%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 224 72% 90%;
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 210 20% 98%;
+    --primary: 338 85% 57%;
+    --primary-foreground: 210 5% 92%;
 
-    --primary: 210 20% 98%;
-    --primary-foreground: 220 39% 11%;
+    --secondary: 220 2% 14%;
+    --secondary-foreground: 220 10% 85%;
 
-    --secondary: 215 28% 17%;
-    --secondary-foreground: 210 20% 98%;
+    --contrast: 222 6% 95%;
+    --contrast-foreground: 210 10% 5%;
 
-    --muted: 215 12% 20%;
-    --muted-foreground: 210 20% 90%;
+    --muted: 220 3% 12%;
+    --muted-foreground: 220 9% 60%;
 
-    --accent: 218 13% 17%;
-    --accent-foreground: 210 20% 98%;
+    --accent: 220 5% 22%;
+    --accent-foreground: 221 15% 85%;
 
     --success: 115 85% 47%;
-    --success-fill: 115 90% 90%;
-    --success-foreground: 115 65% 30%;
+    --success-accent: 115 52% 50%;
+    --success-fill: 115 85% 14%;
+    --success-foreground: 115 65% 80%;
 
     --warn: 50 100% 57%;
-    --warn-fill: 44 100% 88%;
-    --warn-foreground: 32 65% 30%;
+    --warn-accent: 47 80% 45%;
+    --warn-fill: 44 95% 18%;
+    --warn-foreground: 32 65% 80%;
 
     --destructive: 0 95% 60%;
-    --destructive-fill: 0 95% 94%;
-    --destructive-foreground: 0 65% 35%;
+    --destructive-fill: 0 95% 16%;
+    --destructive-foreground: 0 65% 85%;
 
-    --border: 215 12% 20%;
-    --input: 215 14% 23%;
-    --ring: 216 12% 84%;
+    --border: 220 6% 22%;
+    --border-dark: 220 6% 18%;
+    --input: 220 13% 24%;
+    --ring: 224 71% 70%;
   }
 }
 
@@ -96,12 +99,43 @@
   }
 }
 
+h1, .text-h1 {
+  @apply font-semibold text-5xl sm:text-7xl;
+}
+
+h2, .text-h2 {
+  @apply font-semibold text-[2.5rem] sm:text-6xl;
+}
+
+h3, .text-h3 {
+  @apply font-semibold text-2xl sm:text-3xl -my-[0.25rem] sm:-my-[0.1875rem];
+}
+
+h4, .text-h4 {
+  @apply font-semibold text-xl sm:text-2xl -my-[0.25rem] sm:-my-[0.25rem];
+}
+
+h5, .text-h5 {
+  @apply font-semibold text-lg sm:text-xl -my-[0.3125rem] sm:-my-[0.25rem];
+}
+
+h6, .text-h6 {
+  @apply font-semibold text-base sm:text-lg -my-[0.25rem] sm:-my-[0.3125rem]
+}
+
+body, .text-body {
+  @apply text-base sm:text-lg leading-relaxed;
+}
+
 html {
   @apply h-full;
+  font-family: Inter;
 }
+
 body {
-  @apply h-full;
+  @apply h-full font-normal;
 }
+
 #app {
   @apply h-full;
 }
@@ -112,4 +146,27 @@ body {
 
 .css-glow-inner {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0.5rem -0.25rem inset;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url('/fonts/Inter-Variable.ttf') format('truetype-variations');
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url('/fonts/Inter-Italic-Variable.ttf') format('truetype-variations');
+  font-style: italic;
+  font-weight: 200 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: DMMono;
+  src: url('/fonts/DMMono-Regular.ttf');
+  font-weight: 400;
+  font-display: swap;
 }

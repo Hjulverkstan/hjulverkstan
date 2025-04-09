@@ -8,12 +8,29 @@ module.exports = {
       center: true,
       padding: '2rem',
       screens: {
-        '2xl': '1400px',
+        '2xl': '1920px',
       },
     },
     extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+        'dm-mono': ['DMMono', 'Courier New'],
+      },
+      fontWeight: {
+        thin: '100',
+        light: '250',
+        normal: '350',
+        medium: '450',
+        semibold: '550',
+        bold: '650',
+        extrabold: '750',
+        black: '850',
+      },
       colors: {
-        border: 'hsl(var(--border))',
+        border: {
+          DEFAULT: 'hsl(var(--border))',
+          dark: 'hsl(var(--border-dark))',
+        },
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
@@ -39,12 +56,14 @@ module.exports = {
         },
         warn: {
           DEFAULT: 'hsl(var(--warn))',
+          accent: 'hsl(var(--warn-accent))',
           fill: 'hsl(var(--warn-fill))',
           foreground: 'hsl(var(--warn-foreground))',
           border: 'hsl(var(--warn-foreground) / 0.2)',
         },
         success: {
           DEFAULT: 'hsl(var(--success))',
+          accent: 'hsl(var(--success-accent))',
           fill: 'hsl(var(--success-fill))',
           foreground: 'hsl(var(--success-foreground))',
           border: 'hsl(var(--success-foreground) / 0.25)',
@@ -60,10 +79,6 @@ module.exports = {
         popover: {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
         },
       },
       boxShadow: {

@@ -29,13 +29,14 @@ export default function BadgeGroup({ badges, limit = 2 }: BadgeGroupProps) {
   return (
     <div className="flex gap-2">
       {limitedBadges.map(
-        ({ icon: Icon, label, href, tooltip, variant = 'secondary' }, i) => {
+        ({ icon, label, href, tooltip, variant = 'secondary' }, i) => {
           let content = (
             <BadgeComp
               variant={variant}
+              icon={icon}
               className="flex items-center justify-start gap-1"
             >
-              {Icon && <Icon className="ml--1 h-3.5 w-3.5" />} {label}
+              {label}
             </BadgeComp>
           );
 

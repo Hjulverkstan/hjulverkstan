@@ -1,7 +1,7 @@
 export interface Shop {
   id: string;
   name: string;
-  addres: string;
+  address: string;
   latitute: number;
   longitude: number;
   imageURL: string;

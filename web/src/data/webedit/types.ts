@@ -3,12 +3,12 @@ import { Shop } from './shop/types';
 
 export interface AllEntitiesRaw {
   generalContent: GeneralContentStripped[];
-  shop: Shop[];
+  shops: Shop[];
 }
 
 export interface AllEntities {
   generalContent: Record<string, string>;
-  shop: Shop[];
+  shops: Shop[];
 }
 
 export type LocaleAllEntitiesMap = Record<string, AllEntities>;
