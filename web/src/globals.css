@@ -44,6 +44,9 @@
     --input: 220 13% 91%;
     --ring: 224 71% 4%;
 
+    --card-gray: 0 0% 97%;
+    --surface-alt: 0 0% 94%;
+
     --radius: 0.5rem;
   }
 
@@ -84,6 +87,9 @@
     --border: 215 12% 20%;
     --input: 215 14% 23%;
     --ring: 216 12% 84%;
+
+    --card-gray: 222 11% 18%;
+    --surface-alt: 222 11% 16%;
   }
 }
 
@@ -112,4 +118,28 @@ body {
 
 .css-glow-inner {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0.5rem -0.25rem inset;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }

@@ -1,9 +1,13 @@
 -- SEED Table
 
 INSERT INTO Location
-(address,           name,      location_type, comment,                     created_at, updated_at, created_by, updated_by) VALUES
-('123 Main Street', 'Hjällbo', 'SHOP',        'Sample location 1 comment', '2024-05-16 10:00:00',      NOW(),      1,          1         ),
-('456 Elm Street',  'Backa',   'SHOP',        'Sample location 2 comment', '2024-05-17 10:00:00',      NOW(),      1,          1         );
+(address,           name,          location_type, comment,                     created_at,          updated_at, created_by, updated_by) VALUES
+('123 Main Street', 'Hjällbo',     'SHOP',        'Sample location 1 comment', '2024-05-16 10:00:00', NOW(),      1,          1         ),
+('456 Elm Street',  'Backa',       'SHOP',        'Sample location 2 comment', '2024-05-17 10:00:00', NOW(),      1,          1         ),
+('789 Oak Avenue',  'Gamlestaden', 'SHOP',        'Sample location 3 comment', '2024-05-18 10:00:00', NOW(),      1,          1         ),
+('101 Pine Road',   'Majorna',     'SHOP',        'Sample location 4 comment', '2024-05-19 10:00:00', NOW(),      1,          1         ),
+('202 Birch Lane',  'Gamlestaden', 'SHOP',       'Sample location 5 comment', '2024-05-20 10:00:00', NOW(),      1,          1         ),
+('303 Cedar Street', 'Majorna',    'SHOP',        'Sample location 6 comment', '2024-05-21 10:00:00', NOW(),      1,          1         );
 
 --
 
@@ -80,11 +84,22 @@ INSERT INTO General_Content
 
 INSERT INTO Open_Hours
 (mon,               tue,               wed,               thu,               fri,               sat,               sun) VALUES
-(null,              '15:00 - 18:00',   null,              '15:00 - 18:00',   null,              null,              null);
+(null,              '10:00 - 18:00',   null,              '14:00 - 18:00',   null,              null,              null),
+('10:00 - 18:00',   null,              '10:00 - 18:00',   null,              null,              null,              null),
+('15:00 - 18:00',   '10:00 - 18:00',   '10:00 - 18:00',   '15:00 - 18:00',   null,              null,              null),
+('15:00 - 18:00',   '15:00 - 18:00',   '15:00 - 18:00',   '14:00 - 18:00',   null,              null,              null),
+('15:00 - 18:00',   '10:00 - 18:00',   '10:00 - 18:00',   '15:00 - 18:00',   null,              null,              null),
+('15:00 - 18:00',   '15:00 - 18:00',   '15:00 - 18:00',   '15:00 - 18:00',   null,              null,              null);
+
 
 INSERT INTO Shop
-(name,                    address,                    latitude,            longitude,           imageURL,         open_hours_id, has_temporary_hours, location_id,  created_at, updated_at, created_by, updated_by) VALUES
-('Hjällbo',               'Skolspåret 15',            57.7696674324115,    12.013638901161615,  null,              1,             false,               1,            NOW(),      NOW(),      1,          1);
+(name,                          address,                                                     latitude,            longitude,           imageURL,                                                                                        open_hours_id, has_temporary_hours, location_id,  created_at, updated_at, created_by, updated_by) VALUES
+('Hjällbo',                     'Skolspåret 15, 424 37 Angered',                             57.769667,           12.013639,           'https://hjulverkstan.s3.eu-north-1.amazonaws.com/4414679a-3c1b-4722-bd10-f95e66723a97.jpg',     1,             false,               1,            NOW(),      NOW(),      1,          1         ),
+('Backa',                       'Selma Lagerlöfs Torg 20, 422 48 Hisings Backa',             57.748000,           11.965000,           'https://hjulverkstan.s3.eu-north-1.amazonaws.com/d80043e0-2c01-4511-a6e4-f0980da04da5.jpg',     2,             false,               2,            NOW(),      NOW(),      1,          1         ),
+('Gamlestaden',                 'Lars Kaggsgatan 40D, 415 04 Göteborg',                      57.720700,           12.010000,           'https://hjulverkstan.s3.eu-north-1.amazonaws.com/029c60ac-e93e-4501-98e8-8c41d72d2b75.jpg',     3,             false,               3,            NOW(),      NOW(),      1,          1         ),
+('Majorna',                     'Skärgårdsgatan 4, 414 58 Göteborg',                         57.694000,           11.925000,           'https://hjulverkstan.s3.eu-north-1.amazonaws.com/d80043e0-2c01-4511-a6e4-f0980da04da5.jpg',     4,             false,               4,            NOW(),      NOW(),      1,          1         ),
+('Gamlestaden',                 'Lars Kaggsgatan 40D, 415 04 Göteborg',                      57.720700,           12.010000,           'https://hjulverkstan.s3.eu-north-1.amazonaws.com/029c60ac-e93e-4501-98e8-8c41d72d2b75.jpg',     5,             false,               5,            NOW(),      NOW(),      1,          1         ),
+('Majorna',                     'Skärgårdsgatan 4, 414 58 Göteborg',                         57.694000,           11.925000,           'https://hjulverkstan.s3.eu-north-1.amazonaws.com/d80043e0-2c01-4511-a6e4-f0980da04da5.jpg',     6,             false,               6,            NOW(),      NOW(),      1,          1         );
 
 INSERT INTO Localised_Content
 (lang,   field_name,     content,                                                                                                                                                                           created_at, updated_at, created_by, updated_by, general_content_id, shop_id) VALUES
