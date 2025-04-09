@@ -5,6 +5,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { PreloadedDataProvider } from '@hooks/usePreloadedData';
 
 import Root from './root';
+import Navbar from '@components/Navbar';
+import Footer from '@components/Footer';
 
 // This wil log the commit sha of the current release to the console when
 // deployed, or if deployed from a PR will contain the PR-number.
@@ -50,7 +52,9 @@ const node = (
   <PreloadedDataProvider value={getPreloadedDataClientSide()}>
     <BrowserRouter>
       <HelmetProvider>
+        <Navbar />
         <Root />
+        <Footer />
       </HelmetProvider>
     </BrowserRouter>
   </PreloadedDataProvider>
