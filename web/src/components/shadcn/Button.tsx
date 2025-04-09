@@ -37,6 +37,19 @@ export const buttonVariants = cva(
         ],
         ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',
         link: 'text-primary underline-offset-4 !shadow-none hover:underline',
+        roundedPrimary: [
+          `flex-shrink-0 rounded-full bg-black text-white shadow-none
+          hover:bg-gray-800 focus-visible:ring-gray-500`,
+        ],
+        roundedMuted: [
+          `flex-shrink-0 rounded-full bg-gray-100 text-slate-900 shadow-none
+          hover:bg-gray-200 focus-visible:ring-gray-400`,
+        ],
+        roundedContrast: [
+          `flex-shrink-0 rounded-full border border-gray-300 bg-white
+          text-slate-900 shadow-none hover:bg-gray-50
+          focus-visible:ring-indigo-500`,
+        ],
       },
       subVariant: {
         default: 'shadow-sm',
