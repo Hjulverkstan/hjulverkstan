@@ -4,6 +4,7 @@ import { Employee } from '@data/employee/types';
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { format } from 'date-fns';
+import { TicketBadges } from '../PortalShopTickets/useColumns';
 
 //
 
@@ -37,6 +38,11 @@ export default function useColumns() {
           key: 'email',
           name: 'Email',
           renderFn: ({ email }) => <IconLabel label={email} />,
+        },
+        {
+          key: 'ticketIds',
+          name: 'Tickets',
+          renderFn: ({ ticketIds }) => <TicketBadges ticketIds={ticketIds} />,
         },
 
         {

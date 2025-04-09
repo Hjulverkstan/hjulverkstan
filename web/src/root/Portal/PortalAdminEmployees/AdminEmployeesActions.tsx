@@ -12,6 +12,7 @@ import { useDialogManager } from '@components/DialogManager';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 export default function AdminEmployeesActions({
   row: employee,
@@ -20,6 +21,7 @@ export default function AdminEmployeesActions({
   const { openDialog } = useDialogManager();
   const { toast } = useToast();
 
+  const hasTickets = !!employee.ticketIds.length;
   const [open, setOpen] = useState(false);
 
   const deleteEmployeeM = useDeleteEmployeeM();
@@ -61,13 +63,25 @@ export default function AdminEmployeesActions({
         />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content align="end" className="w-[160px]">
-        <DropdownMenu.Item
-          onClick={(e) => e.stopPropagation()}
-          onSelect={() => handleDeleteClick()}
-        >
-          Delete
-          <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
-        </DropdownMenu.Item>
+        <Tooltip.Provider>
+          <Tooltip.Root>
+            <Tooltip.Trigger>
+              <DropdownMenu.Item
+                onClick={(e) => e.stopPropagation()}
+                onSelect={() => handleDeleteClick()}
+                disabled={hasTickets}
+              >
+                Delete
+                <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
+              </DropdownMenu.Item>
+            </Tooltip.Trigger>
+            {hasTickets && (
+              <Tooltip.Content className="bg-primary text-white">
+                Cannot delete employees with tickets.
+              </Tooltip.Content>
+            )}
+          </Tooltip.Root>
+        </Tooltip.Provider>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

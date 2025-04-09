@@ -4,15 +4,15 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import se.hjulverkstan.Exceptions.CouldNotDeleteException;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.EmployeeDto;
 import se.hjulverkstan.main.dto.NewEmployeeDto;
 import se.hjulverkstan.main.dto.responses.GetAllEmployeeDto;
 import se.hjulverkstan.main.model.Employee;
-import se.hjulverkstan.main.model.Location;
 import se.hjulverkstan.main.model.Ticket;
 import se.hjulverkstan.main.repository.EmployeeRepository;
-import se.hjulverkstan.main.repository.LocationRepository;
+import se.hjulverkstan.main.repository.TicketRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,12 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     public static final String ELEMENT_NAME = "Employee";
+    private final TicketRepository ticketRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, TicketRepository ticketRepository) {
         this.employeeRepository = employeeRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @Override
@@ -53,11 +55,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
 
-
         if (employee.getTickets() != null) {
             List<Ticket> tickets = employee.getTickets();
-            //TODO: how to handle removing employee here?
+            if(!tickets.isEmpty()){
+                throw new CouldNotDeleteException("Can't delete employees with active tickets!");
+            }else{
             tickets.forEach(ticket -> ticket.setEmployee(null));
+            ticketRepository.saveAll(tickets);
+            }
         }
 
         employeeRepository.delete(employee);
