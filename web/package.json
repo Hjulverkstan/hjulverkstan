@@ -10,7 +10,7 @@
     "build:ssr": "vite build --ssr src/server.tsx --outDir dist/ssr",
     "build:static": "vite build --outDir dist/static && node scripts/build",
     "build": "npm run build:ssr && npm run build:static",
-    "serve": "cd dist/static && npx http-server -p 8000 -P http://localhost:8000?/",
+    "serve": "node scripts/serve.js",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,md}\"",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,md}\"",
     "format": "prettier --config ../.prettierrc --write \"**/*.{js,jsx,ts,tsx,md}\""
