@@ -36,12 +36,12 @@ Icon.displayName = 'CardIcon';
 //
 
 const titleVariants = cva(
-  'text-foreground font-inter font-semibold leading-tight',
+  'text-foreground font-inter z-10 font-semibold leading-tight',
   {
     variants: {
       variant: {
-        base: 'text-2xl',
-        imageOverlay: 'text-2xl text-white',
+        base: 'text-h3',
+        imageOverlay: 'px-2 py-4 text-2xl text-white',
       },
     },
     defaultVariants: {
@@ -75,11 +75,11 @@ Title.displayName = 'CardTitle';
 
 //
 
-const bodyVariants = cva('text-foreground leading-relaxed', {
+const bodyVariants = cva('text-foreground z-10 leading-relaxed', {
   variants: {
     variant: {
-      base: 'text-base',
-      imageOverlay: 'text-background line-clamp-2',
+      base: 'text-lg',
+      imageOverlay: 'text-background line-clamp-2 px-2',
       compact: 'line-clamp-2 text-sm',
     },
   },
@@ -119,7 +119,7 @@ interface CardRowProps extends HTMLAttributes<HTMLDivElement> {
 const Row: React.FC<CardRowProps> = ({ children, className, ...props }) => {
   return (
     <div
-      className={cn('flex w-full flex-row items-center gap-3', className)}
+      className={cn('z-5 flex w-full flex-row items-center gap-3', className)}
       {...props}
     >
       {children}
@@ -134,9 +134,34 @@ interface CardImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   className?: string;
+  variant?: 'background' | 'inline';
 }
 
-const Image: React.FC<CardImageProps> = ({ src, alt, className, ...props }) => {
+const Image: React.FC<CardImageProps> = ({
+  src,
+  alt,
+  variant = 'background',
+  className,
+  ...props
+}) => {
+  if (variant === 'background') {
+    return (
+      <div
+        className={cn('absolute inset-0 z-0 bg-cover bg-center', className)}
+        style={{ backgroundImage: `url(${src})` }}
+        role="img"
+        aria-label={alt}
+        {...props}
+      >
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-black/70
+            via-black/20 to-transparent"
+          aria-hidden="true"
+        />
+      </div>
+    );
+  }
+
   return (
     <img
       src={src}
@@ -157,11 +182,17 @@ Image.displayName = 'CardImage';
 const cardBaseVariants = cva('flex overflow-hidden rounded-lg shadow-sm', {
   variants: {
     variant: {
-      base: 'flex-col gap-4 bg-white p-6',
-      imageOverlay: 'relative justify-end bg-cover bg-center text-white',
+      base: 'h-auto flex-col gap-6 bg-white p-8',
+      imageOverlay: [
+        `relative h-auto flex-1 flex-col justify-end bg-cover bg-center
+        text-white md:min-h-[413px]`,
+      ],
       compact: 'h-auto w-full flex-1 flex-col gap-2 bg-white p-4 text-sm',
-      imageAbove: 'flex-col bg-white',
-      baseGray: 'flex-col gap-4 bg-gray-100 p-6',
+      imageAbove: [
+        `w-full flex-col bg-white sm:w-[calc(50%-2rem)] md:min-w-[300px]
+        md:flex-1`,
+      ],
+      baseGray: 'h-auto flex-col gap-4 bg-gray-100 p-6',
     },
   },
   defaultVariants: {
@@ -184,50 +215,19 @@ const CardBaseRoot: React.FC<CardBaseProps> = ({
   variant = 'base',
   className,
   src,
-  alt = '',
   minHeight,
   ...props
 }) => {
   const variantStyles: CSSProperties = {};
-  let role: string | undefined = undefined;
-  let ariaLabel: string | undefined = undefined;
-  let renderOverlayGradient = false;
-  let wrapOverlayContent = false;
-
-  if (variant === 'imageOverlay') {
-    renderOverlayGradient = true;
-    wrapOverlayContent = true;
-    role = 'img';
-    ariaLabel = alt;
-    if (src) {
-      variantStyles.backgroundImage = `url(${src})`;
-      variantStyles.minHeight = minHeight || '450px';
-    }
-  }
 
   return (
     <div
       className={cn(cardBaseVariants({ variant }), className)}
       style={variantStyles}
-      role={role}
-      aria-label={ariaLabel}
       {...props}
     >
-      {renderOverlayGradient && (
-        <div
-          className="absolute inset-0 -z-0 bg-gradient-to-t from-black/70
-            via-black/20 to-transparent"
-          aria-hidden="true"
-        />
-      )}
-      {wrapOverlayContent ? (
-        <div
-          className="relative z-10 flex flex-grow flex-col justify-end gap-3 p-6"
-        >
-          {children}
-        </div>
-      ) : variant === 'imageAbove' ? (
-        <div className="flex flex-col gap-3 ">{children}</div>
+      {variant === 'imageAbove' ? (
+        <div className="relative flex flex-col gap-3">{children}</div>
       ) : (
         children
       )}

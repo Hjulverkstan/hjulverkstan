@@ -12,6 +12,14 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
+      fontSize: {
+        h1: ['80px', { lineHeight: '1.1' }],
+        h2: ['60px', { lineHeight: '1.2' }],
+        h3: ['30px', { lineHeight: '36px' }],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

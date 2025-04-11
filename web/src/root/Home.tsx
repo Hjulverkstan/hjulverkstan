@@ -76,9 +76,8 @@ export default function Home() {
       </div>
 
       <Section variant="gray">
-        {/* Grid med 4 kort per rad i datorvy, anpassar sig på mindre skärmar */}
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <Card.Base className="h-auto">
+          <Card.Base>
             <Card.Icon icon={Wrench} />
             <Card.Title>Get a repair</Card.Title>
             <Card.Body>
@@ -88,7 +87,7 @@ export default function Home() {
             <Button
               asChild
               variant="roundedPrimary"
-              className="ml-auto mt-4 h-8 w-8 p-0"
+              className="ml-auto mt-4 h-10 w-10 p-0"
               aria-label="Learn more about repairs"
             >
               <Link to="/">
@@ -97,7 +96,7 @@ export default function Home() {
             </Button>
           </Card.Base>
 
-          <Card.Base className="h-auto">
+          <Card.Base>
             <Card.Icon icon={CalendarDays} />
             <Card.Title>Rent a bike</Card.Title>
             <Card.Body>
@@ -115,7 +114,7 @@ export default function Home() {
             </Button>
           </Card.Base>
 
-          <Card.Base className="h-auto">
+          <Card.Base>
             <Card.Icon icon={TrafficCone} />
             <Card.Title>Learn to ride</Card.Title>
             <Card.Body>
@@ -133,14 +132,14 @@ export default function Home() {
             </Button>
           </Card.Base>
 
-          <Card.Base className="h-auto">
+          <Card.Base>
             <Card.Icon icon={Bike} />
             <Card.Title>Join the community</Card.Title>
             <Card.Body>
               We create a safe environment for people to meet, accessible to
               everyone.
             </Card.Body>
-            <Button variant="roundedPrimary" className="ml-auto mt-4" asChild>
+            <Button variant="roundedPrimary" asChild>
               <Link to="/join-us">
                 Work with us
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -149,7 +148,6 @@ export default function Home() {
           </Card.Base>
         </div>
 
-        {/* Stories-delen lämnas oförändrad */}
         <div className="flex w-full flex-col pb-4 pt-[140px]">
           <div className="mb-8 flex items-center justify-between">
             <h2 className="text-3xl font-bold text-gray-900">Stories</h2>
@@ -166,12 +164,12 @@ export default function Home() {
 
           <div className="flex flex-col gap-8 md:flex-row md:gap-8 lg:gap-8">
             <div className="flex flex-col gap-8 md:basis-4/5 md:flex-row">
-              <Card.Base
-                variant="imageOverlay"
-                src="/DSC07375.jpg"
-                alt="Shop interior showing bikes and equipment"
-                className="h-auto flex-1 md:min-h-[413px]"
-              >
+              <Card.Base variant="imageOverlay">
+                <Card.Image
+                  variant="background"
+                  src="/DSC07375.jpg"
+                  alt="Shop interior showing bikes and equipment"
+                ></Card.Image>
                 <Card.Title variant="imageOverlay">
                   New shop opens in Hjällbo
                 </Card.Title>
@@ -193,12 +191,12 @@ export default function Home() {
                   </Button>
                 </Card.Row>
               </Card.Base>
-              <Card.Base
-                variant="imageOverlay"
-                src="/DSC07833.jpg"
-                alt="Another view of the new shop"
-                className="h-auto flex-1 md:min-h-[413px]"
-              >
+              <Card.Base variant="imageOverlay">
+                <Card.Image
+                  variant="background"
+                  src="/DSC07375.jpg"
+                  alt="Shop interior showing bikes and equipment"
+                ></Card.Image>
                 <Card.Title variant="imageOverlay">
                   New shop opens in Hjällbo
                 </Card.Title>
@@ -292,53 +290,44 @@ export default function Home() {
             className="flex w-full flex-wrap justify-center gap-8 md:gap-8
               lg:gap-8"
           >
-            <Card.Base
-              variant="imageAbove"
-              className="w-full sm:w-[calc(50%-2rem)] md:min-w-[300px] md:flex-1"
-            >
+            <Card.Base variant="imageAbove">
               <Card.Image
+                variant="inline"
                 src="/DSC07375.jpg"
-                alt="Exterior view of Hjällbo shop"
+                alt="Shop interior showing bikes and equipment"
+              ></Card.Image>
+              <Card.Title>Hjällbo</Card.Title>
+              <ShopAddress
+                icon={Pin}
+                address="Skolspåret 15, 424 31 Angered"
+                isOpen={true}
               />
-              <div className="flex flex-col">
-                <Card.Title>Hjällbo</Card.Title>
-                <ShopAddress
-                  icon={Pin}
-                  address="Skolspåret 15, 424 31 Angered"
-                  isOpen={true}
-                />
-              </div>
             </Card.Base>
-            <Card.Base
-              variant="imageAbove"
-              className="w-full sm:w-[calc(50%-2rem)] md:min-w-[300px] md:flex-1"
-            >
-              <Card.Image src="/DSC07833.jpg" alt="Interior detail of a shop" />
-              <div className="flex flex-col">
-                <Card.Title>Angered</Card.Title>
-                <ShopAddress
-                  icon={Pin}
-                  address="Skolspåret 15, 424 31 Angered"
-                  isOpen={true}
-                />
-              </div>
-            </Card.Base>
-            <Card.Base
-              variant="imageAbove"
-              className="w-full sm:w-[calc(50%-2rem)] md:min-w-[300px] md:flex-1"
-            >
+            <Card.Base variant="imageAbove">
               <Card.Image
+                variant="inline"
+                src="/DSC07833.jpg"
+                alt="Interior detail of a shop"
+              />
+              <Card.Title>Angered</Card.Title>
+              <ShopAddress
+                icon={Pin}
+                address="Skolspåret 15, 424 31 Angered"
+                isOpen={true}
+              />
+            </Card.Base>
+            <Card.Base variant="imageAbove">
+              <Card.Image
+                variant="inline"
                 src="/DSC07811.jpg"
                 alt="Another shop detail or exterior"
               />
-              <div className="flex flex-col">
-                <Card.Title>Biskopsgården</Card.Title>
-                <ShopAddress
-                  icon={Pin}
-                  address="Skolspåret 15, 424 31 Angered"
-                  isOpen={true}
-                />
-              </div>
+              <Card.Title>Biskopsgården</Card.Title>
+              <ShopAddress
+                icon={Pin}
+                address="Skolspåret 15, 424 31 Angered"
+                isOpen={true}
+              />
             </Card.Base>
           </div>
         </div>
@@ -351,7 +340,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-gray-900">Get involved</h2>
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <Card.Base variant="baseGray" className="flex h-auto flex-col">
+            <Card.Base variant="baseGray">
               <Card.Icon icon={PackagePlusIcon} />
               <Card.Title>Donate material</Card.Title>
               <Card.Body>
@@ -369,7 +358,7 @@ export default function Home() {
                 </Link>
               </Button>
             </Card.Base>
-            <Card.Base variant="baseGray" className="flex h-auto flex-col">
+            <Card.Base variant="baseGray">
               <Card.Icon icon={CoinsIcon} />
               <Card.Title>Donate via Swish</Card.Title>
               <Card.Body>
@@ -387,7 +376,7 @@ export default function Home() {
                 </Link>
               </Button>
             </Card.Base>
-            <Card.Base variant="baseGray" className="flex h-auto flex-col">
+            <Card.Base variant="baseGray">
               <Card.Icon icon={Hammer} />
               <Card.Title>Work with us</Card.Title>
               <Card.Body>
@@ -405,7 +394,7 @@ export default function Home() {
                 </Link>
               </Button>
             </Card.Base>
-            <Card.Base variant="baseGray" className="flex h-auto flex-col">
+            <Card.Base variant="baseGray">
               <Card.Icon icon={HeartHandshake} />
               <Card.Title>Become a partner</Card.Title>
               <Card.Body>
