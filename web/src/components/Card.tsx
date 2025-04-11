@@ -27,7 +27,7 @@ const Icon: React.FC<CardIconProps> = ({
 }) => {
   return (
     <div className={cn(iconVariants({ variant }), className)}>
-      <IconComponent size={48} aria-hidden="true" />
+      <IconComponent size={48} strokeWidth={1.7} aria-hidden="true" />
     </div>
   );
 };

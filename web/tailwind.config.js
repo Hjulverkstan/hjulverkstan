@@ -16,8 +16,8 @@ module.exports = {
         inter: ['Inter', 'sans-serif'],
       },
       fontSize: {
-        h1: ['80px', { lineHeight: '1.1' }],
-        h2: ['60px', { lineHeight: '1.2' }],
+        h1: ['80px', { lineHeight: '80px' }],
+        h2: ['60px', { lineHeight: '60px' }],
         h3: ['30px', { lineHeight: '36px' }],
       },
       colors: {

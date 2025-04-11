@@ -38,8 +38,8 @@ export const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',
         link: 'text-primary underline-offset-4 !shadow-none hover:underline',
         roundedPrimary: [
-          `flex-shrink-0 rounded-full bg-black text-white shadow-none
-          hover:bg-gray-800 focus-visible:ring-gray-500`,
+          `ml-auto mt-0 flex h-14 w-8 flex-shrink-0 rounded-full bg-black p-0
+          text-white shadow-none hover:bg-gray-800 focus-visible:ring-gray-500`,
         ],
         roundedMuted: [
           `flex-shrink-0 rounded-full bg-gray-100 text-slate-900 shadow-none

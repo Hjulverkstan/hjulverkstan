@@ -81,13 +81,12 @@ export default function Home() {
             <Card.Icon icon={Wrench} />
             <Card.Title>Get a repair</Card.Title>
             <Card.Body>
-              We offer free repairs for bicycles, strollers, scooters, and
-              skateboards.
+              We offer repairs free of charge for bicycles, strollers, scooters
+              and skateboards.
             </Card.Body>
             <Button
               asChild
               variant="roundedPrimary"
-              className="ml-auto mt-4 h-10 w-10 p-0"
               aria-label="Learn more about repairs"
             >
               <Link to="/">
