@@ -145,3 +145,33 @@ export const createUpdateVehicleStatus = () => ({
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(`${endpoints.vehicle}/${id}/status`)),
 });
+
+export interface GetShopVehiclesParams {
+  shopId: string;
+  status?: VehicleStatus;
+}
+
+export interface GetShopVehiclesRes {
+  vehicles: Vehicle[];
+}
+
+export const createGetShopVehicles = ({
+  shopId,
+  status,
+}: GetShopVehiclesParams) => ({
+  queryKey: ['vehicles', 'shop', shopId, { status }],
+  queryFn: () => {
+    let url = `/shops/${shopId}/vehicles`;
+
+    if (status) {
+      url += `?status=${status}`;
+    }
+
+    return instance
+      .get<GetShopVehiclesRes>(url)
+      .then(
+        (res) => (res.data.vehicles || []).map(parseResponseData) as Vehicle[],
+      )
+      .catch(createErrorHandler(url));
+  },
+});

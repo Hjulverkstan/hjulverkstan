@@ -167,7 +167,7 @@ const Image: React.FC<CardImageProps> = ({
       src={src}
       alt={alt}
       className={cn(
-        'h-auto max-h-[300px] w-full self-stretch rounded-lg object-cover',
+        'h-64 max-h-[300px] w-full self-stretch rounded-lg object-cover',
         className,
       )}
       loading="lazy"
@@ -189,8 +189,8 @@ const cardBaseVariants = cva('flex overflow-hidden rounded-lg shadow-sm', {
       ],
       compact: 'h-auto w-full flex-1 flex-col gap-2 bg-white p-4 text-sm',
       imageAbove: [
-        `w-full flex-col bg-white sm:w-[calc(50%-2rem)] md:min-w-[300px]
-        md:flex-1`,
+        `w-full flex-col bg-white sm:w-[calc(50%-1rem)] md:min-w-[300px]
+        lg:grow-0 lg:basis-[calc((100%-4rem)/3)]`,
       ],
       baseGray: 'h-auto flex-col gap-4 bg-gray-100 p-6',
     },

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ComponentType, useEffect } from 'react';
+import React, { ComponentType, useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
@@ -16,6 +16,11 @@ import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
+import Navbar from '@components/Navbar';
+import Footer from '@components/Footer';
+import { Breadcrumbs } from '@components/BreadCrumbs';
+import Shops from './Shops';
+import ShopDetail from './ShopDetail';
 
 // React Query Config
 
@@ -63,6 +68,12 @@ export interface RouteAttributes {
 export const routesSSR: RouteAttributes[] = [
   { path: '/', title: 'Hjulverkstan', component: Home },
   { path: '/about', title: 'Hjulverkstan - About', component: About },
+  { path: '/shops', title: 'Hjulverkstan - Shops', component: Shops },
+  {
+    path: '/shops/:shopId',
+    title: 'Hjulverkstan - Shop',
+    component: ShopDetail,
+  },
 ];
 
 export const routesCSR: RouteAttributes[] = [
@@ -177,6 +188,8 @@ export default function Root() {
         <QueryClientProvider client={queryClient}>
           <Tooltip.Provider delayDuration={500}>
             <DialogManager.Provider>
+              <Navbar />
+              <Breadcrumbs />
               <Routes>
                 {routesCSR.map(renderRoute)}
                 {routesSSR.map((route) => renderLocalizedRoute(route))}
@@ -189,6 +202,7 @@ export default function Root() {
                   .flat()}
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
+              <Footer />
               <Toaster />
             </DialogManager.Provider>
           </Tooltip.Provider>

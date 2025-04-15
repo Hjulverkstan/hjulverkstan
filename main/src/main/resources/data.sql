@@ -1,9 +1,10 @@
 -- SEED Table
 
 INSERT INTO Location
-(address,           name,      location_type, comment,                     created_at, updated_at, created_by, updated_by) VALUES
-('123 Main Street', 'Hjällbo', 'SHOP',        'Sample location 1 comment', '2024-05-16 10:00:00',      NOW(),      1,          1         ),
-('456 Elm Street',  'Backa',   'SHOP',        'Sample location 2 comment', '2024-05-17 10:00:00',      NOW(),      1,          1         );
+(address,           name,      location_type, comment,                                                  created_at, updated_at, created_by, updated_by) VALUES
+('123 Main Street', 'Hjällbo', 'SHOP',        'Sample location 1 comment', '2024-05-16 10:00:00',       NOW(),      1,          1         ),
+('456 Elm Street',  'Backa',   'SHOP',        'Sample location 2 comment', '2024-05-17 10:00:00',       NOW(),      1,          1         ),
+('857 Elm Street',  'Biskop',  'SHOP',        'Sample location 3 comment', '2024-05-17 10:00:00',       NOW(),      1,          1         );
 
 --
 
@@ -80,11 +81,15 @@ INSERT INTO General_Content
 
 INSERT INTO Open_Hours
 (mon,               tue,               wed,               thu,               fri,               sat,               sun) VALUES
+(null,              '15:00 - 18:00',   null,              '15:00 - 18:00',   null,              null,              null),
+(null,              '15:00 - 18:00',   null,              '15:00 - 18:00',   null,              null,              null),
 (null,              '15:00 - 18:00',   null,              '15:00 - 18:00',   null,              null,              null);
 
 INSERT INTO Shop
-(name,                    address,                    latitude,            longitude,           imageURL,         open_hours_id, has_temporary_hours, location_id,  created_at, updated_at, created_by, updated_by) VALUES
-('Hjällbo',               'Skolspåret 15',            57.7696674324115,    12.013638901161615,  null,              1,             false,               1,            NOW(),      NOW(),      1,          1);
+(name,                    address,                    latitude,            longitude,           imageURL,                                                                                                       open_hours_id, has_temporary_hours, location_id,  created_at, updated_at, created_by, updated_by) VALUES
+('Hjällbo',               'Skolspåret 15',            57.7696674324115,    12.013638901161615,  'https://hjulverkstan.s3.eu-north-1.amazonaws.com/029c60ac-e93e-4501-98e8-8c41d72d2b75.jpg',                    1,             false,               1,            NOW(),      NOW(),      1,          1),
+('Backa',                 'Backainte 15',             57.7696674324115,    12.013638901161615,  'https://hjulverkstan.s3.eu-north-1.amazonaws.com/d80043e0-2c01-4511-a6e4-f0980da04da5.jpg',                    2,             false,               2,            NOW(),      NOW(),      1,          1),
+('Placeholder 1',         'Placebo 15',               57.7696674324115,    12.013638901161615,  'https://hjulverkstan.s3.eu-north-1.amazonaws.com/4414679a-3c1b-4722-bd10-f95e66723a97.jpg',                    3,             false,               3,            NOW(),      NOW(),      1,          1);
 
 INSERT INTO Localised_Content
 (lang,   field_name,     content,                                                                                                                                                                           created_at, updated_at, created_by, updated_by, general_content_id, shop_id) VALUES
