@@ -29,13 +29,19 @@ INSERT INTO Customer
 
 INSERT INTO vehicle
 (location_id, vehicle_type, vehicle_status,   imageURL,            comment,                       is_customer_owned, bike_type,      gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class,   created_at,            updated_at, created_by, updated_by) VALUES
-(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          true,              'CHILD',        1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  null,       'BIKE',          '2024-05-16 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'AVAILABLE',      'image_url_1.jpg',   null,                          true,              'CHILD',        1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  null,       'BIKE',          '2024-05-16 10:00:00', NOW(),      1,          1         ),
 (1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',          '2024-05-17 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'LADY',         15,         'MEDIUM', 'FOOTBRAKE',    'MONARK',      'YTLO',     'BIKE',          '2024-05-18 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',    'image_url_1.jpg',   null,                          false,             'LADY',         15,         'MEDIUM', 'FOOTBRAKE',    'MONARK',      'YTLO',     'BIKE',          '2024-05-18 10:00:00', NOW(),      1,          1         ),
 (1,           'BIKE',       'BROKEN',         'image_url_1.jpg',   'Can not ever be repaired...', true,              'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  null,       'BIKE',          '2024-05-19 10:00:00', NOW(),      1,          1         ),
 (2,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          true,              'BMX',          1,          'MEDIUM', 'DISC',         'KRONAN',      null,       'BIKE',          '2024-05-20 10:00:00', NOW(),      1,          1         ),
 (2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
 (2,           'BIKE',       'AVAILABLE',      'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'KODE',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'CODE',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'QWET',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'ASDF',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'ZXCV',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'FERT',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
 (1,           'BIKE',       null,             'image_url_2.jpg',   null,                          true,              'MOUNTAINBIKE', 28,         'LARGE',  'CALIPER',      'PELAGO',      null,       'BIKE',          '2024-06-21 10:00:00', NOW(),      1,          1         );
 
 --
@@ -80,7 +86,10 @@ INSERT INTO General_Content
 ('PLAIN',   'Statistic: Bikes Lent',            'Statistics section, landing page', 'statisticBikesLent',           NOW(),      NOW(),      1,          1         ),
 ('PLAIN',   'Statistic: Events Held',           'Statistics section, landing page', 'statisticEventsHeld',          NOW(),      NOW(),      1,          1         ),
 ('PLAIN',   'Statistic: Employees Hired',       'Statistics section, landing page', 'statisticEmployeesHired',      NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Slogan',                           'Slogan for landing page',          'slogan',                       NOW(),      NOW(),      1,          1         );
+('PLAIN',   'Slogan',                           'Slogan for landing page',          'slogan',                       NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Shopdetail Card Title',   'Title for Just Drop By card on ShopDetail', 'justDropByTitle',              NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Shopdetail Card Body Bold',      'Bold part of body for Just Drop By card',   'justDropByBodyBold',           NOW(),      NOW(),      1,          1         ),
+('PLAIN',   'Service: Shopdetail Card Body Regular',   'Regular part of body for Just Drop By card','justDropByBodyRegular',        NOW(),      NOW(),      1,          1         );
 
 INSERT INTO Open_Hours
 (mon,               tue,               wed,               thu,               fri,               sat,               sun) VALUES
@@ -132,8 +141,13 @@ INSERT INTO Localised_Content
 ('ENG',  'VALUE',        'A bike shop unlike any other',                                                                                                                                        NOW(),      NOW(),      1,          1,          14,                 null),
 ('SWE',  'VALUE',        'En cykelbutik olik alla andra',                                                                                                                                       NOW(),      NOW(),      1,          1,          14,                 null),
 ('ENG',  'BODY_TEXT',    'At Skolspåret 15, we offer basic servicing of your bike, such as fixing pedals, adjusting gears, checking tires, air pressure, and lubrication, among other things.', NOW(),      NOW(),      1,          1,          null,               1),
-('SWE',  'BODY_TEXT',    'På Skolspåret 15 erbjuder vi enkla reparationer på din cykel, så som att laga pedalerna, justera växlarna, kolla hjulen, lufttrycket och insmörjning.',               NOW(),      NOW(),      1,          1,          null,               1);
-
+('SWE',  'BODY_TEXT',    'På Skolspåret 15 erbjuder vi enkla reparationer på din cykel, så som att laga pedalerna, justera växlarna, kolla hjulen, lufttrycket och insmörjning.',               NOW(),      NOW(),      1,          1,          null,               1),
+('ENG',  'VALUE',        'Just drop by for bike help',                 NOW(), NOW(), 1, 1, 15, null),
+('SWE',  'VALUE',        'Titta bara förbi för cykelhjälp',             NOW(), NOW(), 1, 1, 15, null),
+('ENG',  'VALUE',        'No booking online.',                         NOW(), NOW(), 1, 1, 16, null),
+('SWE',  'VALUE',        'Ingen tidsbokning online.',                   NOW(), NOW(), 1, 1, 16, null),
+('ENG',  'VALUE',        'Hjulverkstan is an initiative by Save the Children to make biking accessible to everyone. To take part of our services you meet us in the shop.', NOW(), NOW(), 1, 1, 17, null),
+('SWE',  'VALUE',        'Hjulverkstan är ett initiativ från Rädda Barnen för att göra cykling tillgängligt för alla. För att ta del av våra tjänster möter du oss i butiken.', NOW(), NOW(), 1, 1, 17, null);
 --
 
 INSERT INTO users

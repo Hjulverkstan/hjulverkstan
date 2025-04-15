@@ -81,7 +81,7 @@ public class VehicleServiceImpl implements VehicleService {
     public GetAllVehicleDto getAllPublicVehicles() {
         List<Vehicle> vehicles = publicRepository.findPublicAvailableVehicles(null);
         List<VehicleDto> vehicleDtos = vehicles.stream()
-                .map(VehicleDto::new)
+                .map(this::convertToDto)
                 .collect(Collectors.toList());
         return new GetAllVehicleDto(vehicleDtos);
     }
@@ -100,7 +100,7 @@ public class VehicleServiceImpl implements VehicleService {
     public GetAllVehicleDto getAllPublicVehiclesByLocationId(Long id) {
         List<Vehicle> vehicles = publicRepository.findPublicAvailableVehicles(id);
         List<VehicleDto> vehicleDtos = vehicles.stream()
-                .map(VehicleDto::new)
+                .map(this::convertToDto)
                 .collect(Collectors.toList());
         return new GetAllVehicleDto(vehicleDtos);
     }

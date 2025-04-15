@@ -62,7 +62,7 @@ export default function Home() {
           <h1 className="text-background text-h1">Hjulverkstan</h1>
 
           <p className="text-h3 text-background max-w-[700px]">
-            A bike shop that changes lives – we bridge gaps and somthing like
+            A bike shop that changes lives – we bridge gaps and something like
             so.
           </p>
         </div>
