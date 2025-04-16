@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
+import se.hjulverkstan.main.model.webedit.Shop;
 
 @Data
 @AllArgsConstructor
@@ -40,4 +42,7 @@ public class ShopDto {
 
     @NotBlank(message = "Body text in at least one language is required for creating a shop")
     private String bodyText;
+
+    @NotNull(message = "A phone number is required")
+    private String phoneNumber;
 }
