@@ -10,7 +10,7 @@ import se.hjulverkstan.main.dto.user.UserDto;
 import se.hjulverkstan.main.service.UserServiceImpl;
 
 @RestController
-@RequestMapping("v1/user")
+@RequestMapping("api/v1/user")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
 

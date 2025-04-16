@@ -15,7 +15,7 @@ import java.util.List;
 import static se.hjulverkstan.main.util.WebEditUtils.validateLanguage;
 
 @RestController
-@RequestMapping("v1/web-edit/general-content")
+@RequestMapping("api/v1/web-edit/general-content")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class GeneralContentController {
     private final GeneralContentService generalContentService;

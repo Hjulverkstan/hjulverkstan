@@ -11,7 +11,7 @@ import se.hjulverkstan.main.service.webedit.LocalisationServiceImpl;
 import static se.hjulverkstan.main.util.WebEditUtils.validateLanguage;
 
 @RestController
-@RequestMapping("v1/webedit")
+@RequestMapping("api/v1/webedit")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class LocalisationController {
     LocalisationServiceImpl localizedContentAndShopServiceImpl;
