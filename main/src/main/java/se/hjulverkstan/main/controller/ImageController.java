@@ -11,7 +11,7 @@ import se.hjulverkstan.main.service.ImageService;
 import se.hjulverkstan.main.service.S3Service;
 
 @RestController
-@RequestMapping("/v1/image")
+@RequestMapping("v1/api/image")
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 public class ImageController {
 

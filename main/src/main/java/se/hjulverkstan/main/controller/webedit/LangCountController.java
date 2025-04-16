@@ -12,7 +12,7 @@ import se.hjulverkstan.main.dto.webedit.LangCountPerEntityDto;
 import se.hjulverkstan.main.service.webedit.LangCountService;
 
 @RestController
-@RequestMapping("v1/web-edit/count")
+@RequestMapping("v1/api/web-edit/count")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class LangCountController {
     private final LangCountService langCountService;
