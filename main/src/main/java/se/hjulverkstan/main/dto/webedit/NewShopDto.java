@@ -24,6 +24,9 @@ public class NewShopDto {
 
     private String imageURL;
 
+    @NotBlank(message = "Slug is required")
+    private String slug;
+
     @NotNull(message = "Must provide at least one day of open hours")
     private OpenHoursDto openHours;
 

@@ -83,8 +83,8 @@ INSERT INTO Open_Hours
 (null,              '15:00 - 18:00',   null,              '15:00 - 18:00',   null,              null,              null);
 
 INSERT INTO Shop
-(name,                    address,                    latitude,            longitude,           imageURL,         open_hours_id, has_temporary_hours, location_id,  created_at, updated_at, created_by, updated_by) VALUES
-('Hjällbo',               'Skolspåret 15',            57.7696674324115,    12.013638901161615,  null,              1,             false,               1,            NOW(),      NOW(),      1,          1);
+(name,                    address,                    latitude,                 longitude,                    imageURL,         slug,            open_hours_id,          has_temporary_hours,            location_id,          created_at,           updated_at,            created_by,     updated_by) VALUES
+('Hjällbo',        'Skolspåret 15',     57.7696674324115, 12.013638901161615,  null,   'hjallbo',  1,     false,            1,      NOW(),      NOW(),          1,    1);
 
 INSERT INTO Localised_Content
 (lang,   field_name,     content,                                                                                                                                                                           created_at, updated_at, created_by, updated_by, general_content_id, shop_id) VALUES
