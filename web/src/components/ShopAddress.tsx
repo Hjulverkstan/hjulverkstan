@@ -1,28 +1,49 @@
-import { LucideIcon } from 'lucide-react';
+import { Pin } from 'lucide-react';
 import React from 'react';
-
-export const OpenBadge = () => (
-  <span className="whitespace-nowrap font-semibold text-green-500">Open</span>
-);
+import { Bullet } from '@components/Bullet';
+import { Badge } from '@components/shadcn/Badge';
 
 interface ShopAddressProps {
-  icon: LucideIcon;
   address: string;
   isOpen?: boolean;
+  className?: string;
 }
 
 export const ShopAddress: React.FC<ShopAddressProps> = ({
-  icon: Icon,
   address,
   isOpen,
+  className = 'pt-2',
 }) => {
+  const badgeToShow =
+    isOpen === true ? (
+      <Badge
+        variant="successOutline"
+        borderless={true}
+        className="gap-1 bg-gray-100 text-green-500"
+      >
+        <span
+          className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500"
+          aria-hidden="true"
+        ></span>
+        <span>Open</span>
+      </Badge>
+    ) : isOpen === false ? (
+      <Badge
+        variant="destructiveOutline"
+        borderless={true}
+        className="gap-1 bg-gray-100 text-red-500"
+      >
+        <span
+          className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-500"
+          aria-hidden="true"
+        ></span>
+        <span>Closed</span>
+      </Badge>
+    ) : undefined;
+
   return (
-    <div className="flex w-full justify-between pt-2 text-sm">
-      <div className="flex items-center gap-1">
-        <Icon size={16} className="flex-shrink-0 text-gray-600" />
-        <span>{address}</span>
-      </div>
-      {isOpen && <OpenBadge />}
-    </div>
+    <Bullet icon={Pin} aside={badgeToShow} className={className}>
+      {address}
+    </Bullet>
   );
 };

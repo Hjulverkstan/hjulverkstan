@@ -16,6 +16,10 @@ export const buttonVariants = cva(
       variant: {
         default:
           'bg-primary text-primary-foreground hover:bg-primary/80 shadow',
+        defaultRounded: [
+          `bg-primary text-primary-foreground hover:bg-primary/80 rounded-full
+          shadow`,
+        ],
         destructive: ['bg-destructive text-background hover:bg-destructive/80'],
         outline: [
           `border-input bg-background hover:bg-accent
@@ -38,17 +42,30 @@ export const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',
         link: 'text-primary underline-offset-4 !shadow-none hover:underline',
         roundedPrimary: [
-          `ml-auto mt-0 flex h-14 w-8 flex-shrink-0 rounded-full bg-black p-0
-          text-white shadow-none hover:bg-gray-800 focus-visible:ring-gray-500`,
+          `bg-foreground text-background hover:bg-contrast/80 flex flex-shrink-0
+          items-center justify-center rounded-full`,
+        ],
+        roundedPrimaryText: [
+          `bg-foreground text-background hover:bg-contrast/80
+          focus-visible:ring-contrast rounded-full shadow-none`,
         ],
         roundedMuted: [
-          `flex-shrink-0 rounded-full bg-gray-100 text-slate-900 shadow-none
-          hover:bg-gray-200 focus-visible:ring-gray-400`,
+          `bg-secondary text-secondary-foreground hover:bg-secondary/80
+          focus-visible:ring-ring flex h-8 w-8 flex-shrink-0 items-center
+          justify-center rounded-full p-2 shadow-none`,
+        ],
+        roundedMutedText: [
+          `bg-muted text-foreground hover:bg-contrast/80
+          focus-visible:ring-contrast rounded-full shadow-none`,
         ],
         roundedContrast: [
-          `flex-shrink-0 rounded-full border border-gray-300 bg-white
-          text-slate-900 shadow-none hover:bg-gray-50
-          focus-visible:ring-indigo-500`,
+          `border-border bg-card text-card-foreground hover:bg-accent
+          focus-visible:ring-ring flex h-8 w-8 flex-shrink-0 items-center
+          justify-center rounded-full border p-2 shadow-none`,
+        ],
+        roundedContrastText: [
+          `bg-background text-foreground hover:bg-contrast/80
+          focus-visible:ring-contrast rounded-full shadow-none`,
         ],
       },
       subVariant: {

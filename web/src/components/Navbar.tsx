@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom'; // Using Link for both desktop and mobile views
+import { Link } from 'react-router-dom';
+import { Button } from '@components/shadcn/Button'; // Using Link for both desktop and mobile views
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,15 @@ export default function Navbar() {
   const handleNavClick = () => {
     setIsOpen(false);
   };
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Shops', path: '/shops' },
+    { name: 'Services', path: '/services' },
+    { name: 'Stories', path: '/stories' },
+    { name: 'Support', path: '/support' },
+    { name: 'Contact', path: '/contact' },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -18,29 +28,19 @@ export default function Navbar() {
         <div className="text-foreground text-xl font-bold">Hjulverkstan</div>
 
         <nav className="hidden items-center gap-6 text-sm md:flex">
-          <Link to="/" className="hover:underline">
-            Home
-          </Link>
-          <Link to="/shops" className="hover:underline">
-            Shops
-          </Link>
-          <Link to="/services" className="hover:underline">
-            Services
-          </Link>
-          <Link to="/stories" className="hover:underline">
-            Stories
-          </Link>
-          <Link to="/support" className="hover:underline">
-            Support
-          </Link>
-          <Link
-            to="/contact"
-            className="bg-primary text-primary-foreground hover:bg-primary/90
-              rounded-full px-4 py-2 text-sm font-medium no-underline
-              transition-colors"
-          >
-            Contact
-          </Link>
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className="hover:inline"
+              onClick={handleNavClick}
+            >
+              {link.name}
+            </Link>
+          ))}
+          <Button variant="defaultRounded">
+            <Link to="/contact">Contact</Link>
+          </Button>
         </nav>
 
         <div className="md:hidden">
@@ -59,55 +59,22 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden">
           <nav className="flex flex-col space-y-1 px-2 pb-3 pt-2 sm:px-3">
-            <Link
-              to="/"
-              onClick={handleNavClick}
-              className="text-foreground block rounded-md px-3 py-2 text-base
-                font-medium hover:bg-gray-50"
-            >
-              Home
-            </Link>
-            <Link
-              to="/shops"
-              onClick={handleNavClick}
-              className="text-foreground block rounded-md px-3 py-2 text-base
-                font-medium hover:bg-gray-50"
-            >
-              Shops
-            </Link>
-            <Link
-              to="/services"
-              onClick={handleNavClick}
-              className="text-foreground block rounded-md px-3 py-2 text-base
-                font-medium hover:bg-gray-50"
-            >
-              Services
-            </Link>
-            <Link
-              to="/stories"
-              onClick={handleNavClick}
-              className="text-foreground block rounded-md px-3 py-2 text-base
-                font-medium hover:bg-gray-50"
-            >
-              Stories
-            </Link>
-            <Link
-              to="/support"
-              onClick={handleNavClick}
-              className="text-foreground block rounded-md px-3 py-2 text-base
-                font-medium hover:bg-gray-50"
-            >
-              Support
-            </Link>
-            <Link
-              to="/contact"
-              onClick={handleNavClick}
-              className="bg-primary text-primary-foreground hover:bg-primary/90
-                mt-2 block rounded-full px-4 py-2 text-center text-base
-                font-medium no-underline transition-colors"
-            >
-              Contact
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className="block px-4 py-2 text-sm text-gray-700
+                  hover:bg-gray-100"
+                onClick={handleNavClick}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <Button variant="defaultRounded">
+              <Link to="/contact" onClick={handleNavClick}>
+                Contact
+              </Link>
+            </Button>
           </nav>
         </div>
       )}

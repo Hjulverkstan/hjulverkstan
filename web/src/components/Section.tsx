@@ -1,6 +1,8 @@
 import { cva, VariantProps } from 'class-variance-authority';
+import React from 'react';
+import { cn } from '@utils';
 
-const sectionStyles = cva('px-4 py-8 md:px-[140px] md:py-[140px]', {
+const sectionStyles = cva('py-[140px]', {
   variants: {
     variant: {
       gray: 'bg-[#F7F7F7]',
@@ -14,12 +16,13 @@ const sectionStyles = cva('px-4 py-8 md:px-[140px] md:py-[140px]', {
 
 type SectionProps = VariantProps<typeof sectionStyles> & {
   children: React.ReactNode;
+  className?: string;
 };
 
-export const Section = ({ variant, children }: SectionProps) => {
+export const Section = ({ variant, children, className }: SectionProps) => {
   return (
-    <section className={sectionStyles({ variant })}>
-      <div className="w-full max-w-full">{children}</div>
+    <section className={cn(sectionStyles({ variant }), className)}>
+      {children}
     </section>
   );
 };

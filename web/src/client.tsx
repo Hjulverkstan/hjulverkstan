@@ -5,8 +5,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { PreloadedDataProvider } from '@hooks/usePreloadedData';
 
 import Root from './root';
-import Navbar from '@components/Navbar';
-import Footer from '@components/Footer';
 
 /**
  * When mounting and rendering the app client side, get the data created by
@@ -45,9 +43,7 @@ const node = (
   <PreloadedDataProvider value={getPreloadedDataClientSide()}>
     <BrowserRouter>
       <HelmetProvider>
-        <Navbar />
         <Root />
-        <Footer />
       </HelmetProvider>
     </BrowserRouter>
   </PreloadedDataProvider>

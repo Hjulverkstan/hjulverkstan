@@ -1,4 +1,4 @@
-import React, { CSSProperties, HTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@utils';
 import { LucideIcon } from 'lucide-react';
@@ -6,12 +6,11 @@ import { LucideIcon } from 'lucide-react';
 const iconVariants = cva('flex-shrink-0', {
   variants: {
     variant: {
-      base: 'text-primary',
-      imageOverlay: 'background',
+      default: 'text-primary',
     },
   },
   defaultVariants: {
-    variant: 'base',
+    variant: 'default',
   },
 });
 
@@ -40,12 +39,12 @@ const titleVariants = cva(
   {
     variants: {
       variant: {
-        base: 'text-h3',
-        imageOverlay: 'px-2 py-4 text-2xl text-white',
+        default: 'text-foreground',
+        imageOverlay: 'text-background px-2 py-4 text-2xl',
       },
     },
     defaultVariants: {
-      variant: 'base',
+      variant: 'default',
     },
   },
 );
@@ -55,54 +54,32 @@ interface CardTitleProps
     VariantProps<typeof titleVariants> {
   children: React.ReactNode;
   className?: string;
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
-const Title: React.FC<CardTitleProps> = ({
-  variant,
-  children,
-  className,
-  as: Component = 'h2',
-  ...props
-}) => {
+const Title: React.FC<CardTitleProps> = ({ children, className, ...props }) => {
+  const baseTitleStyle =
+    'font-inter z-10 font-semibold leading-tight text-2xl line-clamp-2';
+
   return (
-    <Component className={cn(titleVariants({ variant }), className)} {...props}>
+    <div className={cn(baseTitleStyle, className)} {...props}>
       {children}
-    </Component>
+    </div>
   );
 };
 Title.displayName = 'CardTitle';
 
 //
 
-const bodyVariants = cva('text-foreground z-10 leading-relaxed', {
-  variants: {
-    variant: {
-      base: 'text-lg',
-      imageOverlay: 'text-background line-clamp-2 px-2',
-      compact: 'line-clamp-2 text-sm',
-    },
-  },
-  defaultVariants: {
-    variant: 'base',
-  },
-});
-
-interface CardBodyProps
-  extends HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof bodyVariants> {
+interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
 }
 
-const Body: React.FC<CardBodyProps> = ({
-  variant,
-  children,
-  className,
-  ...props
-}) => {
+const Body: React.FC<CardBodyProps> = ({ children, className, ...props }) => {
+  const baseBodyStyle = 'z-10 leading-relaxed text-base font-inter';
+
   return (
-    <div className={cn(bodyVariants({ variant }), className)} {...props}>
+    <div className={cn(baseBodyStyle, className)} {...props}>
       {children}
     </div>
   );
@@ -144,30 +121,26 @@ const Image: React.FC<CardImageProps> = ({
   className,
   ...props
 }) => {
-  if (variant === 'background') {
-    return (
+  return variant === 'background' ? (
+    <div
+      className={cn('absolute inset-0 z-0 bg-cover bg-center', className)}
+      style={{ backgroundImage: `url(${src})` }}
+      role="img"
+      aria-label={alt}
+      {...props}
+    >
       <div
-        className={cn('absolute inset-0 z-0 bg-cover bg-center', className)}
-        style={{ backgroundImage: `url(${src})` }}
-        role="img"
-        aria-label={alt}
-        {...props}
-      >
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-black/70
-            via-black/20 to-transparent"
-          aria-hidden="true"
-        />
-      </div>
-    );
-  }
-
-  return (
+        className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20
+          to-transparent"
+        aria-hidden="true"
+      />
+    </div>
+  ) : (
     <img
       src={src}
       alt={alt}
       className={cn(
-        'h-auto max-h-[300px] w-full self-stretch rounded-lg object-cover',
+        'h-[300px] w-full self-stretch rounded-lg object-cover',
         className,
       )}
       loading="lazy"
@@ -179,24 +152,24 @@ Image.displayName = 'CardImage';
 
 //
 
-const cardBaseVariants = cva('flex overflow-hidden rounded-lg shadow-sm', {
+const cardBaseVariants = cva('flex overflow-hidden rounded-lg', {
   variants: {
     variant: {
-      base: 'h-auto flex-col gap-6 bg-white p-8',
+      default: 'bg-background h-auto flex-col gap-4 p-8',
       imageOverlay: [
-        `relative h-auto flex-1 flex-col justify-end bg-cover bg-center
-        text-white md:min-h-[413px]`,
+        `text-background relative h-auto flex-1 flex-col justify-end gap-4
+        bg-cover bg-center p-8 md:min-h-[413px]`,
       ],
-      compact: 'h-auto w-full flex-1 flex-col gap-2 bg-white p-4 text-sm',
+      compact: 'h-auto w-full flex-1 flex-col gap-4 bg-white p-8 text-sm',
       imageAbove: [
-        `w-full flex-col bg-white sm:w-[calc(50%-2rem)] md:min-w-[300px]
-        md:flex-1`,
+        `bg-background w-full flex-col rounded-lg sm:w-[calc(50%-2rem)]
+        md:min-w-[300px] md:flex-1`,
       ],
       baseGray: 'h-auto flex-col gap-4 bg-gray-100 p-6',
     },
   },
   defaultVariants: {
-    variant: 'base',
+    variant: 'default',
   },
 });
 
@@ -205,32 +178,17 @@ export interface CardBaseProps
     VariantProps<typeof cardBaseVariants> {
   children: React.ReactNode;
   className?: string;
-  src?: string;
-  alt?: string;
-  minHeight?: string | number;
 }
 
 const CardBaseRoot: React.FC<CardBaseProps> = ({
   children,
-  variant = 'base',
+  variant,
   className,
-  src,
-  minHeight,
   ...props
 }) => {
-  const variantStyles: CSSProperties = {};
-
   return (
-    <div
-      className={cn(cardBaseVariants({ variant }), className)}
-      style={variantStyles}
-      {...props}
-    >
-      {variant === 'imageAbove' ? (
-        <div className="relative flex flex-col gap-3">{children}</div>
-      ) : (
-        children
-      )}
+    <div className={cn(cardBaseVariants({ variant }), className)} {...props}>
+      {children}
     </div>
   );
 };
