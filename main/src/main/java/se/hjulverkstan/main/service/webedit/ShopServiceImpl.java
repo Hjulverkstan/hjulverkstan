@@ -70,6 +70,9 @@ public class ShopServiceImpl implements ShopService {
         shop.setOpenHours(mapOpenHoursDtoToEntity(null, shopDto.getOpenHours()));
         shop.setHasTemporaryHours(shopDto.getHasTemporaryHours() != null && shopDto.getHasTemporaryHours());
 
+        // phone
+        shop.setPhoneNumber(shopDto.getPhoneNumber());
+
         Location location = locationRepository.findById(shopDto.getLocationId())
                 .orElseThrow(() -> new ElementNotFoundException("Location with id " + shopDto.getLocationId()));
         shop.setLocation(location);
@@ -103,6 +106,9 @@ public class ShopServiceImpl implements ShopService {
         selectedShop.setImageURL(shopDto.getImageURL());
         selectedShop.setOpenHours(mapOpenHoursDtoToEntity(selectedShop.getOpenHours(), shopDto.getOpenHours()));
         selectedShop.setHasTemporaryHours(shopDto.getHasTemporaryHours());
+
+        // phonenumber
+        selectedShop.setPhoneNumber(shopDto.getPhoneNumber());
 
         try {
             Location location = locationRepository.findById(shopDto.getLocationId())
@@ -167,6 +173,9 @@ public class ShopServiceImpl implements ShopService {
         shopDto.setLatitude(shop.getLatitude());
         shopDto.setLongitude(shop.getLongitude());
         shopDto.setImageURL(shop.getImageURL());
+
+        // phone
+        shopDto.setPhoneNumber(shop.getPhoneNumber());
 
         OpenHoursDto openHoursDto = mapOpenHoursToDto(shop.getOpenHours());
         shopDto.setOpenHours(openHoursDto);
