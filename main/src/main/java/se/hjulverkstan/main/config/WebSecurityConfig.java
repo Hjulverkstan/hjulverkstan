@@ -71,10 +71,10 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/v1/auth/login",
-                                    "/v1/auth/refreshtoken",
-                                    "/v1/auth/signout/*",
-                                    "v1/public/**",
+                    auth.requestMatchers("/v1/api/auth/login",
+                                    "/v1/api/auth/refreshtoken",
+                                    "/v1/api/auth/signout/*",
+                                    "/v1/api/public/**",
                                     "/api/v3/api-docs/**",
                                     "/api/swagger-ui/**",
                                     "/api/swagger-ui.html").permitAll()

@@ -11,7 +11,7 @@ import se.hjulverkstan.main.dto.responses.GetAllEmployeeDto;
 import se.hjulverkstan.main.service.EmployeeService;
 
 @RestController
-@RequestMapping("v1/employee")
+@RequestMapping("v1/api/employee")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 //@ControllerAdvice
 public class EmployeeController {

@@ -10,7 +10,7 @@ import se.hjulverkstan.main.dto.responses.*;
 import se.hjulverkstan.main.service.VehicleService;
 
 @RestController
-@RequestMapping("v1/vehicle")
+@RequestMapping("v1/api/vehicle")
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 public class VehicleController {
     private final VehicleService vehicleService;

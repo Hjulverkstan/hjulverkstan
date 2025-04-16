@@ -11,7 +11,7 @@ import se.hjulverkstan.main.dto.responses.GetAllCustomerDto;
 import se.hjulverkstan.main.service.CustomerService;
 
 @RestController
-@RequestMapping("v1/customer")
+@RequestMapping("v1/api/customer")
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 public class CustomerController {
     private final CustomerService customerService;

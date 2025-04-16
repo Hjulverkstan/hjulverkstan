@@ -16,7 +16,7 @@ import java.util.List;
 import static se.hjulverkstan.main.util.WebEditUtils.validateLanguage;
 
 @RestController
-@RequestMapping("v1/web-edit/shop")
+@RequestMapping("v1/api/web-edit/shop")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ShopController {
     private final ShopService shopService;

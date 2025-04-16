@@ -11,7 +11,7 @@ import se.hjulverkstan.main.dto.responses.GetAllLocationDto;
 import se.hjulverkstan.main.service.LocationService;
 
 @RestController
-@RequestMapping("v1/location")
+@RequestMapping("v1/api/location")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class LocationController {
     private final LocationService service;

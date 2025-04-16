@@ -10,7 +10,7 @@ import se.hjulverkstan.main.dto.tickets.*;
 import se.hjulverkstan.main.service.TicketService;
 
 @RestController
-@RequestMapping("v1/ticket")
+@RequestMapping("v1/api/ticket")
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 public class TicketController {
     private final TicketService service;
