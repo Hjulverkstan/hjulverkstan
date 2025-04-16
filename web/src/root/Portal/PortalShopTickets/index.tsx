@@ -1,32 +1,33 @@
-import { useLocation, useParams } from 'react-router-dom';
+import {useLocation, useParams} from 'react-router-dom';
 
-import { useCustomersQ } from '@data/customer/queries';
-import { useEmployeesQ } from '@data/employee/queries';
-import { useVehiclesQ } from '@data/vehicle/queries';
-import { useLocationsQ } from '@data/location/queries';
-import { initTicket, ticketZ } from '@data/ticket/form';
-import { useCreateTicketM, useEditTicketM } from '@data/ticket/mutations';
-import { useTicketQ, useTicketsAggregatedQ } from '@data/ticket/queries';
+import {useCustomersQ} from '@data/customer/queries';
+import {useEmployeesQ} from '@data/employee/queries';
+import {useVehiclesQ} from '@data/vehicle/queries';
+import {useLocationsQ} from '@data/location/queries';
+import {initTicket, ticketZ} from '@data/ticket/form';
+import {useCreateTicketM, useEditTicketM} from '@data/ticket/mutations';
+import {useTicketQ, useTicketsAggregatedQ} from '@data/ticket/queries';
 
 import * as DataTable from '@components/DataTable';
 import * as DataForm from '@components/DataForm';
-import { Mode } from '@components/DataForm';
+import {Mode} from '@components/DataForm';
 
 import PortalContent from '../PortalContent';
 import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
 import PortalToolbar from '../PortalToolbar';
-import { PageContentProps } from '..';
+import {PageContentProps} from '..';
 
 import ShopTicketsActions from './ShopTicketsActions';
 import ShopTicketsFilters from './ShopTicketsFilters';
 import ShopTicketsFields from './ShopTicketsFields';
 import useColumns from './useColumns';
-import { Ticket, TicketType } from '@data/ticket/types';
-import {
-  VehicleShortcutAction,
-  VehicleShortcutLocationState,
-} from '../PortalShopInventory/ShopInventoryActions';
+import {Ticket, TicketType} from '@data/ticket/types';
+import {VehicleShortcutAction, VehicleShortcutLocationState,} from '../PortalShopInventory/ShopInventoryActions';
+import {useDialogManager} from "@components/DialogManager";
+import {CreateTicketParams} from "@data/ticket/api";
+import ConfirmConvertDialog from "@components/ConfirmConvertDialog";
+import BadgeGroup from "@components/BadgeGroup";
 
 //
 
@@ -66,6 +67,32 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
 
   const columns = useColumns();
 
+  const { openDialog } = useDialogManager();
+
+  const createTicketMaybeWithDialog = (body: CreateTicketParams) =>
+      body.ticketType !== TicketType.DONATE
+          ? createTicketM.mutateAsync(body)
+          : new Promise((resolve, reject) => openDialog(
+              <ConfirmConvertDialog
+                title="Donate vehicles"
+                onConfirm={() => resolve(createTicketM.mutateAsync(body))}
+                onClose={() => reject('closed')}
+              >
+                This will archive all...
+                <BadgeGroup badges={
+                  (body.vehicleIds || [])
+                      .map((id) => vehiclesQ.data?.[id])
+                      .filter((v): v is { regTag: string; id: string } => !!v)
+                      .map((v) => ({
+                        label: v.regTag,
+                        href: `/portal/shop/inventory/${v.id}`,
+                        variant: 'secondary',
+                        tooltip: `Vehicle: ${v.regTag}`,
+                      }))
+                }/>
+              </ConfirmConvertDialog>
+  ))
+
   return (
     <DataTable.Provider
       key="tickets"
@@ -104,7 +131,7 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
               error={ticketQ.error || locationsQ.error}
               isSubmitting={createTicketM.isPending || editTicketM.isPending}
               saveMutation={editTicketM.mutateAsync}
-              createMutation={createTicketM.mutateAsync}
+              createMutation={createTicketMaybeWithDialog}
             >
               <ShopTicketsFields />
             </PortalForm>
