@@ -70,7 +70,6 @@ public class ShopServiceImpl implements ShopService {
         shop.setOpenHours(mapOpenHoursDtoToEntity(null, shopDto.getOpenHours()));
         shop.setHasTemporaryHours(shopDto.getHasTemporaryHours() != null && shopDto.getHasTemporaryHours());
 
-        // phone
         shop.setPhoneNumber(shopDto.getPhoneNumber());
 
         Location location = locationRepository.findById(shopDto.getLocationId())
@@ -107,7 +106,6 @@ public class ShopServiceImpl implements ShopService {
         selectedShop.setOpenHours(mapOpenHoursDtoToEntity(selectedShop.getOpenHours(), shopDto.getOpenHours()));
         selectedShop.setHasTemporaryHours(shopDto.getHasTemporaryHours());
 
-        // phonenumber
         selectedShop.setPhoneNumber(shopDto.getPhoneNumber());
 
         try {
@@ -174,7 +172,6 @@ public class ShopServiceImpl implements ShopService {
         shopDto.setLongitude(shop.getLongitude());
         shopDto.setImageURL(shop.getImageURL());
 
-        // phone
         shopDto.setPhoneNumber(shop.getPhoneNumber());
 
         OpenHoursDto openHoursDto = mapOpenHoursToDto(shop.getOpenHours());
