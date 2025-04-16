@@ -177,9 +177,22 @@ public class TicketServiceImpl implements TicketService {
             if (!vehicle.getTickets().contains(ticket)) vehicle.getTickets().add(ticket);
         });
 
-        if (ticket instanceof TicketRent || ticket instanceof TicketDonate) {
+        if (ticket instanceof TicketRent) {
             if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned)){
-                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental or Donate Tickets!");
+                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Rental Tickets!");
+            }
+            vehicleRepository.saveAll(vehicles);
+        }
+
+        if (ticket instanceof TicketDonate) {
+            if(vehicles.stream().anyMatch(Vehicle::isCustomerOwned)) {
+                throw new UnsupportedTicketVehiclesException("Customer Owned Vehicles cannot be selected for Donate Tickets!");
+            }
+
+            for (Vehicle vehicle : vehicles) {
+                vehicle.setCustomerOwned(true);
+                vehicle.setRegTag(null);
+                vehicle.setVehicleStatus(VehicleStatus.ARCHIVED);
             }
             vehicleRepository.saveAll(vehicles);
         }

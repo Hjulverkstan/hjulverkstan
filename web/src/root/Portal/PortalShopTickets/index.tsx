@@ -27,6 +27,9 @@ import {
   VehicleShortcutAction,
   VehicleShortcutLocationState,
 } from '../PortalShopInventory/ShopInventoryActions';
+import { useDialogManager } from '@components/DialogManager';
+import { CreateTicketParams } from '@data/ticket/api';
+import ConfirmConvertDialog from '@components/ConfirmConvertDialog';
 
 //
 
@@ -66,6 +69,23 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
 
   const columns = useColumns();
 
+  const { openDialog } = useDialogManager();
+
+  const createTicketMaybeWithDialog = (body: CreateTicketParams) =>
+    body.ticketType !== TicketType.DONATE
+      ? createTicketM.mutateAsync(body)
+      : new Promise((resolve, reject) => {
+          openDialog(
+            <ConfirmConvertDialog
+              title="Converting vehicles with donate ticket"
+              description="You are donating vehicles owned by Hjulverkstan. This will archive all selections and cannot be undone."
+              onConfirm={() => resolve(createTicketM.mutateAsync(body))}
+              onClose={() => reject('closed')}
+              vehicleIds={body.vehicleIds}
+            />,
+          );
+        });
+
   return (
     <DataTable.Provider
       key="tickets"
@@ -104,7 +124,7 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
               error={ticketQ.error || locationsQ.error}
               isSubmitting={createTicketM.isPending || editTicketM.isPending}
               saveMutation={editTicketM.mutateAsync}
-              createMutation={createTicketM.mutateAsync}
+              createMutation={createTicketMaybeWithDialog}
             >
               <ShopTicketsFields />
             </PortalForm>
