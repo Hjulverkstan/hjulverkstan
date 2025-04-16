@@ -3,6 +3,7 @@ package se.hjulverkstan.main.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import se.hjulverkstan.main.dto.ImageUploadResponse;
@@ -11,6 +12,7 @@ import se.hjulverkstan.main.service.S3Service;
 
 @RestController
 @RequestMapping("/v1/image")
+@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 public class ImageController {
 
     private final S3Service s3Service;

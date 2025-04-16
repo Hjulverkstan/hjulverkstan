@@ -3,6 +3,7 @@ package se.hjulverkstan.main.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.responses.GetAllTicketDto;
 import se.hjulverkstan.main.dto.tickets.*;
@@ -10,6 +11,7 @@ import se.hjulverkstan.main.service.TicketService;
 
 @RestController
 @RequestMapping("v1/ticket")
+@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 public class TicketController {
     private final TicketService service;
 
