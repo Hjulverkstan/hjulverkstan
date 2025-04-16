@@ -27,6 +27,12 @@ import {
   VehicleShortcutAction,
   VehicleShortcutLocationState,
 } from '../PortalShopInventory/ShopInventoryActions';
+import { useDialogManager } from '@components/DialogManager';
+import { CreateTicketParams } from '@data/ticket/api';
+import ConfirmConvertDialog from '@components/ConfirmConvertDialog';
+import BadgeGroup from '@components/BadgeGroup';
+import { VehicleType } from '@data/vehicle/types';
+import { capitalize } from '@utils';
 
 //
 
@@ -66,6 +72,50 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
 
   const columns = useColumns();
 
+  const { openDialog } = useDialogManager();
+
+  const vehiclesDataArray = vehiclesQ.data ?? [];
+
+  const vehiclesData: Record<
+    string,
+    { regTag?: string; id: string; vehicleType?: VehicleType }
+  > = Object.fromEntries(vehiclesDataArray.map((v) => [v.id, v]));
+
+  const createTicketMaybeWithDialog = (body: CreateTicketParams) =>
+    body.ticketType !== TicketType.DONATE
+      ? createTicketM.mutateAsync(body)
+      : new Promise((resolve, reject) => {
+          openDialog(
+            <ConfirmConvertDialog
+              conversionTitle="Converting vehicles with donate ticket"
+              conversionDescription="You are donating vehicles owned by Hjulverkstan"
+              message="This will archive all selections..."
+              onConfirm={() => resolve(createTicketM.mutateAsync(body))}
+              onClose={() => reject('closed')}
+            >
+              <BadgeGroup
+                limit={5}
+                badges={(body.vehicleIds || [])
+                  .map((id) => vehiclesData?.[id])
+                  .filter(
+                    (
+                      v,
+                    ): v is {
+                      id: string;
+                      regTag: string;
+                      vehicleType: VehicleType;
+                    } => !!v,
+                  )
+                  .map((v) => ({
+                    label: v.regTag,
+                    variant: 'secondary',
+                    tooltip: `${capitalize(v.vehicleType)}: ${v.regTag}`,
+                  }))}
+              />
+            </ConfirmConvertDialog>,
+          );
+        });
+
   return (
     <DataTable.Provider
       key="tickets"
@@ -104,7 +154,7 @@ export default function PortalShopTickets({ mode }: PageContentProps) {
               error={ticketQ.error || locationsQ.error}
               isSubmitting={createTicketM.isPending || editTicketM.isPending}
               saveMutation={editTicketM.mutateAsync}
-              createMutation={createTicketM.mutateAsync}
+              createMutation={createTicketMaybeWithDialog}
             >
               <ShopTicketsFields />
             </PortalForm>
