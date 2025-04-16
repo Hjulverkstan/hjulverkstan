@@ -3,6 +3,7 @@ package se.hjulverkstan.main.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.CustomerDto;
 import se.hjulverkstan.main.dto.NewCustomerDto;
@@ -11,6 +12,7 @@ import se.hjulverkstan.main.service.CustomerService;
 
 @RestController
 @RequestMapping("v1/customer")
+@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 public class CustomerController {
     private final CustomerService customerService;
 

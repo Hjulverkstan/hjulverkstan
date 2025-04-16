@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.Exceptions.MissingArgumentException;
@@ -65,6 +66,7 @@ public class AuthController {
     }
 
     @PostMapping("/signout/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<?> logoutUser(@PathVariable Long id, HttpServletResponse response) {
         MessageResponse messageResponse = authService.signOut(id);
         cookieService.clearAuthenticationCookies(response);
@@ -73,6 +75,7 @@ public class AuthController {
     }
 
     @GetMapping("/verify")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<?> verifyAuth() {
         try {
             UserDetails userDetails = authService.verifyAuth();

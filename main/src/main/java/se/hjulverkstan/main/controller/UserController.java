@@ -2,6 +2,7 @@ package se.hjulverkstan.main.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.responses.GetAllUserDto;
 import se.hjulverkstan.main.dto.user.SignupRequest;
@@ -10,6 +11,7 @@ import se.hjulverkstan.main.service.UserServiceImpl;
 
 @RestController
 @RequestMapping("v1/user")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
 
     UserServiceImpl userService;

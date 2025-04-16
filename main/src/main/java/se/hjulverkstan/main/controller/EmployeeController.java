@@ -3,6 +3,7 @@ package se.hjulverkstan.main.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.EmployeeDto;
 import se.hjulverkstan.main.dto.NewEmployeeDto;
@@ -11,6 +12,7 @@ import se.hjulverkstan.main.service.EmployeeService;
 
 @RestController
 @RequestMapping("v1/employee")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 //@ControllerAdvice
 public class EmployeeController {
     private final EmployeeService service;
@@ -20,11 +22,13 @@ public class EmployeeController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<GetAllEmployeeDto> getAllEmployees() {
         return new ResponseEntity<>(service.getAllEmployee(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id) {
         return new ResponseEntity<>(service.getEmployeeById(id), HttpStatus.OK);
 

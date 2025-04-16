@@ -3,6 +3,7 @@ package se.hjulverkstan.main.controller.webedit;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.webedit.GeneralContentDto;
 import se.hjulverkstan.main.dto.webedit.UpdateGeneralContentWithLangDto;
@@ -15,6 +16,7 @@ import static se.hjulverkstan.main.util.WebEditUtils.validateLanguage;
 
 @RestController
 @RequestMapping("v1/web-edit/general-content")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class GeneralContentController {
     private final GeneralContentService generalContentService;
 
