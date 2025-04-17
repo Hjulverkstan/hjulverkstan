@@ -1,17 +1,21 @@
 # Setup local development
+Below are steps for setting the project up locally, but if you just want to run the application
+you can also do so by running `docker compose up` in the root directory of the project.
+
+You can also use `docker compose` to run specific parts of the project:
+- `docker compose up postgres` to run the database
+- `docker compose up backend` to run the backend (which will automatically run postgres too)
+- `docker compose up frontend` to run the frontend
+- `docker compose up` to run everything
 
 ## Prerequisite overview
-
 - Node.js v20
 - Postgres v14
 - JDK v21
 - Git
 
 ## Prerequisite steps
-
 ### Postgres
-
-
 Run the [Postgres Installer](https://www.postgresql.org/download/):
 
 1. Proceed by clicking next.
@@ -33,17 +37,13 @@ Create the database:
    ```
    
 ### Node.js
-
 Run the [Node Installer](https://nodejs.org/en)
 
 ### Git
-
 On Windows you need to install [git for Windows/git bash](https://git-scm.com/downloads/win) yourself .
 
 ## Setup git repository
-
 ### Clone the repo
-
 On Windows open Git Bash, for linux/mac just use the terminal of choice.
 
 ```bash
@@ -51,7 +51,6 @@ git clone https://github.com/Hjulverkstan/hjulverkstan.git
 ```
 
 ### Set git config [important!]
-
 Run the setup shell script:
 
 ```bash
@@ -59,13 +58,11 @@ sh ./setup.sh
 ```
 
 ### Configure the environment variables 
-
 Copy the `.env.template` to `.env`, it should be plug and play except for s3 functionality, for this you will need to acuire the AWS secrets by a permitted developer.
 
 > If using IntelliJ IDEA Ultimate the .idea folder will already have a run configuration configured that will read automatically from the .env file.
 
 ## Run the project
-
 ### IntelliJ IDEA Ultimate
 
 **1.** Install [IDEA Ultimate](https://www.jetbrains.com/idea/download/) for your OS of choice and activate your licence.
@@ -77,7 +74,6 @@ Copy the `.env.template` to `.env`, it should be plug and play except for s3 fun
 **4.** Run the backend and frontend from the run toolbar.
 
 ### IntelliJ IDEA Comunity Edition
-
 In community edition there is no built-in run configuration for spring but using the maven runner works fine. We do not have one commited to the `.idea` directory but should be straight forward to setup. Remember to:
 
 - set the spring profile to `dev`
@@ -87,7 +83,7 @@ In community edition there is no built-in run configuration for spring but using
 
 #### Install JDK
 
-#### Windows
+##### Windows
 
 Install OpenJDK v21 from Command Prompt / Powershell using the built in Windows package manager:
 
@@ -95,8 +91,7 @@ Install OpenJDK v21 from Command Prompt / Powershell using the built in Windows 
 winget install --name EclipseAdoptium.Temurin.21.JDK
 ```
 
-#### MacOS
-
+##### MacOS
 Install Homebrew
 
 ```bash
@@ -109,14 +104,12 @@ And then OpenJDK v21
 brew install openjdk@21
 ```
 
-#### Linux
-
+##### Linux
 Download and install from [JDK Archive](https://jdk.java.net/archive/)
 
 ### Run the stack
 
 #### Backend
-
 From bash (or git bash on windows):
 
 ```bash
@@ -131,7 +124,6 @@ cd main
 ```
 
 #### Frontend
-
 ```bash
 cd web
 npm run dev
