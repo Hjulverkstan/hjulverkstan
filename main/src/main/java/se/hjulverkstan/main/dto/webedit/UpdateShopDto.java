@@ -34,4 +34,7 @@ public class UpdateShopDto {
     private Long locationId;
 
     private String bodyText;
+
+    @NotNull(message = "A phone number is required")
+    private String phoneNumber;
 }
