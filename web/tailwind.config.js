@@ -8,10 +8,18 @@ module.exports = {
       center: true,
       padding: '2rem',
       screens: {
-        '2xl': '1400px',
+        '2xl': '1920px',
       },
     },
     extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
+      fontSize: {
+        h1: ['80px', { lineHeight: '80px' }],
+        h2: ['60px', { lineHeight: '60px' }],
+        h3: ['30px', { lineHeight: '36px' }],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
