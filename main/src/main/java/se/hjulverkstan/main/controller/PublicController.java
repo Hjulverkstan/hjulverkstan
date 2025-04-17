@@ -11,7 +11,7 @@ import se.hjulverkstan.main.dto.vehicles.VehicleDto;
 import se.hjulverkstan.main.service.VehicleService;
 
 @RestController
-@RequestMapping("/v1/public")
+@RequestMapping("api/v1/public")
 public class PublicController {
     private final VehicleService vehicleService;
 

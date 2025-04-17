@@ -12,6 +12,7 @@ import path from 'node:path';
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 //
 
@@ -29,6 +30,18 @@ const vite = await createViteServer({
 //
 
 const app = express();
+
+const proxy = process.env.VITE_BACKEND_PROXY_SLUG;
+const api = process.env.VITE_BACKEND_URL;
+
+app.use(
+  proxy,
+  createProxyMiddleware({
+    target: api,
+    changeOrigin: true,
+    pathRewrite: (path) => path.replace(/^\/api/, ''),
+  }),
+);
 
 app.use(vite.middlewares);
 app.use(express.static(path.join(rootPath, 'public')));

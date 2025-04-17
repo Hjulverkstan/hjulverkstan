@@ -130,7 +130,8 @@ INSERT INTO users
 INSERT INTO roles
 (id, name       ) VALUES
 (1, 'ROLE_ADMIN'),
-(2, 'ROLE_USER' );
+(2, 'ROLE_USER' ),
+(3,'ROLE_PIPELINE');
 
 INSERT INTO user_roles
 (role_id, user_id) VALUES
