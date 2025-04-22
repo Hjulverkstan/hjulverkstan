@@ -1,14 +1,40 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { Stack } from '../lib/stack';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+
+import { CertStack } from '../lib/cert';
+import { AppStack } from '../lib/app';
+import { createEnvConfig } from './config';
 
 const app = new cdk.App();
 
-new Stack(app, 'Dev-Stack', {
-  env: { account: process.env.CDK_DEV_ACCOUNT, region: process.env.CDK_REGION }
-});
+const stack = app.node.tryGetContext('stack');
+const config = createEnvConfig(stack);
 
-// Steps to run Ecs stack in AWS CLI
-//cdk bootsrap --profile dev-user
-//cdk deploy
+if (stack === 'cert') {
+  new CertStack(
+    app,
+    'CertStack',
+    {
+      env: { account: config.account, region: 'us-east-1' },
+      config,
+    },
+  );
+}
+
+else if (stack === 'app') {
+  new AppStack(app, 'AppStack', {
+    env: { account: config.account, region: 'eu-north-1' },
+    instanceType: ec2.InstanceType.of(
+      ec2.InstanceClass.T3,
+      ec2.InstanceSize.MICRO,
+    ),
+    config,
+  });
+}
+
+else {
+  throw Error('You need to specify the stack to deploy using context, see the' +
+    ' README.')
+}
+

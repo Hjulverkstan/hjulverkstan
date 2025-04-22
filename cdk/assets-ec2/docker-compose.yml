@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${API_DB_DATABASE}
+      POSTGRES_USER: ${API_DB_USER}
+      POSTGRES_PASSWORD: ${API_DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    image: ${DOCKER_REPO}:${DOCKER_API_IMAGE_TAG}
+    container_name: api
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+## For troubleshooting
+#
+#  echo-server:
+#    image: mendhak/http-https-echo
+#    container_name: echo
+#    ports:
+#      - "8080:8080"
+#    environment:
+#     - LOG_REQUESTS=true
+
+volumes:
+  postgres_data:
