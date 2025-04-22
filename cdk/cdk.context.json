@@ -1,0 +1,15 @@
+{
+  "availability-zones:account=730335549373:region=eu-north-1": [
+    "eu-north-1a",
+    "eu-north-1b",
+    "eu-north-1c"
+  ],
+  "hosted-zone:account=730335549373:domainName=hjulverkstan.org:region=eu-north-1": {
+    "Id": "/hostedzone/Z06587302B0UA1QW934WE",
+    "Name": "hjulverkstan.org."
+  },
+  "hosted-zone:account=730335549373:domainName=hjulverkstan.org:region=us-east-1": {
+    "Id": "/hostedzone/Z06587302B0UA1QW934WE",
+    "Name": "hjulverkstan.org."
+  }
+}
