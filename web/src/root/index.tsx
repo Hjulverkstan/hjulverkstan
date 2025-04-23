@@ -158,19 +158,6 @@ function RedirectDelayed({ path }: { path: string }) {
 
 //
 
-const renderRoute = (route: RouteAttributes) => (
-  <Route
-    key={route.path}
-    path={route.path}
-    element={
-      <>
-        <RouteHelmet route={route} />
-        <route.component />
-      </>
-    }
-  />
-);
-
 const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
   <Route
     key={route.path + locale}
@@ -203,27 +190,35 @@ export default function Root() {
   const { ssr, csr } = createRoutes(data);
 
   return (
-    <Auth.Provider>
-      <ThemeProvider storageKey="vite-ui-theme">
-        <QueryClientProvider client={queryClient}>
-          <Tooltip.Provider delayDuration={500}>
-            <DialogManager.Provider>
-              <Routes>
-                {csr.map(renderRoute)}
-                {ssr.map((route) => renderLocalizedRoute(route))}
-                {locales
-                  .map((locale) =>
-                    ssr.map((route) => renderLocalizedRoute(route, locale)),
-                  )
-                  .flat()}
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-              <Toaster />
-            </DialogManager.Provider>
-          </Tooltip.Provider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </Auth.Provider>
+    <ThemeProvider storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <Tooltip.Provider delayDuration={500}>
+          <DialogManager.Provider>
+            <Routes>
+              {ssr.map((route) => renderLocalizedRoute(route))}
+              {locales
+                .map((locale) =>
+                  ssr.map((route) => renderLocalizedRoute(route, locale)),
+                )
+                .flat()}
+              <Route
+                path="/portal/*"
+                element={
+                  <Auth.Provider>
+                    <RouteHelmet
+                      route={csr.find((r) => r.path === '/portal/*')!}
+                    />
+                    <Portal />
+                  </Auth.Provider>
+                }
+              />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+            <Toaster />
+          </DialogManager.Provider>
+        </Tooltip.Provider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
