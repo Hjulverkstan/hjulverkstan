@@ -71,7 +71,7 @@ export const Provider = ({ children }: AuthProviderProps) => {
       setIsLoading(true);
 
       api
-        .logOut(state.id)
+        .logOut()
         .then(() => setState(null))
         .catch(() =>
           toast(
