@@ -1,19 +1,23 @@
 package se.hjulverkstan.main.controller;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.Exceptions.MissingArgumentException;
 import se.hjulverkstan.Exceptions.TokenRefreshException;
 import se.hjulverkstan.main.dto.MessageResponse;
 import se.hjulverkstan.main.dto.auth.LoginRequest;
 import se.hjulverkstan.main.dto.auth.UserDetails;
+import se.hjulverkstan.main.security.jwt.JwtUtils;
 import se.hjulverkstan.main.security.services.AuthService;
 import se.hjulverkstan.main.service.CookieService;
 import se.hjulverkstan.main.service.CookieServiceImpl;
@@ -21,42 +25,39 @@ import se.hjulverkstan.main.service.CookieServiceImpl;
 import java.util.Arrays;
 
 
+@Slf4j
 @RestController
 @RequestMapping("v1/auth")
 public class AuthController {
 
     AuthService authService;
     CookieService cookieService;
+    JwtUtils jwtUtils;
 
-    public AuthController(AuthService authService, CookieServiceImpl cookieService) {
+    public AuthController(AuthService authService, CookieServiceImpl cookieService, JwtUtils jwtUtils) {
         this.authService = authService;
         this.cookieService = cookieService;
+        this.jwtUtils = jwtUtils;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
         UserDetails userDetails = authService.login(loginRequest);
         cookieService.createAuthenticationCookies(httpServletResponse, userDetails);
-
         return ResponseEntity.ok(userDetails);
     }
 
     @GetMapping("/refreshtoken")
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) {
-        String refreshToken = null;
-
-        if (request.getCookies() != null)
-            refreshToken = Arrays.stream(request.getCookies())
-                    .filter(cookie -> "refreshToken".equals(cookie.getName()))
-                    .findFirst()
-                    .map(Cookie::getValue)
-                    .orElseThrow(() -> new MissingArgumentException("Refresh token"));
-        else
+        String refreshToken =   null;
+        try {
+            refreshToken = getToken(request, "refreshToken");
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Cookies are empty or null"));
+        }
 
         try {
             cookieService.refreshToken(response, refreshToken);
-
             return ResponseEntity.ok(new MessageResponse("Refresh successful"));
         } catch (TokenRefreshException ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(ex.getMessage()));
@@ -65,11 +66,29 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/signout/{id}")
+    @PostMapping("/signout")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    public ResponseEntity<?> logoutUser(@PathVariable Long id, HttpServletResponse response) {
-        MessageResponse messageResponse = authService.signOut(id);
+    public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        String accessToken;
+        try {
+            accessToken = getToken(request, "accessToken");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Cookies are empty or null"));
+        }
+
+        Long userID;
+        try {
+            userID = jwtUtils.extractUserID(accessToken);
+        } catch (JwtException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Invalid access token"));
+        }
+
+        MessageResponse messageResponse = authService.signOut(userID);
         cookieService.clearAuthenticationCookies(response);
+        // CLEAR SPRING SECURITY CONTEXT HERE, optional
+        SecurityContextHolder.clearContext();
 
         return ResponseEntity.ok(messageResponse);
     }
@@ -83,5 +102,19 @@ public class AuthController {
         } catch (InsufficientAuthenticationException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
+    }
+
+    private String getToken(HttpServletRequest request, String type) {
+        String token = null;
+
+        if (request.getCookies() != null) {
+            token = Arrays.stream(request.getCookies())
+                    .filter(cookie -> type.equals(cookie.getName()))
+                    .findFirst()
+                    .map(Cookie::getValue)
+                    .orElseThrow(() -> new MissingArgumentException(type + " token"));
+        }
+
+        return token;
     }
 }

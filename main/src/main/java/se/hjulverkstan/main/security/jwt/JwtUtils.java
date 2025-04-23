@@ -27,8 +27,9 @@ public class JwtUtils {
     @Value("${saveChild.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateToken(String userName) {
+    public String generateToken(String userName, Long userID) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("userID", userID);
         return createToken(claims, userName);
     }
 
@@ -49,6 +50,10 @@ public class JwtUtils {
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public Long extractUserID(String token) {
+        return extractClaim(token, claims -> claims.get("userID", Long.class));
     }
 
     public Date extractExpiration(String token) {

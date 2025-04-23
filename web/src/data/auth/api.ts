@@ -74,8 +74,8 @@ export const logIn = (body: LogInParams) =>
     return res.data;
   });
 
-export const logOut = (id: number) =>
-  instance.post(`${endpoints.auth.logOut}/${id}`).then((res) => {
+export const logOut = () =>
+  instance.post(endpoints.auth.logOut).then((res) => {
     return res.data;
   });
 

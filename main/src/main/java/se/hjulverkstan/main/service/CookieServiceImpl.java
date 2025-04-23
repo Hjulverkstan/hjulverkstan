@@ -2,6 +2,7 @@ package se.hjulverkstan.main.service;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import se.hjulverkstan.Exceptions.TokenRefreshException;
@@ -12,6 +13,7 @@ import se.hjulverkstan.main.security.jwt.JwtUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+@Log4j2
 @Service
 public class CookieServiceImpl implements CookieService {
     private final JwtUtils jwtUtils;
@@ -28,7 +30,7 @@ public class CookieServiceImpl implements CookieService {
     }
 
     public void createAuthenticationCookies(HttpServletResponse response, UserDetails userDetails) {
-        String jwt = jwtUtils.generateToken(userDetails.getUsername());
+        String jwt = jwtUtils.generateToken(userDetails.getUsername(), userDetails.getId());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
 
         setJwtCookie(response, jwt);
@@ -40,7 +42,7 @@ public class CookieServiceImpl implements CookieService {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
-                    String jwt = jwtUtils.generateToken(user.getUsername());
+                    String jwt = jwtUtils.generateToken(user.getUsername(), user.getId());
                     RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
 
                     Map<String, String> tokens = new HashMap<>();
