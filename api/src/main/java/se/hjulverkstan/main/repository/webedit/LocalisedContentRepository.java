@@ -19,6 +19,9 @@ public interface LocalisedContentRepository extends JpaRepository<LocalisedConte
     @Query("SELECT lc.lang, COUNT(lc) FROM LocalisedContent lc WHERE lc.shop IS NOT NULL GROUP BY lc.lang")
     Optional<List<Object[]>> countLangByShop();
 
+    @Query("SELECT lc.lang, COUNT(lc) FROM LocalisedContent lc WHERE lc.story IS NOT NULL GROUP BY lc.lang")
+    Optional<List<Object[]>> countLangByStory();
+
     @Query("SELECT DISTINCT lc.lang FROM LocalisedContent lc")
     Optional<Set<Language>> findDistinctLangs();
 }
