@@ -26,6 +26,7 @@ public class ShopController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') or hasRole('ROLE_PIPELINE')")
     public ResponseEntity<List<ShopDto>> getAllShops(@RequestParam(name = "lang") String lang) {
         Language language = validateLanguage(lang);
         return new ResponseEntity<>(shopService.getAllShopsByLang(language), HttpStatus.OK);

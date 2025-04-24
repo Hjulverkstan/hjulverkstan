@@ -19,7 +19,6 @@ public class LocalisationController {
     public LocalisationController(LocalisationServiceImpl localizedContentAndShopServiceImpl) {
         this.localizedContentAndShopServiceImpl = localizedContentAndShopServiceImpl;
     }
-
     @GetMapping("get-all")
     public ResponseEntity<AllWebEditEntitiesByLangDto> getAllLocalisedContentWithFallbackLang(@RequestParam String fallbackLang) {
         Language fallbackLangValidated = validateLanguage(fallbackLang);
