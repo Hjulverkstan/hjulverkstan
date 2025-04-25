@@ -1,6 +1,6 @@
 > Welcome to the aws architecture module of the Hjulverkstan monorepo, here is a [link](../README.md) to the main project readme.
 
-This documentation pertains to both AWS's CDK and the Github Actions pipelines
+This documentation pertains to both AWS's CDK and the GitHub Actions pipelines
 
 ## Background
 
@@ -16,18 +16,7 @@ This documentation pertains to both AWS's CDK and the Github Actions pipelines
 
 `TODO: Talk about the idea behind environments and pipelines, docker releases, trunk based development etc.`
 
-A brief comment regarding the CI/CD and local deploy is that the env vars for ec2 and the starting of docker compose is not part of the setup.sh script that the ec2 runs upon cdk deployment.
-
-This is thought to be a separate pipeline stage to be run after, the deploy env vars run docker-compose down and up.
-
-And during local deployment by developer one has to scp the .env file into place, that is `/opt/docker/.env`...
-
-The env vars that are needed to run docker-compose is all the env-vars that are prefixed with `API`
-
-
-## Guide
-
-### CDK Setup
+## CDK Pre Deploy
 
 Install dependencies
 
@@ -41,42 +30,50 @@ Build the .js files
 npm run build
 ```
 
-### Deploy CDK Certificate Stack
+## CDK Deploy
 
-This stack is for manual deployment by developer, it creates the global certificate used by CloudFront and outputs the ARN id to the console that is needed for the App Stack.
-
-Required environment variables to be populated directly in bash or in the root .env (recommended, you can copy the root .env.templates and fill in values):
-
-- `CDK_ACCOUNT`: Your aws account with deploy permissions
-- `CDK_APEX_DOMAIN`: The apex domain of the site, that is the root domain without subdomains, i.e `hjulverkstan.org`
-- `CDK_SITE_RECORD_NAME`: This is the subdomain to publish the site to, i.e. `dev` or just `""` empty string for prod. 
-
-Bootstrap and deploy
+The cdk code is written to take a context value of `reason=setup` or `reason=deploy`, like so:
 
 ```bash
-cdk bootstrap -c stack=cert
-cdk deploy -c stack=cert
+cdk deploy -c reason=setup
 ```
 
-### Deploy CDK App Stack
+Because the stacks `CertStack` and `LambdaStack` are executed in the `us-east-1` region and can therefore not be referenced in the `AppStack` because of the nature of CloudFormation. with the `AppStack` being in a different region, for the `AppStack` to be successfully deployed we need reference the ARN's (the unique Amazon Resource Numbers) of the resources that the `AppStack` is dependent on instead.
 
-This is the stack of the application, to be automatically deployed by CI/CD but should naturally be manually deployed for testing when making changes to the stack.
-
-Required environment variables to be populated directly in bash or in the root .env (recommended, you can copy the root .env.templates and fill in values):
+During the deployment with `reason=setup` the ARN's don't exist and the following env vars are required (recommended to be added to the root `.env` of the repo, you may copy `.env.template` for this):
 
 - `CDK_ACCOUNT`: Your aws account with deploy permissions
 - `CDK_APEX_DOMAIN`: The apex domain of the site, that is the root domain without subdomains, i.e `hjulverkstan.org`
 - `CDK_SITE_RECORD_NAME`: This is the subdomain to publish the site to, i.e. `dev` or just `""` empty string for prod.
-- `CDK_SITE_CERT_ARN`: This is the ARN exposed when running the Cert Stack.
 
-Bootstrap and deploy, with both sub-stack using --all:
+But when deploying the `AppStack` the ARN's must also be added the env vars, these are all logged to stdout during deployment with `reason=setup`:
+
+- `CDK_SITE_CERT_ARN`: This is the ARN exposed when running the Cert Stack`.
+- `CDK_ROUTING_LAMBDA_ARN`: This is the lambda version ARN exposed when running the Lambda Stack.
+
+All right, onto deploying everything.
+
+To be run once by developer to get the ARN's and input to either to local env vars and or GitHub Action secrets for pipelines:
 
 ```bash
-cdk bootstrap -c stack=app
-cdk bootstrap -c stack=app --all
+cdk bootstrap -c reason=setup
+cdk deploy -c reason=setup
 ```
 
-### Adding users with ssh access to the server
+To then be run locally or automatically by the pipeline:
+
+```bash
+cdk bootstrap -c reason=deploy --all
+cdk deploy -c reason=deploy --all
+```
+
+And naturally if one want to deploy just one stack for testing purposes one can for instance:
+
+```bash
+cdk deploy -c reason=deploy AppStack/WebStack
+```
+
+## Adding users with ssh access to the server
 
 Through the aws ec2 console or if you already have ssh access:
 

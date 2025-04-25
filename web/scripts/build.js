@@ -22,6 +22,12 @@ console.log(
 
 // Build
 
+// Each built route is added to routeManifest and is exported to a json for the
+// cloudfront lamdba function to be able to respond with the correct index.html
+// file intelligently if a routes does not match an index.html.
+
+const routeManifest = [];
+
 const htmlTemplate = fs.readFileSync(
   path.resolve(rootPath, 'dist/static/index.html'),
   'utf-8',
@@ -38,6 +44,8 @@ const { renderSSR, getDataForPreloadingServerSide, routesSSR, routesCSR } =
 
 const buildRoute = ({ path, title, isSSR, data }) => {
   const actualPath = path.replace('/*', '');
+
+  routeManifest.push((actualPath + '/').replace('//', '/'));
 
   const helmetContext = {};
 
@@ -115,6 +123,14 @@ try {
   );
   process.exit(1);
 }
+
+console.log(
+  'Writing route-manifest.json with the following content:',
+  routeManifest,
+);
+
+const manifestPath = path.resolve(rootPath, 'dist/static/route-manifest.json');
+fs.writeFileSync(manifestPath, JSON.stringify(routeManifest, null, 2));
 
 console.log(
   '[INFO]: Built all routes in',
