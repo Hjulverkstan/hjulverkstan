@@ -26,7 +26,7 @@ export const getAllWebEditEntitiesByLang = (
   instance
     .get<GetAllEndpointsRes>(endpoints.webedit.all, {
       params: { fallbackLang: U.localeToLangCode(fallBackLocale) },
-      timeout: 10000,
+      timeout: 15000,
       ...(baseURL && { baseURL }),
     })
     .then(
