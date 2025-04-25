@@ -71,11 +71,10 @@ export interface LogInParams {
 
 export const logIn = (body: LogInParams, baseURL?: string) =>
   instance
-    .post<LogInRes>(
-      endpoints.auth.logIn,
-      body,
-      baseURL ? { baseURL } : undefined,
-    )
+    .post<LogInRes>(endpoints.auth.logIn, body, {
+      timeout: 15000,
+      ...(baseURL ? { baseURL } : {}),
+    })
     .then((res) => {
       return res.data;
     });
