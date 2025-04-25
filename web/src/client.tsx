@@ -6,6 +6,13 @@ import { PreloadedDataProvider } from '@hooks/usePreloadedData';
 
 import Root from './root';
 
+// This wil log the commit sha of the current release to the console when
+// deployed, or if deployed from a PR will contain the PR-number.
+
+console.log(
+  `This deployment is running of commit: [${import.meta.env.VITE_COMMIT_SHA || 'N/A'}]`,
+);
+
 /**
  * When mounting and rendering the app client side, get the data created by
  * [getDataForPreloadingServerSide](./server.ts#getDataForPreloadingServerSide)
