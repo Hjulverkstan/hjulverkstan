@@ -1,0 +1,47 @@
+name: Pipeline
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  filter:
+    runs-on: ubuntu-latest
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+      web: ${{ steps.filter.outputs.web }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            api:
+              - 'api/**'
+            web:
+              - 'web/**'
+
+  api-build:
+    if: needs.filter.outputs.api == 'true'
+    needs: filter
+    uses: ./.github/workflows/pipeline-api-build.yml
+    secrets: inherit
+
+  api-deploy:
+    if: needs.filter.outputs.api == 'true'
+    needs: api-build
+    uses: ./.github/workflows/pipeline-api-deploy.yml
+    secrets: inherit
+
+  web-build:
+    if: needs.filter.outputs.web == 'true'
+    needs: api-deploy
+    uses: ./.github/workflows/pipeline-web-build.yml
+    secrets: inherit
+
+  web-deploy:
+    if: needs.filter.outputs.web == 'true'
+    needs: web-build
+    uses: ./.github/workflows/pipeline-web-deploy.yml
+    secrets: inherit

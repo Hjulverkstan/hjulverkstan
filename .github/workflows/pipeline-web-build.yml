@@ -1,0 +1,31 @@
+name: Web Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      VITE_ENV: ${{ vars.VITE_ENV }}
+      VITE_BUILD_USERNAME: ${{ secrets.VITE_BUILD_USERNAME }}
+      VITE_BUILD_PASSWORD: ${{ secrets.VITE_BUILD_PASSWORD }}
+      VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
+      VITE_FRONTEND_URL: ${{ vars.VITE_FRONTEND_URL }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: cd web && npm ci
+
+      - name: Build frontend
+        run: cd web && npm run build
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-dist
+          path: web/dist/static

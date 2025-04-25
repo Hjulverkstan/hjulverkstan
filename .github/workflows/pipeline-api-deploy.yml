@@ -1,0 +1,64 @@
+name: API Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up SSH key
+        run: |
+          echo "${{ secrets.DEPLOY_API_SSH_KEY }}" > key.pem
+          chmod 600 key.pem
+
+      - name: Add EC2 host to known_hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.DEPLOY_API_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Generate .env file
+        run: |
+          {
+            echo "API_DB_HOST=${{ vars.API_DB_HOST }}"
+            echo "API_DB_PORT=${{ vars.API_DB_PORT }}"
+            echo "API_DB_DATABASE=${{ vars.API_DB_DATABASE }}"
+            echo "API_DB_USER=${{ secrets.API_DB_USER }}"
+            echo "API_DB_PASSWORD=${{ secrets.API_DB_PASSWORD }}"
+            echo "API_AWS_S3_ACCESS_KEY=${{ secrets.API_AWS_S3_ACCESS_KEY }}"
+            echo "API_AWS_S3_SECRET_KEY=${{ secrets.API_AWS_S3_SECRET_KEY }}"
+            echo "API_AWS_S3_REGION=${{ vars.API_AWS_S3_REGION }}"
+            echo "API_AWS_S3_BUCKET_NAME=${{ vars.API_AWS_S3_BUCKET_NAME }}"
+            echo "API_ALLOWED_ORIGINS=${{ vars.API_ALLOWED_ORIGINS }}"
+            echo "DOCKER_API_IMAGE_TAG=${{ vars.DOCKER_API_IMAGE_TAG }}"
+            echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}"
+          } > .env
+
+      - name: Upload .env to EC2
+        run: |
+          scp -i key.pem .env ${{ secrets.DEPLOY_API_SSH_USER }}@${{ secrets.DEPLOY_API_SSH_HOST }}:/opt/docker/.env
+
+      - name: SSH and run docker-compose
+        run: |
+          ssh -i key.pem ${{ secrets.DEPLOY_API_SSH_USER }}@${{ secrets.DEPLOY_API_SSH_HOST }} << EOF
+            set -e
+            cd /opt/docker
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
+          EOF
+
+      - name: Wait for API to be ready
+        run: |
+          ssh -i key.pem ${{ secrets.DEPLOY_API_SSH_USER }}@${{ secrets.DEPLOY_API_SSH_HOST }} '
+            timeout=${{ vars.DEPLOY_API_STARTUP_TIMEOUT }}
+            elapsed=0
+            until docker logs api 2>&1 | grep "Started MainApplication"; do
+              sleep 3
+              elapsed=$((elapsed + 3))
+              if [ $elapsed -ge $timeout ]; then
+                echo "❌ API did not become ready within $timeout seconds."
+                exit 1
+              fi
+            done
+          '
