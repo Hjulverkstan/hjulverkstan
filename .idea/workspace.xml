@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Pull.Settings">
+    <option name="OPTIONS">
+      <set>
+        <option value="REBASE" />
+      </set>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Salman Sattar &lt;salman.sattar@alten.se&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="onto" value="7059308711495b59851841dc1d0d034f137b5bdd" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectId" id="2tCwZaqufys6Wcim001EO7SmHhu" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="1" id="Remove" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Database Script.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.main [install].executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.MainApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;fix/pipeline-issues&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.js.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/node_modules/typescript/lib&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;
+    ],
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ],
+    &quot;RunConfigurationTargetLRU&quot;: [
+      &quot;d8855799-7b55-4434-8e56-08724f22650c/database/\&quot;postgres\&quot;/schema/\&quot;hjulverkstan\&quot;&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn install" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.MainApplication">
+    <configuration name="Unnamed" type="DatabaseScript" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/api/src/main/resources/data.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="d8855799-7b55-4434-8e56-08724f22650c" namespace="database/&quot;postgres&quot;/schema/&quot;hjulverkstan&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="MainApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="ACTIVE_PROFILES" value="dev" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="main" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="se.hjulverkstan.main.MainApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="se.hjulverkstan.main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/web/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="lua.app" factoryName="Lua Application">
+      <option name="program" value="/usr/local/bin/lua" />
+      <option name="file" value="" />
+      <option name="workingDir" value="$PROJECT_DIR$/api/src/main/java" />
+      <option name="debuggerType" value="2" />
+      <option name="params" value="" />
+      <option name="charset" value="UTF-8" />
+      <option name="showConsole" value="true" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Database Script.Unnamed" />
+      <item itemvalue="npm.dev" />
+      <item itemvalue="Spring Boot.MainApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="Spring Boot.MainApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="chore: Rename main module &gt; api&#10;&#10;It was always the plan to name it api, for now i leave the java code untouched though this should be reviewed soon, includeing versioning etc on build pertaining the pom and application properties">
+      <option name="closed" value="true" />
+      <created>1745591333371</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745591333371</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: Add build/deploy pipelines for api &amp; web">
+      <option name="closed" value="true" />
+      <created>1745598621009</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745598621009</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat(web): Robot noindex/nofollow on non prod environment build&#10;&#10;We dont want our dev and test environments to apear on google">
+      <option name="closed" value="true" />
+      <created>1745599009879</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745599009880</updated>
+    </task>
+    <task id="LOCAL-00004" summary="chore: Rename main module &gt; api&#10;&#10;It was always the plan to name it api, for now i leave the java code untouched though this should be reviewed soon, includeing versioning etc on build pertaining the pom and application properties">
+      <option name="closed" value="true" />
+      <created>1745599247226</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745599247226</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: Complete AWS CDK stack with dockerized api&#10;&#10;This commit finally brings a complete cdk stack of the current architecture.&#10;&#10;Some minor documentation in place but still much more that needs to be contributed.&#10;&#10;Co-authored-by: cwejman &lt;jcwejman@gmail.com&gt;&#10;Co-authored-by: Salman Sattar &lt;salman.sattar@alten.se&gt;">
+      <option name="closed" value="true" />
+      <created>1745600273766</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1745600273766</updated>
+    </task>
+    <task id="LOCAL-00006" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745601129988</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745601129988</updated>
+    </task>
+    <task id="LOCAL-00007" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745601710453</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745601710453</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fakechange web">
+      <option name="closed" value="true" />
+      <created>1745601800984</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745601800984</updated>
+    </task>
+    <task id="LOCAL-00009" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745602194031</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1745602194031</updated>
+    </task>
+    <task id="LOCAL-00010" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745603994331</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1745603994331</updated>
+    </task>
+    <task id="LOCAL-00011" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745604640924</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1745604640924</updated>
+    </task>
+    <task id="LOCAL-00012" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745605140722</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1745605140722</updated>
+    </task>
+    <task id="LOCAL-00013" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745605448757</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1745605448757</updated>
+    </task>
+    <task id="LOCAL-00014" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745605460404</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1745605460404</updated>
+    </task>
+    <task id="LOCAL-00015" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745605495769</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1745605495769</updated>
+    </task>
+    <task id="LOCAL-00016" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745605625232</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1745605625232</updated>
+    </task>
+    <task id="LOCAL-00017" summary="tmp">
+      <option name="closed" value="true" />
+      <created>1745606168897</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1745606168897</updated>
+    </task>
+    <task id="LOCAL-00018" summary="tmp">
+      <option name="closed" value="true" />
+      <created>1745606316049</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1745606316049</updated>
+    </task>
+    <task id="LOCAL-00019" summary="test">
+      <option name="closed" value="true" />
+      <created>1745606601416</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1745606601416</updated>
+    </task>
+    <task id="LOCAL-00020" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745606648781</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1745606648781</updated>
+    </task>
+    <task id="LOCAL-00021" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745606818200</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1745606818200</updated>
+    </task>
+    <task id="LOCAL-00022" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745606904899</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1745606904899</updated>
+    </task>
+    <task id="LOCAL-00023" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745606981769</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1745606981769</updated>
+    </task>
+    <task id="LOCAL-00024" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745607116944</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1745607116944</updated>
+    </task>
+    <task id="LOCAL-00025" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745607177835</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1745607177835</updated>
+    </task>
+    <task id="LOCAL-00026" summary="feat(web): Log commit sha / pr number to console">
+      <option name="closed" value="true" />
+      <created>1745607579921</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1745607579921</updated>
+    </task>
+    <task id="LOCAL-00027" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745607607404</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1745607607404</updated>
+    </task>
+    <task id="LOCAL-00028" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745607740505</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1745607740505</updated>
+    </task>
+    <task id="LOCAL-00029" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745607835277</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1745607835277</updated>
+    </task>
+    <task id="LOCAL-00030" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745607973329</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1745607973329</updated>
+    </task>
+    <task id="LOCAL-00031" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745608131717</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1745608131718</updated>
+    </task>
+    <task id="LOCAL-00032" summary="wip">
+      <option name="closed" value="true" />
+      <created>1745609155051</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1745609155051</updated>
+    </task>
+    <task id="LOCAL-00033" summary="feat(web): Fail with exit code 1 on data fetch fail in build script">
+      <option name="closed" value="true" />
+      <created>1745609383870</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1745609383870</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat(web): Fail with exit code 1 on data fetch fail in build script">
+      <option name="closed" value="true" />
+      <created>1745609405969</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1745609405969</updated>
+    </task>
+    <task id="LOCAL-00035" summary="feat(web): Fail with exit code 1 on data fetch fail in build script">
+      <option name="closed" value="true" />
+      <created>1745609569310</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1745609569310</updated>
+    </task>
+    <task id="LOCAL-00036" summary="fixup">
+      <option name="closed" value="true" />
+      <created>1745609735747</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1745609735747</updated>
+    </task>
+    <task id="LOCAL-00037" summary="fixup VITE APP VERSION">
+      <option name="closed" value="true" />
+      <created>1745609802738</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1745609802738</updated>
+    </task>
+    <task id="LOCAL-00038" summary="test new feature in web">
+      <option name="closed" value="true" />
+      <created>1745609930270</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1745609930270</updated>
+    </task>
+    <task id="LOCAL-00039" summary="chore(web): Extend timeouts for endpoints used by pipeline">
+      <option name="closed" value="true" />
+      <created>1745610231525</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1745610231525</updated>
+    </task>
+    <task id="LOCAL-00040" summary="wip: manifest">
+      <option name="closed" value="true" />
+      <created>1745615067920</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1745615067920</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/cdk/lambda/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/lambda/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/lib/lambda.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/lib/lambda.js" />
+      </list>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: Add build/deploy pipelines for api &amp; web" />
+    <MESSAGE value="feat(web): Robot noindex/nofollow on non prod environment build&#10;&#10;We dont want our dev and test environments to apear on google" />
+    <MESSAGE value="chore: Rename main module &gt; api&#10;&#10;It was always the plan to name it api, for now i leave the java code untouched though this should be reviewed soon, includeing versioning etc on build pertaining the pom and application properties" />
+    <MESSAGE value="feat: Complete AWS CDK stack with dockerized api&#10;&#10;This commit finally brings a complete cdk stack of the current architecture.&#10;&#10;Some minor documentation in place but still much more that needs to be contributed.&#10;&#10;Co-authored-by: cwejman &lt;jcwejman@gmail.com&gt;&#10;Co-authored-by: Salman Sattar &lt;salman.sattar@alten.se&gt;" />
+    <MESSAGE value="fakechange web" />
+    <MESSAGE value="tmp" />
+    <MESSAGE value="test" />
+    <MESSAGE value="feat(web): Log commit sha / pr number to console" />
+    <MESSAGE value="wip" />
+    <MESSAGE value="feat(web): Fail with exit code 1 on data fetch fail in build script" />
+    <MESSAGE value="fixup" />
+    <MESSAGE value="fixup VITE APP VERSION" />
+    <MESSAGE value="test new feature in web" />
+    <MESSAGE value="chore(web): Extend timeouts for endpoints used by pipeline" />
+    <MESSAGE value="wip: manifest" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip: manifest" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
