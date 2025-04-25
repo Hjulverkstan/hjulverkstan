@@ -61,7 +61,11 @@ export interface RouteAttributes {
 }
 
 export const routesSSR: RouteAttributes[] = [
-  { path: '/', title: 'Hjulverkstan', component: Home },
+  {
+    path: '/',
+    title: 'Hjulverkstan',
+    component: Home,
+  },
   { path: '/about', title: 'Hjulverkstan - About', component: About },
 ];
 
@@ -93,6 +97,9 @@ function RouteHelmet({
   return (
     <Helmet>
       <title>{route.title}</title>
+      {import.meta.env.VITE_ENV.toLowerCase() !== 'prod' && (
+        <meta name="robots" content="noindex, nofollow" />
+      )}
       {locale && (
         <>
           <link
