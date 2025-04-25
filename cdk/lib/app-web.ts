@@ -9,6 +9,7 @@ import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 
 import { EnvConfig } from '../bin/config';
 
@@ -27,6 +28,7 @@ export class WebStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       autoDeleteObjects: false,
       bucketName: `site-bucket-${props.config.bucketSuffix}`,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ACLS
     });
 
     new CfnOutput(this, 'CfnSiteBucketName', {
@@ -54,16 +56,11 @@ export class WebStack extends cdk.Stack {
       props.config.siteCertArn,
     );
 
-    const matchIndexHtmlFunction = new cloudfront.Function(this, 'MatchIndexHTMLFunction', {
-      code: cloudfront.FunctionCode.fromInline(`
-        function handler(e) {
-          if (!e.request.uri.includes('.')) {
-            e.request.uri = e.request.uri.replace(/\\/?$/, '/index.html');
-          }
-          return e.request;
-        }
-      `),
-    });
+    const importedRoutingLambdaVersion = lambda.Version.fromVersionArn(
+      this,
+      'ImportedRoutingLambdaVersion',
+      props.config.routingLambdaArn,
+    );
 
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultRootObject: 'index.html',
@@ -76,10 +73,12 @@ export class WebStack extends cdk.Stack {
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
         compress: true,
-        functionAssociations: [{
-          function: matchIndexHtmlFunction,
-          eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
-        }],
+        edgeLambdas: [
+          {
+            functionVersion: importedRoutingLambdaVersion,
+            eventType: cloudfront.LambdaEdgeEventType.ORIGIN_REQUEST,
+          },
+        ],
       },
 
       additionalBehaviors: {
@@ -96,36 +95,41 @@ export class WebStack extends cdk.Stack {
           originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER,
           compress: true,
         },
+        '/images/*': {
+          origin: origins.S3BucketOrigin.withOriginAccessControl(imageBucket),
+          viewerProtocolPolicy:
+            cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+          allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
+          cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
+          compress: true,
+        },
       },
-
-      errorResponses: [
-        {
-          httpStatus: 403,
-          responseHttpStatus: 200,
-          responsePagePath: '/index.html',
-          ttl: cdk.Duration.seconds(0),
-        },
-        {
-          httpStatus: 404,
-          responseHttpStatus: 200,
-          responsePagePath: '/index.html',
-          ttl: cdk.Duration.seconds(0),
-        },
-      ],
     });
 
     //
 
+    const permitDistributionToBucket = (bucket: s3.Bucket) =>
+      bucket.addToResourcePolicy(
+        new iam.PolicyStatement({
+          actions: ['s3:GetObject'],
+          resources: [bucket.arnForObjects('*')],
+          principals: [new iam.ServicePrincipal('cloudfront.amazonaws.com')],
+          conditions: {
+            StringEquals: {
+              'AWS:SourceArn': `arn:aws:cloudfront::${props.config.account}:distribution/${distribution.distributionId}`,
+            },
+          },
+        }),
+      );
+
+    permitDistributionToBucket(siteBucket);
+    permitDistributionToBucket(imageBucket);
+
     siteBucket.addToResourcePolicy(
       new iam.PolicyStatement({
         actions: ['s3:GetObject'],
-        resources: [siteBucket.arnForObjects('*')],
-        principals: [new iam.ServicePrincipal('cloudfront.amazonaws.com')],
-        conditions: {
-          StringEquals: {
-            'AWS:SourceArn': `arn:aws:cloudfront::${props.config.account}:distribution/${distribution.distributionId}`,
-          },
-        },
+        resources: [siteBucket.arnForObjects('route-manifest.json')],
+        principals: [new iam.AnyPrincipal()],
       }),
     );
 
