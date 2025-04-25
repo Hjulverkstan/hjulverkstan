@@ -15,6 +15,13 @@ const toImportUrl = (url) => new URL('file://' + path.resolve(rootPath, url));
 
 config({ path: path.resolve(rootPath, '../.env') }); // Load env vars from .env file
 
+console.log(
+  'Loaded the following env vars:',
+  Object.entries(process.env).filter(([k]) => k.startsWith('VITE')),
+);
+
+// Build
+
 const htmlTemplate = fs.readFileSync(
   path.resolve(rootPath, 'dist/static/index.html'),
   'utf-8',
@@ -106,6 +113,7 @@ try {
     '[ERROR]: There was an error in getDataForPreloadingServerSide()',
     err,
   );
+  process.exit(1);
 }
 
 console.log(

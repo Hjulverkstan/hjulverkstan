@@ -10,7 +10,7 @@ import Root from './root';
 // deployed, or if deployed from a PR will contain the PR-number.
 
 console.log(
-  `This deployment is running of commit: [${import.meta.env.VITE_COMMIT_SHA || 'N/A'}]`,
+  `This deployment is running of commit: [${import.meta.env.VITE_APP_VERSION || 'N/A'}]`,
 );
 
 /**
