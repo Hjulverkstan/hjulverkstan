@@ -28,8 +28,7 @@ sudo usermod -aG systemd-journal "$USERNAME"
 sudo usermod -aG docker "$USERNAME"
 
 # Give passwordless sudo privileges
-d
-
+echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/"$USERNAME" > /dev/null
 sudo chmod 440 /etc/sudoers.d/"$USERNAME"
 
 echo "✅   User '$USERNAME' has been created and configured with:"
