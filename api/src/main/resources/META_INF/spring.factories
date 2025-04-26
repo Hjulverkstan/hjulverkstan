@@ -1,1 +1,0 @@
-org.springframework.boot.env.EnvironmentPostProcessor=se.hjulverkstan.main.config.DotenvEnvironmentPostProcessor
