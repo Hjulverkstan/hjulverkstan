@@ -22,8 +22,8 @@ import java.util.List;
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
     private final VehicleRepository vehicleRepository;
-    public static final String ELEMENT_LOCATION = "Location";
-    public static final String ELEMENT_VEHICLE = "Vehicle";
+    private static final String ELEMENT_LOCATION = "Location";
+    private static final String ELEMENT_VEHICLE = "Vehicle";
 
     @Autowired
     public LocationServiceImpl(LocationRepository locationRepository, VehicleRepository vehicleRepository) {

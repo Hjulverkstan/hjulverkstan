@@ -24,8 +24,8 @@ import java.util.Arrays;
 @RequestMapping("v1/api/auth")
 public class AuthController {
 
-    AuthService authService;
-    CookieService cookieService;
+    private final AuthService authService;
+    private final CookieService cookieService;
 
     public AuthController(AuthService authService, CookieService cookieService) {
         this.authService = authService;

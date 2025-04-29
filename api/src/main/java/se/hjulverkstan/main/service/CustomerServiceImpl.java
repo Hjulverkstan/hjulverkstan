@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
-    public static String ELEMENT_NAME = "Customer";
+    private static final String ELEMENT_NAME = "Customer";
 
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;

@@ -15,7 +15,7 @@ import se.hjulverkstan.main.service.UserServiceImpl;
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
 
-    UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;

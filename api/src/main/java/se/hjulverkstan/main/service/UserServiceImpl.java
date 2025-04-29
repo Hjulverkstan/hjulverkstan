@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         this.encoder = encoder;
     }
 
-    public static String ELEMENT_NAME = "User";
+    private static final String ELEMENT_NAME = "User";
 
     @Override
     public UserDto createUser(SignupRequest signUpRequest) {

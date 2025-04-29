@@ -15,7 +15,7 @@ import static se.hjulverkstan.main.util.WebEditUtils.validateLanguage;
 @RequestMapping("v1/api/webedit")
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') or hasRole('ROLE_PIPELINE')")
 public class LocalisationController {
-    LocalisationService localizedContentAndShopService;
+    private final LocalisationService localizedContentAndShopService;
 
     public LocalisationController(LocalisationService localizedContentAndShopService) {
         this.localizedContentAndShopService = localizedContentAndShopService;

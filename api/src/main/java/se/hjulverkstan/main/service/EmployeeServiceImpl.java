@@ -21,7 +21,7 @@ import java.util.List;
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
-    public static final String ELEMENT_NAME = "Employee";
+    private static final String ELEMENT_NAME = "Employee";
     private final TicketRepository ticketRepository;
 
     @Autowired

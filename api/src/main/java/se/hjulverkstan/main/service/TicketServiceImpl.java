@@ -27,7 +27,7 @@ public class TicketServiceImpl implements TicketService {
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
     private final VehicleRepository vehicleRepository;
-    public static final String ELEMENT_NAME = "Ticket";
+    private static final String ELEMENT_NAME = "Ticket";
 
     @Autowired
     public TicketServiceImpl(

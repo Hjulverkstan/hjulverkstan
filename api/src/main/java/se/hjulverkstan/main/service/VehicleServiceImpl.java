@@ -23,8 +23,8 @@ import java.util.Optional;
 public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
     private final LocationRepository locationRepository;
-    public static String ELEMENT_VEHICLE = "Vehicle";
-    public static String ELEMENT_LOCATION = "Location";
+    private static final String ELEMENT_VEHICLE = "Vehicle";
+    private static final String ELEMENT_LOCATION = "Location";
 
     @Autowired
     public VehicleServiceImpl(VehicleRepository vehicleRepository, LocationRepository locationRepository) {
