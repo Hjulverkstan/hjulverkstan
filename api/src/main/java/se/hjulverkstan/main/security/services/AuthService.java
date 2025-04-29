@@ -11,6 +11,7 @@ import se.hjulverkstan.main.dto.MessageResponse;
 import se.hjulverkstan.main.dto.auth.LoginRequest;
 import se.hjulverkstan.main.dto.auth.UserDetails;
 import se.hjulverkstan.main.service.RefreshTokenService;
+import se.hjulverkstan.main.service.RefreshTokenServiceImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;

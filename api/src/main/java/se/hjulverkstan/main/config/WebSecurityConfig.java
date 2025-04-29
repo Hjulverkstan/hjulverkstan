@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,13 +25,13 @@ import se.hjulverkstan.main.security.services.UserDetailsServiceImplementation;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-    private final UserDetailsServiceImplementation userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
 
     @Autowired
     private final CorsConfigurationSource corsConfigurationSource;
 
-    public WebSecurityConfig(UserDetailsServiceImplementation userDetailsService,
+    public WebSecurityConfig(UserDetailsService userDetailsService,
                              AuthEntryPointJwt unauthorizedHandler, CorsConfigurationSource corsConfigurationSource) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;

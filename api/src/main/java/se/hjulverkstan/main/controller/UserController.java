@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.responses.GetAllUserDto;
 import se.hjulverkstan.main.dto.user.SignupRequest;
 import se.hjulverkstan.main.dto.user.UserDto;
+import se.hjulverkstan.main.service.UserService;
 import se.hjulverkstan.main.service.UserServiceImpl;
 
 @RestController
@@ -14,9 +15,9 @@ import se.hjulverkstan.main.service.UserServiceImpl;
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
 
-    UserServiceImpl userService;
+    UserService userService;
 
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

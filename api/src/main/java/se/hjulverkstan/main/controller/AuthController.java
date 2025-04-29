@@ -27,7 +27,7 @@ public class AuthController {
     AuthService authService;
     CookieService cookieService;
 
-    public AuthController(AuthService authService, CookieServiceImpl cookieService) {
+    public AuthController(AuthService authService, CookieService cookieService) {
         this.authService = authService;
         this.cookieService = cookieService;
     }
