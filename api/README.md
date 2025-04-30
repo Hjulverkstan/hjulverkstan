@@ -1,6 +1,12 @@
-![Hjulverkstan header"](https://raw.githubusercontent.com/Hjulverkstan/.github/images/hjulverkstan-banner-web.png)
+![Hjulverkstan header"](https://raw.githubusercontent.com/Hjulverkstan/.github/images/hjulverkstan-banner-api.png)
 
 > Welcome to the back end module of the Hjulverkstan monorepo, here is a [link](../README.md) to the main project readme.
+
+## UML Diagram
+
+<div>
+    <img src="hjulverkstan-uml-diagram.drawio.svg">
+</div>
 
 ## Building with docker
 
