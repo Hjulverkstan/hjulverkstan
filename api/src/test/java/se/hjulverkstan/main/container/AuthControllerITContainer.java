@@ -3,6 +3,7 @@ package se.hjulverkstan.main.container;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -37,18 +38,6 @@ public class AuthControllerITContainer {
             .withUsername("test")
             .withPassword("test");
 
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @BeforeEach
     void setup() {
 
@@ -57,5 +46,13 @@ public class AuthControllerITContainer {
     @AfterEach
     void tearDown() {
 
+    }
+
+    @Test
+    void connectionEstablished() {
+        // This is just a test to check if the connection to the database is working
+        assertThat(postgresContainer.isCreated()).isTrue();
+        assertThat(postgresContainer.isRunning()).isTrue();
+        assertThat(postgresContainer.isHealthy()).isTrue();
     }
 }
