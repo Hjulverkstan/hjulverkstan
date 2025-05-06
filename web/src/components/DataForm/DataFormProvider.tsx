@@ -90,8 +90,13 @@ export const Provider = U.withLobotomizer(
   }: DataFormProps<D>) => {
     const { toast } = useToast();
 
+    const omitPassword = (data: Partial<D>): Partial<D> => {
+      const { password, passwordrepeat, ...rest } = data as any;
+      return rest;
+    };
+
     const [body, setBody] = useState<Partial<D>>(
-      mode === Mode.CREATE ? initCreateBody : (data ?? {}),
+      mode === Mode.CREATE ? initCreateBody : omitPassword(data ?? {}),
     );
 
     // Derive the data form context value
@@ -164,7 +169,7 @@ export const Provider = U.withLobotomizer(
     useEffect(() => {
       if (mode !== Mode.CREATE && data) {
         const applyData = () => {
-          setBody(data as D);
+          setBody(omitPassword(data as D));
           setInitializedData(data);
         };
 
