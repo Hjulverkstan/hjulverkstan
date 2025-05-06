@@ -56,7 +56,7 @@ export default function PortalAdminUsers({ mode }: PageContentProps) {
             mode={mode}
             isLoading={userQ.isLoading}
             data={userQ.data}
-            zodSchema={userZ}
+            zodSchema={userZ(mode)}
             initCreateBody={initUser}
           >
             <PortalForm
