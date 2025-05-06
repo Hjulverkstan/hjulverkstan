@@ -13,7 +13,8 @@ import se.hjulverkstan.main.model.base.Auditable;
 @NoArgsConstructor
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"general_content_id", "lang", "field_name"}),
-        @UniqueConstraint(columnNames = {"shop_id", "lang", "field_name"})
+        @UniqueConstraint(columnNames = {"shop_id", "lang", "field_name"}),
+        @UniqueConstraint(columnNames = {"story_id", "lang", "field_name"})
 })
 public class LocalisedContent extends Auditable {
     @Id
@@ -34,5 +35,9 @@ public class LocalisedContent extends Auditable {
     @ManyToOne
     @JoinColumn(name = "shop_id", referencedColumnName = "id", nullable = true)
     Shop shop;
+
+    @ManyToOne
+    @JoinColumn(name = "story_id", referencedColumnName = "id", nullable = true)
+    Story story;
 }
 
