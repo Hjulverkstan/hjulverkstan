@@ -33,7 +33,7 @@ export const getAllWebEditEntitiesByLang = (
       (res) =>
         Object.fromEntries(
           Object.entries(res.data.entities).map(
-            ([lang, { generalContent, shop }]) => [
+            ([lang, { generalContent, shops }]) => [
               // We use locales instead of langs for the keys
               U.langCodeToLocale(lang),
               {
@@ -41,7 +41,7 @@ export const getAllWebEditEntitiesByLang = (
                 generalContent: Object.fromEntries(
                   generalContent.map((gc) => [gc.key, gc.value]),
                 ),
-                shop: shop.map(parseResponseData).reverse(),
+                shops: shops.map(parseResponseData).reverse(),
               },
             ],
           ),
