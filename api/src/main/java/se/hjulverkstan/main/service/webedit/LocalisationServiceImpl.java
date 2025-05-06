@@ -44,7 +44,7 @@ public class LocalisationServiceImpl implements LocalisationService {
             allEntitiesDto.setGeneralContent(strippedGeneralContent);
 
             Set<ShopDto> strippedShops = mapToAllShopsWithFallbackLangDto(lang, fallbackLang, shopService);
-            allEntitiesDto.setShop(strippedShops);
+            allEntitiesDto.setShops(strippedShops);
 
 
             allDto.getEntities().put(lang, allEntitiesDto);
