@@ -109,6 +109,10 @@ public class GeneralContentServiceImpl implements GeneralContentService {
 
         gcDto.setValue(localisedValue);
 
+        gcDto.setUpdatedAt(generalContent.getUpdatedAt() != null
+                ? generalContent.getUpdatedAt().toString()
+                : null);
+
         return gcDto;
     }
 }

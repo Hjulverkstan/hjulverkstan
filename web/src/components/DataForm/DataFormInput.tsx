@@ -9,6 +9,7 @@ export interface InputProps extends Omit<FieldProps, 'children'> {
   min?: number;
   max?: number;
   disabled?: boolean;
+  isSkeleton?: boolean;
 }
 
 export const Input = ({
@@ -20,6 +21,7 @@ export const Input = ({
   placeholder,
   description,
   disabled,
+  isSkeleton,
 }: InputProps) => {
   const { body, setBodyProp, isDisabled } = useDataForm();
 
@@ -34,7 +36,7 @@ export const Input = ({
         id={dataKey}
         disabled={formIsDisabled}
         placeholder={placeholder}
-        value={body[dataKey] ?? ''}
+        value={isSkeleton ? '' : (body[dataKey] ?? '')}
         onChange={({ target: { value } }) => {
           if (body[dataKey] !== value) {
             setBodyProp(

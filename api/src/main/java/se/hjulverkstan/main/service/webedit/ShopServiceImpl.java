@@ -182,6 +182,9 @@ public class ShopServiceImpl implements ShopService {
                 .orElse(null);
         shopDto.setBodyText(bodyText);
 
+        shopDto.setCreatedAt(shop.getCreatedAt() != null ? shop.getCreatedAt().toString() : null);
+        shopDto.setUpdatedAt(shop.getUpdatedAt() != null ? shop.getUpdatedAt().toString() : null);
+
         return shopDto;
     }
 
