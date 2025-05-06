@@ -2,15 +2,15 @@ import { cva, VariantProps } from 'class-variance-authority';
 import React from 'react';
 import { cn } from '@utils';
 
-const sectionStyles = cva('py-[140px]', {
+const sectionStyles = cva('py-32 flex flex-col gap-32', {
   variants: {
     variant: {
-      gray: 'bg-card-gray',
-      white: 'bg-background',
+      default: 'bg-background',
+      muted: 'bg-muted',
     },
   },
   defaultVariants: {
-    variant: 'white',
+    variant: 'default',
   },
 });
 
@@ -19,10 +19,8 @@ type SectionProps = VariantProps<typeof sectionStyles> & {
   className?: string;
 };
 
-export const Section = ({ variant, children, className }: SectionProps) => {
-  return (
-    <section className={cn(sectionStyles({ variant }), className)}>
-      {children}
-    </section>
-  );
-};
+export const Section = ({ variant, children, className }: SectionProps) => (
+  <section className={cn(sectionStyles({ variant }), className)}>
+    {children}
+  </section>
+);

@@ -1,7 +1,10 @@
 import { HTMLAttributes } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
-import { cn } from '@utils';
 import { LucideIcon } from 'lucide-react';
+
+import { cn } from '@utils';
+
+//
 
 const cardIconVariants = cva('flex-shrink-0', {
   variants: {
@@ -14,7 +17,7 @@ const cardIconVariants = cva('flex-shrink-0', {
   },
 });
 
-interface CardIconProps extends VariantProps<typeof cardIconVariants> {
+export interface CardIconProps extends VariantProps<typeof cardIconVariants> {
   icon: LucideIcon;
   className?: string;
 }
@@ -23,16 +26,17 @@ export const Icon: React.FC<CardIconProps> = ({
   icon: IconComponent,
   className,
   variant,
-}) => {
-  return (
-    <div className={cn(cardIconVariants({ variant }), className)}>
-      <IconComponent size={48} strokeWidth={1.7} aria-hidden="true" />
-    </div>
-  );
-};
-Icon.displayName = 'Icon';
+}) => (
+  <div className={cn(cardIconVariants({ variant }), className)}>
+    <IconComponent size={42} strokeWidth={1.7} aria-hidden="true" />
+  </div>
+);
 
-const cardTitleVariants = cva('font-inter z-10 font-semibold leading-tight', {
+Icon.displayName = 'CardIcon';
+
+//
+
+export const cardTitleVariants = cva('z-10', {
   variants: {
     variant: {
       default: 'text-foreground text-h3 line-clamp-2',
@@ -44,7 +48,7 @@ const cardTitleVariants = cva('font-inter z-10 font-semibold leading-tight', {
   },
 });
 
-interface CardTitleProps
+export interface CardTitleProps
   extends HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof cardTitleVariants> {
   children: React.ReactNode;
@@ -61,9 +65,12 @@ export const Title: React.FC<CardTitleProps> = ({
     {children}
   </div>
 );
-Title.displayName = 'Title';
 
-interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
+Title.displayName = 'CardTitle';
+
+//
+
+export interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
 }
@@ -73,16 +80,16 @@ export const Body: React.FC<CardBodyProps> = ({
   className,
   ...props
 }) => (
-  <div
-    className={cn('font-inter z-10 text-lg leading-relaxed', className)}
-    {...props}
-  >
+  <p className={cn('z-10', className)} {...props}>
     {children}
-  </div>
+  </p>
 );
-Body.displayName = 'Body';
 
-interface CardRowProps extends HTMLAttributes<HTMLDivElement> {
+Body.displayName = 'CardBody';
+
+//
+
+export interface CardRowProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
 }
@@ -99,13 +106,16 @@ export const Row: React.FC<CardRowProps> = ({
     {children}
   </div>
 );
-Row.displayName = 'Row';
+
+Row.displayName = 'CardRow';
+
+//
 
 const cardImageVariants = cva('object-cover', {
   variants: {
     variant: {
       background: 'absolute inset-0 z-0 h-full w-full',
-      inline: 'relative h-[300px] w-full self-stretch rounded-lg',
+      inline: 'relative mb-4 w-full self-stretch rounded-lg',
     },
   },
   defaultVariants: {
@@ -113,7 +123,7 @@ const cardImageVariants = cva('object-cover', {
   },
 });
 
-interface CardImageProps
+export interface CardImageProps
   extends React.ImgHTMLAttributes<HTMLImageElement>,
     VariantProps<typeof cardImageVariants> {
   src: string;
@@ -127,42 +137,40 @@ export const Image: React.FC<CardImageProps> = ({
   variant = 'background',
   className,
   ...props
-}) => {
-  return (
-    <>
-      <img
-        src={src}
-        alt={alt}
-        className={cn(cardImageVariants({ variant, className }))}
-        loading="lazy"
-        {...props}
+}) => (
+  <>
+    <img
+      src={src}
+      alt={alt}
+      className={cn(cardImageVariants({ variant, className }))}
+      loading="lazy"
+      {...props}
+    />
+    {variant === 'background' && (
+      <div
+        className="absolute inset-0 z-10 bg-gradient-to-t from-black/70
+          via-black/20 to-transparent"
+        aria-hidden="true"
       />
-      {variant === 'background' && (
-        <div
-          className="absolute inset-0 z-10 bg-gradient-to-t from-black/70
-            via-black/20 to-transparent"
-          aria-hidden="true"
-        />
-      )}
-    </>
-  );
-};
-Image.displayName = 'Image';
+    )}
+  </>
+);
+
+Image.displayName = 'CardImage';
+
+//
 
 const cardBaseVariants = cva('flex overflow-hidden rounded-lg', {
   variants: {
     variant: {
-      default: 'bg-background flex h-auto flex-col p-8',
+      default: 'bg-background h-auto flex-col p-8',
+      muted: 'bg-muted h-auto flex-col p-8',
       imageBackground: [
-        `text-background relative h-auto flex-1 flex-col justify-end gap-4
-        bg-cover bg-center p-8 md:min-h-[384px]`,
+        `text-background light relative h-auto flex-col justify-end gap-4
+        bg-cover bg-center p-8`,
       ],
-      compact: 'bg-background h-auto w-full flex-1 flex-col p-6 text-sm',
-      imageAbove: [
-        `bg-background w-full flex-col rounded-lg sm:w-[calc(50%-2rem)]
-        md:min-w-[300px] md:flex-1`,
-      ],
-      baseGray: 'bg-card-gray h-auto flex-col p-8',
+      compact: 'bg-background h-auto w-full flex-1 flex-col gap-4 p-8',
+      imageAbove: 'bg-background w-full flex-col gap-2 rounded-lg md:flex-1',
     },
   },
   defaultVariants: {
@@ -182,12 +190,11 @@ export const Base: React.FC<CardBaseProps> = ({
   variant,
   className,
   ...props
-}) => {
-  return (
-    <div className={cn(cardBaseVariants({ variant, className }))} {...props}>
-      {' '}
-      {children}
-    </div>
-  );
-};
-Base.displayName = 'Base';
+}) => (
+  <div className={cn(cardBaseVariants({ variant, className }))} {...props}>
+    {' '}
+    {children}
+  </div>
+);
+
+Base.displayName = 'CardBase';

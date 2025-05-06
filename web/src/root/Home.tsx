@@ -1,186 +1,131 @@
+import {
+  Bike,
+  CalendarDays,
+  CoinsIcon,
+  Hammer,
+  HeartHandshake,
+  PackagePlusIcon,
+  TrafficCone,
+  Wrench,
+} from 'lucide-react';
+
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { Section } from '@components/Section';
 import { SectionContent } from '@components/SectionContent';
-import {
-  Wrench,
-  CalendarDays,
-  TrafficCone,
-  Bike,
-  HeartHandshake,
-  Hammer,
-  CoinsIcon,
-  PackagePlusIcon,
-} from 'lucide-react';
-import { Shop } from '@data/webedit/shop/types';
 import { CardDefault } from '@components/CardDefault';
-import { CardImage } from '@components/CardImage';
+import { CardStory } from '@components/CardStory';
 import { CardCompact } from '@components/CardCompact';
-import { CardImageAbove } from '@components/CardImageAbove';
-import Navbar from '@components/Navbar';
-import Footer from '@components/Footer';
+import { CardShop } from '@components/CardShop';
+import { Partner, partners, stories } from './tempData';
+import { GridBetween } from '@components/GridBetween';
+import { Page } from '@components/Page';
 
-const statsData = [
-  { value: 628, label: 'Bikes repaired' },
-  { value: 500, label: 'Bikes saved' },
-  { value: 86, label: 'Bikes lent' },
-  { value: 20, label: 'Employees hired' },
-];
+//
 
-const partners = [
-  { name: 'Familjebostäder', src: '/familjebostader.png' },
-  { name: 'Poseidon', src: '/poseidon.png' },
-  { name: 'Bostadsbolaget', src: '/bostadsbolaget.png' },
-  { name: 'Framtiden', src: '/framtiden.png' },
-  { name: 'Alten', src: '/alten2.svg' },
-  { name: 'Göteborgsstad', src: '/goteborgstad.svg' },
-  { name: 'Volvo', src: '/volvo.svg' },
-  { name: 'Familjebostäder', src: '/familjebostader.png' },
-];
+const Statistic = ({ label, value }: { label: string; value: number }) => (
+  <div className="flex h-full flex-col items-center justify-start text-center">
+    <span className="text-primary mb-8 text-[100px] font-bold leading-[75px]">
+      {value}
+    </span>
+    <span className="text-h3 text-foreground font-bold">{label}</span>
+  </div>
+);
 
-const stories = [
-  {
-    id: '1',
-    imageURL: '/DSC07375.jpg',
-    title: 'New shop opens in Hjällbo',
-    bodyText:
-      "Why support us? Your generosity directly supports initiatives that make cycling accessible to all. Whether it's...",
-    link: '/',
-    ariaLabel: 'Learn more about the new shop in Hjällbo',
-  },
-  {
-    id: '2',
-    imageURL: '/DSC07375.jpg',
-    title: 'New shop opens in Hjällbo',
-    bodyText:
-      "Why support us? Your generosity directly supports initiatives that make cycling accessible to all. Whether it's...",
-    link: '/',
-    ariaLabel: 'Learn more about this story',
-  },
-  {
-    id: '3',
-    title: 'IKEA rebuilds our latest shop.arhogun awrhg åoawin ..',
-    bodyText:
-      'With our new opening we needed to improve the someting thatWith our new opening we needed to improve the someting...',
-    link: '/',
-    ariaLabel: 'Learn more about the IKEA collaboration',
-  },
-  {
-    id: '4',
-    title: '140 bikes saved this month',
-    bodyText:
-      'With our new opening we needed to improve the someting thatWith our new opening we needed to improve the someting...',
-    link: '/',
-    ariaLabel: 'Learn more about saved bikes',
-  },
-];
+const PartnerImg = ({ partner }: { partner: Partner }) => (
+  <img
+    src={partner.src}
+    alt={partner.name}
+    className="max-h-20 w-auto min-w-0 max-w-64 flex-shrink object-contain
+      md:max-w-52"
+  />
+);
+
+//
 
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
-  const shops: Shop[] = data?.shop || [];
 
   return (
-    <>
-      <Navbar />
-
+    <Page>
       <div
-        className="relative flex min-h-[804px] w-full flex-col items-center
-          justify-center bg-cover bg-center px-6 py-16 md:items-start
-          md:px-[170px]"
-        style={{ backgroundImage: "url('/DSC07375.jpg')" }}
+        className="light relative flex w-full flex-col items-center
+          justify-center bg-cover bg-center py-24 md:h-[70vh] md:max-h-[40rem]
+          md:items-start"
+        style={{ backgroundImage: "url('/hero.jpg')" }}
       >
-        <div className="absolute inset-0 bg-black opacity-60" />
-
+        <div className="absolute inset-0 bg-black opacity-50" />
         <div
-          className="relative z-10 flex flex-col items-center gap-4 text-center
-            md:max-w-[832px] md:items-start md:text-left"
+          className="relative z-10 mx-auto flex w-[88vw] flex-col items-start
+            gap-4 sm:w-[76vw]"
         >
-          <div className="mb-6 flex items-center gap-9">
-            <img src="/bikeicon1.svg" alt="Bike Icon" className="h-16 w-auto" />
-            <img
-              src="/toolsicon1.svg"
-              alt="Tools Icon"
-              className="h-16 w-auto"
-            />
-            <img src="/pumpicon1.svg" alt="Pump Icon" className="h-16 w-auto" />
-          </div>
+          <img src="/logo.svg" alt="Logo" className="mb-4 h-16 w-auto" />
+          <h1 className="text-background text-h1">Hjulverkstan</h1>
 
-          <h1
-            className="font-inter text-background text-4xl font-semibold
-              md:text-[80px] md:leading-[80px] md:tracking-[-0.96px]"
-          >
-            Hjulverkstan
-          </h1>
-
-          <p className="text-h3 text-background md:max-w-[600px]">
+          <p className="text-h3 text-background max-w-[700px]">
             A bike shop that changes lives – we bridge gaps and somthing like
             so.
           </p>
         </div>
       </div>
 
-      <Section variant="gray">
+      <Section variant="muted">
         <SectionContent>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
             <CardDefault
               icon={Wrench}
-              title="Get a repair"
-              body="We offer repairs free of charge for bicycles, strollers, scooters and skateboards."
+              title={data.generalContent.serviceRepairTitle}
+              body={data.generalContent.serviceRepairBody}
               link="/"
-              ariaLabel="Learn more about repairs"
             />
             <CardDefault
               icon={CalendarDays}
-              title="Rent a bike"
-              body="Children and adults can borrow bicycles for a period of 1–2 weeks."
+              title={data.generalContent.serviceRentTitle}
+              body={data.generalContent.serviceRentBody}
               link="/"
-              ariaLabel="Learn more about bike rental"
             />
             <CardDefault
               icon={TrafficCone}
-              title="Learn to ride"
-              body="Join one of our free cycling courses for children and adults."
+              title={data.generalContent.serviceCoursesTitle}
+              body={data.generalContent.serviceCoursesBody}
               link="/"
-              ariaLabel="Learn more about cycling courses"
             />
             <CardDefault
               icon={Bike}
-              title="Join a community"
-              body="We create a safe environment for people to meet, accessible to everyone."
-              link="/join-us"
-              ariaLabel="Learn more about joining the community"
+              title={data.generalContent.serviceCommunityTitle}
+              body={data.generalContent.serviceCommunityBody}
+              link="/"
               linkLabel="Work with us"
             />
           </div>
         </SectionContent>
 
         <SectionContent
-          className="mt-[140px]"
           heading="Stories"
           linkTo="/stories"
           linkLabel="See all stories"
+          linkVariant="background"
         >
-          <div className=" flex flex-col gap-8 md:flex-row md:gap-8 lg:gap-8">
-            <div className="flex flex-col gap-8 md:basis-4/5 md:flex-row">
+          <div className=" flex flex-col gap-8 xl:flex-row">
+            <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
               {stories.slice(0, 2).map((story) => (
-                <CardImage
+                <CardStory
                   key={story.id}
-                  imageSrc={story.imageURL || '/DSC07375.jpg'}
-                  imageAlt={story.title}
-                  title={story.title}
-                  body={story.bodyText}
-                  link={story.link}
-                  ariaLabel={story.ariaLabel}
+                  story={story}
+                  className="h-96 xl:h-auto"
                 />
               ))}
             </div>
-            <div className="flex flex-col gap-8 md:basis-1/4">
+            <div
+              className="flex flex-col gap-8 md:basis-1/3 md:flex-row
+                xl:flex-col"
+            >
               {stories.slice(2, 4).map((story) => (
                 <CardCompact
                   key={story.id}
                   title={story.title}
                   body={story.bodyText}
-                  link={story.link}
-                  ariaLabel={story.ariaLabel}
+                  link={`/stories${story.slug}`}
+                  ariaLabel={story.title}
                 />
               ))}
             </div>
@@ -193,24 +138,21 @@ export default function Home() {
           heading="Shops"
           linkTo="/shops"
           linkLabel="See all shops"
-          linkVariant="roundedMutedText"
         >
           <div
-            className="flex w-full flex-wrap justify-start gap-8 md:gap-8
-              lg:gap-8"
+            className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
+              xl:grid-cols-3"
           >
-            {shops.slice(0, 3).map((shop) => {
-              return (
-                <CardImageAbove
-                  key={shop.id}
-                  imageSrc={shop.imageURL}
-                  title={shop.name}
-                  address={shop.address}
-                  imageAlt={shop.name}
-                  openHours={shop.openHours}
-                />
-              );
-            })}
+            {data.shops.slice(0, 3).map((shop) => (
+              <CardShop key={shop.id} shop={shop} />
+            ))}
+          </div>
+          <div
+            className="hidden gap-x-8 gap-y-12 md:grid md:grid-cols-2 xl:hidden"
+          >
+            {data.shops.slice(0, 4).map((shop) => (
+              <CardShop key={shop.id} shop={shop} />
+            ))}
           </div>
         </SectionContent>
       </Section>
@@ -220,25 +162,15 @@ export default function Home() {
       <Section>
         <SectionContent>
           <div
-            className="flex flex-wrap items-baseline justify-center gap-x-36
-              gap-y-8"
+            className="flex flex-col items-center justify-center gap-x-32
+              gap-y-24 sm:grid sm:grid-cols-2 sm:px-16 md:px-36
+              min-[1200px]:flex min-[1200px]:flex-row
+              min-[1200px]:items-baseline min-[1200px]:px-0"
           >
-            {statsData.map((stat, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center text-center"
-              >
-                <span
-                  className="text-primary mb-8 text-[100px] font-bold
-                    leading-[75px]"
-                >
-                  {stat.value}
-                </span>
-                <span className="text-h3 text-foreground font-bold">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
+            <Statistic label="Bikes repaired" value={628} />
+            <Statistic label="Bikes saved" value={500} />
+            <Statistic label="Bikes lent" value={86} />
+            <Statistic label="Employees hired" value={30} />
           </div>
         </SectionContent>
       </Section>
@@ -247,14 +179,14 @@ export default function Home() {
 
       <Section>
         <SectionContent heading="Join us">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
             <CardDefault
               icon={PackagePlusIcon}
               title="Donate material"
               body="Support us with bikes, tools, or other useful items. Your donation helps keep the project rolling."
               link="/"
               ariaLabel="Learn more about donating material"
-              variant="baseGray"
+              variant="muted"
             />
             <CardDefault
               icon={CoinsIcon}
@@ -262,7 +194,7 @@ export default function Home() {
               body="Swish a contribution, every bit helps us empower young people and build a stronger community."
               link="/"
               ariaLabel="Learn more about donating via Swish"
-              variant="baseGray"
+              variant="muted"
             />
             <CardDefault
               icon={Hammer}
@@ -270,7 +202,7 @@ export default function Home() {
               body="We offer opportunities to get involved, learn new skills, and be part of our workshops."
               link="/"
               ariaLabel="Learn more about working with us"
-              variant="baseGray"
+              variant="muted"
             />
             <CardDefault
               icon={HeartHandshake}
@@ -279,35 +211,47 @@ export default function Home() {
               link="/"
               ariaLabel="Learn more about becoming a partner"
               linkLabel="Contact us"
-              variant="baseGray"
+              variant="muted"
             />
           </div>
         </SectionContent>
       </Section>
 
-      <Section variant="gray">
+      <Section variant="muted">
         <SectionContent
           heading="Our partners"
           linkTo="/partners"
           linkLabel="See all partners"
+          linkVariant="background"
         >
-          <div
-            className="grid grid-cols-2 items-center justify-items-center
-              gap-x-24 gap-y-[70px] sm:grid-cols-3 md:grid-cols-4"
+          <GridBetween rows={2} cols={4} className="hidden lg:flex">
+            {partners.map((partner, index) => (
+              <PartnerImg key={index} partner={partner} />
+            ))}
+          </GridBetween>
+
+          <GridBetween
+            rows={2}
+            cols={3}
+            className="hidden min-[700px]:flex lg:hidden"
           >
             {partners.map((partner, index) => (
-              <img
-                key={index}
-                src={partner.src}
-                alt={partner.name}
-                className="max-h-20 w-auto object-contain lg:max-h-24"
-              />
+              <PartnerImg key={index} partner={partner} />
             ))}
-          </div>
+          </GridBetween>
+
+          <GridBetween
+            rows={3}
+            cols={2}
+            className="flex min-[700px]:hidden"
+            rowClassName="gap-16"
+          >
+            {partners.map((partner, index) => (
+              <PartnerImg key={index} partner={partner} />
+            ))}
+          </GridBetween>
         </SectionContent>
       </Section>
-
-      <Footer />
-    </>
+    </Page>
   );
 }

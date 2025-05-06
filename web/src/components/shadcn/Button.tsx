@@ -1,13 +1,18 @@
 import * as React from 'react';
-import { NavLinkProps, Link as RouterLink } from 'react-router-dom';
+import {
+  LinkProps as RouterLinkProps,
+  Link as RouterLink,
+} from 'react-router-dom';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@utils';
 import * as Tooltip from '@components/shadcn/Tooltip';
 
+//
+
 export const buttonVariants = cva(
-  `focus-visible:ring-ring inline-flex items-center justify-center
+  `focus-visible:ring-ring inline-flex flex-shrink-0 items-center justify-center
   whitespace-nowrap rounded-md text-sm font-medium transition-colors
   focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none
   disabled:opacity-50`,
@@ -15,11 +20,8 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground hover:bg-primary/80 shadow',
-        defaultRounded: [
-          `bg-primary text-primary-foreground hover:bg-primary/80 rounded-full
-          shadow`,
-        ],
+          'bg-primary text-primary-foreground hover:bg-primary/80' +
+          ' data-[state=open]:bg-muted shadow',
         destructive: ['bg-destructive text-background hover:bg-destructive/80'],
         outline: [
           `border-input bg-background hover:bg-accent
@@ -28,9 +30,16 @@ export const buttonVariants = cva(
         secondary: [
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow',
         ],
+        secondarySharp: [
+          'bg-secondary text-foreground hover:opacity-80 shadow-none',
+        ],
         contrast: [
           'bg-contrast text-contrast-foreground hover:bg-contrast/80 ',
         ],
+        mutedSharp: [
+          'bg-muted text-foreground hover:opacity-80 shadow-none',
+        ],
+        background: ['bg-background text-foreground hover:opacity-80'],
         accent: [
           [
             `data-[state=active]:text-accent-foreground
@@ -40,46 +49,21 @@ export const buttonVariants = cva(
           ],
         ],
         ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',
-        link: 'text-primary underline-offset-4 !shadow-none hover:underline',
-        roundedPrimary: [
-          `bg-foreground text-background hover:bg-contrast/80 flex flex-shrink-0
-          items-center justify-center rounded-full`,
-        ],
-        roundedPrimaryText: [
-          `bg-foreground text-background hover:bg-contrast/80
-          focus-visible:ring-contrast rounded-full shadow-none`,
-        ],
-        roundedMuted: [
-          `bg-secondary text-secondary-foreground hover:bg-secondary/80
-          focus-visible:ring-ring flex h-8 w-8 flex-shrink-0 items-center
-          justify-center rounded-full p-2 shadow-none`,
-        ],
-        roundedMutedText: [
-          `bg-muted text-foreground hover:bg-contrast/80
-          focus-visible:ring-contrast rounded-full shadow-none`,
-        ],
-        roundedContrast: [
-          `border-border bg-card text-card-foreground hover:bg-accent
-          focus-visible:ring-ring flex h-8 w-8 flex-shrink-0 items-center
-          justify-center rounded-full border p-2 shadow-none`,
-        ],
-        roundedContrastText: [
-          `bg-background text-foreground hover:bg-contrast/80
-          focus-visible:ring-contrast rounded-full shadow-none`,
-        ],
+        link: 'text-foreground hover:text-foreground/55 !shadow-none',
       },
       subVariant: {
         default: 'shadow-sm',
+        rounded: 'rounded-full shadow-none',
         flat: 'shadow-none',
       },
       size: {
+        none: '',
         default: 'h-8 px-4 py-2',
-
-        // Size is not used in this codebase yet, lets disable it for consistent
-        // ui until the day we are brave enough for more variation
-
-        /* sm: 'h-8 rounded-md px-3 text-xs',
-         * lg: 'h-10 rounded-md px-8', */
+        defaultIcon: 'h-8 w-8 p-0',
+        defaultIconText: 'h-8 px-3',
+        large: 'h-10 px-4 py-10',
+        largeIcon: 'h-10 w-10 p-0',
+        largeIconText: 'h-10 px-3',
       },
     },
     defaultVariants: {
@@ -103,7 +87,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant,
       subVariant,
-      /* size, */ asChild = false,
+      size,
+      asChild = false,
       tooltip,
       ...props
     },
@@ -115,7 +100,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Tooltip.Trigger asChild>
           <Comp
             className={cn(
-              buttonVariants({ variant, subVariant, /* size, */ className }),
+              buttonVariants({
+                variant,
+                subVariant,
+                size,
+              }),
+              className,
             )}
             ref={ref}
             {...props}
@@ -135,45 +125,60 @@ Button.displayName = 'Button';
 
 //
 
-export interface IconButtonProps extends Omit<ButtonProps, 'children'> {
+export interface IconButtonProps
+  extends Omit<ButtonProps, 'children' | 'size'> {
   icon?: any;
   text?: string;
+  iconRight?: true;
+  size?: 'default' | 'large';
 }
 
 export const IconButton = React.forwardRef<any, IconButtonProps>(
-  ({ className, text, icon: Icon, ...props }, ref) => {
-    return (
-      <Button
-        className={cn(
-          'data-[state=open]:bg-muted flex h-8 p-0',
-          text ? 'pl-3 pr-4' : 'w-8',
-          className,
-        )}
-        ref={ref}
-        {...props}
-      >
-        {Icon && <Icon className="h-4 w-4" />}
-        {text && <span className="pl-2">{text}</span>}
-      </Button>
-    );
-  },
+  (
+    {
+      className,
+      text,
+      size = 'default',
+      icon: Icon,
+      iconRight = false,
+      ...props
+    },
+    ref,
+  ) => (
+    <Button
+      className={className}
+      ref={ref}
+      size={`${size}Icon${text ? 'Text' : ''}`}
+      {...props}
+    >
+      {Icon && !iconRight && (
+        <Icon className={size === 'default' ? 'h-4 w-4' : 'h-6 w-6'} />
+      )}
+      {text && (
+        <span className={iconRight ? 'pl-1 pr-2' : 'pl-2 pr-1'}>{text}</span>
+      )}
+      {Icon && iconRight && (
+        <Icon className={size === 'default' ? 'h-4 w-4' : 'h-6 w-6'} />
+      )}
+    </Button>
+  ),
 );
 
 IconButton.displayName = 'IconButton';
 
 //
 
-export type LinkProps = NavLinkProps &
-  ButtonProps &
-  VariantProps<typeof buttonVariants>;
+export type LinkProps = RouterLinkProps & VariantProps<typeof buttonVariants>;
 
 export const Link = ({
   className,
   variant,
-  /* size, */ ...props
+  subVariant,
+  size,
+  ...props
 }: LinkProps) => (
   <RouterLink
-    className={cn(buttonVariants({ variant, /* size, */ className }))}
+    className={cn(buttonVariants({ variant, size, subVariant }), className)}
     {...props}
   />
 );
@@ -182,36 +187,32 @@ Link.displayName = RouterLink.displayName;
 
 //
 
-export interface IconLinkProps extends Omit<LinkProps, 'children' | 'ref'> {
+export interface IconLinkProps
+  extends Omit<LinkProps, 'children' | 'ref' | 'size'> {
   icon: React.ElementType;
+  iconRight?: true;
+  size?: 'default' | 'large';
   text?: string;
 }
 
 export const IconLink: React.FC<IconLinkProps> = ({
-  className,
   text,
+  size = 'default',
+  iconRight = false,
   icon: Icon,
-  variant,
-  subVariant,
-  tooltip,
   ...props
-}) => {
-  return (
-    <Link
-      variant={variant}
-      subVariant={subVariant}
-      tooltip={tooltip}
-      className={cn(
-        'data-[state=open]:bg-muted flex h-8 items-center justify-center p-0',
-        text ? 'pl-3 pr-4' : 'w-8',
-        className,
-      )}
-      {...props}
-    >
-      {Icon && <Icon className={cn('h-6 w-6 flex-shrink-0')} />}
-      {text && <span className="pl-2">{text}</span>}
-    </Link>
-  );
-};
+}) => (
+  <Link size={`${size}Icon${text ? 'Text' : ''}`} {...props}>
+    {Icon && !iconRight && (
+      <Icon className={size === 'default' ? 'h-4 w-4' : 'h-6 w-6'} />
+    )}
+    {text && (
+      <span className={iconRight ? 'pl-1 pr-2' : 'pl-2 pr-1'}>{text}</span>
+    )}
+    {Icon && iconRight && (
+      <Icon className={size === 'default' ? 'h-4 w-4' : 'h-6 w-6'} />
+    )}
+  </Link>
+);
 
 IconLink.displayName = 'IconLink';
