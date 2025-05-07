@@ -2,10 +2,7 @@ package se.hjulverkstan.main.service;
 
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -14,19 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import se.hjulverkstan.Exceptions.*;
 import se.hjulverkstan.main.dto.ImageUploadResponse;
-import se.hjulverkstan.main.repository.ImageRepository;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class S3ServiceImpl implements S3Service {
-
     private final AmazonS3 amazonS3;
     private static final List<String> ALLOWED_MIME_TYPES = Arrays.asList("image/jpeg", "image/png", "image/gif");
     private static final Tika TIKA = new Tika();
@@ -118,6 +112,39 @@ public class S3ServiceImpl implements S3Service {
         } catch (Exception e) {
             throw new S3DeleteException("Error deleting file from S3: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void deleteFilesByKeys(List<String> keys) {
+        try {
+            DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucketName).withKeys(keys.toArray(new String[0]));
+            amazonS3.deleteObjects(deleteObjectsRequest);
+        } catch (Exception e) {
+            throw new S3DeleteException("Error deleting files from S3: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves all imageKeys (file names) stored in the S3 bucket.
+     *
+     * This method sends a request to list all objects in the specified S3 bucket
+     * and extracts their unique file keys. These keys represent the stored files
+     * without the full S3 URL.
+     *
+     * @return A List of Strings containing the file keys of all objects in the bucket.
+     */
+    @Override
+    public List<String> getAllImageKeys() {
+        // A request object that tells S3 to list objects (files) from a specified bucket.
+        ListObjectsV2Request request = new ListObjectsV2Request().withBucketName(bucketName);
+        // The response from S3 that contains a list of files stored in the bucket.
+        ListObjectsV2Result result = amazonS3.listObjectsV2(request);
+
+        // Retrieves all file details from the bucket. Converts it to a stream.
+        // Extracts just the file key. Converts the stream back to a List<String>.
+        return result.getObjectSummaries().stream()
+                .map(S3ObjectSummary::getKey)
+                .collect(Collectors.toList());
     }
 
 }
