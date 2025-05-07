@@ -78,15 +78,18 @@ public class UserServiceImpl implements UserService {
         return new UserDto(user);
     }
 
+
     @Override
-    public UserDto updateUser(Long id, SignupRequest userDetail) {
+    public UserDto updateUser(Long id, UserDto userDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_NAME));
-        user.setUsername(userDetail.getUsername());
-        user.setPassword(userDetail.getPassword());
-        user.setEmail(userDetail.getEmail());
+        user.setUsername(userDto.getUsername());
+        if (userDto.getPassword() != null && !userDto.getPassword().isBlank()) {
+            user.setPassword(encoder.encode(userDto.getPassword()));
+        }
+        user.setEmail(userDto.getEmail());
 
-        Set<Role> roles = userDetail.getRoles().stream().map(eRole -> roleRepository
+        Set<Role> roles = userDto.getRoles().stream().map(eRole -> roleRepository
                 .findByName(eRole)
                 .orElseThrow(() -> new ElementNotFoundException("Role"))
         ).collect(Collectors.toSet());

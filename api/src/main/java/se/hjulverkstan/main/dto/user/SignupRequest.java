@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import se.hjulverkstan.main.model.ERole;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -29,7 +28,7 @@ public class SignupRequest {
     private String email;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(min = 3, max = 120)
     private String password;
 
     private Set<ERole> roles;

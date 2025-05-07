@@ -12,7 +12,7 @@ public interface UserService {
 
     UserDto getUserById(Long id);
 
-    UserDto updateUser(Long id, SignupRequest userDetail);
+    UserDto updateUser(Long id, UserDto userDto);
 
     UserDto deleteUser(Long id);
 }
