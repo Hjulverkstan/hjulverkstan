@@ -8,7 +8,7 @@ export default function PortalContent({ children }: PortalContentProps) {
   return (
     <div
       className="bg-background css-glow-shadow mb-4 flex min-h-0 flex-1
-        overflow-hidden rounded-md border"
+        overflow-hidden border sm:rounded-md"
     >
       {children}
     </div>
