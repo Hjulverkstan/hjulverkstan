@@ -19,6 +19,7 @@ import PageNotFound from './PageNotFound';
 import Portal from './Portal';
 import Contact from './Contact';
 import ShopDetails from './ShopDetails';
+import Support from './Support';
 
 // React Query Config
 
@@ -112,6 +113,11 @@ export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
         title: 'Shops',
         component: ShopDetails,
         dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
+      },
+      {
+        path: '/support',
+        title: 'Hjulverkstan - Support',
+        component: Support,
       },
     ],
     csr: [
