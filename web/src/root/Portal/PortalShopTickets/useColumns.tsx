@@ -90,7 +90,7 @@ export default function useColumns() {
             const variant = selected
               ? 'contrast'
               : warnings.length
-                ? 'destructive'
+                ? 'red'
                 : 'outline';
 
             return warnings.length ? (

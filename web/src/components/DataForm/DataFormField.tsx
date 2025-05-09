@@ -31,8 +31,8 @@ export const Field = ({
       )}
       {fieldErrorMap[dataKey] && (
         <div
-          className="bg-destructive-fill text-destructive-foreground rounded-md
-            px-4 py-2 text-sm"
+          className="bg-red-fill text-red-foreground rounded-md px-4 py-2
+            text-sm"
         >
           {fieldErrorMap[dataKey]}
         </div>

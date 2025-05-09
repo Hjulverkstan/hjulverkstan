@@ -41,34 +41,41 @@ export const ticketType = [
   },
 ];
 
+export enum TicketStatusVariants {
+  READY = 'blue',
+  IN_PROGRESS = 'yellow',
+  COMPLETE = 'purple',
+  CLOSED = 'outline',
+}
+
 export const ticketStatus = [
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.READY,
     label: 'Ready',
     icon: CheckCircle,
-    variant: 'destructive' as 'destructive',
+    variant: TicketStatusVariants.READY,
   },
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.IN_PROGRESS,
     label: 'In progress',
     icon: RefreshCw,
-    variant: 'success' as 'successOutline',
+    variant: TicketStatusVariants.IN_PROGRESS,
   },
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.COMPLETE,
     label: 'Complete',
     icon: Check,
-    variant: 'outline' as 'outline',
+    variant: TicketStatusVariants.COMPLETE,
   },
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.CLOSED,
     label: 'Closed',
     icon: XCircle,
-    variant: 'outline' as 'outline',
+    variant: TicketStatusVariants.CLOSED,
   },
 ];
 

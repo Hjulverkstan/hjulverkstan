@@ -9,7 +9,7 @@ export const warningEnums = [
     label: 'Due pickup',
     tooltip: 'Bike ready, waiting for pickup',
     icon: AlertTriangle,
-    variant: 'destructive' as 'destructive',
+    variant: 'red' as 'red',
   },
   {
     dataKey: 'warning',
@@ -17,7 +17,7 @@ export const warningEnums = [
     label: 'Due return',
     tooltip: 'Bike still out past return date.',
     icon: AlertTriangle,
-    variant: 'destructive' as 'destructive',
+    variant: 'red' as 'red',
   },
   {
     dataKey: 'warning',
@@ -25,7 +25,7 @@ export const warningEnums = [
     label: 'Orphan',
     tooltip: 'Bike orphaned: missing ticket.',
     icon: AlertTriangle,
-    variant: 'destructive' as 'destructive',
+    variant: 'red' as 'red',
   },
 ];
 
