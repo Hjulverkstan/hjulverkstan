@@ -86,7 +86,7 @@ export const vehicleStatus = [
     dataKey: 'vehicleStatus',
     value: VehicleStatus.AVAILABLE,
     label: 'Available',
-    variant: 'successOutline' as 'successOutline',
+    variant: 'greenOutline' as 'greenOutline',
     icon: CircleFadingPlus,
   },
   {
@@ -100,7 +100,7 @@ export const vehicleStatus = [
     dataKey: 'vehicleStatus',
     value: VehicleStatus.BROKEN,
     label: 'Broken',
-    variant: 'destructiveOutline' as 'destructiveOutline',
+    variant: 'redOutline' as 'redOutline',
     icon: CircleSlash,
   },
   {
