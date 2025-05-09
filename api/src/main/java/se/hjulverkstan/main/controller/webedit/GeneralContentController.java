@@ -25,6 +25,7 @@ public class GeneralContentController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') or hasRole('ROLE_PIPELINE')")
     public ResponseEntity<List<GeneralContentDto>> getAllGeneralContents(@RequestParam(name = "lang") String lang) {
         Language language = validateLanguage(lang);
         return new ResponseEntity<>(generalContentService.getAllGeneralContentsByLang(language), HttpStatus.OK);
