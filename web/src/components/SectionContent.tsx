@@ -20,22 +20,15 @@ export const SectionContent: React.FC<SectionContentProps> = ({
   heading,
   linkTo,
   linkLabel,
-  linkVariant = "mutedSharp",
+  linkVariant = 'mutedSharp',
 }) => (
-  <div
-    className={cn(
-      'mx-auto w-[88vw] max-w-[1852px]',
-      className,
-    )}
-  >
+  <div className={cn('mx-auto w-[88vw] max-w-[1852px]', className)}>
     {heading && (
       <div
         className="mb-16 flex flex-col items-start gap-4 sm:flex-row
           sm:items-center sm:justify-between"
       >
-        {heading && (
-          <h2 className="text-h2 text-foreground font-semibold">{heading}</h2>
-        )}
+        <h2 className="text-h2 text-foreground font-semibold">{heading}</h2>
         {linkTo && linkLabel && (
           <IconLink
             to={linkTo}
@@ -52,7 +45,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({
     )}
     {children}
     {linkTo && linkLabel && (
-      <div className="md:hidden mt-16 flex justify-end">
+      <div className="mt-16 flex justify-end md:hidden">
         <IconLink
           to={linkTo}
           text={linkLabel}
