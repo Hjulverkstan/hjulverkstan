@@ -13,6 +13,10 @@ interface CardDefaultProps {
   ariaLabel?: string;
   linkLabel?: string;
   className?: string;
+  children?: React.ReactNode;
+  iconClassName?: string;
+  iconSize?: number;
+  iconLinkClassName?: string;
 }
 
 export const CardDefault: React.FC<CardDefaultProps> = ({
@@ -24,11 +28,16 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
   linkLabel,
   variant,
   className,
+  children,
+  iconClassName,
+  iconSize,
+  iconLinkClassName,
 }) => (
   <Base variant={variant} className={className}>
-    <Icon icon={icon} />
+    <Icon icon={icon} className={iconClassName} size={iconSize} />
     <Title className="pb-4 pt-6">{title}</Title>
     <Body>{body}</Body>
+    {children}
     <div className="mt-auto flex justify-end pt-6">
       <IconLink
         to={link}
@@ -39,6 +48,7 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
         text={linkLabel}
         aria-label={ariaLabel ?? 'Read more'}
         iconRight
+        className={iconLinkClassName}
       />
     </div>
   </Base>

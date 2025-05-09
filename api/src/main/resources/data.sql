@@ -80,7 +80,84 @@ INSERT INTO General_Content
 ('PLAIN',   'Statistic: Bikes Lent',            'Statistics section, landing page', 'statisticBikesLent',           NOW(),      NOW(),      1,          1         ),
 ('PLAIN',   'Statistic: Events Held',           'Statistics section, landing page', 'statisticEventsHeld',          NOW(),      NOW(),      1,          1         ),
 ('PLAIN',   'Statistic: Employees Hired',       'Statistics section, landing page', 'statisticEmployeesHired',      NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Slogan',                           'Slogan for landing page',          'slogan',                       NOW(),      NOW(),      1,          1         );
+('PLAIN',   'Slogan',                           'Slogan for landing page',          'slogan',                       NOW(),      NOW(),      1,          1         ),
+('PLAIN', 'Services: How to repair', 'Services Page, how to repair', 'servicesHowToRepair', NOW(), NOW(), 1, 1),
+
+-- ID 16
+('PLAIN', 'Services: Visit Label', 'Services Page, visit', 'servicesVisit', NOW(), NOW(), 1, 1),
+
+-- ID 17
+('PLAIN', 'Services: Tell us what’s wrong', 'Services Page, tell us what’s wrong', 'servicesTellUs', NOW(), NOW(), 1, 1),
+
+-- ID 18
+('PLAIN', 'Services: Simple Fix', 'Services Page, simple fix', 'servicesSimpleFix', NOW(), NOW(), 1, 1),
+
+-- ID 19
+('PLAIN', 'Services: More Time Needed', 'Services Page, more time needed', 'servicesMoreTime', NOW(), NOW(), 1, 1),
+-- ID 20
+('PLAIN', 'Services: Pick it up', 'Services Page,pick it up', 'servicesPickItUp', NOW(), NOW(), 1, 1),
+-- 21
+('PLAIN', 'Services: Pick a vehicle', 'Services Page, pick a vehicle', 'servicesPickAVehicle', NOW(), NOW(), 1, 1),
+-- 22
+('PLAIN', 'Services: Use it for 1-2 weeks ', 'Services Page, use for 1-2 weeks', 'servicesUseForWeeks', NOW(), NOW(), 1, 1),
+-- 23
+('PLAIN', 'Services: Return the vehicle ', 'Services Page, Return', 'servicesReturn', NOW(), NOW(), 1, 1),
+
+-- Descriptions
+-- 24
+('PLAIN', 'Services: No online booking', 'Step description: no online booking', 'servicesNoOnlineBooking', NOW(), NOW(), 1, 1),
+-- 25
+('PLAIN', 'Services: Inspect together', 'Step description: inspect together', 'servicesInspectTogether', NOW(), NOW(), 1, 1),
+-- 26
+('PLAIN', 'Services: Done right away', 'Step description: done right away', 'servicesDoneRightAway', NOW(), NOW(), 1, 1),
+-- 27
+('PLAIN', 'Services: Leave it with us', 'Step description: leave it with us', 'servicesLeaveItWithUs', NOW(), NOW(), 1, 1),
+-- 28
+('PLAIN', 'Services: We will let you know', 'Step description: We will let you know', 'servicesWeWillLetYouKnow', NOW(), NOW(), 1, 1),
+-- 29
+('PLAIN', 'Services: We will help you chose', 'Services Page, Help you chose', 'servicesHelpYouChose', NOW(), NOW(), 1, 1),
+--30
+('PLAIN', 'Services: Free', 'Services Page, Free of charge', 'servicesFreeOfCharge', NOW(), NOW(), 1, 1),
+--31
+('PLAIN', 'Services: Return it', 'Services Page, Bring it back to the shop', 'servicesReturnVehicle', NOW(), NOW(), 1, 1),
+--32
+('PLAIN', 'Services: How to Rent', 'Services Page, how to rent', 'servicesHowToRent', NOW(), NOW(), 1, 1),
+--33
+('PLAIN', 'Services: Join a course', 'Services Page, join course', 'servicesJoinCourse', NOW(), NOW(), 1, 1),
+--34
+('PLAIN', 'Services: View courses', 'Services Page, view courses', 'servicesViewCourses', NOW(), NOW(), 1, 1),
+--35
+('PLAIN', 'Services: See what''s right for you', 'Services Page, See what''s right for you', 'servicesViewWhatsRight', NOW(), NOW(), 1, 1),
+--36
+('PLAIN', 'Services: Register', 'Services Page, Register for an event', 'servicesRegisterForEvent', NOW(), NOW(), 1, 1),
+--37
+('PLAIN', 'Services: Sign up', 'Services Page, sign up online', 'servicesSignUpOnline', NOW(), NOW(), 1, 1),
+--38
+('PLAIN', 'Services: Check your inbox', 'Services Page, check inbox', 'servicesCheckInbox', NOW(), NOW(), 1, 1),
+--39
+('PLAIN', 'Services: Confirmation mail', 'Services Page, confirmation mail', 'servicesConfirmationMail', NOW(), NOW(), 1, 1),
+--40
+('PLAIN', 'Services: Show up and join', 'Services Page, show up and join', 'servicesShowUpAndJoin', NOW(), NOW(), 1, 1),
+--41
+('PLAIN', 'Services: Come at scheduled time', 'Services Page, Come at scheduled time', 'servicesComeAtScheduledTime', NOW(), NOW(), 1, 1),
+--42
+('PLAIN', 'Services: Free repairs', 'Services Page, Repairs are free', 'servicesFooterNote', NOW(), NOW(), 1, 1),
+--43
+('PLAIN', 'Services: Find shop', 'Services Page, Find shop', 'servicesFindShop', NOW(), NOW(), 1, 1),
+--44
+('PLAIN', 'Services: Find event', 'Services Page, Find event', 'servicesFindEvent', NOW(), NOW(), 1, 1);
+
+
+
+
+
+
+
+
+
+
+
+
 
 INSERT INTO Open_Hours
 (mon,               tue,               wed,               thu,               fri,               sat,               sun) VALUES
@@ -131,6 +208,98 @@ INSERT INTO Localised_Content
 ('SWE',  'VALUE',        'Personer anställda',                                                                                                                                                  NOW(),      NOW(),      1,          1,          13,                 null),
 ('ENG',  'VALUE',        'A bike shop unlike any other',                                                                                                                                        NOW(),      NOW(),      1,          1,          14,                 null),
 ('SWE',  'VALUE',        'En cykelbutik olik alla andra',                                                                                                                                       NOW(),      NOW(),      1,          1,          14,                 null),
+('ENG', 'VALUE', 'How to repair', NOW(), NOW(), 1, 1, 15, null),
+('SWE', 'VALUE', 'Hur man reparerar', NOW(), NOW(), 1, 1, 15, null),
+
+
+('ENG', 'VALUE', 'Visit our shop', NOW(), NOW(), 1, 1, 16, null),
+('SWE', 'VALUE', 'Besök vår verkstad', NOW(), NOW(), 1, 1, 16, null),
+
+('ENG', 'VALUE', 'Tell us what’s wrong', NOW(), NOW(), 1, 1, 17, null),
+('SWE', 'VALUE', 'Berätta vad som är fel', NOW(), NOW(), 1, 1, 17, null),
+
+('ENG', 'VALUE', 'Simple fix?', NOW(), NOW(), 1, 1, 18, null),
+('SWE', 'VALUE', 'Enkelt fel?', NOW(), NOW(), 1, 1, 18, null),
+
+('ENG', 'VALUE', 'If more time is needed', NOW(), NOW(), 1, 1, 19, null),
+('SWE', 'VALUE', 'Om mer tid behövs', NOW(), NOW(), 1, 1, 19, null),
+
+('ENG', 'VALUE', 'Pick it up', NOW(), NOW(), 1, 1, 20, null),
+('SWE', 'VALUE', 'Upphämtning', NOW(), NOW(), 1, 1, 20, null),
+
+('ENG', 'VALUE', 'Pick a vehicle', NOW(), NOW(), 1, 1, 21, null),
+('SWE', 'VALUE', 'Välj ett fordon', NOW(), NOW(), 1, 1, 21, null),
+
+('ENG', 'VALUE', 'Use for 1-2 weeks', NOW(), NOW(), 1, 1, 22, null),
+('SWE', 'VALUE', 'Använd det i 1-2 veckor', NOW(), NOW(), 1, 1, 22, null),
+
+('ENG', 'VALUE', 'Return the vehicle', NOW(), NOW(), 1, 1, 23, null),
+('SWE', 'VALUE', 'Returnera fordonet', NOW(), NOW(), 1, 1, 23, null),
+
+('ENG', 'VALUE', 'No online booking', NOW(), NOW(), 1, 1, 24, null),
+('SWE', 'VALUE', 'Ingen onlinebokning', NOW(), NOW(), 1, 1, 24, null),
+
+('ENG', 'VALUE', 'We’ll inspect together', NOW(), NOW(), 1, 1, 25, null),
+('SWE', 'VALUE', 'Vi inspekterar tillsammans', NOW(), NOW(), 1, 1, 25, null),
+
+('ENG', 'VALUE', 'Then it''s often done right away', NOW(), NOW(), 1, 1, 26, null),
+('SWE', 'VALUE', 'Fixas oftast direkt', NOW(), NOW(), 1, 1, 26, null),
+
+('ENG', 'VALUE', 'Leave it with us', NOW(), NOW(), 1, 1, 27, null),
+('SWE', 'VALUE', 'Lämna det till oss', NOW(), NOW(), 1, 1, 27, null),
+
+('ENG', 'VALUE', 'We’ll let you know when it’s done', NOW(), NOW(), 1, 1, 28, null),
+('SWE', 'VALUE', 'Vi hör av oss när det är färdigt', NOW(), NOW(), 1, 1, 28, null),
+
+('ENG', 'VALUE', 'We will help you choose one', NOW(), NOW(), 1, 1, 29, null),
+('SWE', 'VALUE', 'Vi hjälper dig att välja ett', NOW(), NOW(), 1, 1, 29, null),
+
+('ENG', 'VALUE', 'Free of charge', NOW(), NOW(), 1, 1, 30, null),
+('SWE', 'VALUE', 'Ingen kostnad', NOW(), NOW(), 1, 1, 30, null),
+
+('ENG', 'VALUE', 'Bring it back to the shop', NOW(), NOW(), 1, 1, 31, null),
+('SWE', 'VALUE', 'Lämna tillbaka det till verkstaden', NOW(), NOW(), 1, 1, 31, null),
+
+('ENG', 'VALUE', 'How to rent', NOW(), NOW(), 1, 1, 32, null),
+('SWE', 'VALUE', 'Hur man hyr', NOW(), NOW(), 1, 1, 32, null),
+
+('ENG', 'VALUE', 'Join a course', NOW(), NOW(), 1, 1, 33, null),
+('SWE', 'VALUE', 'Gå med i en kurs', NOW(), NOW(), 1, 1, 33, null),
+
+('ENG', 'VALUE', 'View our courses', NOW(), NOW(), 1, 1, 34, null),
+('SWE', 'VALUE', 'Kolla våra kurser', NOW(), NOW(), 1, 1, 34, null),
+
+('ENG', 'VALUE', 'See what''s right for you', NOW(), NOW(), 1, 1, 35, null),
+('SWE', 'VALUE', 'Kolla vad som känns rätt för dig', NOW(), NOW(), 1, 1, 35, null),
+
+('ENG', 'VALUE', 'Register for an event', NOW(), NOW(), 1, 1, 36, null),
+('SWE', 'VALUE', 'Registrera dig för ett evenemang', NOW(), NOW(), 1, 1, 36, null),
+
+('ENG', 'VALUE', 'Sign up easily online', NOW(), NOW(), 1, 1, 37, null),
+('SWE', 'VALUE', 'Anmäl dig enkelt online', NOW(), NOW(), 1, 1, 37, null),
+
+('ENG', 'VALUE', 'Check your inbox', NOW(), NOW(), 1, 1, 38, null),
+('SWE', 'VALUE', 'Kolla din inkorg', NOW(), NOW(), 1, 1, 38, null),
+
+('ENG', 'VALUE', 'For confirmation email', NOW(), NOW(), 1, 1, 39, null),
+('SWE', 'VALUE', 'För bekfräftelsemejl', NOW(), NOW(), 1, 1, 39, null),
+
+('ENG', 'VALUE', 'Show up and join', NOW(), NOW(), 1, 1, 40, null),
+('SWE', 'VALUE', 'Dyk upp och delta', NOW(), NOW(), 1, 1, 40, null),
+
+('ENG', 'VALUE', 'Come at a scheduled time!', NOW(), NOW(), 1, 1, 41, null),
+('SWE', 'VALUE', 'Kom på en bokad tid!', NOW(), NOW(), 1, 1, 41, null),
+
+('ENG', 'VALUE', 'Repairs are free. If any parts need replacing, we’ll provide them at cost price – no extra fees.', NOW(), NOW(), 1, 1, 42, null),
+('SWE', 'VALUE', 'Reperationer är gratis. Om några delar behöver bytas ut så förser vi er med dem till inköpspris - inga extra avgifter.', NOW(), NOW(), 1, 1, 42, null),
+
+('ENG', 'VALUE', 'find shop', NOW(), NOW(), 1, 1, 43, null),
+('SWE', 'VALUE', 'hitta verkstad', NOW(), NOW(), 1, 1, 43, null),
+
+('ENG', 'VALUE', 'find event', NOW(), NOW(), 1, 1, 44, null),
+('SWE', 'VALUE', 'hitta evenemang', NOW(), NOW(), 1, 1, 44, null),
+
+
 ('ENG',  'BODY_TEXT',    'At Skolspåret 15, we offer basic servicing of your bike, such as fixing pedals, adjusting gears, checking tires, air pressure, and lubrication, among other things.', NOW(),      NOW(),      1,          1,          null,               1),
 ('SWE',  'BODY_TEXT',    'På Skolspåret 15 erbjuder vi enkla reparationer på din cykel, så som att laga pedalerna, justera växlarna, kolla hjulen, lufttrycket och insmörjning.',               NOW(),      NOW(),      1,          1,          null,               1);
 

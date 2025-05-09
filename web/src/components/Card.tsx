@@ -20,15 +20,17 @@ const cardIconVariants = cva('flex-shrink-0', {
 export interface CardIconProps extends VariantProps<typeof cardIconVariants> {
   icon: LucideIcon;
   className?: string;
+  size?: number;
 }
 
 export const Icon: React.FC<CardIconProps> = ({
   icon: IconComponent,
   className,
   variant,
+  size = 42,
 }) => (
   <div className={cn(cardIconVariants({ variant }), className)}>
-    <IconComponent size={42} strokeWidth={1.7} aria-hidden="true" />
+    <IconComponent size={size} strokeWidth={1.7} aria-hidden="true" />
   </div>
 );
 
