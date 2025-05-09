@@ -7,7 +7,7 @@ export const createErrorToast = ({
   verbLabel: string;
   dataLabel: string;
 }) => ({
-  variant: 'destructive' as any,
+  variant: 'red' as any,
   title: `Failed to ${verbLabel} the ${dataLabel}.`,
   description: 'Try again soon or contact your local developer.',
   duration: 5000,
@@ -22,7 +22,7 @@ export const createSuccessToast = ({
   dataLabel: string;
   id?: string;
 }) => ({
-  variant: 'success' as any,
+  variant: 'green' as any,
   title: `Successfully managed to ${verbLabel} the ${dataLabel}${id ? ` with id: ${id}` : ''}.`,
   duration: 5000,
 });

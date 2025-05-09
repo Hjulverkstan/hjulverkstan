@@ -86,9 +86,9 @@ export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) =>
         ...(ticket.ticketStatus && {
           variant: {
             [TicketStatus.CLOSED]: 'outline',
-            [TicketStatus.IN_PROGRESS]: 'success',
-            [TicketStatus.READY]: 'warn',
-            [TicketStatus.COMPLETE]: 'success',
+            [TicketStatus.IN_PROGRESS]: 'yellow',
+            [TicketStatus.READY]: 'blue',
+            [TicketStatus.COMPLETE]: 'purple',
           }[ticket.ticketStatus] as EnumAttributes['variant'],
         }),
       })) ?? [],

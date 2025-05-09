@@ -24,7 +24,7 @@ export const OpenBadge: React.FC<OpenBadgeProps> = ({
     <span
       className={cn(
         'mr-2 h-1.5 w-1.5 flex-shrink-0 rounded-full',
-        isOpen ? 'bg-success-accent' : 'bg-warn-accent',
+        isOpen ? 'bg-green-accent' : 'bg-yellow-accent',
       )}
       aria-hidden="true"
     />
@@ -32,7 +32,7 @@ export const OpenBadge: React.FC<OpenBadgeProps> = ({
 
   return (
     <Badge
-      variant={isOpen ? 'successMuted' : 'warnMuted'}
+      variant={isOpen ? 'greenMuted' : 'yellowMuted'}
       borderless={true}
       icon={Icon}
       className={cn(
