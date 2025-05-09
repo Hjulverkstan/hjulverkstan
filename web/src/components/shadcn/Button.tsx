@@ -22,7 +22,7 @@ export const buttonVariants = cva(
         default:
           'bg-primary text-primary-foreground hover:bg-primary/80' +
           ' data-[state=open]:bg-muted shadow',
-        destructive: ['bg-destructive text-background hover:bg-destructive/80'],
+        red: ['bg-red text-background hover:bg-red/80'],
         outline: [
           `border-input bg-background hover:bg-accent
           hover:text-accent-foreground border`,
@@ -31,14 +31,12 @@ export const buttonVariants = cva(
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow',
         ],
         secondarySharp: [
-          'bg-secondary text-foreground hover:opacity-80 shadow-none',
+          'bg-secondary text-foreground shadow-none hover:opacity-80',
         ],
         contrast: [
           'bg-contrast text-contrast-foreground hover:bg-contrast/80 ',
         ],
-        mutedSharp: [
-          'bg-muted text-foreground hover:opacity-80 shadow-none',
-        ],
+        mutedSharp: ['bg-muted text-foreground shadow-none hover:opacity-80'],
         background: ['bg-background text-foreground hover:opacity-80'],
         accent: [
           [

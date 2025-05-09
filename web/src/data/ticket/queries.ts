@@ -10,6 +10,7 @@ import * as enums from './enums';
 import { Ticket, TicketAggregated, TicketStatus } from './types';
 import { Warning } from '@data/warning/types';
 import { differenceInDays } from 'date-fns';
+import { TicketStatusVariants } from './enums';
 
 //
 
@@ -85,10 +86,10 @@ export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) =>
         value: ticket.id,
         ...(ticket.ticketStatus && {
           variant: {
-            [TicketStatus.CLOSED]: 'outline',
-            [TicketStatus.IN_PROGRESS]: 'success',
-            [TicketStatus.READY]: 'warn',
-            [TicketStatus.COMPLETE]: 'success',
+            [TicketStatus.CLOSED]: TicketStatusVariants.CLOSED,
+            [TicketStatus.IN_PROGRESS]: TicketStatusVariants.IN_PROGRESS,
+            [TicketStatus.READY]: TicketStatusVariants.READY,
+            [TicketStatus.COMPLETE]: TicketStatusVariants.COMPLETE,
           }[ticket.ticketStatus] as EnumAttributes['variant'],
         }),
       })) ?? [],
