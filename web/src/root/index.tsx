@@ -16,6 +16,7 @@ import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
+import Services from './Services';
 
 // React Query Config
 
@@ -67,6 +68,7 @@ export const routesSSR: RouteAttributes[] = [
     component: Home,
   },
   { path: '/about', title: 'Hjulverkstan - About', component: About },
+  { path: '/services', title: 'Hjulverkstan - Services', component: Services },
 ];
 
 export const routesCSR: RouteAttributes[] = [
