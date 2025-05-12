@@ -12,24 +12,28 @@ import se.hjulverkstan.main.dto.vehicles.*;
 import se.hjulverkstan.main.dto.responses.*;
 import se.hjulverkstan.main.model.*;
 import se.hjulverkstan.main.repository.LocationRepository;
+import se.hjulverkstan.main.repository.PublicRepository;
 import se.hjulverkstan.main.repository.VehicleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
     private final LocationRepository locationRepository;
+    private final PublicRepository publicRepository;
     public static String ELEMENT_VEHICLE = "Vehicle";
     public static String ELEMENT_LOCATION = "Location";
 
     @Autowired
-    public VehicleServiceImpl(VehicleRepository vehicleRepository, LocationRepository locationRepository) {
+    public VehicleServiceImpl(VehicleRepository vehicleRepository, LocationRepository locationRepository, PublicRepository publicRepository) {
         this.vehicleRepository = vehicleRepository;
         this.locationRepository = locationRepository;
+        this.publicRepository = publicRepository;
     }
 
     @Override
@@ -72,16 +76,41 @@ public class VehicleServiceImpl implements VehicleService {
         return convertToDto(vehicle);
     }
 
+
+    @Override
+    public GetAllVehicleDto getAllPublicVehicles() {
+        List<Vehicle> vehicles = publicRepository.findPublicAvailableVehicles(null);
+        List<VehicleDto> vehicleDtos = vehicles.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
+        return new GetAllVehicleDto(vehicleDtos);
+    }
+
     @Override
     public GetAllVehicleDto getAllVehicles() {
-
         List<Vehicle> listOfVehicles = vehicleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<VehicleDto> responseList = new ArrayList<>();
-
         for (Vehicle vehicle : listOfVehicles) {
             responseList.add(convertToDto(vehicle));
         }
         return new GetAllVehicleDto(responseList);
+    }
+
+    @Override
+    public GetAllVehicleDto getAllPublicVehiclesByLocationId(Long id) {
+        List<Vehicle> vehicles = publicRepository.findPublicAvailableVehicles(id);
+        List<VehicleDto> vehicleDtos = vehicles.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+        return new GetAllVehicleDto(vehicleDtos);
+    }
+
+    @Override
+    public VehicleDto getPublicVehicleById(Long id) {
+        Vehicle vehicle = publicRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFoundException(ELEMENT_VEHICLE));
+            return convertToDto(vehicle);
     }
 
     @Override
