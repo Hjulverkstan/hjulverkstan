@@ -29,22 +29,22 @@ export const getAllWebEditEntitiesByLang = (
       timeout: 15000,
       ...(baseURL && { baseURL }),
     })
-    .then(
-      (res) =>
-        Object.fromEntries(
-          Object.entries(res.data.entities).map(
-            ([lang, { generalContent, shops }]) => [
-              // We use locales instead of langs for the keys
-              U.langCodeToLocale(lang),
-              {
-                // General content should a map instead of array
-                generalContent: Object.fromEntries(
-                  generalContent.map((gc) => [gc.key, gc.value]),
-                ),
-                shops: shops.map(parseResponseData).reverse(),
-              },
-            ],
-          ),
-        ) as Record<LangCode, AllEntities>,
-    )
+    .then((res) => {
+      console.log(res);
+      return Object.fromEntries(
+        Object.entries(res.data.entities).map(
+          ([lang, { generalContent, shops }]) => [
+            // We use locales instead of langs for the keys
+            U.langCodeToLocale(lang),
+            {
+              // General content should a map instead of array
+              generalContent: Object.fromEntries(
+                generalContent.map((gc) => [gc.key, gc.value]),
+              ),
+              shops: shops.map(parseResponseData).reverse(),
+            },
+          ],
+        ),
+      ) as Record<LangCode, AllEntities>;
+    })
     .catch(createErrorHandler(endpoints.webedit.all));
