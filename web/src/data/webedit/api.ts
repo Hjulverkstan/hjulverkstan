@@ -30,7 +30,7 @@ export const getAllWebEditEntitiesByLang = (
       ...(baseURL && { baseURL }),
     })
     .then((res) => {
-      console.log(res);
+      console.log(res.data.entities);
       return Object.fromEntries(
         Object.entries(res.data.entities).map(
           ([lang, { generalContent, shops }]) => [
