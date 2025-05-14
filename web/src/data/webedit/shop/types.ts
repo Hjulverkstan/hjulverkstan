@@ -2,7 +2,7 @@ export interface Shop {
   id: string;
   name: string;
   address: string;
-  latitute: number;
+  latitude: number;
   longitude: number;
   imageURL: string;
   openHours: OpenHours;

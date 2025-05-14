@@ -1,0 +1,121 @@
+import React, { useState } from 'react';
+import { Page } from '@components/Page';
+import { Section } from '@components/Section';
+import { SectionContent } from '@components/SectionContent';
+import { CardContact } from '@components/CardContact';
+import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
+import { Base } from '@components/Card';
+import { ChevronRight, LucideIcon } from 'lucide-react';
+import { Bullet } from '@components/Bullet';
+import { Body } from '@components/Card';
+import { cn } from '@utils';
+
+const faqs = [
+  {
+    question: 'Do you offer bike rentals?',
+    answer:
+      'Yes, we offer a variety of bikes for short- and long-term rentals.',
+  },
+  {
+    question: 'What types of bikes do you lend?',
+    answer: "We lend city bikes, children's bikes, and bikes with child seats.",
+  },
+  {
+    question: 'Do I need to bring ID?',
+    answer: 'Yes, a valid ID is required to borrow a bike.',
+  },
+  {
+    question: 'Can I return the bike at a different location?',
+    answer: 'Normally, you must return the bike to the same location.',
+  },
+];
+
+interface FaqItemProps {
+  question: string;
+  answer: string;
+}
+
+const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="text-foreground">
+      <button
+        type="button"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="w-full text-left"
+      >
+        <Bullet
+          icon={
+            (() => (
+              <ChevronRight
+                size={30}
+                className={cn(
+                  'min-w-[30px] shrink-0 transition-transform duration-200',
+                  isOpen && 'rotate-90',
+                )}
+              />
+            )) as unknown as LucideIcon
+          }
+        >
+          <p className="text-h3 text-foreground font-bold">{question}</p>
+        </Bullet>
+      </button>
+
+      {isOpen && <Body className="text-foreground ml-10 mt-6">{answer}</Body>}
+    </div>
+  );
+};
+
+const Contact: React.FC = () => {
+  const { data } = usePreloadedDataLocalized();
+
+  const middleIndex = Math.ceil(faqs.length / 2);
+  const faqLeft = faqs.slice(0, middleIndex);
+  const faqRight = faqs.slice(middleIndex);
+
+  return (
+    <Page heading={data.generalContent.contactLabel} variant="muted">
+      <Section variant="muted" className="pt-0">
+        <SectionContent>
+          <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
+            {data.shops.map((shop) => (
+              <CardContact
+                key={shop.id}
+                name={shop.name}
+                address={shop.address}
+                phone="0707123567"
+                email="contact@hjulverkstan.org"
+                openHours={shop.openHours}
+                latitude={shop.latitude}
+                longitude={shop.longitude}
+                className="h-full"
+              />
+            ))}
+          </div>
+        </SectionContent>
+      </Section>
+
+      <Section variant="muted" className="pt-0">
+        <SectionContent heading={data.generalContent.contactFAQ}>
+          <Base variant="padded">
+            <div className="flex w-full flex-col gap-10 xl:flex-row">
+              <div className="flex w-full flex-col gap-10 xl:w-1/2">
+                {faqLeft.map(({ question, answer }, index) => (
+                  <FaqItem key={index} question={question} answer={answer} />
+                ))}
+              </div>
+              <div className="flex w-full flex-col gap-10 xl:w-1/2">
+                {faqRight.map(({ question, answer }, index) => (
+                  <FaqItem key={index} question={question} answer={answer} />
+                ))}
+              </div>
+            </div>
+          </Base>
+        </SectionContent>
+      </Section>
+    </Page>
+  );
+};
+
+export default Contact;
