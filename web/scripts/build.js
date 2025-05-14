@@ -63,7 +63,10 @@ const buildRoute = ({ path, title, isSSR, data }) => {
   const html = htmlTemplate
     .replace(`<!--title-->`, title)
     .replace(`<!--app-html-->`, isSSR ? appHtml : '')
-    .replace('__jsonFromBuildScript__', JSON.stringify(data))
+    .replace(
+      '__jsonFromBuildScript__',
+      JSON.stringify(data)?.replaceAll("'", "\\'"),
+    )
     .replace(
       `<!--helmet-->`,
       `
