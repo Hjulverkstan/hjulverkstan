@@ -21,7 +21,7 @@ const DialogOverlay = React.forwardRef<
     className={cn(
       `data-[state=open]:animate-in data-[state=closed]:animate-out
       data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0
-      z-50 bg-black/80`,
+      z-50 bg-black/40`,
       className,
     )}
     {...props}
@@ -87,7 +87,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+      'flex flex-col-reverse sm:flex-row sm:justify-end gap-2',
       className,
     )}
     {...props}
