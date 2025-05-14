@@ -141,7 +141,10 @@ app.use('*', async ({ originalUrl: url }, res) => {
 
   const html = template
     .replace(`<!--title-->`, routeMatchSSR?.title ?? fallBackRoute.title)
-    .replace('__jsonFromBuildScript__', JSON.stringify(data))
+    .replace(
+      '__jsonFromBuildScript__',
+      JSON.stringify(data)?.replaceAll("'", "\\'"),
+    )
     .replace(
       `<!--app-html-->`,
       renderSSR({ path: routeMatchSSR ? url : '/', data }),
