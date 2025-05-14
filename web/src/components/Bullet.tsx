@@ -13,9 +13,7 @@ export const Bullet: React.FC<BulletProps> = ({
   children,
   className,
 }) => (
-  <div
-    className={cn('text-muted-foreground flex w-full items-center', className)}
-  >
+  <div className={cn('flex w-full items-center', className)}>
     <div className="flex min-w-0 flex-grow items-center gap-2">
       <Icon
         size={20}

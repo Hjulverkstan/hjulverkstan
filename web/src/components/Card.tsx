@@ -160,17 +160,19 @@ Image.displayName = 'CardImage';
 
 //
 
-const cardBaseVariants = cva('flex overflow-hidden rounded-lg', {
+const cardBaseVariants = cva('flex flex-col overflow-hidden rounded-lg', {
   variants: {
     variant: {
-      default: 'bg-background h-auto flex-col p-8',
-      muted: 'bg-muted h-auto flex-col p-8',
+      default: 'bg-background h-auto p-8',
+      muted: 'bg-muted h-auto p-8',
       imageBackground: [
-        `text-background light relative h-auto flex-col justify-end gap-4
-        bg-cover bg-center p-8`,
+        `text-background light relative h-auto justify-end gap-4 bg-cover
+        bg-center p-8`,
       ],
-      compact: 'bg-background h-auto w-full flex-1 flex-col gap-4 p-8',
-      imageAbove: 'bg-background w-full flex-col gap-2 rounded-lg md:flex-1',
+      compact: 'bg-background h-auto w-full flex-1 gap-4 p-8',
+      imageAbove: 'bg-background w-full gap-2 rounded-lg md:flex-1',
+      padded:
+        'bg-muted md:bg-background h-auto w-full px-5 py-10 md:px-16 md:py-16',
     },
   },
   defaultVariants: {
