@@ -3,6 +3,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { ProtectedByRole, useAuth } from '@components/Auth';
 import { Mode } from '@components/DataForm';
+import { AuthRole } from '@data/auth/types';
+import useIsMobile from '@hooks/useIsMobile';
 
 import PortalAdminEmployees from './PortalAdminEmployees';
 import PortalAdminLocations from './PortalAdminLocations';
@@ -12,7 +14,7 @@ import PortalLogin from './PortalLogin';
 import PortalShopCustomers from './PortalShopCustomers';
 import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
-import { AuthRole } from '@data/auth/types';
+import MobileImageInventory from './PortalMobileInventory/index';
 
 //
 
@@ -46,9 +48,11 @@ const mountPageContent = (Content: ComponentType<PageContentProps>) => (
 
 export default function Portal() {
   const { auth, isInitialising } = useAuth();
+  const mobile = useIsMobile();
 
   if (isInitialising) return null;
   if (!auth) return <PortalLogin />;
+  if (mobile) return <MobileImageInventory />;
 
   return (
     <Routes>

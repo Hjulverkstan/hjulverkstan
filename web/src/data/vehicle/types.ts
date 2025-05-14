@@ -64,7 +64,7 @@ export interface Vehicle {
   id: string;
   vehicleType: VehicleType;
   vehicleStatus?: VehicleStatus;
-  imageURL: string;
+  imageURL?: string;
   comment: string;
   ticketIds: string[];
   regTag: string;

@@ -13,7 +13,7 @@ interface confirmDeleteDialogProps {
   onDelete: () => void;
   onCancel?: () => void;
   entity: string;
-  entityId: string;
+  entityId?: string;
 }
 
 export default function ConfirmDeleteDialog({
@@ -23,14 +23,14 @@ export default function ConfirmDeleteDialog({
   entityId,
 }: confirmDeleteDialogProps) {
   const item = entity.toLowerCase();
-  const id = entityId.toLowerCase();
+  const id = entityId?.toLowerCase();
 
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
         <DialogTitle>{`Delete ${item}`}</DialogTitle>
         <DialogDescription>
-          {`You are trying to delete a ${item} with id ${id}.`}
+          {`You are trying to delete a ${item} ${id ? `with id ${id}.` : ''}`}
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>

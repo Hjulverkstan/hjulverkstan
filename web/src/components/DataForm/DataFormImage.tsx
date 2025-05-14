@@ -8,6 +8,7 @@ import { endpoints } from '@data/api';
 import { IconButton } from '@components/shadcn/Button';
 import { createErrorToast } from '../../root/Portal/toast';
 import { useToast } from '@components/shadcn/use-toast';
+import { ImageWithFallback } from '@components/ImageWithFallback';
 
 export interface ImageProps extends Omit<FieldProps, 'children'> {
   disableImageUpload?: string;
@@ -19,7 +20,6 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
   const { toast } = useToast();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageError, setImageError] = useState(false);
 
   const handleDelete = () => {
     setBodyProp('tempDeleteImageURL', body[dataKey]);
@@ -58,14 +58,6 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
       });
   };
 
-  useEffect(() => {
-    setImageError(false);
-  }, [body[dataKey]]);
-
-  const handleError = () => {
-    setImageError(true);
-  };
-
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
@@ -85,7 +77,7 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
       <div
         className={`relative flex h-[200px] max-w-[500px] flex-col items-center
         justify-center gap-2 overflow-hidden rounded-lg border ${
-          !body[dataKey] ? 'border-dashed bg-gray-100' : ''
+          !body[dataKey] ? `border-dashed ΕΖΓΗΞΗΓΓΔΗbg-gray-100` : ''
         }`}
       >
         {mode === Mode.EDIT && body[dataKey] && (
@@ -128,18 +120,16 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
                 className="relative flex h-full w-full items-center
                   justify-center bg-gray-100"
               >
-                {!imageError ? (
-                  <img
-                    src={body[dataKey]}
-                    alt="Uploaded"
-                    className="h-full w-full object-cover"
-                    onError={handleError}
-                  />
-                ) : (
-                  <Error
-                    error={{ error: 'NOT_FOUND', endpoint: endpoints.image }}
-                  />
-                )}
+                <ImageWithFallback
+                  src={body[dataKey]}
+                  alt="Uploaded"
+                  className="h-full w-full object-cover"
+                  fallback={
+                    <Error
+                      error={{ error: 'NOT_FOUND', endpoint: endpoints.image }}
+                    />
+                  }
+                />
               </div>
             ) : disableImageUpload ? (
               <p

@@ -7,13 +7,13 @@ const DEBOUNCE_DELAY = 600;
 
 const Spinner = ({
   className,
-  visible,
+  visible = true,
 }: {
   className?: string;
   /* Use this instead of conditionaly rendering it in the parent, it has built
    * in timeout so that it never flashes to quickly
    */
-  visible: boolean;
+  visible?: boolean;
 }) => {
   const [internalVisible, setInternalVisible] = useState(false);
   const toggledOnTime = useRef(0);
