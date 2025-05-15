@@ -93,3 +93,7 @@ export interface VehicleAggregated extends Vehicle {
   ticketStatuses: TicketStatus[];
   warnings?: Warning[];
 }
+
+export interface VehiclePublic extends Vehicle {
+  label: string;
+}
