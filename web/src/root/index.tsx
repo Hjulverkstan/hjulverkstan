@@ -18,8 +18,9 @@ import PageNotFound from './PageNotFound';
 import Portal from './Portal';
 import Shops from './Shops';
 import ShopDetail from './ShopDetail';
+import BikeDetail from './BikeDetail';
 import Contact from './Contact';
-import ShopDetails from './ShopDetails';
+import ShopDetail from './ShopDetail';
 import Support from './Support';
 
 // React Query Config
