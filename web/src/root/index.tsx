@@ -88,7 +88,7 @@ export const routesCSR: RouteAttributes[] = [
   },
 ];
 export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
-  const shopSlugs = data?.[fallBackLocale].shop.map((s) => s.slug);
+  const shopSlugs = data?.[fallBackLocale].shops.map((s) => s.slug);
 
   return {
     ssr: [
