@@ -65,23 +65,6 @@ INSERT INTO Ticket_Vehicle
 
 --
 
-INSERT INTO General_Content
-(text_type, name,                               description,                        key,                            created_at, updated_at, created_by, updated_by) VALUES
-('PLAIN',   'Service: Repair Label',            'Service section, landing page',    'serviceRepairTitle',              NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Repair Description',      'Service section, landing page',    'serviceRepairBody',        NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Courses Label',           'Service section, landing page',    'serviceCoursesTitle',          NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Courses Description',     'Service section, landing page',    'serviceCoursesBody',    NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Rent Label',              'Service section, landing page',    'serviceRentTitle',         NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Rent Description',        'Service section, landing page',    'serviceRentBody',   NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Community Label',         'Service section, landing page',    'serviceCommunityTitle',       NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Service: Community Description',   'Service section, landing page',    'serviceCommunityBody', NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Bikes Repaired',        'Statistics section, landing page', 'statisticBikesRepaired',       NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Bikes Saved',           'Statistics section, landing page', 'statisticBikesSaved',          NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Bikes Lent',            'Statistics section, landing page', 'statisticBikesLent',           NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Events Held',           'Statistics section, landing page', 'statisticEventsHeld',          NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Statistic: Employees Hired',       'Statistics section, landing page', 'statisticEmployeesHired',      NOW(),      NOW(),      1,          1         ),
-('PLAIN',   'Slogan',                           'Slogan for landing page',          'slogan',                       NOW(),      NOW(),      1,          1         );
-
 INSERT INTO Open_Hours
 (mon,               tue,               wed,               thu,               fri,               sat,               sun) VALUES
 (null,              '10:00 - 18:00',   null,              '14:00 - 18:00',   null,              null,              null),
@@ -103,34 +86,6 @@ INSERT INTO Shop
 
 INSERT INTO Localised_Content
 (lang,   field_name,     content,                                                                                                                                                               created_at, updated_at, created_by, updated_by, general_content_id, shop_id) VALUES
-('ENG',  'VALUE',        'Get a repair',                                                                                                                                                        NOW(),      NOW(),      1,          1,          1,                  null),
-('SWE',  'VALUE',        'Lämna in på reparation',                                                                                                                                              NOW(),      NOW(),      1,          1,          1,                  null),
-('ENG',  'VALUE',        'We offer repairs free of charge for bicycles, strollers, scooters and more.',                                                                                         NOW(),      NOW(),      1,          1,          2,                  null),
-('SWE',  'VALUE',        'Vi erbjuder reparationer kostnadsfritt för cyklar, barnvagnar, sparkcyklar m.m',                                                                                      NOW(),      NOW(),      1,          1,          2,                  null),
-('ENG',  'VALUE',        'Learn to ride',                                                                                                                                                       NOW(),      NOW(),      1,          1,          3,                  null),
-('SWE',  'VALUE',        'Lär dig cykla',                                                                                                                                                       NOW(),      NOW(),      1,          1,          3,                  null),
-('ENG',  'VALUE',        'Join one of our children or adults free cycling courses.',                                                                                                            NOW(),      NOW(),      1,          1,          4,                  null),
-('SWE',  'VALUE',        'Delta i en av våra kostnadsfria barn eller vuxen -cykelkurser',                                                                                                       NOW(),      NOW(),      1,          1,          4,                  null),
-('ENG',  'VALUE',        'Rent a bike',                                                                                                                                                         NOW(),      NOW(),      1,          1,          5,                  null),
-('SWE',  'VALUE',        'Hyr en cykel',                                                                                                                                                        NOW(),      NOW(),      1,          1,          5,                  null),
-('ENG',  'VALUE',        'Children and adults can borrow bicycles, or other vehicles, for a period of 1-2 weeks.',                                                                              NOW(),      NOW(),      1,          1,          6,                  null),
-('SWE',  'VALUE',        'Både barn och vuxna kan låna cyklar, eller andra fordon, gratis i upp till två veckor.',                                                                              NOW(),      NOW(),      1,          1,          6,                  null),
-('ENG',  'VALUE',        'Join a community',                                                                                                                                                    NOW(),      NOW(),      1,          1,          7,                  null),
-('SWE',  'VALUE',        'Gå med i en gemenskap',                                                                                                                                               NOW(),      NOW(),      1,          1,          7,                  null),
-('ENG',  'VALUE',        'We create a safe environment for people to meet, accessible to everyone.',                                                                                            NOW(),      NOW(),      1,          1,          8,                  null),
-('SWE',  'VALUE',        'Vi skapar en trygg miljö för människor att mötas i, tillgänglig för alla.',                                                                                           NOW(),      NOW(),      1,          1,          8,                  null),
-('ENG',  'VALUE',        'Bikes repaired',                                                                                                                                                      NOW(),      NOW(),      1,          1,          9,                  null),
-('SWE',  'VALUE',        'Reparerade cyklar',                                                                                                                                                   NOW(),      NOW(),      1,          1,          9,                  null),
-('ENG',  'VALUE',        'Bikes saved',                                                                                                                                                         NOW(),      NOW(),      1,          1,          10,                 null),
-('SWE',  'VALUE',        'Räddade cyklar',                                                                                                                                                      NOW(),      NOW(),      1,          1,          10,                 null),
-('ENG',  'VALUE',        'Bikes lent',                                                                                                                                                          NOW(),      NOW(),      1,          1,          11,                 null),
-('SWE',  'VALUE',        'Cyklar utlånade',                                                                                                                                                     NOW(),      NOW(),      1,          1,          11,                 null),
-('ENG',  'VALUE',        'Events held',                                                                                                                                                         NOW(),      NOW(),      1,          1,          12,                 null),
-('SWE',  'VALUE',        'Arrangerade evenemang',                                                                                                                                               NOW(),      NOW(),      1,          1,          12,                 null),
-('ENG',  'VALUE',        'Employees hired',                                                                                                                                                     NOW(),      NOW(),      1,          1,          13,                 null),
-('SWE',  'VALUE',        'Personer anställda',                                                                                                                                                  NOW(),      NOW(),      1,          1,          13,                 null),
-('ENG',  'VALUE',        'A bike shop unlike any other',                                                                                                                                        NOW(),      NOW(),      1,          1,          14,                 null),
-('SWE',  'VALUE',        'En cykelbutik olik alla andra',                                                                                                                                       NOW(),      NOW(),      1,          1,          14,                 null),
 ('ENG',  'BODY_TEXT',    'At Skolspåret 15, we offer basic servicing of your bike, such as fixing pedals, adjusting gears, checking tires, air pressure, and lubrication, among other things.', NOW(),      NOW(),      1,          1,          null,               1),
 ('SWE',  'BODY_TEXT',    'På Skolspåret 15 erbjuder vi enkla reparationer på din cykel, så som att laga pedalerna, justera växlarna, kolla hjulen, lufttrycket och insmörjning.',               NOW(),      NOW(),      1,          1,          null,               1);
 
