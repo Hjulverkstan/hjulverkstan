@@ -10,13 +10,14 @@ import ThemeProvider from '@components/shadcn/ThemeProvider';
 import Toaster from '@components/shadcn/Toaster';
 import * as Tooltip from '@components/shadcn/Tooltip';
 import { LocaleProvider, usePreloadedData } from '@hooks/usePreloadedData';
-import type { LocaleAllEntitiesMap } from '@data/webedit/types';
 
 import '../globals.css';
 import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
+import Shops from './Shops';
+import ShopDetail from './ShopDetail';
 import Contact from './Contact';
 import ShopDetails from './ShopDetails';
 import Support from './Support';
@@ -89,7 +90,7 @@ export const routesCSR: RouteAttributes[] = [
   },
 ];
 export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
-  const shopSlugs = data?.[fallBackLocale].shops.map((s) => s.slug);
+  const shopSlugs = data?.[fallBackLocale].shop.map((s) => s.slug);
 
   return {
     ssr: [
@@ -111,7 +112,7 @@ export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
       {
         path: '/shops/:slug',
         title: 'Shops',
-        component: ShopDetails,
+        component: ShopDetail,
         dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
       },
       {
