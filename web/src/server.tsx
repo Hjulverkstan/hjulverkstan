@@ -10,9 +10,7 @@ import Root, { fallBackLocale } from '@root';
 import { HelmetProvider } from 'react-helmet-async';
 import { instance } from '@data/api';
 
-// Re-export as this is needed by the build script
-
-export { routesCSR, routesSSR } from '@root';
+export { createRoutes } from '@root';
 
 /**
  * Async function for getting web edit data. This is used during build (and in

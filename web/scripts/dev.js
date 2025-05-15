@@ -1,8 +1,11 @@
 /**
- * The developement server. Comes with Hot Module Reloading,
- * because of this we dont reuse the build script logic as we only want to
- * build for the current url. A different set of legic is therefore designed to
- * match the url with the right route and render it properly.
+ * The development server. Comes with Hot Module Reloading.
+ * Because of this we don't reuse the build script logic, we only want to
+ * render for the current URL during development.
+ *
+ * Instead, we load and evaluate the current URL dynamically using Express,
+ * Vite middleware, and SSR rendering logic. The routes are generated based
+ * on WebEdit content data fetched at runtime.
  *
  * For more information see our [Static Site Generation Strategy](link)
  */
@@ -14,7 +17,7 @@ import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
-//
+// Setup
 
 const rootPath = path.resolve(fileURLToPath(import.meta.url) + '../../..');
 
@@ -26,8 +29,6 @@ const vite = await createViteServer({
   },
   appType: 'custom',
 });
-
-//
 
 const app = express();
 
@@ -54,8 +55,21 @@ const findRoute = (routes, matchUrl) =>
       : matchUrl.startsWith(actualPath);
   });
 
+// Expand dynamic segments into concrete routes (e.g. /shops/:slug => /shops/backa)
+
+const expandRoute = (route) =>
+  route.dynamicSegments?.length
+    ? route.dynamicSegments.map((params) => {
+        const path = Object.entries(params).reduce(
+          (acc, [key, value]) => acc.replace(`:${key}`, value),
+          route.path,
+        );
+        return { ...route, path };
+      })
+    : [route];
+
 app.use('*', async ({ originalUrl: url }, res) => {
-  const { routesSSR, routesCSR, renderSSR, getDataForPreloadingServerSide } =
+  const { createRoutes, renderSSR, getDataForPreloadingServerSide } =
     await vite.ssrLoadModule('/src/server.tsx');
 
   // Inserting react-refresh for HMR
@@ -64,6 +78,24 @@ app.use('*', async ({ originalUrl: url }, res) => {
     url,
     fs.readFileSync(path.resolve(rootPath, 'index.html'), 'utf-8'),
   );
+
+  // Get the localized data to pass to the ssr render function and to
+  // recognize localized urls.
+
+  let data;
+  try {
+    data = await getDataForPreloadingServerSide(process.env);
+  } catch (err) {
+    console.error('[ERROR]: Failed to getDataForPreloadingServerSide()', err);
+    res
+      .status(500)
+      .send('There was an error. Please check the console for details.');
+    return;
+  }
+
+  // Generate routes dynamically based on the data
+
+  const { ssr: routesSSR, csr: routesCSR } = createRoutes(data);
 
   // Render CSR html if route found
 
@@ -88,33 +120,20 @@ app.use('*', async ({ originalUrl: url }, res) => {
   // Get the localized data to pass to the ssr render function and to
   // recognise localized urls.
 
-  let data;
-  try {
-    data = await getDataForPreloadingServerSide(process.env);
-  } catch (err) {
-    console.error(
-      '[ERROR]: Failed to getDataForPreloadingServerSide(), error:',
-      err,
-    );
-    res
-      .status(500)
-      .send('There was an error. Please check the console for details.');
-    return;
-  }
-
   const isLocalizedUrl = Object.keys(data).some((locale) =>
     url.startsWith(`/${locale}`),
   );
 
+  const expandedRoutesSSR = routesSSR.flatMap(expandRoute);
   const nonLocalizedUrl = isLocalizedUrl ? url.slice(3) || '/' : url;
-
-  const routeMatchSSR = findRoute(routesSSR, nonLocalizedUrl);
+  const routeMatchSSR = findRoute(expandedRoutesSSR, nonLocalizedUrl);
 
   // Fall back route if no route found. In production cloudfront should
-  // fallback to the root index.html
+  // fall back to the root index.html
+
   let fallBackRoute;
   if (!routeMatchSSR) {
-    fallBackRoute = findRoute(routesSSR, '/');
+    fallBackRoute = findRoute(expandedRoutesSSR, '/');
     console.log(
       `[INFO]: Url "${url}" does not exist in SSR routes. Proceeding with fallback`,
     );
