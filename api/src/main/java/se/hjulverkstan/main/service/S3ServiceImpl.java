@@ -73,9 +73,9 @@ public class S3ServiceImpl implements S3Service {
             throw new FileEmptyException("File is empty or missing");
         }
 
-        long maxFileSize = 5 * 1024 * 1024; // 5 MB
+        long maxFileSize = 10 * 1024 * 1024; // 5 MB
         if (file.getSize() > maxFileSize) {
-            throw new FileTooLargeException("File size exceeds the maximum allowed limit (5 MB)");
+            throw new FileTooLargeException("File size exceeds the maximum allowed limit (10 MB)");
         }
 
         String fileMimeType = file.getContentType();
