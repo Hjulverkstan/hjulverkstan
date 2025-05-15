@@ -1,6 +1,12 @@
 /**
- * The content of the build script is based on our Static Site Generation
- * strategy. For more information read [link](link)
+ *
+ * Script to build static assets of the app for releasing to environment or to
+ * test the build locally.
+ *
+ * It statically generates HTML pages for both CSR and SSR routes. SSR pages are generated
+ * with localized content and embedded into HTML templates.
+ *
+ * For more information see our [Static Site Generation Strategy](link)
  */
 
 import fs from 'node:fs';
@@ -9,7 +15,6 @@ import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 
 // Setup
-
 const rootPath = path.resolve(fileURLToPath(import.meta.url) + '../../..');
 const toImportUrl = (url) => new URL('file://' + path.resolve(rootPath, url));
 
@@ -33,13 +38,11 @@ const htmlTemplate = fs.readFileSync(
   'utf-8',
 );
 
-const { renderSSR, getDataForPreloadingServerSide, routesSSR, routesCSR } =
+const { renderSSR, getDataForPreloadingServerSide, createRoutes } =
   await import(toImportUrl('dist/ssr/server.js'));
 
 /**
- * The guts of building a route. Note that we call renderSSR (from server.ts) on
- * Client Side Rendered routes as well. We have to do this to retrieve the tags
- * from react-helmet-async.
+ * Renders a route into a complete HTML file using SSR if enabled.
  */
 
 const buildRoute = ({ path, title, isSSR, data }) => {
@@ -79,12 +82,21 @@ const buildRoute = ({ path, title, isSSR, data }) => {
   console.log(`[INFO]: * Rendered [${path}] (${appHtml.length} chars)`);
 };
 
-// Generate files
+// Expand dynamic segments in route definitions into concrete paths
+const expandRoute = (route) =>
+  route.dynamicSegments?.length
+    ? route.dynamicSegments.map((params) => {
+        const actualPath = Object.entries(params).reduce(
+          (path, [key, value]) => path.replace(`:${key}`, value),
+          route.path,
+        );
+        return { ...route, path: actualPath };
+      })
+    : [route];
 
+// Start rendering process
 const startTime = Date.now();
 console.log('[INFO]: Rendering CSR routes');
-
-routesCSR.forEach(buildRoute);
 
 /**
  * Build SSR routes in each locale and build at the root with default locale.
@@ -93,29 +105,35 @@ routesCSR.forEach(buildRoute);
 
 try {
   const data = await getDataForPreloadingServerSide(process.env);
+  const { ssr: routesSSR, csr: routesCSR } = createRoutes(data);
 
+  // Render CSR routes (e.g. Portal)
+  console.log('[INFO]: Rendering CSR routes');
+  routesCSR.forEach(buildRoute);
+
+  // Render SSR routes per locale
   Object.keys(data).forEach((locale) => {
     console.log(`[INFO]: Rendering routes for locale ${locale}`);
-    routesSSR.forEach((route) =>
+    routesSSR.flatMap(expandRoute).forEach((route) => {
       buildRoute({
-        path: `/${locale + route.path}`,
+        path: `/${locale}${route.path}`,
         title: route.title,
         isSSR: true,
         data,
-      }),
-    );
+      });
+    });
   });
 
+  // Render default fallback (e.g. /sv/...)
   console.log('[INFO]: Rendering routes for root');
-
-  routesSSR.forEach((route) =>
+  routesSSR.flatMap(expandRoute).forEach((route) => {
     buildRoute({
       path: route.path,
       title: route.title,
       isSSR: true,
       data,
-    }),
-  );
+    });
+  });
 } catch (err) {
   console.error(
     '[ERROR]: There was an error in getDataForPreloadingServerSide()',

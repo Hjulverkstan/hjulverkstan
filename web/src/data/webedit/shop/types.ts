@@ -9,6 +9,7 @@ export interface Shop {
   hasTemporaryHours: boolean;
   locationId: string;
   bodyText: string;
+  slug: string;
 }
 
 export interface OpenHours {

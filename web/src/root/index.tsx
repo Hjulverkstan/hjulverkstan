@@ -10,12 +10,14 @@ import ThemeProvider from '@components/shadcn/ThemeProvider';
 import Toaster from '@components/shadcn/Toaster';
 import * as Tooltip from '@components/shadcn/Tooltip';
 import { LocaleProvider, usePreloadedData } from '@hooks/usePreloadedData';
+import type { LocaleAllEntitiesMap } from '@data/webedit/types';
 
 import '../globals.css';
 import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
+import ShopDetails from './ShopDetails';
 
 // React Query Config
 
@@ -58,24 +60,46 @@ export interface RouteAttributes {
   path: string;
   title: string;
   component: ComponentType;
+  // Used by the build script to generate files for all segments
+  dynamicSegments?: Record<string, string>[];
 }
 
-export const routesSSR: RouteAttributes[] = [
-  {
-    path: '/',
-    title: 'Hjulverkstan',
-    component: Home,
-  },
-  { path: '/about', title: 'Hjulverkstan - About', component: About },
-];
+export interface Routes {
+  csr: RouteAttributes[];
+  ssr: RouteAttributes[];
+}
 
-export const routesCSR: RouteAttributes[] = [
-  {
-    path: '/portal/*',
-    title: 'Hjulverkstan - Portal',
-    component: Portal,
-  },
-];
+export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
+  const shopSlugs = data?.[fallBackLocale].shop.map((s) => s.slug);
+
+  return {
+    ssr: [
+      {
+        path: '/',
+        title: 'Hjulverkstan',
+        component: Home,
+      },
+      {
+        path: '/about',
+        title: 'Hjulverkstan - About',
+        component: About,
+      },
+      {
+        path: '/shops/:slug',
+        title: 'Shops',
+        component: ShopDetails,
+        dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
+      },
+    ],
+    csr: [
+      {
+        path: '/portal/*',
+        title: 'Hjulverkstan - Portal',
+        component: Portal,
+      },
+    ],
+  };
+};
 
 // Render Router with Providers
 
@@ -135,19 +159,6 @@ function RedirectDelayed({ path }: { path: string }) {
 
 //
 
-const renderRoute = (route: RouteAttributes) => (
-  <Route
-    key={route.path}
-    path={route.path}
-    element={
-      <>
-        <RouteHelmet route={route} />
-        <route.component />
-      </>
-    }
-  />
-);
-
 const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
   <Route
     key={route.path + locale}
@@ -176,32 +187,39 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
  */
 
 export default function Root() {
-  const { locales } = usePreloadedData();
+  const { locales, data } = usePreloadedData();
+  const { ssr, csr } = createRoutes(data);
 
   return (
-    <Auth.Provider>
-      <ThemeProvider storageKey="vite-ui-theme">
-        <QueryClientProvider client={queryClient}>
-          <Tooltip.Provider delayDuration={500}>
-            <DialogManager.Provider>
-              <Routes>
-                {routesCSR.map(renderRoute)}
-                {routesSSR.map((route) => renderLocalizedRoute(route))}
-                {locales
-                  .map((locale) =>
-                    routesSSR.map((route) =>
-                      renderLocalizedRoute(route, locale),
-                    ),
-                  )
-                  .flat()}
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-              <Toaster />
-            </DialogManager.Provider>
-          </Tooltip.Provider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </Auth.Provider>
+    <ThemeProvider storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <Tooltip.Provider delayDuration={500}>
+          <DialogManager.Provider>
+            <Routes>
+              {ssr.map((route) => renderLocalizedRoute(route))}
+              {locales
+                .map((locale) =>
+                  ssr.map((route) => renderLocalizedRoute(route, locale)),
+                )
+                .flat()}
+              <Route
+                path="/portal/*"
+                element={
+                  <Auth.Provider>
+                    <RouteHelmet
+                      route={csr.find((r) => r.path === '/portal/*')!}
+                    />
+                    <Portal />
+                  </Auth.Provider>
+                }
+              />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+            <Toaster />
+          </DialogManager.Provider>
+        </Tooltip.Provider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
