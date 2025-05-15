@@ -17,7 +17,6 @@ import {
 
 import { PageContentProps } from '../index';
 import { createErrorToast, createSuccessToast } from '../toast';
-import PortalContent from '../PortalContent';
 import { MobileInventoryVehicleCard } from './MobileInventoryVehicleCard';
 
 //
@@ -38,7 +37,7 @@ const MobileInventoryRow = ({ vehicle }: { vehicle: Vehicle }) => {
     if (file) {
       uploadM
         .mutateAsync({ file, vehicle })
-        .then((res: any) => {
+        .then(() => {
           toast(
             createSuccessToast({
               verbLabel: 'upload',
@@ -63,7 +62,7 @@ const MobileInventoryRow = ({ vehicle }: { vehicle: Vehicle }) => {
     vehicle.imageURL &&
     deleteM
       .mutateAsync(vehicle)
-      .then((res: any) => {
+      .then(() => {
         toast(
           createSuccessToast({
             verbLabel: 'delete',
