@@ -17,8 +17,10 @@ import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
+import ShopDetail from './ShopDetail';
+import VehicleDetail from './VehicleDetail';
+import Shops from './Shops';
 import Contact from './Contact';
-import ShopDetails from './ShopDetails';
 import Support from './Support';
 import Services from './Services';
 
@@ -93,9 +95,14 @@ export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
         component: Contact,
       },
       {
+        path: '/shops',
+        title: 'Hjulverkstan - Shops',
+        component: Shops,
+      },
+      {
         path: '/shops/:slug',
         title: 'Shops',
-        component: ShopDetails,
+        component: ShopDetail,
         dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
       },
       {
@@ -114,6 +121,11 @@ export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
         path: '/portal/*',
         title: 'Hjulverkstan - Portal',
         component: Portal,
+      },
+      {
+        path: '/vehicle/:id',
+        title: 'Hjulverkstan - Vehicle',
+        component: VehicleDetail,
       },
     ],
   };
