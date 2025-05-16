@@ -5,6 +5,7 @@ import { ProtectedByRole, useAuth } from '@components/Auth';
 import { Mode } from '@components/DataForm';
 import { AuthRole } from '@data/auth/types';
 import useIsMobile from '@hooks/useIsMobile';
+import * as Auth from '@components/Auth';
 
 import PortalAdminEmployees from './PortalAdminEmployees';
 import PortalAdminLocations from './PortalAdminLocations';
@@ -19,14 +20,30 @@ import MobileImageInventory from './PortalMobileInventory/index';
 //
 
 const shopRoutes = [
-  { path: '/inventory', label: 'Inventory', hasNestedRoutes: true },
-  { path: '/ticketz', label: 'Tickets', hasNestedRoutes: true },
+  {
+    path: '/inventory',
+    label: 'Inventory',
+    hasNestedRoutes: true,
+  },
+  {
+    path: '/ticketz',
+    label: 'Tickets',
+    hasNestedRoutes: true,
+  },
   { path: '/customers', label: 'Customers', hasNestedRoutes: true },
 ];
 
 const adminRoutes = [
-  { path: '/locations', label: 'Locations', hasNestedRoutes: true },
-  { path: '/employees', label: 'Employees', hasNestedRoutes: true },
+  {
+    path: '/locations',
+    label: 'Locations',
+    hasNestedRoutes: true,
+  },
+  {
+    path: '/employees',
+    label: 'Employees',
+    hasNestedRoutes: true,
+  },
   { path: '/users', label: 'Users', hasNestedRoutes: true },
 ];
 
@@ -46,7 +63,7 @@ const mountPageContent = (Content: ComponentType<PageContentProps>) => (
   </Routes>
 );
 
-export default function Portal() {
+const PortalRouter = () => {
   const { auth, isInitialising } = useAuth();
   const mobile = useIsMobile();
 
@@ -105,5 +122,13 @@ export default function Portal() {
       </Route>
       <Route path="*" element={<Navigate replace to="shop" />} />
     </Routes>
+  );
+};
+
+export default function Portal() {
+  return (
+    <Auth.Provider>
+      <PortalRouter />
+    </Auth.Provider>
   );
 }

@@ -45,7 +45,7 @@ const { renderSSR, getDataForPreloadingServerSide, createRoutes } =
  * Renders a route into a complete HTML file using SSR if enabled.
  */
 
-const buildRoute = ({ path, title, isSSR, data }) => {
+const buildRoute = ({ path, route, data }) => {
   const actualPath = path.replace('/*', '');
 
   routeManifest.push((actualPath + '/').replace('//', '/'));
@@ -54,15 +54,15 @@ const buildRoute = ({ path, title, isSSR, data }) => {
 
   const appHtml = renderSSR({
     path: actualPath,
-    data: isSSR ? data : undefined,
+    data,
     helmetContext,
   });
 
   const { helmet } = helmetContext;
 
   const html = htmlTemplate
-    .replace(`<!--title-->`, title)
-    .replace(`<!--app-html-->`, isSSR ? appHtml : '')
+    .replace(`<!--title-->`, route.title)
+    .replace(`<!--app-html-->`, route.disableSSR ? '' : appHtml)
     .replace(
       '__jsonFromBuildScript__',
       JSON.stringify(data)?.replaceAll("'", "\\'"),
@@ -87,15 +87,19 @@ const buildRoute = ({ path, title, isSSR, data }) => {
 
 // Expand dynamic segments in route definitions into concrete paths
 const expandRoute = (route) =>
-  route.dynamicSegments?.length
-    ? route.dynamicSegments.map((params) => {
-        const actualPath = Object.entries(params).reduce(
-          (path, [key, value]) => path.replace(`:${key}`, value),
-          route.path,
-        );
-        return { ...route, path: actualPath };
-      })
-    : [route];
+  route.disableSSR
+    // If no ssr, then remove potential :params from path
+    ? [{ ...route, path: route.path.replace(/:.*$/, '') }]
+    // If dynamic segments expand all :params for SSG
+    : route.dynamicSegments?.length
+      ? route.dynamicSegments.map((params) => {
+          const actualPath = Object.entries(params).reduce(
+            (path, [key, value]) => path.replace(`:${key}`, value),
+            route.path,
+          );
+          return { ...route, path: actualPath };
+        })
+      : [route];
 
 // Start rendering process
 const startTime = Date.now();
@@ -108,20 +112,15 @@ console.log('[INFO]: Rendering CSR routes');
 
 try {
   const data = await getDataForPreloadingServerSide(process.env);
-  const { ssr: routesSSR, csr: routesCSR } = createRoutes(data);
+  const routes = createRoutes(data);
 
-  // Render CSR routes (e.g. Portal)
-  console.log('[INFO]: Rendering CSR routes');
-  routesCSR.forEach(buildRoute);
-
-  // Render SSR routes per locale
+  // Render routes per locale
   Object.keys(data).forEach((locale) => {
     console.log(`[INFO]: Rendering routes for locale ${locale}`);
-    routesSSR.flatMap(expandRoute).forEach((route) => {
+    routes.flatMap(expandRoute).forEach((route) => {
       buildRoute({
         path: `/${locale}${route.path}`,
-        title: route.title,
-        isSSR: true,
+        route,
         data,
       });
     });
@@ -129,11 +128,10 @@ try {
 
   // Render default fallback (e.g. /sv/...)
   console.log('[INFO]: Rendering routes for root');
-  routesSSR.flatMap(expandRoute).forEach((route) => {
+  routes.flatMap(expandRoute).forEach((route) => {
     buildRoute({
       path: route.path,
-      title: route.title,
-      isSSR: true,
+      route,
       data,
     });
   });
