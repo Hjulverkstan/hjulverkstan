@@ -5,6 +5,7 @@ export const baseURL = import.meta.env.VITE_BACKEND_PROXY_SLUG;
 
 export const endpoints = {
   vehicle: '/vehicle',
+  publicVehicleData: '/public/vehicle',
   image: '/image',
   ticket: '/ticket',
   employee: '/employee',

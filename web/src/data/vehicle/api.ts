@@ -145,3 +145,39 @@ export const createUpdateVehicleStatus = () => ({
       .then((res) => parseResponseData(res.data) as Vehicle)
       .catch(createErrorHandler(`${endpoints.vehicle}/${id}/status`)),
 });
+
+export interface GetPublicVehiclesByLocationParams {
+  locationId: string;
+}
+
+export interface GetPublicVehiclesByLocationRes {
+  vehicles: Vehicle[];
+}
+
+export const createGetPublicVehiclesByLocation = ({
+  locationId,
+}: GetPublicVehiclesByLocationParams) => ({
+  queryKey: ['vehicles', 'public', 'location', locationId],
+  queryFn: () => {
+    const params = new URLSearchParams();
+    params.append('locationId', locationId);
+
+    const url = `${endpoints.publicVehicleData}?${params.toString()}`;
+
+    return instance
+      .get<GetPublicVehiclesByLocationRes>(url)
+      .then(
+        (res) => (res.data.vehicles || []).map(parseResponseData) as Vehicle[],
+      )
+      .catch(createErrorHandler(url));
+  },
+});
+
+export const createGetPublicVehicleById = ({ id }: GetVehicleParams) => ({
+  queryKey: ['publicVehicle', id],
+  queryFn: () =>
+    instance
+      .get<GetVehicleRes>(`${endpoints.publicVehicleData}/${id}`)
+      .then((res) => parseResponseData(res.data) as Vehicle)
+      .catch(createErrorHandler(`${endpoints.publicVehicleData}/${id}`)),
+});
