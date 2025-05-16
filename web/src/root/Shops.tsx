@@ -15,11 +15,11 @@ export default function Shops() {
       heading={data.generalContent.shopsPageTitle}
       variant="default"
     >
-      <Section className="!pb-0 !pt-8 md:!pt-12">
+      <Section>
         <SectionContent>
           <div
-            className="bg-muted relative mb-16 flex min-h-[280px] flex-col
-              items-stretch overflow-hidden rounded-lg p-6 md:mb-24 md:min-h-0
+            className="bg-muted relative flex min-h-[280px] flex-col
+              items-stretch overflow-hidden rounded-lg p-64 md:min-h-0
               md:flex-row md:p-10"
           >
             <CardDefault
@@ -35,7 +35,7 @@ export default function Shops() {
             />
 
             <div
-              className="flex hidden items-center justify-center md:relative
+              className="flex items-center justify-center md:relative
                 md:block md:min-h-[280px] md:w-3/5 lg:min-h-[320px]"
             >
               <img
@@ -62,9 +62,7 @@ export default function Shops() {
             </div>
           </div>
         </SectionContent>
-      </Section>
 
-      <Section className=" !pt-8 md:!pt-12">
         <SectionContent heading={data.generalContent.sectionTitleFindShop}>
           <div
             className="grid grid-cols-1 gap-x-8 gap-y-12  md:grid-cols-2 xl:grid
