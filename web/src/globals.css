@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root, .light {
+  :root,
+  .light {
     --background: 0 0% 100%;
     --foreground: 224 20% 4%;
 
@@ -25,19 +26,27 @@
     --accent: 220 5% 93%;
     --accent-foreground: 221 15% 11%;
 
-    --success: 115 85% 47%;
-    --success-accent: 115 52% 50%;
-    --success-fill: 115 85% 94%;
-    --success-foreground: 115 65% 25%;
+    --green: 115 85% 47%;
+    --green-accent: 115 52% 50%;
+    --green-fill: 115 85% 94%;
+    --green-foreground: 115 65% 25%;
 
-    --warn: 50 100% 57%;
-    --warn-accent: 47 80% 45%;
-    --warn-fill: 44 95% 92%;
-    --warn-foreground: 32 65% 35%;
+    --yellow: 50 100% 57%;
+    --yellow-accent: 47 80% 45%;
+    --yellow-fill: 44 95% 92%;
+    --yellow-foreground: 32 65% 35%;
 
-    --destructive: 0 95% 60%;
-    --destructive-fill: 0 95% 96%;
-    --destructive-foreground: 0 65% 40%;
+    --red: 0 95% 60%;
+    --red-fill: 0 95% 94%;
+    --red-foreground: 0 65% 43%;
+
+    --blue: 210 90% 55%;
+    --blue-fill: 210 100% 93%;
+    --blue-foreground: 210 90% 40%;
+
+    --purple: 270 60% 50%;
+    --purple-fill: 270 80% 93%;
+    --purple-foreground: 270 60% 45%;
 
     --border: 220 6% 91%;
     --border-dark: 220 6% 89%;
@@ -69,19 +78,27 @@
     --accent: 220 5% 22%;
     --accent-foreground: 221 15% 85%;
 
-    --success: 115 85% 47%;
-    --success-accent: 115 52% 50%;
-    --success-fill: 115 85% 14%;
-    --success-foreground: 115 65% 80%;
+    --green: 115 85% 47%;
+    --green-accent: 115 52% 50%;
+    --green-fill: 115 65% 20%;
+    --green-foreground: 115 65% 80%;
 
-    --warn: 50 100% 57%;
-    --warn-accent: 47 80% 45%;
-    --warn-fill: 44 95% 18%;
-    --warn-foreground: 32 65% 80%;
+    --yellow: 50 100% 57%;
+    --yellow-accent: 47 80% 45%;
+    --yellow-fill: 44 65% 26%;
+    --yellow-foreground: 32 65% 80%;
 
-    --destructive: 0 95% 60%;
-    --destructive-fill: 0 95% 16%;
-    --destructive-foreground: 0 65% 85%;
+    --red: 0 100% 65%;
+    --red-fill: 0 70% 22%;
+    --red-foreground: 0 100% 80%;
+
+    --blue: 210 100% 56%;
+    --blue-fill: 210 65% 20%;
+    --blue-foreground: 210 65% 85%;
+
+    --purple: 270 75% 55%;
+    --purple-fill: 270 60% 25%;
+    --purple-foreground: 270 65% 82%;
 
     --border: 220 6% 22%;
     --border-dark: 220 6% 18%;
@@ -99,32 +116,39 @@
   }
 }
 
-h1, .text-h1 {
-  @apply font-semibold text-5xl sm:text-7xl;
+h1,
+.text-h1 {
+  @apply text-5xl font-semibold sm:text-7xl;
 }
 
-h2, .text-h2 {
-  @apply font-semibold text-[2.5rem] sm:text-6xl;
+h2,
+.text-h2 {
+  @apply text-[2.5rem] font-semibold sm:text-6xl;
 }
 
-h3, .text-h3 {
-  @apply font-semibold text-2xl sm:text-3xl -my-[0.25rem] sm:-my-[0.1875rem];
+h3,
+.text-h3 {
+  @apply -my-[0.25rem] text-2xl font-semibold sm:-my-[0.1875rem] sm:text-3xl;
 }
 
-h4, .text-h4 {
-  @apply font-semibold text-xl sm:text-2xl -my-[0.25rem] sm:-my-[0.25rem];
+h4,
+.text-h4 {
+  @apply -my-[0.25rem] text-xl font-semibold sm:-my-[0.25rem] sm:text-2xl;
 }
 
-h5, .text-h5 {
-  @apply font-semibold text-lg sm:text-xl -my-[0.3125rem] sm:-my-[0.25rem];
+h5,
+.text-h5 {
+  @apply -my-[0.3125rem] text-lg font-semibold sm:-my-[0.25rem] sm:text-xl;
 }
 
-h6, .text-h6 {
-  @apply font-semibold text-base sm:text-lg -my-[0.25rem] sm:-my-[0.3125rem]
+h6,
+.text-h6 {
+  @apply -my-[0.25rem] text-base font-semibold sm:-my-[0.3125rem] sm:text-lg;
 }
 
-body, .text-body {
-  @apply text-base sm:text-lg leading-relaxed;
+body,
+.text-body {
+  @apply text-base leading-relaxed sm:text-lg;
 }
 
 html {

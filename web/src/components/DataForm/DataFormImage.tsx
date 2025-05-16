@@ -82,7 +82,7 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
       >
         {mode === Mode.EDIT && body[dataKey] && (
           <IconButton
-            variant="destructive"
+            variant="red"
             className="absolute right-2 top-2 z-10"
             icon={Trash2Icon}
             onClick={handleDelete}

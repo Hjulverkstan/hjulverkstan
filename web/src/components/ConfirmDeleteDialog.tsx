@@ -41,7 +41,7 @@ export default function ConfirmDeleteDialog({
         </DialogClose>
         <DialogClose asChild>
           <IconButton
-            variant={'destructive'}
+            variant={'red'}
             type="submit"
             onClick={onDelete}
             icon={Trash2}

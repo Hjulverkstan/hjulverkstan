@@ -9,9 +9,13 @@ export interface EmployeeIconProps {
 // TODO: Add all seven colors
 
 const colors = [
-  'bg-success-fill border-box border border-success-border text-success-foreground',
-  'bg-warn-fill border-box border border-warn-border text-warn-foreground',
-  'bg-destructive-fill border-box border border-destructive-border text-destructive-foreground',
+  'bg-green-fill border-box border border-green-border' +
+    ' text-green-foreground',
+  'bg-yellow-fill border-box border border-yellow-border text-yellow-foreground',
+  'bg-red-fill border-box border border-red-border text-red-foreground',
+  'bg-blue-fill border-box border border-blue-border text-blue-foreground',
+  'bg-purple-fill border-box border border-purple-border' +
+    ' text-purple-foreground',
 ];
 
 export default function EmployeeIcon({

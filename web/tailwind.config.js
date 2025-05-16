@@ -48,25 +48,35 @@ module.exports = {
           DEFAULT: 'hsl(var(--contrast))',
           foreground: 'hsl(var(--contrast-foreground))',
         },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          fill: 'hsl(var(--destructive-fill))',
-          foreground: 'hsl(var(--destructive-foreground))',
-          border: 'hsl(var(--destructive-foreground) / 0.2)',
+        red: {
+          DEFAULT: 'hsl(var(--red))',
+          fill: 'hsl(var(--red-fill))',
+          foreground: 'hsl(var(--red-foreground))',
+          border: 'hsl(var(--red-foreground) / 0.2)',
         },
-        warn: {
-          DEFAULT: 'hsl(var(--warn))',
-          accent: 'hsl(var(--warn-accent))',
-          fill: 'hsl(var(--warn-fill))',
-          foreground: 'hsl(var(--warn-foreground))',
-          border: 'hsl(var(--warn-foreground) / 0.2)',
+        yellow: {
+          DEFAULT: 'hsl(var(--yellow))',
+          accent: 'hsl(var(--yellow-accent))',
+          fill: 'hsl(var(--yellow-fill))',
+          foreground: 'hsl(var(--yellow-foreground))',
+          border: 'hsl(var(--yellow-foreground) / 0.2)',
         },
-        success: {
-          DEFAULT: 'hsl(var(--success))',
-          accent: 'hsl(var(--success-accent))',
-          fill: 'hsl(var(--success-fill))',
-          foreground: 'hsl(var(--success-foreground))',
-          border: 'hsl(var(--success-foreground) / 0.25)',
+        green: {
+          DEFAULT: 'hsl(var(--green))',
+          accent: 'hsl(var(--green-accent))',
+          fill: 'hsl(var(--green-fill))',
+          foreground: 'hsl(var(--green-foreground))',
+          border: 'hsl(var(--green-foreground) / 0.25)',
+        },
+        blue: {
+          fill: 'hsl(var(--blue-fill))',
+          foreground: 'hsl(var(--blue-foreground))',
+          border: 'hsl(var(--blue-foreground) / 0.25)',
+        },
+        purple: {
+          fill: 'hsl(var(--purple-fill))',
+          foreground: 'hsl(var(--purple-foreground))',
+          border: 'hsl(var(--purple-foreground) / 0.23)',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

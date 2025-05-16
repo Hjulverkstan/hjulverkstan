@@ -111,7 +111,7 @@ const MobileInventoryRow = ({ vehicle }: { vehicle: Vehicle }) => {
             {vehicle.imageURL && (
               <IconButton
                 onClick={handleDelete}
-                variant="destructive"
+                variant="red"
                 icon={deleteM.isPending ? Spinner : undefined}
                 text="Delete image"
               />
