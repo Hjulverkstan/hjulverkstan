@@ -15,3 +15,13 @@ export interface AllEntities {
 }
 
 export type LocaleAllEntitiesMap = Record<string, AllEntities>;
+
+export enum LangSlugs {
+  SWE = 'sv', // Swedish
+  ENG = 'en', // English
+  ARA = 'ar', // Arabic
+  PER = 'fa', // Persian (Farsi)
+  SOM = 'so', // Somali
+  BOS = 'bs', // Bosnian
+  TUR = 'tr', // Turkish
+}

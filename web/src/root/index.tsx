@@ -3,8 +3,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ComponentType, useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-
-import * as Auth from '@components/Auth';
 import * as DialogManager from '@components/DialogManager';
 import ThemeProvider from '@components/shadcn/ThemeProvider';
 import Toaster from '@components/shadcn/Toaster';
@@ -67,68 +65,58 @@ export interface RouteAttributes {
   component: ComponentType;
   // Used by the build script to generate files for all segments
   dynamicSegments?: Record<string, string>[];
+  disableSSR?: boolean;
 }
 
-export interface Routes {
-  csr: RouteAttributes[];
-  ssr: RouteAttributes[];
-}
-
-export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
+export const createRoutes = (data?: LocaleAllEntitiesMap): RouteAttributes[] => {
   const shopSlugs = data?.[fallBackLocale].shops.map((s) => s.slug);
 
-  return {
-    ssr: [
-      {
-        path: '/',
-        title: 'Hjulverkstan',
-        component: Home,
-      },
-      {
-        path: '/about',
-        title: 'Hjulverkstan - About',
-        component: About,
-      },
-      {
-        path: '/contact',
-        title: 'Hjulverkstan - Contact',
-        component: Contact,
-      },
-      {
-        path: '/shops',
-        title: 'Hjulverkstan - Shops',
-        component: Shops,
-      },
-      {
-        path: '/shops/:slug',
-        title: 'Shops',
-        component: ShopDetail,
-        dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
-      },
-      {
-        path: '/support',
-        title: 'Hjulverkstan - Support',
-        component: Support,
-      },
-      {
-        path: '/services',
-        title: 'Hjulverkstan - Services',
-        component: Services,
-      },
-    ],
-    csr: [
-      {
-        path: '/portal/*',
-        title: 'Hjulverkstan - Portal',
-        component: Portal,
-      },
-      {
-        path: '/vehicle/:id',
-        title: 'Hjulverkstan - Vehicle',
-        component: VehicleDetail,
-      },
-    ],
-  };
+  return [
+    {
+      path: '/',
+      title: 'Hjulverkstan',
+      component: Home,
+    },
+    {
+      path: '/about',
+      title: 'Hjulverkstan - About',
+      component: About,
+    },
+    {
+      path: '/contact',
+      title: 'Hjulverkstan - Contact',
+      component: Contact,
+    },
+    {
+      path: '/shops',
+      title: 'Hjulverkstan - Shops',
+      component: Shops,
+    },
+    {
+      path: '/shops/:slug',
+      title: 'Shops',
+      component: ShopDetail,
+      dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
+    },
+    {
+      path: '/support',
+      title: 'Hjulverkstan - Support',
+      component: Support,
+    },
+    {
+      path: '/portal/*',
+      title: 'Hjulverkstan - Portal',
+      component: Portal,
+      disableSSR: true,
+    },
+    {
+      path: '/vehicle/:id',
+      title: 'Hjulverkstan - Vehicle',
+      component: VehicleDetail,
+      disableSSR: true,
+    },
+  ];
+
 };
 
 // Render Router with Providers
@@ -200,7 +188,7 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
           <route.component />
         </LocaleProvider>
         {!locale && (
-          <RedirectDelayed path={`/${fallBackLocale}${route.path}`} />
+          <RedirectDelayed path={`/${fallBackLocale}${route.path.replace('/*', '')}`} />
         )}
       </>
     }
@@ -218,7 +206,16 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
 
 export default function Root() {
   const { locales, data } = usePreloadedData();
-  const { ssr, csr } = createRoutes(data);
+  const routes = createRoutes(data);
+
+  console.log(
+
+  locales.map((locale) =>
+      routes.map((route) => locale ? `/${locale}${route.path}` : route.path),
+    )
+    .flat()
+
+  )
 
   return (
     <ThemeProvider storageKey="vite-ui-theme">
@@ -226,23 +223,12 @@ export default function Root() {
         <Tooltip.Provider delayDuration={500}>
           <DialogManager.Provider>
             <Routes>
-              {ssr.map((route) => renderLocalizedRoute(route))}
+              {routes.map((route) => renderLocalizedRoute(route))}
               {locales
                 .map((locale) =>
-                  ssr.map((route) => renderLocalizedRoute(route, locale)),
+                  routes.map((route) => renderLocalizedRoute(route, locale)),
                 )
                 .flat()}
-              <Route
-                path="/portal/*"
-                element={
-                  <Auth.Provider>
-                    <RouteHelmet
-                      route={csr.find((r) => r.path === '/portal/*')!}
-                    />
-                    <Portal />
-                  </Auth.Provider>
-                }
-              />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
             <Toaster />
