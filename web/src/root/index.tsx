@@ -20,6 +20,7 @@ import Portal from './Portal';
 import Contact from './Contact';
 import ShopDetails from './ShopDetails';
 import Support from './Support';
+import Services from './Services';
 
 // React Query Config
 
@@ -71,23 +72,6 @@ export interface Routes {
   ssr: RouteAttributes[];
 }
 
-export const routesSSR: RouteAttributes[] = [
-  {
-    path: '/',
-    title: 'Hjulverkstan',
-    component: Home,
-  },
-  { path: '/about', title: 'Hjulverkstan - About', component: About },
-  { path: '/contact', title: 'Hjulverkstan - Contact', component: Contact },
-];
-
-export const routesCSR: RouteAttributes[] = [
-  {
-    path: '/portal/*',
-    title: 'Hjulverkstan - Portal',
-    component: Portal,
-  },
-];
 export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
   const shopSlugs = data?.[fallBackLocale].shops.map((s) => s.slug);
 
@@ -118,6 +102,11 @@ export const createRoutes = (data?: LocaleAllEntitiesMap): Routes => {
         path: '/support',
         title: 'Hjulverkstan - Support',
         component: Support,
+      },
+      {
+        path: '/services',
+        title: 'Hjulverkstan - Services',
+        component: Services,
       },
     ],
     csr: [
