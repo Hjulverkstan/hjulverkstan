@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
+
 import { Page } from '@components/Page';
 import { Section } from '@components/Section';
 import { SectionContent } from '@components/SectionContent';
 import { CardContact } from '@components/CardContact';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
-import { Base } from '@components/Card';
-import { ChevronRight, LucideIcon } from 'lucide-react';
+import { Base, Body } from '@components/Card';
+import { ChevronRight } from 'lucide-react';
 import { Bullet } from '@components/Bullet';
-import { Body } from '@components/Card';
 import { cn } from '@utils';
 
 const faqs = [
@@ -46,17 +46,12 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
         className="w-full text-left"
       >
         <Bullet
-          icon={
-            (() => (
-              <ChevronRight
-                size={30}
-                className={cn(
-                  'min-w-[30px] shrink-0 transition-transform duration-200',
-                  isOpen && 'rotate-90',
-                )}
-              />
-            )) as unknown as LucideIcon
-          }
+          icon={ChevronRight}
+          iconSize={30}
+          iconClassName={cn(
+            'min-w-[30px] shrink-0 transition-transform duration-200',
+            isOpen && 'rotate-90',
+          )}
         >
           <p className="text-h3 text-foreground font-bold">{question}</p>
         </Bullet>
