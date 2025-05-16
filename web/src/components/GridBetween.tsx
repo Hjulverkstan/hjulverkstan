@@ -25,7 +25,10 @@ export const GridBetween = ({
 }: GridBetweenProps) => (
   <div className={cn('flex flex-col gap-24', className)}>
     {[...Array(rows).keys()].map((row) => (
-      <div className={cn('flex justify-between gap-24', rowClassName)}>
+      <div
+        key={row}
+        className={cn('flex justify-between gap-24', rowClassName)}
+      >
         {React.Children.toArray(children).slice(row * cols, (row + 1) * cols)}
       </div>
     ))}
