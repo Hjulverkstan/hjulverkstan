@@ -25,7 +25,7 @@ export default function Services() {
 
   return (
     <Page heading={data.generalContent.servicesTitle} variant="muted">
-      <Section variant="muted" className="pt-0">
+      <Section variant="muted">
         <SectionContent>
           <div
             className="grid grid-cols-1 items-start gap-8 sm:grid-cols-2

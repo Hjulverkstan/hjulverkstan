@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
 import { IconButton, Link } from '@components/shadcn/Button';
+import { useScrolledPastElement } from '@hooks/useScrolledPastElement';
+import { cn } from '@utils';
 
 export const navLinks = [
   { name: 'Home', path: '/' },
@@ -21,8 +23,16 @@ export const navLinks = [
   },
 ];
 
-export default function PageNavbar() {
+export interface PageNavbarProps {
+  hasHeroSection?: boolean;
+}
+
+export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const scrolledPast = hasHeroSection
+    ? useScrolledPastElement('section', 71)
+    : false;
+  const onHero = !scrolledPast && hasHeroSection && !isOpen;
 
   const navLinksContent = navLinks.map((link, i) => (
     <Link
@@ -38,12 +48,24 @@ export default function PageNavbar() {
   ));
 
   return (
-    <header className="bg-background fixed w-full top-0 z-50">
+    <header
+      className={cn(
+        'fixed top-0 z-50 w-full transition-colors duration-300',
+        'bg-background text-foreground',
+        onHero &&
+          'text-background md:bg-background md:text-foreground bg-transparent',
+      )}
+    >
       <div
         className="container mx-auto flex items-center justify-between px-6 py-5
           lg:px-16"
       >
-        <div className="text-foreground relative text-2xl font-semibold">
+        <div
+          className={cn(
+            'relative text-2xl font-semibold transition-opacity duration-300',
+            onHero && 'opacity-0 md:opacity-100',
+          )}
+        >
           Hjulverkstan
         </div>
 
@@ -65,7 +87,7 @@ export default function PageNavbar() {
         <div className="md:hidden">
           <nav
             className="border-muted flex flex-col items-center gap-6 space-y-1
-              border-t border-b px-2 py-12 sm:px-3"
+              border-b border-t px-2 py-12 sm:px-3"
           >
             {navLinksContent}
           </nav>

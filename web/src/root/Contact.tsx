@@ -71,7 +71,7 @@ const Contact: React.FC = () => {
 
   return (
     <Page heading={data.generalContent.contactLabel} variant="muted">
-      <Section variant="muted" className="pt-0">
+      <Section variant="muted">
         <SectionContent>
           <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
             {data.shops.map((shop) => (
@@ -89,9 +89,7 @@ const Contact: React.FC = () => {
             ))}
           </div>
         </SectionContent>
-      </Section>
 
-      <Section variant="muted" className="pt-0">
         <SectionContent heading={data.generalContent.contactFAQ}>
           <Base variant="padded">
             <div className="flex w-full flex-col gap-10 xl:flex-row">
