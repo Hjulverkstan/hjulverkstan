@@ -46,7 +46,7 @@ export default function Home() {
   const { data } = usePreloadedDataLocalized();
 
   return (
-    <Page>
+    <Page hasHeroSection>
       <div
         className="light relative flex w-full flex-col items-center
           justify-center bg-cover bg-center py-24 md:h-[70vh] md:max-h-[40rem]
@@ -58,10 +58,17 @@ export default function Home() {
           className="relative z-10 mx-auto flex w-[88vw] flex-col items-start
             gap-4 sm:w-[76vw]"
         >
-          <img src="/logo.svg" alt="Logo" className="mb-4 h-16 w-auto" />
+          <img
+            src="/logo.svg"
+            alt="Logo"
+            className="mb-2 h-12 w-auto sm:mb-4 sm:h-16"
+          />
           <h1 className="text-background text-h1">Hjulverkstan</h1>
 
-          <p className="text-h3 text-background max-w-[700px]">
+          <p
+            className="text-h3 text-background max-w-[700px] pr-10 !text-xl
+              sm:pr-0 sm:!text-3xl"
+          >
             A bike shop that changes lives – we bridge gaps and somthing like
             so.
           </p>
