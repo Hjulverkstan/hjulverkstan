@@ -32,6 +32,8 @@ public class LangCountServiceImpl implements LangCountService {
                     .orElseThrow(() -> new ElementNotFoundException("General Content"));
             case "shop" -> localisedContentRepository.countLangByShop()
                     .orElseThrow(() -> new ElementNotFoundException("Shop"));
+            case "story" -> localisedContentRepository.countLangByStory()
+                    .orElseThrow(() -> new ElementNotFoundException("Story"));
             default -> throw new UnsupportedArgumentException(entity.toLowerCase());
         };
 
