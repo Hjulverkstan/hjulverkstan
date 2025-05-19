@@ -6,6 +6,7 @@ import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.webedit.AllWebEditEntitiesByLangDto;
 import se.hjulverkstan.main.dto.webedit.GeneralContentDto;
 import se.hjulverkstan.main.dto.webedit.ShopDto;
+import se.hjulverkstan.main.dto.webedit.StoryDto;
 import se.hjulverkstan.main.model.webedit.AllWebEditEntitiesDto;
 import se.hjulverkstan.main.model.webedit.GeneralContentStrippedDto;
 import se.hjulverkstan.main.model.webedit.Language;
@@ -21,11 +22,13 @@ public class LocalisationServiceImpl implements LocalisationService {
     private final GeneralContentService generalContentService;
     private final LocalisedContentRepository localisedContentRepository;
     private final ShopService shopService;
+    private final StoryService storyService;
 
-    public LocalisationServiceImpl(GeneralContentService generalContentService, LocalisedContentRepository localisedContentRepository, ShopService shopService) {
+    public LocalisationServiceImpl(GeneralContentService generalContentService, LocalisedContentRepository localisedContentRepository, ShopService shopService, StoryService storyService) {
         this.generalContentService = generalContentService;
         this.localisedContentRepository = localisedContentRepository;
         this.shopService = shopService;
+        this.storyService = storyService;
     }
 
 
@@ -46,6 +49,8 @@ public class LocalisationServiceImpl implements LocalisationService {
             Set<ShopDto> strippedShops = mapToAllShopsWithFallbackLangDto(lang, fallbackLang, shopService);
             allEntitiesDto.setShops(strippedShops);
 
+            Set<StoryDto> strippedStory = mapToAllStoriesWithFallbackLangDto(lang, fallbackLang, storyService);
+            allEntitiesDto.setStory(strippedStory);
 
             allDto.getEntities().put(lang, allEntitiesDto);
         }
@@ -61,6 +66,17 @@ public class LocalisationServiceImpl implements LocalisationService {
             if (shop.getBodyText() == null) {
                 String fallbackBodyText = shopService.getShopByIdAndLang(shop.getId(), fallbackLang).getBodyText();
                 shop.setBodyText(fallbackBodyText);
+            }
+        }).collect(Collectors.toSet());
+    }
+
+    private static Set<StoryDto> mapToAllStoriesWithFallbackLangDto(Language lang, Language fallbackLang, StoryService storyService) {
+
+        List<StoryDto> storyDtos = storyService.getAllStoriesByLang(lang);
+        return storyDtos.stream().peek(story -> {
+            if (story.getBodyText() == null) {
+                String fallbackBodyText = storyService.getStoryByIdAndLang(story.getId(), fallbackLang).getBodyText();
+                story.setBodyText(fallbackBodyText);
             }
         }).collect(Collectors.toSet());
     }
