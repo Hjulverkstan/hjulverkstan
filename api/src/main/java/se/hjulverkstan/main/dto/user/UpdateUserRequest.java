@@ -1,6 +1,8 @@
 package se.hjulverkstan.main.dto.user;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,9 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SignupRequest {
-
-
+public class UpdateUserRequest {
     private Long id;
 
     @NotBlank
@@ -27,7 +27,6 @@ public class SignupRequest {
     @Email
     private String email;
 
-    @NotBlank
     @Size(min = 3, max = 120)
     private String password;
 

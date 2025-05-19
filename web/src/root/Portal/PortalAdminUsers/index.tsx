@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import * as U from '@utils';
-import { initUser, userZ } from '@data/user/form';
+import { createUserZ, initUser } from '@data/user/form';
 import { useCreateUserM, useEditUserM } from '@data/user/mutations';
 import { useUserQ, useUsersQ } from '@data/user/queries';
 
@@ -56,7 +56,7 @@ export default function PortalAdminUsers({ mode }: PageContentProps) {
             mode={mode}
             isLoading={userQ.isLoading}
             data={userQ.data}
-            zodSchema={userZ}
+            zodSchema={createUserZ(mode)}
             initCreateBody={initUser}
           >
             <PortalForm

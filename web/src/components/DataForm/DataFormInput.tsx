@@ -9,6 +9,7 @@ export interface InputProps extends Omit<FieldProps, 'children'> {
   min?: number;
   max?: number;
   disabled?: boolean;
+  onPaste?: (e: any) => any;
 }
 
 export const Input = ({
@@ -20,6 +21,7 @@ export const Input = ({
   placeholder,
   description,
   disabled,
+  onPaste,
 }: InputProps) => {
   const { body, setBodyProp, isDisabled } = useDataForm();
 
@@ -47,6 +49,7 @@ export const Input = ({
             );
           }
         }}
+        onPaste={onPaste}
         className={U.cn(
           'bg-background h-8',
           formIsDisabled && '!cursor-default !opacity-75',

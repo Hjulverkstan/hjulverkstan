@@ -2,7 +2,9 @@ package se.hjulverkstan.main.service;
 
 import se.hjulverkstan.main.dto.responses.GetAllUserDto;
 import se.hjulverkstan.main.dto.user.SignupRequest;
+import se.hjulverkstan.main.dto.user.UpdateUserRequest;
 import se.hjulverkstan.main.dto.user.UserDto;
+import se.hjulverkstan.main.dto.user.UserResponse;
 
 public interface UserService {
 
@@ -10,9 +12,9 @@ public interface UserService {
 
     GetAllUserDto getAllUsers();
 
-    UserDto getUserById(Long id);
+    UserResponse getUserById(Long id);
 
-    UserDto updateUser(Long id, SignupRequest userDetail);
+    UserResponse updateUser(Long id, UpdateUserRequest user);
 
-    UserDto deleteUser(Long id);
+    UserResponse deleteUser(Long id);
 }
