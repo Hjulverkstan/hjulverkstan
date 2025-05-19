@@ -2,10 +2,7 @@ package se.hjulverkstan.main.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.dto.responses.GetAllVehicleDto;
 import se.hjulverkstan.main.dto.vehicles.VehicleDto;
 import se.hjulverkstan.main.service.VehicleService;
@@ -20,12 +17,16 @@ public class PublicController {
     }
 
     @GetMapping("/vehicle")
-    public ResponseEntity<GetAllVehicleDto> getAllVehicles() {
-        return new ResponseEntity<>(vehicleService.getAllVehicles(), HttpStatus.OK);
+    public ResponseEntity<GetAllVehicleDto> getAllPublicVehicles(@RequestParam(required = false) Long locationId) {
+        if (locationId != null) {
+            return new ResponseEntity<>(vehicleService.getAllPublicVehiclesByLocationId(locationId), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(vehicleService.getAllPublicVehicles(), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/vehicle/{id}")
-    public ResponseEntity<VehicleDto> getVehicleById(@PathVariable Long id) {
-        return new ResponseEntity<>(vehicleService.getVehicleById(id), HttpStatus.OK);
+    public ResponseEntity<VehicleDto> getPublicVehicleById(@PathVariable Long id) {
+        return new ResponseEntity<>(vehicleService.getPublicVehicleById(id), HttpStatus.OK);
     }
 }
