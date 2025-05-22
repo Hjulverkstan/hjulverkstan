@@ -100,7 +100,7 @@ Work on the deployment to AWS was taken further ahead, now with possible CI/CD w
 Developers with contributions in this period:
 
 - Intern: [Christopher-Java](https://github.com/orgs/Hjulverkstan/people/Christopher-Java)
-- Intern: [Daniel Svendsén](https://github.com/orgs/Hjulverkstan/people/daniel-svendsen)
+- Intern: [Daniel Svendsén](https://github.com/daniel-svendsen)
 - Intern: [Daviduber69](https://github.com/orgs/Hjulverkstan/people/Daviduber69)
 - Intern: [Jimssi](https://github.com/orgs/Hjulverkstan/people/jimmsi)
 - Intern: [Adam](https://github.com/orgs/Hjulverkstan/people/Madasa-cell)
@@ -136,4 +136,37 @@ We’re excited to invite contributors to join Hjulverkstan’s open-source jour
 This project thrives on collaboration, and your contributions will help us deliver a platform that empower local communities. From building out features and refining designs to enhancing our infrastructure, there are opportunities for everyone to get involved.
 
 You are welcome to contribute PRs directly, say hello in GitHub Discussions or get in touch with Jona directly for inquiries at `jona.cwejman@alten.se`.
+
+
+## Intern interviews
+
+<details>
+  <summary>Daniel Svendsén 2025 Spring</summary>
+
+  ```
+
+Personal interview by Daniel Svendsén
+    
+I think the internship was a great experience. I learned a lot about
+React, TypeScript and the project itself, I found implementing a website 
+particurlarly fun. 
+I think the most important thing I learned was how to work with a codebase
+that is not my own. I learned how to read and understand code that
+I didn't write myself, and how to work with others to solve problems.
+
+Really take time to learn the basics of React before going 
+into to the codebase I believe is a good start. Learn the project from 
+backend all the way up to frontend to see how it works. Take time to learn 
+how the code is structured to be able to mimic the composition of new files.
+Explore the way through different files opening each method to see where it 
+goes and what it does.
+
+When starting tasks - make sure to read up on what you dont understand and 
+take your time.
+Remember that CSS is centralized in the project and that you should not
+use f.e red-500 but rather use the className that is already in the project.
+One more thing: ask if a function/method already exists before writing a new  
+one or importing certain stuff.
+  ```
+  </details>
 
