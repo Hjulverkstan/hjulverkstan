@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
+        // not necessary
         Set<Role> roles = signUpRequest.getRoles().stream().map(eRole -> roleRepository
                 .findByName(eRole)
                 .orElseThrow(() -> new ElementNotFoundException("Role"))
@@ -86,6 +87,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userDetail.getPassword());
         user.setEmail(userDetail.getEmail());
 
+        // not necessary
         Set<Role> roles = userDetail.getRoles().stream().map(eRole -> roleRepository
                 .findByName(eRole)
                 .orElseThrow(() -> new ElementNotFoundException("Role"))

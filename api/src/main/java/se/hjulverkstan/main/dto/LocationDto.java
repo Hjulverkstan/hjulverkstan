@@ -2,6 +2,7 @@ package se.hjulverkstan.main.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,8 @@ public class LocationDto {
     @NotNull(message = "LocationType is required")
     private LocationType locationType;
     private String comment;
+
+    @NotEmpty
     private List<Long> vehicleIds;
     // Metadata
     private Long createdBy;
