@@ -1,0 +1,11 @@
+INSERT INTO Ticket_Vehicle
+(vehicle_id, ticket_id) VALUES
+(1,         1         ),
+(3,         2         ),
+(4,         2         ),
+(2,         3         ),
+(5,         4         ),
+(6,         5         ),
+(7,         6         ),
+(7,         7         ),
+(8,         8         );

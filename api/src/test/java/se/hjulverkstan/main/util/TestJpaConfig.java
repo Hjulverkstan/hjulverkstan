@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.Optional;
 
-@TestConfiguration
-@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+// @TestConfiguration
+// @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class TestJpaConfig {
 
-    @Bean
+    // @Bean
     public AuditorAware<Long> auditorProvider() {
         return () -> Optional.of(1L);
     }

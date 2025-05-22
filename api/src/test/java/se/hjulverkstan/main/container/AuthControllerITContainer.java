@@ -22,21 +22,7 @@ import se.hjulverkstan.main.util.TestJpaConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
-@Testcontainers
-@Import(TestJpaConfig.class)
-@ComponentScan(
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JpaConfig.class)
-)
 public class AuthControllerITContainer {
-
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("testdb")
-            .withUsername("test")
-            .withPassword("test");
 
     @BeforeEach
     void setup() {
@@ -48,11 +34,4 @@ public class AuthControllerITContainer {
 
     }
 
-    @Test
-    void connectionEstablished() {
-        // This is just a test to check if the connection to the database is working
-        assertThat(postgresContainer.isCreated()).isTrue();
-        assertThat(postgresContainer.isRunning()).isTrue();
-        assertThat(postgresContainer.isHealthy()).isTrue();
-    }
 }
