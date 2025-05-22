@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import({TestSecurityConfig.class, ExceptionsController.class})
 @WebMvcTest(controllers = {AuthController.class})
 class AuthControllerIT {
 
@@ -170,7 +169,7 @@ class AuthControllerIT {
 
     @Test
     void testVerifyAuth_Unauthenticated() throws Exception {
-        mockMvc.perform(get("/v1/auth/verify"))
+        mockMvc.perform(get("/v1/api/auth/verify"))
                 .andExpect(status().isUnauthorized());
     }
 

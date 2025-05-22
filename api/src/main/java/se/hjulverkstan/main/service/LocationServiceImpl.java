@@ -1,9 +1,13 @@
 package se.hjulverkstan.main.service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import se.hjulverkstan.Exceptions.CouldNotDeleteException;
 import se.hjulverkstan.Exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.dto.LocationDto;
@@ -14,11 +18,11 @@ import se.hjulverkstan.main.model.Vehicle;
 import se.hjulverkstan.main.repository.LocationRepository;
 import se.hjulverkstan.main.repository.VehicleRepository;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
     private final VehicleRepository vehicleRepository;
@@ -43,7 +47,9 @@ public class LocationServiceImpl implements LocationService {
         return new GetAllLocationDto(responseList);
     }
 
+    // wrap at highest level of transaction
     @Override
+    @Transactional
     public LocationDto getLocationById(Long id) {
         Location location = locationRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_LOCATION));
@@ -64,8 +70,21 @@ public class LocationServiceImpl implements LocationService {
         return new LocationDto(location);
     }
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public void printTxInfo(String label) {
+        boolean active = TransactionSynchronizationManager.isActualTransactionActive();
+        Connection conn = entityManager.unwrap(Session.class)
+                .doReturningWork(e -> e.unwrap(Connection.class));
+        System.out.println(label + " | TX active: " + active + " | Connection: " + conn.hashCode());
+    }
+
     @Override
     public LocationDto editLocation(Long id, LocationDto location) {
+
+        printTxInfo("tx in editLocation");
+
         Location selectedLocation = locationRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(ELEMENT_LOCATION));
 
@@ -78,11 +97,15 @@ public class LocationServiceImpl implements LocationService {
 
         vehicles.forEach(vehicle -> {
             vehicle.setLocation(selectedLocation);
-            vehicleRepository.save(vehicle);
+            vehicleRepository.save(vehicle);  // optional ?
         });
 
-        selectedLocation.setVehicles(vehicles);
-        locationRepository.save(selectedLocation);
+        // selectedLocation.setVehicles(vehicles); // optional ?
+        locationRepository.save(selectedLocation); // optinal
+
+        //vehicleRepository.flush();
+        //locationRepository.flush();
+
         return new LocationDto(selectedLocation);
     }
 
