@@ -86,11 +86,11 @@ A start on moving the project to the cloud, namely AWS, was made. Through [AWS C
 
 During this period the following developers contributed:
 
-- Intern: [Christopher-Java](https://github.com/orgs/Hjulverkstan/people/Christopher-Java)
-- Intern: [SamuelSiesjo](https://github.com/orgs/Hjulverkstan/people/SamuelSiesjo)
-- Scrum and Backlog: [Azfar Imtiaz](https://github.com/orgs/Hjulverkstan/people/azfar-imtiaz)
-- Technical Lead and React Focus:[Jona Cwejman](https://github.com/orgs/Hjulverkstan/people/Cwejman)
-- Java Support: [Blionx](https://github.com/orgs/Hjulverkstan/people/Blionx)
+- Intern: [Christopher-Java](https://github.com/Christopher-Java)
+- Intern: [SamuelSiesjo](https://github.com/orgs/SamuelSiesjo)
+- Scrum and Backlog: [Azfar Imtiaz](https://github.com/orgs/azfar-imtiaz)
+- Technical Lead and React Focus:[Jona Cwejman](https://github.com/Cwejman)
+- Java Support: [Blionx](https://github.com/Blionx)
 - Java and DevOps Support: Kalagarsamy
 
 **Second internship period**. The project had taken a pause during the summer and was back on track in September for a 10-week internship period, during which certain holes in the feature set of the portal were found, analyzed and refined, resulting in a more usable and production ready version of the portal.
@@ -99,14 +99,14 @@ Work on the deployment to AWS was taken further ahead, now with possible CI/CD w
 
 Developers with contributions in this period:
 
-- Intern: [Christopher-Java](https://github.com/orgs/Hjulverkstan/people/Christopher-Java)
-- Intern: [Daniel Svendsén](https://github.com/orgs/Hjulverkstan/people/daniel-svendsen)
-- Intern: [Daviduber69](https://github.com/orgs/Hjulverkstan/people/Daviduber69)
-- Intern: [Jimssi](https://github.com/orgs/Hjulverkstan/people/jimmsi)
-- Intern: [Adam](https://github.com/orgs/Hjulverkstan/people/Madasa-cell)
-- Technical Lead: [Jona Cwejman](https://github.com/orgs/Hjulverkstan/people/Cwejman)
-- DevOps Support: [Jeus](https://github.com/orgs/Hjulverkstan/people/jeus)
-- Misc Support: [Frida Betåven](https://github.com/orgs/Hjulverkstan/people/stortoppen)
+- Intern: [Christopher-Java](https://github.com/Christopher-Java)
+- Intern: [Daniel Svendsén](https://github.com/daniel-svendsen)
+- Intern: [Daviduber69](https://github.com/Daviduber69)
+- Intern: [Jimmsi](https://github.com/jimmsi)
+- Intern: [Adam](https://github.com/Madasa-cell)
+- Technical Lead: [Jona Cwejman](https://github.com/Cwejman)
+- DevOps Support: [Jeus](https://github.com/jeus)
+- Misc Support: [Frida Betåven](https://github.com/stortoppen)
 
 ## Roadmap
 
@@ -137,3 +137,69 @@ This project thrives on collaboration, and your contributions will help us deliv
 
 You are welcome to contribute PRs directly, say hello in GitHub Discussions or get in touch with Jona directly for inquiries at `jona.cwejman@alten.se`.
 
+## Interviews with LIA-interns
+
+### Interview: What would have been helpful to know before joining the Hjulverkstan project?
+
+<details>
+ <summary>Jimmy Emanuelsson (spring 2025)</summary>
+
+#### Response: Jimmy Emanuelsson
+
+Hjulverkstan has been incredibly educational and fun to work at. It’s not often you get to work on a project where you truly touch every part of the tech stack. Many projects are called “fullstack,” but here I’ve been involved from end to end: from Figma design, to React component development for the public website, to a more complex portal with filters, tables, and forms, to the backend in Java and Postgres – including build scripts and deployment.
+
+One of the first major challenges was getting up to speed with React – both the framework itself and the way it’s used specifically in Hjulverkstan. My education has had a strong backend focus, and my frontend experience beforehand was fairly limited and mostly centered around Vue. Jumping into a React codebase with a well-defined structure and clear code principles was a great learning experience, but also quite overwhelming at first.
+
+One thing I wish I had understood better from the start is the functional programming mindset. The entire frontend structure is heavily built around functional composition – both in terms of logic and data flow. This was new to me, since our Java education had been strictly object-oriented. I would have really benefited from reading up more on functional programming in the context of frontend development before starting the project.
+
+Another early challenge was understanding the underlying architecture. The React part is divided into layers: a view-layer, a hooks-layer, and an api-layer. This makes the code more readable and maintainable, but it also requires you to understand where things belong and how they connect. The same applies to how the application is built and deployed – the public site is statically generated, while the internal portal is a traditional client-side rendered app. I didn’t know much about these hybrid setups beforehand, but I’ve learned a lot about both SSG and CSR through this project.
+
+The backend, on the other hand, was easier to get into. It’s built with Spring Boot and follows a structure I was already familiar with: controllers, services, repositories, and entities. There’s some room for improvement in the DTO layer, where there’s a bit of duplication, but overall the backend is straightforward and logical.
+
+My advice for future internship students in the project
+Don’t be afraid to dive into the codebase, even if you don’t understand everything at first. The codebase is large but well-structured – especially the frontend. You’ll find your way faster than you think. It’s easy to believe you need to grasp the entire stack before starting, but in reality, things start making sense as you work hands-on.
+
+Get to know the project’s layered architecture. Understand how data flows from component to hook, through the API layer to the backend – and back again. A concrete example is how we handle status changes for tickets – something I worked on quite a bit during the fall of 2024. It’s a great entry point for understanding how everything is connected.
+
+Take full ownership of your tasks. When you’re assigned something, make sure you understand it deeply. Look at similar code, ask questions, read up. It’s not just about making something “work,” but about understanding why it works. And when it’s time for a pull request, be ready to explain and defend your solution.
+
+During the spring of 2025, I’ve worked on developing a well-structured and sustainable architecture for image uploads to S3 – a solution used both in the internal portal and on the public website. I’ve also been responsible for shaping the design of the public site and then implementing it in React. What’s been most rewarding is seeing how all the pieces connect – and knowing that what I’ve built is actually being used. Following a complete flow from design to database and back again has been both challenging and genuinely enjoyable.
+
+</details>
+
+<details>
+ <summary>David Henriksson (spring 2025)</summary>
+
+#### Response: David Henriksson
+
+Before starting coding I wish that I had a better grasp of the projects data flow. Like take my time and look at the flow process of backend> api layer> frontend. So I would take some time to just look through it all, and maybe try out requests from start to end in that order. And log/sout and look what happens.   
+
+Since React is entirely new for most of interns from Yrgo, of course learning the basics of that is mandatory. I think I actually did what I could to grasp it relatively basic in the amount of time I had. Something to note is that the basics of it only got me so far since Hjulverkstans frontend code is, for a beginner, very refined and complex. So after learning the basics you just have to start coding and look up all the things in the code you don't understand. Whenever you start a new task, make sure you understand all of it, so that you don't just rush it to get tasks done. The internship is an insanely valuable time to actually learn stuff. Especially React.  
+
+TypeScript isn't something I'd waste too much time learning, I think you'll get the gist of it as you go. You'll probably encouter alot of red lines everywhere and learning why they pop up will prbably give you an idea of what's up. 
+
+I would also look through all the backend code more thoroughly. The backend is created by interns in JAVA22, and JAVA23 (to some degree) but JAVA22 did basically all of the ground work. And all the Java used there is something we students already are familiar with from school. But all the DTOs was kind of confusing to me at first, and still are, seeing as the code is probably overly deliberate and duplicated, espcially in the Service implementations, and could be refactored and simplified by a lot.  
+
+Learn what SSR, CSR and SSG is and look through the javascript files (dev.js, build.js). Then examine how these rendering strategies are implemented in the codebase. And also learn what the frick Hydration is.  
+
+So basically; Get a better grasp of what's going on. I believe I just kind of started doing and learning along the way, but it took a while to understand the whole process of the app. But maybe that's what it's supposed to be like in an entirely new project with new libraries and tools.
+
+</details>
+
+<details>
+ <summary>Daniel Svendsén (spring 2025)</summary>
+
+#### Response: Daniel Svendsén
+
+I think the internship was a great experience. I learned a lot about React, TypeScript and the project itself, I found implementing a website particurlarly fun.
+
+I think the most important thing I learned was how to work with a codebase that is not my own. I learned how to read and understand code that I didn't write myself, and how to work with others to solve problems.
+
+Really take time to learn the basics of React before going into to the codebase I believe is a good start. Learn the project from backend all the way up to frontend to see how it works. Take time to learn how the code is structured to be able to mimic the composition of new files. Explore the way through different files opening each method to see where it goes and what it does.
+
+When starting tasks - make sure to read up on what you dont understand and take your time.
+
+Remember that CSS is centralized in the project and that you should not use f.e red-500 but rather use the className that is already in the project. 
+
+One more thing: ask if a function/method already exists before writing a new one or importing certain stuff.
+</details>
