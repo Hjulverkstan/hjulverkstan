@@ -101,7 +101,7 @@ Developers with contributions in this period:
 
 - Intern: [Christopher-Java](https://github.com/orgs/Hjulverkstan/people/Christopher-Java)
 - Intern: [Daniel Svendsén](https://github.com/orgs/Hjulverkstan/people/daniel-svendsen)
-- Intern: [Daviduber69](https://github.com/orgs/Hjulverkstan/people/Daviduber69)
+- Intern: [Daviduber69](https://github.com/Daviduber69)
 - Intern: [Jimssi](https://github.com/orgs/Hjulverkstan/people/jimmsi)
 - Intern: [Adam](https://github.com/orgs/Hjulverkstan/people/Madasa-cell)
 - Technical Lead: [Jona Cwejman](https://github.com/orgs/Hjulverkstan/people/Cwejman)
@@ -128,6 +128,53 @@ Developers with contributions in this period:
 * Review the Spring app align with best practices
 * Complete deployment to AWS
 * Complete pipelines for CI/CD
+
+<details>
+  <summary>David Henriksson Personal Interview</summary>
+  
+  ```
+  ===============Hello - it's me=================
+  _ -_Personal interview by David Swagricksson_-_
+  =====================*~*=======================
+    
+  Before starting coding I wish that I had a better grasp of  
+  the projects data flow. Like take my time and look at the flow process  
+  of backend> api layer> frontend. So I would take some time to just look  
+  through it all, and maybe try out requests from start to end in that order.  
+  And log/sout and look what happens.  
+
+  Since React is entirely new for most of interns from Yrgo, of course learning  
+  the basics of that is mandatory. I think I actually did what I could to   
+  grasp it relatively basic in the amount of time I had.  
+  Something to note is that the basics of it only got me so far since Hjulverkstans frontend  
+  code is, for a beginner, very refined and complex.  
+  So after learning the basics you just have to start coding and look up all  
+  the things in the code you don't understand.  
+  Whenever you start a new task, make sure you understand all of it, so that  
+  you don't just rush it to get tasks done. The internship is an insanely   
+  valuable time to actually learn stuff. Especially React.  
+
+  TypeScript isn't something I'd waste too much time learning, I think you'll get   
+  the gist of it as you go. You'll probably encouter alot of red lines everywhere  
+  and learning why they pop up will prbably give you an idea of what's up.  
+
+  I would also look through all the backend code more thoroughly. The backend  
+  is created by interns in JAVA22, and JAVA23 (to some degree) but JAVA22 did basically all of the ground work.
+  And all the Java used there is something we students already are   
+  familiar with from school. But all the DTOs was kind of confusing to me at first,  
+  and still are, seeing as the code is probably overly deliberate and duplicated,  
+  espcially in the Service implementations, and could be refactored and simplified by a lot.  
+
+  Learn what SSR, CSR and SSG is and look through the javascript files (dev.js, build.js).  
+  Then examine how these rendering strategies are implemented in the codebase.  
+  And also learn what the frick Hydration is.  
+
+  So basically; Get a better grasp of what's going on. I believe I just kind of started  
+  doing and learning along the way, but it took a while to understand the whole process of  
+  the app. But maybe that's what it's supposed to be like in an entirely new project  
+  with new libraries and tools.
+  ```
+  </details>
 
 ## Call for Help
 
