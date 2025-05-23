@@ -203,3 +203,18 @@ Remember that CSS is centralized in the project and that you should not use f.e 
 
 One more thing: ask if a function/method already exists before writing a new one or importing certain stuff.
 </details>
+
+<details>
+  <summary>Adam Pääjärvi (spring 2025</summary>
+
+  #### Response: Adam Pääjärvi
+
+Before joining this project I wish I had spent more time learning React — it was something entirely new for us and I had never touched it before, combine that with my knowledge of vue having mostly faded away by that point and I felt that the very basic understanding I had scrapped together just wasn't enough. Which isn't that great since the frontend has a complexity beyond what we had been used to at that point, so a lot of my time was spent looking up what i didn't know.
+
+Now luckily the backend is much easier to understand since it was written by JAVA22 and was actually on our level of understanding, not that I have much experience with it since 90% of the tasks I undertook were in the frontend, but still. I wish I had spent more time here and gotten to know it more.
+
+Something I became very well acquainted with was Zod. It is a validation library for TypeScript, used to define `schemas` to validate data. This is used in the frontend to find issues in the body during the creation of objects, basically it is here to immediately provide feedback through the UI to users and improve usability. I found myself disliking its documentation but its otherwise a good library, luckily the places it is used in are self-contained to it isn't a requirement to know it.
+
+But while you might start out with a poor knowledge base, as you are developing programs, you are also developing your own skills. So its just about starting and as the project moves forward you'll learn more and become better at what you are doing. Overall I had a great time working on the Hjulverkstan project and I feel that it has been very educational for how this type of work may be like, even if its on a smaller scale.
+
+</details>
