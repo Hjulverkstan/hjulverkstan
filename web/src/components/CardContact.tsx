@@ -4,17 +4,13 @@ import { CalendarDays, Mail, MapPin, Phone } from 'lucide-react';
 import { Base, Title } from '@components/Card';
 import { Bullet } from '@components/Bullet';
 import { OpenBadge } from '@components/OpenBadge';
-import { OpenHours } from '@data/webedit/shop/types';
+import { OpenHours, Shop } from '@data/webedit/shop/types';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
+import { cn } from '@utils';
 
 interface CardContactProps {
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-  openHours: OpenHours;
-  latitude: number;
-  longitude: number;
+  shop: Shop;
+  variant?: 'default' | 'muted' | 'compact';
   className?: string;
   showHeader?: boolean;
 }
@@ -50,17 +46,13 @@ const groupOpenHours = (
 };
 
 export const CardContact: React.FC<CardContactProps> = ({
-  name,
-  address,
-  phone,
-  email,
-  openHours,
-  latitude,
-  longitude,
+  shop,
+  variant = 'default',
+  className,
   showHeader = true,
 }) => {
   const { data } = usePreloadedDataLocalized();
-  const embedUrl = `https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+  const embedUrl = `https://www.google.com/maps?q=${shop?.latitude},${shop?.longitude}&z=15&output=embed`;
 
   const dayLabels = [
     data.generalContent.contactMonday,
@@ -73,67 +65,125 @@ export const CardContact: React.FC<CardContactProps> = ({
   ];
 
   const closedLabel = data.generalContent.contactClosed;
+  const isCompact = variant === 'compact';
 
   return (
     <Base
-      variant="default"
-      className="flex flex-col gap-8 2xl:h-full 2xl:flex-row 2xl:items-stretch"
+      variant={isCompact ? 'muted' : variant}
+      className={cn(
+        'flex flex-col',
+        isCompact
+          ? 'p-8 md:flex-row md:items-stretch md:gap-8'
+          : 'gap-8 2xl:h-full 2xl:flex-row 2xl:items-stretch',
+        className,
+      )}
     >
-      <div className="flex flex-1 flex-col gap-8">
-        {showHeader && (
+      <div className={cn('flex flex-1 flex-col gap-8')}>
+        {!isCompact && showHeader && (
           <div
-            className="justify-left flex flex-col gap-4 lg:flex-row
-              lg:items-center"
+            className={cn(
+              'justify-left flex flex-col gap-4 lg:flex-row lg:items-center',
+            )}
           >
-            <Title className="text-h3">{name}</Title>
+            <Title className={cn('text-h3')}>{shop?.name}</Title>
             <OpenBadge
-              openHours={openHours}
+              openHours={shop?.openHours}
               variant="large"
-              className="mt-2 w-fit lg:mt-0"
+              className={cn('mt-2 w-fit lg:mt-0')}
             />
           </div>
         )}
 
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-3">
+        <div className={cn('flex flex-col', !isCompact && 'gap-6')}>
+          <div className={cn('flex flex-col', !isCompact && 'gap-3')}>
             <Bullet icon={MapPin}>
-              <p className="text-foreground ml-2 text-base">{address}</p>
+              <p
+                className={cn(
+                  'text-foreground',
+                  isCompact ? 'text-sm' : 'ml-2 text-base',
+                )}
+              >
+                {shop?.address}
+              </p>
             </Bullet>
             <Bullet icon={Phone}>
-              <p className="text-foreground ml-2 text-base">{phone}</p>
+              <p
+                className={cn(
+                  'text-foreground',
+                  isCompact ? 'mb-2 mt-2 text-sm' : 'ml-2 text-base',
+                )}
+              >
+                {shop?.phone || 'N/A'}
+              </p>
             </Bullet>
             <Bullet icon={Mail}>
-              <p className="text-foreground ml-2 text-base">{email}</p>
+              <p
+                className={cn(
+                  'text-foreground',
+                  isCompact ? 'text-sm' : 'ml-2 text-base',
+                )}
+              >
+                {shop?.contactEmail || 'N/A'}
+              </p>
             </Bullet>
           </div>
 
-          <hr className="border-border border-t" />
+          <hr
+            className={cn(
+              'border-border',
+              isCompact ? 'mb-4 mt-4' : 'border-t',
+            )}
+          />
 
-          <div className="text-muted-foreground flex w-full">
-            <div className="mr-2">
-              <CalendarDays size={20} aria-hidden="true" />
-            </div>
-            <div className="text-foreground ml-2 flex flex-col gap-1 text-base">
-              {groupOpenHours(openHours, dayLabels, closedLabel).map(
-                ({ days, time }) => (
-                  <span key={days}>
-                    {days}: {time}
-                  </span>
-                ),
+          <div className={cn('flex items-start gap-2')}>
+            <CalendarDays
+              size={20}
+              className={cn(
+                'text-muted-foreground flex-shrink-0',
+                isCompact ? '-mt-[1px]' : 'mt-1',
+              )}
+            />
+            <div
+              className={cn(
+                'text-foreground flex flex-col gap-1',
+                isCompact ? 'text-sm' : 'text-base',
+              )}
+            >
+              {shop?.openHours ? (
+                groupOpenHours(shop.openHours, dayLabels, closedLabel).map(
+                  ({ days, time }) => (
+                    <span key={days}>
+                      {days}: {time}
+                    </span>
+                  ),
+                )
+              ) : (
+                <span>{closedLabel}</span>
               )}
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full 2xl:w-1/2">
+
+      <div
+        className={cn(
+          isCompact
+            ? 'mt-8 w-full md:mt-0 md:w-2/4 xl:w-2/4'
+            : 'w-full 2xl:w-1/2',
+        )}
+      >
         <iframe
           src={embedUrl}
-          className="h-full h-full max-h-[425px] min-h-[250px] w-full rounded-md
-            border-0"
+          className={cn(
+            'w-full rounded-md border-0',
+            isCompact
+              ? 'h-[200px] md:h-full'
+              : 'h-full max-h-[425px] min-h-[250px]',
+          )}
           loading="lazy"
           allowFullScreen
           referrerPolicy="no-referrer-when-downgrade"
-          title={`Map showing location of ${name}`}
+          title={`Map showing location of ${shop?.name}`}
         />
       </div>
     </Base>

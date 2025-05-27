@@ -1,8 +1,12 @@
-import { HTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
+
 import { cva, VariantProps } from 'class-variance-authority';
-import { LucideIcon } from 'lucide-react';
+import { ImageIcon, LucideIcon } from 'lucide-react';
 
 import { cn } from '@utils';
+import { ImageWithFallback } from '@components/ImageWithFallback';
+import { endpoints } from '@data/api';
+import Error from '@components/Error';
 
 //
 
@@ -111,7 +115,7 @@ Row.displayName = 'CardRow';
 
 //
 
-const cardImageVariants = cva('object-cover', {
+const cardImageVariants = cva('bg-muted overflow-hidden', {
   variants: {
     variant: {
       background: 'absolute inset-0 z-0 h-full w-full',
@@ -126,8 +130,9 @@ const cardImageVariants = cva('object-cover', {
 export interface CardImageProps
   extends React.ImgHTMLAttributes<HTMLImageElement>,
     VariantProps<typeof cardImageVariants> {
-  src: string;
+  src?: string;
   alt: string;
+  fallbackIcon?: LucideIcon;
   className?: string;
 }
 
@@ -135,17 +140,38 @@ export const Image: React.FC<CardImageProps> = ({
   src,
   alt,
   variant = 'background',
+  fallbackIcon: FallbackIcon = ImageIcon,
   className,
   ...props
 }) => (
   <>
-    <img
-      src={src}
-      alt={alt}
-      className={cn(cardImageVariants({ variant, className }))}
-      loading="lazy"
-      {...props}
-    />
+    <div className={cn(cardImageVariants({ variant }), className)}>
+      {src ? (
+        <ImageWithFallback
+          src={src}
+          alt={alt}
+          className="h-full w-full object-cover"
+          fallback={
+            <Error
+              className="h-full"
+              error={{
+                error: 'NOT_FOUND',
+                endpoint: endpoints.image,
+              }}
+            />
+          }
+          loading="lazy"
+          {...props}
+        />
+      ) : (
+        <div
+          className="text-muted-foreground/60 flex h-full items-center
+            justify-center"
+        >
+          <FallbackIcon size={40} />
+        </div>
+      )}
+    </div>
     {variant === 'background' && (
       <div
         className="absolute inset-0 z-10 bg-gradient-to-t from-black/70

@@ -75,17 +75,7 @@ const Contact: React.FC = () => {
         <SectionContent>
           <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
             {data.shops.map((shop) => (
-              <CardContact
-                key={shop.id}
-                name={shop.name}
-                address={shop.address}
-                phone="0707123567"
-                email="contact@hjulverkstan.org"
-                openHours={shop.openHours}
-                latitude={shop.latitude}
-                longitude={shop.longitude}
-                className="h-full"
-              />
+              <CardContact shop={shop} />
             ))}
           </div>
         </SectionContent>
