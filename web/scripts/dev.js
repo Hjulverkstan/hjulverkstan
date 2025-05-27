@@ -95,25 +95,7 @@ app.use('*', async ({ originalUrl: url }, res) => {
 
   // Generate routes dynamically based on the data
 
-  const { ssr: routesSSR, csr: routesCSR } = createRoutes(data);
-
-  // Render CSR html if route found
-
-  const routeMatchCSR = findRoute(routesCSR, url);
-
-  if (routeMatchCSR) {
-    const html = template
-      .replace(`<!--title-->`, routeMatchCSR.title)
-      .replace(`<!--app-html-->`, '')
-      .replace('__jsonFromBuildScript__', 'undefined');
-
-    console.log(
-      `[INFO]: Rendered CSR html for url "${url}" (${routeMatchCSR.path})`,
-    );
-
-    res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
-    return;
-  }
+  const routes = createRoutes(data);
 
   // Render SSR html if route found
 
@@ -124,35 +106,32 @@ app.use('*', async ({ originalUrl: url }, res) => {
     url.startsWith(`/${locale}`),
   );
 
-  const expandedRoutesSSR = routesSSR.flatMap(expandRoute);
+  const expandedRoutesSSR = routes.flatMap(expandRoute);
   const nonLocalizedUrl = isLocalizedUrl ? url.slice(3) || '/' : url;
-  const routeMatchSSR = findRoute(expandedRoutesSSR, nonLocalizedUrl);
 
   // Fall back route if no route found. In production cloudfront should
   // fall back to the root index.html
 
-  let fallBackRoute;
-  if (!routeMatchSSR) {
-    fallBackRoute = findRoute(expandedRoutesSSR, '/');
+  let route = findRoute(expandedRoutesSSR, nonLocalizedUrl);
+  if (!route) {
+    route = findRoute(expandedRoutesSSR, '/');
     console.log(
       `[INFO]: Url "${url}" does not exist in SSR routes. Proceeding with fallback`,
     );
   }
 
   const html = template
-    .replace(`<!--title-->`, routeMatchSSR?.title ?? fallBackRoute.title)
+    .replace(`<!--title-->`, route?.title)
     .replace(
       '__jsonFromBuildScript__',
       JSON.stringify(data)?.replaceAll("'", "\\'"),
     )
     .replace(
       `<!--app-html-->`,
-      renderSSR({ path: routeMatchSSR ? url : '/', data }),
+      route.disableSSR ? '' : renderSSR({ path: route ? url : '/', data }),
     );
 
-  console.log(
-    `[INFO]: Rendered SSR html for url "${url}" (${routeMatchSSR?.path ?? fallBackRoute.path})`,
-  );
+  console.log(`[INFO]: Rendered SSR html for url "${url}" (${route.path})`);
 
   res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
 });
