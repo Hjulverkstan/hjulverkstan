@@ -1,18 +1,20 @@
-import React from 'react';
 import { ArrowRight, LucideIcon } from 'lucide-react';
 
 import { Base, Body, CardBaseProps, Icon, Title } from '@components/Card';
-import { IconLink, LinkProps } from '@components/shadcn/Button';
+import { buttonVariants, IconLink, LinkProps } from '@components/shadcn/Button';
+import { VariantProps } from 'class-variance-authority';
+import { cn } from '@utils';
 
 interface CardDefaultProps {
   variant?: CardBaseProps['variant'];
-  icon: LucideIcon;
+  icon?: LucideIcon;
   title: string;
-  body: string;
+  body: React.ReactNode;
   link: LinkProps['to'];
   ariaLabel?: string;
   linkLabel?: string;
   className?: string;
+  buttonVariant?: VariantProps<typeof buttonVariants>['variant'];
 }
 
 export const CardDefault: React.FC<CardDefaultProps> = ({
@@ -24,15 +26,16 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
   linkLabel,
   variant,
   className,
+  buttonVariant = 'contrast',
 }) => (
   <Base variant={variant} className={className}>
-    <Icon icon={icon} />
-    <Title className="pb-4 pt-6">{title}</Title>
+    {icon && <Icon icon={icon} />}
+    <Title className={'pb-4 pt-6'}>{title}</Title>
     <Body>{body}</Body>
-    <div className="mt-auto flex justify-end pt-6">
+    <div className={cn('mt-auto flex justify-end pt-6')}>
       <IconLink
         to={link}
-        variant="contrast"
+        variant={buttonVariant}
         subVariant="rounded"
         size="large"
         icon={ArrowRight}

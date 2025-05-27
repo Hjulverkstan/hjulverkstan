@@ -15,6 +15,8 @@ import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
+import ShopDetail from './ShopDetail';
+import Shops from './Shops';
 import Contact from './Contact';
 import Support from './Support';
 import Services from './Services';
