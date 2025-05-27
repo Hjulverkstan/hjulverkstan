@@ -25,6 +25,10 @@ import {
   usePublicVehicleByIdQ,
   usePublicVehiclesByLocationQ,
 } from '@data/vehicle/queries';
+import {
+  useLocaliseEnumsByPreloadedData
+} from '@hooks/useLocaliseEnumsByPreloadedData';
+import * as enums from '@data/vehicle/enums';
 
 const ITEMS_TO_LOAD_OTHER_BIKES = 3;
 
@@ -35,21 +39,12 @@ interface VehicleAttributeProps {
   preserveCase?: boolean;
 }
 
-const capitalizeFirstLetter = (string?: string) => {
-  if (!string) return '';
-  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-};
-
 const VehicleAttribute = ({
   icon: Icon,
   label,
   value,
-  preserveCase,
 }: VehicleAttributeProps) => {
-  const displayValue =
-    typeof value === 'string' && !preserveCase
-      ? capitalizeFirstLetter(value)
-      : value;
+  const [enumAttr] = useLocaliseEnumsByPreloadedData([enums.find(value)]);
 
   return (
     value !== undefined && (
@@ -58,11 +53,10 @@ const VehicleAttribute = ({
           <Icon className="mr-2 h-4 w-4 flex-shrink-0" aria-hidden="true" />
         )}
         <span className="mr-2 sm:mr-3">{label}</span>
-        <span className="text-foreground font-medium">{displayValue}</span>
+        <span className="text-foreground font-medium">{enumAttr.label}</span>
       </div>
     )
   );
-};
 
 export default function VehicleDetail() {
   const { id } = useParams() as { id: string };
@@ -155,11 +149,7 @@ export default function VehicleDetail() {
               >
                 <ImageWithFallback
                   src={vehicleQ.data.imageURL}
-                  alt={
-                    vehicleQ.data.regTag
-                      ? capitalizeFirstLetter(vehicleQ.data.regTag)
-                      : ''
-                  }
+                  alt={vehicleQ.data.regTag}
                   className="h-full w-full object-cover"
                   fallback={
                     <Error
@@ -215,7 +205,6 @@ export default function VehicleDetail() {
                   icon={Tag}
                   label="Reg. No."
                   value={vehicleQ.data?.regTag}
-                  preserveCase={true}
                 />
               </div>
             )}

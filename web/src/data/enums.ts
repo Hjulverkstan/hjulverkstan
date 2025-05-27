@@ -15,6 +15,7 @@ export interface EnumAttributes {
   tooltip?: string;
   children?: string[];
   count?: number;
+  generalContentKey?: string;
 }
 
 //

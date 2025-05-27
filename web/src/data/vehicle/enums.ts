@@ -32,6 +32,7 @@ export const vehicleType = [
     label: 'Bike',
     icon: Bike,
     children: Object.values(BikeType),
+    generalContentKey: 'vehicleTypeBike',
   },
   {
     dataKey: 'vehicleType',
@@ -39,41 +40,46 @@ export const vehicleType = [
     label: 'Stroller',
     icon: Baby,
     children: Object.values(StrollerType),
+    generalContentKey: 'vehicleTypeStroller',
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.SCOOTER,
     label: 'Scooter',
     icon: AlertCircle,
+    generalContentKey: 'vehicleTypeScooter',
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.SKATE,
     label: 'Skate',
     icon: AlertCircle,
+    generalContentKey: 'vehicleTypeSkate',
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.BATCH,
     label: 'Batch',
     icon: Warehouse,
+    generalContentKey: 'vehicleTypeBatch',
   },
   {
     dataKey: 'vehicleType',
     value: VehicleType.OTHER,
     label: 'Other',
     icon: HelpCircle,
+    generalContentKey: 'vehicleTypeOther',
   },
 ];
 
 export const bikeType = [
-  { dataKey: 'bikeType', value: BikeType.BMX, label: 'BMX' },
-  { dataKey: 'bikeType', value: BikeType.CHILD, label: 'Child' },
-  { dataKey: 'bikeType', value: BikeType.ELECTRIC, label: 'Electric' },
-  { dataKey: 'bikeType', value: BikeType.HYBRID, label: 'Hybrid' },
-  { dataKey: 'bikeType', value: BikeType.LADY, label: 'Lady' },
-  { dataKey: 'bikeType', value: BikeType.MOUNTAINBIKE, label: 'Mountain' },
-  { dataKey: 'bikeType', value: BikeType.ROAD, label: 'Road' },
+  { dataKey: 'bikeType', value: BikeType.BMX, label: 'BMX', generalContentKey: 'vehicleBikeTypeBmx' },
+  { dataKey: 'bikeType', value: BikeType.CHILD, label: 'Child', generalContentKey: 'vehicleBikeTypeChild' },
+  { dataKey: 'bikeType', value: BikeType.ELECTRIC, label: 'Electric', generalContentKey: 'vehicleBikeTypeElectric' },
+  { dataKey: 'bikeType', value: BikeType.HYBRID, label: 'Hybrid', generalContentKey: 'vehicleBikeTypeHybrid' },
+  { dataKey: 'bikeType', value: BikeType.LADY, label: 'Lady', generalContentKey: 'vehicleBikeTypeLady' },
+  { dataKey: 'bikeType', value: BikeType.MOUNTAINBIKE, label: 'Mountain', generalContentKey: 'vehicleBikeTypeMountain' },
+  { dataKey: 'bikeType', value: BikeType.ROAD, label: 'Road', generalContentKey: 'vehicleBikeTypeRoad' },
 ];
 
 export const strollerType = [
@@ -113,9 +119,9 @@ export const vehicleStatus = [
 ];
 
 export const brakeType = [
-  { dataKey: 'brakeType', value: BrakeType.CALIPER, label: 'Caliper' },
-  { dataKey: 'brakeType', value: BrakeType.DISC, label: 'Disc' },
-  { dataKey: 'brakeType', value: BrakeType.FOOTBRAKE, label: 'Footbrake' },
+  { dataKey: 'brakeType', value: BrakeType.CALIPER, label: 'Caliper', generalContentKey: 'vehicleBrakeTypeCaliper' },
+  { dataKey: 'brakeType', value: BrakeType.DISC, label: 'Disc', generalContentKey: 'vehicleBrakeTypeDisc' },
+  { dataKey: 'brakeType', value: BrakeType.FOOTBRAKE, label: 'Footbrake', generalContentKey: 'vehicleBrakeTypeFootbrake' },
 ];
 
 export const size = [
@@ -137,7 +143,7 @@ export const brand = [
   { dataKey: 'brand', value: BikeBrand.KRONAN, label: 'Kronan' },
   { dataKey: 'brand', value: BikeBrand.PELAGO, label: 'Pelago' },
   { dataKey: 'brand', value: BikeBrand.BIANCHI, label: 'Bianchi' },
-  { dataKey: 'brand', value: BikeBrand.OTHER, label: 'Other' },
+  { dataKey: 'brand', value: BikeBrand.OTHER, label: 'Other', generalContentKey: 'vehicleBrandOther' },
 ];
 
 //
