@@ -28,7 +28,6 @@ public class VehicleBikeDto extends VehicleDto {
     @NotNull(message = "Brake type is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleBrakeType brakeType;
-    @NotNull(message = "Brand is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private VehicleBrand brand;
 

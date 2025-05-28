@@ -16,6 +16,7 @@ export interface SelectProps extends Omit<FieldProps, 'children'> {
   isMultiSelect?: boolean;
   disabled?: boolean;
   fat?: boolean;
+  allowDeselect?: boolean;
 }
 
 export const Select = ({
@@ -26,6 +27,7 @@ export const Select = ({
   description,
   disabled,
   fat,
+  allowDeselect,
 }: SelectProps) => {
   const { isLoading, body, setBodyProp, isDisabled } = useDataForm();
   const [open, setOpen] = useState(false);
@@ -72,7 +74,11 @@ export const Select = ({
             });
             setBodyProp(dataKey, updatedBody);
           } else {
-            setBodyProp(dataKey, e.value);
+            if (allowDeselect && isSelected) {
+              setBodyProp(dataKey, undefined);
+            } else {
+              setBodyProp(dataKey, e.value);
+            }
             setOpen(false);
           }
         }}
@@ -113,7 +119,9 @@ export const Select = ({
               ? ''
               : hasData
                 ? buttonLabel
-                : `Select ${label.toLowerCase()}...`}
+                : allowDeselect
+                  ? `No ${label.toLowerCase()} selected...`
+                  : `Select ${label.toLowerCase()}...`}
             <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </Popover.Trigger>
