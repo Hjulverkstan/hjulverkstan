@@ -58,7 +58,7 @@ export function useVehicleZ() {
             ...commonProps,
             vehicleType: z.literal(VehicleType.BIKE),
             bikeType: z.nativeEnum(BikeType, isReq('Bike Type')),
-            brand: z.nativeEnum(BikeBrand, isReq('Brand')),
+            brand: z.nativeEnum(BikeBrand).optional(),
             size: z.nativeEnum(BikeSize, isReq('Size')),
             brakeType: z.nativeEnum(BrakeType, isReq('Brake Type')),
             gearCount: z

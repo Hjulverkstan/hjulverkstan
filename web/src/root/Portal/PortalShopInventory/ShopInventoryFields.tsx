@@ -107,6 +107,7 @@ export default function ShopInventoryFields() {
               label="Brand"
               dataKey="brand"
               enums={enums.brand}
+              allowDeselect
             />
             <DataForm.Select label="Size" dataKey="size" enums={enums.size} />
             <DataForm.Select
