@@ -25,17 +25,14 @@ export interface PortalLayoutProps {
   title: string;
 }
 
-export default function PortalLayout({
-  title,
-  baseUrl,
-  routes,
-}: PortalLayoutProps) {
+export default function PortalLayout({ title, routes }: PortalLayoutProps) {
   const isFetching = useIsFetching();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { coreUrl } = usePortalSlugs();
 
-  const route = routes.find(({ path }) => pathname.startsWith(baseUrl + path));
+  const route = routes.find(({ path }) => pathname.startsWith(coreUrl + path));
 
   const shouldDarken = pathname
     .split('/')
@@ -63,7 +60,7 @@ export default function PortalLayout({
                 <TabsTrigger
                   key={el.path}
                   value={el.path}
-                  onClick={() => navigate(baseUrl + el.path)}
+                  onClick={() => navigate(coreUrl + el.path)}
                 >
                   {el.label}
                 </TabsTrigger>
