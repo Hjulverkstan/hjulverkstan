@@ -13,6 +13,25 @@ export const createErrorToast = ({
   duration: 5000,
 });
 
+export const createTicketStatusUpdateToast = ({
+  phoneNumber,
+  isSMSError,
+}: {
+  phoneNumber: string;
+  isSMSError: boolean;
+}) => ({
+  variant: 'red' as any,
+  title: `Failed to update ticket status${
+    isSMSError ? ` and send SMS to number: ${phoneNumber}` : ''
+  }.`,
+  description: `${
+    isSMSError
+      ? `Please verify that the number is correct and try again later.`
+      : `Try again later or contact support.`
+  }`,
+  duration: isSMSError ? 1000 * 60 * 15 : 5000,
+});
+
 export const createSuccessToast = ({
   verbLabel,
   dataLabel,
