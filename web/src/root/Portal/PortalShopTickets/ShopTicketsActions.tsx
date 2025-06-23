@@ -20,10 +20,16 @@ import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { useToast } from '@components/shadcn/use-toast';
 import { useDialogManager } from '@components/DialogManager';
 
-import { createErrorToast, createSuccessToast } from '../toast';
+import {
+  createErrorToast,
+  createTicketStatusUpdateToast,
+  createSuccessToast,
+} from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import UpdateVehicleStatusesDialog from '@components/UpdateVehicleStatusesDialog';
+import ConfirmSendNotificationDialog from '@components/ConfirmSendNotificationDialog';
 import { useVehiclesQ } from '@data/vehicle/queries';
+import { useCustomerQ } from '@data/customer/queries';
 
 export default function ShopTicketsActions({
   row: ticket,
@@ -39,6 +45,9 @@ export default function ShopTicketsActions({
 
   // Fetch vehicles associated with the ticket
   const vehiclesQ = useVehiclesQ();
+
+  const customerQ = useCustomerQ({ id: ticket.customerId });
+  const customer = customerQ.data;
 
   const vehicles =
     vehiclesQ.data?.filter((vehicle) =>
@@ -73,6 +82,41 @@ export default function ShopTicketsActions({
   };
 
   const onStatusUpdate = (newStatus: TicketStatus) => {
+    const shouldAskConfirmation =
+      newStatus === TicketStatus.COMPLETE &&
+      ticket.ticketType === TicketType.REPAIR;
+
+    console.log(
+      'wtf Entered onStatusUpdate with status: ' +
+        newStatus +
+        ' -' +
+        ' shouldAskConfirmation = ' +
+        shouldAskConfirmation,
+    );
+
+    if (shouldAskConfirmation) {
+      openDialog(
+        <ConfirmSendNotificationDialog
+          onSend={() => {
+            console.log('Confirmed to send SMS & update ticket status');
+            doUpdateStatus(newStatus);
+          }}
+          onCancel={() => {
+            console.log('User cancelled status update');
+          }}
+          phoneNumber={customer?.phoneNumber ?? 'number not found'}
+        />,
+      );
+    } else {
+      doUpdateStatus(newStatus);
+    }
+  };
+
+  const doUpdateStatus = (newStatus: TicketStatus) => {
+    const isSMSError =
+      newStatus === TicketStatus.COMPLETE &&
+      ticket.ticketType === TicketType.REPAIR;
+
     updateTicketStatusM.mutate(
       { id: ticket.id, ticketStatus: newStatus },
       {
@@ -84,6 +128,7 @@ export default function ShopTicketsActions({
               id: res.id,
             }),
           );
+
           const notCustomerOwnedVehicles = vehicles.filter(
             (vehicle) => !vehicle.isCustomerOwned,
           );
@@ -103,9 +148,9 @@ export default function ShopTicketsActions({
         },
         onError: () => {
           toast(
-            createErrorToast({
-              verbLabel: 'update status on',
-              dataLabel: 'ticket',
+            createTicketStatusUpdateToast({
+              phoneNumber: customer?.phoneNumber ?? 'number not found',
+              isSMSError,
             }),
           );
         },

@@ -2,6 +2,7 @@ package se.hjulverkstan.main.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import se.hjulverkstan.main.model.base.Auditable;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "vehicle_class", discriminatorType = DiscriminatorType.STRING)
+@ToString(exclude = {"tickets", "location"})
 public class Vehicle extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

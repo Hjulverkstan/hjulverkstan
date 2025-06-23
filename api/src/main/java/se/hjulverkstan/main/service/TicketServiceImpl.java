@@ -28,17 +28,21 @@ public class TicketServiceImpl implements TicketService {
     private final CustomerRepository customerRepository;
     private final VehicleRepository vehicleRepository;
     public static final String ELEMENT_NAME = "Ticket";
+    private final SNSService snsService;
 
     @Autowired
     public TicketServiceImpl(
             TicketRepository ticketRepository,
             EmployeeRepository employeeRepository,
             CustomerRepository customerRepository,
-            VehicleRepository vehicleRepository) {
+            VehicleRepository vehicleRepository,
+            SNSService snsService
+    ) {
         this.ticketRepository = ticketRepository;
         this.employeeRepository = employeeRepository;
         this.customerRepository = customerRepository;
         this.vehicleRepository = vehicleRepository;
+        this.snsService = snsService;
     }
 
     @Override
@@ -271,6 +275,14 @@ public class TicketServiceImpl implements TicketService {
 
         ticket.setTicketStatus(newStatus);
         ticketRepository.save(ticket);
+
+        if (newStatus == TicketStatus.COMPLETE && !vehicles.isEmpty()) {
+            String phoneNumber = ticket.getCustomer().getPhoneNumber();
+
+            String message = "Hej " + ticket.getCustomer().getFirstName() + "!" +
+                    "\nDin cykel är redo att hämtas på Hjulverkstan i " + vehicles.getFirst().getLocation().getName() + ".";
+            snsService.sendSms(phoneNumber, message);
+        }
 
         return convertToDto(ticket);
     }

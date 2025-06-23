@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"shop"})
 @EqualsAndHashCode(callSuper = true)
 public class Location extends Auditable {
     @Id
