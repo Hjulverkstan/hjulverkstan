@@ -16,10 +16,12 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { config } from 'dotenv';
 
 // Setup
 
 const rootPath = path.resolve(fileURLToPath(import.meta.url) + '../../..');
+config({ path: path.resolve(rootPath, '../.env'), debug: true,override: true });
 
 const vite = await createViteServer({
   root: rootPath,
