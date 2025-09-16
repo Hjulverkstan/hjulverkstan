@@ -2,6 +2,9 @@
 
 This documentation pertains to both AWS's CDK and the GitHub Actions pipelines
 
+## UML Diagram
+
+
 ## Background
 
 ### Architecture 
@@ -10,11 +13,13 @@ This documentation pertains to both AWS's CDK and the GitHub Actions pipelines
 
 `TODO: Fill in more about the approach used with CDK`
 
-`TODO: Svg diagram from draw.io saved with editability`
-
 `TODO: Talk about how we use ec2 and docker compose`
 
 `TODO: Talk about the idea behind environments and pipelines, docker releases, trunk based development etc.`
+
+<div>
+    <img src="aws.drawio.svg">
+</div>
 
 ## CDK Pre Deploy
 
