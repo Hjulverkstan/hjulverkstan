@@ -5,6 +5,7 @@ import { IconLink } from '@components/shadcn/Button';
 import { Base, Title, Icon } from '@components/Card';
 import { Row } from '@components/Card';
 import { Bullet } from '@components/Bullet';
+import { cn } from '@utils';
 
 interface CardServicesProps {
   title: string;
@@ -13,6 +14,7 @@ interface CardServicesProps {
   linkLabel: string;
   linkDestination: string;
   children?: React.ReactNode;
+  mode?: 'page' | 'dialog';
 }
 
 interface CardServicesStepsProps {
@@ -46,22 +48,56 @@ export const CardServices: React.FC<CardServicesProps> = ({
   linkLabel,
   linkDestination,
   children,
+  mode = 'page',
 }) => {
+  const inDialog = mode === 'dialog';
+
   return (
-    <Base variant="muted" className="bg-background">
-      <div className="mb-8 flex items-center justify-start">
+    <Base
+      variant="muted"
+      className={cn(
+        'bg-background',
+        inDialog &&
+          'flex h-[80vh] max-h-[85dvh] w-full flex-col overflow-hidden',
+      )}
+    >
+      <div
+        className={cn(
+          'mb-8 flex items-center justify-start',
+          inDialog &&
+            `bg-background/95 supports-[backdrop-filter]:bg-background/75 sticky
+            top-0 z-10 mb-0 border-b p-4 backdrop-blur`,
+        )}
+      >
         <Icon className="text-foreground" icon={icon} />
       </div>
-      <div className="mb-6 flex items-center justify-start">
+      <div
+        className={cn(
+          'mb-6 flex items-center justify-start',
+          inDialog && 'mb-0 px-4 py-3',
+        )}
+      >
         <Title>{title}</Title>
       </div>
-      {children}
-      {footerNote && (
-        <div className="pt-4">
-          <p className="text-base text-slate-500">{footerNote}</p>
-        </div>
-      )}
-      <div className="mt-auto flex justify-end pt-6 ">
+
+      <div className={cn(inDialog ? 'flex-1 overflow-y-auto p-4' : '')}>
+        {children}
+
+        {footerNote && !inDialog && (
+          <div className="pt-4">
+            <p className="text-base text-slate-500">{footerNote}</p>
+          </div>
+        )}
+      </div>
+
+      <div
+        className={cn(
+          'mt-auto flex justify-end pt-6',
+          inDialog &&
+            `bg-background/95 supports-[backdrop-filter]:bg-background/75 sticky
+            bottom-0 z-10 mt-0 border-t p-4 backdrop-blur`,
+        )}
+      >
         <IconLink
           to={linkDestination}
           variant="default"
@@ -74,6 +110,10 @@ export const CardServices: React.FC<CardServicesProps> = ({
           className="text-foreground bg-gray-100 text-base hover:bg-gray-300"
         />
       </div>
+
+      {footerNote && inDialog && (
+        <div className="px-4 pb-2 text-sm text-slate-500">{footerNote}</div>
+      )}
     </Base>
   );
 };

@@ -19,8 +19,13 @@ import { CardShop } from '@components/CardShop';
 import { Partner, partners, stories } from './tempData';
 import { GridBetween } from '@components/GridBetween';
 import { Page } from '@components/Page';
+import { useDialogManager } from '@components/DialogManager';
 
-//
+import {
+  ServicesRepairCardView,
+  ServicesHowToRentView,
+  ServicesJoinCourseView,
+} from './Services';
 
 const Statistic = ({ label, value }: { label: string; value: number }) => (
   <div className="flex h-full flex-col items-center justify-start text-center">
@@ -40,10 +45,11 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
   />
 );
 
-//
-
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
+  const { openDialog } = useDialogManager();
+
+  const general = data.generalContent;
 
   return (
     <Page hasHeroSection>
@@ -64,7 +70,6 @@ export default function Home() {
             className="mb-2 h-12 w-auto sm:mb-4 sm:h-16"
           />
           <h1 className="text-background text-h1">Hjulverkstan</h1>
-
           <p
             className="text-h3 text-background max-w-[700px] pr-10 !text-xl
               sm:pr-0 sm:!text-3xl"
@@ -78,28 +83,50 @@ export default function Home() {
       <Section variant="muted">
         <SectionContent>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
+            {/* Reparera */}
             <CardDefault
               icon={Wrench}
-              title={data.generalContent.serviceRepairTitle}
-              body={data.generalContent.serviceRepairBody}
-              link="/"
+              title={general.serviceRepairTitle}
+              body={general.serviceRepairBody}
+              linkLabel={general.servicesFindShop}
+              onClick={() =>
+                openDialog(
+                  <ServicesRepairCardView mode="dialog" general={general} />,
+                )
+              }
             />
+
+            {/* Hyra */}
             <CardDefault
               icon={CalendarDays}
-              title={data.generalContent.serviceRentTitle}
-              body={data.generalContent.serviceRentBody}
-              link="/"
+              title={general.serviceRentTitle}
+              body={general.serviceRentBody}
+              linkLabel={general.servicesFindShop}
+              onClick={() =>
+                openDialog(
+                  <ServicesHowToRentView mode="dialog" general={general} />,
+                )
+              }
             />
+
+            {/* Kurser */}
             <CardDefault
               icon={TrafficCone}
-              title={data.generalContent.serviceCoursesTitle}
-              body={data.generalContent.serviceCoursesBody}
-              link="/"
+              title={general.serviceCoursesTitle}
+              body={general.serviceCoursesBody}
+              linkLabel={general.servicesFindEvent}
+              onClick={() =>
+                openDialog(
+                  <ServicesJoinCourseView mode="dialog" general={general} />,
+                )
+              }
             />
+
+            {/* Community – denna går fortfarande till en sida */}
             <CardDefault
               icon={Bike}
-              title={data.generalContent.serviceCommunityTitle}
-              body={data.generalContent.serviceCommunityBody}
+              title={general.serviceCommunityTitle}
+              body={general.serviceCommunityBody}
               link="/"
               linkLabel="Work with us"
             />
@@ -112,7 +139,7 @@ export default function Home() {
           linkLabel="See all stories"
           linkVariant="background"
         >
-          <div className=" flex flex-col gap-8 xl:flex-row">
+          <div className="flex flex-col gap-8 xl:flex-row">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
               {stories.slice(0, 2).map((story) => (
                 <CardStory
