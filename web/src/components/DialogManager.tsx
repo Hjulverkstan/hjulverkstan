@@ -5,11 +5,11 @@ import React, {
   ReactNode,
   useCallback,
 } from 'react';
-import { Dialog } from '@components/shadcn/Dialog';
+import { Dialog, DialogContent, DialogTitle } from '@components/shadcn/Dialog';
 
 interface DialogContextTypes {
   openDialog: (content: ReactNode) => symbol;
-  closeDialog: (id: symbol) => void;
+  closeDialog: (id?: symbol) => void;
 }
 
 const DialogManagerContext = createContext<undefined | DialogContextTypes>(
@@ -18,7 +18,6 @@ const DialogManagerContext = createContext<undefined | DialogContextTypes>(
 
 export const useDialogManager = () => {
   const dialog = useContext(DialogManagerContext);
-
   if (!dialog) {
     throw Error(
       'useDialog must be invoked in a descendant for <DialogProvider />',
@@ -37,30 +36,38 @@ interface OpenDialog {
 }
 
 export const Provider = ({ children }: DialogProviderProps) => {
-  const [dialogs, setDialogs] = useState<OpenDialog[]>([]);
+  const [current, setCurrent] = useState<OpenDialog | null>(null);
 
   const openDialog = useCallback((content: ReactNode) => {
     const id = Symbol();
-    setDialogs((prev) => [{ id, content } as OpenDialog, ...prev]);
+    setCurrent({ id, content });
     return id;
   }, []);
 
-  const closeDialog = useCallback((id: symbol) => {
-    setDialogs((prev) => prev.filter((dialog) => dialog.id !== id));
+  const closeDialog = useCallback((id?: symbol) => {
+    setCurrent((prev) => (prev && (!id || prev.id === id) ? null : prev));
   }, []);
 
   return (
     <DialogManagerContext.Provider value={{ openDialog, closeDialog }}>
       {children}
-      {!!dialogs.length && (
-        <Dialog
-          key={dialogs[0].id.toString()}
-          open={true}
-          onOpenChange={() => closeDialog(dialogs[0].id)}
-        >
-          {dialogs[0].content}
-        </Dialog>
-      )}
+
+      <Dialog
+        key={String(current?.id)}
+        open={!!current}
+        onOpenChange={(nextOpen) => {
+          if (!nextOpen) closeDialog();
+        }}
+      >
+        {current && (
+          <DialogContent
+            className="max-h-[85dvh] w-[92vw] overflow-hidden p-0 sm:max-w-lg"
+          >
+            <DialogTitle className="sr-only">Dialog</DialogTitle>
+            {current.content}
+          </DialogContent>
+        )}
+      </Dialog>
     </DialogManagerContext.Provider>
   );
 };
