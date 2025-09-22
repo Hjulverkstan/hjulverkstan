@@ -46,31 +46,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Database Script.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.main [install].executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.MainApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fix/pipeline-issues&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.js.executor&quot;: &quot;Run&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/node_modules/typescript/lib&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Database Script.Unnamed.executor": "Run",
+    "Maven.main [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "Spring Boot.MainApplication.executor": "Run",
+    "git-widget-placeholder": "#314 on feat/services-dialog",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "npm.dev.executor": "Run",
+    "npm.dev.js.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "/Users/jcwejman/Git/hjulverkstan/web/node_modules/prettier",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\mbugarin\\hjulverkstan\\web\\node_modules\\typescript\\lib"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "directory"
     ],
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+    "DatabaseDriversLRU": [
+      "postgresql"
     ],
-    &quot;RunConfigurationTargetLRU&quot;: [
-      &quot;d8855799-7b55-4434-8e56-08724f22650c/database/\&quot;postgres\&quot;/schema/\&quot;hjulverkstan\&quot;&quot;
+    "RunConfigurationTargetLRU": [
+      "d8855799-7b55-4434-8e56-08724f22650c/database/\"postgres\"/schema/\"hjulverkstan\""
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -82,6 +86,16 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.MainApplication">
+    <configuration default="true" type="lua.app" factoryName="Lua Application">
+      <option name="program" value="/usr/local/bin/lua" />
+      <option name="file" value="" />
+      <option name="workingDir" value="$PROJECT_DIR$/api/src/main/java" />
+      <option name="debuggerType" value="2" />
+      <option name="params" value="" />
+      <option name="charset" value="UTF-8" />
+      <option name="showConsole" value="true" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unnamed" type="DatabaseScript" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/api/src/main/resources/data.sql" />
       <script-mode>FILE</script-mode>
@@ -116,16 +130,6 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="lua.app" factoryName="Lua Application">
-      <option name="program" value="/usr/local/bin/lua" />
-      <option name="file" value="" />
-      <option name="workingDir" value="$PROJECT_DIR$/api/src/main/java" />
-      <option name="debuggerType" value="2" />
-      <option name="params" value="" />
-      <option name="charset" value="UTF-8" />
-      <option name="showConsole" value="true" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Database Script.Unnamed" />
       <item itemvalue="npm.dev" />
@@ -133,6 +137,8 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="Spring Boot.MainApplication" />
         <item itemvalue="Spring Boot.MainApplication" />
         <item itemvalue="Spring Boot.MainApplication" />
       </list>
