@@ -32,7 +32,15 @@ export const CardServicesSteps: React.FC<CardServicesStepsProps> = ({
     <Row className="flex flex-col pt-4">
       <Bullet icon={icon} iconSize={28} iconClassName="text-slate-700">
         <div>
-          <p className="text-foreground ml-2 text-base">{label}</p>
+          <p
+            className="text-foreground ml-2 text-base font-medium tracking-tight"
+          >
+            <span
+              className="bg-primary/90 mr-2 inline-block h-2 w-2 rounded-full
+                align-middle"
+            />
+            {label}
+          </p>
           <p className="ml-2 text-base text-zinc-500">{description}</p>
         </div>
       </Bullet>
@@ -63,10 +71,10 @@ export const CardServices: React.FC<CardServicesProps> = ({
     >
       <div
         className={cn(
-          'mb-8 flex items-center justify-start',
+          'mb-0 flex items-center justify-start',
           inDialog &&
             `bg-background/95 supports-[backdrop-filter]:bg-background/75 sticky
-            top-0 z-10 mb-0 border-b p-4 backdrop-blur`,
+            top-0 z-10 p-4 backdrop-blur`,
         )}
       >
         <Icon className="text-foreground" icon={icon} />
@@ -80,7 +88,7 @@ export const CardServices: React.FC<CardServicesProps> = ({
         <Title>{title}</Title>
       </div>
 
-      <div className={cn(inDialog ? 'flex-1 overflow-y-auto p-4' : '')}>
+      <div className={cn(inDialog ? 'p-6,5 flex-1 overflow-y-auto' : '')}>
         {children}
 
         {footerNote && !inDialog && (
@@ -107,7 +115,8 @@ export const CardServices: React.FC<CardServicesProps> = ({
           aria-label={title}
           iconRight
           icon={ArrowRight}
-          className="text-foreground bg-gray-100 text-base hover:bg-gray-300"
+          className="text-foreground bg-gray-100 text-base font-bold
+            hover:bg-gray-300"
         />
       </div>
 
