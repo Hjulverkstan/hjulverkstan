@@ -50,8 +50,7 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
 
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
-  const { openDialog } = useDialogManager();
-
+  const { openDialog, closeAllDialogs } = useDialogManager();
   const general = data.generalContent;
 
   return (
@@ -95,7 +94,7 @@ export default function Home() {
               onClick={() =>
                 openDialog(
                   <ServicesRepairCardView mode="dialog" general={general} />,
-                  { key: 'services-repair' },
+                  { key: 'services-repair', replaceIfOpen: true },
                 )
               }
             />
@@ -109,7 +108,7 @@ export default function Home() {
               onClick={() =>
                 openDialog(
                   <ServicesHowToRentView mode="dialog" general={general} />,
-                  { key: 'services-repair' },
+                  { key: 'services-repair', replaceIfOpen: true },
                 )
               }
             />
@@ -135,6 +134,8 @@ export default function Home() {
               body={general.serviceCommunityBody}
               link="/"
               linkLabel="Work with us"
+              onLinkClick={() => closeAllDialogs()}
+              preventNavigation={false}
             />
           </div>
         </SectionContent>

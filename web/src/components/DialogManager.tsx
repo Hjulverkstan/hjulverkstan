@@ -4,14 +4,17 @@ import React, {
   useState,
   ReactNode,
   useCallback,
+  useEffect,
 } from 'react';
 import { Dialog, DialogContent } from '@components/shadcn/Dialog';
+import { useLocation } from 'react-router-dom';
 
 type OpenOptions = { key?: string; replaceIfOpen?: boolean };
 
 interface DialogContextTypes {
   openDialog: (content: ReactNode, options?: OpenOptions) => symbol;
   closeDialog: (id: symbol) => void;
+  closeAllDialogs: () => void;
 }
 
 const Ctx = createContext<DialogContextTypes | undefined>(undefined);
@@ -30,6 +33,7 @@ interface OpenDialog {
 
 export const Provider = ({ children }: { children: ReactNode }) => {
   const [dialogs, setDialogs] = useState<OpenDialog[]>([]);
+  const location = useLocation();
 
   const openDialog = useCallback(
     (content: ReactNode, options?: OpenOptions) => {
@@ -61,8 +65,16 @@ export const Provider = ({ children }: { children: ReactNode }) => {
     setDialogs((prev) => prev.filter((d) => d.id !== id));
   }, []);
 
+  const closeAllDialogs = useCallback(() => {
+    setDialogs([]);
+  }, []);
+
+  useEffect(() => {
+    setDialogs([]);
+  }, [location.pathname]);
+
   return (
-    <Ctx.Provider value={{ openDialog, closeDialog }}>
+    <Ctx.Provider value={{ openDialog, closeDialog, closeAllDialogs }}>
       {children}
 
       {dialogs.map((d, idx) => (

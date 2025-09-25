@@ -17,6 +17,8 @@ interface CardDefaultProps {
   className?: string;
   buttonVariant?: VariantProps<typeof buttonVariants>['variant'];
   onClick?: React.MouseEventHandler;
+  onLinkClick?: React.MouseEventHandler;
+  preventNavigation?: boolean;
 }
 
 export const CardDefault: React.FC<CardDefaultProps> = ({
@@ -30,15 +32,20 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
   className,
   buttonVariant = 'contrast',
   onClick,
+  onLinkClick,
+  preventNavigation,
 }) => {
-  const handleClick = React.useCallback<React.MouseEventHandler>(
+  const shouldPrevent = preventNavigation ?? !!onClick;
+
+  const handleLinkClick = React.useCallback<React.MouseEventHandler>(
     (e) => {
-      if (onClick) {
+      onLinkClick?.(e);
+      if (shouldPrevent) {
         e.preventDefault();
-        onClick(e);
+        onClick?.(e);
       }
     },
-    [onClick],
+    [onClick, onLinkClick, shouldPrevent],
   );
 
   return (
@@ -47,10 +54,7 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
       <Title className="pb-4 pt-6">{title}</Title>
       <Body>{body}</Body>
 
-      <div
-        className={cn('mt-auto flex justify-end pt-6')}
-        onClick={handleClick}
-      >
+      <div className={cn('mt-auto flex justify-end pt-6')}>
         <IconLink
           to={link}
           variant={buttonVariant}
@@ -60,7 +64,7 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
           text={linkLabel}
           aria-label={ariaLabel ?? 'Read more'}
           iconRight
-          onClick={handleClick}
+          onClick={handleLinkClick}
         />
       </div>
     </Base>
