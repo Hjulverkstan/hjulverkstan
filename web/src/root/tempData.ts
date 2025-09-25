@@ -34,8 +34,8 @@ export const stories = [
   {
     id: '1',
     imageURL: '/hero.jpg',
-    title: 'New shop opens in Hjällbo',
-    slug: 'new-shop-in-hjallbo',
+    title: 'New Shop in Backa',
+    slug: '/new-shop-in-backa',
     bodyText:
       "Why support us? Your generosity directly supports initiatives that make cycling accessible to all. Whether it's...",
   },
@@ -43,22 +43,40 @@ export const stories = [
     id: '2',
     imageURL: '/hero.jpg',
     title: 'New shop opens in Hjällbo',
-    slug: 'new-shop-in-hjallbo-2',
+    slug: '/new-shop-in-hjallbo-2',
     bodyText:
       "Why support us? Your generosity directly supports initiatives that make cycling accessible to all. Whether it's...",
   },
   {
     id: '3',
+    imageURL: '/hero.jpg',
     title: 'IKEA rebuilds our latest shop.arhogun awrhg åoawin ..',
-    slug: 'ikea-rebuild-latest-shop',
+    slug: '/ikea-rebuild-latest-shop',
     bodyText:
       'With our new opening we needed to improve the someting thatWith our new opening we needed to improve the someting...',
   },
   {
     id: '4',
+    imageURL: '/hero.jpg',
     title: '140 bikes saved this month',
-    slug: '140-bikes-saved',
+    slug: '/140-bikes-saved',
     bodyText:
       'With our new opening we needed to improve the someting thatWith our new opening we needed to improve the someting...',
+  },
+  {
+    id: '5',
+    imageURL: '/hero.jpg',
+    title: 'New shop opens in Hjällbo',
+    slug: '/new-shop-in-hjallbo-2',
+    bodyText:
+      "Why support us? Your generosity directly supports initiatives that make cycling accessible to all. Whether it's...",
+  },
+  {
+    id: '6',
+    imageURL: '/hero.jpg',
+    title: 'New shop opens in Hjällbo',
+    slug: '/new-shop-in-hjallbo-2',
+    bodyText:
+      "Why support us? Your generosity directly supports initiatives that make cycling accessible to all. Whether it's...",
   },
 ] as Story[];
