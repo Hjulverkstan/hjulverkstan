@@ -10,12 +10,20 @@ interface CardStoryProps {
   className?: string;
 }
 
+function truncateText(text: string, wordLimit = 16) {
+  const words = text.split(' ');
+  if (words.length <= wordLimit) {
+    return text;
+  }
+  return words.slice(0, wordLimit).join(' ') + '...';
+}
+
 export const CardStory: React.FC<CardStoryProps> = ({ story, className }) => (
   <Base variant="imageBackground" className={className}>
     <Image variant="background" src={story.imageURL} alt={story.title} />
     <Title variant="imageBackground">{story.title}</Title>
     <Row className="items-end">
-      <Body className="line-clamp-3">{story.bodyText}</Body>
+      <Body className="line-clamp-3">{truncateText(story.bodyText)}</Body>
       <IconLink
         to={`/stories${story.slug}`}
         variant="background"

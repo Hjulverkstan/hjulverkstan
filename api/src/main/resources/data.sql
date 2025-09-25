@@ -11,6 +11,14 @@ INSERT INTO Location
 
 --
 
+INSERT INTO Story
+(title,                         body_text,                                                                                          imageurl,           created_at,         created_by,             updated_at,             updated_by) VALUES
+('New Shop in Backa', 'Why support us? Your generosity directly supports initiatives that make cycling accessible to all. Whether it is something something a very exiting moment', null, NOW(), 1 , NOW(), 1),
+('New shop opens in Hjällbo', 'Why support us? Your generosity directly supports important initiatives that help make cycling more accessible, inclusive, and enjoyable for everyone, no matter their background, experience level, or physical ability.', null, NOW(), 1, NOW(), 1),
+('IKEA rebuilds our latest shop', 'With our new opening we needed to improve the someting that works for everyone', null, NOW(), 1, NOW(), 1),
+('140 bikes saved this month', 'Thanks to your support, we’ve rescued, repaired, and rehomed 140 bikes this month—giving them new life and reducing waste. Together, we’re creating a more sustainable and bike-friendly future.', null, NOW(), 1, NOW(), 1);
+
+
 INSERT INTO Employee
 (first_name,              last_name,              phone_number,      personal_identity_number,    email,                                 created_at, updated_at, created_by, updated_by, comment                    ) VALUES
 ('Christopher ',          'Lo-Martire',           '+46712345678',    '19990703-9870',             'christopher.lomartire@example.com',   '2024-05-16 10:00:00',      NOW(),      1,          1,          'Sample comment 1'         ),

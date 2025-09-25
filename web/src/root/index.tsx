@@ -20,6 +20,7 @@ import Shops from './Shops';
 import Contact from './Contact';
 import Support from './Support';
 import Services from './Services';
+import Stories from './Stories';
 
 // React Query Config
 
@@ -108,6 +109,11 @@ export const createRoutes = (
       path: '/services',
       title: 'Hjulverkstan - Services',
       component: Services,
+    },
+    {
+      path: '/stories',
+      title: 'Hjulverkstan - Services',
+      component: Stories,
     },
     {
       path: '/portal/*',
