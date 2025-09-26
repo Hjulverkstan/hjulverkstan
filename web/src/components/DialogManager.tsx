@@ -77,7 +77,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
     <Ctx.Provider value={{ openDialog, closeDialog, closeAllDialogs }}>
       {children}
 
-      {dialogs.map((d, idx) => (
+      {dialogs.map((d) => (
         <Dialog
           key={d.id.toString()}
           open={true}
@@ -87,8 +87,8 @@ export const Provider = ({ children }: { children: ReactNode }) => {
         >
           <DialogContent
             onOpenAutoFocus={(e) => e.preventDefault()}
-            className="border-0 bg-transparent p-0 shadow-none"
-            style={{ zIndex: 60 + idx }}
+            className=" bg-background w-[min(92vw,32rem)] overflow-hidden
+              rounded-2xl border p-0 shadow-2xl sm:w-[min(90vw,32rem)]"
           >
             {d.content}
           </DialogContent>
