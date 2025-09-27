@@ -8,8 +8,6 @@ import { ImageWithFallback } from '@components/ImageWithFallback';
 import { endpoints } from '@data/api';
 import Error from '@components/Error';
 
-//
-
 const cardIconVariants = cva('flex-shrink-0', {
   variants: {
     variant: {
