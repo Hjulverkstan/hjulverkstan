@@ -20,6 +20,7 @@ import Shops from './Shops';
 import Contact from './Contact';
 import Support from './Support';
 import Services from './Services';
+import VehicleDetail from './VehicleDetail';
 
 // React Query Config
 
@@ -98,6 +99,11 @@ export const createRoutes = (
       title: 'Hjulverkstan - Shops',
       component: ShopDetail,
       dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
+    },
+    {
+      path: '/vehicle/:id',
+      title: 'Hjulverkstan - Vehicles',
+      component: VehicleDetail,
     },
     {
       path: '/support',
