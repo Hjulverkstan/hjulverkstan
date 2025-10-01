@@ -16,7 +16,7 @@ import { CardDefault } from '@components/CardDefault';
 import { CardStory } from '@components/CardStory';
 import { CardCompact } from '@components/CardCompact';
 import { CardShop } from '@components/CardShop';
-import { Partner, partners, stories } from './tempData';
+import { Partner, partners } from './tempData';
 import { GridBetween } from '@components/GridBetween';
 import { Page } from '@components/Page';
 
@@ -112,9 +112,9 @@ export default function Home() {
           linkLabel="See all stories"
           linkVariant="background"
         >
-          <div className=" flex flex-col gap-8 xl:flex-row">
+          <div className="flex flex-col gap-8 xl:flex-row">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
-              {stories.slice(0, 2).map((story) => (
+              {data.story.slice(0, 2).map((story) => (
                 <CardStory
                   key={story.id}
                   story={story}
@@ -126,7 +126,7 @@ export default function Home() {
               className="flex flex-col gap-8 md:basis-1/3 md:flex-row
                 xl:flex-col"
             >
-              {stories.slice(2, 4).map((story) => (
+              {data.story.slice(2, 4).map((story) => (
                 <CardCompact
                   key={story.id}
                   title={story.title}
