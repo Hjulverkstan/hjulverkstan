@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ComponentType, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import * as DialogManager from '@components/DialogManager';
 import ThemeProvider from '@components/shadcn/ThemeProvider';
@@ -211,6 +211,16 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
  * information about our routing see [link](link)
  */
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 export default function Root() {
   const { locales, data } = usePreloadedData();
   const routes = createRoutes(data);
@@ -220,6 +230,7 @@ export default function Root() {
       <QueryClientProvider client={queryClient}>
         <Tooltip.Provider delayDuration={500}>
           <DialogManager.Provider>
+            <ScrollToTop />
             <Routes>
               {routes.map((route) => renderLocalizedRoute(route))}
               {locales
