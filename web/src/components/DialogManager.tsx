@@ -4,63 +4,96 @@ import React, {
   useState,
   ReactNode,
   useCallback,
+  useEffect,
 } from 'react';
-import { Dialog } from '@components/shadcn/Dialog';
+import { Dialog, DialogContent } from '@components/shadcn/Dialog';
+import { useLocation } from 'react-router-dom';
+
+type OpenOptions = { key?: string; replaceIfOpen?: boolean };
 
 interface DialogContextTypes {
-  openDialog: (content: ReactNode) => symbol;
+  openDialog: (content: ReactNode, options?: OpenOptions) => symbol;
   closeDialog: (id: symbol) => void;
+  closeAllDialogs: () => void;
 }
 
-const DialogManagerContext = createContext<undefined | DialogContextTypes>(
-  undefined,
-);
+const Ctx = createContext<DialogContextTypes | undefined>(undefined);
 
 export const useDialogManager = () => {
-  const dialog = useContext(DialogManagerContext);
-
-  if (!dialog) {
-    throw Error(
-      'useDialog must be invoked in a descendant for <DialogProvider />',
-    );
-  }
-  return dialog;
+  const ctx = useContext(Ctx);
+  if (!ctx) throw Error('useDialogManager måste anropas under <Provider />');
+  return ctx;
 };
-
-interface DialogProviderProps {
-  children: ReactNode;
-}
 
 interface OpenDialog {
   id: symbol;
+  key?: string;
   content: ReactNode;
 }
 
-export const Provider = ({ children }: DialogProviderProps) => {
+export const Provider = ({ children }: { children: ReactNode }) => {
   const [dialogs, setDialogs] = useState<OpenDialog[]>([]);
+  const location = useLocation();
 
-  const openDialog = useCallback((content: ReactNode) => {
-    const id = Symbol();
-    setDialogs((prev) => [{ id, content } as OpenDialog, ...prev]);
-    return id;
-  }, []);
+  const openDialog = useCallback(
+    (content: ReactNode, options?: OpenOptions) => {
+      const id = Symbol();
+      const key = options?.key;
+
+      setDialogs((prev) => {
+        if (key) {
+          const i = prev.findIndex((d) => d.key === key);
+          if (i !== -1) {
+            if (options?.replaceIfOpen) {
+              const next = [...prev];
+              next[i] = { id, key, content };
+              return next;
+            }
+            return prev;
+          }
+        }
+
+        return [...prev, { id, key, content }];
+      });
+
+      return id;
+    },
+    [],
+  );
 
   const closeDialog = useCallback((id: symbol) => {
-    setDialogs((prev) => prev.filter((dialog) => dialog.id !== id));
+    setDialogs((prev) => prev.filter((d) => d.id !== id));
   }, []);
 
+  const closeAllDialogs = useCallback(() => {
+    setDialogs([]);
+  }, []);
+
+  useEffect(() => {
+    setDialogs([]);
+  }, [location.pathname]);
+
   return (
-    <DialogManagerContext.Provider value={{ openDialog, closeDialog }}>
+    <Ctx.Provider value={{ openDialog, closeDialog, closeAllDialogs }}>
       {children}
-      {!!dialogs.length && (
+
+      {dialogs.map((d) => (
         <Dialog
-          key={dialogs[0].id.toString()}
+          key={d.id.toString()}
           open={true}
-          onOpenChange={() => closeDialog(dialogs[0].id)}
+          onOpenChange={(open) => {
+            if (!open) closeDialog(d.id);
+          }}
         >
-          {dialogs[0].content}
+          <DialogContent
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            className=" bg-background w-[min(92vw,32rem)] overflow-hidden
+              rounded-2xl border p-0 shadow-2xl sm:w-[min(90vw,32rem)]"
+          >
+            {d.content}
+          </DialogContent>
         </Dialog>
-      )}
-    </DialogManagerContext.Provider>
+      ))}
+    </Ctx.Provider>
   );
 };

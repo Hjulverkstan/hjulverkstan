@@ -8,8 +8,6 @@ import { ImageWithFallback } from '@components/ImageWithFallback';
 import { endpoints } from '@data/api';
 import Error from '@components/Error';
 
-//
-
 const cardIconVariants = cva('flex-shrink-0', {
   variants: {
     variant: {
@@ -65,7 +63,7 @@ export const Title: React.FC<CardTitleProps> = ({
   variant,
   ...props
 }) => (
-  <div className={cn(cardTitleVariants({ variant, className }))} {...props}>
+  <div className={cn(cardTitleVariants({ variant }), className)} {...props}>
     {children}
   </div>
 );
@@ -219,7 +217,7 @@ export const Base: React.FC<CardBaseProps> = ({
   className,
   ...props
 }) => (
-  <div className={cn(cardBaseVariants({ variant, className }))} {...props}>
+  <div className={cn(cardBaseVariants({ variant }), className)} {...props}>
     {' '}
     {children}
   </div>
