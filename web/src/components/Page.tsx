@@ -21,14 +21,12 @@ export interface PageProps extends VariantProps<typeof pageStyles> {
   children: ReactNode;
   hasHeroSection?: boolean;
   heading?: string;
-  useH2?: boolean;
 }
 
 export const Page = ({
   children,
   hasHeroSection,
   heading,
-  useH2,
   variant,
 }: PageProps) => (
   <>
@@ -39,7 +37,7 @@ export const Page = ({
           className="mx-auto -mb-8 w-[88vw] max-w-[1852px] pt-28 md:-mb-16
             md:pt-16"
         >
-          {useH2 ? <h2>{heading}</h2> : <h1>{heading}</h1>}
+          <h1>{heading}</h1>
         </div>
       )}
       {children}
