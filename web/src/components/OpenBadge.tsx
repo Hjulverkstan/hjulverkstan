@@ -5,6 +5,8 @@ import { cn } from '@utils';
 import { useShopOpenStatus } from '@hooks/useShopOpenData';
 import type { OpenHours } from '@data/webedit/shop/types';
 
+import { useTranslations } from '@hooks/useTranslations';
+
 interface OpenBadgeProps {
   openHours?: OpenHours | undefined | null;
   className?: string;
@@ -30,6 +32,8 @@ export const OpenBadge: React.FC<OpenBadgeProps> = ({
     />
   );
 
+  const { t } = useTranslations();
+
   return (
     <Badge
       variant={isOpen ? 'greenMuted' : 'yellowMuted'}
@@ -41,7 +45,7 @@ export const OpenBadge: React.FC<OpenBadgeProps> = ({
         className,
       )}
     >
-      {isOpen ? 'Open' : 'Closed'}
+      {isOpen ? t('open') : t('closed')}
     </Badge>
   );
 };

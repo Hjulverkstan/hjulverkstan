@@ -25,6 +25,7 @@ import {
   usePublicVehicleByIdQ,
   usePublicVehiclesByLocationQ,
 } from '@data/vehicle/queries';
+import { useTranslations } from '@hooks/useTranslations';
 
 const ITEMS_TO_LOAD_OTHER_BIKES = 3;
 
@@ -56,14 +57,13 @@ const VehicleAttribute = ({
 
 const ShopRentalSection = ({ shop }: { shop: any }) => {
   const { data: preloadedData } = usePreloadedDataLocalized();
-
+  const { t } = useTranslations();
   return (
     <>
       {shop && (
         <div
-          className="my-8 flex w-full flex-1 flex-col items-center
-            justify-center gap-4 lg:my-4 lg:ml-8 lg:mr-8 lg:flex-row
-            lg:items-center"
+          className="flex w-full flex-1 flex-col items-center justify-center
+            gap-4 p-8 lg:flex-row lg:items-center"
         >
           <p className="text-foreground text-center text-xl">
             {preloadedData.generalContent.bikeDetailOpenBadgeText}{' '}
@@ -93,8 +93,8 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
         <IconButton
           icon={KeyRound}
           iconRight
-          text="Rent"
-          aria-label="Rent this bike"
+          text={t('rent')}
+          aria-label={t('rentAria')}
           variant="default"
           size="default"
           className="bg-green-accent text-background hover:bg-success-accent
@@ -137,10 +137,15 @@ export default function VehicleDetail() {
   const handleLoadMoreOtherBikes = () =>
     setVisibleCount((prevCount) => prevCount + ITEMS_TO_LOAD_OTHER_BIKES);
 
+  const { t } = useTranslations();
+
   return (
-    <Page heading={vehicleQ.data?.label} useH2 variant="muted">
-      <Section variant="muted" className="md:pb-20">
-        <SectionContent className="max-w-[1280px]">
+    <Page variant="muted">
+      <Section variant="muted" className="py-32 md:pb-20">
+        <SectionContent
+          heading={vehicleQ.data?.label}
+          className="max-w-[1280px]"
+        >
           <div
             className="bg-secondary mb-8 hidden w-full flex-col rounded-lg
               sm:flex-row sm:items-stretch sm:justify-around md:flex lg:p-4"
@@ -154,7 +159,8 @@ export default function VehicleDetail() {
                 <ImageWithFallback
                   src={vehicleQ.data.imageURL}
                   alt={vehicleQ.data.regTag}
-                  className="aspect-[16/9] h-auto w-full rounded-lg object-cover"
+                  className="aspect-[16/9] h-auto w-full rounded-lg
+                    object-cover"
                   fallback={
                     <Error
                       className="bg-secondary aspect-[16/9] h-full"
@@ -182,37 +188,32 @@ export default function VehicleDetail() {
               >
                 <VehicleAttribute
                   icon={Bike}
-                  label="Bike Type"
-                  value={vehicleQ.data?.bikeType}
+                  label={t('bikeTypeLabel')}
+                  value={t(vehicleQ.data?.bikeType)}
                 />
-
                 <VehicleAttribute
                   icon={Flag}
-                  label="Brand"
-                  value={vehicleQ.data?.brand}
+                  label={t('brandLabel')}
+                  value={t(vehicleQ.data?.brand)}
                 />
-
                 <VehicleAttribute
                   icon={Disc3}
-                  label="Brakes"
-                  value={vehicleQ.data?.brakeType}
+                  label={t('brakeTypeLabel')}
+                  value={t(vehicleQ.data?.brakeType)}
                 />
-
                 <VehicleAttribute
                   icon={Cog}
-                  label="Gears"
+                  label={t('gearCountLabel')}
                   value={vehicleQ.data?.gearCount}
                 />
-
                 <VehicleAttribute
                   icon={Ruler}
-                  label="Size"
-                  value={vehicleQ.data?.size}
+                  label={t('sizeLabel')}
+                  value={t(vehicleQ.data?.size)}
                 />
-
                 <VehicleAttribute
                   icon={Tag}
-                  label="Reg. No."
+                  label={t('regTagLabel')}
                   value={vehicleQ.data?.regTag}
                 />
               </div>
@@ -232,7 +233,9 @@ export default function VehicleDetail() {
           <SectionContent
             heading={preloadedData.generalContent.sectionTitleOtherBikesText}
           >
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {otherVehicles.slice(0, visibleCount).map((vehicle) => {
                 return (
                   <CardVehicle key={vehicle.id} vehicle={vehicle} shop={shop} />
