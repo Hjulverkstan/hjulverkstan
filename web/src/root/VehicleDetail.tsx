@@ -138,9 +138,12 @@ export default function VehicleDetail() {
     setVisibleCount((prevCount) => prevCount + ITEMS_TO_LOAD_OTHER_BIKES);
 
   return (
-    <Page heading={vehicleQ.data?.label} useH2 variant="muted">
+    <Page variant="muted">
       <Section variant="muted" className="md:pb-20">
-        <SectionContent className="max-w-[1280px]">
+        <SectionContent
+          heading={vehicleQ.data?.label}
+          className="max-w-[1280px]"
+        >
           <div
             className="bg-secondary mb-8 hidden w-full flex-col rounded-lg
               sm:flex-row sm:items-stretch sm:justify-around md:flex lg:p-4"
@@ -154,7 +157,8 @@ export default function VehicleDetail() {
                 <ImageWithFallback
                   src={vehicleQ.data.imageURL}
                   alt={vehicleQ.data.regTag}
-                  className="aspect-[16/9] h-auto w-full rounded-lg object-cover"
+                  className="aspect-[16/9] h-auto w-full rounded-lg
+                    object-cover"
                   fallback={
                     <Error
                       className="bg-secondary aspect-[16/9] h-full"
@@ -232,7 +236,9 @@ export default function VehicleDetail() {
           <SectionContent
             heading={preloadedData.generalContent.sectionTitleOtherBikesText}
           >
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {otherVehicles.slice(0, visibleCount).map((vehicle) => {
                 return (
                   <CardVehicle key={vehicle.id} vehicle={vehicle} shop={shop} />
