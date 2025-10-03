@@ -8,8 +8,10 @@ import {
   HeartHandshake,
   PackagePlusIcon,
 } from 'lucide-react';
+import { useTranslations } from '@hooks/useTranslations';
 
 export default function Support() {
+  const { t } = useTranslations();
   return (
     <Page>
       <Section>
@@ -45,7 +47,7 @@ export default function Support() {
               body="We welcome partnerships that promote sustainability and inclusion. Feel free to reach out!"
               link="/"
               ariaLabel="Learn more about becoming a partner"
-              linkLabel="Contact us"
+              linkLabel={t('contactUsLinkLabel')}
               variant="muted"
             />
           </div>

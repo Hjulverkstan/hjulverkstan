@@ -5,23 +5,25 @@ import { IconButton, Link } from '@components/shadcn/Button';
 import { useScrolledPastElement } from '@hooks/useScrolledPastElement';
 import { cn } from '@utils';
 
+import { useTranslations } from '@hooks/useTranslations';
+
 export const navLinks = [
-  { name: 'Home', path: '/' },
+  { key: 'home', path: '/' },
   {
-    name: 'Shops',
+    key: 'shops',
     path: '/shops',
   },
-  { name: 'Services', path: '/services' },
+  { key: 'services', path: '/services' },
   {
-    name: 'Stories',
+    key: 'stories',
     path: '/stories',
   },
-  { name: 'Support', path: '/support' },
+  { key: 'support', path: '/support' },
   {
-    name: 'Contact',
+    key: 'contact',
     path: '/contact',
   },
-];
+] as const;
 
 export interface PageNavbarProps {
   hasHeroSection?: boolean;
@@ -34,16 +36,18 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
     : false;
   const onHero = !scrolledPast && hasHeroSection && !isOpen;
 
+  const { t } = useTranslations();
+
   const navLinksContent = navLinks.map((link, i) => (
     <Link
-      key={link.name}
+      key={link.key}
       to={link.path}
       variant={i === navLinks.length - 1 ? 'default' : 'link'}
       size={i === navLinks.length - 1 ? 'default' : 'none'}
       subVariant="rounded"
       onClick={() => setIsOpen(false)}
     >
-      {link.name}
+      {t(link.key)}
     </Link>
   ));
 
