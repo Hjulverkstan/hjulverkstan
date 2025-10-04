@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+    <list default="true" id="ec081797-9bf3-491f-9d2c-0bbbcd22242d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,17 +25,33 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="feature/website-story-pages" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="SOFT" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MarioGit24&quot;
+  }
+}</component>
   <component name="GitRewordedCommitMessages">
-    <option name="onto" value="7059308711495b59851841dc1d0d034f137b5bdd" />
+    <option name="onto" value="73f1f958f9c7ab719810742108f4c922a90e170b" />
   </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Hjulverkstan/hjulverkstan.git&quot;,
+    &quot;accountId&quot;: &quot;20bb0030-8500-4cae-aa5a-9e6767712ea9&quot;
+  }
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2tCwZaqufys6Wcim001EO7SmHhu" />
   <component name="ProjectLevelVcsManager">
@@ -46,32 +63,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Database Script.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.main [install].executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.MainApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fix/pipeline-issues&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.js.executor&quot;: &quot;Run&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/node_modules/typescript/lib&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Database Script.Unnamed.executor": "Run",
+    "Maven.main [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.MainApplication.executor": "Run",
+    "git-widget-placeholder": "#314 on feat/services-dialog",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/mbugarin/hjulverkstan",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "npm.dev.js.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\mbugarin\\hjulverkstan\\web\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "ts.external.directory.path": "C:\\Users\\mbugarin\\hjulverkstan\\web\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "directory"
     ],
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+    "DatabaseDriversLRU": [
+      "postgresql"
     ],
-    &quot;RunConfigurationTargetLRU&quot;: [
-      &quot;d8855799-7b55-4434-8e56-08724f22650c/database/\&quot;postgres\&quot;/schema/\&quot;hjulverkstan\&quot;&quot;
+    "GitStage.ChangesTree.GroupingKeys": [
+      "repository"
+    ],
+    "RunConfigurationTargetLRU": [
+      "d8855799-7b55-4434-8e56-08724f22650c/database/\"postgres\"/schema/\"hjulverkstan\""
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mbugarin\hjulverkstan" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -81,7 +116,17 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.MainApplication">
+  <component name="RunManager" selected="npm.dev">
+    <configuration default="true" type="lua.app" factoryName="Lua Application">
+      <option name="program" value="/usr/local/bin/lua" />
+      <option name="file" value="" />
+      <option name="workingDir" value="$PROJECT_DIR$/api/src/main/java" />
+      <option name="debuggerType" value="2" />
+      <option name="params" value="" />
+      <option name="charset" value="UTF-8" />
+      <option name="showConsole" value="true" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unnamed" type="DatabaseScript" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/api/src/main/resources/data.sql" />
       <script-mode>FILE</script-mode>
@@ -116,16 +161,6 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="lua.app" factoryName="Lua Application">
-      <option name="program" value="/usr/local/bin/lua" />
-      <option name="file" value="" />
-      <option name="workingDir" value="$PROJECT_DIR$/api/src/main/java" />
-      <option name="debuggerType" value="2" />
-      <option name="params" value="" />
-      <option name="charset" value="UTF-8" />
-      <option name="showConsole" value="true" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Database Script.Unnamed" />
       <item itemvalue="npm.dev" />
@@ -135,8 +170,19 @@
       <list>
         <item itemvalue="Spring Boot.MainApplication" />
         <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="Spring Boot.MainApplication" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="TaskManager">
     <task id="LOCAL-00001" summary="chore: Rename main module &gt; api&#10;&#10;It was always the plan to name it api, for now i leave the java code untouched though this should be reviewed soon, includeing versioning etc on build pertaining the pom and application properties">
@@ -459,17 +505,38 @@
       <option name="project" value="LOCAL" />
       <updated>1745615067920</updated>
     </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec081797-9bf3-491f-9d2c-0bbbcd22242d" name="Changes" comment="" />
+      <created>1759130873719</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759130873719</updated>
+      <workItem from="1759130873723" duration="1110000" />
+    </task>
     <option name="localTasksCounter" value="41" />
     <servers />
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/cdk/lambda/routing.js" />
-        <option value="$PROJECT_DIR$/cdk/lambda/routing.d.ts" />
-        <option value="$PROJECT_DIR$/cdk/lib/lambda.d.ts" />
-        <option value="$PROJECT_DIR$/cdk/lib/lambda.js" />
-      </list>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feat/services-dialog" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">

@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useCallback,
 } from 'react';
-import { Dialog } from '@components/shadcn/Dialog';
+import { Dialog, DialogContent } from '@components/shadcn/Dialog';
 
 interface DialogContextTypes {
   openDialog: (content: ReactNode) => symbol;
@@ -52,13 +52,22 @@ export const Provider = ({ children }: DialogProviderProps) => {
   return (
     <DialogManagerContext.Provider value={{ openDialog, closeDialog }}>
       {children}
+
       {!!dialogs.length && (
         <Dialog
           key={dialogs[0].id.toString()}
           open={true}
-          onOpenChange={() => closeDialog(dialogs[0].id)}
+          onOpenChange={(open) => {
+            if (!open) closeDialog(dialogs[0].id);
+          }}
         >
-          {dialogs[0].content}
+          <DialogContent
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            className="bg-background w-[min(92vw,32rem)] overflow-hidden
+              rounded-2xl border p-0 shadow-2xl sm:w-[min(90vw,32rem)]"
+          >
+            {dialogs[0].content}
+          </DialogContent>
         </Dialog>
       )}
     </DialogManagerContext.Provider>
