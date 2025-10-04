@@ -16,49 +16,61 @@ import PortalShopCustomers from './PortalShopCustomers';
 import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
 import MobileImageInventory from './PortalMobileInventory/index';
+import PortalWebEditGeneral from './PortalWebEditGeneral';
 
 //
 
-const shopRoutes = [
-  {
-    path: '/inventory',
-    label: 'Inventory',
-    hasNestedRoutes: true,
-  },
-  {
-    path: '/ticketz',
-    label: 'Tickets',
-    hasNestedRoutes: true,
-  },
-  { path: '/customers', label: 'Customers', hasNestedRoutes: true },
-];
-
-const adminRoutes = [
-  {
-    path: '/locations',
-    label: 'Locations',
-    hasNestedRoutes: true,
-  },
-  {
-    path: '/employees',
-    label: 'Employees',
-    hasNestedRoutes: true,
-  },
-  { path: '/users', label: 'Users', hasNestedRoutes: true },
-];
-
-//
-
-export interface PageContentProps {
+export interface PortalAppPageProps {
   mode?: Mode;
 }
 
-const mountPageContent = (Content: ComponentType<PageContentProps>) => (
+export type PortalAppPage = ComponentType<PortalAppPageProps>;
+
+export interface PortalAppPageRoute {
+  slug: string;
+  title: string;
+  page: PortalAppPage;
+}
+
+export interface PortalAppRoute {
+  slug: string;
+  title: string;
+  roles?: AuthRole[];
+  pageRoutes: PortalAppPageRoute[];
+}
+
+//
+
+const appRoutes: PortalAppRoute[] = [
+  {
+    slug: 'shop',
+    title: 'Shop',
+    pageRoutes: [
+      { slug: 'inventory', title: 'Inventory', page: PortalShopInventory },
+      { slug: 'tickets', title: 'Tickets', page: PortalShopTickets },
+      { slug: 'customers', title: 'Customers', page: PortalShopCustomers },
+    ],
+  },
+  {
+    slug: 'admin',
+    title: 'Admin',
+    roles: [AuthRole.ADMIN],
+    pageRoutes: [
+      { slug: 'locations', title: 'Locations', page: PortalAdminLocations },
+      { slug: 'employees', title: 'Employees', page: PortalAdminEmployees },
+      { slug: 'users', title: 'Users', page: PortalAdminUsers },
+    ],
+  },
+];
+
+//
+
+const mountPage = (Page: PortalAppPage) => (
   <Routes>
-    <Route index element={<Content />} />
-    <Route path=":id" element={<Content mode={Mode.READ} />} />
-    <Route path=":id/edit" element={<Content mode={Mode.EDIT} />} />
-    <Route path="create" element={<Content mode={Mode.CREATE} />} />
+    <Route index element={<Page />} />
+    <Route path=":id" element={<Page mode={Mode.READ} />} />
+    <Route path=":id/edit" element={<Page mode={Mode.EDIT} />} />
+    <Route path="create" element={<Page mode={Mode.CREATE} />} />
     <Route path="*" element={<Navigate replace to=".." />} />
   </Routes>
 );
@@ -73,54 +85,24 @@ const PortalRouter = () => {
 
   return (
     <Routes>
-      <Route
-        path="shop/*"
-        element={
-          <PortalLayout
-            title="Shop"
-            baseUrl="/portal/shop"
-            routes={shopRoutes}
+      {appRoutes.map((appRoute) => (
+        <Route
+          path={`${appRoute.slug}/*`}
+          element={
+            <ProtectedByRole roles={appRoute.roles ?? []} renderLandingPage>
+              <PortalLayout appRoute={appRoute} />
+            </ProtectedByRole>
+          }
+        >
+          {appRoute.pageRoutes.map(({ slug, page }) => (
+            <Route path={`${slug}/*`} element={mountPage(page)} />
+          ))}
+          <Route
+            path="*"
+            element={<Navigate replace to={`../${appRoute.slug}`} />}
           />
-        }
-      >
-        <Route
-          path="inventory/*"
-          element={mountPageContent(PortalShopInventory)}
-        />
-
-        <Route path="ticketz/*" element={mountPageContent(PortalShopTickets)} />
-
-        <Route
-          path="customers/*"
-          element={mountPageContent(PortalShopCustomers)}
-        />
-        <Route path="*" element={<Navigate replace to="../inventory" />} />
-      </Route>
-
-      <Route
-        path="admin/*"
-        element={
-          <ProtectedByRole roles={[AuthRole.ADMIN]} renderLandingPage>
-            <PortalLayout
-              title="Admin"
-              baseUrl="/portal/admin"
-              routes={adminRoutes}
-            />
-          </ProtectedByRole>
-        }
-      >
-        <Route
-          path="locations/*"
-          element={mountPageContent(PortalAdminLocations)}
-        />
-        <Route
-          path="employees/*"
-          element={mountPageContent(PortalAdminEmployees)}
-        />
-        <Route path="users/*" element={mountPageContent(PortalAdminUsers)} />
-        <Route path="*" element={<Navigate replace to="../locations" />} />
-      </Route>
-      <Route path="*" element={<Navigate replace to="shop" />} />
+        </Route>
+      ))}
     </Routes>
   );
 };
