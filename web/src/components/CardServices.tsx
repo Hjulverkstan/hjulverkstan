@@ -5,6 +5,7 @@ import { IconLink } from '@components/shadcn/Button';
 import { Base, Title, Icon } from '@components/Card';
 import { Bullet } from '@components/Bullet';
 import { cn } from '@utils';
+import { DialogClose } from '@radix-ui/react-dialog';
 
 interface CardServicesProps {
   title: string;
@@ -71,19 +72,21 @@ export const CardServices: React.FC<CardServicesProps> = ({
         {footerNote && (
           <div className="text-base text-slate-500">{footerNote}</div>
         )}
-        <div className="flex justify-end">
-          <IconLink
-            className=" h-10 rounded-full px-3 text-base"
-            to={linkDestination}
-            variant="secondarySharp"
-            subVariant="rounded"
-            size="large"
-            text={linkLabel}
-            aria-label={title}
-            iconRight
-            icon={ArrowRight}
-          />
-        </div>
+        <DialogClose asChild>
+          <div className="flex justify-end">
+            <IconLink
+              className=" h-10 rounded-full px-3 text-base"
+              to={linkDestination}
+              variant="secondarySharp"
+              subVariant="rounded"
+              size="large"
+              text={linkLabel}
+              aria-label={title}
+              iconRight
+              icon={ArrowRight}
+            />
+          </div>
+        </DialogClose>
       </div>
     </Base>
   );

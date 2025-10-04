@@ -50,8 +50,8 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
 
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
-  const { openDialog, closeAllDialogs } = useDialogManager();
-  const general = data.generalContent;
+  const { openDialog } = useDialogManager();
+  const t = data.generalContent;
 
   return (
     <Page hasHeroSection>
@@ -88,53 +88,46 @@ export default function Home() {
             {/* Repair */}
             <CardDefault
               icon={Wrench}
-              title={general.serviceRepairTitle}
-              body={general.serviceRepairBody}
-              linkLabel={general.servicesFindShop}
+              title={t.serviceRepairTitle}
+              body={t.serviceRepairBody}
+              linkLabel={t.servicesFindShop}
               onClick={() =>
-                openDialog(
-                  <ServicesRepairCardView mode="dialog" general={general} />,
-                  { key: 'services-repair', replaceIfOpen: true },
-                )
+                openDialog(<ServicesRepairCardView mode="dialog" t={t} />)
               }
             />
 
             {/* Rent */}
             <CardDefault
               icon={CalendarDays}
-              title={general.serviceRentTitle}
-              body={general.serviceRentBody}
-              linkLabel={general.servicesFindShop}
+              title={t.serviceRentTitle}
+              body={t.serviceRentBody}
+              linkLabel={t.servicesFindShop}
               onClick={() =>
-                openDialog(
-                  <ServicesHowToRentView mode="dialog" general={general} />,
-                  { key: 'services-repair', replaceIfOpen: true },
-                )
+                openDialog(<ServicesHowToRentView mode="dialog" t={t} />)
               }
             />
 
             {/* Courses */}
             <CardDefault
               icon={TrafficCone}
-              title={general.serviceCoursesTitle}
-              body={general.serviceCoursesBody}
-              linkLabel={general.servicesFindEvent}
+              title={t.serviceCoursesTitle}
+              body={t.serviceCoursesBody}
+              linkLabel={t.servicesFindEvent}
               onClick={() =>
-                openDialog(
-                  <ServicesJoinCourseView mode="dialog" general={general} />,
-                  { key: 'services-join' },
-                )
+                openDialog(<ServicesJoinCourseView mode="dialog" t={t} />)
               }
             />
 
             {/* Community – No dialog function available */}
             <CardDefault
               icon={Bike}
-              title={general.serviceCommunityTitle}
-              body={general.serviceCommunityBody}
+              title={t.serviceCommunityTitle}
+              body={t.serviceCommunityBody}
               link="/"
               linkLabel="Work with us"
-              onLinkClick={() => closeAllDialogs()}
+              onLinkClick={(e) => {
+                e.preventDefault();
+              }}
               preventNavigation={false}
             />
           </div>

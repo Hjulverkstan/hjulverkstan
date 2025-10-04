@@ -35,17 +35,25 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
   onLinkClick,
   preventNavigation,
 }) => {
-  const shouldPrevent = preventNavigation ?? !!onClick;
-
   const handleLinkClick = React.useCallback<React.MouseEventHandler>(
     (e) => {
       onLinkClick?.(e);
-      if (shouldPrevent) {
+
+      // If the caller provided an onClick (e.g. to open a dialog),
+      // we always prevent navigation and stop bubbling.
+      if (onClick) {
         e.preventDefault();
-        onClick?.(e);
+        e.stopPropagation();
+        onClick(e);
+        return;
+      }
+
+      // Otherwise, respect explicit preventNavigation if given.
+      if (preventNavigation) {
+        e.preventDefault();
       }
     },
-    [onClick, onLinkClick, shouldPrevent],
+    [onClick, onLinkClick, preventNavigation],
   );
 
   return (
@@ -56,7 +64,7 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
 
       <div className={cn('mt-auto flex justify-end pt-6')}>
         <IconLink
-          to={link}
+          to={link ?? '#'}
           variant={buttonVariant}
           subVariant="rounded"
           size="large"
