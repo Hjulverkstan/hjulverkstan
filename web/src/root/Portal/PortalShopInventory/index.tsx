@@ -15,7 +15,7 @@ import PortalContent from '../PortalContent';
 import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
 import PortalToolbar from '../PortalToolbar';
-import { PageContentProps } from '..';
+import { PortalAppPageProps } from '..';
 
 import ShopInventoryActions from './ShopInventoryActions';
 import ShopInventoryFilters from './ShopInventoryFilters';
@@ -25,7 +25,7 @@ import { Vehicle } from '@data/vehicle/types';
 
 //
 
-export default function PortalShopInventory({ mode }: PageContentProps) {
+export default function PortalShopInventory({ mode }: PortalAppPageProps) {
   const { id = '' } = useParams();
 
   const vehiclesQ = useVehiclesAggregatedQ();
