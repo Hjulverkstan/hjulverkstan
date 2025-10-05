@@ -14,7 +14,7 @@ export default function Shops() {
   const allShops: Shop[] = data.shops;
 
   return (
-    <Page heading={data.generalContent.shopsPageTitle} variant="default">
+    <Page heading={data.text.shopsPageTitle} variant="default">
       <Section>
         <SectionContent>
           <div
@@ -26,36 +26,33 @@ export default function Shops() {
           >
             <div className="w-full md:w-1/2 lg:p-8 lg:pr-12">
               <Base variant="muted" className="w-full max-w-[600px]">
-                {data.generalContent.shopsWelcomeTitle && (
-                  <Title>{data.generalContent.shopsWelcomeTitle}</Title>
+                {data.text.shopsWelcomeTitle && (
+                  <Title>{data.text.shopsWelcomeTitle}</Title>
                 )}
 
-                {data.generalContent.shopsWelcomeSubheading && (
+                {data.text.shopsWelcomeSubheading && (
                   <Body className="text-muted-foreground mb-2 mt-4">
-                    {data.generalContent.shopsWelcomeSubheading}
+                    {data.text.shopsWelcomeSubheading}
                   </Body>
                 )}
 
-                {data.generalContent.shopsWelcomeBody && (
-                  <Body className="mb-4">
-                    {data.generalContent.shopsWelcomeBody}
-                  </Body>
+                {data.text.shopsWelcomeBody && (
+                  <Body className="mb-4">{data.text.shopsWelcomeBody}</Body>
                 )}
 
-                {data.generalContent.shopButtonLabelAboutServices &&
-                  '/services' && (
-                    <div className="flex justify-start">
-                      <IconLink
-                        to="/services"
-                        variant="background"
-                        subVariant="rounded"
-                        size="default"
-                        text={data.generalContent.shopButtonLabelAboutServices}
-                        icon={ArrowRightIcon}
-                        iconRight
-                      />
-                    </div>
-                  )}
+                {data.text.shopButtonLabelAboutServices && '/services' && (
+                  <div className="flex justify-start">
+                    <IconLink
+                      to="/services"
+                      variant="background"
+                      subVariant="rounded"
+                      size="default"
+                      text={data.text.shopButtonLabelAboutServices}
+                      icon={ArrowRightIcon}
+                      iconRight
+                    />
+                  </div>
+                )}
               </Base>
             </div>
 
@@ -83,7 +80,7 @@ export default function Shops() {
           </div>
         </SectionContent>
 
-        <SectionContent heading={data.generalContent.sectionTitleFindShop}>
+        <SectionContent heading={data.text.sectionTitleFindShop}>
           <div
             className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 xl:grid
               xl:grid-cols-3"

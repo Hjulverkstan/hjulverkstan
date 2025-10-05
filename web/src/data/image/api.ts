@@ -1,8 +1,6 @@
 import { instance, endpoints, createErrorHandler } from '../api';
 
-export interface GetImage {
-  imageURL: string;
-}
+// CREATE
 
 export type CreateImageParams = {
   file: File;
@@ -13,11 +11,13 @@ export const createUploadImage = () => ({
     const formData = new FormData();
     formData.append('file', image.file);
     return instance
-      .post<GetImage>(`${endpoints.image}/upload`, formData)
+      .post(`${endpoints.image}/upload`, formData)
       .then((res) => res.data.imageURL)
       .catch(createErrorHandler(endpoints.image));
   },
 });
+
+// DELETE
 
 export type DeleteImageParams = {
   imageURL: string;

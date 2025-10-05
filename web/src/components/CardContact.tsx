@@ -55,16 +55,16 @@ export const CardContact: React.FC<CardContactProps> = ({
   const embedUrl = `https://www.google.com/maps?q=${shop?.latitude},${shop?.longitude}&z=15&output=embed`;
 
   const dayLabels = [
-    data.generalContent.contactMonday,
-    data.generalContent.contactTuesday,
-    data.generalContent.contactWednesday,
-    data.generalContent.contactThursday,
-    data.generalContent.contactFriday,
-    data.generalContent.contactSaturday,
-    data.generalContent.contactSunday,
+    data.text.contactMonday,
+    data.text.contactTuesday,
+    data.text.contactWednesday,
+    data.text.contactThursday,
+    data.text.contactFriday,
+    data.text.contactSaturday,
+    data.text.contactSunday,
   ];
 
-  const closedLabel = data.generalContent.contactClosed;
+  const closedLabel = data.text.contactClosed;
   const isCompact = variant === 'compact';
 
   return (

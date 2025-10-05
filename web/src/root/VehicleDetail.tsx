@@ -66,7 +66,7 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
             lg:items-center"
         >
           <p className="text-foreground text-center text-xl">
-            {preloadedData.generalContent.bikeDetailOpenBadgeText}{' '}
+            {preloadedData.text.bikeDetailOpenBadgeText}{' '}
             <span className="font-bold">{shop.name}</span>
           </p>
           <OpenBadge
@@ -88,7 +88,7 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
           text-center lg:flex-row lg:items-center lg:justify-center"
       >
         <p className="text-foreground text-lg font-medium">
-          {preloadedData.generalContent.bikdeDetailRentText}
+          {preloadedData.text.bikdeDetailRentText}
         </p>
         <IconButton
           icon={KeyRound}
@@ -234,7 +234,7 @@ export default function VehicleDetail() {
       {shop && otherVehicles.length > 0 && (
         <Section>
           <SectionContent
-            heading={preloadedData.generalContent.sectionTitleOtherBikesText}
+            heading={preloadedData.text.sectionTitleOtherBikesText}
           >
             <div
               className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
@@ -254,8 +254,7 @@ export default function VehicleDetail() {
                   className="text-foreground hover:bg-muted border px-8 py-3"
                   onClick={handleLoadMoreOtherBikes}
                 >
-                  {preloadedData.generalContent?.buttonLabelLoadMore ||
-                    'Load More'}
+                  {preloadedData.text.buttonLabelLoadMore || 'Load More'}
                 </Button>
               </div>
             )}
