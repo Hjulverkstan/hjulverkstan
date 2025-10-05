@@ -1,51 +1,35 @@
 import * as U from '@utils';
 
-import {
-  createErrorHandler,
-  endpoints,
-  instance,
-  parseResponseData,
-} from '../api';
+import { createErrorHandler, endpoints, instance } from '../api';
 
-import { AllEntities, AllEntitiesRaw, LangSlug } from './types';
+import { AllEntities, LangSlug } from './types';
 
 //
 
 export interface GetAllEndpointsRes {
-  entities: Record<LangSlug, AllEntitiesRaw>;
+  entities: Record<LangSlug, AllEntities>;
 }
 
-export interface GetAllWebEditEntitiesByLangProps {
-  fallBackLocale: string;
+export interface GetAllWebEditEntitiesByLangParams {
+  fallbackLocale: string;
 }
 
 export const getAllWebEditEntitiesByLang = (
-  { fallBackLocale }: GetAllWebEditEntitiesByLangProps,
+  { fallbackLocale }: GetAllWebEditEntitiesByLangParams,
   baseURL?: string,
 ) =>
   instance
     .get<GetAllEndpointsRes>(endpoints.webedit.all, {
-      params: { fallbackLang: U.localeToLangCode(fallBackLocale) },
-      timeout: 15000,
+      params: { fallbackLang: U.localeToLangCode(fallbackLocale) },
+      timeout: 150000,
       ...(baseURL && { baseURL }),
     })
-    .then(
-      (res) =>
-        Object.fromEntries(
-          Object.entries(res.data.entities).map(
-            ([lang, { generalContent, shops, story }]) => [
-              // We use locales instead of langs for the keys
-              U.langCodeToLocale(lang),
-              {
-                // General content should a map instead of array
-                generalContent: Object.fromEntries(
-                  generalContent.map((gc) => [gc.key, gc.value]),
-                ),
-                shops: shops.map(parseResponseData).reverse(),
-                story: story.map(parseResponseData).reverse(),
-              },
-            ],
-          ),
-        ) as Record<LangSlug, AllEntities>,
+    .then((res) =>
+      Object.fromEntries(
+        Object.entries(res.data.entities).map(([lang, allEntities]) => [
+          U.langCodeToLocale(lang),
+          allEntities,
+        ]),
+      ),
     )
     .catch(createErrorHandler(endpoints.webedit.all));

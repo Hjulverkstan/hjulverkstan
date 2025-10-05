@@ -5,7 +5,7 @@ export const baseURL = import.meta.env.VITE_BACKEND_PROXY_SLUG;
 
 export const endpoints = {
   vehicle: '/vehicle',
-  publicVehicleData: '/public/vehicle',
+  site: '/site',
   image: '/image',
   ticket: '/ticket',
   employee: '/employee',
@@ -13,8 +13,8 @@ export const endpoints = {
   customer: '/customer',
   auth: {
     logIn: '/auth/login',
-    logOut: '/auth/signout',
-    refreshToken: '/auth/refreshtoken',
+    logOut: '/auth/logout',
+    refreshToken: '/auth/refresh',
     verifyAuth: '/auth/verify',
   },
   webedit: {
@@ -89,29 +89,3 @@ export const createErrorHandler =
 
     return Promise.reject(outputErr);
   };
-
-/**
- * Should be used on all responses to convert ids to strings. Manually use
- * this function to map over your data before exposing it to the hooks layer,
- * or if retrieving a singular object pass it...
- */
-
-export const parseResponseData = (obj: Record<string, any>) => {
-  const stringId = (key: string) =>
-    obj[key] ? { [key]: String(obj[key]) } : {};
-
-  const stringIds = (key: string) =>
-    obj[key] ? { [key]: obj[key].map((el: number) => String(el)) } : {};
-
-  return {
-    ...obj,
-    ...stringId('id'),
-    ...stringId('employeeId'),
-    ...stringId('customerId'),
-    ...stringId('locationId'),
-    ...stringIds('vehicleIds'),
-    ...stringIds('ticketIds'),
-    ...stringId('createdBy'),
-    ...stringId('updatedBy'),
-  };
-};

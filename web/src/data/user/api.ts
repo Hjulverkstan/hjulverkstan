@@ -1,82 +1,70 @@
-import {
-  instance,
-  endpoints,
-  createErrorHandler,
-  parseResponseData,
-} from '../api';
+import { createErrorHandler, endpoints, instance } from '../api';
 
 import { User } from './types';
 
-//
+// GET ALL
 
 export interface GetUsersRes {
   users: User[];
 }
 
 export const createGetUsers = () => ({
-  queryKey: ['users'],
+  queryKey: [endpoints.user],
   queryFn: () =>
     instance
       .get<GetUsersRes>(endpoints.user)
-      .then((res) => res.data.users.map(parseResponseData).reverse() as User[])
+      .then((res) => res.data.users)
       .catch(createErrorHandler(endpoints.user)),
 });
 
-export type GetUserRes = User;
+// GET
 
+export type GetUserRes = User;
 export interface GetUserParams {
   id: string;
 }
 
 export const createGetUser = ({ id }: GetUserParams) => ({
-  queryKey: ['users', id],
+  queryKey: [endpoints.user, id],
   queryFn: () =>
     instance
       .get<GetUserRes>(`${endpoints.user}/${id}`)
-      .then((res) => parseResponseData(res.data) as User)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.user)),
 });
 
-// MUTATIONS
-
-const transformBody = ({
-  id,
-  username,
-  email,
-  password,
-  roles,
-}: Partial<User>) => ({
-  id,
-  username,
-  email,
-  password,
-  roles,
-});
+// CREATE
 
 export type CreateUserRes = User;
+export type CreateUserParams = Omit<User, 'id'>;
 
 export const createCreateUser = () => ({
-  mutationFn: (body: CreateUserRes) =>
+  mutationFn: (body: CreateUserParams) =>
     instance
-      .post<CreateUserRes>(`${endpoints.user}/signup`, transformBody(body))
-      .then((res) => parseResponseData(res.data) as User)
+      .post<CreateUserRes>(`${endpoints.user}`, body)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.user)),
 });
+
+// EDIT
 
 export type EditUserRes = User;
 export type EditUserParams = User;
+
 export const createEditUser = () => ({
-  mutationFn: (body: EditUserParams) =>
+  mutationFn: ({ id, ...body }: EditUserParams) =>
     instance
-      .put<EditUserRes>(`${endpoints.user}/${body.id}`, transformBody(body))
-      .then((res) => parseResponseData(res.data) as User)
+      .put<EditUserRes>(`${endpoints.user}/${id}`, body)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.user)),
 });
+
+// DELETE
 
 export const createDeleteUser = () => ({
   mutationFn: (id: string) =>
     instance
-      .delete<GetUserRes>(`${endpoints.user}/${id}`)
-      .then((res) => parseResponseData(res.data) as User)
+      .delete(`${endpoints.user}/${id}`)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.user)),
 });

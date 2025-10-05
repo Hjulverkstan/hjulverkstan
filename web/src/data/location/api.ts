@@ -1,90 +1,70 @@
-import {
-  instance,
-  endpoints,
-  createErrorHandler,
-  parseResponseData,
-} from '../api';
+import { createErrorHandler, endpoints, instance } from '../api';
 
 import { Location } from './types';
 
-//
+// GET ALL
 
 export interface GetLocationsRes {
   locations: Location[];
 }
 
 export const createGetLocations = () => ({
-  queryKey: ['locations'],
+  queryKey: [endpoints.location],
   queryFn: () =>
     instance
       .get<GetLocationsRes>(endpoints.location)
-      .then(
-        (res) =>
-          res.data.locations.map(parseResponseData).reverse() as Location[],
-      )
+      .then((res) => res.data.locations)
       .catch(createErrorHandler(endpoints.location)),
 });
 
-export type GetLocationRes = Location;
+// GET
 
+export type GetLocationRes = Location;
 export interface GetLocationParams {
   id: string;
 }
 
 export const createGetLocation = ({ id }: GetLocationParams) => ({
-  queryKey: ['vehicle', id],
+  queryKey: [endpoints.location, id],
   queryFn: () =>
     instance
       .get<GetLocationRes>(`${endpoints.location}/${id}`)
-      .then((res) => parseResponseData(res.data) as Location)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.location)),
 });
 
-// MUTATIONS
-
-const transformBody = ({
-  id,
-  locationType,
-  vehicleIds,
-  address,
-  name,
-  comment,
-}: Partial<Location>) => ({
-  id,
-  locationType,
-  vehicleIds,
-  address,
-  name,
-  comment: comment ?? null,
-});
+// CREATE
 
 export type CreateLocationRes = Location;
+export type CreateLocationParams = Omit<Location, 'id'>;
 
 export const createCreateLocation = () => ({
-  mutationFn: (body: CreateLocationRes) =>
+  mutationFn: (body: CreateLocationParams) =>
     instance
-      .post<CreateLocationRes>(endpoints.location, transformBody(body))
-      .then((res) => parseResponseData(res.data) as Location)
+      .post<CreateLocationRes>(endpoints.location, body)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.location)),
 });
+
+// EDIT
 
 export type EditLocationRes = Location;
 export type EditLocationParams = Location;
+
 export const createEditLocation = () => ({
-  mutationFn: (body: EditLocationParams) =>
+  mutationFn: ({ id, ...body }: EditLocationParams) =>
     instance
-      .put<EditLocationRes>(
-        `${endpoints.location}/${body.id}`,
-        transformBody(body),
-      )
-      .then((res) => parseResponseData(res.data) as Location)
+      .put<EditLocationRes>(`${endpoints.location}/${id}`, body)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.location)),
 });
+
+// DELETE
 
 export const createDeleteLocation = () => ({
   mutationFn: (id: string) =>
     instance
-      .delete<GetLocationRes>(`${endpoints.location}/${id}`)
-      .then((res) => parseResponseData(res.data) as Location)
+      .delete(`${endpoints.location}/${id}`)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.location)),
 });

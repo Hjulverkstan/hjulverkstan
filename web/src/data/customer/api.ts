@@ -1,98 +1,70 @@
-import {
-  instance,
-  endpoints,
-  createErrorHandler,
-  parseResponseData,
-} from '../api';
+import { createErrorHandler, endpoints, instance } from '../api';
 
 import { Customer } from './types';
 
-//
+// GET ALL
 
 export interface GetCustomersRes {
   customers: Customer[];
 }
 
 export const createGetCustomers = () => ({
-  queryKey: ['customers'],
+  queryKey: [endpoints.customer],
   queryFn: () =>
     instance
       .get<GetCustomersRes>(endpoints.customer)
-      .then(
-        (res) =>
-          res.data.customers.map(parseResponseData).reverse() as Customer[],
-      )
+      .then((res) => res.data.customers)
       .catch(createErrorHandler(endpoints.customer)),
 });
 
-export type GetCustomerRes = Customer;
+// GET
 
+export type GetCustomerRes = Customer;
 export interface GetCustomerParams {
   id: string;
 }
 
 export const createGetCustomer = ({ id }: GetCustomerParams) => ({
-  queryKey: ['vehicle', id],
+  queryKey: [endpoints.customer, id],
   queryFn: () =>
     instance
       .get<GetCustomerRes>(`${endpoints.customer}/${id}`)
-      .then((res) => parseResponseData(res.data) as Customer)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.customer)),
 });
 
-// MUTATIONS
-
-const transformBody = ({
-  id,
-  customerType,
-  firstName,
-  lastName,
-  personalIdentityNumber,
-  phoneNumber,
-  email,
-  ticketIds,
-  comment,
-  organizationName,
-}: Partial<Customer>) => ({
-  id,
-  customerType,
-  firstName,
-  lastName,
-  personalIdentityNumber: personalIdentityNumber ?? null,
-  phoneNumber,
-  email,
-  ticketIds,
-  comment: comment ?? null,
-  organizationName,
-});
+// CREATE
 
 export type CreateCustomerRes = Customer;
+export type CreateCustomerParams = Omit<Customer, 'id'>;
 
 export const createCreateCustomer = () => ({
-  mutationFn: (body: CreateCustomerRes) =>
+  mutationFn: (body: CreateCustomerParams) =>
     instance
-      .post<CreateCustomerRes>(endpoints.customer, transformBody(body))
-      .then((res) => parseResponseData(res.data) as Customer)
+      .post<CreateCustomerRes>(endpoints.customer, body)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.customer)),
 });
+
+// EDIT
 
 export type EditCustomerRes = Customer;
 export type EditCustomerParams = Customer;
+
 export const createEditCustomer = () => ({
-  mutationFn: (body: EditCustomerParams) =>
+  mutationFn: ({ id, ...body }: EditCustomerParams) =>
     instance
-      .put<EditCustomerRes>(
-        `${endpoints.customer}/${body.id}`,
-        transformBody(body),
-      )
-      .then((res) => parseResponseData(res.data) as Customer)
+      .put<EditCustomerRes>(`${endpoints.customer}/${id}`, body)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.customer)),
 });
+
+// DELETE
 
 export const createDeleteCustomer = () => ({
   mutationFn: (id: string) =>
     instance
-      .delete<GetCustomerRes>(`${endpoints.customer}/${id}`)
-      .then((res) => parseResponseData(res.data) as Customer)
+      .delete(`${endpoints.customer}/${id}`)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.customer)),
 });

@@ -24,7 +24,7 @@ export default function Services() {
   const { data } = usePreloadedDataLocalized();
 
   return (
-    <Page heading={data.generalContent.servicesTitle} variant="muted">
+    <Page heading={data.text.servicesTitle} variant="muted">
       <Section variant="muted">
         <SectionContent>
           <div
@@ -32,92 +32,92 @@ export default function Services() {
               xl:grid-cols-3"
           >
             <CardServices
-              title={data.generalContent.servicesHowToRepair}
+              title={data.text.servicesHowToRepair}
               icon={Hammer}
-              footerNote={data.generalContent.servicesFooterNote}
-              linkLabel={data.generalContent.servicesFindShop}
+              footerNote={data.text.servicesFooterNote}
+              linkLabel={data.text.servicesFindShop}
               linkDestination="/shops"
             >
               <CardServicesSteps
                 icon={MapPin}
-                label={data.generalContent.servicesVisit}
-                description={data.generalContent.servicesNoOnlineBooking}
+                label={data.text.servicesVisit}
+                description={data.text.servicesNoOnlineBooking}
               />
               <CardServicesSteps
                 icon={MessageCircle}
-                label={data.generalContent.servicesTellUs}
-                description={data.generalContent.servicesInspectTogether}
+                label={data.text.servicesTellUs}
+                description={data.text.servicesInspectTogether}
               />
               <CardServicesSteps
                 icon={Wrench}
-                label={data.generalContent.servicesSimpleFix}
-                description={data.generalContent.servicesDoneRightAway}
+                label={data.text.servicesSimpleFix}
+                description={data.text.servicesDoneRightAway}
               />
               <CardServicesSteps
                 icon={Calendar}
-                label={data.generalContent.servicesMoreTime}
-                description={data.generalContent.servicesLeaveItWithUs}
+                label={data.text.servicesMoreTime}
+                description={data.text.servicesLeaveItWithUs}
               />
               <CardServicesSteps
                 icon={LogIn}
-                label={data.generalContent.servicesPickItUp}
-                description={data.generalContent.servicesWeWillLetYouKnow}
+                label={data.text.servicesPickItUp}
+                description={data.text.servicesWeWillLetYouKnow}
               />
             </CardServices>
 
             <CardServices
-              title={data.generalContent.servicesHowToRent}
+              title={data.text.servicesHowToRent}
               icon={Bike}
-              linkLabel={data.generalContent.servicesFindShop}
+              linkLabel={data.text.servicesFindShop}
               linkDestination="/shops"
             >
               <CardServicesSteps
                 icon={MapPin}
-                label={data.generalContent.servicesVisit}
-                description={data.generalContent.servicesNoOnlineBooking}
+                label={data.text.servicesVisit}
+                description={data.text.servicesNoOnlineBooking}
               />
               <CardServicesSteps
                 icon={CheckCircle}
-                label={data.generalContent.servicesPickAVehicle}
-                description={data.generalContent.servicesHelpYouChose}
+                label={data.text.servicesPickAVehicle}
+                description={data.text.servicesHelpYouChose}
               />
               <CardServicesSteps
                 icon={Calendar}
-                label={data.generalContent.servicesUseForWeeks}
-                description={data.generalContent.servicesFreeOfCharge}
+                label={data.text.servicesUseForWeeks}
+                description={data.text.servicesFreeOfCharge}
               />
               <CardServicesSteps
                 icon={LogIn}
-                label={data.generalContent.servicesReturn}
-                description={data.generalContent.servicesReturnVehicle}
+                label={data.text.servicesReturn}
+                description={data.text.servicesReturnVehicle}
               />
             </CardServices>
 
             <CardServices
-              title={data.generalContent.servicesJoinCourse}
+              title={data.text.servicesJoinCourse}
               icon={User}
-              linkLabel={data.generalContent.servicesFindEvent}
+              linkLabel={data.text.servicesFindEvent}
               linkDestination="/stories"
             >
               <CardServicesSteps
                 icon={BookOpen}
-                label={data.generalContent.servicesViewCourses}
-                description={data.generalContent.servicesViewWhatsRight}
+                label={data.text.servicesViewCourses}
+                description={data.text.servicesViewWhatsRight}
               />
               <CardServicesSteps
                 icon={ClipboardCheck}
-                label={data.generalContent.servicesRegisterForEvent}
-                description={data.generalContent.servicesSignUpOnline}
+                label={data.text.servicesRegisterForEvent}
+                description={data.text.servicesSignUpOnline}
               />
               <CardServicesSteps
                 icon={Mail}
-                label={data.generalContent.servicesCheckInbox}
-                description={data.generalContent.servicesConfirmationMail}
+                label={data.text.servicesCheckInbox}
+                description={data.text.servicesConfirmationMail}
               />
               <CardServicesSteps
                 icon={MapPin}
-                label={data.generalContent.servicesShowUpAndJoin}
-                description={data.generalContent.servicesComeAtScheduledTime}
+                label={data.text.servicesShowUpAndJoin}
+                description={data.text.servicesComeAtScheduledTime}
               />
             </CardServices>
           </div>

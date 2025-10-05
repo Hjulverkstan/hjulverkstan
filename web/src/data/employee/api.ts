@@ -1,94 +1,70 @@
-import {
-  instance,
-  endpoints,
-  createErrorHandler,
-  parseResponseData,
-} from '../api';
+import { createErrorHandler, endpoints, instance } from '../api';
 
 import { Employee } from './types';
 
-//
+// GET ALL
 
 export interface GetEmployeesRes {
   employees: Employee[];
 }
 
 export const createGetEmployees = () => ({
-  queryKey: ['employees'],
+  queryKey: [endpoints.employee],
   queryFn: () =>
     instance
       .get<GetEmployeesRes>(endpoints.employee)
-      .then(
-        (res) =>
-          res.data.employees.map(parseResponseData).reverse() as Employee[],
-      )
+      .then((res) => res.data.employees)
       .catch(createErrorHandler(endpoints.employee)),
 });
 
-export type GetEmployeeRes = Employee;
+// GET
 
+export type GetEmployeeRes = Employee;
 export interface GetEmployeeParams {
   id: string;
 }
 
 export const createGetEmployee = ({ id }: GetEmployeeParams) => ({
-  queryKey: ['vehicle', id],
+  queryKey: [endpoints.employee, id],
   queryFn: () =>
     instance
       .get<GetEmployeeRes>(`${endpoints.employee}/${id}`)
-      .then((res) => parseResponseData(res.data) as Employee)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.employee)),
 });
 
-// MUTATIONS
-
-const transformBody = ({
-  id,
-  firstName,
-  lastName,
-  personalIdentityNumber,
-  phoneNumber,
-  email,
-  ticketIds,
-  comment,
-}: Partial<Employee>) => ({
-  id,
-  firstName,
-  lastName,
-  personalIdentityNumber: personalIdentityNumber ?? null,
-  phoneNumber,
-  email,
-  ticketIds,
-  comment: comment ?? null,
-});
+// CREATE
 
 export type CreateEmployeeRes = Employee;
+export type CreateEmployeeParams = Omit<Employee, 'id'>;
 
 export const createCreateEmployee = () => ({
-  mutationFn: (body: CreateEmployeeRes) =>
+  mutationFn: (body: CreateEmployeeParams) =>
     instance
-      .post<CreateEmployeeRes>(endpoints.employee, transformBody(body))
-      .then((res) => parseResponseData(res.data) as Employee)
+      .post<CreateEmployeeRes>(endpoints.employee, body)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.employee)),
 });
+
+// EDIT
 
 export type EditEmployeeRes = Employee;
 export type EditEmployeeParams = Employee;
+
 export const createEditEmployee = () => ({
   mutationFn: (body: EditEmployeeParams) =>
     instance
-      .put<EditEmployeeRes>(
-        `${endpoints.employee}/${body.id}`,
-        transformBody(body),
-      )
-      .then((res) => parseResponseData(res.data) as Employee)
+      .put<EditEmployeeRes>(`${endpoints.employee}/${body.id}`, body)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.employee)),
 });
+
+// DELETE
 
 export const createDeleteEmployee = () => ({
   mutationFn: (id: string) =>
     instance
-      .delete<GetEmployeeRes>(`${endpoints.employee}/${id}`)
-      .then((res) => parseResponseData(res.data) as Employee)
+      .delete(`${endpoints.employee}/${id}`)
+      .then((res) => res.data)
       .catch(createErrorHandler(endpoints.employee)),
 });
