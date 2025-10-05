@@ -1,22 +1,15 @@
-import { GeneralContentStripped } from './general/types';
 import { Shop } from './shop/types';
 import { Story } from './story/types';
 
-export interface AllEntitiesRaw {
-  generalContent: GeneralContentStripped[];
-  shops: Shop[];
-  story: Story[];
-}
-
 export interface AllEntities {
-  generalContent: Record<string, string>;
+  text: Record<string, string>;
   shops: Shop[];
-  story: Story[];
+  stories: Story[];
 }
 
 export type LocaleAllEntitiesMap = Record<string, AllEntities>;
 
-export enum LangSlugs {
+export enum LangSlug {
   SWE = 'sv', // Swedish
   ENG = 'en', // English
   ARA = 'ar', // Arabic

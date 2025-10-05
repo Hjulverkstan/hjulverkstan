@@ -87,6 +87,7 @@ const PortalRouter = () => {
     <Routes>
       {appRoutes.map((appRoute) => (
         <Route
+          key={appRoute.slug}
           path={`${appRoute.slug}/*`}
           element={
             <ProtectedByRole roles={appRoute.roles ?? []} renderLandingPage>
@@ -95,14 +96,17 @@ const PortalRouter = () => {
           }
         >
           {appRoute.pageRoutes.map(({ slug, page }) => (
-            <Route path={`${slug}/*`} element={mountPage(page)} />
+            <Route key={slug} path={`${slug}/*`} element={mountPage(page)} />
           ))}
           <Route
             path="*"
-            element={<Navigate replace to={`../${appRoute.slug}`} />}
+            element={
+              <Navigate replace to={`../${appRoute.pageRoutes[0].slug}`} />
+            }
           />
         </Route>
       ))}
+      <Route path="*" element={<Navigate replace to={appRoutes[0].slug} />} />
     </Routes>
   );
 };

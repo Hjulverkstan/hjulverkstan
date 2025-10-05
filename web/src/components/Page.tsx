@@ -20,7 +20,7 @@ const pageStyles = cva('md:mt-16', {
 export interface PageProps extends VariantProps<typeof pageStyles> {
   children: ReactNode;
   hasHeroSection?: boolean;
-  heading?: string;
+  heading?: ReactNode;
   useH2?: boolean;
 }
 

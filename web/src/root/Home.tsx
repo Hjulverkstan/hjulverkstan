@@ -80,26 +80,26 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
             <CardDefault
               icon={Wrench}
-              title={data.generalContent.serviceRepairTitle}
-              body={data.generalContent.serviceRepairBody}
+              title={data.text.serviceRepairTitle}
+              body={data.text.serviceRepairBody}
               link="/"
             />
             <CardDefault
               icon={CalendarDays}
-              title={data.generalContent.serviceRentTitle}
-              body={data.generalContent.serviceRentBody}
+              title={data.text.serviceRentTitle}
+              body={data.text.serviceRentBody}
               link="/"
             />
             <CardDefault
               icon={TrafficCone}
-              title={data.generalContent.serviceCoursesTitle}
-              body={data.generalContent.serviceCoursesBody}
+              title={data.text.serviceCoursesTitle}
+              body={data.text.serviceCoursesBody}
               link="/"
             />
             <CardDefault
               icon={Bike}
-              title={data.generalContent.serviceCommunityTitle}
-              body={data.generalContent.serviceCommunityBody}
+              title={data.text.serviceCommunityTitle}
+              body={data.text.serviceCommunityBody}
               link="/"
               linkLabel="Work with us"
             />
@@ -114,7 +114,7 @@ export default function Home() {
         >
           <div className="flex flex-col gap-8 xl:flex-row">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
-              {data.story.slice(0, 2).map((story) => (
+              {data.stories.slice(0, 2).map((story) => (
                 <CardStory
                   key={story.id}
                   story={story}
@@ -126,7 +126,7 @@ export default function Home() {
               className="flex flex-col gap-8 md:basis-1/3 md:flex-row
                 xl:flex-col"
             >
-              {data.story.slice(2, 4).map((story) => (
+              {data.stories.slice(2, 4).map((story) => (
                 <CardCompact
                   key={story.id}
                   title={story.title}

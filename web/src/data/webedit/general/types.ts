@@ -1,9 +1,9 @@
-export interface GeneralContentStripped {
+export interface textStripped {
   key: string;
   value: string;
 }
 
-export interface GeneralContent extends GeneralContentStripped {
+export interface text extends textStripped {
   description: string;
   name: string;
 }
