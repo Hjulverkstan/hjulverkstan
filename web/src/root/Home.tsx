@@ -88,9 +88,9 @@ export default function Home() {
             {/* Repair */}
             <CardDefault
               icon={Wrench}
-              title={data.generalContent.serviceRepairTitle}
-              body={data.generalContent.serviceRepairBody}
-              linkLabel={data.generalContent.servicesFindShop}
+              title={data.text.serviceRepairTitle}
+              body={data.text.serviceRepairBody}
+              linkLabel={data.text.servicesFindShop}
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -103,9 +103,9 @@ export default function Home() {
             {/* Rent */}
             <CardDefault
               icon={CalendarDays}
-              title={data.generalContent.serviceRentTitle}
-              body={data.generalContent.serviceRentBody}
-              linkLabel={data.generalContent.servicesFindShop}
+              title={data.text.serviceRentTitle}
+              body={data.text.serviceRentBody}
+              linkLabel={data.text.servicesFindShop}
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -118,9 +118,9 @@ export default function Home() {
             {/* Courses */}
             <CardDefault
               icon={TrafficCone}
-              title={data.generalContent.serviceCoursesTitle}
-              body={data.generalContent.serviceCoursesBody}
-              linkLabel={data.generalContent.servicesFindEvent}
+              title={data.text.serviceCoursesTitle}
+              body={data.text.serviceCoursesBody}
+              linkLabel={data.text.servicesFindEvent}
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -133,8 +133,8 @@ export default function Home() {
             {/* Community */}
             <CardDefault
               icon={Bike}
-              title={data.generalContent.serviceCommunityTitle}
-              body={data.generalContent.serviceCommunityBody}
+              title={data.text.serviceCommunityTitle}
+              body={data.text.serviceCommunityBody}
               link="/"
               linkLabel="Work with us"
             />
@@ -149,7 +149,7 @@ export default function Home() {
         >
           <div className="flex flex-col gap-8 xl:flex-row">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
-              {data.story.slice(0, 2).map((story) => (
+              {data.stories.slice(0, 2).map((story) => (
                 <CardStory
                   key={story.id}
                   story={story}

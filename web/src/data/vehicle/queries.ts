@@ -1,20 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
 
+import * as U from '@utils';
+import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
+
+import * as siteApi from '../site/api';
+import { Warning } from '../warning/types';
+import { useTicketsQ } from '../ticket/queries';
+import { TicketStatus } from '../ticket/types';
 import { StandardError } from '../api';
+
 import { EnumAttributes } from '../enums';
 import * as api from './api';
 import * as enums from './enums';
-import * as U from '@utils';
 import {
   Vehicle,
   VehicleAggregated,
   VehiclePublic,
   VehicleType,
 } from './types';
-import { Warning } from '@data/warning/types';
-import { useTicketsQ } from '@data/ticket/queries';
-import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
-import { TicketStatus } from '@data/ticket/types';
 
 //
 
@@ -103,14 +106,14 @@ const createPublicVehicle = (vehicle: Vehicle): VehiclePublic => ({
 });
 
 export interface UsePublicVehiclesByLocationQProps {
-  locationId?: string;
+  locationId: string;
 }
 
 export const usePublicVehiclesByLocationQ = ({
   locationId,
 }: UsePublicVehiclesByLocationQProps) =>
   useQuery<Vehicle[], StandardError, VehiclePublic[]>({
-    ...api.createGetPublicVehiclesByLocation({ locationId }),
+    ...siteApi.createGetPublicVehiclesByLocation({ locationId }),
     select: (vehicles) => vehicles.map(createPublicVehicle),
     enabled: !!locationId,
   });
@@ -123,6 +126,6 @@ export interface UsePublicVehicleByIdQProps {
 
 export const usePublicVehicleByIdQ = ({ id }: UsePublicVehicleByIdQProps) =>
   useQuery<Vehicle, StandardError, VehiclePublic>({
-    ...api.createGetPublicVehicleById({ id }),
+    ...siteApi.createGetPublicVehicleById({ id }),
     select: createPublicVehicle,
   });

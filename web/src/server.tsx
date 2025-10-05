@@ -6,7 +6,7 @@ import { logIn } from '@data/auth/api';
 import { PreloadedDataProvider } from '@hooks/usePreloadedData';
 import { getAllWebEditEntitiesByLang } from '@data/webedit/api';
 
-import Root, { fallBackLocale } from '@root';
+import Root, { fallbackLocale } from '@root';
 import { HelmetProvider } from 'react-helmet-async';
 import { instance } from '@data/api';
 
@@ -35,7 +35,7 @@ export async function getDataForPreloadingServerSide(
   );
 
   const res = await getAllWebEditEntitiesByLang(
-    { fallBackLocale },
+    { fallbackLocale },
     env.VITE_BACKEND_URL,
   );
 

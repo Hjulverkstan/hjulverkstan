@@ -10,8 +10,6 @@ import * as Tooltip from '@components/shadcn/Tooltip';
 import { LocaleProvider, usePreloadedData } from '@hooks/usePreloadedData';
 import type { LocaleAllEntitiesMap } from '@data/webedit/types';
 
-import '../globals.css';
-import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
@@ -22,6 +20,8 @@ import Support from './Support';
 import Services from './Services';
 import Stories from './Stories';
 import VehicleDetail from './VehicleDetail';
+
+import '../globals.css';
 
 // React Query Config
 
@@ -58,7 +58,7 @@ export const queryClient = new QueryClient({
  * statically generated site. See [link](link)
  */
 
-export const fallBackLocale = 'sv';
+export const fallbackLocale = 'sv';
 
 export interface RouteAttributes {
   path: string;
@@ -72,18 +72,13 @@ export interface RouteAttributes {
 export const createRoutes = (
   data?: LocaleAllEntitiesMap,
 ): RouteAttributes[] => {
-  const shopSlugs = data?.[fallBackLocale].shops.map((s) => s.slug);
+  const shopSlugs = data?.[fallbackLocale].shops.map((s) => s.slug);
 
   return [
     {
       path: '/',
       title: 'Hjulverkstan',
       component: Home,
-    },
-    {
-      path: '/about',
-      title: 'Hjulverkstan - About',
-      component: About,
     },
     {
       path: '/contact',
@@ -158,7 +153,7 @@ function RouteHelmet({
         <>
           <link
             rel="canonical"
-            href={`${import.meta.env.VITE_FRONTEND_URL}/${locale ?? fallBackLocale}${route.path}`}
+            href={`${import.meta.env.VITE_FRONTEND_URL}/${locale ?? fallbackLocale}${route.path}`}
           />
           {locales.map((locale) => (
             <link
@@ -194,14 +189,14 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
     key={route.path + locale}
     path={locale ? `/${locale}${route.path}` : route.path}
     element={
-      <LocaleProvider value={locale ?? fallBackLocale}>
+      <LocaleProvider value={locale ?? fallbackLocale}>
         <Tooltip.Provider delayDuration={500}>
           <DialogManager.Provider>
-            <RouteHelmet route={route} locale={locale ?? fallBackLocale} />
+            <RouteHelmet route={route} locale={locale ?? fallbackLocale} />
             <route.component />
             {!locale && (
               <RedirectDelayed
-                path={`/${fallBackLocale}${route.path.replace('/*', '')}`}
+                path={`/${fallbackLocale}${route.path.replace('/*', '')}`}
               />
             )}
             <Toaster />
