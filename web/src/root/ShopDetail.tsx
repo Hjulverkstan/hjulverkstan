@@ -76,25 +76,21 @@ export default function ShopDetail() {
             <CardDefault
               variant="muted"
               className="shrink pt-1 lg:max-w-[38rem]"
-              title={data.generalContent.shopDetailJustDropByTitle}
+              title={data.text.shopDetailJustDropByTitle}
               body={
                 <>
-                  <strong>
-                    {data.generalContent.shopDetailJustDropByBodyBold}
-                  </strong>
-                  {' ' + data.generalContent.shopDetailsJustDropByBodyRegular}
+                  <strong>{data.text.shopDetailJustDropByBodyBold}</strong>
+                  {' ' + data.text.shopDetailsJustDropByBodyRegular}
                 </>
               }
               link={`/services`}
-              linkLabel={data.generalContent.shopButtonLabelAboutServices}
+              linkLabel={data.text.shopButtonLabelAboutServices}
               ariaLabel="About our services"
             />
           </div>
         </SectionContent>
 
-        <SectionContent
-          heading={data.generalContent.sectionTitleAvailableBikes}
-        >
+        <SectionContent heading={data.text.sectionTitleAvailableBikes}>
           {vehiclesQ.data && (
             <>
               <div

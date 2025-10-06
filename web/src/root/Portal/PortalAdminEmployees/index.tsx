@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+
 import { initEmployee, employeeZ } from '@data/employee/form';
 import { useCreateEmployeeM, useEditEmployeeM } from '@data/employee/mutations';
 import { useEmployeeQ, useEmployeesQ } from '@data/employee/queries';
@@ -8,7 +9,7 @@ import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import * as DataTable from '@components/DataTable';
 
-import { PageContentProps } from '..';
+import { PortalAppPageProps } from '..';
 import PortalContent from '../PortalContent';
 import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
@@ -22,7 +23,7 @@ import { Employee } from '@data/employee/types';
 
 //
 
-export default function PortalAdminEmployees({ mode }: PageContentProps) {
+export default function PortalAdminEmployees({ mode }: PortalAppPageProps) {
   const { id = '' } = useParams();
 
   const employeesQ = useEmployeesQ();

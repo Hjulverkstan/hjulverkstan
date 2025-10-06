@@ -87,9 +87,9 @@ export default function ShopInventoryActions({
       />,
     );
 
-  const onStatusUpdate = (newStatus: VehicleStatus) => {
+  const onStatusUpdate = (vehicleStatus: VehicleStatus) => {
     updateVehicleStatusM.mutate(
-      { id: vehicle.id, vehicleStatus: newStatus },
+      { id: vehicle.id, vehicleStatus },
       {
         onSuccess: (res: Vehicle) => {
           toast(

@@ -13,26 +13,26 @@ import usePortalSlugs from '@hooks/useSlugs';
 import { AuthRole } from '@data/auth/types';
 import { Mode } from '@components/DataForm';
 
-export interface NavRoute {
-  label: string;
-  path: string;
-  hasNestedRoutes?: boolean;
-}
+import { PortalAppRoute } from './index';
+
+//
 
 export interface PortalLayoutProps {
-  routes: NavRoute[];
-  baseUrl: string;
-  title: string;
+  appRoute: PortalAppRoute;
 }
 
-export default function PortalLayout({ title, routes }: PortalLayoutProps) {
+export default function PortalLayout({ appRoute }: PortalLayoutProps) {
   const isFetching = useIsFetching();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { coreUrl } = usePortalSlugs();
 
-  const route = routes.find(({ path }) => pathname.startsWith(coreUrl + path));
+  const slugToUrl = (slug: string) => `${coreUrl}/${slug}`;
+
+  const currPage = appRoute.pageRoutes.find((pageRoute) =>
+    pathname.startsWith(slugToUrl(pageRoute.slug)),
+  );
 
   const shouldDarken = pathname
     .split('/')
@@ -52,17 +52,20 @@ export default function PortalLayout({ title, routes }: PortalLayoutProps) {
         >
           <h2 className="flex-1 text-lg font-semibold">
             Hjulverkstan
-            <span className="text-muted-foreground font-normal"> {title}</span>
+            <span className="text-muted-foreground font-normal">
+              {' '}
+              {appRoute.title}
+            </span>
           </h2>
-          <Tabs value={route?.path}>
+          <Tabs value={currPage?.slug}>
             <TabsList>
-              {routes.map((el) => (
+              {appRoute.pageRoutes.map((pageRoute) => (
                 <TabsTrigger
-                  key={el.path}
-                  value={el.path}
-                  onClick={() => navigate(coreUrl + el.path)}
+                  key={pageRoute.slug}
+                  value={pageRoute.slug}
+                  onClick={() => navigate(slugToUrl(pageRoute.slug))}
                 >
-                  {el.label}
+                  {pageRoute.title}
                 </TabsTrigger>
               ))}
             </TabsList>

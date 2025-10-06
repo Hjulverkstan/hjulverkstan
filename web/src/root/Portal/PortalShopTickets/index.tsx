@@ -16,7 +16,7 @@ import PortalContent from '../PortalContent';
 import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
 import PortalToolbar from '../PortalToolbar';
-import { PageContentProps } from '..';
+import { PortalAppPageProps } from '..';
 
 import ShopTicketsActions from './ShopTicketsActions';
 import ShopTicketsFilters from './ShopTicketsFilters';
@@ -33,7 +33,7 @@ import ConfirmConvertDialog from '@components/ConfirmConvertDialog';
 
 //
 
-export default function PortalShopTickets({ mode }: PageContentProps) {
+export default function PortalShopTickets({ mode }: PortalAppPageProps) {
   const { id = '' } = useParams();
   const locationState = useLocation().state as VehicleShortcutLocationState;
 

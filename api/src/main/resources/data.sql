@@ -21,46 +21,46 @@ INSERT INTO Employee
 
 INSERT INTO Customer
 (customer_type,  first_name, last_name,  personal_identity_number,    organization_name,phone_number,    email,                  created_at, updated_at, created_by, updated_by) VALUES
-('PERSON',       'Tuva',     'Nilsson',  '19900101-1237',             null,             '+46798382301',  'tuva@example.com',     '2024-05-16 10:00:00',      NOW(),      1,          1         ),
-('PERSON',       'Emil',     'Berglund', '19851224-5672',             null,             '+46832103988',  'emil@example.com',     '2024-05-17 10:00:00',      NOW(),      1,          1         ),
+('PERSON',       'Tuva',     'Nilsson',  '19900101-1239',             null,             '+46798382301',  'tuva@example.com',     '2024-05-16 10:00:00',      NOW(),      1,          1         ),
+('PERSON',       'Emil',     'Berglund', '19851224-5674',             null,             '+46832103988',  'emil@example.com',     '2024-05-17 10:00:00',      NOW(),      1,          1         ),
 ('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Biltema',        '+46798381201',  'bosseboss@biltema.se', '2024-05-18 10:00:00',      NOW(),      1,          1         );
 
 --
 
 INSERT INTO vehicle
-(location_id, vehicle_type, vehicle_status,   imageURL,            comment,                       is_customer_owned, bike_type,      gear_count, size,     brake_type,     brand,         reg_tag,    vehicle_class,   created_at,            updated_at, created_by, updated_by) VALUES
-(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          true,              'CHILD',        1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  null,       'BIKE',          '2024-05-16 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',     'BIKE',          '2024-05-17 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'LADY',         15,         'MEDIUM', 'FOOTBRAKE',    'MONARK',      'YTLO',     'BIKE',          '2024-05-18 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       'BROKEN',         'image_url_1.jpg',   'Can not ever be repaired...', true,              'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  null,       'BIKE',          '2024-05-19 10:00:00', NOW(),      1,          1         ),
-(2,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          true,              'BMX',          1,          'MEDIUM', 'DISC',         'KRONAN',      null,       'BIKE',          '2024-05-20 10:00:00', NOW(),      1,          1         ),
-(2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
-(2,           'BIKE',       'AVAILABLE',      'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'QWER',     'BIKE',          '2024-05-21 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       null,             'image_url_2.jpg',   null,                          true,              'MOUNTAINBIKE', 28,         'LARGE',  'CALIPER',      'PELAGO',      null,       'BIKE',          '2024-06-21 10:00:00', NOW(),      1,          1         );
+(location_id, vehicle_type, vehicle_status,   imageURL,            comment,                       is_customer_owned, bike_type,      gear_count, size,     brake_type,     brand,         reg_tag, created_at,            updated_at, created_by, updated_by) VALUES
+(1,           'BIKE',       'ARCHIVED',       'image_url_1.jpg',   null,                          true,              'CHILD',        1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  null,    '2024-05-16 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'AVAILABLE',      'image_url_1.jpg',   null,                          false,             'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',  '2024-05-17 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'LADY',         15,         'MEDIUM', 'FOOTBRAKE',    'MONARK',      'YTLO',  '2024-05-18 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       null,             'image_url_1.jpg',   'Can not ever be repaired...', true,              'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  null,    '2024-05-19 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       null,             'image_url_1.jpg',   null,                          true,              'BMX',          1,          'MEDIUM', 'DISC',         'KRONAN',      null,    '2024-05-20 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',  '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'UNAVAILABLE',    'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'QWER',  '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       null,             'image_url_2.jpg',   null,                          true,              'MOUNTAINBIKE', 28,         'LARGE',  'CALIPER',      'PELAGO',      null,    '2024-06-21 10:00:00', NOW(),      1,          1         );
 
 --
 
 INSERT INTO Ticket
-(ticket_type, ticket_status,    employee_id,  customer_id,     start_date,                end_date,                   comment,                     repair_description,                           created_at,    updated_at,    created_by,   updated_by)  VALUES
-('REPAIR',    'CLOSED',         2,            1,               '2024-03-06 10:00:00',     '2024-03-12 18:00:00',      'Important',                 'Adjust gears and lubricate',                 '2024-05-16 10:00:00',         NOW(),         1,            1         ),
-('RENT',      'CLOSED',         1,            2,               '2024-03-15 10:00:00',     '2024-04-02 18:00:00',      null                   ,     null,                                         '2024-05-17 10:00:00',         NOW(),         1,            1         ),
-('REPAIR',    'CLOSED',         2,            1,               '2024-04-01 10:00:00',     '2024-04-06 18:00:00',      'Could be back earlier',     'Flat tire front and loose handlebar',        '2024-05-16 10:00:01',         NOW(),         1,            1         ),
-('RENT',      'IN_PROGRESS',    3,            1,               '2024-05-10 13:00:00',     '2024-05-28 15:00:00',      null,                        null,                                         '2024-05-16 10:00:02',         NOW(),         1,            1         ),
-('RENT',      'IN_PROGRESS',    3,            2,               '2024-05-01 13:00:00',     '2024-05-14 15:00:00',      'Lets prioritise this',      null,                                         '2024-05-16 10:00:03',         NOW(),         1,            1         ),
-('DONATE',    null,             1,            3,               null,                      null,                       null,                        null,                                         '2024-05-16 10:00:08',         NOW(),         1,            1         ),
-('RENT',      'IN_PROGRESS',    1,            1,               '2024-05-16 10:00:00',     '2024-06-16 18:00:00',      'I like this guy',           null,                                         '2024-05-16 10:00:09',         NOW(),         1,            1         ),
-('RECEIVE',   null,             2,            3,               null,                      null,                       null,                        null,                                         NOW(),         NOW(),         1,            1         );
+(ticket_type, ticket_status,    employee_id,  customer_id, start_date,       end_date,     comment,                 repair_description,                    created_at,            updated_at,    created_by,   updated_by)  VALUES
+('REPAIR',    'CLOSED',         2,            1,           '2024-05-17',     '2024-05-20', 'Important',             'Adjust gears and lubricate',          '2024-05-16 10:00:00', NOW(),         1,            1         ),
+('RENT',      'CLOSED',         1,            2,           '2024-05-16',     '2024-05-22', null                   , null,                                  '2024-05-16 10:00:00', NOW(),         1,            1         ),
+('REPAIR',    'CLOSED',         2,            1,           '2024-05-20',     '2024-05-20', 'Could be back earlier', 'Flat tire front and loose handlebar', '2024-05-20 10:00:01', NOW(),         1,            1         ),
+('RENT',      'IN_PROGRESS',    3,            1,           '2024-05-24',     '2024-05-28', null,                    null,                                  '2024-05-20 10:00:02', NOW(),         1,            1         ),
+('RENT',      'IN_PROGRESS',    3,            2,           '2024-05-23',     '2024-05-14', 'Lets prioritise this',  null,                                  '2024-05-23 10:00:03', NOW(),         1,            1         ),
+('DONATE',    null,             1,            3,           null,             null,         null,                    null,                                  '2024-06-01 10:00:08', NOW(),         1,            1         ),
+('RECEIVE',   null,             2,            3,           null,             null,         null,                    null,                                  '2024-06-04 10:00:09', NOW(),         1,            1         ),
+('RENT',      'IN_PROGRESS',    1,            1,           '2024-07-20',     '2026-06-06', 'I like this guy',       null,                                  '2024-07-07 10:00:10', NOW(),         1,            1         );
 
 INSERT INTO Ticket_Vehicle
 (vehicle_id, ticket_id) VALUES
 (1,         1         ),
 (3,         2         ),
-(4,         2         ),
+(2,         2         ),
 (2,         3         ),
-(5,         4         ),
-(6,         5         ),
-(7,         6         ),
-(7,         7         ),
+(6,         4         ),
+(7,         5         ),
+(4,         6         ),
+(8,         7         ),
 (8,         8         );
 
 --
@@ -85,7 +85,7 @@ INSERT INTO Shop
 ('Majorna',               'Skärgårdsgatan 4, 414 58 Göteborg',             57.694000, 11.925000, 'https://hjulverkstan.s3.eu-north-1.amazonaws.com/d80043e0-2c01-4511-a6e4-f0980da04da5.jpg', 6,             false,               6,           'majorna2',     NOW(),      NOW(),      1,          1         );
 
 INSERT INTO Localised_Content
-(lang,   field_name,     content,                                                                                                                                                               created_at, updated_at, created_by, updated_by, general_content_id, shop_id) VALUES
+(lang,   field_name,     content,                                                                                                                                                               created_at, updated_at, created_by, updated_by, text_id, shop_id) VALUES
 ('ENG',  'BODY_TEXT',    'At Skolspåret 15, we offer basic servicing of your bike, such as fixing pedals, adjusting gears, checking tires, air pressure, and lubrication, among other things.', NOW(),      NOW(),      1,          1,          null,               1),
 ('SWE',  'BODY_TEXT',    'På Skolspåret 15 erbjuder vi enkla reparationer på din cykel, så som att laga pedalerna, justera växlarna, kolla hjulen, lufttrycket och insmörjning.',               NOW(),      NOW(),      1,          1,          null,               1);
 

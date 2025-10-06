@@ -8,7 +8,7 @@ import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import * as DataTable from '@components/DataTable';
 
-import { PageContentProps } from '..';
+import { PortalAppPageProps } from '..';
 import PortalContent from '../PortalContent';
 import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
@@ -23,7 +23,7 @@ import { Customer } from '@data/customer/types';
 
 //
 
-export default function PortalShopCustomers({ mode }: PageContentProps) {
+export default function PortalShopCustomers({ mode }: PortalAppPageProps) {
   const { id = '' } = useParams();
 
   const customersQ = useCustomersQ();

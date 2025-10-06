@@ -72,9 +72,9 @@ export default function ShopTicketsActions({
     );
   };
 
-  const onStatusUpdate = (newStatus: TicketStatus) => {
+  const onStatusUpdate = (ticketStatus: TicketStatus) => {
     updateTicketStatusM.mutate(
-      { id: ticket.id, ticketStatus: newStatus },
+      { id: ticket.id, ticketStatus },
       {
         onSuccess: (res) => {
           toast(

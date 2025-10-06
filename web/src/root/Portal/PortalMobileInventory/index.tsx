@@ -15,7 +15,7 @@ import {
   useUploadAndSetVehicleImage,
 } from '@data/image/mutations';
 
-import { PageContentProps } from '../index';
+import { PortalAppPageProps } from '../index';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { MobileInventoryVehicleCard } from './MobileInventoryVehicleCard';
 
@@ -133,7 +133,7 @@ const MobileInventoryRow = ({ vehicle }: { vehicle: Vehicle }) => {
   );
 };
 
-export default function PortalMobileInventory({ mode }: PageContentProps) {
+export default function PortalMobileInventory({ mode }: PortalAppPageProps) {
   const vehiclesQ = useVehiclesAggregatedQ();
 
   return (

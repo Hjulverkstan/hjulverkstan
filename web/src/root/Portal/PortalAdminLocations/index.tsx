@@ -8,7 +8,7 @@ import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import * as DataTable from '@components/DataTable';
 
-import { PageContentProps } from '..';
+import { PortalAppPageProps } from '..';
 import PortalContent from '../PortalContent';
 import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
@@ -22,7 +22,7 @@ import { Location } from '@data/location/types';
 
 //
 
-export default function PortalAdminLocations({ mode }: PageContentProps) {
+export default function PortalAdminLocations({ mode }: PortalAppPageProps) {
   const { id = '' } = useParams();
 
   const locationsQ = useLocationsQ();

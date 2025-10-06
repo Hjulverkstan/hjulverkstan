@@ -12,7 +12,7 @@ export default function Stories() {
       <Section>
         <SectionContent>
           <div className="grid gap-8 lg:grid-cols-2">
-            {data.story.map((story) => (
+            {data.stories.map((story) => (
               <CardStory
                 key={story.id}
                 story={story}
