@@ -194,17 +194,20 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
     key={route.path + locale}
     path={locale ? `/${locale}${route.path}` : route.path}
     element={
-      <>
-        <RouteHelmet route={route} locale={locale ?? fallBackLocale} />
-        <LocaleProvider value={locale ?? fallBackLocale}>
-          <route.component />
-        </LocaleProvider>
-        {!locale && (
-          <RedirectDelayed
-            path={`/${fallBackLocale}${route.path.replace('/*', '')}`}
-          />
-        )}
-      </>
+      <LocaleProvider value={locale ?? fallBackLocale}>
+        <Tooltip.Provider delayDuration={500}>
+          <DialogManager.Provider>
+            <RouteHelmet route={route} locale={locale ?? fallBackLocale} />
+            <route.component />
+            {!locale && (
+              <RedirectDelayed
+                path={`/${fallBackLocale}${route.path.replace('/*', '')}`}
+              />
+            )}
+            <Toaster />
+          </DialogManager.Provider>
+        </Tooltip.Provider>
+      </LocaleProvider>
     }
   />
 );
@@ -225,20 +228,15 @@ export default function Root() {
   return (
     <ThemeProvider storageKey="vite-ui-theme">
       <QueryClientProvider client={queryClient}>
-        <Tooltip.Provider delayDuration={500}>
-          <DialogManager.Provider>
-            <Routes>
-              {routes.map((route) => renderLocalizedRoute(route))}
-              {locales
-                .map((locale) =>
-                  routes.map((route) => renderLocalizedRoute(route, locale)),
-                )
-                .flat()}
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-            <Toaster />
-          </DialogManager.Provider>
-        </Tooltip.Provider>
+        <Routes>
+          {routes.map((route) => renderLocalizedRoute(route))}
+          {locales
+            .map((locale) =>
+              routes.map((route) => renderLocalizedRoute(route, locale)),
+            )
+            .flat()}
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ThemeProvider>
