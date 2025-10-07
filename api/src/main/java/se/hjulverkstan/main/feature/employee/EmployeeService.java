@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.CouldNotDeleteException;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    public GetAllEmployeeDto getAllEmployees() {
+    public ListResponseDto<EmployeeDto> getAllEmployees() {
         List<Employee> employees = employeeRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        return new GetAllEmployeeDto(employees);
+        return new ListResponseDto<>(employees.stream().map(EmployeeDto::new).toList());
     }
 
     public EmployeeDto getEmployeeById(Long id) {

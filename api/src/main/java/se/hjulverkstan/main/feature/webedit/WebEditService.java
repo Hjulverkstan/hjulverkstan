@@ -4,21 +4,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.error.exceptions.UnsupportedArgumentException;
 import se.hjulverkstan.main.feature.webedit.localisation.LangCountPerEntityDto;
 import se.hjulverkstan.main.feature.webedit.localisation.Language;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentRepository;
-import se.hjulverkstan.main.feature.webedit.shop.GetAllShopDto;
+import se.hjulverkstan.main.feature.webedit.shop.ShopDto;
 import se.hjulverkstan.main.feature.webedit.shop.ShopService;
-import se.hjulverkstan.main.feature.webedit.story.GetAllStoryDto;
+import se.hjulverkstan.main.feature.webedit.story.StoryDto;
 import se.hjulverkstan.main.feature.webedit.story.StoryService;
-import se.hjulverkstan.main.feature.webedit.text.GetAllTextDto;
+import se.hjulverkstan.main.feature.webedit.text.TextDto;
 import se.hjulverkstan.main.feature.webedit.text.TextService;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -63,13 +64,16 @@ public class WebEditService {
 
         for (Language lang : langs) {
             AllWebEditEntitiesDto entitiesDto = new AllWebEditEntitiesDto();
-            GetAllShopDto allShopDto = shopService.getAllShopsByLang(lang, fallbackLang);
-            GetAllStoryDto allStoryDto = storyService.getAllStoriesByLang(lang, fallbackLang);
-            GetAllTextDto allTextDto = textService.getAllTextsByLang(lang, fallbackLang);
+            ListResponseDto<ShopDto> shopsDto = shopService.getAllShopsByLang(lang, fallbackLang);
+            ListResponseDto<StoryDto> storiesDto = storyService.getAllStoriesByLang(lang, fallbackLang);
+            ListResponseDto<TextDto> textsDto = textService.getAllTextsByLang(lang, fallbackLang);
 
-            entitiesDto.setShops(allShopDto.getShops());
-            entitiesDto.setStories(allStoryDto.getStories());
-            entitiesDto.setText(allTextDto.getAsKeyValueMap());
+            Map<String, String> textMap = textsDto.getContent().stream()
+                    .collect(Collectors.toMap(TextDto::getKey, TextDto::getValue));
+
+            entitiesDto.setShops(shopsDto.getContent());
+            entitiesDto.setStories(storiesDto.getContent());
+            entitiesDto.setText(textMap);
 
             entitiesByLangDto.getEntities().put(lang, entitiesDto);
         }

@@ -1,19 +1,18 @@
 import { createErrorHandler, endpoints, instance } from '../api';
+import { ListResponse } from '../types';
 
 import { Location } from './types';
 
 // GET ALL
 
-export interface GetLocationsRes {
-  locations: Location[];
-}
+export type GetLocationsRes = ListResponse<Location>;
 
 export const createGetLocations = () => ({
   queryKey: [endpoints.location],
   queryFn: () =>
     instance
       .get<GetLocationsRes>(endpoints.location)
-      .then((res) => res.data.locations)
+      .then((res) => res.data.content)
       .catch(createErrorHandler(endpoints.location)),
 });
 

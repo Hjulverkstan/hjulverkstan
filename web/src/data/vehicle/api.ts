@@ -1,19 +1,18 @@
 import { createErrorHandler, endpoints, instance } from '../api';
+import { ListResponse } from '../types';
 
 import { Vehicle, VehicleStatus } from './types';
 
 // GET ALL
 
-export interface GetVehiclesRes {
-  vehicles: Vehicle[];
-}
+export type GetVehiclesRes = ListResponse<Vehicle>;
 
 export const createGetVehicles = () => ({
   queryKey: [endpoints.vehicle],
   queryFn: () =>
     instance
       .get<GetVehiclesRes>(endpoints.vehicle)
-      .then((res) => res.data.vehicles)
+      .then((res) => res.data.content)
       .catch(createErrorHandler(endpoints.vehicle)),
 });
 

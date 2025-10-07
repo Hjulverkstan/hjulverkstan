@@ -2,8 +2,8 @@ package se.hjulverkstan.main.feature.site;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import se.hjulverkstan.main.feature.vehicle.GetAllVehicleDto;
 import se.hjulverkstan.main.feature.vehicle.VehicleDto;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 @RestController
 @RequestMapping("v1/api/site")
@@ -12,7 +12,7 @@ public class SiteController {
     private final SiteService siteService;
 
     @GetMapping("/vehicle/location/{locationId}")
-    public GetAllVehicleDto getAllPublicVehicles(@PathVariable Long locationId) {
+    public ListResponseDto<VehicleDto> getAllPublicVehicles(@PathVariable Long locationId) {
         return siteService.findPublicAvailableVehicles(locationId);
     }
 

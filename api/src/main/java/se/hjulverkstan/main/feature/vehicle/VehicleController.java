@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import se.hjulverkstan.main.shared.FilteredResponseDto;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 @RestController
 @RequestMapping("v1/api/vehicle")
@@ -14,13 +16,18 @@ public class VehicleController {
     private final VehicleService vehicleService;
 
     @GetMapping()
-    public GetAllVehicleDto getAllVehicles() {
+    public ListResponseDto<VehicleDto> getAllVehicles() {
         return vehicleService.getAllVehicles();
     }
 
     @GetMapping("/{id}")
     public VehicleDto getVehicleById(@PathVariable Long id) {
         return vehicleService.getVehicleById(id);
+    }
+
+    @PostMapping("/search")
+    public FilteredResponseDto<VehicleDto, VehicleFilterCountsDto> searchVehicles(@RequestBody(required = false) VehicleFilterDto filterDto) {
+        return vehicleService.searchVehicles(filterDto);
     }
 
     @PostMapping()
