@@ -207,6 +207,14 @@ As mentioned, the design patterns of this application are not perfect, but it is
 - The other combo of dto bean based validation without custom annotations and a util invoked in the service also splits up the domain.
 - DTO constructors may touch **lazy relations** and are therefore sensitive and refrained to the transaction boundary.
 
+## Setting up Postman `🧑‍🚀`
+
+With the evident lack of automated tests, doing regression tests with postman is even more important and of course a good utility to have.
+
+Go the url of your local backend or from an environment: /api/v3/api-docs and download + rename to have a json file ending.
+
+With postman, that seems somewhat proprietary you have to have an account to support importing the open api definition. After that choose import as file and pick the download specification. Voilá, all done.
+
 ## UML Diagram `🔗`
 
 <div>
