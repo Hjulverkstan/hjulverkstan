@@ -6,6 +6,8 @@ import se.hjulverkstan.main.feature.webedit.localisation.Language;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
@@ -13,8 +15,8 @@ import java.util.stream.Collectors;
 public class GetAllTextDto {
     private List<TextDto> texts;
     
-    public GetAllTextDto(List<Text> texts, Language lang, Language fallbackLang) {
-        this.texts = texts.stream().map(text -> new TextDto(text, lang, fallbackLang)).toList();
+    public GetAllTextDto(List<Text> texts, Function<Text, TextDto> mapper) {
+        this.texts = texts.stream().map(mapper).toList();
     }
 
     public Map<String, String> getAsKeyValueMap () {
