@@ -1,4 +1,4 @@
-package se.hjulverkstan.main.shared;
+package se.hjulverkstan.main.shared.auditable;
 
 import jakarta.persistence.*;
 import lombok.Getter;

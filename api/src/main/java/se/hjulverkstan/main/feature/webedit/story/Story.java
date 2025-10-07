@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import se.hjulverkstan.main.feature.webedit.localisation.Localised;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
-import se.hjulverkstan.main.shared.Auditable;
+import se.hjulverkstan.main.shared.auditable.Auditable;
 
 import java.util.ArrayList;
 import java.util.List;

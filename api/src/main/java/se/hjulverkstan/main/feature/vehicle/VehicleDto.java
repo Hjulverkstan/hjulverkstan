@@ -9,10 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.feature.ticket.Ticket;
-import se.hjulverkstan.main.feature.ticket.TicketStatus;
-import se.hjulverkstan.main.feature.ticket.TicketType;
 import se.hjulverkstan.main.feature.vehicle.model.*;
-import se.hjulverkstan.main.shared.AuditableDto;
+import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
 import java.util.List;
 

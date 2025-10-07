@@ -3,7 +3,7 @@ package se.hjulverkstan.main.feature.location;
 import jakarta.persistence.*;
 import lombok.*;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
-import se.hjulverkstan.main.shared.Auditable;
+import se.hjulverkstan.main.shared.auditable.Auditable;
 import se.hjulverkstan.main.feature.webedit.shop.Shop;
 
 import java.util.List;
