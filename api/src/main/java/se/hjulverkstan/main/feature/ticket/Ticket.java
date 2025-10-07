@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
-import se.hjulverkstan.main.shared.Auditable;
+import se.hjulverkstan.main.shared.auditable.Auditable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

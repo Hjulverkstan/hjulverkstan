@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import se.hjulverkstan.main.feature.ticket.Ticket;
-import se.hjulverkstan.main.shared.Auditable;
+import se.hjulverkstan.main.shared.auditable.Auditable;
 
 import java.util.ArrayList;
 import java.util.List;

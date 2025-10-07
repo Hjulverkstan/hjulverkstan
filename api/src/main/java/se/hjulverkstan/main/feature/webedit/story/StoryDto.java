@@ -5,10 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils;
-import se.hjulverkstan.main.shared.AuditableDto;
+import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
 @Data
 @AllArgsConstructor

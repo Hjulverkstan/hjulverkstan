@@ -11,12 +11,10 @@ import lombok.NoArgsConstructor;
 
 import se.hjulverkstan.main.security.model.ERole;
 import se.hjulverkstan.main.security.model.Role;
-import se.hjulverkstan.main.shared.Auditable;
+import se.hjulverkstan.main.shared.auditable.Auditable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Table(name = "users",

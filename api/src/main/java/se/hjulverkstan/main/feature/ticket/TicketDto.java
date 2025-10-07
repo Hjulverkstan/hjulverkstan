@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
-import se.hjulverkstan.main.shared.AuditableDto;
+import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,6 +1,8 @@
-package se.hjulverkstan.main.shared;
+package se.hjulverkstan.main.shared.auditable;
 
 import org.springframework.data.jpa.domain.Specification;
+import se.hjulverkstan.main.shared.specs.DateRangeDto;
+import se.hjulverkstan.main.shared.specs.Specs;
 
 import java.util.List;
 

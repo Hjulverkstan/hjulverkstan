@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import se.hjulverkstan.main.feature.webedit.text.Text;
 import se.hjulverkstan.main.feature.webedit.shop.Shop;
-import se.hjulverkstan.main.shared.Auditable;
+import se.hjulverkstan.main.shared.auditable.Auditable;
 import se.hjulverkstan.main.feature.webedit.story.Story;
 
 @Entity

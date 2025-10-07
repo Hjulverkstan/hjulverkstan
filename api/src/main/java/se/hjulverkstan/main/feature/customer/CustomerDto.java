@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.feature.ticket.Ticket;
-import se.hjulverkstan.main.shared.AuditableDto;
+import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
 import java.util.ArrayList;
 import java.util.List;

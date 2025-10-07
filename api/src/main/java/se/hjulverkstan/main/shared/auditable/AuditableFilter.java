@@ -1,6 +1,7 @@
-package se.hjulverkstan.main.shared;
+package se.hjulverkstan.main.shared.auditable;
 
 import org.springframework.data.jpa.domain.Specification;
+import se.hjulverkstan.main.shared.specs.Specs;
 
 public class AuditableFilter {
     public static <T extends Auditable> Specification<T> create(AuditableFilterDto dto) {
