@@ -11,6 +11,8 @@ import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils;
 
 import java.util.List;
 
+import static se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils.getLocalisedValue;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -20,12 +22,14 @@ public class StoryService {
 
     public GetAllStoryDto getAllStoriesByLang(Language lang, Language fallbackLang) {
         List<Story> stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        return new GetAllStoryDto(stories, lang, fallbackLang);
+
+        return new GetAllStoryDto(stories, story -> new StoryDto(story, getLocalisedValue(story, lang, fallbackLang)));
     }
 
     public StoryDto getStoryByLangAndId(Language lang, Long id) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
-        return new StoryDto(story, lang, null);
+
+        return new StoryDto(story, getLocalisedValue(story, lang));
     }
 
     @Transactional
@@ -41,7 +45,7 @@ public class StoryService {
         );
 
         storyRepository.save(story);
-        return new StoryDto(story, lang, null);
+        return new StoryDto(story, getLocalisedValue(story, lang));
     }
 
     @Transactional
@@ -56,7 +60,7 @@ public class StoryService {
                 lc -> lc.setStory(story)
         );
 
-        return new StoryDto(story, lang, null);
+        return new StoryDto(story, getLocalisedValue(story, lang));
     }
 
     @Transactional

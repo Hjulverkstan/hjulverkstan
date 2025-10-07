@@ -25,13 +25,13 @@ public class StoryDto extends AuditableDto {
 
     private String imageURL;
 
-    public StoryDto(Story story, Language lang, Language fallbackLang) {
+    public StoryDto(Story story, String bodyTextLocalised) {
         super(story);
 
         id = story.getId();
         title = story.getTitle();
         imageURL = story.getImageURL();
-        bodyText = LocalisedContentUtils.getLocalisedValue(story, lang, fallbackLang);
+        bodyText = bodyTextLocalised;
     }
 
     // Localised content should be set in service layer

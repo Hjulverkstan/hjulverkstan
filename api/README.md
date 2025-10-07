@@ -83,11 +83,37 @@ The type of DTO's written are not completely dumb, the mappings have some cognit
   ```
 
 > It is acknowledged that some DDD practitioners most likely prefer more dumb DTOs without mapping, and separate DTOs for read, write and create. With the size of the project and the neatly packed feature based modules the end result has felt clear and practical in trying it out, resulting in lesser amount of classes to reason about, and zero duplication.
-> 
-> However, using this pattern in the `feature/webedit/*` modules becomes more complex because of localization and the dto start to feel quite business owning. To be improved.
+
+However, using this pattern in the `feature/webedit/*` grows a bit in complexity. As each dto has one value that is localised, this value needs to be retrieved in the service layer. Fine, but becomes more intricate for the get all DTOs. An example:
+
+```java
+// DTO constructor:
+public GetAllStoryDto (List<Story> stories, Function<Story, StoryDto> mapper) {
+    this.stories = stories.stream().map(mapper).toList();
+}
+
+// Invocation in the service layer:
+
+public GetAllStoryDto getAllStoriesByLang(Language lang, Language fallbackLang) {
+    List<Story> stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+
+    return new GetAllStoryDto(stories, story -> new StoryDto(story, getLocalisedValue(story, lang, fallbackLang)));
+}
+
+// In contrast to just the "get" service method:
+
+public StoryDto getStoryByLangAndId(Language lang, Long id) {
+    Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
+
+    return new StoryDto(story, getLocalisedValue(story, lang));
+}
+```
+
+This is done to refrain from adding another mapper class layer as the DTOs hold the mapper domain. To be coherent with the chosen style, perhaps though not a good idea in the long run...
 
 > **GUIDELINES**
 > `applyToEntity()` must never use other components such as repositories, relations are handles by the service. For clarity always comment which fields are expected to be set by the service.
+> If constructors require more fields than the entity, utilize a mapper function (like in the example above) for the GetAllDto...
 
 ### Controllers `🧭`
 
@@ -169,8 +195,8 @@ As mentioned, the design patterns of this application are not perfect, but it is
 > **GUIDELINES**
 > 1. `@Transaction(readOnly = true)` on service, `@Transaction` on methods that write (e.g. create, edit, delete etc...).
 > 2. Non-annotation validation of a DTO is never defined in service, always abstracted into a util class in the same package. Note that we do not create custom validation annotations.
->   2.1. Validation of the DTO against itself in `validateDtoBySelf()`
->   2.2. Validation of the DTO against other values  in `validateDtoByContext()`
+>   - Validation of the DTO against itself in `validateDtoBySelf()`
+>   - Validation of the DTO against other values  in `validateDtoByContext()`
 > 3. If loading a list of entities from a list of primitives, always use `ValidationUtils.validateNoMissing()` to make sure missing elements are caught and thrown.
 > 4. Setting relations is always done in a `applyRelationsFromDto()` method, taking the dto, then the entity, and the loaded entities if required.
 > 5. We never load the same data multiple times in a transaction and always load in the service method, not embedded in helpers (e.g. `List<Vehicles>` is needed for validation **and** applying relations, we get it first pass to the respective methods.  
@@ -179,7 +205,6 @@ As mentioned, the design patterns of this application are not perfect, but it is
 
 - The combo of `applyToEntity()` and `applyRelationsFromDto()` are split up, defining them together would unify the domain of mapping. Perhaps DTOs shouldn't map themselves, but a mapper helper would help, or some other fancies (MapStruct?).
 - The other combo of dto bean based validation without custom annotations and a util invoked in the service also splits up the domain.
-- Some may think all DTOs here are too intelligent for their own good and should not contain mapping, the DTOs in `feature/webedit` though, really does feel too intelligent. Would another approach to mapping help here?
 - DTO constructors may touch **lazy relations** and are therefore sensitive and refrained to the transaction boundary.
 
 ## UML Diagram `🔗`

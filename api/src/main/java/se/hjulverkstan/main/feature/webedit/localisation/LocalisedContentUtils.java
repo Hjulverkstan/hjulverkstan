@@ -53,6 +53,10 @@ public class LocalisedContentUtils {
         return (value == null && lang != fallbackLang) ? getLocalisedValueByLang(entity, fallbackLang) : value;
     }
 
+    public static <T extends Localised> String getLocalisedValue (T entity, Language lang) {
+        return getLocalisedValueByLang(entity, lang);
+    }
+
     private static <T extends Localised> String getLocalisedValueByLang (T entity, Language lang) {
         return entity.getLocalisedContent().stream()
                 .filter(lc -> lang.equals(lc.getLang()))
