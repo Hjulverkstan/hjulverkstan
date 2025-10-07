@@ -19,8 +19,14 @@ import { CardShop } from '@components/CardShop';
 import { Partner, partners } from './tempData';
 import { GridBetween } from '@components/GridBetween';
 import { Page } from '@components/Page';
+import { useDialogManager } from '@components/DialogManager';
 
-//
+import {
+  ServicesRepairCardView,
+  ServicesHowToRentView,
+  ServicesJoinCourseView,
+  ServicesAsDialogWrapper,
+} from './Services';
 
 const Statistic = ({ label, value }: { label: string; value: number }) => (
   <div className="flex h-full flex-col items-center justify-start text-center">
@@ -44,6 +50,7 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
 
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
+  const { openDialog } = useDialogManager();
 
   return (
     <Page hasHeroSection>
@@ -78,24 +85,52 @@ export default function Home() {
       <Section variant="muted">
         <SectionContent>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
+            {/* Repair */}
             <CardDefault
               icon={Wrench}
               title={data.generalContent.serviceRepairTitle}
               body={data.generalContent.serviceRepairBody}
-              link="/"
+              linkLabel={data.generalContent.servicesFindShop}
+              onClick={() =>
+                openDialog(
+                  <ServicesAsDialogWrapper>
+                    <ServicesRepairCardView mode="dialog" />
+                  </ServicesAsDialogWrapper>,
+                )
+              }
             />
+
+            {/* Rent */}
             <CardDefault
               icon={CalendarDays}
               title={data.generalContent.serviceRentTitle}
               body={data.generalContent.serviceRentBody}
-              link="/"
+              linkLabel={data.generalContent.servicesFindShop}
+              onClick={() =>
+                openDialog(
+                  <ServicesAsDialogWrapper>
+                    <ServicesHowToRentView mode="dialog" />
+                  </ServicesAsDialogWrapper>,
+                )
+              }
             />
+
+            {/* Courses */}
             <CardDefault
               icon={TrafficCone}
               title={data.generalContent.serviceCoursesTitle}
               body={data.generalContent.serviceCoursesBody}
-              link="/"
+              linkLabel={data.generalContent.servicesFindEvent}
+              onClick={() =>
+                openDialog(
+                  <ServicesAsDialogWrapper>
+                    <ServicesJoinCourseView mode="dialog" />
+                  </ServicesAsDialogWrapper>,
+                )
+              }
             />
+
+            {/* Community */}
             <CardDefault
               icon={Bike}
               title={data.generalContent.serviceCommunityTitle}
