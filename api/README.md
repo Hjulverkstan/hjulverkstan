@@ -62,14 +62,6 @@ We use **one DTO per entity**, handling both directions: **entity → DTO** and 
 - A `Constructor()` taking the entity and applying it to the DTO.
 - An `applyToEntity()` method that takes an entity and applies the fields from the DTO.
 
-This makes one DTO a complete interface reusable in all service methods. If one DTO contains another, it may take the entities or list of entities and set it itself by reusing the nested DTO's `NestedDto::new` constructor, for instance:
-
-```java
-public GetAllVehicleDto (List<Vehicle> vehicles) {
-    this.vehicles = vehicles.stream().map(VehicleDto::new).toList();
-}
-```
-
 The type of DTO's written are not completely dumb, the mappings have some cognitive load:
 
 - There is no class inheritance with union discrimination, all variant of a dto live under the same hood and therefore result in some logic required in the mapping, (e.g. `type == BATCH ? batchCount : null``);
@@ -83,33 +75,6 @@ The type of DTO's written are not completely dumb, the mappings have some cognit
   ```
 
 > It is acknowledged that some DDD practitioners most likely prefer more dumb DTOs without mapping, and separate DTOs for read, write and create. With the size of the project and the neatly packed feature based modules the end result has felt clear and practical in trying it out, resulting in lesser amount of classes to reason about, and zero duplication.
-
-However, using this pattern in the `feature/webedit/*` grows a bit in complexity. As each dto has one value that is localised, this value needs to be retrieved in the service layer. Fine, but becomes more intricate for the get all DTOs. An example:
-
-```java
-// DTO constructor:
-public GetAllStoryDto (List<Story> stories, Function<Story, StoryDto> mapper) {
-    this.stories = stories.stream().map(mapper).toList();
-}
-
-// Invocation in the service layer:
-
-public GetAllStoryDto getAllStoriesByLang(Language lang, Language fallbackLang) {
-    List<Story> stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-
-    return new GetAllStoryDto(stories, story -> new StoryDto(story, getLocalisedValue(story, lang, fallbackLang)));
-}
-
-// In contrast to just the "get" service method:
-
-public StoryDto getStoryByLangAndId(Language lang, Long id) {
-    Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
-
-    return new StoryDto(story, getLocalisedValue(story, lang));
-}
-```
-
-This is done to refrain from adding another mapper class layer as the DTOs hold the mapper domain. To be coherent with the chosen style, perhaps though not a good idea in the long run...
 
 > **GUIDELINES**
 > `applyToEntity()` must never use other components such as repositories, relations are handles by the service. For clarity always comment which fields are expected to be set by the service.
@@ -206,6 +171,16 @@ As mentioned, the design patterns of this application are not perfect, but it is
 - The combo of `applyToEntity()` and `applyRelationsFromDto()` are split up, defining them together would unify the domain of mapping. Perhaps DTOs shouldn't map themselves, but a mapper helper would help, or some other fancies (MapStruct?).
 - The other combo of dto bean based validation without custom annotations and a util invoked in the service also splits up the domain.
 - DTO constructors may touch **lazy relations** and are therefore sensitive and refrained to the transaction boundary.
+
+## Notes
+
+### Filtering
+
+ Vehicle contains an endpoint `/search` for server side filtering and a response for a faceted filter UI. This was done to explore how minimal a fully fledged faceted filtering could be implemented in the backend. The motivation was that the faceted filtering logic in the front end is a bit complex as it resides inside the scope of the React tree and would be nicer to have lower down in the application stack. Another motivation was also that some time down the line as datasets grow, the need for server side filtering and pagination would be required.
+
+It does have a bit of dependencies, including the added `/shared/specs`, `/shared/FilterUtils`, `/shared/FilterResponseDto` (and other dtos for it), added filter support in `/shared/autiable` and the three filter files under `feature/vehicle`: `VehicleFilterDto`, `VehicleFilterCountDto` and `VehicleFilter`, ultimately all of this is dead code at the moment as the transition to server side filtering from the front end side would be an invested not prioritised.
+
+At least there is a foundation there that works, and can be used if the day comes, and thruthfully was mostly motivated by a dare, after reading up on how filtering is done in Spring. Cant it be a low footprint developer experience and still remain simple at it's core? The biased conclusion of the author of the code is, *quite nice*...
 
 ## Setting up Postman `🧑‍🚀`
 

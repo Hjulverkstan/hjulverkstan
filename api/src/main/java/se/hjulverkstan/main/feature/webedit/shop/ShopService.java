@@ -14,8 +14,10 @@ import se.hjulverkstan.main.feature.webedit.localisation.Language;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
 import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils.getLocalisedValue;
 
@@ -27,9 +29,11 @@ public class ShopService {
     private final ShopRepository shopRepository;
     private final LocationRepository locationRepository;
 
-    public GetAllShopDto getAllShopsByLang(Language lang, Language fallbackLang) {
+    public ListResponseDto<ShopDto> getAllShopsByLang(Language lang, Language fallbackLang) {
         List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        return new GetAllShopDto(shops, shop -> new ShopDto(shop, getLocalisedValue(shop, lang, fallbackLang)));
+
+        Function<Shop, ShopDto> mapper = shop -> new ShopDto(shop, getLocalisedValue(shop, lang, fallbackLang));
+        return new ListResponseDto<>(shops.stream().map(mapper).toList());
     }
 
     public ShopDto getShopByLangAndId(Language lang, Long id) {

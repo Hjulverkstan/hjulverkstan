@@ -1,6 +1,7 @@
-import { Vehicle } from '@data/vehicle/types';
-import { createErrorHandler, endpoints, instance } from '@data/api';
-import { GetVehicleParams, GetVehicleRes } from '@data/vehicle/api';
+import { GetVehicleParams, GetVehicleRes } from '../vehicle/api';
+import { Vehicle } from '../vehicle/types';
+import { createErrorHandler, endpoints, instance } from '../api';
+import { ListResponse } from '../types';
 
 // GET ALL PUBLIC VEHICLES
 
@@ -8,9 +9,7 @@ export interface GetPublicVehiclesByLocationParams {
   locationId: string;
 }
 
-export interface GetPublicVehiclesByLocationRes {
-  vehicles: Vehicle[];
-}
+export type GetPublicVehiclesByLocationRes = ListResponse<Vehicle>;
 
 export const createGetPublicVehiclesByLocation = ({
   locationId,
@@ -21,7 +20,7 @@ export const createGetPublicVehiclesByLocation = ({
       .get<GetPublicVehiclesByLocationRes>(
         `${endpoints.site}/location/${locationId}`,
       )
-      .then((res) => res.data.vehicles)
+      .then((res) => res.data.content)
       .catch(createErrorHandler(endpoints.site));
   },
 });
