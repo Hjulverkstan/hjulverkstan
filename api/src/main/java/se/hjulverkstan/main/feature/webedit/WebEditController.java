@@ -7,7 +7,7 @@ import se.hjulverkstan.main.feature.webedit.localisation.LangCountPerEntityDto;
 import se.hjulverkstan.main.feature.webedit.localisation.Language;
 
 @RestController
-@RequestMapping("v1/api/webedit")
+@RequestMapping("v1/api/web-edit")
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') or hasRole('ROLE_PIPELINE')")
 @RequiredArgsConstructor
 public class WebEditController {

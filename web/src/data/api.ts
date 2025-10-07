@@ -18,7 +18,7 @@ export const endpoints = {
     verifyAuth: '/auth/verify',
   },
   webedit: {
-    all: '/webedit/get-all',
+    all: '/web-edit/get-all',
   },
   user: '/user',
 };
