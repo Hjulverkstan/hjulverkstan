@@ -11,6 +11,8 @@ import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils;
 
 import java.util.List;
 
+import static se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils.getLocalisedValue;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -20,12 +22,14 @@ public class TextService {
 
     public GetAllTextDto getAllTextsByLang(Language lang, Language fallbackLang) {
         List<Text> texts = textRepository.findAll(Sort.by(Sort.Direction.DESC, "name"));
-        return new GetAllTextDto(texts, lang, fallbackLang);
+
+        return new GetAllTextDto(texts, text -> new TextDto(text, getLocalisedValue(text, lang, fallbackLang)));
     }
 
     public TextDto getTextByLangAndId(Language lang, Long id) {
         Text text = textRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Text"));
-        return new TextDto(text, lang, null);
+
+        return new TextDto(text, getLocalisedValue(text, lang));
     }
 
     @Transactional
@@ -41,6 +45,7 @@ public class TextService {
         );
 
         textRepository.save(text);
-        return new TextDto(text, lang, null);
+
+        return new TextDto(text, getLocalisedValue(text, lang));
     }
 }

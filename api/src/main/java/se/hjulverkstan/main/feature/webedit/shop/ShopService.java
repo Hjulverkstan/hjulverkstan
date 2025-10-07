@@ -17,6 +17,8 @@ import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils;
 
 import java.util.List;
 
+import static se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils.getLocalisedValue;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -25,14 +27,14 @@ public class ShopService {
     private final ShopRepository shopRepository;
     private final LocationRepository locationRepository;
 
-    public GetAllShopDto getAllShopsByLang(Language lang, Language fallBackLang) {
+    public GetAllShopDto getAllShopsByLang(Language lang, Language fallbackLang) {
         List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        return new GetAllShopDto(shops, lang, fallBackLang);
+        return new GetAllShopDto(shops, shop -> new ShopDto(shop, getLocalisedValue(shop, lang, fallbackLang)));
     }
 
     public ShopDto getShopByLangAndId(Language lang, Long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
-        return new ShopDto(shop, lang, null);
+        return new ShopDto(shop, getLocalisedValue(shop, lang));
     }
 
     @Transactional
@@ -50,7 +52,7 @@ public class ShopService {
 
         shopRepository.save(shop);
 
-        return new ShopDto(shop, lang, null);
+        return new ShopDto(shop, getLocalisedValue(shop, lang));
     }
 
     @Transactional
@@ -69,7 +71,7 @@ public class ShopService {
         );
 
         shopRepository.save(shop);
-        return new ShopDto(shop, lang, null);
+        return new ShopDto(shop, getLocalisedValue(shop, lang));
     }
 
     @Transactional

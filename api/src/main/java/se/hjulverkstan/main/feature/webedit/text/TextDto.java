@@ -32,7 +32,7 @@ public class TextDto extends AuditableDto {
 
     private String value;
 
-    public TextDto(Text text, Language lang, Language fallbackLang) {
+    public TextDto(Text text, String valueLocalised) {
         super();
 
         id = text.getId();
@@ -40,7 +40,7 @@ public class TextDto extends AuditableDto {
         name = text.getName();
         description = text.getDescription();
         key = text.getKey();
-        value = LocalisedContentUtils.getLocalisedValue(text, lang, fallbackLang);
+        value = valueLocalised;
     }
 }
 

@@ -46,7 +46,7 @@ public class ShopDto extends AuditableDto {
     @NotBlank(message = "Body text in at least one language is required for creating a shop")
     private String bodyText;
 
-    public ShopDto (Shop shop, Language lang, Language fallbackLang) {
+    public ShopDto (Shop shop, String bodyTextLocalised) {
         super(shop);
 
         name = shop.getName();
@@ -58,7 +58,7 @@ public class ShopDto extends AuditableDto {
         hasTemporaryHours = shop.isHasTemporaryHours();
 
         openHours = new OpenHoursDto(shop.getOpenHours());
-        bodyText = LocalisedContentUtils.getLocalisedValue(shop, lang, fallbackLang);
+        bodyText = bodyTextLocalised;
     }
 
     // Relations set inside instead of in service layer unlike in other entities in this code base, deemed fine because

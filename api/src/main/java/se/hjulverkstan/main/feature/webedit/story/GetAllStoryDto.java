@@ -3,9 +3,9 @@ package se.hjulverkstan.main.feature.webedit.story;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +13,7 @@ import java.util.List;
 public class GetAllStoryDto {
     private List<StoryDto> stories;
 
-    public GetAllStoryDto (List<Story> stories, Language lang, Language fallbackLang) {
-        this.stories = stories.stream().map(story -> new StoryDto(story, lang, fallbackLang)).toList();
+    public GetAllStoryDto (List<Story> stories, Function<Story, StoryDto> mapper) {
+        this.stories = stories.stream().map(mapper).toList();
     }
 }
