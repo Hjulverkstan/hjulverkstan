@@ -11,6 +11,7 @@ import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.employee.EmployeeRepository;
 import se.hjulverkstan.main.feature.vehicle.VehicleRepository;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
+import se.hjulverkstan.main.shared.ListResponseDto;
 import se.hjulverkstan.main.shared.ValidationUtils;
 
 import java.util.List;
@@ -25,9 +26,9 @@ public class TicketService {
     private final CustomerRepository customerRepository;
     private final VehicleRepository vehicleRepository;
 
-    public GetAllTicketDto getAllTicket() {
+    public ListResponseDto<TicketDto> getAllTicket() {
         List<Ticket> tickets = ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        return new GetAllTicketDto(tickets);
+        return new ListResponseDto<>(tickets.stream().map(TicketDto::new).toList());
     }
 
     public TicketDto getTicketById(Long id) {

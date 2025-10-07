@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.feature.webedit.localisation.Language;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 @RestController
 @RequestMapping("v1/api/web-edit/shop")
@@ -15,7 +16,7 @@ public class ShopController {
     private final ShopService shopService;
 
     @GetMapping("/{lang}")
-    public GetAllShopDto getAllShops(@PathVariable Language lang) {
+    public ListResponseDto<ShopDto> getAllShops(@PathVariable Language lang) {
         return shopService.getAllShopsByLang(lang, lang);
     }
 

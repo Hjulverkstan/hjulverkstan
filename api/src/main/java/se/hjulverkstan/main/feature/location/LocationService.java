@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.CouldNotDeleteException;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
 
-    public GetAllLocationDto getAllLocations() {
+    public ListResponseDto<LocationDto> getAllLocations() {
         List<Location> locations = locationRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        return new GetAllLocationDto(locations);
+        return new ListResponseDto<>(locations.stream().map(LocationDto::new).toList());
     }
 
     public LocationDto getLocationById(Long id) {

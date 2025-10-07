@@ -1,19 +1,18 @@
 import { createErrorHandler, endpoints, instance } from '../api';
+import { ListResponse } from '../types';
 
 import { Ticket, TicketStatus } from './types';
 
 // GET ALL
 
-export interface GetTicketsRes {
-  tickets: Ticket[];
-}
+export type GetTicketsRes = ListResponse<Ticket>;
 
 export const createGetTickets = () => ({
   queryKey: [endpoints.ticket],
   queryFn: () =>
     instance
       .get<GetTicketsRes>(endpoints.ticket)
-      .then((res) => res.data.tickets)
+      .then((res) => res.data.content)
       .catch(createErrorHandler(endpoints.ticket)),
 });
 

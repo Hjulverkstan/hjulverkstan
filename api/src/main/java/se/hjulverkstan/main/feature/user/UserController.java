@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 @RestController
 @RequestMapping("v1/api/user")
@@ -15,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public GetAllUserDto getAllUsers() {
+    public ListResponseDto<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 

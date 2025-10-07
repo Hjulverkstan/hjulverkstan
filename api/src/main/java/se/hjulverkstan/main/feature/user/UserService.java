@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.AlreadyUsedException;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.security.model.ERole;
 import se.hjulverkstan.main.security.model.Role;
 import se.hjulverkstan.main.security.repository.RoleRepository;
+import se.hjulverkstan.main.shared.ListResponseDto;
 import se.hjulverkstan.main.shared.ValidationUtils;
 
 import java.util.List;
@@ -23,9 +23,9 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
 
-    public GetAllUserDto getAllUsers() {
+    public ListResponseDto<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        return new GetAllUserDto(users);
+        return new ListResponseDto<>(users.stream().map(UserDto::new).toList());
     }
 
     public UserDto getUserById(Long id) {

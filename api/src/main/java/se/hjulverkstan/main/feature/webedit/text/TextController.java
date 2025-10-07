@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.feature.webedit.localisation.Language;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 @RestController
 @RequestMapping("v1/api/web-edit/general-content")
@@ -15,7 +16,7 @@ public class TextController {
     private final TextService textService;
 
     @GetMapping("/{lang}")
-    public GetAllTextDto getAllTexts(@PathVariable Language lang) {
+    public ListResponseDto<TextDto> getAllTexts(@PathVariable Language lang) {
         return textService.getAllTextsByLang(lang, null);
     }
 

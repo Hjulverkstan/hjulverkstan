@@ -8,8 +8,10 @@ import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.feature.webedit.localisation.FieldNameType;
 import se.hjulverkstan.main.feature.webedit.localisation.Language;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils.getLocalisedValue;
 
@@ -20,10 +22,11 @@ public class StoryService {
 
     private final StoryRepository storyRepository;
 
-    public GetAllStoryDto getAllStoriesByLang(Language lang, Language fallbackLang) {
+    public ListResponseDto<StoryDto> getAllStoriesByLang(Language lang, Language fallbackLang) {
         List<Story> stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        return new GetAllStoryDto(stories, story -> new StoryDto(story, getLocalisedValue(story, lang, fallbackLang)));
+        Function<Story, StoryDto> mapper = story -> new StoryDto(story, getLocalisedValue(story, lang, fallbackLang));
+        return new ListResponseDto<>(stories.stream().map(mapper).toList());
     }
 
     public StoryDto getStoryByLangAndId(Language lang, Long id) {

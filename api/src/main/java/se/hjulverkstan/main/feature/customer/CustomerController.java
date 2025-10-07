@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 @RestController
 @RequestMapping("v1/api/customer")
@@ -14,7 +15,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping()
-    public GetAllCustomerDto getAllCustomers(){
+    public ListResponseDto<CustomerDto> getAllCustomers(){
         return customerService.getAllCustomer();
     }
 

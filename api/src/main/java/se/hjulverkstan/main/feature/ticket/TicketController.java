@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import se.hjulverkstan.main.shared.ListResponseDto;
 
 @RestController
 @RequestMapping("v1/api/ticket")
@@ -14,7 +15,7 @@ public class TicketController {
     private final TicketService ticketService;
 
     @GetMapping()
-    public GetAllTicketDto getAllTickets() {
+    public ListResponseDto<TicketDto> getAllTickets() {
         return ticketService.getAllTicket();
     }
 

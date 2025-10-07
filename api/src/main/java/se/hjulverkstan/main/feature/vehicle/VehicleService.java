@@ -8,6 +8,8 @@ import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
+import se.hjulverkstan.main.shared.ListResponseDto;
+import se.hjulverkstan.main.shared.FilteredResponseDto;
 
 import java.util.List;
 
@@ -19,14 +21,22 @@ public class VehicleService {
     private final VehicleRepository vehicleRepository;
     private final LocationRepository locationRepository;
 
-    public GetAllVehicleDto getAllVehicles() {
+    public ListResponseDto<VehicleDto> getAllVehicles() {
         List<Vehicle> vehicles = vehicleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        return new GetAllVehicleDto(vehicles);
+        List<VehicleDto> dtos = vehicles.stream().map(VehicleDto::new).toList();
+        return new ListResponseDto<>(dtos);
     }
 
     public VehicleDto getVehicleById(Long id) {
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Vehicle"));
         return new VehicleDto(vehicle);
+    }
+
+    public FilteredResponseDto<VehicleDto, VehicleFilterCountsDto> searchVehicles(VehicleFilterDto filterDto) {
+        List<Vehicle> vehicles = vehicleRepository.findAll(VehicleFilter.create(filterDto), Sort.by("createdAt"));
+        List<VehicleDto> dtos = vehicles.stream().map(VehicleDto::new).toList();
+
+        return new FilteredResponseDto<>(dtos, new VehicleFilterCountsDto(dtos));
     }
 
     @Transactional
