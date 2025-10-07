@@ -1,4 +1,4 @@
-package se.hjulverkstan.main.shared;
+package se.hjulverkstan.main.shared.specs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

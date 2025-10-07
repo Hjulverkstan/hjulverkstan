@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.webedit.localisation.Localised;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
-import se.hjulverkstan.main.shared.Auditable;
+import se.hjulverkstan.main.shared.auditable.Auditable;
 
 import java.util.List;
 

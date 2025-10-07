@@ -3,8 +3,8 @@ package se.hjulverkstan.main.feature.vehicle;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.feature.vehicle.model.*;
-import se.hjulverkstan.main.shared.AuditableFilterDto;
-import se.hjulverkstan.main.shared.IntRangeDto;
+import se.hjulverkstan.main.shared.auditable.AuditableFilterDto;
+import se.hjulverkstan.main.shared.specs.IntRangeDto;
 
 import java.util.List;
 

@@ -1,11 +1,10 @@
-package se.hjulverkstan.main.shared;
+package se.hjulverkstan.main.shared.specs;
 
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

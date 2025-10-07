@@ -5,8 +5,8 @@ import se.hjulverkstan.main.feature.location.Location_;
 import se.hjulverkstan.main.feature.ticket.Ticket_;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle_;
-import se.hjulverkstan.main.shared.AuditableFilter;
-import se.hjulverkstan.main.shared.Specs;
+import se.hjulverkstan.main.shared.auditable.AuditableFilter;
+import se.hjulverkstan.main.shared.specs.Specs;
 
 public class VehicleFilter {
     public static Specification<Vehicle> create(VehicleFilterDto dto) {
