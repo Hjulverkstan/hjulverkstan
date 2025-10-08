@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 import {
   Bike,
   BookOpen,
@@ -19,6 +19,143 @@ import { Section } from '@components/Section';
 import { SectionContent } from '@components/SectionContent';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { CardServices, CardServicesSteps } from '@components/CardServices';
+import { DialogContent } from '@components/shadcn/Dialog';
+
+export const ServicesRepairCardView: React.FC<{
+  mode?: 'page' | 'dialog';
+}> = ({ mode = 'page' }) => {
+  const { data } = usePreloadedDataLocalized();
+
+  return (
+    <CardServices
+      mode={mode}
+      title={data.generalContent.servicesHowToRepair}
+      icon={Hammer}
+      footerNote={data.generalContent.servicesFooterNote}
+      linkLabel={data.generalContent.servicesFindShop}
+      linkDestination="/shops"
+      a11yTitle={data.generalContent.servicesHowToRepair}
+      a11yDescription={data.generalContent.servicesHowToRepair}
+    >
+      <CardServicesSteps
+        icon={MapPin}
+        label={data.generalContent.servicesVisit}
+        description={data.generalContent.servicesNoOnlineBooking}
+      />
+      <CardServicesSteps
+        icon={MessageCircle}
+        label={data.generalContent.servicesTellUs}
+        description={data.generalContent.servicesInspectTogether}
+      />
+      <CardServicesSteps
+        icon={Wrench}
+        label={data.generalContent.servicesSimpleFix}
+        description={data.generalContent.servicesDoneRightAway}
+      />
+      <CardServicesSteps
+        icon={Calendar}
+        label={data.generalContent.servicesMoreTime}
+        description={data.generalContent.servicesLeaveItWithUs}
+      />
+      <CardServicesSteps
+        icon={LogIn}
+        label={data.generalContent.servicesPickItUp}
+        description={data.generalContent.servicesWeWillLetYouKnow}
+      />
+    </CardServices>
+  );
+};
+
+export const ServicesHowToRentView: React.FC<{
+  mode?: 'page' | 'dialog';
+}> = ({ mode = 'page' }) => {
+  const { data } = usePreloadedDataLocalized();
+
+  return (
+    <CardServices
+      mode={mode}
+      title={data.generalContent.servicesHowToRent}
+      icon={Bike}
+      linkLabel={data.generalContent.servicesFindShop}
+      linkDestination="/shops"
+      a11yTitle={data.generalContent.servicesHowToRent}
+      a11yDescription={data.generalContent.servicesHowToRent}
+    >
+      <CardServicesSteps
+        icon={MapPin}
+        label={data.generalContent.servicesVisit}
+        description={data.generalContent.servicesNoOnlineBooking}
+      />
+      <CardServicesSteps
+        icon={CheckCircle}
+        label={data.generalContent.servicesPickAVehicle}
+        description={data.generalContent.servicesHelpYouChose}
+      />
+      <CardServicesSteps
+        icon={Calendar}
+        label={data.generalContent.servicesUseForWeeks}
+        description={data.generalContent.servicesFreeOfCharge}
+      />
+      <CardServicesSteps
+        icon={LogIn}
+        label={data.generalContent.servicesReturn}
+        description={data.generalContent.servicesReturnVehicle}
+      />
+    </CardServices>
+  );
+};
+
+export const ServicesJoinCourseView: React.FC<{
+  mode?: 'page' | 'dialog';
+}> = ({ mode = 'page' }) => {
+  const { data } = usePreloadedDataLocalized();
+
+  return (
+    <CardServices
+      mode={mode}
+      title={data.generalContent.servicesJoinCourse}
+      icon={User}
+      linkLabel={data.generalContent.servicesFindEvent}
+      linkDestination="/stories"
+      a11yTitle={data.generalContent.servicesJoinCourse}
+      a11yDescription={data.generalContent.servicesJoinCourse}
+    >
+      <CardServicesSteps
+        icon={BookOpen}
+        label={data.generalContent.servicesViewCourses}
+        description={data.generalContent.servicesViewWhatsRight}
+      />
+      <CardServicesSteps
+        icon={ClipboardCheck}
+        label={data.generalContent.servicesRegisterForEvent}
+        description={data.generalContent.servicesSignUpOnline}
+      />
+      <CardServicesSteps
+        icon={Mail}
+        label={data.generalContent.servicesCheckInbox}
+        description={data.generalContent.servicesConfirmationMail}
+      />
+      <CardServicesSteps
+        icon={MapPin}
+        label={data.generalContent.servicesShowUpAndJoin}
+        description={data.generalContent.servicesComeAtScheduledTime}
+      />
+    </CardServices>
+  );
+};
+
+// Must wrap a service if of mode = 'dialog'
+export const ServicesAsDialogWrapper: FC<{ children: ReactNode }> = ({
+  children,
+}) => (
+  <DialogContent
+    onOpenAutoFocus={(e) => e.preventDefault()}
+    className="overflow-hidden rounded-2xl border-none p-0 shadow-2xl
+      sm:max-w-[425px]"
+  >
+    {children}
+  </DialogContent>
+);
 
 export default function Services() {
   const { data } = usePreloadedDataLocalized();
@@ -31,95 +168,9 @@ export default function Services() {
             className="grid grid-cols-1 items-start gap-8 sm:grid-cols-2
               xl:grid-cols-3"
           >
-            <CardServices
-              title={data.generalContent.servicesHowToRepair}
-              icon={Hammer}
-              footerNote={data.generalContent.servicesFooterNote}
-              linkLabel={data.generalContent.servicesFindShop}
-              linkDestination="/shops"
-            >
-              <CardServicesSteps
-                icon={MapPin}
-                label={data.generalContent.servicesVisit}
-                description={data.generalContent.servicesNoOnlineBooking}
-              />
-              <CardServicesSteps
-                icon={MessageCircle}
-                label={data.generalContent.servicesTellUs}
-                description={data.generalContent.servicesInspectTogether}
-              />
-              <CardServicesSteps
-                icon={Wrench}
-                label={data.generalContent.servicesSimpleFix}
-                description={data.generalContent.servicesDoneRightAway}
-              />
-              <CardServicesSteps
-                icon={Calendar}
-                label={data.generalContent.servicesMoreTime}
-                description={data.generalContent.servicesLeaveItWithUs}
-              />
-              <CardServicesSteps
-                icon={LogIn}
-                label={data.generalContent.servicesPickItUp}
-                description={data.generalContent.servicesWeWillLetYouKnow}
-              />
-            </CardServices>
-
-            <CardServices
-              title={data.generalContent.servicesHowToRent}
-              icon={Bike}
-              linkLabel={data.generalContent.servicesFindShop}
-              linkDestination="/shops"
-            >
-              <CardServicesSteps
-                icon={MapPin}
-                label={data.generalContent.servicesVisit}
-                description={data.generalContent.servicesNoOnlineBooking}
-              />
-              <CardServicesSteps
-                icon={CheckCircle}
-                label={data.generalContent.servicesPickAVehicle}
-                description={data.generalContent.servicesHelpYouChose}
-              />
-              <CardServicesSteps
-                icon={Calendar}
-                label={data.generalContent.servicesUseForWeeks}
-                description={data.generalContent.servicesFreeOfCharge}
-              />
-              <CardServicesSteps
-                icon={LogIn}
-                label={data.generalContent.servicesReturn}
-                description={data.generalContent.servicesReturnVehicle}
-              />
-            </CardServices>
-
-            <CardServices
-              title={data.generalContent.servicesJoinCourse}
-              icon={User}
-              linkLabel={data.generalContent.servicesFindEvent}
-              linkDestination="/stories"
-            >
-              <CardServicesSteps
-                icon={BookOpen}
-                label={data.generalContent.servicesViewCourses}
-                description={data.generalContent.servicesViewWhatsRight}
-              />
-              <CardServicesSteps
-                icon={ClipboardCheck}
-                label={data.generalContent.servicesRegisterForEvent}
-                description={data.generalContent.servicesSignUpOnline}
-              />
-              <CardServicesSteps
-                icon={Mail}
-                label={data.generalContent.servicesCheckInbox}
-                description={data.generalContent.servicesConfirmationMail}
-              />
-              <CardServicesSteps
-                icon={MapPin}
-                label={data.generalContent.servicesShowUpAndJoin}
-                description={data.generalContent.servicesComeAtScheduledTime}
-              />
-            </CardServices>
+            <ServicesRepairCardView />
+            <ServicesHowToRentView />
+            <ServicesJoinCourseView />
           </div>
         </SectionContent>
       </Section>

@@ -45,7 +45,7 @@ const DialogContent = React.forwardRef<
         data-[state=closed]:slide-out-to-top-[48%]
         data-[state=open]:slide-in-from-left-1/2
         data-[state=open]:slide-in-from-top-[48%] fixed left-[50%] top-[50%]
-        z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4
+        z-50 grid w-[92%] max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4
         border p-6 shadow-lg duration-200 sm:rounded-lg`,
         className,
       )}
@@ -87,7 +87,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col-reverse sm:flex-row sm:justify-end gap-2',
+      'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
       className,
     )}
     {...props}
