@@ -2,7 +2,26 @@
 
 > Welcome to the front end module of the Hjulverkstan monorepo, here is a [link](../README.md) to the main project readme.
 
-## Prerequisites
+## Table of contents `📖`
+
+  * [Table of contents `📖`](#table-of-contents-)
+  * [Prerequisites `✅`](#prerequisites-)
+  * [Background & Motivation `💡`](#background--motivation-)
+  * [Three Layer Cake `🎂`](#three-layer-cake-)
+  * [Directory Structure (by Features) `📁`](#directory-structure-by-features-)
+    * [Enums.ts](#enumsts)
+    * [Form.ts](#formts)
+  * [SSG Strategy `⚙️`](#ssg-strategy-)
+    * [Public Web Site `🌐`](#public-web-site-)
+    * [Private Web App (the Portal) `🔒`](#private-web-app-the-portal-)
+    * [The Build Process `🚀`](#the-build-process-)
+    * [Conclusion `🧐`](#conclusion-)
+  * [Localization routing `📣`](#localization-routing-)
+  * [Component Comments `💭`](#component-comments-)
+    * [Heavy lifters `🚂`](#heavy-lifters-)
+    * [Portal composition `🧱`](#portal-composition-)
+
+## Prerequisites `✅`
 
 Please complete prerequisite steps in [Getting Started Checklist](../README.md#getting-started) first.
 
@@ -15,7 +34,7 @@ The following dependencies are used, review these as needed before contributing.
 - [Zod](zod.dev)
 - [Vite](vite.dev)
 
-## Background & Motivation
+## Background & Motivation `💡`
 
 This application is a hybrid of SSG (Static Site Generation) and CSR / SPA (Client Side Rendering / Single Page Application).
 
@@ -37,7 +56,7 @@ In short, all dependencies are marriages, and we deemed the projects future more
 
 We will cover the architecture and how it works in the coming sections. First though, we will take a look at the SSG/CSR agnostic part of our React application.
 
-## Three Layer Cake
+## Three Layer Cake `🎂`
 
 Inspired by the [Guidelines' Principles](../GUIDELINES.md#principles-), this React application is split into three parts:
 
@@ -122,7 +141,7 @@ const usePeeledBanana = () => useQuery({
 
 You may find though, that some transformation of data is done in the Api layer. Why? Because sometimes non feature related transformation needs to be done, for instance, all ids from our requests are converted to strings. Doing this type of transformation in the lowest layer of *the cake* means our types for our data can have id's as strings. Something the rest of the application does not need to be concerned with.
 
-## Directory Structure (by Features)
+## Directory Structure (by Features) `📁`
 
 In broad terms there are two approaches to dividing application source code, most traditional is to do it by architectural concern, for instance:
 
@@ -202,11 +221,11 @@ Here we create two primary exports, in the example of `data/ticket/`:
 - **initTicket**, this is where pre-filled fields are stored for create actions, e.g. arrays should be `[]` and not `undefined`.
 - **ticketZ**, this is the [zod](zod.dev) schema used to validate create and edit actions on the client side.
 
-## SSG Strategy
+## SSG Strategy `⚙️`
 
 Now that we have covered the application structure it is time to look at the very root of the project. But first we'll iterate and clarify the purposes of the application.
 
-### Public Web Site
+### Public Web Site `🌐`
 
 The public site is static, that is, it is a bundle of html, css and javascript files served on an S3 bucket through CloudFront, a *Content Delivery Network*m, to the web.
 
@@ -214,11 +233,11 @@ This site is through the React SSR api, statically generated so that the dom tre
 
 Generic text like buttons are to be localized in the source code but all other content is provided by our backend, editable by the end user administrators in our `WebEdit` "sub app" of the `Portal`, in multiple languages. This data is requested once, during the build process and is then bundled together with the code so that is accessible directly in the client.
 
-### Private Web App (the Portal)
+### Private Web App (the Portal) `🔒`
 
 The web app, named `Portal` is a traditional Client Side Rendered (CSR) React app. That is, the dom tree is not rendered during build time but commited by react once it is properly loaded in the browser. This is where TanStack Query is used mostly as all data is worked with immediately and directly in the Portal.
 
-### The Build Process
+### The Build Process `🚀`
 
 When ever a release is made, the build script will create fresh build artifacts for deployment. However, when an end user admin wishes to publish changes made in `WebEdit` for the public website, let's say they have added a new event, what in fact is supposed to happen, is a trigger of the build script + deployment. Any new values in the database regarding the public website will then be used and bundled with the static release.
 
@@ -255,19 +274,19 @@ What then happens client side, upon being loaded in the browser, is that the `cl
 
 We also extract the data from the JSON string bundled by `srcipts/build.js` from the window object and apply it to our `PreloadedData` context so that it can be used by the `usePreloadedData` hook, which depending on the language in the url will return correct data.
 
-### Conclusion
+### Conclusion `🧐`
 
 Was it worth the effort? Time will tell, relatively seen it is not that big of a technical hurdle to maintain but indeed a responsibility. A framework could have reduced the technical overhead of this project to a certain degree. Hopefully, not relying on a framework but using Vite and React directly, means the project can age long before any of these dependencies require breaking changes.
 
-## Localization routing
+## Localization routing `📣`
 
 A deeper review of routing of localized paths is done.
 
 **`[todo]`**
 
-## Component Comments
+## Component Comments `💭`
 
-## Heavy lifters
+### Heavy lifters `🚂`
 
 In our application there is some more heavy components that could do with a bit of documentation. The components in question are:
 
@@ -278,7 +297,7 @@ These components are quite similar in that they use React context and do so in a
 
 The provider takes the data related props and houses the business logic for state-fullness and side effects while the child component are more concerned with presentation.
 
-### Portal composition
+### Portal composition `🧱`
 
 A further study into how the pages of the portal all follow a pattern and how it works.
 
