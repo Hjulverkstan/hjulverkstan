@@ -2,6 +2,25 @@
 
 > Welcome to the back end module of the Hjulverkstan monorepo, here is a [link](../README.md) to the main project readme.
 
+## Table of contents `📖`
+
+  * [Table of contents `📖`](#table-of-contents-)
+  * [Acknowledged Best Practices `🏛️`](#acknowledged-best-practices-)
+    * [Domain-Driven and Layered Design `🧩`](#domain-driven-and-layered-design-)
+    * [Validation and Invariants `🛡️`](#validation-and-invariants-)
+    * [Mapping between DTOs and Entities `📮`](#mapping-between-dtos-and-entities-)
+    * [Error and Exception Handling `⚠️`](#error-and-exception-handling-)
+  * [How We Do It `🛠️`](#how-we-do-it-)
+    * [Packages `📦`](#packages-)
+    * [DTOs `📨`](#dtos-)
+    * [Controllers `🧭`](#controllers-)
+    * [Services `⚙️`](#services-)
+  * [Sensitivities and Considerations `⚖️`](#sensitivities-and-considerations-)
+  * [Notes](#notes)
+    * [Filtering](#filtering)
+  * [Setting up Postman `🧑‍🚀`](#setting-up-postman-)
+  * [UML Diagram `🔗`](#uml-diagram-)
+
 ## Acknowledged Best Practices `🏛️`
 
 Before defining our own conventions, it’s important to ground them in what most experienced Java developers would consider best practice for Spring Boot applications. The common understanding can be summarized as follows:
