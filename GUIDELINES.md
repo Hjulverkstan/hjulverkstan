@@ -1,5 +1,20 @@
 # Guidelines
 
+## Table of contents `📖`
+
+* [Guidelines](#guidelines)
+  * [Table of contents `📖`](#table-of-contents-)
+  * [Principles `⛩️`](#principles-)
+    * [Simplicity and coherence `🍇`](#simplicity-and-coherence-)
+    * [Describe over instruct `🫵`](#describe-over-instruct-)
+    * [Composition `🧱`](#composition-)
+    * [Integrity and Flow `🌊`](#integrity-and-flow-)
+  * [Git Strategy `🌳`](#git-strategy-)
+  * [Rules `🛑`](#rules-)
+    * [Code style `🎨`](#code-style-)
+    * [Documentation `📘`](#documentation-)
+    * [Graceful errors `💣`](#graceful-errors-)
+
 ## Principles `⛩️`
 
 The following sections are largely inspired by functional programming and the UNIX philosophy. They are broken into sections to ease readability but are, in essence, overlapping principles.

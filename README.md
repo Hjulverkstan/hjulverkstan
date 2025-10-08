@@ -12,50 +12,44 @@
 
 > This project is now open source as of `2025-01-22` and licenced under the terms of the MIT licence.
 
-## Short intro
+## Table of contents `📖`
 
-Hjulverkstan (translated as “The Wheel Shop”) is an initiative launched by [Save the Children Sweden](rb.se) in Gothenburg. Its mission is to support integration and empower local residents by offering free services and employments through bicycle workshops. These workshops provide a range of resources, including bike repairs, rentals, and cycling lessons. While bicycles are the medium, the heart of Hjulverkstan lies in fostering a strong sense of community and improving the lives for locals.
+  * [Table of contents `📖`](#table-of-contents-)
+  * [Short intro `💬`](#short-intro-)
+  * [Getting started `🏁`](#getting-started-)
+  * [Development Recap `🛠️`](#development-recap-)
+  * [Roadmap `🎯`](#roadmap-)
+  * [Contribution welcome `💡`](#contribution-welcome-)
+  * [Interviews with LIA-interns `🎤`](#interviews-with-lia-interns-)
+    * [Interview: What would have been helpful to know before joining the Hjulverkstan project?](#interview-what-would-have-been-helpful-to-know-before-joining-the-hjulverkstan-project)
 
-As the initiative grows, so does the need for effective digital tools to manage operations. With an expanding network of workshops, there is an increasing demand for a system to oversee bike inventory and streamline processes related to customers, employees, and services. Additionally, Hjulverkstan seeks a public-facing website to amplify its mission and reach a wider audience. To address these needs, [Alten Sweden](www.alten.se) has stepped forward to develop a combined web app and website, offering their expertise pro bono through internships and intermission consultants.
+## Short intro `💬`
+
+Hjulverkstan (translated as “The Wheel Shop”) is an initiative launched by [Save the Children Sweden](rb.se) in Gothenburg. Its mission is to support integration and empower local residents by offering free services and employments through bicycle workshops. These workshops provide a range of services, including bike repairs, rentals, and cycling lessons. While bicycles are the medium, the heart of Hjulverkstan lies in fostering a strong sense of community and improving the lives for locals.
+
+As the initiative grows, so does the need for effective digital tools to manage operations. With an expanding network of workshops, there is an increasing demand for a system to oversee bike inventory and streamline processes related to customers, employees, and services. Additionally, Hjulverkstan needs a public-facing website to amplify its mission and reach a wider audience. To address these needs, [Alten Sweden](www.alten.se) has stepped forward to develop a combined web app and website, offering their expertise pro bono through internships and intermission consultants.
 
 This project thrives because of the collective effort and commitment of its partners. While Alten Sweden leads the technical development, the initiative welcomes contributions from all individuals and organizations who share its vision of building stronger, more inclusive communities.
 
-## Getting started
-
-Here is an overview and guide on how to get started in the project. If you are looking to contribute, please complete the checklist before submitting a PR.
-
-* [ ] Read the [Extended Background](#extended-intro)
-* [ ] Learn the [Project Guidelines](/GUIDELINES.md)
-  * [ ] [Principles](/GUIDELINES.md#principles-)
-  * [ ] [Git Strategy](/GUIDELINES.md#git-strategy-)
-  * [ ] [Rules](/GUIDELINES.md#rules-)
-* [ ] Catch up on the domain-specific documentation:
-  * [ ] [Front End Readme](/web/README.md)
-    * [ ] [Prerequisites](#prerequisites)
-    * [ ] [Background & Motivation](#background--motivation)
-    * [ ] [Three Layer Cake](#three-layer-cake)
-    * [ ] [Directory Structure (by Features)](#directory-structure-by-features)
-    * [ ] [SSG Strategy](#ssg-strategy)
-    * [ ] [Localization routing](#localization-routing)
-    * [ ] [Component Comments](#component-comments)
-  * [ ] [Front End Guidelines](/web/GUIDELINES.md) – General project agnostic guidelines about our approach to React development.
-  * [ ] [Back End](/main/README.md) [TODO]
-      * [ ] [Motivation]()
-      * [ ] [Specific Guidelines]()
-  * [ ] [AWS CDK]() [TODO]
-* [ ] Run the project locally with our [Setup guide](/SETUP.md)
-
-### Extended Intro
-
-**[todo]: Write more about the background of Hjulverkstan**
-
-A few links about Hjulverkstan for now (all in swedish):
+A few links about Hjulverkstan (all in swedish):
 
 - [raddabarnen.se (swedish)](https://www.raddabarnen.se/vad-vi-gor/barn-i-sverige/bekampar-utanforskap/plv/hjulverkstan-plv/)
 - [poseidon.goteborg.se (swedish)](https://poseidon.goteborg.se/nyheter/nu-oppnar-hjulverkstan-i-backa/)
 - [vartgoteborg.se (swedish)](https://vartgoteborg.se/p/hjulverkstan-oppnar-i-backa/)
 
-## Development Recap
+## Getting started `🏁`
+
+Here is an overview and guide on how to get started in the project. If you are looking to contribute, please complete the checklist before submitting a PR.
+
+* [ ] Learn the [Project Guidelines](/GUIDELINES.md)
+  * [ ] If applicable, read [React Guidelines](/web/GUIDELINES.md)
+* [ ] Catch up on the domain-specific documentation:
+  * [ ] [Front End Readme](/web/README.md)
+  * [ ] [Back End Readme](/api/README.md)
+  * [ ] [AWS CDK]() [TODO]
+* [ ] Run the project locally with our [Setup guide](/SETUP.md)
+
+## Development Recap `🛠️`
 
  <a href="https://github.com/Hjulverkstan/hjulverkstan/blob/main/.screenshots/" alt="Project screenshots">
      <img src="https://raw.githubusercontent.com/Hjulverkstan/.github/images/screenshots.png" />
@@ -108,7 +102,7 @@ Developers with contributions in this period:
 - DevOps Support: [Jeus](https://github.com/jeus)
 - Misc Support: [Frida Betåven](https://github.com/stortoppen)
 
-## Roadmap
+## Roadmap `🎯`
 
  <a href="https://github.com/orgs/Hjulverkstan/projects/1/" alt="Project backlog">
      <img src="https://raw.githubusercontent.com/Hjulverkstan/.github/images/backlogs.png" />
@@ -118,18 +112,17 @@ Developers with contributions in this period:
 
 2025 has much in store and the intention is to go to production. For a more detailed view of the backlog see the [Hjulverkstan GitHub Project View](https://github.com/orgs/Hjulverkstan/projects/1) in progress. A short overview of prioritized tasks to complete is:
 
-* Complete Figma design of public website
-* Work on copy-text with Save the Children for the public website
-* Implement the public website in the React app
+* [ ] Finalize Figma design of public website
+* [ ] Work on copy-text with Save the Children for the public website
+* [ ] Finalize the public website in the React app
 * Refine some finishing touches in the **Portal** *Shop* app.
 * Implement the **Portal** *WebEdit* frontend and missing Spring Services.
 * Implement publishing of updates in *WebEdit*
-* Add image support for bikes in the *Shop*'s inventory and certain fields in *WebEdit*
-* Review the Spring app align with best practices
-* Complete deployment to AWS
-* Complete pipelines for CI/CD
+* [x] Review the Spring app align with best practices **Now given a complete refactor** (read more in [Backend Readme](api/README.md))
+* [x] Complete deployment to AWS
+* [ ] Add cdk and test pipelines for CI/CD
 
-## Call for Help
+## Contribution welcome `💡`
 
 We’re excited to invite contributors to join Hjulverkstan’s open-source journey. While most progress has been made around the internship period, going open source, we hope to engage and build more consistent momentum. As we continue to develop and refine our platform, there’s plenty of meaningful work to be done. Whether you’re a developer, designer, or content creator, your skills can make a tangible difference.
 
@@ -137,7 +130,7 @@ This project thrives on collaboration, and your contributions will help us deliv
 
 You are welcome to contribute PRs directly, say hello in GitHub Discussions or get in touch with Jona directly for inquiries at `jona.cwejman@alten.se`.
 
-## Interviews with LIA-interns
+## Interviews with LIA-interns `🎤`
 
 ### Interview: What would have been helpful to know before joining the Hjulverkstan project?
 
