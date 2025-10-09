@@ -9,12 +9,12 @@ import {
   LogIn,
 } from 'lucide-react';
 
-import { createFindFn, createMatchFn } from '../enums';
+import { EnumAttributes } from '../enums';
 import { TicketStatus, TicketType } from './types';
 
 //
 
-export const ticketType = [
+export const ticketType: EnumAttributes[] = [
   {
     dataKey: 'ticketType',
     value: TicketType.RENT,
@@ -41,7 +41,7 @@ export const ticketType = [
   },
 ];
 
-export const ticketStatus = [
+export const ticketStatus: EnumAttributes[] = [
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.READY,
@@ -71,15 +71,3 @@ export const ticketStatus = [
     variant: 'outline' as 'outline',
   },
 ];
-
-export const ticketEnums = {
-  ticketType,
-  ticketStatus,
-};
-
-//
-
-const all = [...ticketType, ...ticketStatus];
-
-export const find = createFindFn(all);
-export const matchFn = createMatchFn(all);

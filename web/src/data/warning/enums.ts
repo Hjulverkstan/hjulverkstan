@@ -1,8 +1,8 @@
-import { Warning } from './types';
 import { AlertTriangle } from 'lucide-react';
-import { createFindFn, createMatchFn } from '../enums';
+import { EnumAttributes } from '../enums';
+import { Warning } from './types';
 
-export const warningEnums = [
+export const warningEnums: EnumAttributes[] = [
   {
     dataKey: 'warning',
     value: Warning.DUE_PICKUP,
@@ -28,7 +28,3 @@ export const warningEnums = [
     variant: 'red' as 'red',
   },
 ];
-
-export const all = warningEnums;
-export const find = createFindFn(all);
-export const matchFn = createMatchFn(all);

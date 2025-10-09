@@ -1,10 +1,10 @@
-import { EnumAttributes } from '@data/enums';
+import { EnumAttributesRaw } from '@data/enums';
 import * as Command from '@components/shadcn/Command';
 import * as U from '@utils';
 import { CheckIcon, MinusIcon } from 'lucide-react';
 
 interface MultiSelectItemProps {
-  enumAttr: EnumAttributes;
+  enumAttr: EnumAttributesRaw;
   isIndented?: boolean;
   checkBox: 'checked' | 'unchecked' | 'intermediate';
   onClick: () => void;

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { StandardError } from '../api';
-import { EnumAttributes } from '../enums';
+import { EnumAttributesRaw } from '../enums';
 import * as api from './api';
-import * as enums from './enums';
+import * as enumsRaw from './enums';
 import * as U from '@utils';
 import {
   Vehicle,
@@ -15,6 +15,7 @@ import { Warning } from '@data/warning/types';
 import { useTicketsQ } from '@data/ticket/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
 import { TicketStatus } from '@data/ticket/types';
+import { useEnums } from '@hooks/useEnums';
 
 //
 
@@ -27,11 +28,16 @@ export interface UseVehicleProps {
   id?: string;
 }
 
-export const useVehicleQ = ({ id }: UseVehicleProps) =>
-  useQuery<Vehicle, StandardError>({
-    ...(id ? api.createGetVehicle({ id }) : {}),
-    enabled: !!id,
-  });
+export const useVehicleQ = ({ id }: UseVehicleProps) => {
+  if (!id)
+    return useQuery<Vehicle, StandardError>({
+      queryKey: ['vehicle', 'empty'],
+      queryFn: () => Promise.resolve(undefined as any),
+      enabled: false,
+    });
+
+  return useQuery<Vehicle, StandardError>(api.createGetVehicle({ id }));
+};
 
 //
 
@@ -70,8 +76,10 @@ export interface UseVehiclesAsEnumsQProps {
 export const useVehiclesAsEnumsQ = ({
   dataKey = 'vehicleId',
   filterCustomerOwned,
-}: UseVehiclesAsEnumsQProps = {}) =>
-  useQuery<Vehicle[], StandardError, EnumAttributes[]>({
+}: UseVehiclesAsEnumsQProps = {}) => {
+  const enums = useEnums(enumsRaw);
+
+  return useQuery<Vehicle[], StandardError, EnumAttributesRaw[]>({
     ...api.createGetVehicles(),
     select: (vehicles) =>
       vehicles
@@ -92,18 +100,12 @@ export const useVehiclesAsEnumsQ = ({
           value: vehicle.id,
         })) ?? [],
   });
+};
 
 //
 
-const createPublicVehicle = (vehicle: Vehicle): VehiclePublic => ({
-  ...vehicle,
-  regTag: vehicle.isCustomerOwned ? `#${vehicle.id}` : vehicle.regTag,
-  // Todo: vehicle type should be localised through general content
-  label: `${U.capitalize(vehicle.brand as string)} ${U.capitalize(vehicle.vehicleType as string)}`,
-});
-
 export interface UsePublicVehiclesByLocationQProps {
-  locationId?: string;
+  locationId: string;
 }
 
 export const usePublicVehiclesByLocationQ = ({
@@ -111,7 +113,6 @@ export const usePublicVehiclesByLocationQ = ({
 }: UsePublicVehiclesByLocationQProps) =>
   useQuery<Vehicle[], StandardError, VehiclePublic[]>({
     ...api.createGetPublicVehiclesByLocation({ locationId }),
-    select: (vehicles) => vehicles.map(createPublicVehicle),
     enabled: !!locationId,
   });
 
@@ -124,5 +125,4 @@ export interface UsePublicVehicleByIdQProps {
 export const usePublicVehicleByIdQ = ({ id }: UsePublicVehicleByIdQProps) =>
   useQuery<Vehicle, StandardError, VehiclePublic>({
     ...api.createGetPublicVehicleById({ id }),
-    select: createPublicVehicle,
   });

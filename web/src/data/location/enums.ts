@@ -1,11 +1,11 @@
 import { Store, Warehouse } from 'lucide-react';
 
-import { createFindFn, createMatchFn } from '../enums';
 import { LocationType } from './types';
+import { EnumAttributes } from '@data/enums';
 
 //
 
-export const locationType = [
+export const locationType: EnumAttributes[] = [
   {
     dataKey: 'locationType',
     value: LocationType.SHOP,
@@ -19,10 +19,3 @@ export const locationType = [
     icon: Warehouse,
   },
 ];
-
-//
-
-const all = [...locationType];
-
-export const find = createFindFn(all);
-export const matchFn = createMatchFn(all);

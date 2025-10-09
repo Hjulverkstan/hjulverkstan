@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import EmployeeIcon from '@components/EmployeeIcon';
 
-import { EnumAttributes } from '../enums';
+import { EnumAttributesRaw } from '../enums';
 import { StandardError } from '../api';
 import { Employee } from './types';
 import * as api from './api';
@@ -25,7 +25,7 @@ export const useEmployeeQ = ({ id }: UseEmployeeQProps) =>
 //
 
 export const useEmployeesAsEnumsQ = ({ dataKey = 'employeeId' } = {}) =>
-  useQuery<Employee[], StandardError, EnumAttributes[]>({
+  useQuery<Employee[], StandardError, EnumAttributesRaw[]>({
     ...api.createGetEmployees(),
     select: (employees) =>
       employees?.map((employee) => ({

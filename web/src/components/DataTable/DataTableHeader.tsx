@@ -23,7 +23,7 @@ export const Header = ({ columns }: HeaderProps) => {
             {col.renderHeaderFn ? col.renderHeaderFn() : <SortHead col={col} />}
           </Table.Head>
         ))}
-        <Table.Head className="sticky right-0 z-10 w-10 ">
+        <Table.Head className="sticky right-0 z-10 w-10">
           <HeaderOptions columns={columns} />
         </Table.Head>
       </Table.Row>

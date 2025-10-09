@@ -22,6 +22,7 @@ import Support from './Support';
 import Services from './Services';
 import Stories from './Stories';
 import VehicleDetail from './VehicleDetail';
+import { useTranslations, TranslationKeys } from '@hooks/useTranslations';
 
 // React Query Config
 
@@ -53,7 +54,7 @@ export const queryClient = new QueryClient({
 // Application Routes Config
 
 /**
- * Here we define the routes that make up the react router. We create them as
+ * Here we define the routes that make up the React router. We create them as
  * data instead of direct JSX as these routes are used for building our
  * statically generated site. See [link](link)
  */
@@ -62,7 +63,7 @@ export const fallBackLocale = 'sv';
 
 export interface RouteAttributes {
   path: string;
-  title: string;
+  titleTranslationKey: TranslationKeys;
   component: ComponentType;
   // Used by the build script to generate files for all segments
   dynamicSegments?: Record<string, string>[];
@@ -77,54 +78,54 @@ export const createRoutes = (
   return [
     {
       path: '/',
-      title: 'Hjulverkstan',
+      titleTranslationKey: 'homeTitle',
       component: Home,
     },
     {
       path: '/about',
-      title: 'Hjulverkstan - About',
+      titleTranslationKey: 'aboutTitle',
       component: About,
     },
     {
       path: '/contact',
-      title: 'Hjulverkstan - Contact',
+      titleTranslationKey: 'contactTitle',
       component: Contact,
     },
     {
       path: '/shops',
-      title: 'Hjulverkstan - Shops',
+      titleTranslationKey: 'shopsTitle',
       component: Shops,
     },
     {
       path: '/shops/:slug',
-      title: 'Hjulverkstan - Shops',
+      titleTranslationKey: 'shopsTitle',
       component: ShopDetail,
       dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
     },
     {
       path: '/vehicle/:id',
-      title: 'Hjulverkstan - Vehicles',
+      titleTranslationKey: 'vehicleDetailTitle',
       component: VehicleDetail,
       disableSSR: true,
     },
     {
       path: '/support',
-      title: 'Hjulverkstan - Support',
+      titleTranslationKey: 'supportTitle',
       component: Support,
     },
     {
       path: '/services',
-      title: 'Hjulverkstan - Services',
+      titleTranslationKey: 'servicesTitle',
       component: Services,
     },
     {
       path: '/stories',
-      title: 'Hjulverkstan - Stories',
+      titleTranslationKey: 'storiesTitle',
       component: Stories,
     },
     {
       path: '/portal/*',
-      title: 'Hjulverkstan - Portal',
+      titleTranslationKey: 'portalTitle',
       component: Portal,
       disableSSR: true,
     },
@@ -147,10 +148,11 @@ function RouteHelmet({
   locale?: string;
 }) {
   const { locales } = usePreloadedData();
+  const { t } = useTranslations();
 
   return (
     <Helmet>
-      <title>{route.title}</title>
+      <title>{t(route.titleTranslationKey)}</title>
       {import.meta.env.VITE_ENV.toLowerCase() !== 'prod' && (
         <meta name="robots" content="noindex, nofollow" />
       )}
@@ -194,17 +196,15 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
     key={route.path + locale}
     path={locale ? `/${locale}${route.path}` : route.path}
     element={
-      <>
+      <LocaleProvider value={locale ?? fallBackLocale}>
         <RouteHelmet route={route} locale={locale ?? fallBackLocale} />
-        <LocaleProvider value={locale ?? fallBackLocale}>
-          <route.component />
-        </LocaleProvider>
+        <route.component />
         {!locale && (
           <RedirectDelayed
             path={`/${fallBackLocale}${route.path.replace('/*', '')}`}
           />
         )}
-      </>
+      </LocaleProvider>
     }
   />
 );
