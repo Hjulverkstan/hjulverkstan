@@ -61,7 +61,7 @@ export const CardServices: React.FC<CardServicesProps> = ({
           <p className="text-base text-slate-500">{footerNote}</p>
         </div>
       )}
-      <div className="mt-auto flex justify-end pt-6 ">
+      <div className="mt-auto flex justify-end pt-6">
         <IconLink
           to={linkDestination}
           variant="default"

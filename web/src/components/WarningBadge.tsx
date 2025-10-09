@@ -1,5 +1,5 @@
 import BadgeGroup from '@components/BadgeGroup';
-import { find as warningFind } from '@data/warning/enums';
+import { warningEnums } from '@data/warning/enums';
 import { BadgeProps } from '@components/shadcn/Badge';
 interface WarningBadgeProps {
   id: string;
@@ -12,6 +12,12 @@ export default function WarningBadge({
   warnings,
   variant,
 }: WarningBadgeProps) {
+  const warningFind = (value: string) =>
+    warningEnums.find((e) => e.value === value) ?? {
+      tooltip: '',
+      icon: undefined,
+    };
+
   const tooltip = warnings.length ? (
     <div>
       {warnings.map((warning, i) => (

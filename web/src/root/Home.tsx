@@ -19,6 +19,7 @@ import { CardShop } from '@components/CardShop';
 import { Partner, partners } from './tempData';
 import { GridBetween } from '@components/GridBetween';
 import { Page } from '@components/Page';
+import { useTranslations } from '@hooks/useTranslations';
 
 //
 
@@ -44,6 +45,8 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
 
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
+
+  const { t } = useTranslations();
 
   return (
     <Page hasHeroSection>
@@ -101,15 +104,15 @@ export default function Home() {
               title={data.generalContent.serviceCommunityTitle}
               body={data.generalContent.serviceCommunityBody}
               link="/"
-              linkLabel="Work with us"
+              linkLabel={t('communityLinkLabel')}
             />
           </div>
         </SectionContent>
 
         <SectionContent
-          heading="Stories"
+          heading={t('stories')}
           linkTo="/stories"
-          linkLabel="See all stories"
+          linkLabel={t('storiesLinkLabel')}
           linkVariant="background"
         >
           <div className="flex flex-col gap-8 xl:flex-row">
@@ -142,9 +145,9 @@ export default function Home() {
 
       <Section>
         <SectionContent
-          heading="Shops"
+          heading={t('shops')}
           linkTo="/shops"
-          linkLabel="See all shops"
+          linkLabel={t('shopsLinkLabel')}
         >
           <div
             className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
@@ -185,7 +188,7 @@ export default function Home() {
       <div className="border-divider w-full border-t"></div>
 
       <Section>
-        <SectionContent heading="Join us">
+        <SectionContent heading={t('joinUsHeading')}>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
             <CardDefault
               icon={PackagePlusIcon}
@@ -217,7 +220,7 @@ export default function Home() {
               body="We welcome partnerships that promote sustainability and inclusion. Feel free to reach out!"
               link="/"
               ariaLabel="Learn more about becoming a partner"
-              linkLabel="Contact us"
+              linkLabel={t('contactUsLinkLabel')}
               variant="muted"
             />
           </div>
@@ -226,9 +229,9 @@ export default function Home() {
 
       <Section variant="muted">
         <SectionContent
-          heading="Our partners"
+          heading={t('partnerHeading')}
           linkTo="/partners"
-          linkLabel="See all partners"
+          linkLabel={t('partnerLinkLabel')}
           linkVariant="background"
         >
           <GridBetween rows={2} cols={4} className="hidden lg:flex">

@@ -7,12 +7,12 @@ import {
   parseResponseData,
 } from '../api';
 
-import { AllEntities, AllEntitiesRaw, LangSlug } from './types';
+import { AllEntities, AllEntitiesRaw, LangSlugs } from './types';
 
 //
 
 export interface GetAllEndpointsRes {
-  entities: Record<LangSlug, AllEntitiesRaw>;
+  entities: Record<LangSlugs, AllEntitiesRaw>;
 }
 
 export interface GetAllWebEditEntitiesByLangProps {
@@ -46,6 +46,6 @@ export const getAllWebEditEntitiesByLang = (
               },
             ],
           ),
-        ) as Record<LangSlug, AllEntities>,
+        ) as Record<LangSlugs, AllEntities>,
     )
     .catch(createErrorHandler(endpoints.webedit.all));

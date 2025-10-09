@@ -1,12 +1,12 @@
 import { useMemo, Fragment } from 'react';
 
 import * as U from '@utils';
-import { EnumAttributes } from '@data/enums';
+import { EnumAttributesRaw } from '@data/enums';
 import * as Command from '@components/shadcn/Command';
 import MultiSelectItem from '@components/MutliSelectItem';
 
 interface MultiSelectProps {
-  enums: EnumAttributes[];
+  enums: EnumAttributesRaw[];
   selected: string[];
   setSelected: (selected: string[]) => void;
   heading?: string;
@@ -51,7 +51,7 @@ export default function MultiSelect({
 
   // Derive new selected values on click an propagate to parent
 
-  const onClick = (self: EnumAttributes) => {
+  const onClick = (self: EnumAttributesRaw) => {
     const isSelected = selected.includes(self.value);
     const parent = enums.find(({ children }) => children?.includes(self.value));
     const isParentSelected = parent && selected.includes(parent.value);

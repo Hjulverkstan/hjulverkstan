@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { EnumAttributes } from '../enums';
+import { EnumAttributesRaw } from '../enums';
 import { StandardError } from '../api';
 import { AggregatedCustomer, Customer, CustomerType } from './types';
 import * as api from './api';
-import * as enums from './enums';
+import { useEnums } from '@hooks/useEnums';
 import { differenceInYears, parse } from 'date-fns';
+import * as enumsRaw from '@data/customer/enums';
 
 //
 
@@ -44,8 +45,10 @@ export const useCustomerQ = ({ id }: UseCustomerQProps) =>
 export const useCustomersAsEnumsQ = ({
   dataKey = 'customerId',
   withOrgPerson = false,
-} = {}) =>
-  useQuery<Customer[], StandardError, EnumAttributes[]>({
+} = {}) => {
+  const enums = useEnums(enumsRaw);
+
+  return useQuery<Customer[], StandardError, EnumAttributesRaw[]>({
     ...api.createGetCustomers(),
     select: (customers) =>
       customers?.map((customer) => ({
@@ -60,3 +63,4 @@ export const useCustomersAsEnumsQ = ({
         value: customer.id,
       })) ?? [],
   });
+};

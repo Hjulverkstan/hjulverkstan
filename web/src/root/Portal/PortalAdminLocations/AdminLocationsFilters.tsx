@@ -1,11 +1,13 @@
-import * as enums from '@data/location/enums';
-
+import * as enumsRaw from '@data/location/enums';
 import * as DataTable from '@components/DataTable';
 import { Location } from '@data/location/types';
 import { PortalFilterDate } from '../PortalFilterDate';
 import { matchDateWithoutTimestamp } from '@utils';
+import { useEnums } from '@hooks/useEnums';
 
 export default function AdminLocationFilters() {
+  const enums = useEnums(enumsRaw);
+
   return (
     <>
       <DataTable.FilterSearch

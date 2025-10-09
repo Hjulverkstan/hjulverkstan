@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { EnumAttributes } from '@data/enums';
+import { EnumAttributesRaw } from '@data/enums';
 import MultiSelect from '@components/MultiSelect';
 
 import { Row, useDataTable, useFilterPopover } from './';
@@ -15,7 +15,7 @@ export interface FilterMultiSelectProps {
    * found on a row. This is then flattened but since this component is
    * responsible for connecting with data from DataTable it needs the dataKey.
    */
-  enums: EnumAttributes[];
+  enums: EnumAttributesRaw[];
   heading?: string;
   toInitSelected?: (fromStore?: any[]) => any[] | undefined;
 }

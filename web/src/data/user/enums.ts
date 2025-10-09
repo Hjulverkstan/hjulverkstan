@@ -1,11 +1,11 @@
 import { User, UserCog } from 'lucide-react';
 
 import { AuthRole } from '@data/auth/types';
-import { createFindFn, createMatchFn } from '../enums';
+import { EnumAttributes } from '@data/enums';
 
 //
 
-export const roles = [
+export const roles: EnumAttributes[] = [
   {
     dataKey: 'roles',
     value: AuthRole.USER,
@@ -19,10 +19,3 @@ export const roles = [
     icon: UserCog,
   },
 ];
-
-//
-
-const all = [...roles];
-
-export const find = createFindFn(all);
-export const matchFn = createMatchFn(all);

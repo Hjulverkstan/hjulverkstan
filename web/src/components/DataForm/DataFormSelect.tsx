@@ -6,13 +6,13 @@ import * as Command from '@components/shadcn/Command';
 
 import { Button } from '@components/shadcn/Button';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { EnumAttributes } from '@data/enums';
+import { EnumAttributesRaw } from '@data/enums';
 
 import { Field, FieldProps, useDataForm } from './';
 import { CheckIcon } from 'lucide-react';
 
 export interface SelectProps extends Omit<FieldProps, 'children'> {
-  enums: EnumAttributes[];
+  enums: EnumAttributesRaw[];
   isMultiSelect?: boolean;
   disabled?: boolean;
   fat?: boolean;
@@ -57,7 +57,7 @@ export const Select = ({
     ? body[dataKey].length
     : body[dataKey] !== undefined && body[dataKey] !== null;
 
-  const renderItem = (e: EnumAttributes) => {
+  const renderItem = (e: EnumAttributesRaw) => {
     const isSelected = isMultiSelect
       ? body[dataKey]?.includes(e.value)
       : body[dataKey] === e.value;
