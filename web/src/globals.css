@@ -55,7 +55,7 @@
 
     --radius: 0.5rem;
   }
-
+  /*
   .dark {
     --background: 220 3% 10%;
     --foreground: 224 8% 99%;
@@ -106,91 +106,93 @@
     --ring: 224 71% 70%;
   }
 }
+*/
 
-@layer base {
-  * {
-    @apply border-border;
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
   }
+
+  h1,
+  .text-h1 {
+    @apply text-5xl font-semibold sm:text-7xl;
+  }
+
+  h2,
+  .text-h2 {
+    @apply text-[2.5rem] font-semibold sm:text-6xl;
+  }
+
+  h3,
+  .text-h3 {
+    @apply -my-[0.25rem] text-2xl font-semibold sm:-my-[0.1875rem] sm:text-3xl;
+  }
+
+  h4,
+  .text-h4 {
+    @apply -my-[0.25rem] text-xl font-semibold sm:-my-[0.25rem] sm:text-2xl;
+  }
+
+  h5,
+  .text-h5 {
+    @apply -my-[0.3125rem] text-lg font-semibold sm:-my-[0.25rem] sm:text-xl;
+  }
+
+  h6,
+  .text-h6 {
+    @apply -my-[0.25rem] text-base font-semibold sm:-my-[0.3125rem] sm:text-lg;
+  }
+
+  body,
+  .text-body {
+    @apply text-base leading-relaxed sm:text-lg;
+  }
+
+  html {
+    @apply h-full;
+    font-family: Inter;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply h-full font-normal;
   }
-}
 
-h1,
-.text-h1 {
-  @apply text-5xl font-semibold sm:text-7xl;
-}
+  #app {
+    @apply h-full;
+  }
 
-h2,
-.text-h2 {
-  @apply text-[2.5rem] font-semibold sm:text-6xl;
-}
+  .css-glow-shadow {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0.2rem 1rem 0.2rem;
+  }
 
-h3,
-.text-h3 {
-  @apply -my-[0.25rem] text-2xl font-semibold sm:-my-[0.1875rem] sm:text-3xl;
-}
+  .css-glow-inner {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0.5rem -0.25rem inset;
+  }
 
-h4,
-.text-h4 {
-  @apply -my-[0.25rem] text-xl font-semibold sm:-my-[0.25rem] sm:text-2xl;
-}
+  @font-face {
+    font-family: Inter;
+    src: url('/fonts/Inter-Variable.ttf') format('truetype-variations');
+    font-style: normal;
+    font-weight: 200 700;
+    font-display: swap;
+  }
 
-h5,
-.text-h5 {
-  @apply -my-[0.3125rem] text-lg font-semibold sm:-my-[0.25rem] sm:text-xl;
-}
+  @font-face {
+    font-family: Inter;
+    src: url('/fonts/Inter-Italic-Variable.ttf') format('truetype-variations');
+    font-style: italic;
+    font-weight: 200 700;
+    font-display: swap;
+  }
 
-h6,
-.text-h6 {
-  @apply -my-[0.25rem] text-base font-semibold sm:-my-[0.3125rem] sm:text-lg;
-}
-
-body,
-.text-body {
-  @apply text-base leading-relaxed sm:text-lg;
-}
-
-html {
-  @apply h-full;
-  font-family: Inter;
-}
-
-body {
-  @apply h-full font-normal;
-}
-
-#app {
-  @apply h-full;
-}
-
-.css-glow-shadow {
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 0.2rem 1rem 0.2rem;
-}
-
-.css-glow-inner {
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0.5rem -0.25rem inset;
-}
-
-@font-face {
-  font-family: Inter;
-  src: url('/fonts/Inter-Variable.ttf') format('truetype-variations');
-  font-style: normal;
-  font-weight: 200 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Inter;
-  src: url('/fonts/Inter-Italic-Variable.ttf') format('truetype-variations');
-  font-style: italic;
-  font-weight: 200 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: DMMono;
-  src: url('/fonts/DMMono-Regular.ttf');
-  font-weight: 400;
-  font-display: swap;
+  @font-face {
+    font-family: DMMono;
+    src: url('/fonts/DMMono-Regular.ttf');
+    font-weight: 400;
+    font-display: swap;
+  }
 }
