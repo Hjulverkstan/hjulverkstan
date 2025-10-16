@@ -98,7 +98,9 @@ export const Provider = U.withLobotomizer(
     const isLoading = !body;
     const isDisabled = isLoadingProp || isLoading || mode === Mode.READ;
 
-    const [manualIssuesMap, setManualIssueMap] = useState({});
+    const [manualIssuesMap, setManualIssueMap] = useState<
+      Record<string, string>
+    >({});
 
     const registerManualIssue = (key: string, message: string | null) =>
       setManualIssueMap((map) => {
