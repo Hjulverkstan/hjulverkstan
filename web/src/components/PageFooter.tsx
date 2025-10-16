@@ -78,7 +78,7 @@ const FooterDivider = () => (
   <SectionContent>
     <div className="border-border-dark w-full border-t" aria-hidden="true" />
   </SectionContent>
-)
+);
 
 //
 

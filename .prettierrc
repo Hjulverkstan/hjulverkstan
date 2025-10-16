@@ -8,7 +8,7 @@
     "tailwindFunctions": ["clsx", "cla", "cva"],
     "customAttributes": ["className", "classNames"],
     "customFunctions": ["clsx", "cla", "cva"],
-    "endingPosition": "absolute-with-indent",
+    "endingPosition": "absolute",
     "tabWidth": 2,
     "semi": true,
     "singleQuote": true,

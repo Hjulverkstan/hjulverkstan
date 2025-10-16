@@ -13,20 +13,32 @@ export interface MobileInventoryVehicleCardProps {
 
 export const MobileInventoryVehicleCard = ({
   vehicle,
-  onClick
+  onClick,
 }: MobileInventoryVehicleCardProps) => (
-  <div className="flex w-full flex-col gap-6 hover:cursor-pointer" onClick={onClick}>
-    <div className="border-border aspect-video rounded-xl border bg-gray-100 overflow-hidden">
+  <div
+    className="flex w-full flex-col gap-6 hover:cursor-pointer"
+    onClick={onClick}
+  >
+    <div
+      className="border-border aspect-video overflow-hidden rounded-xl border
+        bg-gray-100"
+    >
       {vehicle.imageURL ? (
         <ImageWithFallback
           src={vehicle.imageURL}
           className="h-full w-full object-cover"
           fallback={
-            <Error className="h-full" error={{ error: 'NOT_FOUND', endpoint: endpoints.image }} />
+            <Error
+              className="h-full"
+              error={{ error: 'NOT_FOUND', endpoint: endpoints.image }}
+            />
           }
         />
       ) : (
-        <div className="flex items-center justify-center h-full text-muted-foreground/60">
+        <div
+          className="text-muted-foreground/60 flex h-full items-center
+            justify-center"
+        >
           <Bike size={40} />
         </div>
       )}
