@@ -64,7 +64,7 @@ export const CardServices: React.FC<CardServicesProps> = ({
   const inDialog = mode === 'dialog';
   const closeContent = (
     <IconLink
-      className=" h-10 rounded-full px-3 text-base"
+      className="h-10 rounded-full px-3 text-base"
       to={linkDestination}
       variant="secondarySharp"
       subVariant="rounded"

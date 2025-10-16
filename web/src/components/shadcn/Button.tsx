@@ -33,9 +33,7 @@ export const buttonVariants = cva(
         secondarySharp: [
           'bg-secondary text-foreground shadow-none hover:opacity-80',
         ],
-        contrast: [
-          'bg-contrast text-contrast-foreground hover:bg-contrast/80 ',
-        ],
+        contrast: ['bg-contrast text-contrast-foreground hover:bg-contrast/80'],
         mutedSharp: ['bg-muted text-foreground shadow-none hover:opacity-80'],
         background: ['bg-background text-foreground hover:opacity-80'],
         accent: [
