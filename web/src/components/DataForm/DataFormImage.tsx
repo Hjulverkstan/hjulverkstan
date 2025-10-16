@@ -76,9 +76,9 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
     <Field label={label} dataKey={dataKey}>
       <div
         className={`relative flex h-[200px] max-w-[500px] flex-col items-center
-        justify-center gap-2 overflow-hidden rounded-lg border ${
-          !body[dataKey] ? `border-dashed ΕΖΓΗΞΗΓΓΔΗbg-gray-100` : ''
-        }`}
+          justify-center gap-2 overflow-hidden rounded-lg border ${
+            !body[dataKey] ? 'ΕΖΓΗΞΗΓΓΔΗbg-gray-100 border-dashed' : ''
+          }`}
       >
         {mode === Mode.EDIT && body[dataKey] && (
           <IconButton
@@ -93,7 +93,7 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
             className="flex h-8 w-8 items-center justify-center rounded-full
               bg-gray-200 p-2"
           >
-            <Spinner className="h-5 w-5 flex-shrink-0 " visible />
+            <Spinner className="h-5 w-5 flex-shrink-0" visible />
           </div>
         ) : (
           <>

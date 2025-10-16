@@ -16,7 +16,7 @@ export default function Login() {
 
   return (
     <div className="flex h-full items-center justify-center">
-      <form className="space-y-2 max-w-64" onSubmit={handleLogin}>
+      <form className="max-w-64 space-y-2" onSubmit={handleLogin}>
         <h3 className="mb-4">Login to Hjulverkstan Portal</h3>
         <Input
           type="text"

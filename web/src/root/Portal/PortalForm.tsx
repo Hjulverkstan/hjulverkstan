@@ -112,7 +112,7 @@ export default function PortalForm({
   }[mode];
 
   return (
-    <div className="bg-muted flex w-64 flex-shrink-0 flex-col border-l ">
+    <div className="bg-muted flex w-64 flex-shrink-0 flex-col border-l">
       <div
         style={{ marginTop: '0.5px' }}
         className="flex h-11 flex-shrink-0 items-center border-b px-2"

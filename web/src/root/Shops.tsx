@@ -20,7 +20,7 @@ export default function Shops() {
           <div
             className={cn(
               'bg-muted relative flex flex-col overflow-hidden rounded-lg',
-              ' md:p-10',
+              'md:p-10',
               'md:flex-row md:items-center',
             )}
           >
