@@ -1,3 +1,5 @@
+import type { Row } from '@hooks/useHeadlessTable';
+
 export interface Column<R extends Row> {
   /** Column key */
   key: string;
