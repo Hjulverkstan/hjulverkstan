@@ -1,15 +1,18 @@
 import { useMemo } from 'react';
 
-import * as enums from '@data/location/enums';
+import * as enumsRaw from '@data/location/enums';
 import { Location } from '@data/location/types';
 
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { format } from 'date-fns';
+import { useEnums } from '@hooks/useEnums';
 
 //
 
 export default function useColumns() {
+  const enums = useEnums(enumsRaw);
+
   return useMemo(
     () =>
       [

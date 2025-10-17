@@ -3,13 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useVehiclesQ } from '@data/vehicle/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
 import * as U from '@utils';
-import { EnumAttributes } from '../enums';
+import { EnumAttributesRaw } from '../enums';
 import { StandardError } from '../api';
 import * as api from './api';
-import * as enums from './enums';
+import * as enumsRaw from './enums';
 import { Ticket, TicketAggregated, TicketStatus } from './types';
 import { Warning } from '@data/warning/types';
 import { differenceInDays } from 'date-fns';
+import { useEnums } from '@hooks/useEnums';
 
 //
 
@@ -74,10 +75,12 @@ export const useTicketsAggregatedQ = () =>
 
 //
 
-export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) =>
-  useQuery<Ticket[], StandardError, EnumAttributes[]>({
+export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) => {
+  const enums = useEnums(enumsRaw);
+
+  return useQuery<Ticket[], StandardError, EnumAttributesRaw[]>({
     ...api.createGetTickets(),
-    select: (tickets): EnumAttributes[] =>
+    select: (tickets): EnumAttributesRaw[] =>
       tickets?.map((ticket) => ({
         dataKey,
         icon: enums.find(ticket.ticketType).icon,
@@ -89,7 +92,8 @@ export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) =>
             [TicketStatus.IN_PROGRESS]: 'yellow',
             [TicketStatus.READY]: 'blue',
             [TicketStatus.COMPLETE]: 'purple',
-          }[ticket.ticketStatus] as EnumAttributes['variant'],
+          }[ticket.ticketStatus] as EnumAttributesRaw['variant'],
         }),
       })) ?? [],
   });
+};

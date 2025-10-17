@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useNavigate, useParams } from 'react-router-dom';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 import {
   useDeleteVehicleM,
@@ -11,15 +12,14 @@ import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { IconButton } from '@components/shadcn/Button';
 import { useToast } from '@components/shadcn/use-toast';
 import { useDialogManager } from '@components/DialogManager';
-
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
-import { createErrorToast, createSuccessToast } from '../toast';
-import { PortalTableActionsProps } from '../PortalTable';
-import * as Tooltip from '@radix-ui/react-tooltip';
-import * as enums from '@data/vehicle/enums';
-
+import * as enumsRaw from '@data/vehicle/enums';
 import { useTicketsQ } from '@data/ticket/queries';
 import { TicketStatus } from '@data/ticket/types';
+import { useEnums } from '@hooks/useEnums';
+
+import { createErrorToast, createSuccessToast } from '../toast';
+import { PortalTableActionsProps } from '../PortalTable';
 
 export enum VehicleShortcutAction {
   CREATE_TICKET = 'CREATE_TICKET',
@@ -111,6 +111,8 @@ export default function ShopInventoryActions({
       },
     );
   };
+
+  const enums = useEnums(enumsRaw);
 
   return (
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>

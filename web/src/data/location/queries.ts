@@ -3,8 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { StandardError } from '../api';
 import { EnumAttributes } from '../enums';
 import { Location } from './types';
-import * as enums from './enums';
+import * as enumsRaw from './enums';
 import * as api from './api';
+import { useEnums } from '@hooks/useEnums';
 
 //
 
@@ -30,8 +31,10 @@ export const useLocationQ = ({ id }: UseLocationQProps) =>
 
 //
 
-export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) =>
-  useQuery<Location[], StandardError, EnumAttributes[]>({
+export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) => {
+  const enums = useEnums(enumsRaw);
+
+  return useQuery<Location[], StandardError, EnumAttributes[]>({
     ...api.createGetLocations(),
     select: (locations) =>
       locations?.map((location) => ({
@@ -41,3 +44,4 @@ export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) =>
         value: location.id,
       })) ?? [],
   });
+};

@@ -25,6 +25,9 @@ import {
   usePublicVehicleByIdQ,
   usePublicVehiclesByLocationQ,
 } from '@data/vehicle/queries';
+import { useEnums } from '@hooks/useEnums';
+import * as enumsRaw from '@data/vehicle/enums';
+import { useTranslations } from '@hooks/useTranslations';
 
 const ITEMS_TO_LOAD_OTHER_BIKES = 3;
 
@@ -34,10 +37,6 @@ interface VehicleAttributeProps {
   value?: string | number;
   preserveCase?: boolean;
 }
-
-// TODO: Vehicle enums (bikeType, size etc.) are currently not
-//  localized. This should be addressed once the feature for static text
-//  localization is merged: https://github.com/Hjulverkstan/hjulverkstan/issues/226
 
 const VehicleAttribute = ({
   icon: Icon,
@@ -56,6 +55,8 @@ const VehicleAttribute = ({
 
 const ShopRentalSection = ({ shop }: { shop: any }) => {
   const { data: preloadedData } = usePreloadedDataLocalized();
+
+  const { t } = useTranslations();
 
   return (
     <>
@@ -93,8 +94,8 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
         <IconButton
           icon={KeyRound}
           iconRight
-          text="Rent"
-          aria-label="Rent this bike"
+          text={t('rent')}
+          aria-label={t('rentAria')}
           variant="default"
           size="default"
           className="bg-green-accent text-background hover:bg-success-accent
@@ -113,7 +114,7 @@ export default function VehicleDetail() {
 
   const vehicleQ = usePublicVehicleByIdQ({ id });
   const vehiclesQ = usePublicVehiclesByLocationQ({
-    locationId: vehicleQ.data?.locationId,
+    locationId: vehicleQ.data?.locationId ?? '',
   });
 
   const shop = useMemo(
@@ -137,11 +138,18 @@ export default function VehicleDetail() {
   const handleLoadMoreOtherBikes = () =>
     setVisibleCount((prevCount) => prevCount + ITEMS_TO_LOAD_OTHER_BIKES);
 
+  const { t } = useTranslations();
+  const enums = useEnums(enumsRaw);
+
   return (
     <Page variant="muted">
       <Section variant="muted" className="pt-32 md:pb-20 md:pt-16">
         <SectionContent
-          heading={vehicleQ.data?.label}
+          heading={
+            vehicleQ.data
+              ? `${enums.find(vehicleQ.data.brand)?.label} ${enums.find(vehicleQ.data.vehicleType)?.label}`
+              : ''
+          }
           className="max-w-[1280px]"
         >
           <div
@@ -186,37 +194,32 @@ export default function VehicleDetail() {
               >
                 <VehicleAttribute
                   icon={Bike}
-                  label="Bike Type"
-                  value={vehicleQ.data?.bikeType}
+                  label={t('bikeTypeLabel')}
+                  value={enums.find(vehicleQ.data?.bikeType)?.label}
                 />
-
                 <VehicleAttribute
                   icon={Flag}
-                  label="Brand"
-                  value={vehicleQ.data?.brand}
+                  label={t('brandLabel')}
+                  value={enums.find(vehicleQ.data?.brand)?.label}
                 />
-
                 <VehicleAttribute
                   icon={Disc3}
-                  label="Brakes"
-                  value={vehicleQ.data?.brakeType}
+                  label={t('brakeTypeLabel')}
+                  value={enums.find(vehicleQ.data?.brakeType)?.label}
                 />
-
                 <VehicleAttribute
                   icon={Cog}
-                  label="Gears"
+                  label={t('gearCountLabel')}
                   value={vehicleQ.data?.gearCount}
                 />
-
                 <VehicleAttribute
                   icon={Ruler}
-                  label="Size"
-                  value={vehicleQ.data?.size}
+                  label={t('sizeLabel')}
+                  value={enums.find(vehicleQ.data?.size)?.label}
                 />
-
                 <VehicleAttribute
                   icon={Tag}
-                  label="Reg. No."
+                  label={t('regTagLabel')}
                   value={vehicleQ.data?.regTag}
                 />
               </div>

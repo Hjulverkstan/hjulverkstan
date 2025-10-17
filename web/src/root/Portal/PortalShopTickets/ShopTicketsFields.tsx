@@ -1,15 +1,17 @@
 import * as DataForm from '@components/DataForm';
 import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
-import * as enums from '@data/ticket/enums';
+import * as enumsRaw from '@data/ticket/enums';
 import { TicketType } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ, useVehiclesQ } from '@data/vehicle/queries';
 import { max, parseISO } from 'date-fns';
+import { useEnums } from '@hooks/useEnums';
 
 export default function ShopTicketFields() {
   const { body, mode } = DataForm.useDataForm();
-
   const vehiclesQ = useVehiclesQ();
+
+  const enums = useEnums(enumsRaw);
 
   const firstIsCustomerOwned = body.vehicleIds?.length
     ? vehiclesQ.data?.find((v) => v.id === body.vehicleIds[0])?.isCustomerOwned

@@ -1,13 +1,16 @@
-import * as enums from '@data/customer/enums';
+import * as enumsRaw from '@data/customer/enums';
 
 import * as DataTable from '@components/DataTable';
 import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { Customer } from '@data/customer/types';
 import { enumsMatchUtil } from '@data/enums';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
+import { useEnums } from '@hooks/useEnums';
+
 import { PortalFilterDate } from '../PortalFilterDate';
 
 export default function ShopCustomerFilters() {
+  const enums = useEnums(enumsRaw);
   const ticketEnumsQ = useTicketsAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ({ withOrgPerson: true });
 
