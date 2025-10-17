@@ -166,7 +166,7 @@ export default function Home() {
                   key={story.id}
                   title={story.title}
                   body={story.bodyText}
-                  link={`/stories${story.slug}`}
+                  link={`/stories/${story.id}`}
                   ariaLabel={story.title}
                 />
               ))}

@@ -24,8 +24,11 @@ console.log(
 const getPreloadedDataClientSide = () => {
   // Perhaps not necessary but prevent excecutable content:
   const unsafeRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+  const unescapedQuotesRegex = /(?<!\\)"/g;
   const safeParseJson = (json: string) =>
-    JSON.parse(json.replace(unsafeRegex, ''));
+    JSON.parse(
+      json.replace(unsafeRegex, '').replace(unescapedQuotesRegex, '&quot;'),
+    );
 
   if (!window) throw new Error('getPreloadedDataClientSide invoked serverside');
   else if (window.__PRELOADED_DATA__ === 'undefined') return undefined;

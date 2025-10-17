@@ -10,6 +10,8 @@ import * as Tooltip from '@components/shadcn/Tooltip';
 import { LocaleProvider, usePreloadedData } from '@hooks/usePreloadedData';
 import type { LocaleAllEntitiesMap } from '@data/webedit/types';
 
+import '../globals.css';
+import About from './About';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
@@ -20,8 +22,7 @@ import Support from './Support';
 import Services from './Services';
 import Stories from './Stories';
 import VehicleDetail from './VehicleDetail';
-
-import '../globals.css';
+import StoryDetail from './StoryDetail';
 
 // React Query Config
 
@@ -58,7 +59,7 @@ export const queryClient = new QueryClient({
  * statically generated site. See [link](link)
  */
 
-export const fallbackLocale = 'sv';
+export const fallBackLocale = 'sv';
 
 export interface RouteAttributes {
   path: string;
@@ -72,13 +73,19 @@ export interface RouteAttributes {
 export const createRoutes = (
   data?: LocaleAllEntitiesMap,
 ): RouteAttributes[] => {
-  const shopSlugs = data?.[fallbackLocale].shops.map((s) => s.slug);
+  const shopSlugs = data?.[fallBackLocale].shops.map((s) => s.slug);
+  const storyIndex = data?.[fallBackLocale].story.map((story) => story.id);
 
   return [
     {
       path: '/',
       title: 'Hjulverkstan',
       component: Home,
+    },
+    {
+      path: '/about',
+      title: 'Hjulverkstan - About',
+      component: About,
     },
     {
       path: '/contact',
@@ -116,6 +123,12 @@ export const createRoutes = (
       path: '/stories',
       title: 'Hjulverkstan - Stories',
       component: Stories,
+    },
+    {
+      path: '/stories/:id',
+      title: 'Hjulverkstan - Story',
+      component: StoryDetail,
+      dynamicSegments: storyIndex?.map((id) => ({ id })),
     },
     {
       path: '/portal/*',
