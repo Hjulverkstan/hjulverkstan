@@ -1,7 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
 
 import * as DataTable from '@components/DataTable';
-import * as enums from '@data/ticket/enums';
+import * as enumsRaw from '@data/ticket/enums';
 import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
 import { enumsMatchUtil } from '@data/enums';
@@ -19,8 +19,11 @@ import {
   VehicleShortcutLocationState,
 } from '../PortalShopInventory/ShopInventoryActions';
 import { matchDateWithoutTimestamp } from '@utils';
+import { useEnums } from '@hooks/useEnums';
 
 export default function ShopTicketFilters() {
+  const enums = useEnums<typeof enumsRaw>(enumsRaw);
+
   const ticketsQ = useTicketsAggregatedQ();
   const ticketEnumsQ = useTicketsAsEnumsQ();
   const locationState = useLocation().state as VehicleShortcutLocationState;

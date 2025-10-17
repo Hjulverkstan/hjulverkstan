@@ -1,34 +1,27 @@
 import { ComponentType } from 'react';
-
-import { Row } from '@hooks/useHeadlessTable';
 import { BadgeProps } from '@components/shadcn/Badge';
+import { TranslationKeys } from '@data/translations';
 
 //
 
-export interface EnumAttributes {
+export interface EnumAttributesRaw {
   value: any;
-  label: string;
   dataKey: string;
+  translationKey?: TranslationKeys;
+  tooltipTranslationKey?: TranslationKeys;
   icon?: ComponentType<any>;
   /* Following fields aggregated in some business logic down the line */
   variant?: BadgeProps['variant'];
-  tooltip?: string;
   children?: string[];
   count?: number;
 }
 
+export type EnumAttributes<V extends EnumAttributesRaw = EnumAttributesRaw> =
+  V & {
+    label: string;
+  };
+
 //
-
-export const createFindFn = (enums: EnumAttributes[]) => (value: any) => {
-  const enumAttr = enums.find((e) => e.value === value);
-
-  if (!enumAttr)
-    throw Error(
-      `find (by createFindFn) was given a value [${value}] that was not the enums list [${enums.map((e) => e.value).join()}]`,
-    );
-
-  return enumAttr;
-};
 
 /**
  * Used to create a matchFn used by <DataTable.FilterSearch />. While we can
@@ -38,23 +31,11 @@ export const createFindFn = (enums: EnumAttributes[]) => (value: any) => {
  * match for 'unavail'...
  */
 
-export const createMatchFn =
-  (enums: EnumAttributes[]) => (word: string, row: Row) =>
-    enums.some((e) => {
-      const dataVal = row[e.dataKey];
-
-      return (
-        (Array.isArray(dataVal)
-          ? dataVal.includes(e.value)
-          : e.value === dataVal) && e.label.toLowerCase().startsWith(word)
-      );
-    });
-
 // For easier matching especially when making matchFns for the searchbar in
 // portal pages. See implementations for reference.
 
 interface EnumsMatchWordProps {
-  enums?: EnumAttributes[];
+  enums?: EnumAttributesRaw[];
   includes?: string;
   startsWith?: string;
   isOf?: string | string[];

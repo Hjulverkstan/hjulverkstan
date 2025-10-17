@@ -1,9 +1,11 @@
 import * as DataTable from '@components/DataTable';
-import * as enums from '@data/user/enums';
+import * as enumsRaw from '@data/user/enums';
 import { User } from '@data/user/types';
 import { PortalFilterDate } from '../PortalFilterDate';
+import { useEnums } from '@hooks/useEnums';
 
 export default function AdminUserFilters() {
+  const enums = useEnums(enumsRaw);
   return (
     <>
       <DataTable.FilterSearch

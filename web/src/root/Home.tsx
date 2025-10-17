@@ -19,7 +19,7 @@ import { CardShop } from '@components/CardShop';
 import { Partner, partners } from './tempData';
 import { GridBetween } from '@components/GridBetween';
 import { Page } from '@components/Page';
-import { useDialogManager } from '@components/DialogManager';
+import { useTranslations } from '@hooks/useTranslations';
 
 import {
   ServicesRepairCardView,
@@ -50,7 +50,8 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
 
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
-  const { openDialog } = useDialogManager();
+
+  const { t } = useTranslations();
 
   return (
     <Page hasHeroSection>
@@ -136,15 +137,15 @@ export default function Home() {
               title={data.text.serviceCommunityTitle}
               body={data.text.serviceCommunityBody}
               link="/"
-              linkLabel="Work with us"
+              linkLabel={t('communityLinkLabel')}
             />
           </div>
         </SectionContent>
 
         <SectionContent
-          heading="Stories"
+          heading={t('stories')}
           linkTo="/stories"
-          linkLabel="See all stories"
+          linkLabel={t('storiesLinkLabel')}
           linkVariant="background"
         >
           <div className="flex flex-col gap-8 xl:flex-row">
@@ -177,9 +178,9 @@ export default function Home() {
 
       <Section>
         <SectionContent
-          heading="Shops"
+          heading={t('shops')}
           linkTo="/shops"
-          linkLabel="See all shops"
+          linkLabel={t('shopsLinkLabel')}
         >
           <div
             className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
@@ -209,10 +210,10 @@ export default function Home() {
               min-[1200px]:flex min-[1200px]:flex-row
               min-[1200px]:items-baseline min-[1200px]:px-0"
           >
-            <Statistic label="Bikes repaired" value={628} />
-            <Statistic label="Bikes saved" value={500} />
-            <Statistic label="Bikes lent" value={86} />
-            <Statistic label="Employees hired" value={30} />
+            <Statistic label={t('statsBikesRepaired')} value={628} />
+            <Statistic label={t('statsBikesSaved')} value={500} />
+            <Statistic label={t('statsBikesLent')} value={86} />
+            <Statistic label={t('statsEmployeesHired')} value={30} />
           </div>
         </SectionContent>
       </Section>
@@ -220,39 +221,39 @@ export default function Home() {
       <div className="border-divider w-full border-t"></div>
 
       <Section>
-        <SectionContent heading="Join us">
+        <SectionContent heading={t('joinUsHeading')}>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
             <CardDefault
               icon={PackagePlusIcon}
-              title="Donate material"
-              body="Support us with bikes, tools, or other useful items. Your donation helps keep the project rolling."
+              title={data.generalContent.supportDonateMaterialTitle}
+              body={data.generalContent.supportDonateMaterialBody}
               link="/"
               ariaLabel="Learn more about donating material"
               variant="muted"
             />
             <CardDefault
               icon={CoinsIcon}
-              title="Donate via Swish"
-              body="Swish a contribution, every bit helps us empower young people and build a stronger community."
+              title={data.generalContent.supportDonateSwishTitle}
+              body={data.generalContent.supportDonateSwishBody}
               link="/"
               ariaLabel="Learn more about donating via Swish"
               variant="muted"
             />
             <CardDefault
               icon={Hammer}
-              title="Work with us"
-              body="We offer opportunities to get involved, learn new skills, and be part of our workshops."
+              title={data.generalContent.supportWorkTitle}
+              body={data.generalContent.supportWorkBody}
               link="/"
               ariaLabel="Learn more about working with us"
               variant="muted"
             />
             <CardDefault
               icon={HeartHandshake}
-              title="Become a partner"
-              body="We welcome partnerships that promote sustainability and inclusion. Feel free to reach out!"
+              title={data.generalContent.supportPartnerTitle}
+              body={data.generalContent.supportPartnerBody}
               link="/"
               ariaLabel="Learn more about becoming a partner"
-              linkLabel="Contact us"
+              linkLabel={t('contactUsLinkLabel')}
               variant="muted"
             />
           </div>
@@ -261,9 +262,9 @@ export default function Home() {
 
       <Section variant="muted">
         <SectionContent
-          heading="Our partners"
+          heading={t('partnerHeading')}
           linkTo="/partners"
-          linkLabel="See all partners"
+          linkLabel={t('partnerLinkLabel')}
           linkVariant="background"
         >
           <GridBetween rows={2} cols={4} className="hidden lg:flex">

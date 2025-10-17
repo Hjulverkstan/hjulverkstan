@@ -199,20 +199,114 @@ Let's go into some further detail regarding some directories:
 
 ### Enums.ts
 
-This naming can be a little confusing so it important learn what these files are about. Throughout our application we use many enumerators fetched from the back end, some examples are:
+In our application, **enums** are used to represent standardized categories or types fetched from the backend. Examples include:
 
-- Ticket status
-- Customer type
-- Vehicle type
+- Vehicle type (Bike, Stroller, Scooter, etc.)
+- Bike type (BMX, Electric, Road, etc.)
+- Vehicle status (Available, Unavailable, Broken, Archived)
+- Customer type, Ticket type, and more
 
-All these enumerators are defined in the `enums.ts` files in the different `data/` directories so we can add other needed fields to them that our application is in need of:
+Enums are now fully **localized** and **flexible**, allowing dynamic **labels**, **tooltips**, and additional **metadata**.
 
-- `value`: Enum value – the raw value from the enumerator 
-- `label`: Text label for the UI
-- `icon`: Icon if there is one
-- `variant`: Variant (i.e style, can determine color etc)
+#### Enum Structure
 
-And one other filed: `dataKey` – this is the key, or field that this enumerator exists on, on the data in question, for vehicle type that is `vehicleType` as that is the prop on a `Vehicle` that it is mapped to. This is useful because many of our filters and dropdowns etc can use this data key to automatically read from or write to the data in question when the user takes action.
+`EnumAttributesRaw`, this is the **base structure** of all enums:
+
+```ts
+export interface EnumAttributesRaw {
+  value: any; // The raw value from backend
+  dataKey: string; // Field on the data object this enum belongs to
+  translationKey?: TranslationKeys; // Key used to generate the localized label
+  tooltipTranslationKey?: TranslationKeys; // Key for the tooltip localization
+  icon?: ComponentType<any>; // Optional icon component
+  variant?: BadgeProps['variant']; // Optional visual style
+  children?: string[]; // Optional nested enum values to link relationship / ownership
+  count?: number; // Optional count, derived and populated in the filters for a faceted interface
+}
+```
+
+`EnumAttributes` extends `EnumAttributesRaw` by adding a `label` property, which is the **localized text** used in the UI:
+
+```ts
+export type EnumAttributes<V extends EnumAttributesRaw = EnumAttributesRaw> =
+  V & {
+    label: string;
+  };
+```
+
+#### Localization
+
+Each enum can be localized using a `translationKey`.
+The translation keys follow a predictable pattern, such as:
+
+```
+enumVehicleTypeBike → "Bike"
+enumBikeTypeElectric → "Electric Bike"
+enumWarningDuePickupLabel → "Due pickup"
+enumWarningDuePickupTooltip → "Bike ready, waiting for pickup"
+```
+
+This allows translation files to contain both **labels** and **tooltips** for enums.
+Example from the translation file:
+
+```ts
+enumVehicleTypeBike: 'Bike',
+enumBikeTypeElectric: 'Electric Bike',
+enumWarningDuePickupLabel: 'Due pickup',
+enumWarningDuePickupTooltip: 'Bike ready, waiting for pickup',
+```
+
+All of the translations are stored in separate language files, ex. `en.ts`.
+
+#### The `useEnums` Hook
+
+The `useEnums` **hook** is used to load and interact with enum definitions within a component.
+
+It takes a module containing raw enums (for example `@data/vehicle/enums`) and returns an enhanced object with:
+
+- **Translated labels**
+- **Matching and filtering utilities**
+- **Type-safe access** to all enum groups
+
+It uses the hook `useTranslations.ts` to find the correct label for the current language.
+
+Example from VehicleDetail:
+
+```tsx
+import * as enumsRaw from '@data/vehicle/enums';
+import { useEnums } from '@hooks/useEnums';
+
+const enums = useEnums(enumsRaw);
+
+// Example usage:
+<VehicleAttribute
+  icon={Bike}
+  label={t('bikeTypeLabel')} // Translation for static UI text
+  value={enums.find(vehicleQ.data?.bikeType)?.label} // Enum translated
+/>;
+```
+
+The `useEnums` **hook** also provides a **matching function** that integrates with **search inputs** and **filters**.
+It ensures that user searches match localized enum labels rather than raw backend values.
+
+Example:
+
+```tsx
+<DataTable.FilterSearch
+  placeholder="Search in Inventory..."
+  matchFn={(word, row) =>
+    enums.matchFn(word, row) ||
+    DataTable.fuzzyMatchFn(['comment', 'regTag'], word, row)
+  }
+/>
+```
+
+#### Summary
+
+- **Enums** represent centralized, localized backend enumerators.
+- Each enum item can include **icons**, **variants**, **tooltips**, and **translation keys**.
+- The `useEnums` **hook** provides translation, search matching, and filter support.
+- This approach ensures **consistent** and **dynamic** UI behavior across all data-driven components.
 
 ### Form.ts
 
@@ -260,7 +354,7 @@ Let's start by with overview of the files concerning SSG:
 
 Let's proceed by working bottom up, starting with the `build.js` file. It works like follows:
 
-1. Iterate over `routesCSR` a definition of our CSR routes (currently only used for the portal app as it is the only CSR part of the app) from `root/index.tsx` and generate that index.html file to it's appropriate location. 
+1. Iterate over `routesCSR` a definition of our CSR routes (currently only used for the portal app as it is the only CSR part of the app) from `root/index.tsx` and generate that index.html file to it's appropriate location.
 
 2. Call `getDataForPreloadingServerSide()` exported from `server.tsx`, this will make a request to our backend and retrieve all the dynamic data from `WebEdit`, for every localized language.
 

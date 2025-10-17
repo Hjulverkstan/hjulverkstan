@@ -5,9 +5,10 @@ import { NavLink } from 'react-router-dom';
 import { Link } from '@components/shadcn/Button';
 import type { Shop } from '@data/webedit/shop/types';
 import { OpenBadge } from '@components/OpenBadge';
-import { navLinks } from '@components/PageNavbar';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { SectionContent } from '@components/SectionContent';
+import { useTranslations } from '@hooks/useTranslations';
+import { navLinks } from '@components/PageNavbar';
 
 //
 
@@ -85,6 +86,8 @@ const FooterDivider = () => (
 export default function PageFooter() {
   const { data } = usePreloadedDataLocalized();
 
+  const { t } = useTranslations();
+
   return (
     <footer className="bg-secondary flex flex-col gap-16 py-32">
       <SectionContent className="flex justify-center">
@@ -94,8 +97,8 @@ export default function PageFooter() {
             justify-center gap-y-2 rounded-full px-6 py-3"
         >
           {navLinks.map((link) => (
-            <Link variant="link" key={link.name} to={link.path}>
-              {link.name}
+            <Link variant="link" key={link.translationKey} to={link.path}>
+              {t(link.translationKey)}
             </Link>
           ))}
         </nav>
@@ -127,22 +130,22 @@ export default function PageFooter() {
         <FooterLink
           to="https://www.savethechildren.net"
           imgSrc="/icons/stc.svg"
-          text="initiative by"
-          linkLabel="Save the Children"
+          text={t('footerSaveTheChildrenBody')}
+          linkLabel={t('footerSaveTheChildrenLinkLabel')}
         />
         <div className="border-border hidden h-10 border-l xl:block" />
         <FooterLink
           to="https://www.alten.se"
           imgSrc="/icons/alten.svg"
-          text="development by"
-          linkLabel="ALTEN Sweden"
+          text={t('footerDevelopBody')}
+          linkLabel={t('footerDevelopLinkLabel')}
         />
         <div className="border-border hidden h-10 border-l xl:block" />
         <FooterLink
           to="https://github.com/Hjulverkstan"
           imgSrc="/icons/github.svg"
-          text="open source on"
-          linkLabel="GitHub"
+          text={t('footerOpenSourceBody')}
+          linkLabel={t('footerOpenSourceLinkLabel')}
         />
       </SectionContent>
     </footer>

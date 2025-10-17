@@ -1,16 +1,20 @@
 import { useMemo } from 'react';
 import { format } from 'date-fns';
 
-import * as enums from '@data/customer/enums';
-import { AggregatedCustomer } from '@data/customer/types';
-
-import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
-import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { TicketBadges } from '../PortalShopTickets/useColumns';
 import BadgeGroup from '@components/BadgeGroup';
 
+import * as DataTable from '@components/DataTable';
+import { AggregatedCustomer } from '@data/customer/types';
+import * as enumsRaw from '@data/customer/enums';
+import { useTicketsAsEnumsQ } from '@data/ticket/queries';
+import { useEnums } from '@hooks/useEnums';
+
+//
+
 export default function useColumns() {
+  const enums = useEnums(enumsRaw);
   const ticketEnumsQ = useTicketsAsEnumsQ();
 
   return useMemo(

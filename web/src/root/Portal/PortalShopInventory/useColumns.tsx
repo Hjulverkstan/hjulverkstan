@@ -1,18 +1,21 @@
-import * as enums from '@data/vehicle/enums';
-import { Vehicle } from '@data/vehicle/types';
+import { useMemo } from 'react';
+import { format } from 'date-fns';
+
+import WarningBadge from '@components/WarningBadge';
+import IconLabel from '@components/IconLabel';
+import { TicketBadges } from '../PortalShopTickets/useColumns';
+import BadgeGroup from '@components/BadgeGroup';
 
 import * as DataTable from '@components/DataTable';
-import BadgeGroup from '@components/BadgeGroup';
-import IconLabel from '@components/IconLabel';
-import { useMemo } from 'react';
+import { Vehicle } from '@data/vehicle/types';
+import * as enumsRaw from '@data/vehicle/enums';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
-import { TicketBadges } from '../PortalShopTickets/useColumns';
-import { format } from 'date-fns';
-import WarningBadge from '@components/WarningBadge';
+import { useEnums } from '@hooks/useEnums';
 
 //
 
 export default function useColumns() {
+  const enums = useEnums(enumsRaw);
   const locationEnumsQ = useLocationsAsEnumsQ();
 
   return useMemo(
@@ -141,17 +144,19 @@ export default function useColumns() {
         {
           key: 'createdAt',
           name: 'Created at',
-          renderFn: ({ createdAt }) => (
-            <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
-          ),
+          renderFn: ({ createdAt }) =>
+            createdAt ? (
+              <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
+            ) : null,
         },
 
         {
           key: 'updatedAt',
           name: 'Edited at',
-          renderFn: ({ updatedAt }) => (
-            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
-          ),
+          renderFn: ({ updatedAt }) =>
+            updatedAt ? (
+              <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
+            ) : null,
         },
       ] as Array<DataTable.Column<Vehicle>>,
     [locationEnumsQ.data],
