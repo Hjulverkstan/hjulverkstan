@@ -1,8 +1,9 @@
-package se.hjulverkstan.main.feature.webedit.localisation;
+package se.hjulverkstan.main.feature.webedit;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import se.hjulverkstan.main.feature.webedit.localisation.Language;
 
 import java.util.Map;
 
