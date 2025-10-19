@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.feature.webedit.localisation.LangCountPerEntityDto;
 import se.hjulverkstan.main.feature.webedit.localisation.Language;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentRepository;
 import se.hjulverkstan.main.feature.webedit.shop.ShopDto;
