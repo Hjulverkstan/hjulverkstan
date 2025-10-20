@@ -3,6 +3,7 @@ package se.hjulverkstan.main.feature.webedit.shop;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.webedit.localisation.Localised;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@ToString(exclude = {"location", "openHours"})
 public class Shop extends Auditable implements Localised {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
