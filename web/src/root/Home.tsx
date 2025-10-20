@@ -128,6 +128,7 @@ export default function Home() {
                   </ServicesAsDialogWrapper>,
                 )
               }
+              className="pointer-events-none opacity-25"
             />
 
             {/* Community */}
@@ -137,6 +138,7 @@ export default function Home() {
               body={data.text.serviceCommunityBody}
               link="/"
               linkLabel="Work with us"
+              className="pointer-events-none opacity-25"
             />
           </div>
         </SectionContent>
