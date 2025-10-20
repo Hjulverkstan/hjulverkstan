@@ -39,5 +39,7 @@ public class TextDto extends AuditableDto {
         key = text.getKey();
         value = valueLocalised;
     }
+
+    // No applyToEntity method as the only updatable field is localized contents, completely managed by the service.
 }
 

@@ -44,8 +44,8 @@ public class VehicleService {
         VehicleUtils.validateDtoBySelf(dto);
         VehicleUtils.validateDtoByContext(dto, vehicleRepository);
 
-        Vehicle vehicle = dto.applyToEntity(new Vehicle());
-        applyDtoRelations(dto, vehicle);
+        Vehicle vehicle = new Vehicle();
+        applyToEntity(vehicle, dto);
         vehicleRepository.save(vehicle);
 
         return new VehicleDto(vehicle);
@@ -58,8 +58,7 @@ public class VehicleService {
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Vehicle"));
         VehicleUtils.validateDtoByContext(dto, vehicleRepository);
 
-        dto.applyToEntity(vehicle);
-        applyDtoRelations(dto, vehicle);
+        applyToEntity(vehicle, dto);
         vehicleRepository.save(vehicle);
 
         return new VehicleDto(vehicle);
@@ -85,10 +84,10 @@ public class VehicleService {
         vehicleRepository.delete(vehicle);
     }
 
-    private void applyDtoRelations(VehicleDto dto, Vehicle vehicle) {
+    private void applyToEntity(Vehicle vehicle, VehicleDto dto) {
         Location location = locationRepository.findById(dto.getLocationId())
                 .orElseThrow(() -> new ElementNotFoundException("Location"));
 
-        vehicle.setLocation(location);
+        dto.applyToEntity(vehicle, location);
     }
 }

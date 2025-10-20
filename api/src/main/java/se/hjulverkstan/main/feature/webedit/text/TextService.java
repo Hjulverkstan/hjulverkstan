@@ -2,20 +2,16 @@ package se.hjulverkstan.main.feature.webedit.text;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.feature.webedit.localisation.FieldNameType;
+import se.hjulverkstan.main.feature.webedit.localisation.FieldName;
 import se.hjulverkstan.main.feature.webedit.localisation.Language;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils;
-import se.hjulverkstan.main.feature.webedit.shop.Shop;
-import se.hjulverkstan.main.feature.webedit.shop.ShopDto;
+import se.hjulverkstan.main.feature.webedit.localisation.LocalisationService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
-import java.util.function.Function;
-
-import static se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils.getLocalisedValue;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,35 +19,43 @@ import static se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent
 public class TextService {
 
     private final TextRepository textRepository;
+    private final LocalisationService localisationService;
 
     public ListResponseDto<TextDto> getAllTextsByLang(Language lang, Language fallbackLang) {
         List<Text> texts = textRepository.findAll(Sort.by(Sort.Direction.DESC, "name"));
 
-        Function<Text, TextDto> mapper = text -> new TextDto(text, getLocalisedValue(text, lang, fallbackLang));
-        return new ListResponseDto<>(texts.stream().map(mapper).toList());
+        return new ListResponseDto<>(texts.stream().map(text -> toDto(text, lang, fallbackLang)).toList());
 
     }
 
     public TextDto getTextByLangAndId(Language lang, Long id) {
         Text text = textRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Text"));
 
-        return new TextDto(text, getLocalisedValue(text, lang));
+        return toDto(text, lang, null);
     }
 
     @Transactional
     public TextDto editTextByLang(Language lang, Long id, TextDto dto) {
         Text text = textRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Text"));
 
-        LocalisedContentUtils.upsertLocalisedContent(
+        applyToEntity(text, dto, lang);
+        textRepository.save(text);
+
+        return toDto(text, lang, null);
+    }
+
+    private void applyToEntity (Text text, TextDto dto, Language lang) {
+        localisationService.upsertText(
                 text,
                 lang,
                 dto.getValue(),
-                FieldNameType.VALUE,
+                FieldName.VALUE,
                 lc -> lc.setText(text)
         );
+    }
 
-        textRepository.save(text);
-
-        return new TextDto(text, getLocalisedValue(text, lang));
+    private TextDto toDto (Text text, Language lang, @Nullable Language fallbackLang) {
+        String value = localisationService.getText(text, FieldName.VALUE, lang, fallbackLang);
+        return new TextDto(text, value);
     }
 }
