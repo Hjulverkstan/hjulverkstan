@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import se.hjulverkstan.main.feature.customer.Customer;
+import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
@@ -63,14 +65,17 @@ public class TicketDto extends AuditableDto {
         customerId = ticket.getCustomer().getId();
     }
 
-    // Vehicles, employee and customer should be set by service;
-    public Ticket applyToEntity (Ticket ticket) {
+    public Ticket applyToEntity (Ticket ticket, List<Vehicle> vehicles, Employee employee, Customer customer) {
         ticket.setId(id);
         ticket.setTicketType(ticketType);
         ticket.setStartDate(startDate);
         ticket.setEndDate(ticketType == TicketType.RENT ? endDate : null);
         ticket.setRepairDescription(ticketType == TicketType.REPAIR ? repairDescription : null);
         ticket.setComment(comment);
+
+        ticket.setVehicles(vehicles);
+        ticket.setEmployee(employee);
+        ticket.setCustomer(customer);
 
         // Set to initial status if of type rent or repair as the status is not choosable upon creation
         boolean statusMandatory = ticketType == TicketType.REPAIR || ticketType == TicketType.RENT;
