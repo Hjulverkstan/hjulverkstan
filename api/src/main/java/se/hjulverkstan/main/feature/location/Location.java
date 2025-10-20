@@ -11,8 +11,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(callSuper = true)
+@ToString(exclude = {"shop"})
 public class Location extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
