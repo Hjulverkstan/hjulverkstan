@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 import { IconLink, LinkProps } from '@components/shadcn/Button';
 import { Base, Body, Row, Title } from '@components/Card';
 

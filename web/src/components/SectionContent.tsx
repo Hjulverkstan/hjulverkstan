@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { VariantProps } from 'class-variance-authority';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 import { buttonVariants, IconLink } from '@components/shadcn/Button';
 
 interface SectionContentProps {
@@ -26,7 +26,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({
     {heading && (
       <div
         className="mb-8 flex flex-col items-start gap-4 sm:flex-row
-          sm:items-center sm:justify-between md:mb-16"
+sm:items-center sm:justify-between md:mb-16"
       >
         <h2 className="text-h2 text-foreground font-semibold">{heading}</h2>
         {linkTo && linkLabel && (

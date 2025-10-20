@@ -1,4 +1,4 @@
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { LucideIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 
@@ -17,7 +17,7 @@ export default function Message({
 }: MessageProps) {
   return (
     <div
-      className={U.cn(
+      className={C.cn(
         'flex w-full flex-col items-center justify-center gap-2 px-10 py-14',
         className,
       )}

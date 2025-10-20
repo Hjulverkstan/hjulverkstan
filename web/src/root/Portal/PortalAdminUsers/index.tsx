@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { createUserZ, initUser } from '@data/user/form';
 import { useCreateUserM, useEditUserM } from '@data/user/mutations';
 import { useUserQ, useUsersQ } from '@data/user/queries';
@@ -62,7 +62,7 @@ export default function PortalAdminUsers({ mode }: PortalAppPageProps) {
             <PortalForm
               dataLabel="User"
               toToolbarName={({ username }: User) =>
-                username && U.capitalize(username)
+                username && C.capitalize(username)
               }
               error={userQ.error}
               isSubmitting={createUserM.isPending || editUserM.isPending}

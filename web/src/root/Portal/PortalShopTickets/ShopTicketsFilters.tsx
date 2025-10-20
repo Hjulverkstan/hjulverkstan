@@ -18,7 +18,7 @@ import {
   VehicleShortcutAction,
   VehicleShortcutLocationState,
 } from '../PortalShopInventory/ShopInventoryActions';
-import { matchDateWithoutTimestamp } from '@utils';
+import { matchDateWithoutTimestamp } from '@utils/common';
 
 export default function ShopTicketFilters() {
   const ticketsQ = useTicketsAggregatedQ();

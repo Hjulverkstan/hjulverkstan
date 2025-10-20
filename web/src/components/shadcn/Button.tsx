@@ -6,16 +6,16 @@ import {
 import { Slot } from '@radix-ui/react-slot';
 import { cva, VariantProps } from 'class-variance-authority';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 import * as Tooltip from '@components/shadcn/Tooltip';
 
 //
 
 export const buttonVariants = cva(
   `focus-visible:ring-ring inline-flex flex-shrink-0 items-center justify-center
-  whitespace-nowrap rounded-md text-sm font-medium transition-colors
-  focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none
-  disabled:opacity-50`,
+whitespace-nowrap rounded-md text-sm font-medium transition-colors
+focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none
+disabled:opacity-50`,
   {
     variants: {
       variant: {
@@ -25,7 +25,7 @@ export const buttonVariants = cva(
         red: ['bg-red text-background hover:bg-red/80'],
         outline: [
           `border-input bg-background hover:bg-accent
-          hover:text-accent-foreground border`,
+hover:text-accent-foreground border`,
         ],
         secondary: [
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow',
@@ -39,9 +39,9 @@ export const buttonVariants = cva(
         accent: [
           [
             `data-[state=active]:text-accent-foreground
-            data-[state=active]:border-secondary-border bg-accent
-            hover:border-secondary-border text-muted-foreground
-            hover:text-accent-foreground border`,
+data-[state=active]:border-secondary-border bg-accent
+hover:border-secondary-border text-muted-foreground hover:text-accent-foreground
+border`,
           ],
         ],
         ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',

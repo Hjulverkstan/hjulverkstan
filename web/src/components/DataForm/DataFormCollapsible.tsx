@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import * as ShadCollapsible from '@components/shadcn/Collapsible';
 
 import { Mode, useDataForm } from './';
@@ -23,9 +23,9 @@ export const Collapsible = ({ label, children }: CollapsibleProps) => {
     <ShadCollapsible.Root open={isOpen} onOpenChange={setIsOpen}>
       <ShadCollapsible.Trigger asChild>
         <div
-          className={U.cn(
+          className={C.cn(
             `align-center space-between text flex cursor-pointer items-center
-            rounded-md border px-4 py-2 text-sm font-medium`,
+rounded-md border px-4 py-2 text-sm font-medium`,
             isDisabled && '!opacity-75',
           )}
         >

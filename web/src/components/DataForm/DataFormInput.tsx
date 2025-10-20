@@ -1,4 +1,4 @@
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { Input as InputDumb } from '@components/shadcn/Input';
 
 import { Field, FieldProps, useDataForm } from './';
@@ -50,7 +50,7 @@ export const Input = ({
           }
         }}
         onPaste={onPaste}
-        className={U.cn(
+        className={C.cn(
           'bg-background h-8',
           formIsDisabled && '!cursor-default !opacity-75',
         )}

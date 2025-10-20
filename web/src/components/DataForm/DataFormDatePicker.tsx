@@ -1,7 +1,7 @@
 import { CalendarIcon } from 'lucide-react';
 import { format, formatISO } from 'date-fns';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { IconButton } from '@components/shadcn/Button';
 import * as Popover from '@components/shadcn/Popover';
 import { Calendar } from '@components/shadcn/Calendar';
@@ -30,7 +30,7 @@ export const DatePicker = ({
           <IconButton
             disabled={isDisabled}
             variant={'outline'}
-            className={U.cn(
+            className={C.cn(
               !body[dataKey] && 'text-muted-foreground',
               isDisabled && '!opacity-75',
             )}

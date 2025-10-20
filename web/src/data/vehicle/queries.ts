@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
 
 import * as siteApi from '../site/api';
@@ -51,10 +51,10 @@ export const useVehiclesAggregatedQ = () =>
             : [];
         return {
           ...vehicle,
-          ticketTypes: U.uniq(
+          ticketTypes: C.uniq(
             vehicleTickets.map((ticket) => ticket.ticketType),
           ),
-          ticketStatuses: U.uniq(
+          ticketStatuses: C.uniq(
             vehicleTickets
               .map((ticket) => ticket.ticketStatus)
               .filter((status): status is TicketStatus => status !== undefined),

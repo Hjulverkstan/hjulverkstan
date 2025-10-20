@@ -9,7 +9,7 @@ import {
   useCallback,
 } from 'react';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { useToast } from '@components/shadcn/use-toast';
 
 import { createRefreshToast } from '../../root/Portal/toast';
@@ -78,7 +78,7 @@ const issuesToPathErrorMap = (issues: ZodIssue[]) =>
 // states and reinitialize the component using complicated useEffects when ever
 // the mode changes.
 
-export const Provider = U.withLobotomizer(
+export const Provider = C.withLobotomizer(
   (props) => props.mode,
   <D extends Data>({
     mode,
@@ -173,7 +173,7 @@ export const Provider = U.withLobotomizer(
         const isOverridingDataInEdit =
           mode === Mode.EDIT &&
           initializedData &&
-          !U.shallowEq(initializedData, data);
+          !C.shallowEq(initializedData, data);
 
         if (isOverridingDataInEdit) toast(createRefreshToast(applyData));
         else applyData();

@@ -1,7 +1,7 @@
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { logIn } from '@data/auth/api';
 import { PreloadedDataProvider } from '@hooks/usePreloadedData';
 import { getAllWebEditEntitiesByLang } from '@data/webedit/api';
@@ -24,7 +24,7 @@ export async function getDataForPreloadingServerSide(
   // First add the cookie jar interceptors so that authentication cookies can
   // be stored when run on server side.
 
-  const ejectCookieJar = U.useAxiosCookieJar(instance);
+  const ejectCookieJar = C.useAxiosCookieJar(instance);
 
   await logIn(
     {

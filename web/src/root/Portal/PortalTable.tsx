@@ -8,7 +8,7 @@ import {
 } from '@radix-ui/react-icons';
 import { SearchX } from 'lucide-react';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import * as DataTable from '@components/DataTable';
 import { useDataTable } from '@components/DataTable';
 import Message from '@components/Message';
@@ -93,7 +93,7 @@ export default function PortalTable({
     <div className="flex min-w-0 flex-grow flex-col">
       <div className="flex flex-grow flex-col overflow-auto">
         <DataTable.Root
-          divClassName={U.cn(!error && !noFilterResults && 'flex-grow')}
+          divClassName={C.cn(!error && !noFilterResults && 'flex-grow')}
         >
           <DataTable.Header columns={columns} />
           {isLoading ? (
@@ -122,7 +122,7 @@ export default function PortalTable({
         <div className="flex items-center gap-1">
           <div
             className="text-muted-foreground items-center pl-2 text-sm
-              font-normal"
+font-normal"
           >
             Page {page + 1} of {pageCount} -{' '}
             {filteredData.length < pageSize ? (
@@ -153,7 +153,7 @@ export function Pagination({ children }: { children: ReactNode }) {
   return (
     <div
       className="border-accent/80 flex h-11 items-center justify-between
-        border-t p-2"
+border-t p-2"
     >
       {children}
       <div className="flex items-center">

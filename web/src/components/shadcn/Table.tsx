@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 export const Root = React.forwardRef<
   HTMLTableElement,
@@ -102,8 +102,8 @@ export const Head = React.forwardRef<
     ref={ref}
     className={cn(
       `bg-background text-muted-foreground h-10 text-nowrap py-0 text-left
-      align-middle font-medium [&:has([role=checkbox])]:pr-0
-      [&>[role=checkbox]]:translate-y-[2px]`,
+align-middle font-medium [&:has([role=checkbox])]:pr-0
+[&>[role=checkbox]]:translate-y-[2px]`,
       className,
     )}
     {...props}
@@ -122,7 +122,7 @@ export const Cell = React.forwardRef<
     ref={ref}
     className={cn(
       `text-nowrap p-2.5 px-3 align-middle [&:has([role=checkbox])]:pr-0
-      [&>[role=checkbox]]:translate-y-[2px]`,
+[&>[role=checkbox]]:translate-y-[2px]`,
       className,
     )}
     {...props}

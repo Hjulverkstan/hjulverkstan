@@ -10,7 +10,7 @@ import { Button, IconButton } from '@components/shadcn/Button';
 import { RepeatIcon } from 'lucide-react';
 import React, { useMemo } from 'react';
 import BadgeGroup, { Badge } from '@components/BadgeGroup';
-import { capitalize } from '@utils';
+import { capitalize } from '@utils/common';
 import { useVehiclesQ } from '@data/vehicle/queries';
 
 interface confirmConvertDialogProps {

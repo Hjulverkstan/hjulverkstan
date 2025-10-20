@@ -7,7 +7,7 @@ import { Shop } from '@data/webedit/shop/types';
 import { Base, Body, Title } from '@components/Card';
 import { ArrowRightIcon } from 'lucide-react';
 import { IconLink } from '@components/shadcn/Button';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 export default function Shops() {
   const { data } = usePreloadedDataLocalized();
@@ -60,21 +60,21 @@ export default function Shops() {
               src="/wrench.png"
               alt="Wrench icon"
               className="absolute z-10 hidden w-64 md:left-[45%] md:top-0
-                md:block md:h-auto lg:left-[50%] xl:left-[50%]"
+md:block md:h-auto lg:left-[50%] xl:left-[50%]"
               aria-hidden="true"
             />
             <img
               src="/pump.png"
               alt="Pump icon"
               className="absolute hidden max-h-44 md:left-[45%] md:h-auto
-                md:w-48 lg:bottom-[0rem] lg:left-[40%] lg:block lg:w-56 xl:w-64"
+md:w-48 lg:bottom-[0rem] lg:left-[40%] lg:block lg:w-56 xl:w-64"
               aria-hidden="true"
             />
             <img
               src="/bike.png"
               alt="Bicycle frame"
               className="absolute hidden md:-bottom-0 md:-right-20 md:block
-                md:h-[320px] md:w-[500px] lg:h-[320px] xl:-right-0 xl:h-[320px]"
+md:h-[320px] md:w-[500px] lg:h-[320px] xl:-right-0 xl:h-[320px]"
               aria-hidden="true"
             />
           </div>
@@ -83,7 +83,7 @@ export default function Shops() {
         <SectionContent heading={data.text.sectionTitleFindShop}>
           <div
             className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 xl:grid
-              xl:grid-cols-3"
+xl:grid-cols-3"
           >
             {allShops.map((shop) => (
               <CardShop key={shop.id} shop={shop} />

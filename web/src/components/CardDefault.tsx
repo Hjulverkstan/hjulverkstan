@@ -4,7 +4,7 @@ import React from 'react';
 import { Base, Body, CardBaseProps, Icon, Title } from '@components/Card';
 import { buttonVariants, IconLink, LinkProps } from '@components/shadcn/Button';
 import { VariantProps } from 'class-variance-authority';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 interface CardDefaultProps {
   variant?: CardBaseProps['variant'];

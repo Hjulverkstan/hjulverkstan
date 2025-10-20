@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Badge } from '@components/shadcn/Badge';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 import { useShopOpenStatus } from '@hooks/useShopOpenData';
 import type { OpenHours } from '@data/webedit/shop/types';
 

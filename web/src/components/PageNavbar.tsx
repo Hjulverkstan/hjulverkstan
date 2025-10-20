@@ -3,7 +3,7 @@ import { Menu, X } from 'lucide-react';
 
 import { IconButton, Link } from '@components/shadcn/Button';
 import { useScrolledPastElement } from '@hooks/useScrolledPastElement';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 export const navLinks = [
   { name: 'Home', path: '/' },
@@ -58,7 +58,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
     >
       <div
         className="container mx-auto flex items-center justify-between px-6 py-5
-          lg:px-16"
+lg:px-16"
       >
         <div
           className={cn(
@@ -87,7 +87,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
         <div className="md:hidden">
           <nav
             className="border-muted flex flex-col items-center gap-6 space-y-1
-              border-b border-t px-2 py-12 sm:px-3"
+border-b border-t px-2 py-12 sm:px-3"
           >
             {navLinksContent}
           </nav>

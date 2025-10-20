@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useVehiclesQ } from '@data/vehicle/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
-import * as U from '@utils';
-import { EnumAttributes } from '../enums';
+import * as C from '@utils/common';
 import { StandardError } from '../api';
+import { EnumAttributes } from '../enums';
 import * as api from './api';
 import * as enums from './enums';
 import { Ticket, TicketAggregated, TicketStatus } from './types';
@@ -59,7 +59,7 @@ export const useTicketsAggregatedQ = () =>
           ...ticket,
           daysLeft,
           daysSinceUpdate,
-          locationIds: U.uniq(
+          locationIds: C.uniq(
             ticket.vehicleIds.map(
               (vehicleId) =>
                 vehicles.find((vehicle) => vehicle.id === vehicleId)!

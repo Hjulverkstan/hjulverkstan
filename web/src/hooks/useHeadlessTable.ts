@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 
 import usePersistentState from './usePersistentState';
 
@@ -139,7 +139,7 @@ const useHeadlessTable = <R extends Row>({
     const { key, dir } = sortState;
 
     const sortFn = (a: any, b: any) =>
-      (sortFnMap[key] ?? U.toSortFnByProp(key))(a, b) * dir;
+      (sortFnMap[key] ?? C.toSortFnByProp(key))(a, b) * dir;
 
     return dir === 0 ? filteredData : [...filteredData].sort(sortFn);
   }, [sortState, sortFnMap, filteredData]);
@@ -161,7 +161,7 @@ const useHeadlessTable = <R extends Row>({
   //
 
   const setPage = useCallback(
-    (newPage: number) => setPageState(U.clamp(0, pageCount - 1, newPage)),
+    (newPage: number) => setPageState(C.clamp(0, pageCount - 1, newPage)),
     [pageCount],
   );
 
@@ -186,11 +186,11 @@ const useHeadlessTable = <R extends Row>({
     (key: string, filterFn: ((row: any) => boolean) | false) =>
       setFilterFnMap((obj) =>
         filterFn
-          ? { ...obj, [key]: U.memoizeFn(filterFn) }
+          ? { ...obj, [key]: C.memoizeFn(filterFn) }
           : // Don't update filterFnMap if intention is to reset the filter and it is
             // already reset
             obj[key]
-            ? U.omitKeys([key], obj)
+            ? C.omitKeys([key], obj)
             : obj,
       ),
     [],

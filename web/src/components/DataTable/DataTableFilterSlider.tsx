@@ -6,7 +6,7 @@ import { Row } from '@hooks/useHeadlessTable';
 import usePortalSlugs from '@hooks/useSlugs';
 import usePersistentState from '@hooks/usePersistentState';
 import { Slider } from '@components/shadcn/Slider';
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { Button } from '@components/shadcn/Button';
 import { Cross2Icon } from '@radix-ui/react-icons';
 
@@ -48,7 +48,7 @@ export const FilterSlider: FC<FilterSliderProps> = ({
 
   // Data set filtered by all other active filters but our filter
   const filteredDataByOthers = useMemo(() => {
-    const filterFnMapOthers = U.omitKeys([filterKey], filterFnMap);
+    const filterFnMapOthers = C.omitKeys([filterKey], filterFnMap);
 
     return rawData.filter((row: Row) =>
       Object.values(filterFnMapOthers).every((fn) => fn(row)),
@@ -58,13 +58,13 @@ export const FilterSlider: FC<FilterSliderProps> = ({
   // Steps from the filtered data
   const filteredSteps = useMemo(
     () =>
-      U.uniq(filteredDataByOthers.map((row) => row[dataKey] as number)).sort(),
+      C.uniq(filteredDataByOthers.map((row) => row[dataKey] as number)).sort(),
     [filteredDataByOthers, range, dataKey],
   );
 
   // These steps are allowed to select
   const allowedSteps = useMemo(
-    () => U.uniq(filteredSteps.concat(range ?? [])).sort(),
+    () => C.uniq(filteredSteps.concat(range ?? [])).sort(),
     [filteredSteps, range],
   );
 
@@ -73,7 +73,7 @@ export const FilterSlider: FC<FilterSliderProps> = ({
 
   // The full range of steps for the slider
   const allSteps = useMemo(
-    () => U.uniq(rawData.map((row) => row[dataKey] as number)).sort(),
+    () => C.uniq(rawData.map((row) => row[dataKey] as number)).sort(),
     [rawData, dataKey],
   );
 
@@ -87,7 +87,7 @@ export const FilterSlider: FC<FilterSliderProps> = ({
   // If range from persisted state make sure is allowed
   useEffect(() => {
     const isNotOfDataSet = !!range && range.some((v) => !allSteps.includes(v));
-    const isFullRange = U.shallowEq([min, max], range);
+    const isFullRange = C.shallowEq([min, max], range);
 
     if (range && !isInitialized && (isNotOfDataSet || isFullRange)) {
       setRange(undefined);
@@ -122,7 +122,7 @@ export const FilterSlider: FC<FilterSliderProps> = ({
   // Remove selected range if is full again and don't allow the thumbs to be out
   // of the filtered data set as this would to filtering with no results
   const onValueChange = (nextRange: Range) => {
-    const isCompleteRange = U.shallowEq([allMin, allMax], nextRange);
+    const isCompleteRange = C.shallowEq([allMin, allMax], nextRange);
     const inFilteredRange = filteredSteps.some(
       (v) => v >= nextRange[0] && v <= nextRange[1],
     );
@@ -137,7 +137,7 @@ export const FilterSlider: FC<FilterSliderProps> = ({
         <div className="flex justify-between">
           <div
             className="h-7 w-48 p-1.5 px-2 text-xs font-medium leading-4
-              text-gray-500"
+text-gray-500"
           >
             {heading}
           </div>

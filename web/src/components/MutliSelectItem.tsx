@@ -1,6 +1,6 @@
 import { EnumAttributes } from '@data/enums';
 import * as Command from '@components/shadcn/Command';
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { CheckIcon, MinusIcon } from 'lucide-react';
 
 interface MultiSelectItemProps {
@@ -24,7 +24,7 @@ export default function MultiSelectItem({
       className="w-full"
     >
       <div
-        className={U.cn(
+        className={C.cn(
           'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border',
           checkBox === 'unchecked'
             ? 'border-secondary-foreground opacity-50'
@@ -36,7 +36,7 @@ export default function MultiSelectItem({
         {checkBox === 'intermediate' && <MinusIcon className="h-4 w-4" />}
       </div>
       <div
-        className={U.cn(
+        className={C.cn(
           'flex flex-grow items-center',
           checkBox !== 'unchecked' && e.count === 0 && 'opacity-50',
         )}
@@ -46,7 +46,7 @@ export default function MultiSelectItem({
         {e.count !== undefined && (
           <span
             className="ml-auto flex h-4 w-4 items-center justify-center
-              font-mono text-xs"
+font-mono text-xs"
           >
             {e.count}
           </span>

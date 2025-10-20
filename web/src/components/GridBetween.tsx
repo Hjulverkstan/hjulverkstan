@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 export interface GridBetweenProps {
   rows: number;

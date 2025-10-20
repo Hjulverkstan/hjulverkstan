@@ -1,7 +1,7 @@
 import { useIsFetching } from '@tanstack/react-query';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { ProtectedByRole, useAuth } from '@components/Auth';
 import { Avatar, AvatarFallback } from '@components/shadcn/Avatar';
 import { Button } from '@components/shadcn/Button';
@@ -41,14 +41,14 @@ export default function PortalLayout({ appRoute }: PortalLayoutProps) {
   return (
     <>
       <div
-        className={U.cn(
+        className={C.cn(
           'bg-muted flex h-screen flex-col px-4 pt-2',
           shouldDarken && 'bg-accent/60',
         )}
       >
         <nav
           className="mb-2 flex flex-shrink items-center justify-center space-x-4
-            py-1"
+py-1"
         >
           <h2 className="flex-1 text-lg font-semibold">
             Hjulverkstan

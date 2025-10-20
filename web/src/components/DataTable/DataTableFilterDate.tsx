@@ -10,7 +10,7 @@ import {
   startOfDay,
 } from 'date-fns';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { Calendar } from '@components/shadcn/Calendar';
 import usePersistentState from '@hooks/usePersistentState';
 import usePortalSlugs from '@hooks/useSlugs';
@@ -76,7 +76,7 @@ export const FilterDate = ({
   // Create intervals used to disabled calendar days not in the dataset
 
   const intervalsFromDataSet = useMemo(() => {
-    const filterFnMapOthers = U.omitKeys([filterKey], filterFnMap);
+    const filterFnMapOthers = C.omitKeys([filterKey], filterFnMap);
 
     return !dataKeyFrom || !dataKeyTo
       ? undefined

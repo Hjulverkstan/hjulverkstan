@@ -1,4 +1,4 @@
-import * as U from '@utils';
+import * as C from '@utils/common';
 
 import { createErrorHandler, endpoints, instance } from '../api';
 
@@ -20,14 +20,14 @@ export const getAllWebEditEntitiesByLang = (
 ) =>
   instance
     .get<GetAllEndpointsRes>(endpoints.webedit.all, {
-      params: { fallbackLang: U.localeToLangCode(fallbackLocale) },
+      params: { fallbackLang: C.localeToLangCode(fallbackLocale) },
       timeout: 150000,
       ...(baseURL && { baseURL }),
     })
     .then((res) =>
       Object.fromEntries(
         Object.entries(res.data.entities).map(([lang, allEntities]) => [
-          U.langCodeToLocale(lang),
+          C.langCodeToLocale(lang),
           allEntities,
         ]),
       ),
