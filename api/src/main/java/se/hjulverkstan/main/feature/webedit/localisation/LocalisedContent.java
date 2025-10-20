@@ -11,7 +11,7 @@ import se.hjulverkstan.main.feature.webedit.story.Story;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"text", "shop", "story"})
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
