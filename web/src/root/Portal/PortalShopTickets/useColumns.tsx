@@ -3,11 +3,10 @@ import { useMemo } from 'react';
 import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
-import * as enums from '@data/ticket/enums';
 import { TicketAggregated, TicketStatus } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
 import { useTicketsAsEnumsQ, useTicketsQ } from '@data/ticket/queries';
-import * as U from '@utils';
+import * as C from '@utils/common';
 import BadgeGroup from '@components/BadgeGroup';
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
@@ -145,8 +144,8 @@ export default function useColumns() {
                       daysSinceUpdate === undefined
                         ? undefined
                         : ticketStatus === TicketStatus.CLOSED
-                          ? `Closed ${U.formatDays(daysSinceUpdate)}`
-                          : `Status updated ${U.formatDays(daysSinceUpdate)}`,
+                          ? `Closed ${C.formatDays(daysSinceUpdate)}`
+                          : `Status updated ${C.formatDays(daysSinceUpdate)}`,
                   },
                 ]}
               />

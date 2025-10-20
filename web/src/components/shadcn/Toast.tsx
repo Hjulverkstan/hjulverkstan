@@ -3,7 +3,7 @@ import { Cross2Icon } from '@radix-ui/react-icons';
 import * as ToastPrimitives from '@radix-ui/react-toast';
 import { cva, VariantProps } from 'class-variance-authority';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 export { Provider } from '@radix-ui/react-toast';
 
@@ -15,7 +15,7 @@ export const Viewport = React.forwardRef<
     ref={ref}
     className={cn(
       `fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse space-y-2
-      p-4 sm:bottom-0 sm:left-0 sm:top-auto sm:flex-col md:max-w-[420px]`,
+p-4 sm:bottom-0 sm:left-0 sm:top-auto sm:flex-col md:max-w-[420px]`,
       className,
     )}
     {...props}
@@ -28,15 +28,15 @@ Viewport.displayName = ToastPrimitives.Viewport.displayName;
 
 export const toastVariants = cva(
   `data-[state=open]:animate-in data-[state=closed]:animate-out
-  data-[swipe=end]:animate-out data-[state=closed]:fade-out-80
-  data-[state=closed]:slide-out-to-left-full
-  data-[state=open]:slide-in-from-top-full
-  data-[state=open]:sm:slide-in-from-bottom-full group pointer-events-auto
-  relative flex w-full items-center justify-between space-x-2 overflow-hidden
-  rounded-md p-4 pr-6 shadow-lg transition-all data-[swipe=cancel]:translate-x-0
-  data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)]
-  data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]
-  data-[swipe=move]:transition-none`,
+data-[swipe=end]:animate-out data-[state=closed]:fade-out-80
+data-[state=closed]:slide-out-to-left-full
+data-[state=open]:slide-in-from-top-full
+data-[state=open]:sm:slide-in-from-bottom-full group pointer-events-auto
+relative flex w-full items-center justify-between space-x-2 overflow-hidden
+rounded-md p-4 pr-6 shadow-lg transition-all data-[swipe=cancel]:translate-x-0
+data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)]
+data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]
+data-[swipe=move]:transition-none`,
   {
     variants: {
       variant: {
@@ -46,11 +46,11 @@ export const toastVariants = cva(
         ],
         yellow: [
           `border-box border-yellow-border bg-yellow-fill text-yellow-foreground
-          border`,
+border`,
         ],
         green: [
           `border-box border-green-border bg-green-fill text-green-foreground
-          border`,
+border`,
         ],
       },
     },
@@ -88,10 +88,10 @@ export const Action = React.forwardRef<
     ref={ref}
     className={cn(
       `hover:bg-secondary focus:ring-ring group-[.red]:bg-red
-      group-[.red]:text-background inline-flex h-8 shrink-0 items-center
-      justify-center rounded-md border bg-transparent px-3 text-sm font-medium
-      transition-colors focus:outline-none focus:ring-1
-      disabled:pointer-events-none disabled:opacity-50`,
+group-[.red]:text-background inline-flex h-8 shrink-0 items-center
+justify-center rounded-md border bg-transparent px-3 text-sm font-medium
+transition-colors focus:outline-none focus:ring-1 disabled:pointer-events-none
+disabled:opacity-50`,
       className,
     )}
     {...props}
@@ -110,10 +110,10 @@ export const Close = React.forwardRef<
     ref={ref}
     className={cn(
       `text-foreground/50 hover:text-foreground group-[.red]:text-red
-      group-[.red]:hover:text-red/70 absolute right-1 top-1 rounded-md p-1
-      opacity-0 transition-opacity focus:opacity-100 focus:outline-none
-      focus:ring-1 group-hover:opacity-100 group-[.red]:focus:ring-red-400
-      group-[.red]:focus:ring-offset-red-600`,
+group-[.red]:hover:text-red/70 absolute right-1 top-1 rounded-md p-1 opacity-0
+transition-opacity focus:opacity-100 focus:outline-none focus:ring-1
+group-hover:opacity-100 group-[.red]:focus:ring-red-400
+group-[.red]:focus:ring-offset-red-600`,
       className,
     )}
     toast-close=""

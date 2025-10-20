@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -38,7 +38,7 @@ const AvatarFallback = React.forwardRef<
     ref={ref}
     className={cn(
       `bg-accent flex h-full w-full items-center justify-center rounded-full
-      border`,
+border`,
       className,
     )}
     {...props}

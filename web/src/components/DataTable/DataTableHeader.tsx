@@ -1,4 +1,4 @@
-import * as U from '@utils';
+import * as C from '@utils/common';
 import * as Table from '@components/shadcn/Table';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { IconButton } from '@components/shadcn/Button';
@@ -19,7 +19,7 @@ export const Header = ({ columns }: HeaderProps) => {
     <Table.Header className="sticky top-0 z-20 h-11">
       <Table.Row>
         {visibleColumns.map((col, x) => (
-          <Table.Head key={col.key} className={U.cn(x === 0 && 'pl-2')}>
+          <Table.Head key={col.key} className={C.cn(x === 0 && 'pl-2')}>
             {col.renderHeaderFn ? col.renderHeaderFn() : <SortHead col={col} />}
           </Table.Head>
         ))}

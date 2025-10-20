@@ -6,7 +6,7 @@ import { Bullet } from '@components/Bullet';
 import { OpenBadge } from '@components/OpenBadge';
 import { OpenHours, Shop } from '@data/webedit/shop/types';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 interface CardContactProps {
   shop: Shop;

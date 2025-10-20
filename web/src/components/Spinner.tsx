@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 const DEBOUNCE_DELAY = 600;
 

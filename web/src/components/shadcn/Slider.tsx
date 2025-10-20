@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 
 export type SliderProps = Omit<
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>,
@@ -63,11 +63,11 @@ export const Slider = React.forwardRef<
         // Has new value
         steps[i] !== value?.[i]
           ? // Clamp to min max
-            steps[U.clamp(minIndex, maxIndex, i)]
+            steps[C.clamp(minIndex, maxIndex, i)]
           : value[i],
       );
 
-      if (!U.shallowEq(value, nextValue) && onValueChange) {
+      if (!C.shallowEq(value, nextValue) && onValueChange) {
         onValueChange(nextValue);
       }
     };
@@ -76,7 +76,7 @@ export const Slider = React.forwardRef<
       <div>
         <SliderPrimitive.Root
           ref={ref}
-          className={U.cn(
+          className={C.cn(
             'relative flex w-full touch-none select-none items-center',
             className,
           )}
@@ -88,10 +88,10 @@ export const Slider = React.forwardRef<
         >
           <SliderPrimitive.Track
             className="bg-secondary relative h-2 w-full grow overflow-hidden
-              rounded-full"
+rounded-full"
           >
             <SliderPrimitive.Range
-              className={U.cn(
+              className={C.cn(
                 'absolute top-0 h-full',
                 isActive ? 'bg-primary' : 'bg-secondary',
               )}
@@ -100,12 +100,12 @@ export const Slider = React.forwardRef<
           <>
             <div
               className="absolute -top-7 flex h-4 w-full justify-between px-2
-                py-1"
+py-1"
             >
               {steps.map((_, index) => (
                 <div
                   key={index}
-                  className={U.cn(
+                  className={C.cn(
                     'bg-secondary-foreground h-full w-[1px]',
                     index >= minIndex && index <= maxIndex
                       ? 'opacity-50'
@@ -120,18 +120,18 @@ export const Slider = React.forwardRef<
             {[...Array(thumbs)].map((_, i) => (
               <SliderPrimitive.Thumb
                 key={i}
-                className={U.cn(
+                className={C.cn(
                   `bg-background ring-offset-background focus-visible:ring-ring
-                  block h-5 w-5 rounded-full border-2 focus-visible:outline-none
-                  focus-visible:ring-2 focus-visible:ring-offset-2
-                  disabled:pointer-events-none disabled:opacity-50`,
+block h-5 w-5 rounded-full border-2 focus-visible:outline-none
+focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none
+disabled:opacity-50`,
                   isActive ? 'border-primary' : 'border-secondary',
                 )}
               >
                 <div
-                  className={U.cn(
+                  className={C.cn(
                     `absolute -top-6 left-1/2 -translate-x-1/2 transform rounded
-                    px-1 py-0.5 text-xs`,
+px-1 py-0.5 text-xs`,
                     isActive
                       ? 'bg-gray-700 text-white'
                       : value && value[0] === value[1]

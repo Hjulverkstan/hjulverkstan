@@ -3,7 +3,7 @@ import React, { HTMLAttributes } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import { ImageIcon, LucideIcon } from 'lucide-react';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 import { ImageWithFallback } from '@components/ImageWithFallback';
 import { endpoints } from '@data/api';
 import Error from '@components/Error';
@@ -166,7 +166,7 @@ export const Image: React.FC<CardImageProps> = ({
       ) : (
         <div
           className="text-muted-foreground/60 flex h-full items-center
-            justify-center"
+justify-center"
         >
           <FallbackIcon size={40} />
         </div>
@@ -175,7 +175,7 @@ export const Image: React.FC<CardImageProps> = ({
     {variant === 'background' && (
       <div
         className="absolute inset-0 z-10 bg-gradient-to-t from-black/70
-          via-black/20 to-transparent"
+via-black/20 to-transparent"
         aria-hidden="true"
       />
     )}
@@ -193,7 +193,7 @@ const cardBaseVariants = cva('flex flex-col overflow-hidden rounded-lg', {
       muted: 'bg-muted h-auto p-8',
       imageBackground: [
         `text-background light relative h-auto justify-end gap-4 bg-cover
-        bg-center p-8`,
+bg-center p-8`,
       ],
       compact: 'bg-background h-auto w-full flex-1 gap-4 p-8',
       imageAbove: 'bg-background w-full gap-2 rounded-lg md:flex-1',

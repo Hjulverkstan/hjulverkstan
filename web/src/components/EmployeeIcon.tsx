@@ -1,5 +1,5 @@
 import { Employee } from '@data/employee/types';
-import * as U from '@utils';
+import * as C from '@utils/common';
 
 export interface EmployeeIconProps {
   employee: Employee;
@@ -25,7 +25,7 @@ export default function EmployeeIcon({
   const colorIndex = Number(employee.id) % colors.length;
   return (
     <div
-      className={U.cn(
+      className={C.cn(
         className,
         colors[colorIndex],
         'flex h-6 w-6 items-center justify-center rounded-full font-medium',

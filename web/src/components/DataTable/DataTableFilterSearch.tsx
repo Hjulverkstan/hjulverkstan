@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { Input } from '@components/shadcn/Input';
 
 import { buttonVariants } from '@components/shadcn/Button';
@@ -65,19 +65,19 @@ export const FilterSearch = ({
           value={value}
           onChange={(e) => setValue(e.target.value)}
           data-state={!!value && 'active'}
-          className={U.cn(
+          className={C.cn(
             buttonVariants({ variant: 'accent', subVariant: 'flat' }),
             `h-8 w-[150px] font-normal data-[state=active]:font-medium
-            lg:w-[250px]`,
+lg:w-[250px]`,
           )}
         />
         <PopoverRoot>
           <PopoverTrigger asChild>
             <span
               className="hover:bg-muted text-muted-foreground
-                hover:text-accent-foreground absolute right-2 top-1/2 z-10 flex
-                h-6 w-6 -translate-y-1/2 transform cursor-pointer items-center
-                justify-center rounded-sm text-sm text-black"
+hover:text-accent-foreground absolute right-2 top-1/2 z-10 flex h-6 w-6
+-translate-y-1/2 transform cursor-pointer items-center justify-center rounded-sm
+text-sm text-black"
             >
               <InfoCircledIcon className="h-4 w-4" />
             </span>

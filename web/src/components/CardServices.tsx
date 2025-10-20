@@ -9,7 +9,7 @@ import {
 } from '@components/shadcn/Dialog';
 import { Base, Title, Icon } from '@components/Card';
 import { Bullet } from '@components/Bullet';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 interface CardServicesProps {
   title: string;

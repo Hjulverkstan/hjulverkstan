@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import * as Popover from '@components/shadcn/Popover';
 import * as Command from '@components/shadcn/Command';
 
@@ -49,7 +49,7 @@ export const Select = ({
     enums.find((e) => e.value === body[dataKey])?.icon;
 
   const sortedEnums = useMemo(
-    () => enums.sort(U.toSortFnByProp('label')),
+    () => enums.sort(C.toSortFnByProp('label')),
     [enums],
   );
 
@@ -68,7 +68,7 @@ export const Select = ({
         value={e.label}
         onSelect={() => {
           if (isMultiSelect) {
-            const updatedBody = U.toUpdatedArray(body[dataKey], {
+            const updatedBody = C.toUpdatedArray(body[dataKey], {
               add: isSelected ? [] : e.value,
               remove: isSelected ? e.value : [],
             });
@@ -83,11 +83,11 @@ export const Select = ({
           }
         }}
       >
-        <div className={U.cn('flex w-full items-center', fat && 'py-1')}>
+        <div className={C.cn('flex w-full items-center', fat && 'py-1')}>
           {e.icon && <e.icon className="mr-2 h-4 w-4" />}
           <span className="flex-grow">{e.label}</span>
           <CheckIcon
-            className={U.cn(
+            className={C.cn(
               'ml-2 h-4 w-4',
               fat && 'mr-1',
               isSelected ? 'opacity-100' : 'opacity-0',
@@ -108,7 +108,7 @@ export const Select = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={U.cn(
+            className={C.cn(
               isDisabledUnion && '!opacity-75',
               fat && 'h-10',
               !hasData && 'text-muted-foreground font-normal',

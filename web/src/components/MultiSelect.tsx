@@ -1,7 +1,7 @@
 import { useMemo, Fragment } from 'react';
 
-import * as U from '@utils';
-import { EnumAttributes } from '@data/enums';
+import * as C from '@utils/common';
+import { EnumAttributes } from '@data/types';
 import * as Command from '@components/shadcn/Command';
 import MultiSelectItem from '@components/MutliSelectItem';
 
@@ -66,15 +66,15 @@ export default function MultiSelect({
 
     setSelected(
       isSelected
-        ? U.toUpdatedArray(selected, { remove: self.value })
+        ? C.toUpdatedArray(selected, { remove: self.value })
         : isParentSelected
-          ? U.toUpdatedArray(selected, { add: siblings, remove: parent.value })
+          ? C.toUpdatedArray(selected, { add: siblings, remove: parent.value })
           : isAllSiblingsSelected
-            ? U.toUpdatedArray(selected, {
+            ? C.toUpdatedArray(selected, {
                 remove: parent?.children,
                 add: parent?.value,
               })
-            : U.toUpdatedArray(selected, {
+            : C.toUpdatedArray(selected, {
                 remove: self.children,
                 add: self.value,
               }),

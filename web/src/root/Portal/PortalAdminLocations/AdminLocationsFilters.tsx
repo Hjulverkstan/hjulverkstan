@@ -3,7 +3,7 @@ import * as enums from '@data/location/enums';
 import * as DataTable from '@components/DataTable';
 import { Location } from '@data/location/types';
 import { PortalFilterDate } from '../PortalFilterDate';
-import { matchDateWithoutTimestamp } from '@utils';
+import { matchDateWithoutTimestamp } from '@utils/common';
 
 export default function AdminLocationFilters() {
   return (

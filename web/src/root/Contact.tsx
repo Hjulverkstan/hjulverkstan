@@ -8,7 +8,7 @@ import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { Base, Body } from '@components/Card';
 import { ChevronRight } from 'lucide-react';
 import { Bullet } from '@components/Bullet';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 const faqs = [
   {

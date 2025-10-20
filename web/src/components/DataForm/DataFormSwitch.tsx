@@ -1,6 +1,6 @@
 import { Switch as SwitchDumb } from '@components/shadcn/Switch';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import { Field, FieldProps, useDataForm } from './';
 
 export interface DataFormSwitchProps extends Omit<FieldProps, 'children'> {
@@ -20,7 +20,7 @@ export const Switch = ({
   return (
     <Field label={label} dataKey={dataKey} description={description}>
       <div
-        className={U.cn(
+        className={C.cn(
           'align-center flex gap-2 rounded-md border px-4 py-2 text-sm',
         )}
       >

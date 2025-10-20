@@ -1,4 +1,4 @@
-import * as U from '@utils';
+import * as C from '@utils/common';
 import * as Table from '@components/shadcn/Table';
 import { Skeleton } from '@components/shadcn/Skeleton';
 
@@ -20,7 +20,7 @@ export const BodySkeleton = ({ columns }: BodySkeletonProps) => {
         .map((_, y) => (
           <Table.Row key={y} className="pl-4">
             {visibleColumns.map(({ key }, x) => (
-              <Table.Cell key={key} className={U.cn(x === 0 && 'pl-4')}>
+              <Table.Cell key={key} className={C.cn(x === 0 && 'pl-4')}>
                 <Skeleton className="my-1 h-4 w-[100px]" />
               </Table.Cell>
             ))}

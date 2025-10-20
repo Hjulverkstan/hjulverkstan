@@ -3,7 +3,7 @@ import { DialogProps } from '@radix-ui/react-dialog';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { Command as CommandPrimitive } from 'cmdk';
 
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 import {
   Dialog as DialogPrimitive,
   DialogContent,
@@ -17,7 +17,7 @@ export const Root = React.forwardRef<
     ref={ref}
     className={cn(
       `bg-popover text-popover-foreground flex h-full w-full flex-col
-      overflow-hidden rounded-md`,
+overflow-hidden rounded-md`,
       className,
     )}
     {...props}
@@ -36,12 +36,11 @@ export const Dialog = ({ children, ...props }: CommandDialogProps) => {
       <DialogContent className="overflow-hidden p-0">
         <Root
           className="[&_[cmdk-group-heading]]:text-muted-foreground
-            [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium
-            [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0
-            [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5
-            [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12
-            [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5
-            [&_[cmdk-item]_svg]:w-5"
+[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium
+[&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2
+[&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5
+[&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3
+[&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5"
         >
           {children}
         </Root>
@@ -64,8 +63,8 @@ export const Input = React.forwardRef<
       ref={ref}
       className={cn(
         `placeholder:text-muted-foreground flex h-10 w-full rounded-md
-        bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed
-        disabled:opacity-50`,
+bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed
+disabled:opacity-50`,
         className,
       )}
       {...props}
@@ -115,9 +114,9 @@ export const Group = React.forwardRef<
     ref={ref}
     className={cn(
       `text-foreground [&_[cmdk-group-heading]]:text-muted-foreground
-      overflow-hidden p-1 [&_[cmdk-group-heading]]:px-2
-      [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs
-      [&_[cmdk-group-heading]]:font-medium`,
+overflow-hidden p-1 [&_[cmdk-group-heading]]:px-2
+[&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs
+[&_[cmdk-group-heading]]:font-medium`,
       className,
     )}
     {...props}
@@ -151,9 +150,8 @@ export const Item = React.forwardRef<
     ref={ref}
     className={cn(
       `aria-selected:bg-accent aria-selected:text-accent-foreground relative
-      flex cursor-default select-none items-center rounded-sm px-2 py-1.5
-      text-sm outline-none data-[disabled]:pointer-events-none
-      data-[disabled]:opacity-50`,
+flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm
+outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50`,
       className,
     )}
     {...props}

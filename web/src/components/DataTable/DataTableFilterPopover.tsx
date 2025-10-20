@@ -8,7 +8,7 @@ import {
   useCallback,
 } from 'react';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import * as Command from '@components/shadcn/Command';
 import * as Popover from '@components/shadcn/Popover';
 
@@ -149,7 +149,7 @@ export const FilterPopover = ({
               <>
                 <Separator
                   orientation="vertical"
-                  className={U.cn(
+                  className={C.cn(
                     'ml-3 mr-2 h-4',
                     isActive && 'bg-secondary-border',
                   )}

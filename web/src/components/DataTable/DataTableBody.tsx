@@ -1,6 +1,6 @@
 import { useDataTable, Column, Row } from './';
 
-import * as U from '@utils';
+import * as C from '@utils/common';
 import * as Table from '@components/shadcn/Table';
 
 export interface BodyProps {
@@ -42,7 +42,7 @@ export const Body = ({
         {visibleColumns.map(({ key, renderFn }, x) => (
           <Table.Cell
             key={key}
-            className={U.cn(x === 0 && 'pl-4', disabled && 'opacity-50')}
+            className={C.cn(x === 0 && 'pl-4', disabled && 'opacity-50')}
           >
             {renderFn(row, { disabled, x, y, selected: isSelected })}
           </Table.Cell>

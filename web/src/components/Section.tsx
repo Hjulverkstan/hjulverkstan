@@ -1,6 +1,6 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import React from 'react';
-import { cn } from '@utils';
+import { cn } from '@utils/common';
 
 const sectionStyles = cva('flex flex-col gap-16 py-16 md:gap-32 md:py-32', {
   variants: {
