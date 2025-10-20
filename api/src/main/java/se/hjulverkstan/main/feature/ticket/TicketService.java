@@ -45,8 +45,8 @@ public class TicketService {
         ValidationUtils.validateNoMissing(dto.getVehicleIds(), vehicles, Vehicle::getId, Vehicle.class);
         TicketUtils.validateDtoByContext(dto, vehicles);
 
-        Ticket ticket = dto.applyToEntity(new Ticket());
-        applyRelationsFromDto(dto, ticket, vehicles);
+        Ticket ticket = new Ticket();
+        this.applyToEntity(ticket, dto, vehicles);
         ticketRepository.save(ticket);
 
         TicketUtils.updateVehiclesByTicketType(vehicles, ticket);
@@ -65,8 +65,7 @@ public class TicketService {
         ValidationUtils.validateNoMissing(dto.getVehicleIds(), vehicles, Vehicle::getId, Vehicle.class);
         TicketUtils.validateDtoByContext(dto, vehicles);
 
-        dto.applyToEntity(ticket);
-        applyRelationsFromDto(dto, ticket, vehicles);
+        this.applyToEntity(ticket, dto, vehicles);
         ticketRepository.save(ticket);
 
         return new TicketDto(ticket);
@@ -98,15 +97,13 @@ public class TicketService {
         ticketRepository.delete(ticket);
     }
 
-    private void applyRelationsFromDto(TicketDto dto, Ticket ticket, List<Vehicle> vehicles) {
+    private void applyToEntity(Ticket ticket, TicketDto dto, List<Vehicle> vehicles) {
         Employee employee = employeeRepository.findById(dto.getEmployeeId())
                 .orElseThrow(() -> new ElementNotFoundException("Employee with id: " + dto.getEmployeeId()));
 
         Customer customer = customerRepository.findById(dto.getCustomerId())
                 .orElseThrow(() -> new ElementNotFoundException("Customer with id: " + dto.getCustomerId()));
 
-        ticket.setVehicles(vehicles);
-        ticket.setEmployee(employee);
-        ticket.setCustomer(customer);
+        dto.applyToEntity(ticket, vehicles, employee, customer);
     }
 }

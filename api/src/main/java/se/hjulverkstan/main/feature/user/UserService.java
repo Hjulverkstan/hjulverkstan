@@ -43,8 +43,8 @@ public class UserService {
             throw new AlreadyUsedException("Error: Email is already in use!");
         }
 
-        User user = dto.applyToEntity(new User(), encoder);
-        applyRelationsFromDto(user, dto);
+        User user = new User();
+        applyToEntity(user, dto);
         userRepository.save(user);
 
         return new UserDto(user);
@@ -54,9 +54,7 @@ public class UserService {
     public UserDto updateUser(Long id, UserDto dto) {
         User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("User"));
 
-        dto.applyToEntity(user, encoder);
-        applyRelationsFromDto(user, dto);
-
+        applyToEntity(user, dto);
         userRepository.save(user);
         return new UserDto(user);
     }
@@ -67,10 +65,12 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    private void applyRelationsFromDto (User user, UserDto dto) {
+    private void applyToEntity (User user, UserDto dto) {
         List<Role> roles = roleRepository.findAllByNameIn(dto.getRoles());
         ValidationUtils.validateNoMissing(dto.getRoles(), roles, Role::getName, Role.class);
 
-        user.setRoles(roles);
+        String password = (dto.getPassword() != null) ? encoder.encode(dto.getPassword()) : null;
+
+        dto.applyToEntity(user, roles, password);
     }
 }
