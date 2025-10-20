@@ -14,24 +14,24 @@ export type GetPublicVehiclesByLocationRes = ListResponse<Vehicle>;
 export const createGetPublicVehiclesByLocation = ({
   locationId,
 }: GetPublicVehiclesByLocationParams) => ({
-  queryKey: [endpoints.site, 'vehicle/location', locationId],
+  queryKey: [endpoints.site.vehicle, 'location', locationId],
   queryFn: () => {
     return instance
       .get<GetPublicVehiclesByLocationRes>(
-        `${endpoints.site}/location/${locationId}`,
+        `${endpoints.site.vehicle}/location/${locationId}`,
       )
       .then((res) => res.data.content)
-      .catch(createErrorHandler(endpoints.site));
+      .catch(createErrorHandler(endpoints.site.vehicle));
   },
 });
 
 // GET PUBLIC VEHICLE
 
 export const createGetPublicVehicleById = ({ id }: GetVehicleParams) => ({
-  queryKey: [endpoints.site, 'vehicle', id],
+  queryKey: [endpoints.site.vehicle, id],
   queryFn: () =>
     instance
-      .get<GetVehicleRes>(`${endpoints.site}/${id}`)
+      .get<GetVehicleRes>(`${endpoints.site.vehicle}/${id}`)
       .then((res) => res.data)
-      .catch(createErrorHandler(`${endpoints.site}/${id}`)),
+      .catch(createErrorHandler(`${endpoints.site.vehicle}/${id}`)),
 });

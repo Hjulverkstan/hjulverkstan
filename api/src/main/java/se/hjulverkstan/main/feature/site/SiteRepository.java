@@ -9,6 +9,7 @@ import se.hjulverkstan.main.feature.ticket.TicketType;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.feature.vehicle.model.VehicleStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +23,8 @@ public class SiteRepository {
     private int rentalTimeMarginInDays;
 
     private List<Vehicle> findPublicAvailableVehiclesWithinMargin(Long vehicleId, Long locationId) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime margin = now.plusDays(rentalTimeMarginInDays);
+        LocalDate now = LocalDate.now();
+        LocalDate margin = now.plusDays(rentalTimeMarginInDays);
 
         String baseQuery = """
                     SELECT v FROM Vehicle v

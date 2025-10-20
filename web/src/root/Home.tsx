@@ -161,7 +161,7 @@ export default function Home() {
               className="flex flex-col gap-8 md:basis-1/3 md:flex-row
                 xl:flex-col"
             >
-              {data.story.slice(2, 4).map((story) => (
+              {data.stories.slice(2, 4).map((story) => (
                 <CardCompact
                   key={story.id}
                   title={story.title}

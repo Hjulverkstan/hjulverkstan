@@ -5,7 +5,6 @@ export const baseURL = import.meta.env.VITE_BACKEND_PROXY_SLUG;
 
 export const endpoints = {
   vehicle: '/vehicle',
-  site: '/site',
   image: '/image',
   ticket: '/ticket',
   employee: '/employee',
@@ -16,6 +15,9 @@ export const endpoints = {
     logOut: '/auth/logout',
     refreshToken: '/auth/refresh',
     verifyAuth: '/auth/verify',
+  },
+  site: {
+    vehicle: '/site/vehicle'
   },
   webedit: {
     all: '/web-edit/get-all',
