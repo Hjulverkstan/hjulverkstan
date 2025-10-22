@@ -19,7 +19,7 @@ const headingStyles = cva('', {
   },
 });
 
-const pageStyles = cva('md:mt-16', {
+const pageStyles = cva('lg:mt-16', {
   variants: {
     variant: {
       default: 'bg-background',
@@ -49,7 +49,12 @@ export const Page = ({
 }: PageProps) => (
   <>
     <PageNavbar hasHeroSection={hasHeroSection} />
-    <div className={cn(pageStyles({ variant }))}>
+    <div
+      className={cn(
+        pageStyles({ variant }),
+        hasHeroSection ? 'lg:mt-16' : 'md:mt-16',
+      )}
+    >
       {heading && (
         <div
           className={cn(
