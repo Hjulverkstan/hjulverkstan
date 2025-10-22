@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ComponentType, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import * as DialogManager from '@components/DialogManager';
 import ThemeProvider from '@components/shadcn/ThemeProvider';
@@ -182,6 +182,23 @@ function RedirectDelayed({ path }: { path: string }) {
   return null;
 }
 
+/**
+ * Using React Router’s <ScrollRestoration> would be nice,
+ * but since we don’t use a Data Router we create our own simple ScrollToTop.
+ * See <ScrollRestoration> for reference:
+ * https://reactrouter.com/6.30.1/components/scroll-restoration#scrollrestoration-
+ */
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 //
 
 const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
@@ -222,6 +239,7 @@ export default function Root() {
 
   return (
     <ThemeProvider storageKey="vite-ui-theme">
+      <ScrollToTop />
       <QueryClientProvider client={queryClient}>
         <Routes>
           {routes.map((route) => renderLocalizedRoute(route))}
