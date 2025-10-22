@@ -2,6 +2,7 @@ import { createContext } from 'react';
 
 import useStrictContext from './useStrictContext';
 import { LocaleAllEntitiesMap } from '@data/webedit/types';
+import { useCurrentLocale } from '@hooks/useCurrentLocale';
 
 //
 
@@ -22,16 +23,6 @@ export const PreloadedDataProvider = PreloadedDataContext.Provider;
 
 const LocaleContext = createContext<null | string>(null);
 LocaleContext.displayName = 'LocaleContext';
-
-/**
- * Used around routes that should be able to use
- * [usePreloadedDataLocalized](#usePreloadedDataLocalized) so that the correct
- * language can be picked from the preloaded data automagically.
- */
-
-export const LocaleProvider = LocaleContext.Provider;
-
-//
 
 /**
  * Use preloaded data from the Static Site Generation build process. This hook
@@ -59,11 +50,11 @@ export const usePreloadedDataLocalized = () => {
   const data = useStrictContext(PreloadedDataContext);
   const locales = Object.keys(data ?? {});
 
-  const locale = useStrictContext(LocaleContext);
+  const currLocale = useCurrentLocale();
 
   return {
-    data: data?.[locale],
-    currLocale: locale,
+    data: data?.[currLocale],
+    currLocale: currLocale,
     locales,
   };
 };
