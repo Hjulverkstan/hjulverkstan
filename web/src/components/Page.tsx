@@ -5,7 +5,7 @@ import PageNavbar from '@components/PageNavbar';
 import PageFooter from '@components/PageFooter';
 import { cn } from '@utils';
 
-const pageStyles = cva('md:mt-16', {
+const pageStyles = cva('', {
   variants: {
     variant: {
       default: 'bg-background',
@@ -31,7 +31,12 @@ export const Page = ({
 }: PageProps) => (
   <>
     <PageNavbar hasHeroSection={hasHeroSection} />
-    <div className={cn(pageStyles({ variant }))}>
+    <div
+      className={cn(
+        pageStyles({ variant }),
+        hasHeroSection ? 'lg:mt-16' : 'md:mt-16',
+      )}
+    >
       {heading && (
         <div
           className="mx-auto -mb-8 w-[88vw] max-w-[1852px] pt-28 md:-mb-16
