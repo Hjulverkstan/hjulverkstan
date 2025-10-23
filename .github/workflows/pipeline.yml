@@ -4,13 +4,24 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      build:
+        description: 'Which modules to build (auto/api/web/both)'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - api
+          - web
+          - both
 
 jobs:
   init:
     runs-on: ubuntu-latest
     outputs:
-      api_changes: ${{ steps.changes.outputs.api }}
-      web_changes: ${{ steps.changes.outputs.web }}
+      api_changes: ${{ steps.decide.outputs.api }}
+      web_changes: ${{ steps.decide.outputs.web }}
       trace_tag: ${{ steps.trace.outputs.trace_tag }}
 
     steps:
@@ -23,22 +34,35 @@ jobs:
         run: |
           branch="${{ github.ref_name }}"
           echo "Current branch: $branch"
+          
+          cat << 'EOF'
+          ℹ️ Pipeline rules for dispatch:
+            1) Main branch.
+            2) Branch starting with hotfix.
+            3) Branch connected to an open PR.
+          
+          EOF
 
           if [[ "$branch" == "main" ]]; then
-            trace_tag=$(git rev-parse --short=6 HEAD)
-            echo "trace_tag=$trace_tag" >> $GITHUB_OUTPUT
-            echo "✅ Trace tag set to commit: $trace_tag"
+            shortsha=$(git rev-parse --short=6 HEAD)
+            echo "trace_tag=$shortsha" >> $GITHUB_OUTPUT
+            echo "✅ Run from main allowed. Trace tag (commit): $shortsha"
+          elif [[ "$branch" =~ ^hotfix([/-].*|$) ]]; then
+            shortsha=$(git rev-parse --short=6 HEAD)
+            tag="hotfix-${shortsha}"
+            echo "trace_tag=$tag" >> $GITHUB_OUTPUT
+            echo "✅ Run from hotfix branch allowed. Trace tag (hotfix-commit): $tag"
           else
-            pr=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')
-
+            pr=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number' || true)
             if [[ -n "$pr" ]]; then
               echo "trace_tag=pr-$pr" >> $GITHUB_OUTPUT
-              echo "✅ Trace tag set to PR: pr-$pr"
+              echo "✅ Run from branch with PR allowed. Trace tag (PR number): pr-$pr"
             else
-              echo "🚫 No open PR found for branch '$branch'. The pipeline can only be run on merge to main or from a branch with a connected PR."
+              echo "🚫 Dispatch did not match rules."
               exit 1
             fi
           fi
+
 
       - name: Detect module file changes
         id: changes
@@ -50,10 +74,89 @@ jobs:
             web:
               - 'web/**'
 
-  api-build:
+      - name: Decide final build flags (respect manual input)
+        id: decide
+        shell: bash
+        run: |
+          api="${{ steps.changes.outputs.api }}"
+          web="${{ steps.changes.outputs.web }}"
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            case "${{ github.event.inputs.build }}" in
+              api)  api=true;  web=false ;;
+              web)  api=false; web=true  ;;
+              both) api=true;  web=true  ;;
+              *)    : ;; # auto -> keep paths-filter values
+            esac
+          fi
+
+          echo "api=$api" >> "$GITHUB_OUTPUT"
+          echo "web=$web" >> "$GITHUB_OUTPUT"
+
+  api-test:
     runs-on: ubuntu-latest
     needs: init
     if: needs.init.outputs.api_changes == 'true'
+    services:
+      postgres:
+        image: postgres:15-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd="pg_isready -U testuser -d testdb"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Wait for Postgres
+        run: |
+          for i in {1..30}; do
+            if pg_isready -h 127.0.0.1 -p 5432 -U testuser >/dev/null 2>&1; then
+              echo "✅ Postgres is ready"
+              exit 0
+            fi
+            echo "⏳ Waiting for Postgres... ($i/30)"
+            sleep 2
+          done
+          echo "⚠️ Postgres not reachable, continuing anyway (tests may not need DB)."
+
+      - name: Run unit tests
+        working-directory: api
+        env:
+          API_DB_HOST: 127.0.0.1
+          API_DB_PORT: 5432
+          API_DB_DATABASE: testdb
+          API_DB_USER: testuser
+          API_DB_PASSWORD: testpass
+          API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
+          API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
+          API_AWS_REGION: ${{ vars.API_AWS_REGION }}
+          API_AWS_S3_BUCKET_NAME: ${{ vars.API_AWS_S3_BUCKET_NAME }}
+          API_ALLOWED_ORIGINS: ${{ vars.API_ALLOWED_ORIGINS }}
+        run: |
+          mvn -B -U test \
+             -DtrimStackTrace=false \
+             -Dsurefire.printSummary=true \
+             -Dsurefire.useFile=false \
+             -DforkCount=0
+
+  api-build:
+    runs-on: ubuntu-latest
+    needs: [init, api-test]
+    if: needs.init.outputs.api_changes == 'true' && needs.api-test.result == 'success'
     steps:
       - uses: actions/checkout@v3
 
@@ -64,68 +167,14 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Set up SSH key for tunnel
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_API_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: Add EC2 host to known_hosts
-        run: |
-          ssh-keyscan -H ${{ secrets.DEPLOY_API_SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Start SSH tunnel to Postgres
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -N -L 5432:localhost:${{ vars.API_DB_PORT }} ${{ secrets.DEPLOY_API_SSH_USER }}@${{ secrets.DEPLOY_API_SSH_HOST }} &
-
-      - name: Check if SSH tunnel is working
-        run: |
-          for i in {1..10}; do
-            if nc -z localhost 5432; then
-              echo "✅ SSH tunnel to Postgres is working!"
-              exit 0
-            else
-              echo "Waiting for SSH tunnel... attempt $i"
-              sleep 2
-            fi
-          done
-
-          echo "❌ SSH tunnel to Postgres failed!"
-          exit 1
-
-      - name: Generate .env file
-        run: |
-          {
-            echo "API_DB_HOST=localhost"
-            echo "API_DB_PORT=${{ vars.API_DB_PORT }}"
-            echo "API_DB_DATABASE=${{ vars.API_DB_DATABASE }}"
-            echo "API_DB_USER=${{ secrets.API_DB_USER }}"
-            echo "API_DB_PASSWORD=${{ secrets.API_DB_PASSWORD }}"
-            echo "API_AWS_ACCESS_KEY=${{ secrets.API_AWS_ACCESS_KEY }}"
-            echo "API_AWS_SECRET_KEY=${{ secrets.API_AWS_SECRET_KEY }}"
-            echo "API_AWS_REGION=${{ vars.API_AWS_REGION }}"
-            echo "API_AWS_S3_BUCKET_NAME=${{ vars.API_AWS_S3_BUCKET_NAME }}"
-            echo "API_ALLOWED_ORIGINS=${{ vars.API_ALLOWED_ORIGINS }}"
-            echo "DOCKER_API_IMAGE_TAG=${{ vars.DOCKER_API_IMAGE_TAG }}"
-            echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}"
-          } > .env
-
-      - name: Build Java
-        run: |
-          cd api
-          ./mvnw clean install
-
       - name: Build and Push Docker Image
         env:
           TRACE_TAG: ${{ needs.init.outputs.trace_tag }}
         run: |
-          cd api && docker buildx build --platform linux/amd64,linux/arm64 \
+          cd api
+          docker buildx build --platform linux/amd64,linux/arm64 \
+            --cache-from type=gha,scope=api \
+            --cache-to type=gha,scope=api,mode=max \
             -t ${{ vars.DOCKER_REPO }}:${{ vars.DOCKER_API_IMAGE_TAG }} \
             -t ${{ vars.DOCKER_REPO }}:${{ env.TRACE_TAG }} \
             --push .
@@ -172,30 +221,32 @@ jobs:
           sudo mv -f ~/\.env /opt/docker/.env
           '
 
-      - name: SSH and run docker-compose
+      - name: Update docker compose with health check
         run: |
-          ssh -i key.pem ${{ secrets.DEPLOY_API_SSH_USER }}@${{ secrets.DEPLOY_API_SSH_HOST }} << EOF
+          ssh -i key.pem ${{ secrets.DEPLOY_API_SSH_USER }}@${{ secrets.DEPLOY_API_SSH_HOST }} <<'EOF'
             set -e
             cd /opt/docker
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d
+
+            docker compose down
+            docker compose pull
+
+            set +e
+            docker compose up -d --wait --wait-timeout 120
+            rc=$?
+            set -e
+
+            if [ $rc -ne 0 ]; then
+              echo "❌ Some services failed or became unhealthy:"
+              docker compose ps
+              echo "— recent logs from all services —"
+              docker compose logs --tail=200
+              exit $rc
+            fi
+
+            echo "✅ All services are healthy:"
+            docker compose ps
           EOF
 
-      - name: Wait for API to be ready
-        run: |
-          ssh -i key.pem ${{ secrets.DEPLOY_API_SSH_USER }}@${{ secrets.DEPLOY_API_SSH_HOST }} '
-            timeout=${{ vars.DEPLOY_API_STARTUP_TIMEOUT }}
-            elapsed=0
-            until docker logs api 2>&1 | grep "Started MainApplication"; do
-              sleep 3
-              elapsed=$((elapsed + 3))
-              if [ $elapsed -ge $timeout ]; then
-                echo "❌ API did not become ready within $timeout seconds."
-                exit 1
-              fi
-            done
-          '
 
   web-build:
     runs-on: ubuntu-latest
