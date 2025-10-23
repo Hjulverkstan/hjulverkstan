@@ -237,6 +237,7 @@ export default function Home() {
               link="/"
               ariaLabel="Learn more about donating via Swish"
               variant="muted"
+              className="pointer-events-none opacity-25"
             />
             <CardDefault
               icon={Hammer}
@@ -245,6 +246,7 @@ export default function Home() {
               link="/"
               ariaLabel="Learn more about working with us"
               variant="muted"
+              className="pointer-events-none opacity-25"
             />
             <CardDefault
               icon={HeartHandshake}
