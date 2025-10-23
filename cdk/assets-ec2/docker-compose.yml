@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
-  postgres:
-    image: postgres:latest
+  db:
+    image: postgres:17
     container_name: db
     restart: always
     env_file:
@@ -14,17 +12,21 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
 
-  app:
+  api:
     image: ${DOCKER_REPO}:${DOCKER_API_IMAGE_TAG}
     container_name: api
+# Used if starting against an empty db - use once only
+#    environment:
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#      SPRING_SQL_INIT_MODE: always
     env_file:
       - .env
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      - db
 
 ## For troubleshooting
 #
@@ -37,4 +39,4 @@ services:
 #     - LOG_REQUESTS=true
 
 volumes:
-  postgres_data:
+  db_data:

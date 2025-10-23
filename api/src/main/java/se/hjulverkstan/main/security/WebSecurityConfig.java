@@ -61,7 +61,8 @@ public class WebSecurityConfig {
                     "/v1/api/site/**",
                     "/api/v3/api-docs/**",
                     "/api/swagger-ui/**",
-                    "/api/swagger-ui.html"
+                    "/api/swagger-ui.html",
+                    "/actuator/health"
                 ).permitAll().anyRequest().authenticated())
             .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
