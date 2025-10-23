@@ -103,6 +103,15 @@ export class ApiStack extends cdk.Stack {
       machineImage: ec2.MachineImage.latestAmazonLinux2023(),
       keyPair: ec2.KeyPair.fromKeyPairName(this, 'KeyPair', 'ec-putty-key'),
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      blockDevices: [
+        {
+          deviceName: '/dev/xvda',
+          volume: ec2.BlockDeviceVolume.ebs(40, {
+            volumeType: ec2.EbsDeviceVolumeType.GP3,
+            deleteOnTermination: true,
+          }),
+        },
+      ],
       securityGroup,
       vpc,
       role,
