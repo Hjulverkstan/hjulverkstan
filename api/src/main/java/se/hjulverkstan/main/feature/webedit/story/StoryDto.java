@@ -29,11 +29,11 @@ public class StoryDto extends AuditableDto {
 
     private String imageURL;
 
-    public StoryDto(Story story, JsonNode bodyTextLocalised) {
+    public StoryDto(Story story, String titleLocalised, JsonNode bodyTextLocalised) {
         super(story);
 
         id = story.getId();
-        title = story.getTitle();
+        title = titleLocalised;
         slug = story.getSlug();
         imageURL = story.getImageURL();
         bodyText = bodyTextLocalised;
