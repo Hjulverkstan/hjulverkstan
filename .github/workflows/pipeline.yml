@@ -167,17 +167,21 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
-      - name: Build and Push Docker Image
-        env:
-          TRACE_TAG: ${{ needs.init.outputs.trace_tag }}
-        run: |
-          cd api
-          docker buildx build --platform linux/amd64,linux/arm64 \
-            --cache-from type=gha,scope=api \
-            --cache-to type=gha,scope=api,mode=max \
-            -t ${{ vars.DOCKER_REPO }}:${{ vars.DOCKER_API_IMAGE_TAG }} \
-            -t ${{ vars.DOCKER_REPO }}:${{ env.TRACE_TAG }} \
-            --push .
+      - name: Build and push (with cache)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./api
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ vars.DOCKER_REPO }}:${{ vars.DOCKER_API_IMAGE_TAG }}
+            ${{ vars.DOCKER_REPO }}:${{ needs.init.outputs.trace_tag }}
+          cache-from: |
+            type=gha,scope=api
+            type=registry,ref=${{ vars.DOCKER_REPO }}:buildcache
+          cache-to: |
+            type=gha,scope=api,mode=max
+            type=registry,ref=${{ vars.DOCKER_REPO }}:buildcache,mode=max,compression=zstd
 
   api-deploy:
     runs-on: ubuntu-latest
@@ -256,6 +260,12 @@ jobs:
       (needs.api-deploy.result == 'success' || needs.api-deploy.result == 'skipped') && always()
     steps:
       - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
 
       - name: Install dependencies
         run: cd web && npm ci
