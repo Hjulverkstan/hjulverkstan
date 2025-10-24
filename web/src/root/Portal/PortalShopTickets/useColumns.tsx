@@ -1,79 +1,26 @@
 import { useMemo } from 'react';
+import { format } from 'date-fns';
 
 import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
-import { TicketAggregated, TicketStatus } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
-import { useTicketsAsEnumsQ, useTicketsQ } from '@data/ticket/queries';
+import * as enumsRaw from '@data/ticket/enums';
+import { TicketAggregated, TicketStatus } from '@data/ticket/types';
 import * as C from '@utils/common';
+
 import BadgeGroup from '@components/BadgeGroup';
-import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
-import { format } from 'date-fns';
-import usePortalSlugs from '@hooks/useSlugs';
 import WarningBadge from '@components/WarningBadge';
-
-export function TicketBadges({ ticketIds }: { ticketIds: string[] }) {
-  const { baseUrl } = usePortalSlugs();
-
-  const ticketsQ = useTicketsQ();
-  const ticketEnumsQ = useTicketsAsEnumsQ();
-  const employeeEnumsQ = useEmployeesAsEnumsQ();
-  const customerEnumsQ = useCustomersAsEnumsQ();
-
-  if (
-    !ticketsQ.data ||
-    !ticketEnumsQ.data ||
-    !employeeEnumsQ.data ||
-    !customerEnumsQ.data
-  )
-    return null;
-
-  const badges = ticketIds
-    .filter((ticketId) => ticketsQ.data.find((t) => t.id == ticketId))
-    .map((ticketId) => {
-      const ticket = ticketsQ.data.find((t) => t.id === ticketId)!;
-      const ticketEnum = ticketEnumsQ.data.find((e) => e.value === ticketId)!;
-      const customerEnum = customerEnumsQ.data.find(
-        (e) => e.value === ticket.customerId,
-      )!;
-      const employeeEnum = employeeEnumsQ.data.find(
-        (e) => e.value === ticket.employeeId,
-      )!;
-
-      return {
-        ...ticketEnum,
-        href: `${baseUrl}/shop/ticketz/${ticketId}`,
-        tooltip: (
-          <div className="flex">
-            {customerEnum.icon && (
-              <customerEnum.icon className="mr-1 h-4 w-4" />
-            )}
-            {customerEnum.label}
-            {' / '}@{employeeEnum.label}
-          </div>
-        ),
-      };
-    });
-
-  const open = badges.filter((b) => b.variant !== 'outline');
-  const closedCount = badges.filter((b) => b.variant === 'outline').length;
-
-  return (
-    <div className="flex gap-2">
-      {!!open.length && <BadgeGroup badges={open} />}
-      {!!closedCount && (
-        <BadgeGroup
-          badges={[{ label: `${closedCount} closed`, variant: 'outline' }]}
-        />
-      )}
-    </div>
-  );
-}
+import * as DataTable from '@components/DataTable';
+import usePortalSlugs from '@hooks/useSlugs';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { findEnum, findEnumSafe } from '@utils/enums';
 
 export default function useColumns() {
   const { coreUrl } = usePortalSlugs();
+
+  const enums = useTranslateRawEnums(enumsRaw);
   const locationEnumsQ = useLocationsAsEnumsQ();
   const vehicleEnumsQ = useVehiclesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
@@ -95,14 +42,7 @@ export default function useColumns() {
             return warnings.length ? (
               <WarningBadge id={id} warnings={warnings} variant={variant} />
             ) : (
-              <BadgeGroup
-                badges={[
-                  {
-                    label: `#${id}`,
-                    variant,
-                  },
-                ]}
-              />
+              <BadgeGroup badges={[{ label: `#${id}`, variant }]} />
             );
           },
         },
@@ -111,7 +51,7 @@ export default function useColumns() {
           key: 'ticketType',
           name: 'Type',
           renderFn: ({ ticketType }) => (
-            <IconLabel {...enums.find(ticketType)} />
+            <IconLabel {...findEnum(enums, ticketType)} />
           ),
         },
 
@@ -123,7 +63,7 @@ export default function useColumns() {
               <BadgeGroup
                 badges={[
                   {
-                    ...customerEnumsQ.data.find((e) => e.value === customerId)!,
+                    ...findEnumSafe(customerEnumsQ.data, customerId),
                     href: `${coreUrl}/customers/${customerId}`,
                   },
                 ]}
@@ -139,7 +79,7 @@ export default function useColumns() {
               <BadgeGroup
                 badges={[
                   {
-                    ...enums.find(ticketStatus),
+                    ...findEnum(enums, ticketStatus),
                     tooltip:
                       daysSinceUpdate === undefined
                         ? undefined
@@ -159,7 +99,7 @@ export default function useColumns() {
             vehicleEnumsQ.data && (
               <BadgeGroup
                 badges={vehicleIds.map((id) => ({
-                  label: vehicleEnumsQ.data.find((e) => e.value === id)!.label,
+                  ...findEnumSafe(vehicleEnumsQ.data, id),
                   href: `${coreUrl}/inventory/${id}`,
                 }))}
               />
@@ -173,7 +113,7 @@ export default function useColumns() {
             locationEnumsQ.data && (
               <BadgeGroup
                 badges={locationIds.map((id) => ({
-                  ...locationEnumsQ.data.find((e) => e.value === id)!,
+                  ...findEnumSafe(locationEnumsQ.data, id),
                   variant: 'outline',
                 }))}
               />
@@ -185,9 +125,7 @@ export default function useColumns() {
           name: 'Employee',
           renderFn: ({ employeeId }) =>
             employeeEnumsQ.data && (
-              <IconLabel
-                {...employeeEnumsQ.data.find((e) => e.value === employeeId)!}
-              />
+              <IconLabel {...findEnumSafe(employeeEnumsQ.data, employeeId)} />
             ),
         },
 

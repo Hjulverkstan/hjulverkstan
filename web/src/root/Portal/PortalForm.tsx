@@ -3,7 +3,7 @@ import { Pencil, Save, XIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 
 import * as Tooltip from '@components/shadcn/Tooltip';
-import { ErrorRes } from '@api';
+import { ErrorRes, StandardError } from '@data/api';
 import { Mode, useDataForm } from '@components/DataForm';
 import { Button, IconButton } from '@components/shadcn/Button';
 import { useToast } from '@components/shadcn/use-toast';
@@ -19,7 +19,7 @@ export interface PortalFormProps {
   createMutation: (body: any) => Promise<any>;
   /* mutateAsync from useMutation() */
   saveMutation: (body: any) => Promise<any>;
-  error?: ErrorRes | null;
+  error?: ErrorRes | StandardError | null;
   dataLabel: string;
   toToolbarName: (body: any) => string | undefined | false;
   children: ReactNode;

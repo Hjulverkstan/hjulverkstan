@@ -12,7 +12,7 @@ import {
   TicketType,
   ticketTypeToTicketStatus,
 } from '@data/ticket/types';
-import * as enums from '@data/ticket/enums';
+import * as enumsRaw from '@data/ticket/enums';
 
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { IconButton } from '@components/shadcn/Button';
@@ -24,6 +24,8 @@ import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import UpdateVehicleStatusesDialog from '@components/UpdateVehicleStatusesDialog';
 import { useVehiclesQ } from '@data/vehicle/queries';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { findEnum } from '@utils/enums';
 
 export default function ShopTicketsActions({
   row: ticket,
@@ -115,6 +117,8 @@ export default function ShopTicketsActions({
 
   const allowedStatuses = ticketTypeToTicketStatus(ticket.ticketType);
 
+  const enums = useTranslateRawEnums(enumsRaw);
+
   return (
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>
       <DropdownMenu.Trigger asChild>
@@ -148,7 +152,7 @@ export default function ShopTicketsActions({
                   onSelect={() => onStatusUpdate(ticketStatus)}
                   disabled={ticketStatus === ticket.ticketStatus}
                 >
-                  {enums.find(ticketStatus).label}
+                  {findEnum(enums, ticketStatus).label}
                   {ticketStatus === ticket.ticketStatus && (
                     <span className="ml-auto">
                       <CheckIcon className="h-4 w-4" />

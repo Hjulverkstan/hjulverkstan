@@ -1,7 +1,10 @@
-import * as enums from '@data/location/enums';
+import * as enumsRaw from '@data/location/enums';
 import * as DataForm from '@components/DataForm';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 
 export default function AdminLocationFields() {
+  const enums = useTranslateRawEnums(enumsRaw);
+
   return (
     <>
       <DataForm.Select

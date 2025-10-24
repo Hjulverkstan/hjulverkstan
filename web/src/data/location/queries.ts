@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { StandardError } from '../api';
-import { EnumAttributes } from '../enums';
+import { EnumAttributes } from '../types';
 import { Location } from './types';
-import * as enums from './enums';
+import * as enumsRaw from './enums';
 import * as api from './api';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { findEnum } from '@utils/enums';
 
 //
 
@@ -30,14 +32,17 @@ export const useLocationQ = ({ id }: UseLocationQProps) =>
 
 //
 
-export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) =>
-  useQuery<Location[], StandardError, EnumAttributes[]>({
+export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) => {
+  const enums = useTranslateRawEnums(enumsRaw);
+
+  return useQuery<Location[], StandardError, EnumAttributes[]>({
     ...api.createGetLocations(),
     select: (locations) =>
       locations?.map((location) => ({
         dataKey,
-        icon: enums.find(location.locationType).icon,
+        icon: findEnum(enums, location.locationType).icon,
         label: location.name,
         value: location.id,
       })) ?? [],
   });
+};

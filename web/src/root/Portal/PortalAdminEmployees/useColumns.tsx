@@ -4,7 +4,7 @@ import { Employee } from '@data/employee/types';
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { format } from 'date-fns';
-import { TicketBadges } from '../PortalShopTickets/useColumns';
+import { ShopTicketsBadges } from '../PortalShopTickets/ShopTicketsBadges';
 
 //
 
@@ -42,7 +42,9 @@ export default function useColumns() {
         {
           key: 'ticketIds',
           name: 'Tickets',
-          renderFn: ({ ticketIds }) => <TicketBadges ticketIds={ticketIds} />,
+          renderFn: ({ ticketIds }) => (
+            <ShopTicketsBadges ticketIds={ticketIds} />
+          ),
         },
 
         {

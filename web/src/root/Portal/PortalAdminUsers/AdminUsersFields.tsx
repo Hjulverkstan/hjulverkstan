@@ -1,8 +1,11 @@
-import * as enums from '@data/user/enums';
+import * as enumsRaw from '@data/user/enums';
 import * as DataForm from '@components/DataForm';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 
 export default function AdminUsersFields() {
   const { mode, body } = DataForm.useDataForm();
+
+  const enums = useTranslateRawEnums(enumsRaw);
 
   return (
     <>

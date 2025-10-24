@@ -1,28 +1,22 @@
 import { Building, UserCircle } from 'lucide-react';
 
-import { createFindFn, createMatchFn } from '../enums';
+import { EnumAttributesRaw } from '@data/types';
 import { CustomerType } from './types';
 
 //
 
-export const customerType = [
+export const customerType: EnumAttributesRaw[] = [
   {
     dataKey: 'customerType',
     value: CustomerType.ORG,
-    label: 'Organization',
+    translationKey: 'enumIsCustomerOwnedOrg',
     icon: Building,
   },
   {
     dataKey: 'customerType',
     value: CustomerType.PERSON,
-    label: 'Person',
+
+    translationKey: 'enumIsCustomerOwnedCustomer',
     icon: UserCircle,
   },
 ];
-
-//
-
-const all = [...customerType];
-
-export const find = createFindFn(all);
-export const matchFn = createMatchFn(all);

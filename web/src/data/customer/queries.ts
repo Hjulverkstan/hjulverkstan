@@ -1,11 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
+import { differenceInYears, parse } from 'date-fns';
 
-import { EnumAttributes } from '../enums';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import * as enumsRaw from '@data/customer/enums';
+
+import { EnumAttributes } from '../types';
 import { StandardError } from '../api';
 import { AggregatedCustomer, Customer, CustomerType } from './types';
 import * as api from './api';
-import * as enums from './enums';
-import { differenceInYears, parse } from 'date-fns';
+import { findEnum } from '@utils/enums';
 
 //
 
@@ -44,13 +47,15 @@ export const useCustomerQ = ({ id }: UseCustomerQProps) =>
 export const useCustomersAsEnumsQ = ({
   dataKey = 'customerId',
   withOrgPerson = false,
-} = {}) =>
-  useQuery<Customer[], StandardError, EnumAttributes[]>({
+} = {}) => {
+  const enums = useTranslateRawEnums(enumsRaw);
+
+  return useQuery<Customer[], StandardError, EnumAttributes[]>({
     ...api.createGetCustomers(),
     select: (customers) =>
       customers?.map((customer) => ({
         dataKey,
-        icon: enums.find(customer.customerType).icon,
+        icon: findEnum(enums, customer.customerType).icon,
         label:
           customer.customerType === CustomerType.PERSON
             ? `${customer.firstName} ${customer.lastName}`
@@ -60,3 +65,4 @@ export const useCustomersAsEnumsQ = ({
         value: customer.id,
       })) ?? [],
   });
+};

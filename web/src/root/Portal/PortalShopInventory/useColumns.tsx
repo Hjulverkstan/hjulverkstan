@@ -1,18 +1,23 @@
-import * as enums from '@data/vehicle/enums';
-import { Vehicle } from '@data/vehicle/types';
+import { useMemo } from 'react';
+import { format } from 'date-fns';
+
+import WarningBadge from '@components/WarningBadge';
+import IconLabel from '@components/IconLabel';
+import BadgeGroup from '@components/BadgeGroup';
 
 import * as DataTable from '@components/DataTable';
-import BadgeGroup from '@components/BadgeGroup';
-import IconLabel from '@components/IconLabel';
-import { useMemo } from 'react';
+import { VehicleAggregated } from '@data/vehicle/types';
+import * as enumsRaw from '@data/vehicle/enums';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
-import { TicketBadges } from '../PortalShopTickets/useColumns';
-import { format } from 'date-fns';
-import WarningBadge from '@components/WarningBadge';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { findEnum, findEnumSafe } from '@utils/enums';
+
+import { ShopTicketsBadges } from '../PortalShopTickets/ShopTicketsBadges';
 
 //
 
 export default function useColumns() {
+  const enums = useTranslateRawEnums(enumsRaw);
   const locationEnumsQ = useLocationsAsEnumsQ();
 
   return useMemo(
@@ -25,7 +30,7 @@ export default function useColumns() {
             { regTag, id, isCustomerOwned, warnings = [] },
             { selected },
           ) => {
-            const baseBadge = enums.find(isCustomerOwned);
+            const baseBadge = findEnum(enums, isCustomerOwned);
 
             const variant = selected
               ? 'contrast'
@@ -53,11 +58,11 @@ export default function useColumns() {
           key: 'vehicleType',
           name: 'Type',
           renderFn: ({ vehicleType, bikeType, strollerType }) => (
-            <IconLabel {...enums.find(vehicleType)}>
+            <IconLabel {...findEnum(enums, vehicleType)}>
               {(strollerType || bikeType) && (
                 <span className="text-muted-foreground pl-1">
-                  {bikeType && enums.find(bikeType).label}
-                  {strollerType && enums.find(strollerType).label}
+                  {bikeType && findEnum(enums, bikeType).label}
+                  {strollerType && findEnum(enums, strollerType).label}
                 </span>
               )}
             </IconLabel>
@@ -69,7 +74,7 @@ export default function useColumns() {
           name: 'Status',
           renderFn: ({ vehicleStatus }) =>
             vehicleStatus && (
-              <BadgeGroup badges={[enums.find(vehicleStatus)]} />
+              <BadgeGroup badges={[findEnum(enums, vehicleStatus)]} />
             ),
         },
 
@@ -78,29 +83,30 @@ export default function useColumns() {
           name: 'Location',
           renderFn: ({ locationId }) =>
             locationEnumsQ.data && (
-              <IconLabel
-                {...locationEnumsQ.data.find((e) => e.value === locationId)!}
-              />
+              <IconLabel {...findEnumSafe(locationEnumsQ.data, locationId)} />
             ),
         },
 
         {
           key: 'ticketIds',
           name: 'Tickets',
-          renderFn: ({ ticketIds }) => <TicketBadges ticketIds={ticketIds} />,
+          renderFn: ({ ticketIds }) => (
+            <ShopTicketsBadges ticketIds={ticketIds} />
+          ),
         },
 
         {
           key: 'brand',
           name: 'Brand',
           renderFn: ({ brand }) =>
-            brand && <IconLabel {...enums.find(brand)} />,
+            brand && <IconLabel {...findEnum(enums, brand)} />,
         },
 
         {
           key: 'size',
           name: 'Size',
-          renderFn: ({ size }) => size && <IconLabel {...enums.find(size)} />,
+          renderFn: ({ size }) =>
+            size && <IconLabel {...findEnum(enums, size)} />,
         },
 
         {
@@ -118,7 +124,7 @@ export default function useColumns() {
           key: 'brakeType',
           name: 'Brakes',
           renderFn: ({ brakeType }) =>
-            brakeType && <IconLabel {...enums.find(brakeType)} />,
+            brakeType && <IconLabel {...findEnum(enums, brakeType)} />,
         },
 
         {
@@ -141,19 +147,21 @@ export default function useColumns() {
         {
           key: 'createdAt',
           name: 'Created at',
-          renderFn: ({ createdAt }) => (
-            <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
-          ),
+          renderFn: ({ createdAt }) =>
+            createdAt ? (
+              <IconLabel label={format(new Date(createdAt), 'yyyy-MM-dd')} />
+            ) : null,
         },
 
         {
           key: 'updatedAt',
           name: 'Edited at',
-          renderFn: ({ updatedAt }) => (
-            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
-          ),
+          renderFn: ({ updatedAt }) =>
+            updatedAt ? (
+              <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
+            ) : null,
         },
-      ] as Array<DataTable.Column<Vehicle>>,
+      ] as Array<DataTable.Column<VehicleAggregated>>,
     [locationEnumsQ.data],
   );
 }

@@ -9,6 +9,7 @@ import Toaster from '@components/shadcn/Toaster';
 import * as Tooltip from '@components/shadcn/Tooltip';
 import { LocaleProvider, usePreloadedData } from '@hooks/usePreloadedData';
 import type { LocaleAllEntitiesMap } from '@data/webedit/types';
+import { useTranslations, TranslationKeys } from '@hooks/useTranslations';
 
 import Home from './Home';
 import PageNotFound from './PageNotFound';
@@ -62,7 +63,7 @@ export const fallbackLocale = 'sv';
 
 export interface RouteAttributes {
   path: string;
-  title: string;
+  titleTranslationKey: TranslationKeys;
   component: ComponentType;
   // Used by the build script to generate files for all segments
   dynamicSegments?: Record<string, string>[];
@@ -77,49 +78,49 @@ export const createRoutes = (
   return [
     {
       path: '/',
-      title: 'Hjulverkstan',
+      titleTranslationKey: 'homeTitle',
       component: Home,
     },
     {
       path: '/contact',
-      title: 'Hjulverkstan - Contact',
+      titleTranslationKey: 'contactTitle',
       component: Contact,
     },
     {
       path: '/shops',
-      title: 'Hjulverkstan - Shops',
+      titleTranslationKey: 'shopsTitle',
       component: Shops,
     },
     {
       path: '/shops/:slug',
-      title: 'Hjulverkstan - Shops',
+      titleTranslationKey: 'shopsTitle',
       component: ShopDetail,
       dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
     },
     {
       path: '/vehicle/:id',
-      title: 'Hjulverkstan - Vehicles',
+      titleTranslationKey: 'vehicleDetailTitle',
       component: VehicleDetail,
       disableSSR: true,
     },
     {
       path: '/support',
-      title: 'Hjulverkstan - Support',
+      titleTranslationKey: 'supportTitle',
       component: Support,
     },
     {
       path: '/services',
-      title: 'Hjulverkstan - Services',
+      titleTranslationKey: 'servicesTitle',
       component: Services,
     },
     {
       path: '/stories',
-      title: 'Hjulverkstan - Stories',
+      titleTranslationKey: 'storiesTitle',
       component: Stories,
     },
     {
       path: '/portal/*',
-      title: 'Hjulverkstan - Portal',
+      titleTranslationKey: 'portalTitle',
       component: Portal,
       disableSSR: true,
     },
@@ -142,10 +143,11 @@ function RouteHelmet({
   locale?: string;
 }) {
   const { locales } = usePreloadedData();
+  const { t } = useTranslations();
 
   return (
     <Helmet>
-      <title>{route.title}</title>
+      <title>{t(route.titleTranslationKey)}</title>
       {import.meta.env.VITE_ENV.toLowerCase() !== 'prod' && (
         <meta name="robots" content="noindex, nofollow" />
       )}

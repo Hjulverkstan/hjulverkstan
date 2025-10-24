@@ -1,11 +1,14 @@
-import * as enums from '@data/location/enums';
-
+import * as enumsRaw from '@data/location/enums';
 import * as DataTable from '@components/DataTable';
 import { Location } from '@data/location/types';
 import { PortalFilterDate } from '../PortalFilterDate';
 import { matchDateWithoutTimestamp } from '@utils/common';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { matchEnumsOnRow } from '@utils/enums';
 
 export default function AdminLocationFilters() {
+  const enums = useTranslateRawEnums(enumsRaw);
+
   return (
     <>
       <DataTable.FilterSearch
@@ -14,7 +17,7 @@ export default function AdminLocationFilters() {
           (word: string, row: Location) =>
             matchDateWithoutTimestamp(word, row.createdAt) ||
             matchDateWithoutTimestamp(word, row.updatedAt) ||
-            enums.matchFn(word, row) ||
+            matchEnumsOnRow(enums, word, row) ||
             DataTable.fuzzyMatchFn(['comment', 'name', 'address'], word, row) ||
             row.vehicleIds.length.toString().includes(word) // vehicleCount
         }

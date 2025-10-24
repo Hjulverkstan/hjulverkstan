@@ -1,15 +1,17 @@
 import { useMemo } from 'react';
 
 import { User } from '@data/user/types';
-import * as enums from '@data/user/enums';
+import * as enumsRaw from '@data/user/enums';
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import BadgeGroup from '@components/BadgeGroup';
 import { format } from 'date-fns';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 
 //
 
 export default function useColumns() {
+  const enums = useTranslateRawEnums(enumsRaw);
   return useMemo(
     () =>
       [

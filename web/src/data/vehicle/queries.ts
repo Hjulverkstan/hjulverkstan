@@ -2,22 +2,24 @@ import { useQuery } from '@tanstack/react-query';
 
 import * as C from '@utils/common';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 
 import * as siteApi from '../site/api';
 import { Warning } from '../warning/types';
 import { useTicketsQ } from '../ticket/queries';
 import { TicketStatus } from '../ticket/types';
 import { StandardError } from '../api';
+import { EnumAttributes } from '../types';
 
-import { EnumAttributes } from '../enums';
 import * as api from './api';
-import * as enums from './enums';
+import * as enumsRaw from './enums';
 import {
   Vehicle,
   VehicleAggregated,
   VehiclePublic,
   VehicleType,
 } from './types';
+import { findEnum } from '@utils/enums';
 
 //
 
@@ -73,8 +75,10 @@ export interface UseVehiclesAsEnumsQProps {
 export const useVehiclesAsEnumsQ = ({
   dataKey = 'vehicleId',
   filterCustomerOwned,
-}: UseVehiclesAsEnumsQProps = {}) =>
-  useQuery<Vehicle[], StandardError, EnumAttributes[]>({
+}: UseVehiclesAsEnumsQProps = {}) => {
+  const enums = useTranslateRawEnums(enumsRaw);
+
+  return useQuery<Vehicle[], StandardError, EnumAttributes[]>({
     ...api.createGetVehicles(),
     select: (vehicles) =>
       vehicles
@@ -87,7 +91,7 @@ export const useVehiclesAsEnumsQ = ({
         )
         .map((vehicle) => ({
           dataKey,
-          icon: enums.find(vehicle.vehicleType).icon,
+          icon: findEnum(enums, vehicle.vehicleType).icon,
           label:
             vehicle.vehicleType === VehicleType.BATCH
               ? 'Batch'
@@ -95,18 +99,12 @@ export const useVehiclesAsEnumsQ = ({
           value: vehicle.id,
         })) ?? [],
   });
+};
 
 //
 
-const createPublicVehicle = (vehicle: Vehicle): VehiclePublic => ({
-  ...vehicle,
-  regTag: vehicle.isCustomerOwned ? `#${vehicle.id}` : vehicle.regTag,
-  // Todo: vehicle type should be localised through general content
-  label: `${U.capitalize(vehicle.brand as string)} ${U.capitalize(vehicle.vehicleType as string)}`,
-});
-
 export interface UsePublicVehiclesByLocationQProps {
-  locationId: string;
+  locationId?: string;
 }
 
 export const usePublicVehiclesByLocationQ = ({
@@ -114,7 +112,6 @@ export const usePublicVehiclesByLocationQ = ({
 }: UsePublicVehiclesByLocationQProps) =>
   useQuery<Vehicle[], StandardError, VehiclePublic[]>({
     ...siteApi.createGetPublicVehiclesByLocation({ locationId }),
-    select: (vehicles) => vehicles.map(createPublicVehicle),
     enabled: !!locationId,
   });
 
@@ -127,5 +124,4 @@ export interface UsePublicVehicleByIdQProps {
 export const usePublicVehicleByIdQ = ({ id }: UsePublicVehicleByIdQProps) =>
   useQuery<Vehicle, StandardError, VehiclePublic>({
     ...siteApi.createGetPublicVehicleById({ id }),
-    select: createPublicVehicle,
   });

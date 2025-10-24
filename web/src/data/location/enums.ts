@@ -1,28 +1,21 @@
 import { Store, Warehouse } from 'lucide-react';
 
-import { createFindFn, createMatchFn } from '../enums';
 import { LocationType } from './types';
+import { EnumAttributesRaw } from '@data/types';
 
 //
 
-export const locationType = [
+export const locationType: EnumAttributesRaw[] = [
   {
     dataKey: 'locationType',
     value: LocationType.SHOP,
-    label: 'Shop',
+    translationKey: 'enumLocationTypeShop',
     icon: Store,
   },
   {
     dataKey: 'locationType',
     value: LocationType.STORAGE,
-    label: 'Storage',
+    translationKey: 'enumLocationTypeStorage',
     icon: Warehouse,
   },
 ];
-
-//
-
-const all = [...locationType];
-
-export const find = createFindFn(all);
-export const matchFn = createMatchFn(all);

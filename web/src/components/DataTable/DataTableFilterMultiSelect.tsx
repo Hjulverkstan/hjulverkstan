@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { EnumAttributes } from '@data/enums';
+import { EnumAttributes } from '@data/types';
 import MultiSelect from '@components/MultiSelect';
 
 import { Row, useDataTable, useFilterPopover } from './';

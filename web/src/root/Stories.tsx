@@ -3,12 +3,15 @@ import { Section } from '@components/Section';
 import { SectionContent } from '@components/SectionContent';
 import { CardStory } from '@components/CardStory';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
+import { useTranslations } from '@hooks/useTranslations';
 
 export default function Stories() {
   const { data } = usePreloadedDataLocalized();
 
+  const { t } = useTranslations();
+
   return (
-    <Page heading="Stories">
+    <Page heading={t('stories')}>
       <Section>
         <SectionContent>
           <div className="grid gap-8 lg:grid-cols-2">

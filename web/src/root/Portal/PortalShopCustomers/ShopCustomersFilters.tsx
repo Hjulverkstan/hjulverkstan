@@ -1,13 +1,16 @@
-import * as enums from '@data/customer/enums';
+import * as enumsRaw from '@data/customer/enums';
 
 import * as DataTable from '@components/DataTable';
 import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { Customer } from '@data/customer/types';
-import { enumsMatchUtil } from '@data/enums';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+
 import { PortalFilterDate } from '../PortalFilterDate';
+import { matchEnumsBy, matchEnumsOnRow } from '@utils/enums';
 
 export default function ShopCustomerFilters() {
+  const enums = useTranslateRawEnums(enumsRaw);
   const ticketEnumsQ = useTicketsAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ({ withOrgPerson: true });
 
@@ -16,18 +19,18 @@ export default function ShopCustomerFilters() {
       <DataTable.FilterSearch
         placeholder="Search in Customers..."
         matchFn={(word: string, row: Customer) =>
-          enums.matchFn(word, row) ||
+          matchEnumsOnRow(enums, word, row) ||
           DataTable.fuzzyMatchFn(
             ['comment', 'personalIdentityNumber', 'phoneNumber', 'email'],
             word,
             row,
           ) ||
-          enumsMatchUtil({
+          matchEnumsBy({
             enums: customerEnumsQ.data,
             isOf: row.id,
             includes: word,
           }) ||
-          enumsMatchUtil({
+          matchEnumsBy({
             enums: ticketEnumsQ.data,
             isOf: row.ticketIds,
             startsWith: word,

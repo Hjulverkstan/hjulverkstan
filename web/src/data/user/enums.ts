@@ -1,28 +1,19 @@
 import { User, UserCog } from 'lucide-react';
 
 import { AuthRole } from '@data/auth/types';
-import { createFindFn, createMatchFn } from '../enums';
+import { EnumAttributesRaw } from '@data/types';
 
-//
-
-export const roles = [
+export const roles: EnumAttributesRaw[] = [
   {
     dataKey: 'roles',
     value: AuthRole.USER,
-    label: 'User',
+    translationKey: 'enumRolesUser',
     icon: User,
   },
   {
     dataKey: 'roles',
     value: AuthRole.ADMIN,
-    label: 'Admin',
+    translationKey: 'enumRolesAdmin',
     icon: UserCog,
   },
 ];
-
-//
-
-const all = [...roles];
-
-export const find = createFindFn(all);
-export const matchFn = createMatchFn(all);

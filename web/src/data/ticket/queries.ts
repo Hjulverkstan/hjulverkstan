@@ -4,17 +4,28 @@ import { useVehiclesQ } from '@data/vehicle/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
 import * as C from '@utils/common';
 import { StandardError } from '../api';
-import { EnumAttributes } from '../enums';
+import { EnumAttributes } from '../types';
 import * as api from './api';
-import * as enums from './enums';
+import * as enumsRaw from './enums';
 import { Ticket, TicketAggregated, TicketStatus } from './types';
 import { Warning } from '@data/warning/types';
 import { differenceInDays } from 'date-fns';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { findEnum } from '@utils/enums';
 
 //
 
-export const useTicketsQ = () =>
-  useQuery<Ticket[], StandardError>(api.createGetTickets());
+interface UseTicketsQProps {
+  ticketIds?: string[];
+}
+
+export const useTicketsQ = ({ ticketIds }: UseTicketsQProps = {}) =>
+  useQuery<Ticket[], StandardError>({
+    ...api.createGetTickets(),
+    select: ticketIds
+      ? (tickets) => tickets.filter((t) => ticketIds.includes(t.id))
+      : (x) => x,
+  });
 
 //
 
@@ -74,13 +85,15 @@ export const useTicketsAggregatedQ = () =>
 
 //
 
-export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) =>
-  useQuery<Ticket[], StandardError, EnumAttributes[]>({
+export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) => {
+  const enums = useTranslateRawEnums(enumsRaw);
+
+  return useQuery<Ticket[], StandardError, EnumAttributes[]>({
     ...api.createGetTickets(),
-    select: (tickets): EnumAttributes[] =>
+    select: (tickets) =>
       tickets?.map((ticket) => ({
         dataKey,
-        icon: enums.find(ticket.ticketType).icon,
+        icon: findEnum(enums, ticket.ticketType).icon,
         label: `#${ticket.id}`,
         value: ticket.id,
         ...(ticket.ticketStatus && {
@@ -93,3 +106,4 @@ export const useTicketsAsEnumsQ = ({ dataKey = 'ticketId' } = {}) =>
         }),
       })) ?? [],
   });
+};

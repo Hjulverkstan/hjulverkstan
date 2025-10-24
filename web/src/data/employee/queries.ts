@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import EmployeeIcon from '@components/EmployeeIcon';
 
-import { EnumAttributes } from '../enums';
+import { EnumAttributes } from '../types';
 import { StandardError } from '../api';
 import { Employee } from './types';
 import * as api from './api';

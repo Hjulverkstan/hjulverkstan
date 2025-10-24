@@ -9,6 +9,7 @@ import { Base, Body } from '@components/Card';
 import { ChevronRight } from 'lucide-react';
 import { Bullet } from '@components/Bullet';
 import { cn } from '@utils/common';
+import { useTranslations } from '@hooks/useTranslations';
 
 const faqs = [
   {
@@ -65,6 +66,8 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
 const Contact: React.FC = () => {
   const { data } = usePreloadedDataLocalized();
 
+  const { t } = useTranslations();
+
   const middleIndex = Math.ceil(faqs.length / 2);
   const faqLeft = faqs.slice(0, middleIndex);
   const faqRight = faqs.slice(middleIndex);
@@ -80,7 +83,7 @@ const Contact: React.FC = () => {
           </div>
         </SectionContent>
 
-        <SectionContent heading={data.text.contactFAQ}>
+        <SectionContent heading={t('FAQ')}>
           <Base variant="padded">
             <div className="flex w-full flex-col gap-10 xl:flex-row">
               <div className="flex w-full flex-col gap-10 xl:w-1/2">

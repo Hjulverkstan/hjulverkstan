@@ -6,7 +6,7 @@ import { ListResponse } from '../types';
 // GET ALL PUBLIC VEHICLES
 
 export interface GetPublicVehiclesByLocationParams {
-  locationId: string;
+  locationId?: string;
 }
 
 export type GetPublicVehiclesByLocationRes = ListResponse<Vehicle>;

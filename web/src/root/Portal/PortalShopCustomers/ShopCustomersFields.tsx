@@ -1,9 +1,12 @@
-import * as enums from '@data/customer/enums';
+import * as enumsRaw from '@data/customer/enums';
 import * as DataForm from '@components/DataForm';
 import { CustomerType } from '@data/customer/types';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 
 export default function ShopCustomerFields() {
   const { body } = DataForm.useDataForm();
+
+  const enums = useTranslateRawEnums(enumsRaw);
 
   return (
     <>

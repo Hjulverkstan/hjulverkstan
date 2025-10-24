@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import * as enums from '@data/vehicle/enums';
+import * as enumsRaw from '@data/vehicle/enums';
 import { useLocationsQ } from '@data/location/queries';
 import { initVehicle, useVehicleZ } from '@data/vehicle/form';
 import { useCreateVehicleM, useEditVehicleM } from '@data/vehicle/mutations';
@@ -22,11 +22,15 @@ import ShopInventoryFilters from './ShopInventoryFilters';
 import ShopInventoryFields from './ShopInventoryFields';
 import useColumns from './useColumns';
 import { Vehicle } from '@data/vehicle/types';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { findEnum } from '@utils/enums';
 
 //
 
 export default function PortalShopInventory({ mode }: PortalAppPageProps) {
   const { id = '' } = useParams();
+
+  const enums = useTranslateRawEnums(enumsRaw);
 
   const vehiclesQ = useVehiclesAggregatedQ();
   const vehicleQ = useVehicleQ({ id });
@@ -68,8 +72,9 @@ export default function PortalShopInventory({ mode }: PortalAppPageProps) {
               dataLabel="Vehicle"
               toToolbarName={(body: Vehicle) =>
                 (body.regTag &&
-                  `${enums.find(body.vehicleType).label} ${body.regTag}`) ||
-                (body.id && `${enums.find(body.vehicleType).label} #${body.id}`)
+                  `${findEnum(enums, body.vehicleType).label} ${body.regTag}`) ||
+                (body.id &&
+                  `${findEnum(enums, body.vehicleType).label} #${body.id}`)
               }
               error={vehicleQ.error || locationsQ.error}
               isSubmitting={createVehicleM.isPending || editVehicleM.isPending}

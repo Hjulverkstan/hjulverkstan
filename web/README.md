@@ -173,7 +173,7 @@ Some projects categorize like this, in our case we keep the view layer together 
 - data/
    - tickets/ # A feature, or rather a route in our application
      - api.ts # Api layer definitions
-     - enums.ts # Described in sub section
+     - types.ts # Described in sub section
      - form.ts # Described in sub section
      - mutations.ts # TanStack mutation hooks 
      - queries.ts # TanStack query hooks 
@@ -199,20 +199,111 @@ Let's go into some further detail regarding some directories:
 
 ### Enums.ts
 
-This naming can be a little confusing so it important learn what these files are about. Throughout our application we use many enumerators fetched from the back end, some examples are:
+Although named “enums”, the concept in this application extends far beyond traditional TypeScript enums.
 
-- Ticket status
-- Customer type
-- Vehicle type
+Here, enums function as **type-safe metadata collections** — structured objects that describe both the logical meaning and the UI representation of specific values.  
+They serve as a unifying layer between **data, translation, and presentation**, enabling the same definition to drive logic, labels, icons, variants, filters, etc. throughout the frontend.
 
-All these enumerators are defined in the `enums.ts` files in the different `data/` directories so we can add other needed fields to them that our application is in need of:
+Each enum can include:
+```ts
+export interface EnumAttributesRaw {
+  value: any; // Raw value from backend
+  dataKey: string; // Field this enum belongs to
+  translationKey?: TranslationKeys; // Key to generate a localized label
+  tooltipTranslationKey?: TranslationKeys; // Key for localized tooltip
+  icon?: ComponentType<any>; // Optional icon component
 
-- `value`: Enum value – the raw value from the enumerator 
-- `label`: Text label for the UI
-- `icon`: Icon if there is one
-- `variant`: Variant (i.e style, can determine color etc)
+  /* Aggregated fields used in business logic downstream */
+  variant?: BadgeProps['variant']; // Optional visual style
+  children?: string[]; // Optional nested enum values
+  count?: number; // Optional count for faceted interfaces
+}
 
-And one other filed: `dataKey` – this is the key, or field that this enumerator exists on, on the data in question, for vehicle type that is `vehicleType` as that is the prop on a `Vehicle` that it is mapped to. This is useful because many of our filters and dropdowns etc can use this data key to automatically read from or write to the data in question when the user takes action.
+export type EnumAttributes<V extends EnumAttributesRaw = EnumAttributesRaw> =
+  V & {
+  label: string; // Localized text label for use in frontend
+};
+```
+
+They provide type safety while remaining flexible enough to adapt to both enums defined in the frontend and fetched from backend.  
+In practice, they function as reusable “value descriptors” that make data self-describing and directly renderable in the interface.
+
+---
+
+#### Enums defined locally
+
+Static enums are defined directly in the frontend and used for **UI-related elements** such as labels, badges, and status indicators.  
+They are defined as `EnumAttributesRaw` objects and transformed into translated `EnumAttributes` via the `useTranslateRawEnums` hook.
+
+
+#### Enums fetched from backend
+
+Dynamic enums are **fetched from the backend** through queries.
+They are used for **filters, selects, and data tables**, where available values depend on backend data.
+
+#### `useTranslateRawEnums` Hook
+The `useTranslateRawEnums` **hook** takes a module containing raw enums (for example `@data/vehicle/enums`) and returns a translated version of those enums.
+The translation is handled by the `useTranslations.ts` hook, ensuring that each enum label is localized according to the current language.
+
+#### **findEnum vs. findEnumSafe**
+
+The find utilities rely on each module’s enums having globally unique values, allowing them to quickly resolve the correct enum without needing to know which specific export it belongs to.
+- **`findEnum`**
+    - Used for **local enums**.
+    - Throws if value not found → helps catch logic errors.
+
+- **`findEnumSafe`**
+    - Used for **backend enums**.
+    - Logs missing values and returns a fallback:
+```ts
+export const failedEnum = {
+  label: '?',
+  variant: 'red',
+} as EnumAttributes;
+```
+- Can also be used manually with try/catch when resolving multiple enums at once:
+
+```ts
+try {
+  const resolved = values.map((v) => findEnum(enums, v));
+  return resolved;
+} catch {
+  return [failedEnum];
+}
+```
+
+#### Enum match helpers
+- #### `matchEnumsOnRow`
+Compares search words against localized enum labels (used in <DataTable.FilterSearch />).
+
+- #### `matchEnumsBy`
+Defines flexible match conditions (e.g. prefix or substring).
+
+**Example:**
+```tsx
+<DataTable.FilterSearch
+  placeholder="Search in Customers..."
+  matchFn={(word: string, row: Customer) =>
+    matchEnumsOnRow(enums, word, row) ||
+    DataTable.fuzzyMatchFn(
+      ['comment', 'personalIdentityNumber', 'phoneNumber', 'email'],
+      word,
+      row,
+    ) ||
+    matchEnumsBy({
+      enums: customerEnumsQ.data,
+      isOf: row.id,
+      includes: word,
+    }) ||
+    matchEnumsBy({
+      enums: ticketEnumsQ.data,
+      isOf: row.ticketIds,
+      startsWith: word,
+    })
+  }
+/>
+```
+
 
 ### Form.ts
 
@@ -260,7 +351,7 @@ Let's start by with overview of the files concerning SSG:
 
 Let's proceed by working bottom up, starting with the `build.js` file. It works like follows:
 
-1. Iterate over `routesCSR` a definition of our CSR routes (currently only used for the portal app as it is the only CSR part of the app) from `root/index.tsx` and generate that index.html file to it's appropriate location. 
+1. Iterate over `routesCSR` a definition of our CSR routes (currently only used for the portal app as it is the only CSR part of the app) from `root/index.tsx` and generate that index.html file to it's appropriate location.
 
 2. Call `getDataForPreloadingServerSide()` exported from `server.tsx`, this will make a request to our backend and retrieve all the dynamic data from `WebEdit`, for every localized language.
 

@@ -1,48 +1,32 @@
-import * as enums from '@data/vehicle/enums';
-import { ticketEnums } from '@data/ticket/enums';
+import * as enumsRaw from '@data/vehicle/enums';
 
 import * as DataTable from '@components/DataTable';
-import { enumsMatchUtil } from '@data/enums';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { useTicketsAsEnumsQ } from '@data/ticket/queries';
 import { Vehicle } from '@data/vehicle/types';
 import { PortalFilterDate } from '../PortalFilterDate';
-import { isCustomerOwned } from '@data/vehicle/enums';
-
-// Enum for filtering on the ticketTypes and ticketStatuses props that we aggregated onto a vehicle
-// see [useVehicleAggregatedQ](/src/data/vehicle/queries.ts).
-
-const ticketTypesEnums = ticketEnums.ticketType.map((e) => ({
-  ...e,
-  dataKey: 'ticketTypes',
-}));
-const ticketStatusesEnums = ticketEnums.ticketStatus.map((e) => ({
-  ...e,
-  dataKey: 'ticketStatuses',
-}));
-const ownershipEnums = isCustomerOwned.map((e) => ({
-  ...e,
-  dataKey: 'isCustomerOwned',
-}));
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { matchEnumsBy, matchEnumsOnRow } from '@utils/enums';
 
 export default function ShopInventoryFilters() {
   const locationEnumsQ = useLocationsAsEnumsQ();
   const ticketEnumsQ = useTicketsAsEnumsQ();
+  const enums = useTranslateRawEnums<typeof enumsRaw>(enumsRaw);
 
   return (
     <>
       <DataTable.FilterSearch
         placeholder="Search in Inventory..."
         matchFn={(word: string, row: Vehicle) =>
-          enums.matchFn(word, row) ||
+          matchEnumsOnRow(enums, word, row) ||
           DataTable.fuzzyMatchFn(['comment', 'regTag'], word, row) ||
           word === String(row.gearCount) ||
-          enumsMatchUtil({
+          matchEnumsBy({
             enums: ticketEnumsQ.data,
             isOf: row.ticketIds,
             startsWith: word,
           }) ||
-          enumsMatchUtil({
+          matchEnumsBy({
             enums: locationEnumsQ.data,
             isOf: row.locationId,
             startsWith: word,
@@ -63,7 +47,7 @@ export default function ShopInventoryFilters() {
         <DataTable.FilterMultiSelect
           heading="Ownership"
           filterKey="ownership-type"
-          enums={[...ownershipEnums]}
+          enums={[...enums.isCustomerOwned]}
         />
       </DataTable.FilterPopover>
 
@@ -85,12 +69,12 @@ export default function ShopInventoryFilters() {
         <DataTable.FilterMultiSelect
           heading="Ticket type"
           filterKey="ticket-type"
-          enums={ticketTypesEnums}
+          enums={enums.ticketTypes}
         />
         <DataTable.FilterMultiSelect
           heading="Ticket status"
           filterKey="ticket-status"
-          enums={ticketStatusesEnums}
+          enums={enums.ticketStatuses}
         />
       </DataTable.FilterPopover>
 
