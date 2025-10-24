@@ -34,6 +34,10 @@ public class TicketUtils {
         if (hasCustomerOwned && hasNonCustomerOwned) {
             throw new UnsupportedTicketVehiclesException("Cannot set customer owned and not customer owned vehicles");
         }
+
+        if (vehicles.stream().anyMatch(v -> v.getLocation().getId() != dto.getLocationId())) {
+            throw new UnsupportedTicketVehiclesException("Ticket contains vehicles of another location");
+        }
     }
 
     private static boolean hasChars(String str) {

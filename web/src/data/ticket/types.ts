@@ -14,6 +14,7 @@ export interface Ticket extends Auditable {
   ticketStatus?: TicketStatus;
   comment: string | null;
   vehicleIds: string[];
+  locationId: string;
   employeeId: string;
   customerId: string;
   statusUpdatedAt?: string;
@@ -33,7 +34,6 @@ export enum TicketStatus {
 }
 
 export interface TicketAggregated extends Ticket {
-  locationIds: string[];
   daysLeft?: number;
   daysSinceUpdate?: number;
   warnings?: Warning[];
