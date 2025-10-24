@@ -40,7 +40,7 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
 
       <div className={cn('mt-auto flex justify-end pt-6')}>
         <IconLink
-          to={link ?? '#'}
+          to={link ?? '/'}
           variant={buttonVariant}
           subVariant="rounded"
           size="large"

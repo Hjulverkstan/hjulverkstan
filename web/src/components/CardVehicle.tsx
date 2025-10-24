@@ -7,7 +7,6 @@ import { Shop } from '@data/webedit/shop/types';
 import { Base, Image, Title } from '@components/Card';
 import { Link } from '@components/shadcn/Button';
 import { VehiclePublic } from '@data/vehicle/types';
-import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import * as enumsRaw from '@data/vehicle/enums';
 import { findEnum } from '@utils/enums';
@@ -18,14 +17,13 @@ interface CardVehicleProps {
 }
 
 export const CardVehicle: React.FC<CardVehicleProps> = ({ shop, vehicle }) => {
-  const { currLocale } = usePreloadedDataLocalized();
   const enums = useTranslateRawEnums(enumsRaw);
 
   const titleLabel = `${findEnum(enums, vehicle.brand)?.label} ${findEnum(enums.vehicleType, vehicle.vehicleType)?.label}`;
 
   return (
     <Link
-      to={`/${currLocale}/vehicle/${vehicle.id}`}
+      to={`/vehicle/${vehicle.id}`}
       variant="link"
       className="-px-4 block h-full w-full text-current no-underline
         hover:no-underline focus:outline-none"
