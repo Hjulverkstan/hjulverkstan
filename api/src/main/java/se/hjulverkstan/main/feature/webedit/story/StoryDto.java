@@ -21,6 +21,9 @@ public class StoryDto extends AuditableDto {
     @NotNull(message = "Story title is required")
     private String title;
 
+    @NotNull(message = "Story slug is required")
+    private String slug;
+
     @NotNull(message = "Story body text is required")
     private JsonNode bodyText;
 
@@ -31,6 +34,7 @@ public class StoryDto extends AuditableDto {
 
         id = story.getId();
         title = story.getTitle();
+        slug = story.getSlug();
         imageURL = story.getImageURL();
         bodyText = bodyTextLocalised;
     }
@@ -39,6 +43,7 @@ public class StoryDto extends AuditableDto {
     public Story applyToEntity (Story story) {
         story.setId(id);
         story.setTitle(title);
+        story.setSlug(slug);
         story.setImageURL(imageURL);
 
         return story;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 import { cn } from '@utils/common';
@@ -7,7 +7,7 @@ import { Base, Body, Row, Title } from '@components/Card';
 
 interface CardCompactProps {
   title: string;
-  body: string;
+  body: ReactNode;
   link: LinkProps['to'];
   ariaLabel: string;
   className?: string;
@@ -19,20 +19,22 @@ export const CardCompact: React.FC<CardCompactProps> = ({
   link,
   ariaLabel,
   className,
-}) => (
-  <Base variant="compact" className={cn('flex flex-col', className)}>
-    <Title className="text-h3 mb-4 line-clamp-1">{title}</Title>
-    <Row className="items-end">
-      <Body className="line-clamp-2">{body}</Body>
-      <IconLink
-        to={link}
-        variant="mutedSharp"
-        subVariant="rounded"
-        size="large"
-        icon={ArrowRight}
-        className="ml-auto"
-        aria-label={ariaLabel}
-      />
-    </Row>
-  </Base>
-);
+}) => {
+  return (
+    <Base variant="compact" className={cn('flex flex-col', className)}>
+      <Title className="text-h3 mb-4 line-clamp-1">{title}</Title>
+      <Row className="items-end">
+        <Body className="line-clamp-2">{body}</Body>
+        <IconLink
+          to={link}
+          variant="mutedSharp"
+          subVariant="rounded"
+          size="large"
+          icon={ArrowRight}
+          className="ml-auto"
+          aria-label={ariaLabel}
+        />
+      </Row>
+    </Base>
+  );
+};

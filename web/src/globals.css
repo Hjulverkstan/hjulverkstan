@@ -174,6 +174,18 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0.5rem -0.25rem inset;
 }
 
+@layer story-component {
+  .tiptap-custom h3 {
+    @apply text-2xl font-semibold sm:-my-[0.1875rem] sm:text-3xl;
+  }
+  .tiptap-custom li {
+    @apply list-inside list-disc pl-2;
+  }
+  .tiptap-custom li > p {
+    @apply inline;
+  }
+}
+
 @font-face {
   font-family: Inter;
   src: url('/fonts/Inter-Variable.ttf') format('truetype-variations');

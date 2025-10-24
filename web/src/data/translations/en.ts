@@ -14,6 +14,7 @@ export default {
   supportTitle: 'Hjulverkstan - Support',
   servicesTitle: 'Hjulverkstan - Services',
   storiesTitle: 'Hjulverkstan - Stories',
+  storyTitle: 'Hjulverkstan - Story',
   portalTitle: 'Hjulverkstan - Portal',
 
   open: 'Open',
