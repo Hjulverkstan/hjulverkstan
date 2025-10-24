@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.employee.Employee;
+import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
@@ -43,6 +44,10 @@ public class TicketDto extends AuditableDto {
     @JsonSerialize(contentUsing = ToStringSerializer.class)
     private List<Long> vehicleIds;
 
+    @NotNull(message = "Location is required")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long locationId;
+
     @NotNull(message = "Employee is required")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long employeeId;
@@ -61,11 +66,12 @@ public class TicketDto extends AuditableDto {
         endDate = ticket.getEndDate();
         comment = ticket.getComment();
         vehicleIds = ticket.getVehicles().stream().map(Vehicle::getId).toList();
+        locationId = ticket.getLocation().getId();
         employeeId = ticket.getEmployee().getId();
         customerId = ticket.getCustomer().getId();
     }
 
-    public Ticket applyToEntity (Ticket ticket, List<Vehicle> vehicles, Employee employee, Customer customer) {
+    public Ticket applyToEntity (Ticket ticket, List<Vehicle> vehicles, Location location, Employee employee, Customer customer) {
         ticket.setId(id);
         ticket.setTicketType(ticketType);
         ticket.setStartDate(startDate);
@@ -74,6 +80,7 @@ public class TicketDto extends AuditableDto {
         ticket.setComment(comment);
 
         ticket.setVehicles(vehicles);
+        ticket.setLocation(location);
         ticket.setEmployee(employee);
         ticket.setCustomer(customer);
 

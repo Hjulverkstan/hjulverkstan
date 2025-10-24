@@ -13,6 +13,7 @@ export interface Ticket {
   startDate: string | undefined;
   comment: string | null;
   vehicleIds: string[];
+  locationId: string;
   employeeId: string;
   customerId: string;
   //
@@ -36,7 +37,6 @@ export enum TicketStatus {
 }
 
 export interface TicketAggregated extends Ticket {
-  locationIds: string[];
   daysLeft?: number;
   daysSinceUpdate?: number;
   warnings?: Warning[];
