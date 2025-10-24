@@ -14,6 +14,7 @@ import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.feature.vehicle.VehicleRepository;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.ListResponseDto;
+import se.hjulverkstan.main.shared.SNSService;
 import se.hjulverkstan.main.shared.ValidationUtils;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class TicketService {
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
     private final VehicleRepository vehicleRepository;
+    private final SNSService snsService;
 
     public ListResponseDto<TicketDto> getAllTicket() {
         List<Ticket> tickets = ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -87,6 +89,10 @@ public class TicketService {
         TicketUtils.updateVehiclesByTicketStatus(vehicles, ticket);
         vehicleRepository.saveAll(vehicles);
 
+        if (dto.getTicketStatus() == TicketStatus.COMPLETE && !vehicles.isEmpty()) {
+            sendCompletionSms(ticket);
+        }
+
         return new TicketDto(ticket);
     }
 
@@ -111,5 +117,19 @@ public class TicketService {
                 .orElseThrow(() -> new ElementNotFoundException("Customer with id: " + dto.getCustomerId()));
 
         dto.applyToEntity(ticket, vehicles, location, employee, customer);
+    }
+
+    // TODO: Review and handle message in an abstracted and unified approach that decouples messaging and creates a
+    //  space for all the needed messages that may grow with the application. Maybe a messaging service with good
+    //  abstractions?
+    private void sendCompletionSms (Ticket ticket) {
+        String phoneNumber = ticket.getCustomer().getPhoneNumber();
+
+        String message = "Hej %s!\nDin cykel är redo att hämtas på Hjulverkstan i %s".formatted(
+                ticket.getCustomer().getFirstName(),
+                ticket.getLocation().getName()
+        );
+
+        snsService.sendSms(phoneNumber, message);
     }
 }

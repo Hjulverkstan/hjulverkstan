@@ -37,3 +37,20 @@ export const createRefreshToast = (cb: () => void) => ({
     </Toast.Action>
   ),
 });
+
+export const createTicketStatusUpdateToast = ({
+  phoneNumber,
+  isSmsError,
+}: {
+  phoneNumber: string;
+  isSmsError: boolean;
+}) => ({
+  variant: 'red' as any,
+  title: 'Failed to update ticket status',
+  description: `${
+    isSmsError
+      ? `No SMS has been sent. Verify number is correct (${phoneNumber}) and try again.`
+      : `Try again later or contact support.`
+  }`,
+  duration: isSmsError ? 1000 * 60 * 15 : 5000,
+});
