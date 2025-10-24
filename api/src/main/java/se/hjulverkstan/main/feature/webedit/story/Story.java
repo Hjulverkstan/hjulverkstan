@@ -18,6 +18,7 @@ public class Story extends Auditable implements Localised {
     private Long id;
 
     private String title;
+    private String slug;
     private String bodyText;
     private String imageURL;
 

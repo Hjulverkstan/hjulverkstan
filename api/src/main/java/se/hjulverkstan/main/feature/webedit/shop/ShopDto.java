@@ -1,12 +1,14 @@
 package se.hjulverkstan.main.feature.webedit.shop;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
 @Data
@@ -42,9 +44,9 @@ public class ShopDto extends AuditableDto {
     private Long locationId;
 
     @NotBlank(message = "Body text in at least one language is required for creating a shop")
-    private String bodyText;
+    private JsonNode bodyText;
 
-    public ShopDto (Shop shop, String bodyTextLocalised) {
+    public ShopDto (Shop shop, JsonNode bodyTextLocalised) {
         super(shop);
 
         name = shop.getName();
@@ -60,15 +62,16 @@ public class ShopDto extends AuditableDto {
         bodyText = bodyTextLocalised;
     }
 
-    // Relations set inside instead of in service layer unlike in other entities in this code base, deemed fine because
-    // of simple relation on no possible race conditions. LocalisedContent however should be set in service layer.
-    public Shop applyToEntity (Shop shop) {
+    // Localized content can't be applied directly and is managed by the service.
+    public Shop applyToEntity (Shop shop, Location location) {
         shop.setAddress(address);
         shop.setLatitude(latitude);
         shop.setLongitude(longitude);
         shop.setImageURL(imageURL);
         shop.setSlug(slug);
         shop.setHasTemporaryHours(hasTemporaryHours);
+
+        shop.setLocation(location);
 
         OpenHours openHours = shop.getOpenHours();
         shop.setOpenHours(this.openHours.applyToEntity(openHours == null ? new OpenHours() : openHours));

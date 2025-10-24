@@ -84,9 +84,9 @@ export const Body: React.FC<CardBodyProps> = ({
   className,
   ...props
 }) => (
-  <p className={cn('z-10', className)} {...props}>
+  <div className={cn('z-10', className)} {...props}>
     {children}
-  </p>
+  </div>
 );
 
 Body.displayName = 'CardBody';

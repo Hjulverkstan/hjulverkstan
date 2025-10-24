@@ -1,25 +1,19 @@
 package se.hjulverkstan.main.feature.webedit.shop;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.hjulverkstan.main.error.exceptions.DataViolationException;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.feature.location.Location;
-import se.hjulverkstan.main.feature.webedit.localisation.FieldNameType;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
 import se.hjulverkstan.main.feature.location.LocationRepository;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils;
+import se.hjulverkstan.main.feature.webedit.localisation.FieldName;
+import se.hjulverkstan.main.feature.webedit.localisation.Language;
+import se.hjulverkstan.main.feature.webedit.localisation.LocalisationService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
-import java.util.function.Function;
-
-import static se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentUtils.getLocalisedValue;
 
 @Service
 @Transactional(readOnly = true)
@@ -28,54 +22,37 @@ public class ShopService {
 
     private final ShopRepository shopRepository;
     private final LocationRepository locationRepository;
+    private final LocalisationService localisationService;
 
     public ListResponseDto<ShopDto> getAllShopsByLang(Language lang, Language fallbackLang) {
         List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        Function<Shop, ShopDto> mapper = shop -> new ShopDto(shop, getLocalisedValue(shop, lang, fallbackLang));
-        return new ListResponseDto<>(shops.stream().map(mapper).toList());
+        return new ListResponseDto<>(shops.stream().map(shop -> toDto(shop, lang, fallbackLang)).toList());
     }
 
     public ShopDto getShopByLangAndId(Language lang, Long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
-        return new ShopDto(shop, getLocalisedValue(shop, lang));
+        return toDto(shop, lang, null);
     }
 
     @Transactional
     public ShopDto createShopByLang(Language lang, ShopDto dto) {
-        Shop shop = dto.applyToEntity(new Shop());
-        applyRelationsFromDto(dto, shop);
+        Shop shop = new Shop();
 
-        LocalisedContentUtils.upsertLocalisedContent(
-               shop,
-               lang,
-               dto.getBodyText(),
-                FieldNameType.BODY_TEXT,
-                lc -> lc.setShop(shop)
-        );
-
+        applyToEntity(shop, dto, lang);
         shopRepository.save(shop);
 
-        return new ShopDto(shop, getLocalisedValue(shop, lang));
+        return toDto(shop, lang, null);
     }
 
     @Transactional
     public ShopDto editShopByLang(Language lang, Long id, ShopDto dto) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
 
-        dto.applyToEntity(shop);
-        applyRelationsFromDto(dto, shop);
-
-        LocalisedContentUtils.upsertLocalisedContent(
-                shop,
-                lang,
-                dto.getBodyText(),
-                FieldNameType.BODY_TEXT,
-                lc -> lc.setShop(shop)
-        );
-
+        applyToEntity(shop, dto, lang);
         shopRepository.save(shop);
-        return new ShopDto(shop, getLocalisedValue(shop, lang));
+
+        return toDto(shop, lang, null);
     }
 
     @Transactional
@@ -84,10 +61,23 @@ public class ShopService {
         shopRepository.delete(shop);
     }
 
-    private void applyRelationsFromDto (ShopDto dto, Shop shop) {
+    private void applyToEntity (Shop shop, ShopDto dto, Language lang) {
         Location location = locationRepository.findById(dto.getLocationId())
                 .orElseThrow(() -> new ElementNotFoundException("Location"));
 
-        shop.setLocation(location);
+        dto.applyToEntity(shop, location);
+
+        localisationService.upsertRichText(
+                shop,
+                lang,
+                dto.getBodyText(),
+                FieldName.BODY_TEXT,
+                lc -> lc.setShop(shop)
+        );
+    }
+
+    private ShopDto toDto (Shop shop, Language lang, Language fallbackLang) {
+        JsonNode bodyText = localisationService.getRichText(shop, FieldName.BODY_TEXT, lang, fallbackLang);
+        return new ShopDto(shop, bodyText);
     }
 }

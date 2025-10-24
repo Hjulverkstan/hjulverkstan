@@ -2,6 +2,7 @@ package se.hjulverkstan.main.feature.webedit.localisation;
 
 import jakarta.persistence.*;
 import lombok.*;
+import se.hjulverkstan.main.feature.webedit.WebEditEntity;
 import se.hjulverkstan.main.feature.webedit.text.Text;
 import se.hjulverkstan.main.feature.webedit.shop.Shop;
 import se.hjulverkstan.main.shared.auditable.Auditable;
@@ -10,7 +11,7 @@ import se.hjulverkstan.main.feature.webedit.story.Story;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"text", "shop", "story"})
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,8 +27,14 @@ public class LocalisedContent extends Auditable {
 
     @Enumerated(EnumType.STRING)
     private Language lang; // We use the ISO 639-2 three letter standard where Swedish = 'swe', English = 'eng'
+
     @Enumerated(EnumType.STRING)
-    private FieldNameType fieldName; // Multi field objects like an event can have several localised fields
+    private FieldType fieldType;
+
+    @Enumerated(EnumType.STRING)
+    private FieldName fieldName; // Multi field objects like an event can have several localised fields
+
+    @Column(columnDefinition = "TEXT")
     private String content; // The localised content
 
     // Nullable foreign key columns for polymorphic use of this table

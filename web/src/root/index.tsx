@@ -10,15 +10,16 @@ import * as Tooltip from '@components/shadcn/Tooltip';
 import { LocaleProvider, usePreloadedData } from '@hooks/usePreloadedData';
 import type { LocaleAllEntitiesMap } from '@data/webedit/types';
 
+import Contact from './Contact';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Portal from './Portal';
+import Services from './Services';
 import ShopDetail from './ShopDetail';
 import Shops from './Shops';
-import Contact from './Contact';
-import Support from './Support';
-import Services from './Services';
 import Stories from './Stories';
+import StoryDetail from './StoryDetail';
+import Support from './Support';
 import VehicleDetail from './VehicleDetail';
 
 import '../globals.css';
@@ -73,6 +74,7 @@ export const createRoutes = (
   data?: LocaleAllEntitiesMap,
 ): RouteAttributes[] => {
   const shopSlugs = data?.[fallbackLocale].shops.map((s) => s.slug);
+  const storySlugs = data?.[fallbackLocale].stories.map((story) => story.slug);
 
   return [
     {
@@ -116,6 +118,12 @@ export const createRoutes = (
       path: '/stories',
       title: 'Hjulverkstan - Stories',
       component: Stories,
+    },
+    {
+      path: '/stories/:slug',
+      title: 'Hjulverkstan - Story',
+      component: StoryDetail,
+      dynamicSegments: storySlugs?.map((slug) => ({ slug })),
     },
     {
       path: '/portal/*',

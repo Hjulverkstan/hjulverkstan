@@ -11,9 +11,16 @@ const pageStyles = cva('md:mt-16', {
       default: 'bg-background',
       muted: 'bg-muted',
     },
+    width: {
+      fullWidth: 'max-w-none',
+      small: 'max-w-[1280px]',
+      medium: 'max-w-[1360px]',
+      large: 'max-w-[1852px]',
+    },
   },
   defaultVariants: {
     variant: 'default',
+    width: 'large',
   },
 });
 
@@ -28,14 +35,17 @@ export const Page = ({
   hasHeroSection,
   heading,
   variant,
+  width,
 }: PageProps) => (
   <>
     <PageNavbar hasHeroSection={hasHeroSection} />
-    <div className={cn(pageStyles({ variant }))}>
+    <div className={cn(pageStyles({ variant, width: 'fullWidth' }))}>
       {heading && (
         <div
-          className="mx-auto -mb-8 w-[88vw] max-w-[1852px] pt-28 md:-mb-16
-            md:pt-16"
+          className={cn(
+            pageStyles({ width, variant }),
+            'mx-auto -mb-8 w-[88vw]' + ' pt-28 md:-mb-16 md:pt-16',
+          )}
         >
           <h1>{heading}</h1>
         </div>
