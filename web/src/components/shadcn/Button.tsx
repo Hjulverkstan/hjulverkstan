@@ -8,14 +8,15 @@ import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@utils/common';
 import * as Tooltip from '@components/shadcn/Tooltip';
+import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 
 //
 
 export const buttonVariants = cva(
   `focus-visible:ring-ring inline-flex flex-shrink-0 items-center justify-center
-whitespace-nowrap rounded-md text-sm font-medium transition-colors
-focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none
-disabled:opacity-50`,
+  whitespace-nowrap rounded-md text-sm font-medium transition-colors
+  focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none
+  disabled:opacity-50`,
   {
     variants: {
       variant: {
@@ -25,7 +26,7 @@ disabled:opacity-50`,
         red: ['bg-red text-background hover:bg-red/80'],
         outline: [
           `border-input bg-background hover:bg-accent
-hover:text-accent-foreground border`,
+          hover:text-accent-foreground border`,
         ],
         secondary: [
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow',
@@ -39,9 +40,9 @@ hover:text-accent-foreground border`,
         accent: [
           [
             `data-[state=active]:text-accent-foreground
-data-[state=active]:border-secondary-border bg-accent
-hover:border-secondary-border text-muted-foreground hover:text-accent-foreground
-border`,
+            data-[state=active]:border-secondary-border bg-accent
+            hover:border-secondary-border text-muted-foreground
+            hover:text-accent-foreground border`,
           ],
         ],
         ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',
@@ -164,20 +165,30 @@ IconButton.displayName = 'IconButton';
 
 //
 
-export type LinkProps = RouterLinkProps & VariantProps<typeof buttonVariants>;
+export interface LinkProps
+  extends RouterLinkProps,
+    VariantProps<typeof buttonVariants> {
+  to: string;
+}
 
 export const Link = ({
   className,
   variant,
   subVariant,
   size,
+  to,
   ...props
-}: LinkProps) => (
-  <RouterLink
-    className={cn(buttonVariants({ variant, size, subVariant }), className)}
-    {...props}
-  />
-);
+}: LinkProps) => {
+  const { currLocale } = usePreloadedDataLocalized();
+  const localized = `/${currLocale}${to}`;
+  return (
+    <RouterLink
+      className={cn(buttonVariants({ variant, size, subVariant }), className)}
+      to={localized}
+      {...props}
+    />
+  );
+};
 
 Link.displayName = RouterLink.displayName;
 

@@ -237,7 +237,11 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
 
 export default function Root() {
   const { locales, data } = usePreloadedData();
-  const routes = createRoutes(data);
+  const routes = createRoutes(data).concat({
+    path: '*',
+    component: PageNotFound,
+    title: 'Page not found',
+  });
 
   return (
     <ThemeProvider storageKey="vite-ui-theme">
@@ -250,7 +254,6 @@ export default function Root() {
               routes.map((route) => renderLocalizedRoute(route, locale)),
             )
             .flat()}
-          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
