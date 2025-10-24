@@ -1,3 +1,5 @@
+import type { JSONContent } from '@tiptap/core';
+
 export interface Shop {
   id: string;
   name: string;
@@ -8,7 +10,7 @@ export interface Shop {
   openHours: OpenHours;
   hasTemporaryHours: boolean;
   locationId: string;
-  bodyText: string;
+  bodyText: JSONContent;
   slug: string;
 }
 
