@@ -4,6 +4,7 @@ import { Badge } from '@components/shadcn/Badge';
 import { cn } from '@utils/common';
 import { useShopOpenStatus } from '@hooks/useShopOpenData';
 import type { OpenHours } from '@data/webedit/shop/types';
+import { useTranslations } from '@hooks/useTranslations';
 
 interface OpenBadgeProps {
   openHours?: OpenHours | undefined | null;
@@ -16,8 +17,9 @@ export const OpenBadge: React.FC<OpenBadgeProps> = ({
   className,
   variant = 'badge',
 }) => {
-  const isOpen = useShopOpenStatus(openHours);
+  const { t } = useTranslations();
 
+  const isOpen = useShopOpenStatus(openHours);
   if (openHours === undefined || openHours === null) return null;
 
   const Icon = () => (
@@ -41,7 +43,7 @@ export const OpenBadge: React.FC<OpenBadgeProps> = ({
         className,
       )}
     >
-      {isOpen ? 'Open' : 'Closed'}
+      {isOpen ? t('open') : t('closed')}
     </Badge>
   );
 };

@@ -1,15 +1,19 @@
 import { useMemo } from 'react';
 
-import * as enums from '@data/location/enums';
+import * as enumsRaw from '@data/location/enums';
 import { Location } from '@data/location/types';
 
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { format } from 'date-fns';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { findEnum } from '@utils/enums';
 
 //
 
 export default function useColumns() {
+  const enums = useTranslateRawEnums(enumsRaw);
+
   return useMemo(
     () =>
       [
@@ -17,7 +21,7 @@ export default function useColumns() {
           key: 'locationType',
           name: 'Type',
           renderFn: ({ locationType }) => (
-            <IconLabel {...enums.find(locationType)} />
+            <IconLabel {...findEnum(enums, locationType)} />
           ),
         },
 

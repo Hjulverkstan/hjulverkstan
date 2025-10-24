@@ -6,7 +6,7 @@ import * as Command from '@components/shadcn/Command';
 
 import { Button } from '@components/shadcn/Button';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { EnumAttributes } from '@data/enums';
+import { EnumAttributes } from '@data/types';
 
 import { Field, FieldProps, useDataForm } from './';
 import { CheckIcon } from 'lucide-react';

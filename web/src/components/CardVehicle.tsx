@@ -1,5 +1,4 @@
 import { MapPin } from 'lucide-react';
-
 import React from 'react';
 
 import { OpenBadge } from '@components/OpenBadge';
@@ -9,6 +8,9 @@ import { Base, Image, Title } from '@components/Card';
 import { Link } from '@components/shadcn/Button';
 import { VehiclePublic } from '@data/vehicle/types';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import * as enumsRaw from '@data/vehicle/enums';
+import { findEnum } from '@utils/enums';
 
 interface CardVehicleProps {
   shop: Shop;
@@ -17,6 +19,9 @@ interface CardVehicleProps {
 
 export const CardVehicle: React.FC<CardVehicleProps> = ({ shop, vehicle }) => {
   const { currLocale } = usePreloadedDataLocalized();
+  const enums = useTranslateRawEnums(enumsRaw);
+
+  const titleLabel = `${findEnum(enums, vehicle.brand)?.label} ${findEnum(enums.vehicleType, vehicle.vehicleType)?.label}`;
 
   return (
     <Link
@@ -30,11 +35,11 @@ export const CardVehicle: React.FC<CardVehicleProps> = ({ shop, vehicle }) => {
           variant="inline"
           className="aspect-video"
           src={vehicle.imageURL}
-          alt={vehicle.label}
+          alt={titleLabel}
         />
         <div className="flex flex-col gap-3">
-          <Title>{vehicle.label}</Title>
-          <p className={'text-foreground line-clamp-1 text-lg'}>{shop.name}</p>
+          <Title>{titleLabel}</Title>
+          <p className="text-foreground line-clamp-1 text-lg">{shop.name}</p>
           <Bullet icon={MapPin}>
             <span className="text-muted-foreground truncate text-lg">
               {shop.address}

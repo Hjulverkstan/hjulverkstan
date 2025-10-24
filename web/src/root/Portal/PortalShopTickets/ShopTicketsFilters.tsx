@@ -1,10 +1,9 @@
 import { useLocation, useParams } from 'react-router-dom';
 
 import * as DataTable from '@components/DataTable';
-import * as enums from '@data/ticket/enums';
+import * as enumsRaw from '@data/ticket/enums';
 import { useCustomersAsEnumsQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
-import { enumsMatchUtil } from '@data/enums';
 import { TicketAggregated } from '@data/ticket/types';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
@@ -19,8 +18,12 @@ import {
   VehicleShortcutLocationState,
 } from '../PortalShopInventory/ShopInventoryActions';
 import { matchDateWithoutTimestamp } from '@utils/common';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { matchEnumsBy, matchEnumsOnRow } from '@utils/enums';
 
 export default function ShopTicketFilters() {
+  const enums = useTranslateRawEnums<typeof enumsRaw>(enumsRaw);
+
   const ticketsQ = useTicketsAggregatedQ();
   const ticketEnumsQ = useTicketsAsEnumsQ();
   const locationState = useLocation().state as VehicleShortcutLocationState;
@@ -62,36 +65,36 @@ export default function ShopTicketFilters() {
       fromStore;
 
   const filterSearchMatchFn = (word: string, row: TicketAggregated) =>
-    enums.matchFn(word, row) ||
+    matchEnumsOnRow(enums, word, row) ||
     DataTable.fuzzyMatchFn(['comment', 'repairDescription'], word, row) ||
     matchDateWithoutTimestamp(word, row.startDate) ||
     matchDateWithoutTimestamp(word, row.endDate) ||
-    enumsMatchUtil({
+    matchEnumsBy({
       enums: employeeEnumsQ.data,
       isOf: row.employeeId,
       includes: word,
     }) ||
-    enumsMatchUtil({
+    matchEnumsBy({
       enums: employeeEnumsQ.data,
       isOf: row.employeeId,
       includes: word,
     }) ||
-    enumsMatchUtil({
+    matchEnumsBy({
       enums: customerEnumsQ.data,
       isOf: row.customerId,
       includes: word,
     }) ||
-    enumsMatchUtil({
+    matchEnumsBy({
       enums: vehicleEnumsQ.data,
       isOf: row.vehicleIds,
       includes: word,
     }) ||
-    enumsMatchUtil({
+    matchEnumsBy({
       enums: ticketEnumsQ.data,
       isOf: row.id,
       startsWith: word,
     }) ||
-    enumsMatchUtil({
+    matchEnumsBy({
       enums: locationEnumsQ.data,
       isOf: row.locationIds,
       startsWith: word,

@@ -9,77 +9,63 @@ import {
   LogIn,
 } from 'lucide-react';
 
-import { createFindFn, createMatchFn } from '../enums';
+import { EnumAttributesRaw } from '../types';
 import { TicketStatus, TicketType } from './types';
 
-//
-
-export const ticketType = [
+export const ticketType: EnumAttributesRaw[] = [
   {
     dataKey: 'ticketType',
     value: TicketType.RENT,
-    label: 'Rent',
+    translationKey: 'enumTicketTypeRent',
     icon: ReceiptText,
   },
   {
     dataKey: 'ticketType',
     value: TicketType.REPAIR,
-    label: 'Repair',
+    translationKey: 'enumTicketTypeRepair',
     icon: Wrench,
   },
   {
     dataKey: 'ticketType',
     value: TicketType.DONATE,
-    label: 'Donate',
+    translationKey: 'enumTicketTypeDonate',
     icon: LogOut,
   },
   {
     dataKey: 'ticketType',
     value: TicketType.RECEIVE,
-    label: 'Receive',
+    translationKey: 'enumTicketTypeReceive',
     icon: LogIn,
   },
 ];
 
-export const ticketStatus = [
+export const ticketStatus: EnumAttributesRaw[] = [
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.READY,
-    label: 'Ready',
+    translationKey: 'enumTicketStatusReady',
     icon: CheckCircle,
     variant: 'blue' as 'blue',
   },
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.IN_PROGRESS,
-    label: 'In progress',
+    translationKey: 'enumTicketStatusInProgress',
     icon: RefreshCw,
     variant: 'yellow' as 'yellow',
   },
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.COMPLETE,
-    label: 'Complete',
+    translationKey: 'enumTicketStatusComplete',
     icon: Check,
     variant: 'purple' as 'purple',
   },
   {
     dataKey: 'ticketStatus',
     value: TicketStatus.CLOSED,
-    label: 'Closed',
+    translationKey: 'enumTicketStatusClosed',
     icon: XCircle,
     variant: 'outline' as 'outline',
   },
 ];
-
-export const ticketEnums = {
-  ticketType,
-  ticketStatus,
-};
-
-//
-
-const all = [...ticketType, ...ticketStatus];
-
-export const find = createFindFn(all);
-export const matchFn = createMatchFn(all);

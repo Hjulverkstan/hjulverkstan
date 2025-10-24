@@ -5,23 +5,25 @@ import { IconButton, Link } from '@components/shadcn/Button';
 import { useScrolledPastElement } from '@hooks/useScrolledPastElement';
 import { cn } from '@utils/common';
 
+import { useTranslations } from '@hooks/useTranslations';
+
 export const navLinks = [
-  { name: 'Home', path: '/' },
+  { translationKey: 'home', path: '/' },
   {
-    name: 'Shops',
+    translationKey: 'shops',
     path: '/shops',
   },
-  { name: 'Services', path: '/services' },
+  { translationKey: 'services', path: '/services' },
   {
-    name: 'Stories',
+    translationKey: 'stories',
     path: '/stories',
   },
-  { name: 'Support', path: '/support' },
+  { translationKey: 'support', path: '/support' },
   {
-    name: 'Contact',
+    translationKey: 'contact',
     path: '/contact',
   },
-];
+] as const;
 
 export interface PageNavbarProps {
   hasHeroSection?: boolean;
@@ -34,16 +36,18 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
     : false;
   const onHero = !scrolledPast && hasHeroSection && !isOpen;
 
+  const { t } = useTranslations();
+
   const navLinksContent = navLinks.map((link, i) => (
     <Link
-      key={link.name}
+      key={link.translationKey}
       to={link.path}
       variant={i === navLinks.length - 1 ? 'default' : 'link'}
       size={i === navLinks.length - 1 ? 'default' : 'none'}
       subVariant="rounded"
       onClick={() => setIsOpen(false)}
     >
-      {link.name}
+      {t(link.translationKey)}
     </Link>
   ));
 
@@ -58,7 +62,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
     >
       <div
         className="container mx-auto flex items-center justify-between px-6 py-5
-lg:px-16"
+          lg:px-16"
       >
         <div
           className={cn(
@@ -87,7 +91,7 @@ lg:px-16"
         <div className="md:hidden">
           <nav
             className="border-muted flex flex-col items-center gap-6 space-y-1
-border-b border-t px-2 py-12 sm:px-3"
+              border-b border-t px-2 py-12 sm:px-3"
           >
             {navLinksContent}
           </nav>

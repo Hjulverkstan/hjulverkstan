@@ -1,16 +1,21 @@
 import { useMemo } from 'react';
 import { format } from 'date-fns';
 
-import * as enums from '@data/customer/enums';
-import { AggregatedCustomer } from '@data/customer/types';
-
-import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
-import { useTicketsAsEnumsQ } from '@data/ticket/queries';
-import { TicketBadges } from '../PortalShopTickets/useColumns';
 import BadgeGroup from '@components/BadgeGroup';
 
+import * as DataTable from '@components/DataTable';
+import { AggregatedCustomer } from '@data/customer/types';
+import * as enumsRaw from '@data/customer/enums';
+import { useTicketsAsEnumsQ } from '@data/ticket/queries';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { ShopTicketsBadges } from '../PortalShopTickets/ShopTicketsBadges';
+import { findEnum } from '@utils/enums';
+
+//
+
 export default function useColumns() {
+  const enums = useTranslateRawEnums(enumsRaw);
   const ticketEnumsQ = useTicketsAsEnumsQ();
 
   return useMemo(
@@ -26,7 +31,7 @@ export default function useColumns() {
             <BadgeGroup
               badges={[
                 {
-                  icon: enums.find(customerType).icon!,
+                  icon: findEnum(enums, customerType).icon!,
                   variant: selected ? 'contrast' : 'outline',
                   label: organizationName
                     ? `${organizationName} (${firstName} ${lastName})`
@@ -40,7 +45,9 @@ export default function useColumns() {
         {
           key: 'ticketIds',
           name: 'Tickets',
-          renderFn: ({ ticketIds }) => <TicketBadges ticketIds={ticketIds} />,
+          renderFn: ({ ticketIds }) => (
+            <ShopTicketsBadges ticketIds={ticketIds} />
+          ),
         },
 
         {

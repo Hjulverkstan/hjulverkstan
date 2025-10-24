@@ -1,4 +1,4 @@
-import { EnumAttributes } from '@data/enums';
+import { EnumAttributes } from '@data/types';
 import * as Command from '@components/shadcn/Command';
 import * as C from '@utils/common';
 import { CheckIcon, MinusIcon } from 'lucide-react';
@@ -46,7 +46,7 @@ export default function MultiSelectItem({
         {e.count !== undefined && (
           <span
             className="ml-auto flex h-4 w-4 items-center justify-center
-font-mono text-xs"
+              font-mono text-xs"
           >
             {e.count}
           </span>

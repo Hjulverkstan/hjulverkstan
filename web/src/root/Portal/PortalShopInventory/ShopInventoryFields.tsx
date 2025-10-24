@@ -1,13 +1,15 @@
-import * as enums from '@data/vehicle/enums';
+import * as enumsRaw from '@data/vehicle/enums';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
 import { VehicleType } from '@data/vehicle/types';
 import { maxGearCount, minGearCount } from '@data/vehicle/form';
 import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
+import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 
 export default function ShopInventoryFields() {
   const { body, mode } = DataForm.useDataForm();
   const locationEnumsQ = useLocationsAsEnumsQ();
+  const enums = useTranslateRawEnums(enumsRaw);
 
   return (
     <>
