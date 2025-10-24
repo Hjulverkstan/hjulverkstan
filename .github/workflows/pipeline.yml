@@ -267,6 +267,9 @@ jobs:
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
+      - name: Harden DNS resolution
+        run: sudo bash -c 'echo "nameserver 1.1.1.1" > /etc/resolv.conf'
+
       - name: Install dependencies
         run: cd web && npm ci
 
