@@ -43,7 +43,7 @@ export const useTicketQ = ({ id }: UseTicketQProps) =>
 
 export const useTicketsAggregatedQ = () =>
   useAggregatedQueries(
-    (tickets, vehicles): TicketAggregated[] =>
+    (tickets): TicketAggregated[] =>
       tickets.map((ticket) => {
         const daysLeft = ticket.endDate
           ? differenceInDays(new Date(ticket.endDate), new Date())
@@ -70,17 +70,10 @@ export const useTicketsAggregatedQ = () =>
           ...ticket,
           daysLeft,
           daysSinceUpdate,
-          locationIds: C.uniq(
-            ticket.vehicleIds.map(
-              (vehicleId) =>
-                vehicles.find((vehicle) => vehicle.id === vehicleId)!
-                  .locationId,
-            ),
-          ),
           warnings,
         };
       }),
-    [useTicketsQ(), useVehiclesQ()],
+    [useTicketsQ()],
   );
 
 //

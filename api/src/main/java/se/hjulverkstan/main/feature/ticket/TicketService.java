@@ -9,9 +9,12 @@ import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.customer.CustomerRepository;
 import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.employee.EmployeeRepository;
+import se.hjulverkstan.main.feature.location.Location;
+import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.feature.vehicle.VehicleRepository;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.ListResponseDto;
+import se.hjulverkstan.main.shared.SNSService;
 import se.hjulverkstan.main.shared.ValidationUtils;
 
 import java.util.List;
@@ -22,9 +25,11 @@ import java.util.List;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
+    private final LocationRepository locationRepository;
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
     private final VehicleRepository vehicleRepository;
+    private final SNSService snsService;
 
     public ListResponseDto<TicketDto> getAllTicket() {
         List<Ticket> tickets = ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -45,8 +50,8 @@ public class TicketService {
         ValidationUtils.validateNoMissing(dto.getVehicleIds(), vehicles, Vehicle::getId, Vehicle.class);
         TicketUtils.validateDtoByContext(dto, vehicles);
 
-        Ticket ticket = dto.applyToEntity(new Ticket());
-        applyRelationsFromDto(dto, ticket, vehicles);
+        Ticket ticket = new Ticket();
+        this.applyToEntity(ticket, dto, vehicles);
         ticketRepository.save(ticket);
 
         TicketUtils.updateVehiclesByTicketType(vehicles, ticket);
@@ -65,8 +70,7 @@ public class TicketService {
         ValidationUtils.validateNoMissing(dto.getVehicleIds(), vehicles, Vehicle::getId, Vehicle.class);
         TicketUtils.validateDtoByContext(dto, vehicles);
 
-        dto.applyToEntity(ticket);
-        applyRelationsFromDto(dto, ticket, vehicles);
+        this.applyToEntity(ticket, dto, vehicles);
         ticketRepository.save(ticket);
 
         return new TicketDto(ticket);
@@ -85,6 +89,10 @@ public class TicketService {
         TicketUtils.updateVehiclesByTicketStatus(vehicles, ticket);
         vehicleRepository.saveAll(vehicles);
 
+        if (dto.getTicketStatus() == TicketStatus.COMPLETE && !vehicles.isEmpty()) {
+            sendCompletionSms(ticket);
+        }
+
         return new TicketDto(ticket);
     }
 
@@ -98,15 +106,30 @@ public class TicketService {
         ticketRepository.delete(ticket);
     }
 
-    private void applyRelationsFromDto(TicketDto dto, Ticket ticket, List<Vehicle> vehicles) {
+    private void applyToEntity(Ticket ticket, TicketDto dto, List<Vehicle> vehicles) {
+        Location location = locationRepository.findById(dto.getLocationId())
+                .orElseThrow(() -> new ElementNotFoundException("Location with id: " + dto.getEmployeeId()));
+
         Employee employee = employeeRepository.findById(dto.getEmployeeId())
                 .orElseThrow(() -> new ElementNotFoundException("Employee with id: " + dto.getEmployeeId()));
 
         Customer customer = customerRepository.findById(dto.getCustomerId())
                 .orElseThrow(() -> new ElementNotFoundException("Customer with id: " + dto.getCustomerId()));
 
-        ticket.setVehicles(vehicles);
-        ticket.setEmployee(employee);
-        ticket.setCustomer(customer);
+        dto.applyToEntity(ticket, vehicles, location, employee, customer);
+    }
+
+    // TODO: Review and handle message in an abstracted and unified approach that decouples messaging and creates a
+    //  space for all the needed messages that may grow with the application. Maybe a messaging service with good
+    //  abstractions?
+    private void sendCompletionSms (Ticket ticket) {
+        String phoneNumber = ticket.getCustomer().getPhoneNumber();
+
+        String message = "Hej %s!\nDin cykel är redo att hämtas på Hjulverkstan i %s".formatted(
+                ticket.getCustomer().getFirstName(),
+                ticket.getLocation().getName()
+        );
+
+        snsService.sendSms(phoneNumber, message);
     }
 }

@@ -30,7 +30,7 @@ public class CustomerService {
 
     @Transactional
     public CustomerDto createCustomer(CustomerDto dto) {
-        validateDto(dto);
+        CustomerUtils.validateDtoBySelf(dto);
 
         Customer customer = dto.applyToEntity(new Customer());
         customerRepository.save(customer);
@@ -40,7 +40,7 @@ public class CustomerService {
 
     @Transactional
     public CustomerDto editCustomer(Long id, CustomerDto dto) {
-        validateDto(dto);
+        CustomerUtils.validateDtoBySelf(dto);
 
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Customer"));
         dto.applyToEntity(customer);
@@ -58,11 +58,5 @@ public class CustomerService {
         }
 
         customerRepository.delete(customer);
-    }
-
-    private void validateDto (CustomerDto dto) {
-        if (dto.getCustomerType().equals(CustomerType.ORGANIZATION) && dto.getOrganizationName() == null) {
-            throw new MissingArgumentException("Organization name");
-        }
     }
 }

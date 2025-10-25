@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.employee.Employee;
+import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.auditable.Auditable;
 
@@ -22,6 +23,7 @@ public class Ticket extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ticket_type", insertable = false, updatable = false)
@@ -44,6 +46,10 @@ public class Ticket extends Auditable {
             inverseJoinColumns = @JoinColumn(name = "vehicle_id")
     )
     private List<Vehicle> vehicles = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

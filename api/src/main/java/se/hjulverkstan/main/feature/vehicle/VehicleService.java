@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
+import se.hjulverkstan.main.feature.ticket.Ticket;
+import se.hjulverkstan.main.feature.ticket.TicketRepository;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.ListResponseDto;
 import se.hjulverkstan.main.shared.FilteredResponseDto;
@@ -19,6 +21,7 @@ import java.util.List;
 public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
+    private final TicketRepository ticketRepository;
     private final LocationRepository locationRepository;
 
     public ListResponseDto<VehicleDto> getAllVehicles() {
@@ -42,10 +45,10 @@ public class VehicleService {
     @Transactional
     public VehicleDto createVehicle(VehicleDto dto) {
         VehicleUtils.validateDtoBySelf(dto);
-        VehicleUtils.validateDtoByContext(dto, vehicleRepository);
+        VehicleUtils.validateDtoByContext(dto, vehicleRepository, null);
 
-        Vehicle vehicle = dto.applyToEntity(new Vehicle());
-        applyDtoRelations(dto, vehicle);
+        Vehicle vehicle = new Vehicle();
+        applyToEntity(vehicle, dto);
         vehicleRepository.save(vehicle);
 
         return new VehicleDto(vehicle);
@@ -56,10 +59,10 @@ public class VehicleService {
         VehicleUtils.validateDtoBySelf(dto);
 
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Vehicle"));
-        VehicleUtils.validateDtoByContext(dto, vehicleRepository);
+        List<Ticket> tickets = ticketRepository.findByVehicles(List.of(vehicle));
+        VehicleUtils.validateDtoByContext(dto, vehicleRepository, tickets);
 
-        dto.applyToEntity(vehicle);
-        applyDtoRelations(dto, vehicle);
+        applyToEntity(vehicle, dto);
         vehicleRepository.save(vehicle);
 
         return new VehicleDto(vehicle);
@@ -85,10 +88,10 @@ public class VehicleService {
         vehicleRepository.delete(vehicle);
     }
 
-    private void applyDtoRelations(VehicleDto dto, Vehicle vehicle) {
+    private void applyToEntity(Vehicle vehicle, VehicleDto dto) {
         Location location = locationRepository.findById(dto.getLocationId())
                 .orElseThrow(() -> new ElementNotFoundException("Location"));
 
-        vehicle.setLocation(location);
+        dto.applyToEntity(vehicle, location);
     }
 }

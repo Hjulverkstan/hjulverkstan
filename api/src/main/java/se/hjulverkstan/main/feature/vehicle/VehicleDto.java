@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.ticket.Ticket;
 import se.hjulverkstan.main.feature.vehicle.model.*;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
@@ -80,9 +81,8 @@ public class VehicleDto extends AuditableDto {
         brand = vehicle.getBrand();
     }
 
-    // Location needs to be set in service
     // VehicleStatus is not settable here (separate endpoint)
-    public Vehicle applyToEntity (Vehicle vehicle) {
+    public Vehicle applyToEntity (Vehicle vehicle, Location location) {
         vehicle.setVehicleType(vehicleType);
         vehicle.setImageURL(imageURL);
 
@@ -94,6 +94,8 @@ public class VehicleDto extends AuditableDto {
         vehicle.setSize(vehicleType == VehicleType.BIKE ? size : null);
         vehicle.setBrakeType(vehicleType == VehicleType.BIKE ? brakeType : null);
         vehicle.setBrand(vehicleType == VehicleType.BIKE ? brand : null);
+
+        vehicle.setLocation(location);
 
         return vehicle;
     }
