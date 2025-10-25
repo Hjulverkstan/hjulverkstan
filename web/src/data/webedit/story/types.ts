@@ -1,6 +1,8 @@
 import { JSONContent } from '@tiptap/core';
 
-export interface Story {
+import { Auditable } from '../../types';
+
+export interface Story extends Auditable {
   id: string;
   slug: string;
   title: string;

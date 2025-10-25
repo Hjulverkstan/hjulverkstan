@@ -1,4 +1,6 @@
-export interface Employee {
+import { Auditable } from '../types';
+
+export interface Employee extends Auditable {
   id: string;
   firstName: string;
   lastName: string;
@@ -7,8 +9,4 @@ export interface Employee {
   personalIdentityNumber?: string;
   ticketIds: string[];
   comment?: string;
-  createdBy: string;
-  createdAt: string;
-  updatedBy: string;
-  updatedAt: string;
 }
