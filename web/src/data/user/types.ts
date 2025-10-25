@@ -1,14 +1,10 @@
-import { AuthRole } from '@data/auth/types';
+import { AuthRole } from '../auth/types';
+import { Auditable } from '../types';
 
-export interface User {
+export interface User extends Auditable {
   id: string;
   username: string;
   email: string;
   password?: string;
   roles: AuthRole[];
-  //
-  createdBy: string;
-  createdAt: string;
-  updatedBy: string;
-  updatedAt: string;
 }
