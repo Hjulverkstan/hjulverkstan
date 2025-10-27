@@ -34,6 +34,7 @@ public class LocalisedContent extends Auditable {
     @Enumerated(EnumType.STRING)
     private FieldName fieldName; // Multi field objects like an event can have several localised fields
 
+    @Column(columnDefinition = "TEXT")
     private String content; // The localised content
 
     // Nullable foreign key columns for polymorphic use of this table

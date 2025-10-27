@@ -143,16 +143,17 @@ export default function VehicleDetail() {
     setVisibleCount((prevCount) => prevCount + ITEMS_TO_LOAD_OTHER_BIKES);
 
   return (
-    <Page variant="muted">
-      <Section variant="muted" className="pt-32 md:pb-20 md:pt-16">
-        <SectionContent
-          heading={
-            vehicleQ.data
-              ? `${findEnum(enums, vehicleQ.data.brand)?.label} ${findEnum(enums, vehicleQ.data.vehicleType)?.label}`
-              : ''
-          }
-          className="max-w-[1280px]"
-        >
+    <Page
+      heading={
+        vehicleQ.data
+          ? `${findEnum(enums, vehicleQ.data.brand)?.label} ${findEnum(enums, vehicleQ.data.vehicleType)?.label}`
+          : ''
+      }
+      variant="muted"
+      headingWidth="small"
+    >
+      <Section variant="muted" className="md:mt-16 md:pb-20 md:pt-16">
+        <SectionContent contentWidth="small">
           <div
             className="bg-secondary mb-8 hidden w-full flex-col rounded-lg
               sm:flex-row sm:items-stretch sm:justify-around md:flex lg:p-4"

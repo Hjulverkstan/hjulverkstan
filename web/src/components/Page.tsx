@@ -5,6 +5,20 @@ import PageNavbar from '@components/PageNavbar';
 import PageFooter from '@components/PageFooter';
 import { cn } from '@utils/common';
 
+const headingStyles = cva('', {
+  variants: {
+    headingWidth: {
+      fullWidth: 'max-w-none',
+      small: 'max-w-[1280px]',
+      medium: 'max-w-[1360px]',
+      large: 'max-w-[1852px]',
+    },
+  },
+  defaultVariants: {
+    headingWidth: 'large',
+  },
+});
+
 const pageStyles = cva('md:mt-16', {
   variants: {
     variant: {
@@ -17,10 +31,13 @@ const pageStyles = cva('md:mt-16', {
   },
 });
 
+type HeadingVariants = VariantProps<typeof headingStyles>;
+
 export interface PageProps extends VariantProps<typeof pageStyles> {
   children: ReactNode;
   hasHeroSection?: boolean;
   heading?: ReactNode;
+  headingWidth?: HeadingVariants['headingWidth'];
 }
 
 export const Page = ({
@@ -28,14 +45,17 @@ export const Page = ({
   hasHeroSection,
   heading,
   variant,
+  headingWidth,
 }: PageProps) => (
   <>
     <PageNavbar hasHeroSection={hasHeroSection} />
     <div className={cn(pageStyles({ variant }))}>
       {heading && (
         <div
-          className="mx-auto -mb-8 w-[88vw] max-w-[1852px] pt-28 md:-mb-16
-md:pt-16"
+          className={cn(
+            'mx-auto -mb-8 w-[88vw] pt-28 md:-mb-16 md:pt-16',
+            headingStyles({ headingWidth }),
+          )}
         >
           <h1>{heading}</h1>
         </div>

@@ -18,9 +18,9 @@ export default function Support() {
   const { t } = useTranslations();
 
   return (
-    <Page>
+    <Page heading={t('support')}>
       <Section>
-        <SectionContent heading={t('support')}>
+        <SectionContent>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
             <CardDefault
               icon={PackagePlusIcon}
