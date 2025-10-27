@@ -4,10 +4,57 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+    <list default="true" id="04007ab7-fb25-46dd-a723-387e0318a864" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/AllWebEditEntitiesDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/AllWebEditEntitiesDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/WebEditService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/WebEditService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/localisation/LocalisationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/localisation/LocalisationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/shop/ShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/shop/ShopController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/shop/ShopService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/shop/ShopService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/story/StoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/story/StoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/story/StoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/story/StoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/Text.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/Text.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/TextController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/TextController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/TextDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/TextDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/TextService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/TextService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/se/hjulverkstan/main/feature/webedit/text/TextType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/CardContact.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/CardContact.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/components/DataForm/DataFormProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/DataForm/DataFormProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/data/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/data/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/data/queries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/data/queries.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/data/translations/en.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/data/translations/en.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/data/translations/sv.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/data/translations/sv.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/data/webedit/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/data/webedit/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/data/webedit/text/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/data/webedit/text/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/data/webedit/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/data/webedit/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/hooks/useSlugs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hooks/useSlugs.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/root/Contact.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/root/Contact.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/root/Portal/PortalForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/root/Portal/PortalForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/root/Portal/PortalLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/root/Portal/PortalLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/root/Portal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/root/Portal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/root/Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/root/Services.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/root/ShopDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/root/ShopDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/root/Shops.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/root/Shops.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/root/VehicleDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/root/VehicleDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/utils/common.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/utils/common.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+        <option value="Jupyter Notebook" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Pull.Settings">
     <option name="OPTIONS">
@@ -19,22 +66,54 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="PROD\afendi &lt;arshad.fendi@alten.se&gt;" />
+        <option value="mvmedeiros &lt;mvbmedeiros@gmail.com&gt;" />
         <option value="Salman Sattar &lt;salman.sattar@alten.se&gt;" />
       </list>
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="feature/story-title-localisation" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="SOFT" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Cwejman&quot;
+  }
+}</component>
   <component name="GitRewordedCommitMessages">
-    <option name="onto" value="7059308711495b59851841dc1d0d034f137b5bdd" />
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="ops: Move build into Dockerfile + updated dispatch mechanics&#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required." />
+        <option name="rewordedMessage" value="ops: Move build into Dockerfile + updated dispatch mechanics&#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.&#10;&#10;Docker compose file services names changed for coherence when using docker compose cli" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="6f707821eff302aed73a952695a95ca1b8e7eb55" />
   </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:Hjulverkstan/hjulverkstan.git&quot;,
+    &quot;accountId&quot;: &quot;93a28a96-868f-4213-8575-87aa4d96b22d&quot;
+  }
+}</component>
+  <component name="HttpClientOnboardingState">{
+  &quot;isOnboardingCommentShown&quot;: true
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2tCwZaqufys6Wcim001EO7SmHhu" />
   <component name="ProjectLevelVcsManager">
@@ -49,15 +128,39 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Database Script.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.All in generated-requests.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.main [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.main [compile].executor&quot;: &quot;Run&quot;,
     &quot;Maven.main [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.main [package].executor&quot;: &quot;Run&quot;,
+    &quot;NIXITCH_NIXPKGS_CONFIG&quot;: &quot;&quot;,
+    &quot;NIXITCH_NIX_CONF_DIR&quot;: &quot;&quot;,
+    &quot;NIXITCH_NIX_OTHER_STORES&quot;: &quot;&quot;,
+    &quot;NIXITCH_NIX_PATH&quot;: &quot;&quot;,
+    &quot;NIXITCH_NIX_PROFILES&quot;: &quot;&quot;,
+    &quot;NIXITCH_NIX_REMOTE&quot;: &quot;&quot;,
+    &quot;NIXITCH_NIX_USER_PROFILE_DIR&quot;: &quot;&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;Spring Boot.MainApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fix/pipeline-issues&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/webedit-pages-for-general-content-and-shops#22&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/src/root/Portal&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;npm.dev.executor&quot;: &quot;Run&quot;,
     &quot;npm.dev.js.executor&quot;: &quot;Run&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/web/node_modules/typescript/lib&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/jcwejman/Git/hjulverkstan/cdk/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;ChangesTree.GroupingKeys&quot;: [
@@ -66,14 +169,43 @@
     &quot;DatabaseDriversLRU&quot;: [
       &quot;postgresql&quot;
     ],
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;repository&quot;
+    ],
     &quot;RunConfigurationTargetLRU&quot;: [
       &quot;d8855799-7b55-4434-8e56-08724f22650c/database/\&quot;postgres\&quot;/schema/\&quot;hjulverkstan\&quot;&quot;
+    ],
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TypeScript JSX&quot;,
+      &quot;JAVA&quot;,
+      &quot;TEXT&quot;
     ]
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web/src/root/Portal" />
+      <recent name="$PROJECT_DIR$/web/src/data/webedit/story" />
+      <recent name="$PROJECT_DIR$/web/src/data/webedit/text" />
+      <recent name="$PROJECT_DIR$/web/src/data/webedit/shop" />
+      <recent name="$PROJECT_DIR$/api/test/python/brute_force_test" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/api/test/python" />
+      <recent name="$PROJECT_DIR$/api/test/python/brute_force_test" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="se.hjulverkstan.main.feature.webedit" />
+      <recent name="se.hjulverkstan.main.shared.auditable" />
+      <recent name="se.hjulverkstan.main.shared.filters" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="se.hjulverkstan.main.error.exceptions" />
+      <recent name="se.hjulverkstan.main.feature.webedit.localisation" />
+      <recent name="se.hjulverkstan.main.shared.auditable" />
+      <recent name="se.hjulverkstan.main.feature.vehicle" />
+      <recent name="se.hjulverkstan.main.shared" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -81,7 +213,7 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.MainApplication">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="Unnamed" type="DatabaseScript" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/api/src/main/resources/data.sql" />
       <script-mode>FILE</script-mode>
@@ -116,16 +248,6 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="lua.app" factoryName="Lua Application">
-      <option name="program" value="/usr/local/bin/lua" />
-      <option name="file" value="" />
-      <option name="workingDir" value="$PROJECT_DIR$/api/src/main/java" />
-      <option name="debuggerType" value="2" />
-      <option name="params" value="" />
-      <option name="charset" value="UTF-8" />
-      <option name="showConsole" value="true" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Database Script.Unnamed" />
       <item itemvalue="npm.dev" />
@@ -135,360 +257,556 @@
       <list>
         <item itemvalue="Spring Boot.MainApplication" />
         <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="Spring Boot.MainApplication" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26199.169" />
+        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-IU-252.26199.169" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
-    <task id="LOCAL-00001" summary="chore: Rename main module &gt; api&#10;&#10;It was always the plan to name it api, for now i leave the java code untouched though this should be reviewed soon, includeing versioning etc on build pertaining the pom and application properties">
-      <option name="closed" value="true" />
-      <created>1745591333371</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1745591333371</updated>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="04007ab7-fb25-46dd-a723-387e0318a864" name="Changes" comment="" />
+      <created>1759864686485</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759864686485</updated>
+      <workItem from="1759864690849" duration="22843000" />
+      <workItem from="1760082117861" duration="177000" />
+      <workItem from="1760120786436" duration="7693000" />
+      <workItem from="1760358653626" duration="7754000" />
+      <workItem from="1760526803803" duration="14651000" />
+      <workItem from="1760886181184" duration="2401000" />
+      <workItem from="1760890697944" duration="15407000" />
+      <workItem from="1761406488369" duration="12403000" />
+      <workItem from="1761467326924" duration="15098000" />
     </task>
-    <task id="LOCAL-00002" summary="feat: Add build/deploy pipelines for api &amp; web">
+    <task id="LOCAL-00048" summary="feat(api): Server side filtering for vehicle">
       <option name="closed" value="true" />
-      <created>1745598621009</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
+      <created>1759867968358</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
       <option name="project" value="LOCAL" />
-      <updated>1745598621009</updated>
+      <updated>1759867968358</updated>
     </task>
-    <task id="LOCAL-00003" summary="feat(web): Robot noindex/nofollow on non prod environment build&#10;&#10;We dont want our dev and test environments to apear on google">
+    <task id="LOCAL-00049" summary="refactor(api): Move auditable classes into its own package">
       <option name="closed" value="true" />
-      <created>1745599009879</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
+      <created>1759868001442</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
       <option name="project" value="LOCAL" />
-      <updated>1745599009880</updated>
+      <updated>1759868001442</updated>
     </task>
-    <task id="LOCAL-00004" summary="chore: Rename main module &gt; api&#10;&#10;It was always the plan to name it api, for now i leave the java code untouched though this should be reviewed soon, includeing versioning etc on build pertaining the pom and application properties">
+    <task id="LOCAL-00050" summary="refactor(api): Move specs classes into its own package">
       <option name="closed" value="true" />
-      <created>1745599247226</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
+      <created>1759868046732</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
       <option name="project" value="LOCAL" />
-      <updated>1745599247226</updated>
+      <updated>1759868046732</updated>
     </task>
-    <task id="LOCAL-00005" summary="feat: Complete AWS CDK stack with dockerized api&#10;&#10;This commit finally brings a complete cdk stack of the current architecture.&#10;&#10;Some minor documentation in place but still much more that needs to be contributed.&#10;&#10;Co-authored-by: cwejman &lt;jcwejman@gmail.com&gt;&#10;Co-authored-by: Salman Sattar &lt;salman.sattar@alten.se&gt;">
+    <task id="LOCAL-00051" summary="fixup: vehicle filters">
       <option name="closed" value="true" />
-      <created>1745600273766</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
+      <created>1759868281495</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
       <option name="project" value="LOCAL" />
-      <updated>1745600273766</updated>
+      <updated>1759868281495</updated>
     </task>
-    <task id="LOCAL-00006" summary="wip">
+    <task id="LOCAL-00052" summary="fixup: vehicle filters">
       <option name="closed" value="true" />
-      <created>1745601129988</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
+      <created>1759913631334</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
       <option name="project" value="LOCAL" />
-      <updated>1745601129988</updated>
+      <updated>1759913631335</updated>
     </task>
-    <task id="LOCAL-00007" summary="wip">
+    <task id="LOCAL-00053" summary="fixup: refactor">
       <option name="closed" value="true" />
-      <created>1745601710453</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
+      <created>1759913765024</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
       <option name="project" value="LOCAL" />
-      <updated>1745601710453</updated>
+      <updated>1759913765024</updated>
     </task>
-    <task id="LOCAL-00008" summary="fakechange web">
+    <task id="LOCAL-00054" summary="fixup: mv auditable">
       <option name="closed" value="true" />
-      <created>1745601800984</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
+      <created>1759914033888</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
       <option name="project" value="LOCAL" />
-      <updated>1745601800984</updated>
+      <updated>1759914033888</updated>
     </task>
-    <task id="LOCAL-00009" summary="wip">
+    <task id="LOCAL-00055" summary="fixup: filters">
       <option name="closed" value="true" />
-      <created>1745602194031</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
+      <created>1759914042747</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
       <option name="project" value="LOCAL" />
-      <updated>1745602194031</updated>
+      <updated>1759914042747</updated>
     </task>
-    <task id="LOCAL-00010" summary="wip">
+    <task id="LOCAL-00056" summary="fixup: filters">
       <option name="closed" value="true" />
-      <created>1745603994331</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
+      <created>1759914834543</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
       <option name="project" value="LOCAL" />
-      <updated>1745603994331</updated>
+      <updated>1759914834543</updated>
     </task>
-    <task id="LOCAL-00011" summary="wip">
+    <task id="LOCAL-00057" summary="docs: Update all READMEs">
       <option name="closed" value="true" />
-      <created>1745604640924</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
+      <created>1759923302227</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
       <option name="project" value="LOCAL" />
-      <updated>1745604640924</updated>
+      <updated>1759923302227</updated>
     </task>
-    <task id="LOCAL-00012" summary="wip">
+    <task id="LOCAL-00058" summary="docs: Update all READMEs">
       <option name="closed" value="true" />
-      <created>1745605140722</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
+      <created>1759923369565</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
       <option name="project" value="LOCAL" />
-      <updated>1745605140722</updated>
+      <updated>1759923369566</updated>
     </task>
-    <task id="LOCAL-00013" summary="wip">
+    <task id="LOCAL-00059" summary="docs: Update all READMEs">
       <option name="closed" value="true" />
-      <created>1745605448757</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
+      <created>1759923383242</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
       <option name="project" value="LOCAL" />
-      <updated>1745605448757</updated>
+      <updated>1759923383242</updated>
     </task>
-    <task id="LOCAL-00014" summary="wip">
+    <task id="LOCAL-00060" summary="docs: Update all READMEs">
       <option name="closed" value="true" />
-      <created>1745605460404</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
+      <created>1759923437737</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
       <option name="project" value="LOCAL" />
-      <updated>1745605460404</updated>
+      <updated>1759923437737</updated>
     </task>
-    <task id="LOCAL-00015" summary="wip">
+    <task id="LOCAL-00061" summary="fix(web): Misc small issues">
       <option name="closed" value="true" />
-      <created>1745605495769</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
+      <created>1760645111690</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
       <option name="project" value="LOCAL" />
-      <updated>1745605495769</updated>
+      <updated>1760645111691</updated>
     </task>
-    <task id="LOCAL-00016" summary="wip">
+    <task id="LOCAL-00062" summary="test(api): Cookie inspection using python">
       <option name="closed" value="true" />
-      <created>1745605625232</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
+      <created>1760682159617</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
       <option name="project" value="LOCAL" />
-      <updated>1745605625232</updated>
+      <updated>1760682159617</updated>
     </task>
-    <task id="LOCAL-00017" summary="tmp">
+    <task id="LOCAL-00063" summary="wip">
       <option name="closed" value="true" />
-      <created>1745606168897</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
+      <created>1760708971030</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
       <option name="project" value="LOCAL" />
-      <updated>1745606168897</updated>
+      <updated>1760708971030</updated>
     </task>
-    <task id="LOCAL-00018" summary="tmp">
+    <task id="LOCAL-00064" summary="wip - jona">
       <option name="closed" value="true" />
-      <created>1745606316049</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
+      <created>1760893241130</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
       <option name="project" value="LOCAL" />
-      <updated>1745606316049</updated>
+      <updated>1760893241130</updated>
     </task>
-    <task id="LOCAL-00019" summary="test">
+    <task id="LOCAL-00065" summary="wip - jona">
       <option name="closed" value="true" />
-      <created>1745606601416</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
+      <created>1760899063600</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
       <option name="project" value="LOCAL" />
-      <updated>1745606601416</updated>
+      <updated>1760899063600</updated>
     </task>
-    <task id="LOCAL-00020" summary="wip">
+    <task id="LOCAL-00066" summary="refactor(api): Move lang count dto to correct package">
       <option name="closed" value="true" />
-      <created>1745606648781</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
+      <created>1760899954082</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
       <option name="project" value="LOCAL" />
-      <updated>1745606648781</updated>
+      <updated>1760899954083</updated>
     </task>
-    <task id="LOCAL-00021" summary="wip">
+    <task id="LOCAL-00067" summary="wip">
       <option name="closed" value="true" />
-      <created>1745606818200</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
+      <created>1760960816386</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
       <option name="project" value="LOCAL" />
-      <updated>1745606818200</updated>
+      <updated>1760960816386</updated>
     </task>
-    <task id="LOCAL-00022" summary="wip">
+    <task id="LOCAL-00068" summary="refactor: New applyToEntity design pattern + localisation service&#10;&#10;The localisation utils wasn't entierly ready, we had not recognised the need to object mapper and working with json for localised rich text values.&#10;&#10;Creating a localisation service instead works better. This also opened up some reflections on the current design pattern, it is more explicit if a dtos applyToEntity method actaully takes everything it needs as arguments. This relies less on remembering to sett the field in the service and more on providing the needed spec.&#10;&#10;README updated to reflect the new, somewhat more refined approach">
       <option name="closed" value="true" />
-      <created>1745606904899</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
+      <created>1760961090857</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
       <option name="project" value="LOCAL" />
-      <updated>1745606904899</updated>
+      <updated>1760961090857</updated>
     </task>
-    <task id="LOCAL-00023" summary="wip">
+    <task id="LOCAL-00069" summary="wip">
       <option name="closed" value="true" />
-      <created>1745606981769</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
+      <created>1760962005638</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
       <option name="project" value="LOCAL" />
-      <updated>1745606981769</updated>
+      <updated>1760962005638</updated>
     </task>
-    <task id="LOCAL-00024" summary="wip">
+    <task id="LOCAL-00070" summary="wip">
       <option name="closed" value="true" />
-      <created>1745607116944</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
+      <created>1760963184506</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
       <option name="project" value="LOCAL" />
-      <updated>1745607116944</updated>
+      <updated>1760963184506</updated>
     </task>
-    <task id="LOCAL-00025" summary="wip">
+    <task id="LOCAL-00071" summary="fix(api): Cirular flow cause toString() to fail">
       <option name="closed" value="true" />
-      <created>1745607177835</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
+      <created>1760966292055</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
       <option name="project" value="LOCAL" />
-      <updated>1745607177835</updated>
+      <updated>1760966292055</updated>
     </task>
-    <task id="LOCAL-00026" summary="feat(web): Log commit sha / pr number to console">
+    <task id="LOCAL-00072" summary="wip">
       <option name="closed" value="true" />
-      <created>1745607579921</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
+      <created>1760966696254</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
       <option name="project" value="LOCAL" />
-      <updated>1745607579921</updated>
+      <updated>1760966696254</updated>
     </task>
-    <task id="LOCAL-00027" summary="wip">
+    <task id="LOCAL-00073" summary="fix: pipeline env vars mapping outdated breaks all builds">
       <option name="closed" value="true" />
-      <created>1745607607404</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
+      <created>1760967203511</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
       <option name="project" value="LOCAL" />
-      <updated>1745607607404</updated>
+      <updated>1760967203511</updated>
     </task>
-    <task id="LOCAL-00028" summary="wip">
+    <task id="LOCAL-00074" summary="ops: Increase ec2 disk size by defining volume&#10;&#10;If not it's only 8gb.">
       <option name="closed" value="true" />
-      <created>1745607740505</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
+      <created>1761207380940</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
       <option name="project" value="LOCAL" />
-      <updated>1745607740505</updated>
+      <updated>1761207380940</updated>
     </task>
-    <task id="LOCAL-00029" summary="wip">
+    <task id="LOCAL-00075" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745607835277</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
+      <created>1761208692067</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
       <option name="project" value="LOCAL" />
-      <updated>1745607835277</updated>
+      <updated>1761208692067</updated>
     </task>
-    <task id="LOCAL-00030" summary="wip">
+    <task id="LOCAL-00076" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745607973329</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
+      <created>1761209312259</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
       <option name="project" value="LOCAL" />
-      <updated>1745607973329</updated>
+      <updated>1761209312259</updated>
     </task>
-    <task id="LOCAL-00031" summary="wip">
+    <task id="LOCAL-00077" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745608131717</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
+      <created>1761209366539</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
       <option name="project" value="LOCAL" />
-      <updated>1745608131718</updated>
+      <updated>1761209366539</updated>
     </task>
-    <task id="LOCAL-00032" summary="wip">
+    <task id="LOCAL-00078" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745609155051</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
+      <created>1761209528107</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
       <option name="project" value="LOCAL" />
-      <updated>1745609155051</updated>
+      <updated>1761209528107</updated>
     </task>
-    <task id="LOCAL-00033" summary="feat(web): Fail with exit code 1 on data fetch fail in build script">
+    <task id="LOCAL-00079" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745609383870</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
+      <created>1761210144999</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
       <option name="project" value="LOCAL" />
-      <updated>1745609383870</updated>
+      <updated>1761210144999</updated>
     </task>
-    <task id="LOCAL-00034" summary="feat(web): Fail with exit code 1 on data fetch fail in build script">
+    <task id="LOCAL-00080" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745609405969</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
+      <created>1761210479543</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
       <option name="project" value="LOCAL" />
-      <updated>1745609405969</updated>
+      <updated>1761210479543</updated>
     </task>
-    <task id="LOCAL-00035" summary="feat(web): Fail with exit code 1 on data fetch fail in build script">
+    <task id="LOCAL-00081" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745609569310</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
+      <created>1761210857073</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
       <option name="project" value="LOCAL" />
-      <updated>1745609569310</updated>
+      <updated>1761210857073</updated>
     </task>
-    <task id="LOCAL-00036" summary="fixup">
+    <task id="LOCAL-00082" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745609735747</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
+      <created>1761216407660</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
       <option name="project" value="LOCAL" />
-      <updated>1745609735747</updated>
+      <updated>1761216407660</updated>
     </task>
-    <task id="LOCAL-00037" summary="fixup VITE APP VERSION">
+    <task id="LOCAL-00083" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745609802738</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
+      <created>1761226449906</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
       <option name="project" value="LOCAL" />
-      <updated>1745609802738</updated>
+      <updated>1761226449906</updated>
     </task>
-    <task id="LOCAL-00038" summary="test new feature in web">
+    <task id="LOCAL-00084" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745609930270</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
+      <created>1761297195563</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
       <option name="project" value="LOCAL" />
-      <updated>1745609930270</updated>
+      <updated>1761297195563</updated>
     </task>
-    <task id="LOCAL-00039" summary="chore(web): Extend timeouts for endpoints used by pipeline">
+    <task id="LOCAL-00085" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745610231525</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
+      <created>1761301629056</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
       <option name="project" value="LOCAL" />
-      <updated>1745610231525</updated>
+      <updated>1761301629056</updated>
     </task>
-    <task id="LOCAL-00040" summary="wip: manifest">
+    <task id="LOCAL-00086" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
       <option name="closed" value="true" />
-      <created>1745615067920</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
+      <created>1761303143805</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
       <option name="project" value="LOCAL" />
-      <updated>1745615067920</updated>
+      <updated>1761303143805</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00087" summary="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required.">
+      <option name="closed" value="true" />
+      <created>1761306518849</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1761306518849</updated>
+    </task>
+    <task id="LOCAL-00088" summary="ops: Improve caching of docker/npm in pipeline">
+      <option name="closed" value="true" />
+      <created>1761306567422</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1761306567422</updated>
+    </task>
+    <task id="LOCAL-00089" summary="ops: Improve caching of docker/npm in pipeline">
+      <option name="closed" value="true" />
+      <created>1761306825769</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1761306825770</updated>
+    </task>
+    <task id="LOCAL-00090" summary="ops: Use cloudflare DNS instead of Github in pipeline web build">
+      <option name="closed" value="true" />
+      <created>1761307920291</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1761307920292</updated>
+    </task>
+    <task id="LOCAL-00091" summary="wip: Add location to ticket">
+      <option name="closed" value="true" />
+      <created>1761335632498</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1761335632498</updated>
+    </task>
+    <task id="LOCAL-00092" summary="feat: Sms notification on ticket repair completion">
+      <option name="closed" value="true" />
+      <created>1761337998428</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1761337998428</updated>
+    </task>
+    <task id="LOCAL-00093" summary="feat: Sms notification on ticket repair completion">
+      <option name="closed" value="true" />
+      <created>1761374035073</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1761374035073</updated>
+    </task>
+    <task id="LOCAL-00094" summary="refactor(web): Use auditable type and remove unused vehicle type">
+      <option name="closed" value="true" />
+      <created>1761376305178</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1761376305178</updated>
+    </task>
+    <task id="LOCAL-00095" summary="refactor(web): Use auditable type and remove unused vehicle type">
+      <option name="closed" value="true" />
+      <created>1761381195645</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1761381195645</updated>
+    </task>
+    <task id="LOCAL-00096" summary="refactor(web): Use auditable type and remove unused vehicle type">
+      <option name="closed" value="true" />
+      <created>1761381326595</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1761381326595</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
     <option name="exactExcludedFiles">
       <list>
+        <option value="$PROJECT_DIR$/cdk/bin/cdk.js" />
+        <option value="$PROJECT_DIR$/cdk/bin/cdk.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/bin/config.js" />
+        <option value="$PROJECT_DIR$/cdk/bin/config.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.20e98d40196f5f452d23f78be5f2f4757040e6d1541417bec78ee29e13322b58/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.20e98d40196f5f452d23f78be5f2f4757040e6d1541417bec78ee29e13322b58/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.34ebc1f77a9cc5756b7ee538387a2063f5453ceaa78c55b4bd975609d6a4b4c9/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.34ebc1f77a9cc5756b7ee538387a2063f5453ceaa78c55b4bd975609d6a4b4c9/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.4602c4164e55cd1cbd453494a87b426f463c74c420b5f56638ee13ceff86f296/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.4602c4164e55cd1cbd453494a87b426f463c74c420b5f56638ee13ceff86f296/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.4765754c3019d672e992ac20da788a48fa77e5666a11f32a9759e3f822b9d5e5/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.4765754c3019d672e992ac20da788a48fa77e5666a11f32a9759e3f822b9d5e5/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.6b814fe47a93d30dea14733352cc7e3e86011604a13f110e1ef8c62db711e8c0/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.6b814fe47a93d30dea14733352cc7e3e86011604a13f110e1ef8c62db711e8c0/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.767ac3d2444ec772a77262f8beb9e8a63513997ea6f98566ac6782694fcd8fab/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.767ac3d2444ec772a77262f8beb9e8a63513997ea6f98566ac6782694fcd8fab/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.7f45538ec00e90c2cb9822e8a8b9675a650e9b402c1895170a0e035eafd08f6f/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.7f45538ec00e90c2cb9822e8a8b9675a650e9b402c1895170a0e035eafd08f6f/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.8a01cba0659db157bb6da713b6cddcd37a8d76ea3b7f5bb8ca95413efcfc1ac2/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.8a01cba0659db157bb6da713b6cddcd37a8d76ea3b7f5bb8ca95413efcfc1ac2/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.b9757aaa2369e046f4853684d3fe2705b3a0b436c51207e9138cf18489b3f9fa/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.b9757aaa2369e046f4853684d3fe2705b3a0b436c51207e9138cf18489b3f9fa/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.d6a995987bd5c15372a5a6e477ce93a4216104d83dbb6a57b6b5f7a76b5a25b5/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.d6a995987bd5c15372a5a6e477ce93a4216104d83dbb6a57b6b5f7a76b5a25b5/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.ea207fb702c0fc556e46703c10b3fb2e6a4efa32742a22ea27b1ae4c6b7dbf4f/routing.js" />
+        <option value="$PROJECT_DIR$/cdk/cdk.out/asset.ea207fb702c0fc556e46703c10b3fb2e6a4efa32742a22ea27b1ae4c6b7dbf4f/routing.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/lib/app-web.js" />
+        <option value="$PROJECT_DIR$/cdk/lib/app-web.d.ts" />
         <option value="$PROJECT_DIR$/cdk/lambda/routing.js" />
         <option value="$PROJECT_DIR$/cdk/lambda/routing.d.ts" />
-        <option value="$PROJECT_DIR$/cdk/lib/lambda.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/test/cdk.test.js" />
+        <option value="$PROJECT_DIR$/cdk/test/cdk.test.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/lib/cert.js" />
+        <option value="$PROJECT_DIR$/cdk/lib/cert.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/lib/app.js" />
+        <option value="$PROJECT_DIR$/cdk/lib/app.d.ts" />
         <option value="$PROJECT_DIR$/cdk/lib/lambda.js" />
+        <option value="$PROJECT_DIR$/cdk/lib/lambda.d.ts" />
+        <option value="$PROJECT_DIR$/cdk/lib/app-api.js" />
+        <option value="$PROJECT_DIR$/cdk/lib/app-api.d.ts" />
       </list>
     </option>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="974f0d09-f2f9-4ac1-b0e4-ef715dc997ab" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="974f0d09-f2f9-4ac1-b0e4-ef715dc997ab">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feat/ops-upgrades" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature/story-detail-page" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: Add build/deploy pipelines for api &amp; web" />
-    <MESSAGE value="feat(web): Robot noindex/nofollow on non prod environment build&#10;&#10;We dont want our dev and test environments to apear on google" />
-    <MESSAGE value="chore: Rename main module &gt; api&#10;&#10;It was always the plan to name it api, for now i leave the java code untouched though this should be reviewed soon, includeing versioning etc on build pertaining the pom and application properties" />
-    <MESSAGE value="feat: Complete AWS CDK stack with dockerized api&#10;&#10;This commit finally brings a complete cdk stack of the current architecture.&#10;&#10;Some minor documentation in place but still much more that needs to be contributed.&#10;&#10;Co-authored-by: cwejman &lt;jcwejman@gmail.com&gt;&#10;Co-authored-by: Salman Sattar &lt;salman.sattar@alten.se&gt;" />
-    <MESSAGE value="fakechange web" />
-    <MESSAGE value="tmp" />
-    <MESSAGE value="test" />
-    <MESSAGE value="feat(web): Log commit sha / pr number to console" />
+    <MESSAGE value="feat(api): Server side filtering for vehicle" />
+    <MESSAGE value="refactor(api): Move auditable classes into its own package" />
+    <MESSAGE value="refactor(api): Move specs classes into its own package" />
+    <MESSAGE value="fixup: vehicle filters" />
+    <MESSAGE value="fixup: refactor" />
+    <MESSAGE value="fixup: mv auditable" />
+    <MESSAGE value="fixup: filters" />
+    <MESSAGE value="docs: Update all READMEs" />
+    <MESSAGE value="fix(web): Misc small issues" />
+    <MESSAGE value="Brute force test using python&#10;&#10;-Added a pytest to perform brute force based on the common credentials found in the internet; ensuring that the correct authentication logic is in place.&#10;-Modifying dev web script to properly load the .env file during local run.&#10;-Updated .env template with new variables for pen testing" />
+    <MESSAGE value="-Added a pytest to perform cookies and session inspection on HttpOnly, Secure and SameSite=." />
+    <MESSAGE value="test(api): Cookie inspection using python" />
+    <MESSAGE value="wip - jona" />
+    <MESSAGE value="refactor(api): Move lang count dto to correct package" />
+    <MESSAGE value="refactor: New applyToEntity design pattern + localisation service&#10;&#10;The localisation utils wasn't entierly ready, we had not recognised the need to object mapper and working with json for localised rich text values.&#10;&#10;Creating a localisation service instead works better. This also opened up some reflections on the current design pattern, it is more explicit if a dtos applyToEntity method actaully takes everything it needs as arguments. This relies less on remembering to sett the field in the service and more on providing the needed spec.&#10;&#10;README updated to reflect the new, somewhat more refined approach" />
+    <MESSAGE value="fix(api): Cirular flow cause toString() to fail" />
     <MESSAGE value="wip" />
-    <MESSAGE value="feat(web): Fail with exit code 1 on data fetch fail in build script" />
-    <MESSAGE value="fixup" />
-    <MESSAGE value="fixup VITE APP VERSION" />
-    <MESSAGE value="test new feature in web" />
-    <MESSAGE value="chore(web): Extend timeouts for endpoints used by pipeline" />
-    <MESSAGE value="wip: manifest" />
-    <option name="LAST_COMMIT_MESSAGE" value="wip: manifest" />
+    <MESSAGE value="fix: pipeline env vars mapping outdated breaks all builds" />
+    <MESSAGE value="ops: Increase ec2 disk size by defining volume&#10;&#10;If not it's only 8gb." />
+    <MESSAGE value="ops: Move build into Dockerfile + updated dispatch mechanics &#10;&#10;If no defined volume the size is only 8gb. Applied t0 30gb for now, later configurable per environment?&#10;&#10;Dispatch now allows branches starting with hotfix.&#10;&#10;We may also now choose to override and trigger api/web manually without file changes if required." />
+    <MESSAGE value="ops: Improve caching of docker/npm in pipeline" />
+    <MESSAGE value="ops: Use cloudflare DNS instead of Github in pipeline web build" />
+    <MESSAGE value="wip: Add location to ticket" />
+    <MESSAGE value="feat: Sms notification on ticket repair completion" />
+    <MESSAGE value="refactor(web): Use auditable type and remove unused vehicle type" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor(web): Use auditable type and remove unused vehicle type" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

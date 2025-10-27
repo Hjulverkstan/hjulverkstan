@@ -2,6 +2,8 @@ package se.hjulverkstan.main.feature.webedit.story;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.core.util.Json;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import se.hjulverkstan.main.shared.auditable.AuditableDto;
 @NoArgsConstructor
 public class StoryDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @NotNull(message = "Story title is required")

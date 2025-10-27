@@ -5,8 +5,8 @@ import { Base, Title } from '@components/Card';
 import { Bullet } from '@components/Bullet';
 import { OpenBadge } from '@components/OpenBadge';
 import { OpenHours, Shop } from '@data/webedit/shop/types';
-import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { cn } from '@utils/common';
+import { useTranslations } from '@hooks/useTranslations';
 
 interface CardContactProps {
   shop: Shop;
@@ -51,20 +51,20 @@ export const CardContact: React.FC<CardContactProps> = ({
   className,
   showHeader = true,
 }) => {
-  const { data } = usePreloadedDataLocalized();
+  const { t } = useTranslations();
   const embedUrl = `https://www.google.com/maps?q=${shop?.latitude},${shop?.longitude}&z=15&output=embed`;
 
   const dayLabels = [
-    data.text.contactMonday,
-    data.text.contactTuesday,
-    data.text.contactWednesday,
-    data.text.contactThursday,
-    data.text.contactFriday,
-    data.text.contactSaturday,
-    data.text.contactSunday,
+    t('monday'),
+    t('tuesday'),
+    t('wednesday'),
+    t('thursday'),
+    t('friday'),
+    t('saturday'),
+    t('sunday'),
   ];
 
-  const closedLabel = data.text.contactClosed;
+  const closedLabel = t('closed');
   const isCompact = variant === 'compact';
 
   return (

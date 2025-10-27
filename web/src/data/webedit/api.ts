@@ -1,35 +1,39 @@
-import * as C from '@utils/common';
-
 import { createErrorHandler, endpoints, instance } from '../api';
 
-import { AllEntities, LangSlug } from './types';
+import { AllEntities, Lang } from './types';
 
-//
+// GET ALL ENTITIES BY LANG
 
 export interface GetAllEndpointsRes {
-  entities: Record<LangSlug, AllEntities>;
+  entities: Record<Lang, AllEntities>;
 }
 
 export interface GetAllWebEditEntitiesByLangParams {
-  fallbackLocale: string;
+  fallbackLang: string;
 }
 
 export const getAllWebEditEntitiesByLang = (
-  { fallbackLocale }: GetAllWebEditEntitiesByLangParams,
+  { fallbackLang }: GetAllWebEditEntitiesByLangParams,
   baseURL?: string,
 ) =>
   instance
     .get<GetAllEndpointsRes>(endpoints.webedit.all, {
-      params: { fallbackLang: C.localeToLangCode(fallbackLocale) },
+      params: { fallbackLang },
       timeout: 150000,
       ...(baseURL && { baseURL }),
     })
-    .then((res) =>
-      Object.fromEntries(
-        Object.entries(res.data.entities).map(([lang, allEntities]) => [
-          C.langCodeToLocale(lang),
-          allEntities,
-        ]),
-      ),
-    )
+    .then((res) => res.data.entities)
     .catch(createErrorHandler(endpoints.webedit.all));
+
+// LANG COUNT
+
+export type GetLangCountParams = { entity: string };
+
+export const createGetLangCount = ({ entity }: GetLangCountParams) => ({
+  queryKey: [endpoints.webedit.count, entity],
+  queryFn: () =>
+    instance
+      .get(`${endpoints.webedit.count}/${entity}`)
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.webedit.count)),
+});

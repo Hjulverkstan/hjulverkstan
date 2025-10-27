@@ -16,7 +16,7 @@ export interface PortalFormProps {
   transformBodyOnSubmit?: (input: any) => any;
   isSubmitting: boolean;
   /* mutateAsync from useMutation() */
-  createMutation: (body: any) => Promise<any>;
+  createMutation?: (body: any) => Promise<any>;
   /* mutateAsync from useMutation() */
   saveMutation: (body: any) => Promise<any>;
   error?: ErrorRes | StandardError | null;
@@ -46,7 +46,7 @@ export default function PortalForm({
 
   const onCreate = () => {
     if (!submitError) {
-      createMutation(transformBodyOnSubmit(body))
+      createMutation?.(transformBodyOnSubmit(body))
         .then((res: any) => {
           navigate('../' + res.id);
           toast(
@@ -91,6 +91,8 @@ export default function PortalForm({
     }
   };
 
+  const isCreateDisabled = !createMutation;
+
   const { title, handler, verb, icon } = {
     [Mode.READ]: {
       title: toToolbarName(body) || '',
@@ -109,7 +111,7 @@ export default function PortalForm({
       handler: onCreate,
       verb: 'Create',
     },
-  }[mode];
+  }[mode === Mode.CREATE && isCreateDisabled ? Mode.READ : mode];
 
   return (
     <div className="bg-muted flex w-64 flex-shrink-0 flex-col border-l">
@@ -117,7 +119,7 @@ export default function PortalForm({
         style={{ marginTop: '0.5px' }}
         className="flex h-11 flex-shrink-0 items-center border-b px-2"
       >
-        <h3 className="flex-grow pl-2 align-middle text-sm font-medium">
+        <h3 className="flex-grow truncate px-2 align-middle text-sm font-medium">
           {title}
         </h3>
         <IconButton

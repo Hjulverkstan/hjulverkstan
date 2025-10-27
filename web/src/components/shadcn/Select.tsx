@@ -8,30 +8,52 @@ import {
 import * as SelectPrimitive from '@radix-ui/react-select';
 
 import { cn } from '@utils/common';
+import { cva, VariantProps } from 'class-variance-authority';
 
 export { Root, Group, Value } from '@radix-ui/react-select';
 
 //
 
+const triggerVariants = cva(
+  `ring-offset-background focus:ring-ring flex h-9 w-full items-center
+  justify-between gap-2 whitespace-nowrap rounded-md py-2 pl-4 pr-3 text-sm
+  focus:outline-none focus:ring-1 disabled:cursor-not-allowed
+  disabled:opacity-50 [&>span]:line-clamp-1`,
+  {
+    variants: {
+      variant: {
+        default: `placeholder:text-muted-foreground border-input border
+        bg-transparent shadow-sm`,
+        translation: `text-purple-foreground bg-purple-fill
+        border-purple-border/15 hover:border-purple-border/20 border`,
+        accent:
+          'text-foreground/70 bg-accent border-accent border' +
+          ' hover:border-border-dark hover:text-foreground',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  },
+);
+
+type TriggerProps = React.ComponentPropsWithoutRef<
+  typeof SelectPrimitive.Trigger
+> &
+  VariantProps<typeof triggerVariants>;
+
 export const Trigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  TriggerProps
+>(({ className, children, variant, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
-    className={cn(
-      `border-input ring-offset-background placeholder:text-muted-foreground
-focus:ring-ring flex h-9 w-full items-center justify-between whitespace-nowrap
-rounded-md border bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none
-focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50
-[&>span]:line-clamp-1`,
-      className,
-    )}
+    className={cn(triggerVariants({ variant }), className)}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <CaretSortIcon className="h-4 w-4 opacity-50" />
+      <CaretSortIcon className={cn('h-4 w-4 opacity-50')} />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
@@ -89,15 +111,16 @@ export const Content = React.forwardRef<
       ref={ref}
       className={cn(
         `bg-popover text-popover-foreground data-[state=open]:animate-in
-data-[state=closed]:animate-out data-[state=closed]:fade-out-0
-data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95
-data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2
-data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2
-data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-96 min-w-[8rem]
-overflow-hidden rounded-md border shadow-md`,
+        data-[state=closed]:animate-out data-[state=closed]:fade-out-0
+        data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95
+        data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2
+        data-[side=left]:slide-in-from-right-2
+        data-[side=right]:slide-in-from-left-2
+        data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-96
+        min-w-[8rem] overflow-hidden rounded-md border shadow-md`,
         position === 'popper' &&
           `data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1
-data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1`,
+          data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1`,
         className,
       )}
       position={position}
@@ -109,7 +132,7 @@ data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1`,
           'p-1',
           position === 'popper' &&
             `h-[var(--radix-select-trigger-height)] w-full
-min-w-[var(--radix-select-trigger-width)]`,
+            min-w-[var(--radix-select-trigger-width)]`,
         )}
       >
         {children}
@@ -146,8 +169,9 @@ export const Item = React.forwardRef<
     ref={ref}
     className={cn(
       `focus:bg-accent focus:text-accent-foreground relative flex w-full
-cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm
-outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50`,
+      cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8
+      text-sm outline-none data-[disabled]:pointer-events-none
+      data-[disabled]:opacity-50`,
       className,
     )}
     {...props}

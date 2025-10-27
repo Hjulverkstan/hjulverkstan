@@ -4,14 +4,14 @@ import { Auditable } from '../../types';
 
 export interface Shop extends Auditable {
   id: string;
+  imageURL: string;
+  locationId: string;
   name: string;
   address: string;
-  latitude: number;
-  longitude: number;
-  imageURL: string;
+  latitude: string;
+  longitude: string;
   openHours: OpenHours;
   hasTemporaryHours: boolean;
-  locationId: string;
   bodyText: JSONContent;
   slug: string;
 }
