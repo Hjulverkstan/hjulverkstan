@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 import { cn } from '@utils/common';
@@ -7,7 +7,7 @@ import { Base, Body, Row, Title } from '@components/Card';
 
 interface CardCompactProps {
   title: string;
-  body: string;
+  body: ReactNode;
   link: LinkProps['to'];
   ariaLabel: string;
   className?: string;

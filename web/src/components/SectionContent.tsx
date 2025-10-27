@@ -1,11 +1,25 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { VariantProps } from 'class-variance-authority';
+import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@utils/common';
 import { buttonVariants, IconLink } from '@components/shadcn/Button';
 
-interface SectionContentProps {
+const contentStyles = cva('', {
+  variants: {
+    contentWidth: {
+      fullWidth: 'max-w-none',
+      small: 'max-w-[1280px]',
+      medium: 'max-w-[1360px]',
+      large: 'max-w-[1852px]',
+    },
+  },
+  defaultVariants: {
+    contentWidth: 'large',
+  },
+});
+
+interface SectionContentProps extends VariantProps<typeof contentStyles> {
   children: React.ReactNode;
   className?: string;
   heading?: string;
@@ -21,12 +35,19 @@ export const SectionContent: React.FC<SectionContentProps> = ({
   linkTo,
   linkLabel,
   linkVariant = 'mutedSharp',
+  contentWidth,
 }) => (
-  <div className={cn('mx-auto w-[88vw] max-w-[1852px]', className)}>
+  <div
+    className={cn(
+      contentStyles({ contentWidth }),
+      'mx-auto w-[88vw]',
+      className,
+    )}
+  >
     {heading && (
       <div
         className="mb-8 flex flex-col items-start gap-4 sm:flex-row
-sm:items-center sm:justify-between md:mb-16"
+          sm:items-center sm:justify-between md:mb-16"
       >
         <h2 className="text-h2 text-foreground font-semibold">{heading}</h2>
         {linkTo && linkLabel && (
