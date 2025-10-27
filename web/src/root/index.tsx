@@ -80,55 +80,55 @@ export const createRoutes = (
   return [
     {
       path: '/',
-      titleTranslationKey: 'homeTitle',
+      titleTranslationKey: 'home',
       component: Home,
     },
     {
       path: '/contact',
-      titleTranslationKey: 'contactTitle',
+      titleTranslationKey: 'contact',
       component: Contact,
     },
     {
       path: '/shops',
-      titleTranslationKey: 'shopsTitle',
+      titleTranslationKey: 'shops',
       component: Shops,
     },
     {
       path: '/shops/:slug',
-      titleTranslationKey: 'shopsTitle',
+      titleTranslationKey: 'shops',
       component: ShopDetail,
       dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
     },
     {
       path: '/vehicle/:id',
-      titleTranslationKey: 'vehicleDetailTitle',
+      titleTranslationKey: 'vehicle',
       component: VehicleDetail,
       disableSSR: true,
     },
     {
       path: '/support',
-      titleTranslationKey: 'supportTitle',
+      titleTranslationKey: 'support',
       component: Support,
     },
     {
       path: '/services',
-      titleTranslationKey: 'servicesTitle',
+      titleTranslationKey: 'services',
       component: Services,
     },
     {
       path: '/stories',
-      titleTranslationKey: 'storiesTitle',
+      titleTranslationKey: 'stories',
       component: Stories,
     },
     {
       path: '/stories/:slug',
-      titleTranslationKey: 'storyTitle',
+      titleTranslationKey: 'story',
       component: StoryDetail,
       dynamicSegments: storySlugs?.map((slug) => ({ slug })),
     },
     {
       path: '/portal/*',
-      titleTranslationKey: 'portalTitle',
+      titleTranslationKey: 'portal',
       component: Portal,
       disableSSR: true,
     },
@@ -155,7 +155,7 @@ function RouteHelmet({
 
   return (
     <Helmet>
-      <title>{t(route.titleTranslationKey)}</title>
+      <title>Hjulverkstan - {t(route.titleTranslationKey)}</title>
       {import.meta.env.VITE_ENV.toLowerCase() !== 'prod' && (
         <meta name="robots" content="noindex, nofollow" />
       )}
@@ -248,7 +248,7 @@ export default function Root() {
   const routes = createRoutes(data).concat({
     path: '*',
     component: PageNotFound,
-    title: 'Page not found',
+    titleTranslationKey: 'pageNotFound',
   });
 
   return (

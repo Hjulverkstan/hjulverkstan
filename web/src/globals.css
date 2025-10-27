@@ -42,11 +42,13 @@
 
     --blue: 210 90% 55%;
     --blue-fill: 210 100% 93%;
+    --blue-muted: 210 94% 96%;
     --blue-foreground: 210 90% 40%;
 
-    --purple: 270 60% 50%;
-    --purple-fill: 270 80% 93%;
-    --purple-foreground: 270 60% 45%;
+    --purple: 268 85% 60%;
+    --purple-fill: 268 80% 93%;
+    --purple-foreground: 278 65% 45%;
+    --purple-muted: 268 100% 95%;
 
     --border: 220 6% 91%;
     --border-dark: 220 6% 89%;

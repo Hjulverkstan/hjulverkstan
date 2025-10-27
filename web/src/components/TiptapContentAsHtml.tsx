@@ -9,7 +9,7 @@ export interface TiptapConentProps {
   className?: string;
 }
 
-export const TiptapContent: React.FC<TiptapConentProps> = ({
+export const TiptapContentAsHtml: React.FC<TiptapConentProps> = ({
   content,
   className,
 }) => {

@@ -16,7 +16,9 @@ import PortalShopCustomers from './PortalShopCustomers';
 import PortalShopInventory from './PortalShopInventory';
 import PortalShopTickets from './PortalShopTickets';
 import MobileImageInventory from './PortalMobileInventory/index';
-import PortalWebEditGeneral from './PortalWebEditGeneral';
+import PortalWebEditText from './PortalWebEditText';
+import * as PortalWebEditLocale from './PortalWebEditLocale';
+import PortalWebEditShops from './PortalWebEditShops';
 
 //
 
@@ -59,6 +61,18 @@ const appRoutes: PortalAppRoute[] = [
       { slug: 'locations', title: 'Locations', page: PortalAdminLocations },
       { slug: 'employees', title: 'Employees', page: PortalAdminEmployees },
       { slug: 'users', title: 'Users', page: PortalAdminUsers },
+    ],
+  },
+  {
+    slug: 'web-edit',
+    title: 'WebEdit',
+    roles: [AuthRole.ADMIN],
+    pageRoutes: [
+      { slug: 'text', title: 'Text', page: PortalWebEditText },
+      { slug: 'shops', title: 'Shops', page: PortalWebEditShops },
+      { slug: 'stories', title: 'Stories', page: () => null },
+      { slug: 'courses', title: 'Courses', page: () => null },
+      { slug: 'partners', title: 'Partners', page: () => null },
     ],
   },
 ];
@@ -114,7 +128,9 @@ const PortalRouter = () => {
 export default function Portal() {
   return (
     <Auth.Provider>
-      <PortalRouter />
+      <PortalWebEditLocale.Provider>
+        <PortalRouter />
+      </PortalWebEditLocale.Provider>
     </Auth.Provider>
   );
 }

@@ -16,30 +16,30 @@ public class StoryController {
 
     private final StoryService storyService;
 
-    @GetMapping("/{lang}")
-    public ListResponseDto<StoryDto> getAllStories(@PathVariable Language lang) {
+    @GetMapping()
+    public ListResponseDto<StoryDto> getAllStories(@RequestParam Language lang) {
         return storyService.getAllStoriesByLang(lang, null);
     }
 
-    @GetMapping("/{lang}/{id}")
-    public StoryDto getStory(@PathVariable Language lang, @PathVariable Long id) {
-        return storyService.getStoryByLangAndId(lang, id);
+    @GetMapping("/{id}")
+    public StoryDto getStory(@PathVariable Long id, @RequestParam Language lang) {
+        return storyService.getStoryByLangAndId(id, lang);
     }
 
-    @PostMapping("/{lang}")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public StoryDto createStory(@PathVariable Language lang, @Valid @RequestBody StoryDto dto) {
-        return storyService.createStoryByLang(lang, dto);
+    public StoryDto createStory(@Valid @RequestBody StoryDto dto, @RequestParam Language lang) {
+        return storyService.createStoryByLang(dto, lang);
     }
 
-    @PutMapping("/{lang}/{id}")
-    public StoryDto editStory(@PathVariable Language lang, @PathVariable Long id, @Valid @RequestBody StoryDto dto) {
-        return storyService.editStoryByLang(lang, id, dto);
+    @PutMapping("/{id}")
+    public StoryDto editStory(@PathVariable Long id, @Valid @RequestBody StoryDto dto, @RequestParam Language lang) {
+        return storyService.editStoryByLang(id, dto, lang);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteStory(@PathVariable Long id) {
-        storyService.deleteStory(id);
+    public void deleteStory(@PathVariable Long id, @RequestParam Language lang) {
+        storyService.deleteStory(id, lang);
     }
 }

@@ -48,7 +48,7 @@ export default function PortalLayout({ appRoute }: PortalLayoutProps) {
       >
         <nav
           className="mb-2 flex flex-shrink items-center justify-center space-x-4
-py-1"
+            py-1"
         >
           <h2 className="flex-1 text-lg font-semibold">
             Hjulverkstan
@@ -57,19 +57,21 @@ py-1"
               {appRoute.title}
             </span>
           </h2>
-          <Tabs value={currPage?.slug}>
-            <TabsList>
-              {appRoute.pageRoutes.map((pageRoute) => (
-                <TabsTrigger
-                  key={pageRoute.slug}
-                  value={pageRoute.slug}
-                  onClick={() => navigate(slugToUrl(pageRoute.slug))}
-                >
-                  {pageRoute.title}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+          <div className="flex items-center gap-4">
+            <Tabs value={currPage?.slug}>
+              <TabsList>
+                {appRoute.pageRoutes.map((pageRoute) => (
+                  <TabsTrigger
+                    key={pageRoute.slug}
+                    value={pageRoute.slug}
+                    onClick={() => navigate(slugToUrl(pageRoute.slug))}
+                  >
+                    {pageRoute.title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          </div>
           <div className="flex flex-1 items-center justify-end">
             <Spinner visible={!!isFetching} className="mr-4 h-6 w-6" />
             <AvatarDropdown />
