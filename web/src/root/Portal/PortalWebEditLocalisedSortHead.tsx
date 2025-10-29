@@ -13,7 +13,7 @@ export const PortalWebEditLocalisedSortHead = ({
 }: PortalWebEditLocalisedSortHeadProps) => (
   <DataTable.SortHead
     colKey={colKey}
-    className="hover:bg-purple-muted text-purple-foreground
+    className="hover:bg-purple-fill text-purple-foreground
       hover:text-purple-foreground!"
   >
     <IconLabel

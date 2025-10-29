@@ -1,11 +1,11 @@
 import { ComponentType } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
+import * as Auth from '@components/Auth';
 import { ProtectedByRole, useAuth } from '@components/Auth';
 import { Mode } from '@components/DataForm';
 import { AuthRole } from '@data/auth/types';
 import useIsMobile from '@hooks/useIsMobile';
-import * as Auth from '@components/Auth';
 
 import PortalAdminEmployees from './PortalAdminEmployees';
 import PortalAdminLocations from './PortalAdminLocations';
@@ -19,6 +19,19 @@ import MobileImageInventory from './PortalMobileInventory/index';
 import PortalWebEditText from './PortalWebEditText';
 import * as PortalWebEditLocale from './PortalWebEditLocale';
 import PortalWebEditShops from './PortalWebEditShops';
+import {
+  Bike,
+  BookOpen,
+  GraduationCap,
+  Handshake,
+  LucideIcon,
+  MapPin,
+  Newspaper,
+  ReceiptText,
+  Store,
+  Type,
+  User,
+} from 'lucide-react';
 
 //
 
@@ -31,6 +44,7 @@ export type PortalAppPage = ComponentType<PortalAppPageProps>;
 export interface PortalAppPageRoute {
   slug: string;
   title: string;
+  icon: LucideIcon;
   page: PortalAppPage;
 }
 
@@ -48,9 +62,24 @@ const appRoutes: PortalAppRoute[] = [
     slug: 'shop',
     title: 'Shop',
     pageRoutes: [
-      { slug: 'inventory', title: 'Inventory', page: PortalShopInventory },
-      { slug: 'tickets', title: 'Tickets', page: PortalShopTickets },
-      { slug: 'customers', title: 'Customers', page: PortalShopCustomers },
+      {
+        slug: 'inventory',
+        title: 'Inventory',
+        icon: Bike,
+        page: PortalShopInventory,
+      },
+      {
+        slug: 'tickets',
+        title: 'Tickets',
+        icon: ReceiptText,
+        page: PortalShopTickets,
+      },
+      {
+        slug: 'customers',
+        title: 'Customers',
+        icon: User,
+        page: PortalShopCustomers,
+      },
     ],
   },
   {
@@ -58,9 +87,19 @@ const appRoutes: PortalAppRoute[] = [
     title: 'Admin',
     roles: [AuthRole.ADMIN],
     pageRoutes: [
-      { slug: 'locations', title: 'Locations', page: PortalAdminLocations },
-      { slug: 'employees', title: 'Employees', page: PortalAdminEmployees },
-      { slug: 'users', title: 'Users', page: PortalAdminUsers },
+      {
+        slug: 'locations',
+        title: 'Locations',
+        icon: MapPin,
+        page: PortalAdminLocations,
+      },
+      {
+        slug: 'employees',
+        title: 'Employees',
+        icon: GraduationCap,
+        page: PortalAdminEmployees,
+      },
+      { slug: 'users', title: 'Users', icon: User, page: PortalAdminUsers },
     ],
   },
   {
@@ -68,11 +107,16 @@ const appRoutes: PortalAppRoute[] = [
     title: 'WebEdit',
     roles: [AuthRole.ADMIN],
     pageRoutes: [
-      { slug: 'text', title: 'Text', page: PortalWebEditText },
-      { slug: 'shops', title: 'Shops', page: PortalWebEditShops },
-      { slug: 'stories', title: 'Stories', page: () => null },
-      { slug: 'courses', title: 'Courses', page: () => null },
-      { slug: 'partners', title: 'Partners', page: () => null },
+      { slug: 'text', title: 'Text', icon: Type, page: PortalWebEditText },
+      { slug: 'shops', title: 'Shops', icon: Store, page: PortalWebEditShops },
+      { slug: 'stories', title: 'Stories', icon: Newspaper, page: () => null },
+      { slug: 'courses', title: 'Courses', icon: BookOpen, page: () => null },
+      {
+        slug: 'partners',
+        title: 'Partners',
+        icon: Handshake,
+        page: () => null,
+      },
     ],
   },
 ];
@@ -105,7 +149,7 @@ const PortalRouter = () => {
           path={`${appRoute.slug}/*`}
           element={
             <ProtectedByRole roles={appRoute.roles ?? []} renderLandingPage>
-              <PortalLayout appRoute={appRoute} />
+              <PortalLayout appRoutes={appRoutes} currAppRoute={appRoute} />
             </ProtectedByRole>
           }
         >

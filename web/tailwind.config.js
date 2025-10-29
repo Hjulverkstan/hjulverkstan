@@ -80,7 +80,6 @@ module.exports = {
           fill: 'hsl(var(--purple-fill))',
           foreground: 'hsl(var(--purple-foreground))',
           border: 'hsl(var(--purple-foreground) / 0.25)',
-          muted: 'hsl(var(--purple-muted))',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

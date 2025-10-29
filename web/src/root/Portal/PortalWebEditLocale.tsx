@@ -14,6 +14,7 @@ import useStrictContext from '@hooks/useStrictContext';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import usePersistentState from '@hooks/usePersistentState';
 import usePortalSlugs from '@hooks/useSlugs';
+import { cn } from '@utils/common';
 
 //
 
@@ -63,21 +64,24 @@ export const Select = () => {
         onValueChange={(locale: Locale) => setLocale(locale)}
       >
         <Select$.Trigger
-          className="text-purple-foreground bg-purple-muted border-purple-border
-            h-8 w-full flex-shrink border font-medium"
+          className="h-8"
+          variant={locale === Global ? 'accent' : 'translation'}
           disabled={!!tailSlug}
         >
-          <div className="mr-2 flex items-center gap-2">
-            <Globe className="h-4 w-4" />
-            <Select$.Value />
-          </div>
+          <Globe className="h-4 w-4" />
+          <Select$.Value />
         </Select$.Trigger>
-        <Select$.Content className="border-purple-border border">
+        <Select$.Content
+          className={cn(locale !== Global && 'border-purple-border border')}
+        >
           {enums.locale.map(({ label, value }) => (
             <Select$.Item
               key={value}
               value={value}
-              className="focus:bg-purple-fill focus:text-purple-foreground"
+              className={cn(
+                value !== Global &&
+                  'focus:bg-purple-fill' + ' focus:text-purple-foreground',
+              )}
             >
               {label}
             </Select$.Item>

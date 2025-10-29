@@ -25,8 +25,8 @@ export const buttonVariants = cva(
           ' data-[state=open]:bg-muted shadow',
         red: ['bg-red text-background hover:bg-red/80'],
         outline: [
-          `border-input bg-background hover:bg-accent
-          hover:text-accent-foreground border`,
+          `border-input bg-background hover:bg-muted
+          hover:text-accent-foreground hover:border-border-dark border`,
         ],
         secondary: [
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow',
@@ -44,8 +44,8 @@ export const buttonVariants = cva(
           [
             `data-[state=active]:text-accent-foreground
             data-[state=active]:border-secondary-border bg-accent
-            hover:border-secondary-border text-muted-foreground
-            hover:text-accent-foreground border`,
+            hover:border-border-dark text-muted-foreground
+            hover:text-accent-foreground border-accent border`,
           ],
         ],
         ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',

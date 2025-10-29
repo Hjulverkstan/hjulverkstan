@@ -15,7 +15,6 @@ import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
 import PortalToolbar from '../PortalToolbar';
 import { usePortalWebEditLocale } from '../PortalWebEditLocale';
-import * as PortalWebEditLocale from '../PortalWebEditLocale';
 
 import WebEditShopsActions from './WebEditShopsActions';
 import WebEditShopsFields from './WebEditShopsFields';
@@ -43,7 +42,6 @@ export default function PortalWebEditShops({ mode }: PortalAppPageProps) {
       data={ShopsQ.data}
     >
       <PortalToolbar dataLabel="Shop" disableCreate={locale !== Global}>
-        <PortalWebEditLocale.Select />
         <WebEditShopsFilters />
       </PortalToolbar>
       <PortalContent>

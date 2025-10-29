@@ -46,9 +46,8 @@
     --blue-foreground: 210 90% 40%;
 
     --purple: 268 85% 60%;
-    --purple-fill: 268 80% 93%;
+    --purple-fill: 268 80% 94%;
     --purple-foreground: 278 65% 45%;
-    --purple-muted: 268 100% 95%;
 
     --border: 220 6% 91%;
     --border-dark: 220 6% 89%;
@@ -116,7 +115,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground ring-gray-400;
   }
 }
 

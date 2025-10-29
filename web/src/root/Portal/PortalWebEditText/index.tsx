@@ -17,7 +17,6 @@ import PortalForm from '../PortalForm';
 import PortalTable from '../PortalTable';
 import PortalToolbar from '../PortalToolbar';
 import { usePortalWebEditLocale } from '../PortalWebEditLocale';
-import * as PortalWebEditLocale from '../PortalWebEditLocale';
 
 import WebEditTextActions from './WebEditTextActions';
 import WebEditTextFields from './WebEditTextFields';
@@ -38,8 +37,6 @@ export default function PortalWebEditTexts({ mode }: PortalAppPageProps) {
 
   const columns = useColumns();
 
-  console.log(columns);
-
   return (
     <DataTable.Provider
       key="Texts"
@@ -48,7 +45,6 @@ export default function PortalWebEditTexts({ mode }: PortalAppPageProps) {
       data={TextsQ.data}
     >
       <PortalToolbar dataLabel="Text" hideCreate>
-        <PortalWebEditLocale.Select />
         <WebEditTextFilters />
       </PortalToolbar>
       <PortalContent>
