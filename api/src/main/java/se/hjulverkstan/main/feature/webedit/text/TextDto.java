@@ -1,7 +1,8 @@
 package se.hjulverkstan.main.feature.webedit.text;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,20 +13,11 @@ import se.hjulverkstan.main.shared.auditable.AuditableDto;
 @NoArgsConstructor
 public class TextDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private TextType textType;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String name;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String description;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String key;
+    private TextKey key;
 
     private String value;
 
@@ -33,9 +25,6 @@ public class TextDto extends AuditableDto {
         super();
 
         id = text.getId();
-        textType = text.getTextType();
-        name = text.getName();
-        description = text.getDescription();
         key = text.getKey();
         value = valueLocalised;
     }

@@ -2,12 +2,30 @@ import { ReactNode } from 'react';
 
 import { useDataForm } from './';
 import { Label } from '@components/shadcn/Label';
+import { Languages, LucideIcon } from 'lucide-react';
+import { cn } from '@utils/common';
+import { cva, VariantProps } from 'class-variance-authority';
+import { buttonVariants } from '@components/shadcn/Button';
 
-export interface FieldProps {
+const labelVariants = cva('flex gap-1.5 px-2', {
+  variants: {
+    variant: {
+      default: '',
+      translation: '!text-purple-foreground [&>label]:!text-purple-foreground',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
+
+export interface FieldProps extends VariantProps<typeof labelVariants> {
   label: string;
   description?: string;
   dataKey: string;
   children: ReactNode;
+  icon?: LucideIcon;
+  labelClassName?: string;
 }
 
 export const Field = ({
@@ -15,14 +33,16 @@ export const Field = ({
   label,
   description,
   children,
+  variant,
 }: FieldProps) => {
   const { fieldErrorMap } = useDataForm();
 
   return (
     <div className="flex flex-col space-y-2">
-      <Label className="px-2" htmlFor={dataKey}>
-        {label}
-      </Label>
+      <span className={labelVariants({ variant })}>
+        {variant === 'translation' && <Languages className="h-4 w-4" />}
+        <Label htmlFor={dataKey}>{label}</Label>
+      </span>
       {children}
       {description && (
         <p className="text-muted-foreground px-2 text-[0.8rem]">

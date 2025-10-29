@@ -1,9 +1,11 @@
+import { Auditable } from '../types';
+
 export enum CustomerType {
   PERSON = 'PERSON',
   ORG = 'ORGANIZATION',
 }
 
-export interface Customer {
+export interface Customer extends Auditable {
   id: string;
   customerType: CustomerType;
   firstName: string;
@@ -15,11 +17,6 @@ export interface Customer {
   comment?: string;
   //
   organizationName?: string;
-  //
-  createdBy: string;
-  createdAt: string;
-  updatedBy: string;
-  updatedAt: string;
 }
 
 export interface AggregatedCustomer extends Customer {

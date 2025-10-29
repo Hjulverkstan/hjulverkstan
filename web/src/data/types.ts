@@ -38,3 +38,12 @@ export type EnumAttributesMap<
 export interface ListResponse<Entity> {
   content: Entity[];
 }
+
+//
+
+export interface Auditable {
+  createdAt: string;
+  createdBy: string;
+  updatedAt?: string;
+  updatedBy?: string;
+}

@@ -13,12 +13,7 @@ import { EnumAttributes } from '../types';
 
 import * as api from './api';
 import * as enumsRaw from './enums';
-import {
-  Vehicle,
-  VehicleAggregated,
-  VehiclePublic,
-  VehicleType,
-} from './types';
+import { Vehicle, VehicleAggregated, VehicleType } from './types';
 import { findEnum } from '@utils/enums';
 
 //
@@ -110,7 +105,7 @@ export interface UsePublicVehiclesByLocationQProps {
 export const usePublicVehiclesByLocationQ = ({
   locationId,
 }: UsePublicVehiclesByLocationQProps) =>
-  useQuery<Vehicle[], StandardError, VehiclePublic[]>({
+  useQuery<Vehicle[], StandardError>({
     ...siteApi.createGetPublicVehiclesByLocation({ locationId }),
     enabled: !!locationId,
   });
@@ -122,6 +117,6 @@ export interface UsePublicVehicleByIdQProps {
 }
 
 export const usePublicVehicleByIdQ = ({ id }: UsePublicVehicleByIdQProps) =>
-  useQuery<Vehicle, StandardError, VehiclePublic>({
+  useQuery<Vehicle, StandardError>({
     ...siteApi.createGetPublicVehicleById({ id }),
   });

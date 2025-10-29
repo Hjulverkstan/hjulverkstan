@@ -218,3 +218,37 @@ export function matchDateWithoutTimestamp(
   const formattedDate = dateStr.split('T')[0];
   return formattedDate.toLowerCase().includes(search.toLowerCase());
 }
+
+//
+
+export const truncate = (text: string, maxLength: number): string =>
+  text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+
+//
+
+export const setByPath = <T extends object, V>(
+  obj: T,
+  path: string | string[],
+  value: V,
+): T => {
+  const keys = Array.isArray(path) ? [...path] : path.split('.');
+  if (keys.length === 0) return obj;
+
+  const [head, ...tail] = keys as string[];
+  const curr: any = (obj as any) ?? {};
+
+  return {
+    ...curr,
+    [head]: tail.length ? setByPath(curr[head] ?? {}, tail, value) : value,
+  } as T;
+};
+
+export const getByPath = <T = any,>(
+  obj: unknown,
+  path: string | string[],
+): T | undefined =>
+  (Array.isArray(path) ? path : path.split('.')).reduce(
+    (acc, key) =>
+      acc != null && typeof acc === 'object' ? (acc as any)[key] : undefined,
+    obj,
+  ) as T | undefined;

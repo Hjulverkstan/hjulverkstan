@@ -2,12 +2,12 @@ import * as C from '@utils/common';
 
 import { createErrorHandler, endpoints, instance } from '../api';
 
-import { AllEntities, LangSlug } from './types';
+import { AllEntities, Locale } from './types';
 
-//
+// GET ALL ENTITIES BY LANG
 
 export interface GetAllEndpointsRes {
-  entities: Record<LangSlug, AllEntities>;
+  entities: Record<Locale, AllEntities>;
 }
 
 export interface GetAllWebEditEntitiesByLangParams {
@@ -33,3 +33,16 @@ export const getAllWebEditEntitiesByLang = (
       ),
     )
     .catch(createErrorHandler(endpoints.webedit.all));
+
+// LANG COUNT
+
+export type GetLangCountParams = { entity: string };
+
+export const createGetLangCount = ({ entity }: GetLangCountParams) => ({
+  queryKey: [endpoints.webedit.count, entity],
+  queryFn: () =>
+    instance
+      .get(`${endpoints.webedit.count}/${entity}`)
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.webedit.count)),
+});

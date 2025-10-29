@@ -4,7 +4,7 @@ import { SectionContent } from '@components/SectionContent';
 import type { Story } from '@data/webedit/story/types';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { useParams } from 'react-router-dom';
-import { TiptapContent } from '@components/TiptapContent';
+import { TiptapContentAsHtml } from '@components/TiptapContentAsHtml';
 import { ImageWithFallback } from '@components/ImageWithFallback';
 import { endpoints } from '@data/api';
 import Error from '@components/Error';
@@ -38,7 +38,7 @@ export default function StoryDetail() {
             />
           </div>
           <div className="flex justify-center pt-16 lg:pt-24">
-            <TiptapContent content={story?.bodyText} />
+            <TiptapContentAsHtml content={story?.bodyText} />
           </div>
         </SectionContent>
       </Section>

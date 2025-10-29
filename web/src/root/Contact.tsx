@@ -73,7 +73,7 @@ const Contact: React.FC = () => {
   const faqRight = faqs.slice(middleIndex);
 
   return (
-    <Page heading={data.text.contactLabel} variant="muted">
+    <Page heading={t('contact')} variant="muted">
       <Section variant="muted">
         <SectionContent>
           <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">

@@ -6,14 +6,14 @@ import { Bullet } from '@components/Bullet';
 import { Shop } from '@data/webedit/shop/types';
 import { Base, Image, Title } from '@components/Card';
 import { Link } from '@components/shadcn/Button';
-import { VehiclePublic } from '@data/vehicle/types';
+import { Vehicle } from '@data/vehicle/types';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import * as enumsRaw from '@data/vehicle/enums';
 import { findEnum } from '@utils/enums';
 
 interface CardVehicleProps {
   shop: Shop;
-  vehicle: VehiclePublic;
+  vehicle: Vehicle;
 }
 
 export const CardVehicle: React.FC<CardVehicleProps> = ({ shop, vehicle }) => {

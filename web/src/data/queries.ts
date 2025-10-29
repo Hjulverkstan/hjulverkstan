@@ -4,7 +4,7 @@ import { queryClient } from '@root';
 
 //
 
-const queryKeyToString = (queryKey: QueryKey) =>
+const queryKeyToString = (queryKey: QueryKey | string) =>
   typeof queryKey === 'string'
     ? queryKey
     : queryKey.map((el) => JSON.stringify(el)).join();
@@ -12,7 +12,7 @@ const queryKeyToString = (queryKey: QueryKey) =>
 export const invalidateQueries = (queryKeys: string[][]) => {
   queryClient
     .invalidateQueries({
-      predicate: ({ queryKey = '' }) =>
+      predicate: ({ queryKey = [] }) =>
         queryKeys.some((matchQueryKey) =>
           queryKeyToString(queryKey).startsWith(
             queryKeyToString(matchQueryKey),
