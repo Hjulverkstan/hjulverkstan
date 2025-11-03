@@ -20,7 +20,11 @@ export const Header = ({ columns }: HeaderProps) => {
       <Table.Row>
         {visibleColumns.map((col, x) => (
           <Table.Head key={col.key} className={C.cn(x === 0 && 'pl-2')}>
-            {col.renderHeaderFn ? col.renderHeaderFn() : <SortHead col={col} />}
+            {col.renderHeaderFn ? (
+              col.renderHeaderFn()
+            ) : (
+              <SortHead colKey={col.key} colName={col.name} />
+            )}
           </Table.Head>
         ))}
         <Table.Head className="sticky right-0 z-10 w-10">

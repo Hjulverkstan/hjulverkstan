@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ComponentType, useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -7,9 +8,8 @@ import * as DialogManager from '@components/DialogManager';
 import ThemeProvider from '@components/shadcn/ThemeProvider';
 import Toaster from '@components/shadcn/Toaster';
 import * as Tooltip from '@components/shadcn/Tooltip';
-import { usePreloadedData } from '@hooks/usePreloadedData';
-import { LocaleProvider } from '@hooks/useCurrentLocale';
-import type { LocaleAllEntitiesMap } from '@data/webedit/types';
+import { LangProvider, usePreloadedData } from '@hooks/usePreloadedData';
+import { Lang, LangAllEntitiesMap } from '@data/webedit/types';
 import { useTranslations, TranslationKeys } from '@hooks/useTranslations';
 
 import Contact from './Contact';
@@ -61,7 +61,7 @@ export const queryClient = new QueryClient({
  * statically generated site. See [link](link)
  */
 
-export const fallbackLocale = 'sv';
+export const fallbackLang = Lang.SV;
 
 export interface RouteAttributes {
   path: string;
@@ -72,64 +72,62 @@ export interface RouteAttributes {
   disableSSR?: boolean;
 }
 
-export const createRoutes = (
-  data?: LocaleAllEntitiesMap,
-): RouteAttributes[] => {
-  const shopSlugs = data?.[fallbackLocale].shops.map((s) => s.slug);
-  const storySlugs = data?.[fallbackLocale].stories.map((story) => story.slug);
+export const createRoutes = (data?: LangAllEntitiesMap): RouteAttributes[] => {
+  const shopSlugs = data?.[fallbackLang].shops.map((s) => s.slug);
+  const storySlugs = data?.[fallbackLang].stories.map((story) => story.slug);
 
   return [
     {
       path: '/',
-      titleTranslationKey: 'homeTitle',
+      titleTranslationKey: 'home',
       component: Home,
     },
     {
       path: '/contact',
-      titleTranslationKey: 'contactTitle',
+      titleTranslationKey: 'contact',
       component: Contact,
     },
     {
       path: '/shops',
-      titleTranslationKey: 'shopsTitle',
+      titleTranslationKey: 'shops',
       component: Shops,
     },
     {
       path: '/shops/:slug',
-      titleTranslationKey: 'shopsTitle',
+      titleTranslationKey: 'shops',
       component: ShopDetail,
       dynamicSegments: shopSlugs?.map((slug) => ({ slug })),
     },
     {
       path: '/vehicle/:id',
-      titleTranslationKey: 'vehicleDetailTitle',
+      titleTranslationKey: 'vehicle',
       component: VehicleDetail,
       disableSSR: true,
     },
     {
       path: '/support',
-      titleTranslationKey: 'supportTitle',
+      titleTranslationKey: 'support',
       component: Support,
     },
     {
       path: '/services',
-      titleTranslationKey: 'servicesTitle',
+      titleTranslationKey: 'services',
       component: Services,
     },
     {
       path: '/stories',
-      titleTranslationKey: 'storiesTitle',
+      titleTranslationKey: 'stories',
       component: Stories,
     },
     {
       path: '/stories/:slug',
-      titleTranslationKey: 'storyTitle',
+      titleTranslationKey: 'story',
       component: StoryDetail,
       dynamicSegments: storySlugs?.map((slug) => ({ slug })),
     },
     {
       path: '/portal/*',
-      titleTranslationKey: 'portalTitle',
+      titleTranslationKey: 'portal',
       component: Portal,
       disableSSR: true,
     },
@@ -146,32 +144,32 @@ export const createRoutes = (
 
 function RouteHelmet({
   route,
-  locale,
+  lang,
 }: {
   route: RouteAttributes;
-  locale?: string;
+  lang?: string;
 }) {
-  const { locales } = usePreloadedData();
+  const { langs } = usePreloadedData();
   const { t } = useTranslations();
 
   return (
     <Helmet>
-      <title>{t(route.titleTranslationKey)}</title>
+      <title>Hjulverkstan - {t(route.titleTranslationKey)}</title>
       {import.meta.env.VITE_ENV.toLowerCase() !== 'prod' && (
         <meta name="robots" content="noindex, nofollow" />
       )}
-      {locale && (
+      {lang && (
         <>
           <link
             rel="canonical"
-            href={`${import.meta.env.VITE_FRONTEND_URL}/${locale ?? fallbackLocale}${route.path}`}
+            href={`${import.meta.env.VITE_FRONTEND_URL}/${lang ?? fallbackLang}${route.path}`}
           />
-          {locales.map((locale) => (
+          {langs.map((lang) => (
             <link
-              key={locale}
+              key={lang}
               rel="alternative"
-              href={`${import.meta.env.VITE_FRONTEND_URL}/${locale}${route.path}`}
-              hrefLang={locale}
+              href={`${import.meta.env.VITE_FRONTEND_URL}/${lang}${route.path}`}
+              hrefLang={lang}
             />
           ))}
         </>
@@ -212,25 +210,25 @@ function ScrollToTop() {
 
 //
 
-const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
+const renderLocalizedRoute = (route: RouteAttributes, lang?: string) => (
   <Route
-    key={route.path + locale}
-    path={locale ? `/${locale}${route.path}` : route.path}
+    key={route.path + lang}
+    path={lang ? `/${lang}${route.path}` : route.path}
     element={
-      <LocaleProvider value={locale ?? fallbackLocale}>
+      <LangProvider value={lang ?? fallbackLang}>
         <Tooltip.Provider delayDuration={500}>
           <DialogManager.Provider>
-            <RouteHelmet route={route} locale={locale ?? fallbackLocale} />
+            <RouteHelmet route={route} lang={lang ?? fallbackLang} />
             <route.component />
-            {!locale && (
+            {!lang && (
               <RedirectDelayed
-                path={`/${fallbackLocale}${route.path.replace('/*', '')}`}
+                path={`/${fallbackLang}${route.path.replace('/*', '')}`}
               />
             )}
             <Toaster />
           </DialogManager.Provider>
         </Tooltip.Provider>
-      </LocaleProvider>
+      </LangProvider>
     }
   />
 );
@@ -240,16 +238,16 @@ const renderLocalizedRoute = (route: RouteAttributes, locale?: string) => (
  * the client.
  *
  * First we match for CSR (Client Side Rendered) routes and then for all SSR
- * routers, followed by each locale with the SSR routes nested. For more
+ * routers, followed by each lang with the SSR routes nested. For more
  * information about our routing see [link](link)
  */
 
 export default function Root() {
-  const { locales, data } = usePreloadedData();
+  const { langs, data } = usePreloadedData();
   const routes = createRoutes(data).concat({
     path: '*',
     component: PageNotFound,
-    title: 'Page not found',
+    titleTranslationKey: 'pageNotFound',
   });
 
   return (
@@ -258,9 +256,9 @@ export default function Root() {
       <QueryClientProvider client={queryClient}>
         <Routes>
           {routes.map((route) => renderLocalizedRoute(route))}
-          {locales
-            .map((locale) =>
-              routes.map((route) => renderLocalizedRoute(route, locale)),
+          {langs
+            .map((lang) =>
+              routes.map((route) => renderLocalizedRoute(route, lang)),
             )
             .flat()}
         </Routes>

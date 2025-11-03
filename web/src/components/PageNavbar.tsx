@@ -10,8 +10,8 @@ import { cn } from '@utils/common';
 import { useTranslations } from '@hooks/useTranslations';
 import { useCurrentLocale } from '@hooks/useCurrentLocale';
 import { usePreloadedData } from '@hooks/usePreloadedData';
-import * as enums from '@data/translations/enums';
-import { LangSlug } from '@data/webedit/types';
+import { langCodes } from '@data/translations/enums';
+import { Lang } from '@data/webedit/types';
 import { findEnum } from '@utils/enums';
 
 export const navLinks = [
@@ -40,7 +40,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const currLocale = useCurrentLocale();
-  const { locales } = usePreloadedData();
+  const { langs } = usePreloadedData();
 
   const [isOpen, setIsOpen] = useState(false);
   const scrolledPast = hasHeroSection
@@ -51,11 +51,11 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
 
   const { t } = useTranslations();
 
-  const handleLangSelect = (locale: LangSlug) => {
+  const handleLangSelect = (locale: Lang) => {
     const { pathname, search, hash } = location;
 
     const nonLocalisedPath = pathname.replace(
-      new RegExp(`^/(?:${locales.join('|')})(?=/|$)`, 'i'),
+      new RegExp(`^/(?:${langs.join('|')})(?=/|$)`, 'i'),
       '',
     );
 
@@ -113,9 +113,9 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
               </div>
             </Select.Trigger>
             <Select.Content onCloseAutoFocus={(e) => e.preventDefault()}>
-              {locales.map((value) => (
+              {langs.map((value) => (
                 <Select.Item value={value}>
-                  {findEnum(enums, value).label}
+                  {findEnum(langCodes, value).label}
                 </Select.Item>
               ))}
             </Select.Content>

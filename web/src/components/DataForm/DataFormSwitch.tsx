@@ -6,6 +6,7 @@ import { Field, FieldProps, useDataForm } from './';
 export interface DataFormSwitchProps extends Omit<FieldProps, 'children'> {
   onLabel: string;
   offLabel: string;
+  disabled?: boolean;
 }
 
 export const Switch = ({
@@ -14,8 +15,9 @@ export const Switch = ({
   offLabel,
   dataKey,
   description,
+  disabled,
 }: DataFormSwitchProps) => {
-  const { body, setBodyProp, isDisabled, isLoading } = useDataForm();
+  const { getBodyProp, setBodyProp, isDisabled, isLoading } = useDataForm();
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
@@ -25,13 +27,14 @@ export const Switch = ({
         )}
       >
         <SwitchDumb
-          checked={body[dataKey]}
+          checked={getBodyProp(dataKey)}
           onCheckedChange={(val) => setBodyProp(dataKey, val)}
           isSkeleton={isLoading}
-          disabled={isDisabled}
+          disabled={isDisabled || disabled}
         />
         <span>
-          {body[dataKey] !== undefined && (body[dataKey] ? onLabel : offLabel)}
+          {getBodyProp(dataKey) !== undefined &&
+            (getBodyProp(dataKey) ? onLabel : offLabel)}
         </span>
       </div>
     </Field>
