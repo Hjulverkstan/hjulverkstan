@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { IconLink } from '@components/shadcn/Button';
 import { Base, Body, Image, Row, Title } from '@components/Card';
 import { Story } from '@data/webedit/story/types';
-import { TiptapContent } from '@components/TiptapContent';
+import { TiptapContentAsText } from '@components/TiptapContentAsText';
 
 interface CardStoryProps {
   story: Story;
@@ -16,7 +16,7 @@ export const CardStory: React.FC<CardStoryProps> = ({ story, className }) => (
     <Title variant="imageBackground">{story.title}</Title>
     <Row className="items-end">
       <Body className="line-clamp-3">
-        <TiptapContent content={story?.bodyText} />
+        <TiptapContentAsText content={story?.bodyText} />
       </Body>
       <IconLink
         to={`/stories/${story.slug}`}

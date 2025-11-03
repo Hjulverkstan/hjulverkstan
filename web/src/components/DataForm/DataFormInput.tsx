@@ -22,13 +22,21 @@ export const Input = ({
   description,
   disabled,
   onPaste,
+  icon,
+  variant,
 }: InputProps) => {
-  const { body, setBodyProp, isDisabled } = useDataForm();
+  const { getBodyProp, setBodyProp, isDisabled } = useDataForm();
 
   const formIsDisabled = isDisabled || disabled;
 
   return (
-    <Field label={label} dataKey={dataKey} description={description}>
+    <Field
+      label={label}
+      dataKey={dataKey}
+      description={description}
+      icon={icon}
+      variant={variant}
+    >
       <InputDumb
         type={type}
         min={min}
@@ -36,9 +44,9 @@ export const Input = ({
         id={dataKey}
         disabled={formIsDisabled}
         placeholder={placeholder}
-        value={body[dataKey] ?? ''}
+        value={getBodyProp(dataKey) ?? ''}
         onChange={({ target: { value } }) => {
-          if (body[dataKey] !== value) {
+          if (getBodyProp(dataKey) !== value) {
             setBodyProp(
               dataKey,
               value.trim() === ''
@@ -53,6 +61,7 @@ export const Input = ({
         className={C.cn(
           'bg-background h-8',
           formIsDisabled && '!cursor-default !opacity-75',
+          variant === 'translation' && 'border-purple/70 border',
         )}
       />
     </Field>

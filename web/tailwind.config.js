@@ -69,14 +69,17 @@ module.exports = {
           border: 'hsl(var(--green-foreground) / 0.25)',
         },
         blue: {
+          DEFAULT: 'hsl(var(--blue))',
           fill: 'hsl(var(--blue-fill))',
+          muted: 'hsl(var(--blue-muted))',
           foreground: 'hsl(var(--blue-foreground))',
           border: 'hsl(var(--blue-foreground) / 0.25)',
         },
         purple: {
+          DEFAULT: 'hsl(var(--purple))',
           fill: 'hsl(var(--purple-fill))',
           foreground: 'hsl(var(--purple-foreground))',
-          border: 'hsl(var(--purple-foreground) / 0.23)',
+          border: 'hsl(var(--purple-foreground) / 0.25)',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

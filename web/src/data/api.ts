@@ -17,10 +17,14 @@ export const endpoints = {
     verifyAuth: '/auth/verify',
   },
   site: {
-    vehicle: '/site/vehicle'
+    vehicle: '/site/vehicle',
   },
   webedit: {
     all: '/web-edit/get-all',
+    shop: '/web-edit/shop',
+    story: '/web-edit/story',
+    text: '/web-edit/text',
+    count: 'web-edit/count',
   },
   user: '/user',
 };

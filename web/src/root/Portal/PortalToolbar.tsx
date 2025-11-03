@@ -7,11 +7,17 @@ import { IconButton } from '@components/shadcn/Button';
 
 export interface PortalToolbarProps {
   children: ReactNode;
+  rightChildren?: ReactNode;
   dataLabel: string;
+  hideCreate?: boolean;
+  disableCreate?: boolean;
 }
 
 export default function PortalToolbar({
+  disableCreate,
+  hideCreate,
   children,
+  rightChildren,
   dataLabel,
 }: PortalToolbarProps) {
   const { id } = useParams();
@@ -24,13 +30,19 @@ export default function PortalToolbar({
         {children}
         <DataTable.FilterClear />
       </div>
-      <IconButton
-        className="ml-2"
-        disabled={disabled}
-        onClick={() => navigate(id ? '../create' : 'create')}
-        text={`Add ${dataLabel}`}
-        icon={PlusIcon}
-      />
+      <div className="flex flex-1 items-center justify-end space-x-2">
+        <div>{rightChildren}</div>
+        {!hideCreate && (
+          <IconButton
+            className="ml-2"
+            variant="outline"
+            disabled={disabled || disableCreate}
+            onClick={() => navigate(id ? '../create' : 'create')}
+            text={`Add ${dataLabel}`}
+            icon={PlusIcon}
+          />
+        )}
+      </div>
     </div>
   );
 }

@@ -23,7 +23,7 @@ export const createSuccessToast = ({
   id?: string;
 }) => ({
   variant: 'green' as any,
-  title: `Successfully managed to ${verbLabel} the ${dataLabel}${id ? ` with id: ${id}` : ''}.`,
+  title: `Successfully managed to ${verbLabel} the ${dataLabel}: ${id}.`,
   duration: 5000,
 });
 

@@ -1,40 +1,83 @@
-import { LangSlug } from '@data/webedit/types';
-import { EnumAttributes } from '@data/types';
+import { Global, Lang } from '@data/webedit/types';
+import { EnumAttributes, EnumAttributesRaw } from '@data/types';
 
-export const locale: EnumAttributes[] = [
+export const lang: EnumAttributesRaw[] = [
   {
-    dataKey: 'locale',
+    dataKey: 'lang',
+    translationKey: 'langGlobal',
+    value: Global,
+  },
+  {
+    dataKey: 'lang',
+    translationKey: 'langSwe',
+    value: Lang.SV,
+  },
+  {
+    dataKey: 'lang',
+    translationKey: 'langEng',
+    value: Lang.EN,
+  },
+  {
+    dataKey: 'lang',
+    translationKey: 'langPer',
+    value: Lang.FA,
+  },
+  {
+    dataKey: 'lang',
+    translationKey: 'langAra',
+    value: Lang.AR,
+  },
+  {
+    dataKey: 'lang',
+    translationKey: 'langSom',
+    value: Lang.SO,
+  },
+  {
+    dataKey: 'lang',
+    translationKey: 'langBos',
+    value: Lang.BS,
+  },
+  {
+    dataKey: 'lang',
+    translationKey: 'langTur',
+    value: Lang.TR,
+  },
+];
+
+export const langCodes: EnumAttributes[] = [
+  {
+    dataKey: 'lang',
     label: 'SV',
-    value: LangSlug.SWE,
+    value: Lang.SV,
   },
   {
-    dataKey: 'locale',
+    dataKey: 'lang',
     label: 'EN',
-    value: LangSlug.ENG,
+    value: Lang.EN,
   },
   {
-    dataKey: 'locale',
+    dataKey: 'lang',
     label: 'FA',
-    value: LangSlug.PER,
+    value: Lang.FA,
   },
   {
-    dataKey: 'locale',
+    dataKey: 'lang',
     label: 'AR',
-    value: LangSlug.ARA,
+    value: Lang.AR,
   },
   {
-    dataKey: 'locale',
+    dataKey: 'lang',
     label: 'SO',
-    value: LangSlug.SOM,
+    value: Lang.SO,
   },
   {
-    dataKey: 'locale',
+    dataKey: 'lang',
     label: 'BS',
-    value: LangSlug.BOS,
+    value: Lang.BS,
   },
   {
-    dataKey: 'locale',
+    dataKey: 'lang',
     label: 'TR',
-    value: LangSlug.TUR,
+    value: Lang.TR,
   },
 ];

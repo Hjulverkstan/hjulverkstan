@@ -15,6 +15,7 @@ import se.hjulverkstan.main.shared.auditable.AuditableDto;
 @NoArgsConstructor
 public class ShopDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @NotNull(message = "Shop name is required")
@@ -23,9 +24,11 @@ public class ShopDto extends AuditableDto {
     @NotNull(message = "Shop address is required")
     private String address;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     @NotNull(message = "Latitude is required")
     private Double latitude;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     @NotNull(message = "Longitude is required")
     private Double longitude;
 
@@ -43,12 +46,12 @@ public class ShopDto extends AuditableDto {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long locationId;
 
-    @NotBlank(message = "Body text in at least one language is required for creating a shop")
     private JsonNode bodyText;
 
     public ShopDto (Shop shop, JsonNode bodyTextLocalised) {
         super(shop);
 
+        id = shop.getId();
         name = shop.getName();
         address = shop.getAddress();
         latitude = shop.getLatitude();

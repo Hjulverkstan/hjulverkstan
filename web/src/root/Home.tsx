@@ -23,12 +23,12 @@ import { useDialogManager } from '@components/DialogManager';
 import { useTranslations } from '@hooks/useTranslations';
 
 import {
-  ServicesRepairCardView,
+  ServicesAsDialogWrapper,
   ServicesHowToRentView,
   ServicesJoinCourseView,
-  ServicesAsDialogWrapper,
+  ServicesRepairCardView,
 } from './Services';
-import { TiptapContent } from '@components/TiptapContent';
+import { TiptapContentAsText } from '@components/TiptapContentAsText';
 
 const Statistic = ({ label, value }: { label: string; value: number }) => (
   <div className="flex h-full flex-col items-center justify-start text-center">
@@ -171,7 +171,7 @@ export default function Home() {
                 <CardCompact
                   key={story.id}
                   title={story.title}
-                  body={<TiptapContent content={story.bodyText} />}
+                  body={<TiptapContentAsText content={story.bodyText} />}
                   link={`/stories/${story.id}`}
                   ariaLabel={story.title}
                 />

@@ -11,13 +11,11 @@ import se.hjulverkstan.main.feature.webedit.shop.ShopService;
 import se.hjulverkstan.main.feature.webedit.story.StoryDto;
 import se.hjulverkstan.main.feature.webedit.story.StoryService;
 import se.hjulverkstan.main.feature.webedit.text.TextDto;
+import se.hjulverkstan.main.feature.webedit.text.TextKey;
 import se.hjulverkstan.main.feature.webedit.text.TextService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,8 +65,11 @@ public class WebEditService {
             ListResponseDto<StoryDto> storiesDto = storyService.getAllStoriesByLang(lang, fallbackLang);
             ListResponseDto<TextDto> textsDto = textService.getAllTextsByLang(lang, fallbackLang);
 
-            Map<String, String> textMap = textsDto.getContent().stream()
-                    .collect(Collectors.toMap(TextDto::getKey, TextDto::getValue));
+            Map<TextKey, String> textMap = textsDto.getContent().stream()
+                    .collect(Collectors.toMap(
+                            TextDto::getKey,
+                            dto -> Optional.ofNullable(dto.getValue()).orElse("")
+                    ));
 
             entitiesDto.setShops(shopsDto.getContent());
             entitiesDto.setStories(storiesDto.getContent());
