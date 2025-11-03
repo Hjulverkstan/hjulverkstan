@@ -19,6 +19,7 @@ export interface UseDataFormReturn<D = Data> {
   isLoading: boolean;
   isDisabled: boolean;
   body: Partial<D>;
+  getBodyProp: (dataKey: string) => any;
   setBodyProp: (dataKey: string, value: any) => void;
   fieldErrorMap: Record<string, string>;
   registerManualIssue: (key: string, message: string | null) => void;
@@ -51,7 +52,7 @@ interface DataFormProps<D> {
   // Used to validate the form
   zodSchema: ZodType<any>;
   // Required to populate the body when in CREATE mode.
-  initCreateBody: Partial<D>;
+  initCreateBody?: Partial<D>;
   // Here you fill with the other DataForm components to construct your form.
   children: ReactNode;
 }
@@ -85,7 +86,7 @@ export const Provider = C.withLobotomizer(
     isLoading: isLoadingProp,
     data,
     zodSchema,
-    initCreateBody,
+    initCreateBody = {},
     children,
   }: DataFormProps<D>) => {
     const { toast } = useToast();
@@ -142,15 +143,26 @@ export const Provider = C.withLobotomizer(
     const submitError = mode === Mode.READ ? undefined : bodyIssues[0]?.message;
 
     const setBodyProp = useCallback(
-      (dataKey: string, value: any) =>
-        setBody((prev) => prev && { ...prev, [dataKey]: value }),
-      [],
+      (dataKey: string, value: any) => {
+        if (mode === Mode.READ) {
+          console.warn('tried to edit data form prop while in read.');
+        } else {
+          setBody((prev) => (prev ? C.setByPath(prev, dataKey, value) : prev));
+        }
+      },
+      [mode],
+    );
+
+    const getBodyProp = useCallback(
+      (dataKey: string) => C.getByPath(body, dataKey),
+      [body],
     );
 
     const form = {
       body,
       mode,
       setBodyProp,
+      getBodyProp,
       isLoading,
       isDisabled,
       fieldErrorMap,

@@ -21,7 +21,7 @@ export const DatePicker = ({
   fromDate,
 }: DataFormDateProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoading, isDisabled, body, setBodyProp } = useDataForm();
+  const { isLoading, isDisabled, getBodyProp, setBodyProp } = useDataForm();
 
   return (
     <Field label={label} dataKey={dataKey} description={description}>
@@ -31,15 +31,15 @@ export const DatePicker = ({
             disabled={isDisabled}
             variant={'outline'}
             className={C.cn(
-              !body[dataKey] && 'text-muted-foreground',
+              !getBodyProp(dataKey) && 'text-muted-foreground',
               isDisabled && '!opacity-75',
             )}
             icon={CalendarIcon}
             text={
               isLoading
                 ? ''
-                : body[dataKey]
-                  ? format(body[dataKey], 'PPP')
+                : getBodyProp(dataKey)
+                  ? format(getBodyProp(dataKey), 'PPP')
                   : 'Pick a date'
             }
           />
@@ -48,7 +48,7 @@ export const DatePicker = ({
           <Calendar
             fromDate={fromDate}
             mode="single"
-            selected={body[dataKey]}
+            selected={getBodyProp(dataKey)}
             onSelect={(value?: Date) => {
               if (value)
                 setBodyProp(

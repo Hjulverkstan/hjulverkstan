@@ -20,6 +20,7 @@ import { SectionContent } from '@components/SectionContent';
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { CardServices, CardServicesSteps } from '@components/CardServices';
 import { DialogContent } from '@components/shadcn/Dialog';
+import { useTranslations } from '@hooks/useTranslations';
 
 export const ServicesRepairCardView: React.FC<{
   mode?: 'page' | 'dialog';
@@ -158,10 +159,10 @@ export const ServicesAsDialogWrapper: FC<{ children: ReactNode }> = ({
 );
 
 export default function Services() {
-  const { data } = usePreloadedDataLocalized();
+  const { t } = useTranslations();
 
   return (
-    <Page heading={data.text.servicesTitle} variant="muted">
+    <Page heading={t('services')} variant="muted">
       <Section variant="muted">
         <SectionContent>
           <div

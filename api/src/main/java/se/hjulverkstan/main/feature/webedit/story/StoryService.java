@@ -28,14 +28,14 @@ public class StoryService {
         return new ListResponseDto<>(stories.stream().map(story -> toDto(story, lang, fallbackLang)).toList());
     }
 
-    public StoryDto getStoryByLangAndId(Language lang, Long id) {
+    public StoryDto getStoryByLangAndId(Long id, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
 
         return toDto(story, lang, null);
     }
 
     @Transactional
-    public StoryDto createStoryByLang(Language lang, StoryDto dto) {
+    public StoryDto createStoryByLang(StoryDto dto, Language lang) {
         Story story = new Story();
 
         applyToEntity(story, dto, lang);
@@ -45,7 +45,7 @@ public class StoryService {
     }
 
     @Transactional
-    public StoryDto editStoryByLang(Language lang, Long id, StoryDto dto) {
+    public StoryDto editStoryByLang(Long id, StoryDto dto, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
 
         applyToEntity(story, dto, lang);
@@ -55,9 +55,15 @@ public class StoryService {
     }
 
     @Transactional
-    public void deleteStory(Long id) {
+    public void deleteStory(Long id, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
-        storyRepository.delete(story);
+
+        if (lang != null) {
+            localisationService.removeTranslationsByLang(story, lang);
+            storyRepository.save(story);
+        } else {
+            storyRepository.delete(story);
+        }
     }
 
     private void applyToEntity (Story story, StoryDto dto, Language lang) {

@@ -1,28 +1,36 @@
-import { Field, FieldProps, Mode, useDataForm } from './';
+import { ImageUpIcon, Trash2Icon } from 'lucide-react';
+import React, { useRef } from 'react';
+
 import { useUploadImageM } from '@data/image/mutations';
-import React, { useEffect, useRef, useState } from 'react';
 import Error from '@components/Error';
 import Spinner from '@components/Spinner';
-import { ImageUpIcon, Trash2Icon } from 'lucide-react';
 import { endpoints } from '@data/api';
 import { IconButton } from '@components/shadcn/Button';
-import { createErrorToast } from '../../root/Portal/toast';
 import { useToast } from '@components/shadcn/use-toast';
 import { ImageWithFallback } from '@components/ImageWithFallback';
 
+import { createErrorToast } from '../../root/Portal/toast';
+import { Field, FieldProps, Mode, useDataForm } from './';
+
 export interface ImageProps extends Omit<FieldProps, 'children'> {
   disableImageUpload?: string;
+  disabled?: boolean;
 }
 
-export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
-  const { body, setBodyProp, mode, registerManualIssue } = useDataForm();
+export const Image = ({
+  dataKey,
+  label,
+  disableImageUpload,
+  disabled,
+}: ImageProps) => {
+  const { getBodyProp, setBodyProp, mode, registerManualIssue } = useDataForm();
   const uploadImageM = useUploadImageM();
   const { toast } = useToast();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDelete = () => {
-    setBodyProp('tempDeleteImageURL', body[dataKey]);
+    setBodyProp('tempDeleteImageURL', getBodyProp(dataKey));
     setBodyProp(dataKey, null);
   };
 
@@ -77,10 +85,10 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
       <div
         className={`relative flex h-[200px] max-w-[500px] flex-col items-center
           justify-center gap-2 overflow-hidden rounded-lg border ${
-            !body[dataKey] ? 'ΕΖΓΗΞΗΓΓΔΗbg-gray-100 border-dashed' : ''
+            !getBodyProp(dataKey) ? 'ΕΖΓΗΞΗΓΓΔΗbg-gray-100 border-dashed' : ''
           }`}
       >
-        {mode === Mode.EDIT && body[dataKey] && (
+        {mode === Mode.EDIT && getBodyProp(dataKey) && !disabled && (
           <IconButton
             variant="red"
             className="absolute right-2 top-2 z-10"
@@ -97,31 +105,34 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
           </div>
         ) : (
           <>
-            {!disableImageUpload && mode === Mode.EDIT && body[dataKey] && (
-              <>
-                <IconButton
-                  variant="outline"
-                  className="absolute right-12 top-2 z-10"
-                  icon={ImageUpIcon}
-                  onClick={handleUploadClick}
-                />
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  id={`file-upload-${dataKey}`}
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-              </>
-            )}
-            {body[dataKey] ? (
+            {!disableImageUpload &&
+              !disabled &&
+              mode === Mode.EDIT &&
+              getBodyProp(dataKey) && (
+                <>
+                  <IconButton
+                    variant="outline"
+                    className="absolute right-12 top-2 z-10"
+                    icon={ImageUpIcon}
+                    onClick={handleUploadClick}
+                  />
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    id={`file-upload-${dataKey}`}
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </>
+              )}
+            {getBodyProp(dataKey) ? (
               <div
                 className="relative flex h-full w-full items-center
                   justify-center bg-gray-100"
               >
                 <ImageWithFallback
-                  src={body[dataKey]}
+                  src={getBodyProp(dataKey)}
                   alt="Uploaded"
                   className="h-full w-full object-cover"
                   fallback={
@@ -140,6 +151,7 @@ export const Image = ({ dataKey, label, disableImageUpload }: ImageProps) => {
               </p>
             ) : (
               !disableImageUpload &&
+              !disabled &&
               mode === Mode.EDIT && (
                 <div
                   className="relative flex h-full w-full flex-col items-center
