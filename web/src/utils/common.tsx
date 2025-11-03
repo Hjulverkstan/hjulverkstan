@@ -1,6 +1,5 @@
 import { AxiosInstance } from 'axios';
 import { ClassValue, clsx } from 'clsx';
-import localeCodes from 'locale-codes';
 import { FC } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -131,30 +130,6 @@ export function uniq<T>(array: T[]): T[] {
   return Array.from(new Set(array));
 }
 
-//
-
-export const langCodeToLocale = (langCode: string) => {
-  const locale = localeCodes.all.find(
-    (entry) => entry['iso639-2']?.toLowerCase() === langCode.toLowerCase(),
-  )?.['iso639-1'];
-
-  if (!locale) throw Error(`Could not convert lang ${langCode} to locale`);
-
-  return locale;
-};
-
-export const localeToLangCode = (locale: string) => {
-  const langCode = localeCodes.all.find(
-    (entry) => entry?.['iso639-1']?.toLowerCase() === locale.toLowerCase(),
-  )?.['iso639-2'];
-
-  if (!langCode) throw Error(`Could not convert locale ${locale} to langCode`);
-
-  return langCode;
-};
-
-//
-
 /**
  * useAxiosCookieJar add interceptors to resend cookies from responses
  * in requests. We use this on server side as there is no browser to store the
@@ -218,3 +193,37 @@ export function matchDateWithoutTimestamp(
   const formattedDate = dateStr.split('T')[0];
   return formattedDate.toLowerCase().includes(search.toLowerCase());
 }
+
+//
+
+export const truncate = (text: string, maxLength: number): string =>
+  text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+
+//
+
+export const setByPath = <T extends object, V>(
+  obj: T,
+  path: string | string[],
+  value: V,
+): T => {
+  const keys = Array.isArray(path) ? [...path] : path.split('.');
+  if (keys.length === 0) return obj;
+
+  const [head, ...tail] = keys as string[];
+  const curr: any = (obj as any) ?? {};
+
+  return {
+    ...curr,
+    [head]: tail.length ? setByPath(curr[head] ?? {}, tail, value) : value,
+  } as T;
+};
+
+export const getByPath = <T = any,>(
+  obj: unknown,
+  path: string | string[],
+): T | undefined =>
+  (Array.isArray(path) ? path : path.split('.')).reduce(
+    (acc, key) =>
+      acc != null && typeof acc === 'object' ? (acc as any)[key] : undefined,
+    obj,
+  ) as T | undefined;

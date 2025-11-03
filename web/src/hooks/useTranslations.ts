@@ -7,17 +7,17 @@ import {
   type TranslationKeys,
   TranslationLangs,
 } from '@data/translations';
-import { fallbackLocale } from '@root';
+import { fallbackLang } from '@root';
 export type { TranslationKeys } from '@data/translations';
 
 export function useTranslations() {
-  const { currLocale } = usePreloadedDataLocalized();
+  const { currLang } = usePreloadedDataLocalized();
 
   const translations = useMemo(
     () =>
-      (langTranslationsMap[currLocale as TranslationLangs] ??
-        fallbackLocale) as Record<TranslationKeys, string>,
-    [currLocale],
+      (langTranslationsMap[currLang as TranslationLangs] ??
+        fallbackLang) as Record<TranslationKeys, string>,
+    [currLang],
   );
 
   const t = <K extends TranslationKeys>(
@@ -25,7 +25,7 @@ export function useTranslations() {
     values?: Record<string, any>,
   ): string =>
     key && translations[key]
-      ? (new IntlMessageFormat(translations[key], currLocale).format(
+      ? (new IntlMessageFormat(translations[key], currLang).format(
           values,
         ) as string)
       : (key ?? 'noTranslationKeyFound');

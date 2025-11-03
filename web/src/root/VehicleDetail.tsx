@@ -55,7 +55,7 @@ const VehicleAttribute = ({
   );
 
 const ShopRentalSection = ({ shop }: { shop: any }) => {
-  const { data: preloadedData } = usePreloadedDataLocalized();
+  const { data } = usePreloadedDataLocalized();
 
   const { t } = useTranslations();
 
@@ -68,8 +68,7 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
             lg:items-center"
         >
           <p className="text-foreground text-center text-xl">
-            {preloadedData.text.bikeDetailOpenBadgeText}{' '}
-            <span className="font-bold">{shop.name}</span>
+            {t('availableAt')} <span className="font-bold">{shop.name}</span>
           </p>
           <OpenBadge
             openHours={shop.openHours}
@@ -90,7 +89,7 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
           text-center lg:flex-row lg:items-center lg:justify-center"
       >
         <p className="text-foreground text-lg font-medium">
-          {preloadedData.text.bikdeDetailRentText}
+          {data.text.bikeDetailRentText}
         </p>
         <IconButton
           icon={KeyRound}
@@ -109,7 +108,7 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
 
 export default function VehicleDetail() {
   const { id } = useParams() as { id: string };
-  const { data: preloadedData } = usePreloadedDataLocalized();
+  const { data } = usePreloadedDataLocalized();
 
   const { t } = useTranslations();
   const enums = useTranslateRawEnums(enumsRaw);
@@ -124,10 +123,8 @@ export default function VehicleDetail() {
   const shop = useMemo(
     () =>
       vehicleQ.data &&
-      preloadedData.shops.find(
-        (shop) => shop.locationId === vehicleQ.data.locationId,
-      ),
-    [vehicleQ.data, preloadedData.shops],
+      data.shops.find((shop) => shop.locationId === vehicleQ.data.locationId),
+    [vehicleQ.data, data.shops],
   );
 
   const otherVehicles = useMemo(
@@ -238,9 +235,7 @@ export default function VehicleDetail() {
 
       {shop && otherVehicles.length > 0 && (
         <Section>
-          <SectionContent
-            heading={preloadedData.text.sectionTitleOtherBikesText}
-          >
+          <SectionContent heading={t('otherBikes')}>
             <div
               className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
             >
@@ -259,7 +254,7 @@ export default function VehicleDetail() {
                   className="text-foreground hover:bg-muted border px-8 py-3"
                   onClick={handleLoadMoreOtherBikes}
                 >
-                  {preloadedData.text.buttonLabelLoadMore || 'Load More'}
+                  {t('loadMore')}
                 </Button>
               </div>
             )}

@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { LangSlug } from '@data/webedit/types';
+import { Lang } from '@data/webedit/types';
 
 export default function usePortalSlugs(): {
   url: string;
@@ -16,7 +16,7 @@ export default function usePortalSlugs(): {
 } {
   const location = useLocation();
 
-  const langSlugs = Object.values(LangSlug).join('|'); // e.g., "sv|en|ar|..."
+  const langSlugs = Object.values(Lang).join('|'); // e.g., "sv|en|ar|..."
   const pattern = new RegExp(
     `^(?:/(${langSlugs}))?(/[^/]+)(/[^/]+)(/[^/]+)?(/.*)?`,
   );

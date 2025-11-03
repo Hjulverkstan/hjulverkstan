@@ -1,11 +1,11 @@
 import { createContext } from 'react';
 
 import useStrictContext from './useStrictContext';
-import { LocaleAllEntitiesMap } from '@data/webedit/types';
+import { LangAllEntitiesMap } from '@data/webedit/types';
 
 //
 
-const PreloadedDataContext = createContext<null | LocaleAllEntitiesMap>(null);
+const PreloadedDataContext = createContext<null | LangAllEntitiesMap>(null);
 PreloadedDataContext.displayName = 'PreloadedDataContext';
 
 /**
@@ -20,8 +20,8 @@ export const PreloadedDataProvider = PreloadedDataContext.Provider;
 
 //
 
-const LocaleContext = createContext<null | string>(null);
-LocaleContext.displayName = 'LocaleContext';
+const LangContext = createContext<null | string>(null);
+LangContext.displayName = 'LangContext';
 
 /**
  * Used around routes that should be able to use
@@ -29,7 +29,7 @@ LocaleContext.displayName = 'LocaleContext';
  * language can be picked from the preloaded data automagically.
  */
 
-export const LocaleProvider = LocaleContext.Provider;
+export const LangProvider = LangContext.Provider;
 
 //
 
@@ -43,27 +43,27 @@ export const LocaleProvider = LocaleContext.Provider;
 export const usePreloadedData = () => {
   const data = useStrictContext(PreloadedDataContext);
 
-  return { data, locales: Object.keys(data ?? {}) };
+  return { data, langs: Object.keys(data ?? {}) };
 };
 
 //
 
 /**
  * Use preloaded data from the Static Site Generation build process, must be
- * used in a decendant of [LocaleProvider](#LocaleProvider) so that the correct
+ * used in a decendant of [LangProvider](#LangProvider) so that the correct
  * language can be infered. For more information about our Static Site
  * Generation strategy see [link](link).
  */
 
 export const usePreloadedDataLocalized = () => {
   const data = useStrictContext(PreloadedDataContext);
-  const locales = Object.keys(data ?? {});
+  const langs = Object.keys(data ?? {});
 
-  const locale = useStrictContext(LocaleContext);
+  const lang = useStrictContext(LangContext);
 
   return {
-    data: data?.[locale],
-    currLocale: locale,
-    locales,
+    data: data?.[lang],
+    currLang: lang,
+    langs,
   };
 };

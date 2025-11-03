@@ -30,13 +30,13 @@ public class ShopService {
         return new ListResponseDto<>(shops.stream().map(shop -> toDto(shop, lang, fallbackLang)).toList());
     }
 
-    public ShopDto getShopByLangAndId(Language lang, Long id) {
+    public ShopDto getShopByLangAndId(Long id, Language lang) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
         return toDto(shop, lang, null);
     }
 
     @Transactional
-    public ShopDto createShopByLang(Language lang, ShopDto dto) {
+    public ShopDto createShopByLang(ShopDto dto, Language lang) {
         Shop shop = new Shop();
 
         applyToEntity(shop, dto, lang);
@@ -46,7 +46,7 @@ public class ShopService {
     }
 
     @Transactional
-    public ShopDto editShopByLang(Language lang, Long id, ShopDto dto) {
+    public ShopDto editShopByLang(Long id, ShopDto dto, Language lang) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
 
         applyToEntity(shop, dto, lang);
@@ -56,9 +56,15 @@ public class ShopService {
     }
 
     @Transactional
-    public void deleteShop(Long id) {
+    public void deleteShop(Long id, Language lang) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
-        shopRepository.delete(shop);
+
+        if (lang != null) {
+            localisationService.removeTranslationsByLang(shop, lang);
+            shopRepository.save(shop);
+        } else {
+            shopRepository.delete(shop);
+        }
     }
 
     private void applyToEntity (Shop shop, ShopDto dto, Language lang) {

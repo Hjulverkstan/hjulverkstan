@@ -103,6 +103,8 @@ public class LocalisationService {
     public <T extends Localised> @Nullable String getText(
             T entity, FieldName field, Language lang, @Nullable Language fallback
     ) {
+        if (lang == null) return null;
+
         LocalisedContent lc = findWithFallback(entity, field, lang, fallback);
         if (lc == null) return null;
         if (lc.getFieldType() == FieldType.RICH_TEXT) {
@@ -126,6 +128,8 @@ public class LocalisationService {
     public <T extends Localised> @Nullable JsonNode getRichText(
             T entity, FieldName field, Language lang, @Nullable Language fallback
     ) {
+        if (lang == null) return null;
+
         LocalisedContent lc = findWithFallback(entity, field, lang, fallback);
         if (lc == null) return null;
         if (lc.getFieldType() != FieldType.RICH_TEXT) {
@@ -138,6 +142,20 @@ public class LocalisationService {
         }
     }
 
+    /**
+     * Remove all translations / localized contents of a specific lang on an entity.
+     * @param entity Parent entity containing localized content
+     * @param lang   Language to remove
+     * @param <T>    Entity type implementing {@link Localised}
+     */
+
+    public <T extends Localised> void removeTranslationsByLang (T entity, Language lang) {
+        List<LocalisedContent> contents = entity.getLocalisedContent();
+        List<LocalisedContent> existing = contents.stream().filter(lc -> lang.equals(lc.getLang())).toList();
+
+        contents.removeAll(existing);
+    }
+
     // Private
 
     private <T extends Localised> void upsertCore(
@@ -148,6 +166,8 @@ public class LocalisationService {
             @Nullable String serializedContent,
             Consumer<LocalisedContent> setParent
     ) {
+        if (lang == null) return;
+
         List<LocalisedContent> contents = entity.getLocalisedContent();
 
         LocalisedContent existing = contents.stream()

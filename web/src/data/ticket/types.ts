@@ -1,4 +1,6 @@
-import { Warning } from '@data/warning/types';
+import { Warning } from '../warning/types';
+import { Auditable } from '../types';
+
 export enum TicketType {
   RENT = 'RENT',
   REPAIR = 'REPAIR',
@@ -6,7 +8,7 @@ export enum TicketType {
   RECEIVE = 'RECEIVE',
 }
 
-export interface Ticket {
+export interface Ticket extends Auditable {
   id: string;
   ticketType: TicketType;
   ticketStatus?: TicketStatus;
@@ -15,15 +17,10 @@ export interface Ticket {
   vehicleIds: string[];
   employeeId: string;
   customerId: string;
+  statusUpdatedAt?: string;
   //
   endDate?: string;
   repairDescription?: string;
-  //
-  createdBy: string;
-  createdAt: string;
-  updatedBy: string;
-  updatedAt: string;
-  statusUpdatedAt?: string;
 }
 
 //

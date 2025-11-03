@@ -29,38 +29,38 @@ export const Select = ({
   fat,
   allowDeselect,
 }: SelectProps) => {
-  const { isLoading, body, setBodyProp, isDisabled } = useDataForm();
+  const { isLoading, getBodyProp, setBodyProp, isDisabled } = useDataForm();
   const [open, setOpen] = useState(false);
 
   const isDisabledUnion = isDisabled || disabled;
 
   const buttonLabel = isMultiSelect
-    ? body[dataKey]?.length > 3
-      ? `${body[dataKey]?.length} selected`
-      : body[dataKey]
+    ? getBodyProp(dataKey)?.length > 3
+      ? `${getBodyProp(dataKey)?.length} selected`
+      : getBodyProp(dataKey)
           ?.map((value: string) => enums.find((e) => e.value === value)?.label)
           .join(', ')
-    : enums.find((e) => e.value === body[dataKey])?.label;
+    : enums.find((e) => e.value === getBodyProp(dataKey))?.label;
 
   const Icon =
     !isMultiSelect &&
-    body[dataKey] !== undefined &&
-    body[dataKey] !== null &&
-    enums.find((e) => e.value === body[dataKey])?.icon;
+    getBodyProp(dataKey) !== undefined &&
+    getBodyProp(dataKey) !== null &&
+    enums.find((e) => e.value === getBodyProp(dataKey))?.icon;
 
   const sortedEnums = useMemo(
     () => enums.sort(C.toSortFnByProp('label')),
     [enums],
   );
 
-  const hasData = Array.isArray(body[dataKey])
-    ? body[dataKey].length
-    : body[dataKey] !== undefined && body[dataKey] !== null;
+  const hasData = Array.isArray(getBodyProp(dataKey))
+    ? getBodyProp(dataKey).length
+    : getBodyProp(dataKey) !== undefined && getBodyProp(dataKey) !== null;
 
   const renderItem = (e: EnumAttributes) => {
     const isSelected = isMultiSelect
-      ? body[dataKey]?.includes(e.value)
-      : body[dataKey] === e.value;
+      ? getBodyProp(dataKey)?.includes(e.value)
+      : getBodyProp(dataKey) === e.value;
 
     return (
       <Command.Item
@@ -68,7 +68,7 @@ export const Select = ({
         value={e.label}
         onSelect={() => {
           if (isMultiSelect) {
-            const updatedBody = C.toUpdatedArray(body[dataKey], {
+            const updatedBody = C.toUpdatedArray(getBodyProp(dataKey), {
               add: isSelected ? [] : e.value,
               remove: isSelected ? e.value : [],
             });
@@ -134,16 +134,16 @@ export const Select = ({
             <Command.Empty>No {label.toLowerCase()} found.</Command.Empty>
             {isMultiSelect ? (
               <>
-                {!!body[dataKey]?.length && (
+                {!!getBodyProp(dataKey)?.length && (
                   <Command.Group heading="Selected">
                     {sortedEnums
-                      .filter((e) => body[dataKey]?.includes(e.value))
+                      .filter((e) => getBodyProp(dataKey)?.includes(e.value))
                       .map(renderItem)}
                   </Command.Group>
                 )}
                 <Command.Group heading="Unselected">
                   {sortedEnums
-                    .filter((e) => !body[dataKey]?.includes(e.value))
+                    .filter((e) => !getBodyProp(dataKey)?.includes(e.value))
                     .map(renderItem)}
                 </Command.Group>
               </>

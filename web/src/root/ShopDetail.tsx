@@ -13,10 +13,12 @@ import { CardDefault } from '@components/CardDefault';
 import { usePublicVehiclesByLocationQ } from '@data/vehicle/queries';
 import { CardVehicle } from '@components/CardVehicle';
 import { CardContact } from '@components/CardContact';
+import { useTranslations } from '@hooks/useTranslations';
 
 const ITEMS_TO_LOAD = 6;
 
 export default function ShopDetail() {
+  const { t } = useTranslations();
   const { slug } = useParams<{ slug: string }>();
   const { data } = usePreloadedDataLocalized();
   const shop = data.shops.find((shop: Shop) => shop.slug === slug)!;
@@ -90,7 +92,7 @@ export default function ShopDetail() {
           </div>
         </SectionContent>
 
-        <SectionContent heading={data.text.sectionTitleAvailableBikes}>
+        <SectionContent heading={t('availableAt')}>
           {vehiclesQ.data && (
             <>
               <div
