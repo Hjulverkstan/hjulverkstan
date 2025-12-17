@@ -1,0 +1,243 @@
+name: Stage - Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: GitHub environment name (dev/test/prod)
+        required: true
+        type: string
+
+      deploy_api:
+        description: Whether to deploy API
+        required: true
+        type: boolean
+
+      deploy_web:
+        description: Whether to build+deploy web
+        required: true
+        type: boolean
+
+      api_source_tag:
+        description: Source docker tag to promote from (usually short commit sha)
+        required: true
+        default: ''
+        type: string
+
+      api_version_tag:
+        description: Optional version tag (e.g. v1.2.3 or v1.2.3-rc.1) to promote to before env tag
+        required: false
+        default: ''
+        type: string
+
+    secrets:
+      DOCKER_USERNAME:
+        required: false
+      DOCKER_PASSWORD:
+        required: false
+
+      DEPLOY_API_SSH_KEY:
+        required: false
+      DEPLOY_API_SSH_USER:
+        required: false
+      DEPLOY_SECRET_KEY:
+        required: false
+      DEPLOY_ACCESS_KEY:
+        required: false
+
+      API_DB_USER:
+        required: false
+      API_DB_PASSWORD:
+        required: false
+      API_AWS_ACCESS_KEY:
+        required: false
+      API_AWS_SECRET_KEY:
+        required: false
+
+      VITE_BUILD_USERNAME:
+        required: false
+      VITE_BUILD_PASSWORD:
+        required: false
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # DOCKER IMAGE PROMOTION
+
+      - name: Promote image - Docker login
+        if: ${{ inputs.deploy_api }}
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Promote image - Set up buildx
+        if: ${{ inputs.deploy_api }}
+        uses: docker/setup-buildx-action@v3
+
+      - name: Promote image - (src -> version)
+        if: ${{ inputs.deploy_api && inputs.api_version_tag != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker buildx imagetools create \
+            -t "${{ vars.DOCKER_REPO }}:${{ inputs.api_version_tag }}" \
+            "${{ vars.DOCKER_REPO }}:${{ inputs.api_source_tag }}"
+
+      - name: Promote image - (version/src -> env tag)
+        if: ${{ inputs.deploy_api }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          from_tag="${{ inputs.api_source_tag }}"
+          if [[ "${{ inputs.api_version_tag }}" != "" ]]; then
+            from_tag="${{ inputs.api_version_tag }}"
+          fi
+
+          docker buildx imagetools create \
+            -t "${{ vars.DOCKER_REPO }}:${{ vars.DOCKER_API_IMAGE_TAG }}" \
+            "${{ vars.DOCKER_REPO }}:${from_tag}"
+
+          echo "DEPLOY_TAG=${{ vars.DOCKER_API_IMAGE_TAG }}" >> "$GITHUB_ENV"
+          echo "APP_VERSION=${from_tag}" >> "$GITHUB_ENV"
+
+      # API DEPLOY – IMAGE PULL & ENV VARS
+
+      - name: Api Deploy - Set up SSH key
+        if: ${{ inputs.deploy_api }}
+        shell: bash
+        run: |
+          echo "${{ secrets.DEPLOY_API_SSH_KEY }}" > key.pem
+          chmod 600 key.pem
+
+      - name: Api Deploy - Add known host
+        if: ${{ inputs.deploy_api }}
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${{ vars.DEPLOY_API_SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Api Deploy - Generate .env
+        if: ${{ inputs.deploy_api }}
+        shell: bash
+        run: |
+          {
+            echo "API_DB_HOST=${{ vars.API_DB_HOST }}"
+            echo "API_DB_PORT=${{ vars.API_DB_PORT }}"
+            echo "API_DB_DATABASE=${{ vars.API_DB_DATABASE }}"
+            echo "API_DB_USER=${{ secrets.API_DB_USER }}"
+            echo "API_DB_PASSWORD=${{ secrets.API_DB_PASSWORD }}"
+            echo "API_AWS_ACCESS_KEY=${{ secrets.API_AWS_ACCESS_KEY }}"
+            echo "API_AWS_SECRET_KEY=${{ secrets.API_AWS_SECRET_KEY }}"
+            echo "API_AWS_REGION=${{ vars.API_AWS_REGION }}"
+            echo "API_AWS_S3_BUCKET_NAME=${{ vars.API_AWS_S3_BUCKET_NAME }}"
+            echo "API_ALLOWED_ORIGINS=${{ vars.API_ALLOWED_ORIGINS }}"
+            echo "DOCKER_API_IMAGE_TAG=${{ env.DEPLOY_TAG }}"
+            echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}"
+          } > .env
+
+      - name: Api Deploy - Upload .env
+        if: ${{ inputs.deploy_api }}
+        shell: bash
+        run: |
+          scp -i key.pem .env "${{ secrets.DEPLOY_API_SSH_USER }}@${{ vars.DEPLOY_API_SSH_HOST }}:~/"
+
+      - name: Api Deploy – .env > /opt/docker
+        if: ${{ inputs.deploy_api }}
+        shell: bash
+        run: |
+          ssh -i key.pem "${{ secrets.DEPLOY_API_SSH_USER }}@${{ vars.DEPLOY_API_SSH_HOST }}" '
+            sudo mv -f ~/\.env /opt/docker/.env
+          '
+
+      - name: Api Deploy - Restart docker compose
+        if: ${{ inputs.deploy_api }}
+        shell: bash
+        run: |
+          ssh -i key.pem "${{ secrets.DEPLOY_API_SSH_USER }}@${{ vars.DEPLOY_API_SSH_HOST }}" <<'EOF'
+            set -e
+            cd /opt/docker
+
+            docker compose down
+            docker compose pull
+
+            set +e
+            docker compose up -d --wait --wait-timeout 120
+            rc=$?
+            set -e
+
+            if [ $rc -ne 0 ]; then
+              echo "❌ Some services failed or became unhealthy:"
+              docker compose ps
+              echo "— recent logs from all services —"
+              docker compose logs --tail=200
+              exit $rc
+            fi
+
+            echo "✅ All services are healthy:"
+            docker compose ps
+          EOF
+
+      # BUILD WEB
+
+      - name: Build Web - Set up Node
+        if: ${{ inputs.deploy_web }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build Web - Harden DNS
+        if: ${{ inputs.deploy_web }}
+        shell: bash
+        run: sudo bash -c 'echo "nameserver 1.1.1.1" > /etc/resolv.conf'
+
+      - name: Build Web - Install deps
+        if: ${{ inputs.deploy_web }}
+        shell: bash
+        run: cd web && npm ci
+
+      - name: Build Web - npm run build
+        if: ${{ inputs.deploy_web }}
+        shell: bash
+        env:
+          VITE_ENV: ${{ vars.VITE_ENV }}
+          VITE_APP_VERSION: ${{ env.APP_VERSION || 'N/A' }}
+          VITE_BUILD_USERNAME: ${{ secrets.VITE_BUILD_USERNAME }}
+          VITE_BUILD_PASSWORD: ${{ secrets.VITE_BUILD_PASSWORD }}
+          VITE_FRONTEND_URL: ${{ vars.VITE_FRONTEND_URL }}
+          VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
+          VITE_BACKEND_PROXY_SLUG: ${{ vars.VITE_BACKEND_PROXY_SLUG }}
+        run: cd web && npm run build
+
+      # DEPLOY WEB - UPLOAD & INVALIDATE CACHE
+
+      - name: Deploy Web – Configure AWS credentials
+        if: ${{ inputs.deploy_web }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.DEPLOY_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.DEPLOY_SECRET_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy Web - Sync to S3
+        if: ${{ inputs.deploy_web }}
+        shell: bash
+        run: aws s3 sync ./web/dist/static s3://${{ vars.DEPLOY_WEB_BUCKET_NAME }} --delete
+
+      - name: Deploy Web - Invalidate CloudFront cache
+        if: ${{ inputs.deploy_web && vars.DEPLOY_WEB_CLOUDFRONT_DISTRIBUTION_ID != '' }}
+        shell: bash
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ vars.DEPLOY_WEB_CLOUDFRONT_DISTRIBUTION_ID }}" \
+            --paths "/*"

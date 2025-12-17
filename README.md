@@ -44,9 +44,9 @@ Here is an overview and guide on how to get started in the project. If you are l
 * [ ] Learn the [Project Guidelines](/GUIDELINES.md)
   * [ ] If applicable, read [React Guidelines](/web/GUIDELINES.md)
 * [ ] Catch up on the domain-specific documentation:
-  * [ ] [Front End Readme](/web/README.md)
+  * [ ] [Front End Readme](/web/README.md) 
   * [ ] [Back End Readme](/api/README.md)
-  * [ ] [AWS CDK]() [TODO]
+  * [ ] [Infrastructure Readme](/cdk/README.md)
 * [ ] Run the project locally with our [Setup guide](/SETUP.md)
 
 ## Development Recap `🛠️`

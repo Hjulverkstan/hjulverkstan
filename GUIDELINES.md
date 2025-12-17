@@ -67,7 +67,7 @@ We work with **trunk-based development**, a summary of our practices:
 - **Disciplined commits**. We keep our commits to one purpose only and explain that purpose as briefly as possible, e.g., we do not solve a bug and create a feature in the same commit unless it is the same solution in code. Different solutions may share the same branch but should be different commits. This reflects a disciplined way of developing. As we plan our work ahead, if I need to solve this issue first, then refactor this to then create my feature, then write the commits separately in that order.
  
 - **Conventional commits**. The first line of the commit should be as brief as possible, in present tense, preferably 50 characters and never more than 72, follow the pattern `type(scope): Description` where the description is capitalized. Skip unnecessary wording like *add*, *in order to*, *adds a new feature*, etc...
-    - **scope** is `web`, `api` or `cdk` depending on the area of work. If commits pertains to multiple areas, the scope may be skipped all togheter like `type: Description`
+    - **scope** is `web`, `api` or `cdk` depending on the area of work. If commits pertains to multiple areas, the scope may be skipped all together like `type: Description`
     - **type** is one of the following:
         - `feat` adds or remove a new feature. Write the implications of this feature in the first line instead of the technical solution if possible.
         - `fix` fixes a bug. Write the issue solved in the first line instead of the solution.
@@ -90,6 +90,45 @@ We work with **trunk-based development**, a summary of our practices:
 - **PR your self first**. Before creating a pull request, peer reviews yourself first. Go through your commits and check EVERY line to make sure you stand by your work before another contributor reviews it and of course test it locally.
  
 - **Feature or fix branches**. We work in branches named either `feature/lower-case-dash-separated-name` or `fix/describe-the-problem`.
+
+## Release process `🚀`
+
+We use **semantic versioning** to tag our releases directly in git.
+
+### CD Triggers `🚩`
+
+The Continuous Delivery is triggered by tags, the flow from dev to prod looks like:
+
+- **dev** – any changes to main will update the dev environment (a docker image will be published with commit hash as the tag + plus the promotion to `dev-latest`).
+- **test** - any tag with of the format *.*.*-rc.* (a semver release candidate version) on main will update the test environment (the docker image with the commit hash will be promoted to the rc version as well as the promotion to `test-latest`).
+- **prod** - any tag with of the format *.*.* (a semver – no release candidate) will trigger a deployment to the production environment (the docker image with the commit hash will be promoted to the production version as well as the `latest` tag).
+
+### How to release `📒`
+
+As mentioned above, we use semantic versioning to tag our releases, for releases to test write a semver release candidate version (e.g. `1.0.0-rc.0`) and for production releases write the actual version (e.g. `1.0.0`).
+
+With the triggers in mind here are the rules and steps for releasing:
+
+1. Create a release branch, e.g. `release/v1.0.0` or `release/v1.0.0-rc.1`.
+2. Update `CHANGELOG.md` with the release notes.
+3. Commit the CHANGELOG update (recommended message inline with conventional commits: `chore: Release v1.0.0` or `chore: Release v1.0.0-rc.1`).
+4. Open a PR to `main` and get it reviewed and merged.
+5. After the commit is on `main`, create and push the tag on that exact commit:
+   - `git checkout main && git pull`
+   - `git tag v1.0.0-rc.1` (test) or `git tag v1.0.0` (prod)
+   - `git push origin v1.0.0-rc.1` / `git push origin v1.0.0`
+
+Pushing the tag triggers the release workflow (`.github/workflows/release.yml`), which builds the Docker image for the tagged commit and then promotes/deploys it.
+
+With the above to rules and steps established, lets also review how the release notes are to be written. Summary all changes as bullets, if general comment is needed, write that paragraph first and then list the bullet. There are three types of bullets that can be used:
+
+`+` - a plus, this indicates a feature. Much like how conventional commits work.
+`*` - a star, this indicates an improvement. It may be a bug fix or some other improvement that is in fact into the release but not a feature.
+`-` - a minus, more unusual but indicates the removal of something
+
+Write the bullets in the above order, first the additions, then updates and finally removals.
+
+> This type of release does not utilize GitHub releases and is a more traditional git based approach. This is done for convenience at the moment – do you have a more refined praxis for releases? You are most welcome to contribute your ideas. Thanks.
 
 ## Rules `🛑`
 
