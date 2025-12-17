@@ -1,0 +1,13 @@
+name: PR checks
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    name: Test
+    uses: ./.github/workflows/stage-test.yml
+    with:
+      run_api_tests: true
+      run_web_build: true
+    secrets: inherit

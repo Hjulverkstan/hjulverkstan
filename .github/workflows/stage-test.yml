@@ -1,0 +1,121 @@
+name: Stage - Test
+
+on:
+  workflow_call:
+    inputs:
+      run_api_tests:
+        required: true
+        type: boolean
+      run_web_build:
+        required: true
+        type: boolean
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd="pg_isready -U testuser -d testdb"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # RUN API UNIT TESTS
+
+      - name: Test Api - Set up JDK
+        if: ${{ inputs.run_api_tests || inputs.run_web_build }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Test Api - Unit tests
+        if: ${{ inputs.run_api_tests }}
+        working-directory: api
+        env:
+          API_DB_HOST: 127.0.0.1
+          API_DB_PORT: 5432
+          API_DB_DATABASE: testdb
+          API_DB_USER: testuser
+          API_DB_PASSWORD: testpass
+          API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
+          API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
+          API_AWS_REGION: ${{ vars.API_AWS_REGION }}
+          API_AWS_S3_BUCKET_NAME: ${{ vars.API_AWS_S3_BUCKET_NAME }}
+          API_ALLOWED_ORIGINS: http://localhost
+        run: mvn -B -U test
+
+      # RUN BACKEND - NEEDED FOR WEB
+
+      - name: Test Web - Start backend
+        if: ${{ inputs.run_web_build }}
+        shell: bash
+        env:
+          API_DB_HOST: 127.0.0.1
+          API_DB_PORT: 5432
+          API_DB_DATABASE: testdb
+          API_DB_USER: testuser
+          API_DB_PASSWORD: testpass
+          API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
+          API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
+          API_AWS_REGION: ${{ vars.API_AWS_REGION }}
+          API_AWS_S3_BUCKET_NAME: ${{ vars.API_AWS_S3_BUCKET_NAME }}
+          API_ALLOWED_ORIGINS: http://localhost
+          SPRING_JPA_HIBERNATE_DDL_AUTO: update
+          SPRING_SQL_INIT_MODE: always
+        run: |
+          set -euo pipefail
+          cd api
+          mvn -B -DskipTests spring-boot:run -Dspring-boot.run.profiles=dev &
+
+      - name: Test Web - Wait for backend health
+        if: ${{ inputs.run_web_build }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..60}; do
+            if curl -fsS "http://127.0.0.1:8080/actuator/health" >/dev/null; then
+              echo "✅ Backend is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "❌ Backend did not become healthy in time"
+          exit 1
+
+      # BUILD WEB
+
+      - uses: actions/setup-node@v4
+        if: ${{ inputs.run_web_build }}
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Test Web - Install deps
+        if: ${{ inputs.run_web_build }}
+        run: cd web && npm ci
+
+      - name: Test Web - npm run build
+        if: ${{ inputs.run_web_build }}
+        env:
+          VITE_ENV: dev
+          VITE_APP_VERSION: pr
+          VITE_BUILD_USERNAME: admin
+          VITE_BUILD_PASSWORD: password
+          VITE_FRONTEND_URL: http://localhost
+          VITE_BACKEND_URL: http://127.0.0.1:8080/v1/api
+        run: cd web && npm run build
