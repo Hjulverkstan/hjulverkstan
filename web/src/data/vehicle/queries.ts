@@ -29,7 +29,7 @@ export interface UseVehicleProps {
 
 export const useVehicleQ = ({ id }: UseVehicleProps) =>
   useQuery<Vehicle, StandardError>({
-    ...(id ? api.createGetVehicle({ id }) : {}),
+    ...api.createGetVehicle({ id: id as string }),
     enabled: !!id,
   });
 
