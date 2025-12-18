@@ -66,7 +66,7 @@ export default function useColumns() {
         {
           key: 'updatedAt',
           name: 'Edited at',
-          renderFn: ({ updatedAt }) => (
+          renderFn: ({ updatedAt }) => updatedAt && (
             <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
           ),
         },
