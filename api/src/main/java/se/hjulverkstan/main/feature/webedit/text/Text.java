@@ -20,7 +20,7 @@ public class Text extends Auditable implements Localised {
     private Long id;
 
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "key", length = 64, nullable = false)
+    @Column(name = "key", length = 64, nullable = false, unique = true)
     @Convert(converter = TextKeyConverter.class)
     private TextKey key;
 
