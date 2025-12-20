@@ -139,7 +139,6 @@ export class WebStack extends cdk.Stack {
       target: route53.RecordTarget.fromAlias(
         new targets.CloudFrontTarget(distribution),
       ),
-      recordName: props.config.siteRecordName,
       zone: props.zone,
     });
   }

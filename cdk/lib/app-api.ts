@@ -46,7 +46,6 @@ export class ApiStack extends cdk.Stack {
         ),
         iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'),
       ],
-      roleName: 'EC2DeployAssetsRole',
     });
 
     const ec2DeployAssetsBucketDeployment = new s3deploy.BucketDeployment(
@@ -101,7 +100,6 @@ export class ApiStack extends cdk.Stack {
     this.instance = new ec2.Instance(this, 'Instance', {
       instanceType: props.instanceType,
       machineImage: ec2.MachineImage.latestAmazonLinux2023(),
-      keyPair: ec2.KeyPair.fromKeyPairName(this, 'KeyPair', 'ec-putty-key'),
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
       blockDevices: [
         {

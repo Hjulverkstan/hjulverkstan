@@ -1,6 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+LOG_FILE="/var/log/setup.log"
+
+# Log to both console and file, with timestamps
+mkdir -p "$(dirname "$LOG_FILE")"
+exec > >(awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0 }' | tee -a "$LOG_FILE") 2>&1
+
+on_error() {
+  local exit_code=$?
+  echo "ERROR: setup.sh failed (exit_code=$exit_code) at line $1"
+  echo "Last command: ${BASH_COMMAND:-unknown}"
+  echo "Log file: $LOG_FILE"
+  exit "$exit_code"
+}
+trap 'on_error $LINENO' ERR
+
+echo "=== setup.sh starting ==="
+echo "User: $(whoami)"
+echo "Kernel: $(uname -a)"
+echo "Working dir: $(pwd)"
+echo "PATH: $PATH"
+
+# Print commands after logging is configured
+set -x
+
 # --- Clean out any Docker CE leftovers (safe if none) ---
 sudo systemctl stop docker || true
 sudo rm -f /etc/yum.repos.d/docker-ce.repo || true
@@ -17,7 +41,10 @@ sudo dnf -y install docker dnf-automatic
 sudo systemctl daemon-reload || true
 sudo systemctl enable --now docker dnf-automatic.timer
 
-# --- Install Docker Compose v2 plugin (latest v2.x) ---
+echo "Installing docker compose (latest stable v2)..."
+
+sudo mkdir -p /usr/local/lib/docker/cli-plugins
+
 arch="$(uname -m)"
 case "$arch" in
   x86_64)  comp_arch="x86_64" ;;
@@ -25,19 +52,23 @@ case "$arch" in
   *) echo "Unsupported arch: $arch"; exit 1 ;;
 esac
 
-sudo mkdir -p /usr/local/lib/docker/cli-plugins
-
-compose_tag="$(
-  curl -fsSL 'https://api.github.com/repos/docker/compose/releases?per_page=1' \
-    | grep -o '"tag_name":\s*"v2[^"]*' | sed 's/.*"//'
-)"
-: "${compose_tag:=v2.29.7}"  # fallback if GitHub API is rate-limited
-
 sudo curl -fsSL \
-  "https://github.com/docker/compose/releases/download/${compose_tag}/docker-compose-linux-${comp_arch}" \
+  "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-${comp_arch}" \
   -o /usr/local/lib/docker/cli-plugins/docker-compose
+
 sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-# --- Verify ---
-docker --version
+echo "Docker compose installed:"
 docker compose version
+
+# --- Verify ---
+echo "Verifying docker installation..."
+docker --version
+
+echo "Verifying docker compose plugin..."
+# Show where docker looks for plugins (useful if PATH issues)
+ls -la /usr/local/lib/docker/cli-plugins || true
+docker compose version
+
+echo "=== setup.sh completed successfully ==="
+echo "Log file: $LOG_FILE"

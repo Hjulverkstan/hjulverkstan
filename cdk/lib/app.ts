@@ -17,7 +17,7 @@ export class AppStack extends cdk.Stack {
     super(scope, id, props);
 
     const zone = route53.HostedZone.fromLookup(this, 'HostedZone', {
-      domainName: props.config.apexDomain,
+      domainName: props.config.siteDomain,
     });
 
     const { instance } = new ApiStack(this, 'ApiStack', {
