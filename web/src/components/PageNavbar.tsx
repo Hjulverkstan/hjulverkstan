@@ -114,7 +114,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
             </Select.Trigger>
             <Select.Content onCloseAutoFocus={(e) => e.preventDefault()}>
               {langs.map((value) => (
-                <Select.Item value={value}>
+                <Select.Item key={value} value={value}>
                   {findEnum(langCodes, value).label}
                 </Select.Item>
               ))}
