@@ -1,7 +1,9 @@
 import { createContext } from 'react';
 
-import useStrictContext from './useStrictContext';
 import { LangAllEntitiesMap } from '@data/webedit/types';
+
+import useStrictContext from './useStrictContext';
+import { useCurrentLang } from '@hooks/useCurrentLang';
 
 //
 
@@ -17,19 +19,6 @@ PreloadedDataContext.displayName = 'PreloadedDataContext';
  */
 
 export const PreloadedDataProvider = PreloadedDataContext.Provider;
-
-//
-
-const LangContext = createContext<null | string>(null);
-LangContext.displayName = 'LangContext';
-
-/**
- * Used around routes that should be able to use
- * [usePreloadedDataLocalized](#usePreloadedDataLocalized) so that the correct
- * language can be picked from the preloaded data automagically.
- */
-
-export const LangProvider = LangContext.Provider;
 
 //
 
@@ -56,10 +45,9 @@ export const usePreloadedData = () => {
  */
 
 export const usePreloadedDataLocalized = () => {
+  const lang = useCurrentLang();
   const data = useStrictContext(PreloadedDataContext);
   const langs = Object.keys(data ?? {});
-
-  const lang = useStrictContext(LangContext);
 
   return {
     data: data?.[lang],

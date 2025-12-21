@@ -8,7 +8,7 @@ import { useScrolledPastElement } from '@hooks/useScrolledPastElement';
 import { cn } from '@utils/common';
 
 import { useTranslations } from '@hooks/useTranslations';
-import { useCurrentLocale } from '@hooks/useCurrentLocale';
+import { useCurrentLang } from '@hooks/useCurrentLang';
 import { usePreloadedData } from '@hooks/usePreloadedData';
 import { langCodes } from '@data/translations/enums';
 import { Lang } from '@data/webedit/types';
@@ -39,7 +39,7 @@ export interface PageNavbarProps {
 export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const currLocale = useCurrentLocale();
+  const currLocale = useCurrentLang();
   const { langs } = usePreloadedData();
 
   const [isOpen, setIsOpen] = useState(false);
