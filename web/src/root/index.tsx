@@ -8,7 +8,8 @@ import * as DialogManager from '@components/DialogManager';
 import ThemeProvider from '@components/shadcn/ThemeProvider';
 import Toaster from '@components/shadcn/Toaster';
 import * as Tooltip from '@components/shadcn/Tooltip';
-import { LangProvider, usePreloadedData } from '@hooks/usePreloadedData';
+import { usePreloadedData } from '@hooks/usePreloadedData';
+import { LangProvider } from '@hooks/useCurrentLang';
 import { Lang, LangAllEntitiesMap } from '@data/webedit/types';
 import { useTranslations, TranslationKeys } from '@hooks/useTranslations';
 

@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 import useStrictContext from '@hooks/useStrictContext';
 
-const LocaleContext = createContext<null | string>(null);
-LocaleContext.displayName = 'LocaleContext';
+const LangContext = createContext<null | string>(null);
+LangContext.displayName = 'LocaleContext';
 
 /**
  * Used around routes that should be able to use
@@ -10,8 +10,8 @@ LocaleContext.displayName = 'LocaleContext';
  * language can be picked from the preloaded data automagically.
  */
 
-export const LocaleProvider = LocaleContext.Provider;
+export const LangProvider = LangContext.Provider;
 
-export const useCurrentLocale = (): string => {
-  return useStrictContext(LocaleContext);
+export const useCurrentLang = (): string => {
+  return useStrictContext(LangContext);
 };
