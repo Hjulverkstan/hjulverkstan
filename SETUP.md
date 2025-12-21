@@ -2,7 +2,7 @@
 
 ## Prerequisite overview
 
-- Node.js v20
+- Node.js v22 (minimum)
 - Postgres v14
 - JDK v21
 - Git
