@@ -56,6 +56,8 @@ export const Select = () => {
   const { lang, setLang } = useStrictContext(PortalWebEditLangContext);
 
   const { tailSlug } = usePortalSlugs();
+  const disabled = tailSlug?.includes('create')
+    || tailSlug?.includes('edit');
 
   return (
     <div>
@@ -63,7 +65,7 @@ export const Select = () => {
         <Select$.Trigger
           className="h-8"
           variant={lang === Global ? 'accent' : 'translation'}
-          disabled={!!tailSlug}
+          disabled={disabled}
         >
           <Globe className="h-4 w-4" />
           <Select$.Value />
