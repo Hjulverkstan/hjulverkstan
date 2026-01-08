@@ -1,6 +1,5 @@
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
-import * as jsdom from 'jsdom';
 
 import * as C from '@utils/common';
 import { logIn } from '@data/auth/api';
@@ -12,13 +11,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { instance } from '@data/api';
 
 export { createRoutes } from '@root';
-
-// Setup virtual window object for tiptap to works serverside, see: [tiptap
-// #3233](https://github.com/ueberdosis/tiptap/discussions/3233)
-
-const dom = new jsdom.JSDOM('<!DOCTYPE html>');
-global.window = dom.window as unknown as Window & typeof globalThis;
-global.document = dom.window.document;
 
 /**
  * Async function for getting web edit data. This is used during build (and in

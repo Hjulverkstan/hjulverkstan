@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { JSONContent } from '@tiptap/core';
-import { generateHTML } from '@tiptap/react';
+import { generateHTML } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
 import { cn } from '@utils/common';
 
