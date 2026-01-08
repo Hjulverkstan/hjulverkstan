@@ -39,7 +39,7 @@ public class CookieUtils {
         String sameSite = roles.contains(ERole.ROLE_PIPELINE) ? "Lax" : "Strict";
 
         String accessToken = "accessToken=%s; Path=/; HttpOnly; Secure; SameSite=%s; Max-Age=%d;";
-        String refreshToken = "refreshToken=%s; Path=/v1/api/auth; HttpOnly; Secure; SameSite=%s; Max-Age=%d;";
+        String refreshToken = "refreshToken=%s; Path=/; HttpOnly; Secure; SameSite=%s; Max-Age=%d;";
 
         response.addHeader("Set-Cookie", accessToken.formatted(jwt, sameSite, jwtExpirationMs / 1000 - 30));
         response.addHeader("Set-Cookie", refreshToken.formatted(refreshJwt, sameSite, jwtRefreshExpirationMs / 1000 - 30));
@@ -47,7 +47,7 @@ public class CookieUtils {
 
     public void clearAuthenticationCookies (HttpServletResponse response) {
         String accessToken = "accessToken=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0";
-        String refreshToken = "refreshToken=; Path=/v1/api/auth; HttpOnly; Secure; SameSite=Strict; Max-Age=0";
+        String refreshToken = "refreshToken=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0";
 
         response.addHeader("Set-Cookie", accessToken);
         response.addHeader("Set-Cookie", refreshToken);
