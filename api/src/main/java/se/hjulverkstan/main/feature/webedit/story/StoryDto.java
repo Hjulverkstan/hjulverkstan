@@ -44,7 +44,6 @@ public class StoryDto extends AuditableDto {
 
     // Localized content can't be applied directly and is managed by the service.
     public Story applyToEntity (Story story) {
-        story.setId(id);
         story.setTitle(title);
         story.setSlug(slug);
         story.setImageURL(imageURL);
