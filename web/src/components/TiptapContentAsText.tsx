@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { Editor, type JSONContent, type Extension } from '@tiptap/core';
+import { type JSONContent, type Extension, generateText } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 
 import * as C from '@utils/common';
@@ -18,11 +18,11 @@ export const TiptapContentAsText: FC<TiptapContentAsTextProps> = ({
   blockSeparator = ' ',
 }) =>
   useMemo(() => {
-    if (!content) return '';
+    if (!content) return ''
 
-    const editor = new Editor({ content, extensions });
-    const text = editor.getText({ blockSeparator }).replace(/\s+/g, ' ').trim();
-    editor.destroy();
+    const text = generateText(content, extensions, { blockSeparator })
+      .replace(/\s+/g, ' ')
+      .trim()
 
-    return max ? C.truncate(text, max) : text;
-  }, [content, extensions, max, blockSeparator]);
+    return max ? C.truncate(text, max) : text
+  }, [content, extensions, max, blockSeparator])
