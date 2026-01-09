@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Globe, Menu, X } from 'lucide-react';
 
 import { IconButton, Link } from '@components/shadcn/Button';
 import * as Select from '@components/shadcn/Select';
 import { useScrolledPastElement } from '@hooks/useScrolledPastElement';
 import { cn } from '@utils/common';
-
 import { useTranslations } from '@hooks/useTranslations';
 import { useCurrentLang } from '@hooks/useCurrentLang';
 import { usePreloadedData } from '@hooks/usePreloadedData';
 import { langCodes } from '@data/translations/enums';
-import { Lang } from '@data/webedit/types';
 import { findEnum } from '@utils/enums';
+import { useChangeLang } from '@hooks/useChangeLang';
 
 export const navLinks = [
   { translationKey: 'home', path: '/' },
@@ -37,9 +35,8 @@ export interface PageNavbarProps {
 }
 
 export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const currLocale = useCurrentLang();
+  const currLang = useCurrentLang();
+  const changeLang = useChangeLang();
   const { langs } = usePreloadedData();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -50,19 +47,6 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
   const onHero = !scrolledPast && hasHeroSection && !isOpen;
 
   const { t } = useTranslations();
-
-  const handleLangSelect = (locale: Lang) => {
-    const { pathname, search, hash } = location;
-
-    const nonLocalisedPath = pathname.replace(
-      new RegExp(`^/(?:${langs.join('|')})(?=/|$)`, 'i'),
-      '',
-    );
-
-    navigate(`/${locale}${nonLocalisedPath}${search ?? ''}${hash ?? ''}`, {
-      replace: true,
-    });
-  };
 
   const navLinksContent = navLinks.map((link, i) => (
     <Link
@@ -102,7 +86,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
           <nav className="hidden items-center gap-2 lg:flex">
             {navLinksContent}
           </nav>
-          <Select.Root value={currLocale} onValueChange={handleLangSelect}>
+          <Select.Root value={currLang} onValueChange={changeLang}>
             <Select.Trigger className="h-8 rounded-full">
               <div className="px-1 lg:flex lg:items-center">
                 <Globe

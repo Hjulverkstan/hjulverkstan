@@ -1,4 +1,4 @@
-import { ComponentType } from 'react';
+import { ComponentType, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import {
   Bike,
@@ -33,6 +33,9 @@ import PortalWebEditText from './PortalWebEditText';
 import * as PortalWebEditLang from './PortalWebEditLang';
 import PortalWebEditShops from './PortalWebEditShops';
 import PortalWebEditStories from './PortalWebEditStories';
+import { useCurrentLang } from '@hooks/useCurrentLang';
+import { useChangeLang } from '@hooks/useChangeLang';
+import { Lang } from '@data/webedit/types';
 
 //
 
@@ -140,8 +143,16 @@ const mountPage = (Page: PortalAppPage) => (
 );
 
 const PortalRouter = () => {
+  const currLang = useCurrentLang();
+  const changeLang = useChangeLang();
+
   const { auth, isInitialising } = useAuth();
   const mobile = useIsMobile();
+
+  // Force english as many texts are not localized yet in the portal
+  useEffect(() => {
+    if (currLang != Lang.EN) changeLang(Lang.EN);
+  }, [currLang, changeLang])
 
   if (isInitialising) return null;
   if (!auth) return <PortalLogin />;
