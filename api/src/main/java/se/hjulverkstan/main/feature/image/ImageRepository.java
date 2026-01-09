@@ -13,7 +13,7 @@ public class ImageRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private static final List<String> imageEntities = List.of("vehicle", "Shop", "General_Content");
+    private static final List<String> imageEntities = List.of("vehicle", "shop", "story");
 
     public void deleteSpecificS3URLFromAllEntities(String fileKey) {
         for (String entity : imageEntities) {
