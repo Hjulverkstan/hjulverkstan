@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "ticket_type", discriminatorType = DiscriminatorType.STRING)
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Ticket extends Auditable {
@@ -24,7 +22,7 @@ public class Ticket extends Auditable {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "ticket_type", insertable = false, updatable = false)
+    @Column(name = "ticket_type", updatable = false)
     private TicketType ticketType;
 
     @Enumerated(EnumType.STRING)
