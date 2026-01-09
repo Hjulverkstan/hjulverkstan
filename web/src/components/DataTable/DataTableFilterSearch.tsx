@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 
 import * as C from '@utils/common';
@@ -14,8 +14,7 @@ import {
 import { Row, useDataTable } from './';
 import usePersistentState from '@hooks/usePersistentState';
 import usePortalSlugs from '@hooks/useSlugs';
-
-//
+import { useFocusOnKeyPress } from '@hooks/useFocusOnKeyPress'; // <-- add
 
 export type SearchMatchFn = (word: string, row: any) => boolean;
 
@@ -35,6 +34,7 @@ export const FilterSearch = ({
   matchFn,
   toInitSelected,
 }: FilterSearchProps) => {
+  const ref = useRef<HTMLInputElement | null>(null);
   const { appSlug, pageSlug } = usePortalSlugs();
   const [value, setValue] = usePersistentState<string>(
     `${appSlug}-${pageSlug}-searchFilter`,
@@ -56,10 +56,13 @@ export const FilterSearch = ({
     setFilterFn('ANY', !!value && filterFn);
   }, [value, matchFn, setFilterFn]);
 
+  useFocusOnKeyPress(ref, '/');
+
   return (
     <div className="relative flex items-center">
       <div>
         <Input
+          ref={ref}
           disabled={disabled}
           placeholder={placeholder}
           value={value}
