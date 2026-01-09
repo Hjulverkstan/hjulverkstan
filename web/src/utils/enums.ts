@@ -54,6 +54,12 @@ export const findEnumSafe = <
   }
 };
 
+/**
+ * Used by <DataTable.FilterSearch /> to be able to search for enums base
+ * their label. Some enum has to exist on the entity / row (using dataKey)
+ * and its label has to start with the word.
+ */
+
 export const matchEnumsOnRow = (
   input: EnumAttributes[] | EnumAttributesMap<any>,
   word: string,
@@ -63,8 +69,9 @@ export const matchEnumsOnRow = (
     Array.isArray(input) ? input : Object.values(input)
   ) as EnumAttributes[];
 
-  return enums.some((e) => {
+  return enums.flat().some((e) => {
     const dataVal = row[e.dataKey];
+
     return (
       (Array.isArray(dataVal)
         ? dataVal.includes(e.value)
