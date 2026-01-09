@@ -34,7 +34,7 @@ public class VehicleUtils {
         }
     }
 
-    public static void validateDtoByContext (VehicleDto dto, VehicleRepository vehicleRepository) {
+    public static void validateCreateDtoByContext(VehicleDto dto, VehicleRepository vehicleRepository) {
         if (!dto.isCustomerOwned() && dto.getRegTag() != null) {
             Optional<Vehicle> match = vehicleRepository.findByRegTag(dto.getRegTag());
             if (match.isPresent() && match.get().getId() != dto.getId()) {

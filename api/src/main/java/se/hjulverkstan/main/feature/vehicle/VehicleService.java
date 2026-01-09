@@ -42,7 +42,7 @@ public class VehicleService {
     @Transactional
     public VehicleDto createVehicle(VehicleDto dto) {
         VehicleUtils.validateDtoBySelf(dto);
-        VehicleUtils.validateDtoByContext(dto, vehicleRepository);
+        VehicleUtils.validateCreateDtoByContext(dto, vehicleRepository);
 
         Vehicle vehicle = new Vehicle();
         applyToEntity(vehicle, dto);
@@ -56,7 +56,6 @@ public class VehicleService {
         VehicleUtils.validateDtoBySelf(dto);
 
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Vehicle"));
-        VehicleUtils.validateDtoByContext(dto, vehicleRepository);
 
         applyToEntity(vehicle, dto);
         vehicleRepository.save(vehicle);
