@@ -24,12 +24,12 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     public ListResponseDto<UserDto> getAllUsers() {
-        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<User> users = userRepository.findAllByHiddenFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(users.stream().map(UserDto::new).toList());
     }
 
     public UserDto getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("User"));
+        User user = userRepository.findByIdAndHiddenFalse(id).orElseThrow(() -> new ElementNotFoundException("User"));
         return new UserDto(user);
     }
 
