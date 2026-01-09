@@ -81,8 +81,8 @@ export const useVehiclesAsEnumsQ = ({
           filterCustomerOwned === undefined
             ? true
             : filterCustomerOwned
-              ? !vehicle.isCustomerOwned
-              : vehicle.isCustomerOwned,
+              ? vehicle.isCustomerOwned
+              : !vehicle.isCustomerOwned,
         )
         .map((vehicle) => ({
           dataKey,
