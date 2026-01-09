@@ -65,8 +65,7 @@ export default function ShopTicketFields() {
         fat
       />
 
-      {(body.ticketType === TicketType.RENT ||
-        body.ticketType === TicketType.REPAIR) && (
+      {(body.ticketType === TicketType.RENT) && (
         <DataForm.DatePicker
           label="Start Date"
           dataKey="startDate"
@@ -74,8 +73,7 @@ export default function ShopTicketFields() {
         />
       )}
 
-      {(body.ticketType === TicketType.RENT ||
-        body.ticketType === TicketType.REPAIR) && (
+      {(body.ticketType === TicketType.RENT) && (
         <DataForm.DatePicker
           fromDate={max([
             body.startDate ? parseISO(body.startDate) : new Date(),

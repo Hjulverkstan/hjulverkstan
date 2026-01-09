@@ -12,13 +12,13 @@ export interface Ticket extends Auditable {
   id: string;
   ticketType: TicketType;
   ticketStatus?: TicketStatus;
-  startDate: string | undefined;
   comment: string | null;
   vehicleIds: string[];
   employeeId: string;
   customerId: string;
   statusUpdatedAt?: string;
   //
+  startDate?: string;
   endDate?: string;
   repairDescription?: string;
 }

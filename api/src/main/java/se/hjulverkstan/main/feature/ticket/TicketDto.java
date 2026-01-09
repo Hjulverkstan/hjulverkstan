@@ -32,9 +32,7 @@ public class TicketDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private TicketStatus ticketStatus;
 
-    @NotNull(message = "Start date is required")
-    private LocalDate startDate;
-
+    private LocalDate startDate; // Used when type = rent
     private LocalDate endDate; // Used when type = rent
     private String repairDescription; // Used when type = repair
     private String comment;
@@ -68,7 +66,7 @@ public class TicketDto extends AuditableDto {
 
     public Ticket applyToEntity (Ticket ticket, List<Vehicle> vehicles, Employee employee, Customer customer) {
         ticket.setTicketType(ticketType);
-        ticket.setStartDate(startDate);
+        ticket.setStartDate(ticketType == TicketType.RENT ? startDate : null);
         ticket.setEndDate(ticketType == TicketType.RENT ? endDate : null);
         ticket.setRepairDescription(ticketType == TicketType.REPAIR ? repairDescription : null);
         ticket.setComment(comment);
