@@ -88,13 +88,6 @@ INSERT INTO Story
 ('IKEA rebuilds our latest shop', 'ikea-renovation', null, null, NOW(), 1, NOW(), 1),
 ('140 bikes saved this month',    '140-bikes-saved', null, null, NOW(), 1, NOW(), 1);
 
-INSERT INTO users
-(username,       email,                     password, created_at, updated_at, created_by, updated_by                                                      ) VALUES
-('christopher',  'admin@example.com',       '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', '2024-05-16 10:00:00', NOW(), 1, 2),
-('user',         'user@example.com',        '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', '2024-07-17 10:00:00', NOW(), 1, 2),
-('admin',        'admin2@example.com',      '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', '2024-10-18 10:00:00', NOW(), 1, 2),
-('pipeline',     'hjulverkstan@alten.se',   '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', '2024-10-18 10:00:00', NOW(), 1, 2);
-
 --
 
 INSERT INTO Localised_Content
@@ -164,8 +157,13 @@ INSERT INTO text (created_at, created_by, updated_at, updated_by, key) VALUES
 (NOW(), 1, NOW(), 1, 'bikeDetailRentText')
 ON CONFLICT (key) DO NOTHING;
 
+--
 
-
+INSERT INTO users
+(username,       email,                     password,                                                       hidden, created_at,            updated_at, created_by, updated_by) VALUES
+('user',         'user@example.com',        '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', false,  '2024-07-17 10:00:00', NOW(),      1,          2),
+('admin',        'admin2@example.com',      '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', false,  '2024-10-18 10:00:00', NOW(),      1,          2),
+('pipeline',     'hjulverkstan@alten.se',   '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', true,   '2024-10-18 10:00:00', NOW(),      1,          2);
 
 INSERT INTO roles
 (id, name       ) VALUES
