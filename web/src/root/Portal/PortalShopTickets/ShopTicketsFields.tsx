@@ -23,10 +23,10 @@ export default function ShopTicketFields() {
     filterCustomerOwned:
       body.ticketType === TicketType.RENT ||
       body.ticketType === TicketType.DONATE
-        ? true
-        : firstIsCustomerOwned === undefined
-          ? undefined
-          : !firstIsCustomerOwned,
+        ? false
+        : body.ticketType === TicketType.RECEIVE
+          ? true
+          : firstIsCustomerOwned
   });
 
   return (
