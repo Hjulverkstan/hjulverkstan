@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -16,9 +15,8 @@ import se.hjulverkstan.main.shared.auditable.AuditableDto;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class LocationDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

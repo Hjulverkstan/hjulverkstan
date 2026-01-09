@@ -3,13 +3,13 @@ package se.hjulverkstan.main.feature.webedit.text;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class TextDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

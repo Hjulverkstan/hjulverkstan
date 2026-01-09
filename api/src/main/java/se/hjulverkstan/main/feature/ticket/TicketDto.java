@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
+@NoArgsConstructor
 public class TicketDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonSerialize(using = ToStringSerializer.class)
