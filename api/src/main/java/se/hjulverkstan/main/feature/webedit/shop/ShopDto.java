@@ -7,11 +7,13 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class ShopDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

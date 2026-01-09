@@ -17,9 +17,9 @@ import se.hjulverkstan.main.shared.auditable.AuditableDto;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Data
 public class CustomerDto extends AuditableDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonSerialize(using = ToStringSerializer.class)
