@@ -59,6 +59,7 @@ public class TicketDto extends AuditableDto {
         ticketStatus = ticket.getTicketStatus();
         startDate = ticket.getStartDate();
         endDate = ticket.getEndDate();
+        repairDescription = ticket.getRepairDescription();
         comment = ticket.getComment();
         vehicleIds = ticket.getVehicles().stream().map(Vehicle::getId).toList();
         employeeId = ticket.getEmployee().getId();
