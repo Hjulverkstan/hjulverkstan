@@ -51,6 +51,9 @@ public class User extends Auditable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
 
+    @Column(nullable = false)
+    private boolean hidden = false;
+
     public List<ERole> getRolesDirectly () {
         return roles.stream().map(Role::getName).collect(Collectors.toList());
     }
