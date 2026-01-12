@@ -1,0 +1,75 @@
+name: Publish (web)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Which environment to publish to"
+        required: true
+        type: choice
+        options: [dev, test, prod]
+
+jobs:
+  resolve-version:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    outputs:
+      commit_sha: ${{ steps.ver.outputs.commit_sha }}
+      app_version: ${{ steps.ver.outputs.app_version }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.DEPLOY_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.DEPLOY_SECRET_KEY }}
+          aws-region: us-east-1
+
+      - name: Resolve deployed app commit sha
+        id: ver
+        shell: bash
+        run: |
+          set -euo pipefail
+          
+          aws s3 cp "s3://${{ vars.DEPLOY_WEB_BUCKET_NAME }}/version.json" version.json
+          commitSha="$(python -c 'import json; print((json.load(open("version.json")).get("commitSha") or "").strip())')"
+          appVersion="$(python -c 'import json; print((json.load(open("version.json")).get("appVersion") or "").strip())')"
+          
+          if [[ -z "$commitSha" ]]; then
+            echo "❌ version.json missing commitSha"
+            cat version.json || true
+            exit 1
+          fi
+          
+          if [[ -z "$appVersion" ]]; then
+            echo "❌ version.json missing appVersion"
+            cat version.json || true
+            exit 1
+          fi
+          
+          echo "commit_sha=$commitSha" >> "$GITHUB_OUTPUT"
+          echo "app_version=$appVersion" >> "$GITHUB_OUTPUT"
+
+  build-web:
+    needs: resolve-version
+    uses: ./.github/workflows/stage-build-web.yml
+    with:
+      run: true
+      environment: ${{ github.event.inputs.environment }}
+      commit_sha: ${{ needs.resolve-version.outputs.commit_sha }}
+      vite_env: ${{ vars.VITE_ENV }}
+      vite_frontend_url: ${{ vars.VITE_FRONTEND_URL }}
+      vite_backend_url: ${{ vars.VITE_BACKEND_URL }}
+      vite_backend_proxy_slug: ${{ vars.VITE_BACKEND_PROXY_SLUG }}
+    secrets: inherit
+
+  deploy-web:
+    needs: [resolve-version, build-web]
+    uses: ./.github/workflows/stage-deploy-web.yml
+    with:
+      run: true
+      environment: ${{ github.event.inputs.environment }}
+      deploy_bucket: ${{ vars.DEPLOY_WEB_BUCKET_NAME }}
+      cloudfront_distribution_id: ${{ vars.DEPLOY_WEB_CLOUDFRONT_DISTRIBUTION_ID }}
+      commit_sha: ${{ needs.resolve-version.outputs.commit_sha }}
+      app_version: ${{ needs.resolve-version.outputs.app_version }}
+    secrets: inherit

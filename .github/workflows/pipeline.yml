@@ -1,120 +1,165 @@
-name: Pipeline
+name: Deploy
 
 on:
   push:
     branches: [main]
+    tags:
+      - "v*-rc.*"
+      - "v*"
+
   workflow_dispatch:
     inputs:
-      build:
-        description: 'Which modules to build (auto/api/web/both)'
+      mode:
+        description: "Which modules to deploy (auto/api/web/both)"
         required: false
-        default: 'auto'
+        default: "auto"
         type: choice
-        options:
-          - auto
-          - api
-          - web
-          - both
+        options: [auto, api, web, both]
 
 jobs:
   init:
     runs-on: ubuntu-latest
     outputs:
-      api_changes: ${{ steps.decide.outputs.api }}
-      web_changes: ${{ steps.decide.outputs.web }}
-      trace_tag: ${{ steps.trace.outputs.trace_tag }}
+      environment: ${{ steps.route.outputs.environment }}
+      release_tag: ${{ steps.route.outputs.release_tag }}
+      short_commit_tag: ${{ steps.route.outputs.short_commit_tag }}
+      deploy_api: ${{ steps.route.outputs.deploy_api }}
+      deploy_web: ${{ steps.route.outputs.deploy_web }}
     steps:
       - uses: actions/checkout@v3
-
-      - name: Determine trace tag
-        id: trace
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          branch="${{ github.ref_name }}"
-
-          if [[ "$branch" == "main" ]]; then
-            shortsha=$(git rev-parse --short=6 HEAD)
-            echo "trace_tag=$shortsha" >> $GITHUB_OUTPUT
-            echo "✅ Trace tag (commit): $shortsha"
-          elif [[ "$branch" =~ ^hotfix([/-].*|$) ]]; then
-            shortsha=$(git rev-parse --short=6 HEAD)
-            tag="hotfix-${shortsha}"
-            echo "trace_tag=$tag" >> $GITHUB_OUTPUT
-            echo "✅ Trace tag (hotfix-commit): $tag"
-          else
-            pr=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number' || true)
-            if [[ -n "$pr" ]]; then
-              echo "trace_tag=pr-$pr" >> $GITHUB_OUTPUT
-              echo "✅ Trace tag (PR number): pr-$pr"
-            else
-              echo "🚫 Dispatch did not match rules."
-              exit 1
-            fi
-          fi
+        with:
+          fetch-depth: 0
 
       - name: Detect module file changes
         id: changes
         uses: dorny/paths-filter@v2
         with:
+          base: main
           filters: |
             api:
               - 'api/**'
               - '.github/actions/**'
-              - '.github/workflows/**'
             web:
               - 'web/**'
               - '.github/actions/**'
-              - '.github/workflows/**'
 
-      - name: Decide final build flags (respect manual input)
-        id: decide
+      - name: Determine needed variables for pipeline routing
+        id: route
         shell: bash
         run: |
-          api="${{ steps.changes.outputs.api }}"
-          web="${{ steps.changes.outputs.web }}"
+          set -euo pipefail
+          
+          is_release=false
+          environment=dev
+          release_tag=""
+          mode="${{ github.event.inputs.mode || 'auto' }}"
+          
+          changed_api="${{ steps.changes.outputs.api }}"
+          changed_web="${{ steps.changes.outputs.web }}"
+          deploy_api=false
+          deploy_web=false
+          
+          short_commit_tag=$(git rev-parse --short=6 HEAD)
+          
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            mode="both"
+            is_release=true
+            release_tag="${{ github.ref_name }}"
+          
+            environment=prod
+            [[ "$release_tag" == *"-rc."* ]] && environment=test
+          fi
+          
+          case "$mode" in
+            api) deploy_api=true ;;
+            web) deploy_web=true ;;
+            both) deploy_api=true; deploy_web=true ;;
+            auto) deploy_api="$changed_api"; deploy_web="$changed_web" ;;
+          esac
+          
+          echo "environment=$environment" >> "$GITHUB_OUTPUT"
+          echo "is_release=$is_release" >> "$GITHUB_OUTPUT"
+          echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "deploy_api=$deploy_api" >> "$GITHUB_OUTPUT"
+          echo "deploy_web=$deploy_web" >> "$GITHUB_OUTPUT"
+          echo "short_commit_tag=$short_commit_tag" >> "$GITHUB_OUTPUT"
+          
+          {
+            echo "### Deploying to **$environment**"
+            echo ""
+            [[ "$is_release" == true ]] && echo "- Release tag: **${release_tag:-<none>}**"
+            echo "- Deployment mode: **$mode**"
+            echo "- Deploy API: **$deploy_api** (detected changes: $changed_api)"
+            echo "- Deploy Web: **$deploy_web** (detected changes: $changed_web)"
+          } >> "$GITHUB_STEP_SUMMARY"
 
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            case "${{ github.event.inputs.build }}" in
-              api)  api=true;  web=false ;;
-              web)  api=false; web=true  ;;
-              both) api=true;  web=true  ;;
-              *)    : ;;
-            esac
+      - name: Guardrails (release tags must be semver + tag commit on main)
+        if: ${{ steps.route.outputs.is_release == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${{ steps.route.outputs.release_tag }}"
+
+          if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$ ]]; then
+            echo "❌ Tag must follow semver: vX.Y.Z or vX.Y.Z-rc.N. Got: $tag"
+            exit 1
           fi
 
-          echo "api=$api" >> "$GITHUB_OUTPUT"
-          echo "web=$web" >> "$GITHUB_OUTPUT"
+          git fetch origin main --no-tags
+          if ! git merge-base --is-ancestor "${GITHUB_SHA}" "origin/main"; then
+            echo "❌ Tag commit (${GITHUB_SHA}) is not reachable from origin/main"
+            exit 1
+          fi
+
+          echo "✅ Release guardrails passed"
 
   test:
     name: Test
     needs: init
-    if: ${{ needs.init.outputs.api_changes == 'true' || needs.init.outputs.web_changes == 'true' }}
+    if: ${{ needs.init.outputs.deploy_api == 'true' || needs.init.outputs.deploy_web == 'true' }}
     uses: ./.github/workflows/stage-test.yml
     with:
-      run_api_tests: ${{ needs.init.outputs.api_changes == 'true' }}
-      run_web_build: false
+      run_api_tests: ${{ needs.init.outputs.deploy_api == 'true' }}
+      run_web_build: ${{ needs.init.outputs.deploy_web == 'true' }}
     secrets: inherit
 
-  build:
-    name: Build – Generate and publish docker image
+  build-api:
+    name: Build API image
     needs: [init, test]
-    if: ${{ needs.init.outputs.api_changes == 'true' }}
-    uses: ./.github/workflows/stage-build.yml
+    uses: ./.github/workflows/stage-build-api.yml
     with:
-      build_api: true
-      trace_tag: ${{ needs.init.outputs.trace_tag }}
+      run: ${{ needs.init.outputs.deploy_api == 'true' }}
+      environment: ${{ needs.init.outputs.environment }}
+      short_commit_tag: ${{ needs.init.outputs.short_commit_tag }}
     secrets: inherit
 
-  deploy-dev:
-    name: Deploy (dev) – Promote image + build web  deploy
-    needs: [init, test, build]
-    if: ${{ needs.init.outputs.api_changes == 'true' || needs.init.outputs.web_changes == 'true' }}
-    uses: ./.github/workflows/stage-deploy.yml
+  deploy-api:
+    name: Deploy API
+    needs: [init, build-api]
+    uses: ./.github/workflows/stage-deploy-api.yml
     with:
-      environment: dev
-      deploy_api: ${{ needs.init.outputs.api_changes == 'true' }}
-      deploy_web: ${{ needs.init.outputs.web_changes == 'true' }}
+      run: ${{ needs.init.outputs.deploy_api == 'true' }}
+      environment: ${{ needs.init.outputs.environment }}
+      api_source_tag: ${{ needs.init.outputs.short_commit_tag }}
+      api_version_tag: ${{ needs.init.outputs.release_tag }}
+    secrets: inherit
 
-      api_source_tag: ${{ needs.init.outputs.trace_tag }}
+  build-web:
+    name: Build Web
+    needs: [init, test]
+    uses: ./.github/workflows/stage-build-web.yml
+    with:
+      run: ${{ needs.init.outputs.deploy_web == 'true' }}
+      environment: ${{ needs.init.outputs.environment }}
+    secrets: inherit
+
+  deploy-web:
+    name: Deploy Web
+    needs: [init, deploy-api, build-web]
+    uses: ./.github/workflows/stage-deploy-web.yml
+    with:
+      run: ${{ needs.init.outputs.deploy_web == 'true' }}
+      environment: ${{ needs.init.outputs.environment }}
+      app_version: ${{ needs.init.outputs.release_tag != '' && needs.init.outputs.release_tag || 'dev' }}
     secrets: inherit
