@@ -58,7 +58,12 @@ jobs:
           API_ALLOWED_ORIGINS: http://localhost
         run: mvn -B -U test
 
-      # RUN BACKEND - NEEDED FOR WEB
+      - name: Backend - Resolve deps & build jar
+        if: ${{ inputs.run_web_build }}
+        working-directory: api
+        run: |
+          set -euo pipefail
+          mvn -B -U -DskipTests package
 
       - name: Test Web - Start backend
         if: ${{ inputs.run_web_build }}
@@ -94,6 +99,8 @@ jobs:
             sleep 2
           done
           echo "❌ Backend did not become healthy in time"
+          echo "=== backend.log (tail 200) ==="
+          tail -200 backend.log || true
           exit 1
 
       # BUILD WEB
