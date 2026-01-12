@@ -80,8 +80,7 @@ export default function Home() {
             className="text-h3 text-background max-w-[700px] pr-10 !text-xl
               sm:pr-0 sm:!text-3xl"
           >
-            A bike shop that changes lives – we bridge gaps and somthing like
-            so.
+            {data.text.slogan}
           </p>
         </div>
       </div>
