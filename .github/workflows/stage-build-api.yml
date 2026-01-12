@@ -3,17 +3,18 @@ name: Stage - Build
 on:
   workflow_call:
     inputs:
-      build_api:
-        required: true
-        type: boolean
-      trace_tag:
-        required: true
-        type: string
+      run: { required: true, type: boolean }
+      environment: { required: true, type: string }
+      short_commit_tag: { required: true, type: string }
+    secrets:
+      DOCKER_USERNAME: { required: true }
+      DOCKER_PASSWORD: { required: true }
 
 jobs:
   build:
+    if: ${{ inputs.run }}
     runs-on: ubuntu-latest
-    if: ${{ inputs.build_api }}
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v3
 
@@ -31,7 +32,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ vars.DOCKER_REPO }}:${{ inputs.trace_tag }}
+            ${{ vars.DOCKER_REPO }}:${{ inputs.short_commit_tag }}
           cache-from: |
             type=gha,scope=api
             type=registry,ref=${{ vars.DOCKER_REPO }}:buildcache

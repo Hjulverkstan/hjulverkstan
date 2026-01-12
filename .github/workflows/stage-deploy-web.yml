@@ -1,0 +1,59 @@
+name: Stage - Deploy Web
+
+on:
+  workflow_call:
+    inputs:
+      run: { required: true, type: boolean }
+      environment: { required: true, type: string }
+      commit_sha: { required: false, default: '', type: string }
+      app_version: { required: true, type: string }
+    secrets:
+      DEPLOY_ACCESS_KEY: { required: true }
+      DEPLOY_SECRET_KEY: { required: true }
+
+jobs:
+  deploy-web:
+    if: ${{ inputs.run }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: web/dist
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.DEPLOY_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.DEPLOY_SECRET_KEY }}
+          aws-region: us-east-1
+
+      - name: Write version metadata (version.json)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > web/dist/static/version.json <<EOF
+          {
+            "appVersion": "${{ inputs.app_version }}",
+            "commitSha": "${{ inputs.commit_sha != '' && inputs.commit_sha || github.sha }}",
+            "builtAt": "${{ github.run_id }}",
+            "workflow": "${{ github.workflow }}"
+          }
+          EOF
+
+      - name: Sync to S3
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws s3 sync web/dist/static "s3://${{ vars.DEPLOY_WEB_BUCKET_NAME }}" --delete
+
+      - name: Invalidate CloudFront cache
+        if: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}" \
+            --paths "/*"
