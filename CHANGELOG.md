@@ -6,6 +6,10 @@ Please read [GUIDELINES / Release process 🚀](/GUIDELINES.md#release-process-)
 
 ## Release Candidates
 
+### 1.0.0-rc.2
+
+* Update pipelines with support for rebuilding web in environment of choice – that the publish pipeline needed for web edit change to publish.
+
 ### 1.0.0-rc.1
 
 + Enforce english in portal – override to always return english since many texts are not localized yet.
