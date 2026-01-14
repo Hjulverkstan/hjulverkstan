@@ -56,10 +56,6 @@ jobs:
       run: true
       environment: ${{ github.event.inputs.environment }}
       commit_sha: ${{ needs.resolve-version.outputs.commit_sha }}
-      vite_env: ${{ vars.VITE_ENV }}
-      vite_frontend_url: ${{ vars.VITE_FRONTEND_URL }}
-      vite_backend_url: ${{ vars.VITE_BACKEND_URL }}
-      vite_backend_proxy_slug: ${{ vars.VITE_BACKEND_PROXY_SLUG }}
     secrets: inherit
 
   deploy-web:
@@ -68,8 +64,6 @@ jobs:
     with:
       run: true
       environment: ${{ github.event.inputs.environment }}
-      deploy_bucket: ${{ vars.DEPLOY_WEB_BUCKET_NAME }}
-      cloudfront_distribution_id: ${{ vars.DEPLOY_WEB_CLOUDFRONT_DISTRIBUTION_ID }}
       commit_sha: ${{ needs.resolve-version.outputs.commit_sha }}
       app_version: ${{ needs.resolve-version.outputs.app_version }}
     secrets: inherit
