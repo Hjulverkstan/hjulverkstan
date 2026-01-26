@@ -125,9 +125,25 @@ export $(grep -v '^#' .env | xargs)
 
 This will populate the environment variables configured in the previous [step](#configure-the-environment-variables-).
 
+Navigate to the file`/api/src/main/resources/application.properties` 
+and temporarily change these two variables:
+```properties
+spring.jpa.hibernate.ddl-auto=create
+spring.sql.init.mode=always
+```
+Start the application by running MainApplication once.
+This will create the database schema and initialize the required tables.
+
+
 ```bash
 cd main
 ./mvn spring-boot:run -D spring-boot.run.profiles=dev
+```
+
+After the application has started successfully, revert the changes in application.properties:
+```properties
+spring.jpa.hibernate.ddl-auto=none
+#spring.sql.init.mode=always
 ```
 
 #### Frontend
