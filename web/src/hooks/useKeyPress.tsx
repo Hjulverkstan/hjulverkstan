@@ -6,7 +6,6 @@ export default function useKeyPress(
 ) {
   useEffect(() => {
     const downHandler = (event: KeyboardEvent) => {
-      console.log(event.key, targetKey);
       if (event.key === targetKey) {
         callback(event);
       }
