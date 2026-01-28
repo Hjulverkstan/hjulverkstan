@@ -44,7 +44,6 @@ public class CustomerDto extends AuditableDto {
     @NotBlank(message = "Customer phone number is required")
     private String phoneNumber;
 
-    @NotBlank(message = "Customer email is required")
     @Email(message = "Customer email must be valid")
     private String email;
 

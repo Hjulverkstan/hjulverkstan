@@ -12,12 +12,14 @@ export interface CollapsibleProps {
 }
 
 export const Collapsible = ({ label, children }: CollapsibleProps) => {
-  const { isDisabled, mode } = useDataForm();
-  const [isOpen, setIsOpen] = useState(mode === Mode.CREATE);
+  const { isDisabled, mode, body } = useDataForm();
+
+  const shouldBeOpen = mode === Mode.CREATE && !body.isCustomerOwned;
+  const [isOpen, setIsOpen] = useState(shouldBeOpen);
 
   useEffect(() => {
-    if (mode === Mode.CREATE) setIsOpen(true);
-  }, [mode]);
+    setIsOpen(shouldBeOpen);
+  }, [mode, body.isCustomerOwned]);
 
   return (
     <ShadCollapsible.Root open={isOpen} onOpenChange={setIsOpen}>
@@ -25,7 +27,7 @@ export const Collapsible = ({ label, children }: CollapsibleProps) => {
         <div
           className={C.cn(
             `align-center space-between text flex cursor-pointer items-center
-rounded-md border px-4 py-2 text-sm font-medium`,
+            rounded-md border px-4 py-2 text-sm font-medium`,
             isDisabled && '!opacity-75',
           )}
         >

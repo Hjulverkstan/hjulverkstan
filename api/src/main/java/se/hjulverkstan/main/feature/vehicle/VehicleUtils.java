@@ -25,7 +25,7 @@ public class VehicleUtils {
             if (dto.getBatchCount() == null) throw new MissingArgumentException("batchCount");
         }
 
-        if (dto.getVehicleType() == VehicleType.BIKE) {
+        if (dto.getVehicleType() == VehicleType.BIKE && !dto.isCustomerOwned()) {
             if (dto.getBikeType() == null) throw new MissingArgumentException("bikeType");
             if (dto.getGearCount() == null) throw new MissingArgumentException("gearCount");
             if (dto.getSize() == null) throw new MissingArgumentException("size");
