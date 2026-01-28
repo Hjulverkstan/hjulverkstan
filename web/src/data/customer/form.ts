@@ -11,9 +11,11 @@ const customerBaseZ = z.object({
   firstName: reqString('First name'),
   lastName: reqString('Last name'),
   phoneNumber: reqString('Phone number'),
-  email: reqString('Email').email({
-    message: 'The email is not a valid email address',
-  }),
+  email: z
+    .string()
+    .email({ message: 'Email is not valid' })
+    .or(z.literal(''))
+    .optional(),
 });
 
 export const customerZ = z.discriminatedUnion('customerType', [

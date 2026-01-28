@@ -1,5 +1,4 @@
 import { z } from 'zod';
-
 import { isReq } from '../form';
 import {
   BikeBrand,
@@ -57,18 +56,19 @@ export function useVehicleZ() {
           vehicleBaseZ.extend({
             ...commonProps,
             vehicleType: z.literal(VehicleType.BIKE),
-            bikeType: z.nativeEnum(BikeType, isReq('Bike Type')),
+            bikeType: z.nativeEnum(BikeType).optional(),
             brand: z.nativeEnum(BikeBrand).optional(),
-            size: z.nativeEnum(BikeSize, isReq('Size')),
-            brakeType: z.nativeEnum(BrakeType, isReq('Brake Type')),
+            size: z.nativeEnum(BikeSize).optional(),
+            brakeType: z.nativeEnum(BrakeType).optional(),
             gearCount: z
-              .number(isReq('Gear Count'))
+              .number()
               .min(minGearCount, {
                 message: 'Minimum gear count is 1 (if no gears choose 1)',
               })
               .max(maxGearCount, {
                 message: 'Maximum gear count is 33',
-              }),
+              })
+              .optional(),
           }),
           vehicleBaseZ.extend({
             ...commonProps,
@@ -105,13 +105,14 @@ export function useVehicleZ() {
          * validations in the schema are successful. Thus postponing the
          * validation in superRefine till the end of the user flow.
          */
+        if (data.vehicleType === VehicleType.BATCH) return;
 
-        if (data.vehicleType !== VehicleType.BATCH && !data.isCustomerOwned) {
+        if (!data.isCustomerOwned) {
           if (!data.vehicleStatus) {
             ctx.addIssue({
               code: 'custom',
               path: ['vehicleStatus'],
-              message: 'Vehicle Status is required.',
+              message: 'Vehicle Status is required',
             });
           }
 
@@ -119,17 +120,48 @@ export function useVehicleZ() {
             ctx.addIssue({
               code: 'custom',
               path: ['regTag'],
-              message: 'Reg Tag is required.',
+              message: 'Reg Tag is required',
             });
           }
 
-          if (data.regTag && regTags?.includes(data.regTag.toLowerCase())) {
-            ctx.addIssue({
-              code: 'custom',
-              path: ['regTag'],
-              message: 'This Reg Tag is already in use.',
-            });
+          if (data.vehicleType === VehicleType.BIKE) {
+            if (!data.bikeType) {
+              ctx.addIssue({
+                code: 'custom',
+                path: ['bikeType'],
+                message: 'Bike Type is required',
+              });
+            }
+            if (!data.size) {
+              ctx.addIssue({
+                code: 'custom',
+                path: ['size'],
+                message: 'Size is required',
+              });
+            }
+            if (!data.brakeType) {
+              ctx.addIssue({
+                code: 'custom',
+                path: ['brakeType'],
+                message: 'Brake Type is required',
+              });
+            }
+            if (data.gearCount === undefined || data.gearCount === null) {
+              ctx.addIssue({
+                code: 'custom',
+                path: ['gearCount'],
+                message: 'Gear Count is required',
+              });
+            }
           }
+        }
+
+        if (data.regTag && regTags?.includes(data.regTag.toLowerCase())) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['regTag'],
+            message: 'This Reg Tag is already in use.',
+          });
         }
       });
   }, [regTags]);
