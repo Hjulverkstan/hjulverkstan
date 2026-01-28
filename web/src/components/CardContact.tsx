@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarDays, Mail, MapPin, Phone } from 'lucide-react';
+import { CalendarDays, MapPin, Phone } from 'lucide-react';
 
 import { Base, Title } from '@components/Card';
 import { Bullet } from '@components/Bullet';
@@ -114,16 +114,6 @@ export const CardContact: React.FC<CardContactProps> = ({
                 )}
               >
                 {shop?.phone || 'N/A'}
-              </p>
-            </Bullet>
-            <Bullet icon={Mail}>
-              <p
-                className={cn(
-                  'text-foreground',
-                  isCompact ? 'text-sm' : 'ml-2 text-base',
-                )}
-              >
-                {shop?.contactEmail || 'N/A'}
               </p>
             </Bullet>
           </div>
