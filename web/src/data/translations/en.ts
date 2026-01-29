@@ -119,6 +119,9 @@ export default {
   enumIsCustomerOwnedCustomer: 'Customer',
   enumIsCustomerOwnedOrg: 'Hjulverkstan',
 
+  enumIsCustomerTypeCustomer: 'Person',
+  enumIsCustomerTypeOrg: 'Organization',
+
   enumLocationTypeShop: 'Shop',
   enumLocationTypeStorage: 'Storage',
 

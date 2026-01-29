@@ -9,14 +9,13 @@ export const customerType: EnumAttributesRaw[] = [
   {
     dataKey: 'customerType',
     value: CustomerType.ORG,
-    translationKey: 'enumIsCustomerOwnedOrg',
+    translationKey: 'enumIsCustomerTypeOrg',
     icon: Building,
   },
   {
     dataKey: 'customerType',
     value: CustomerType.PERSON,
-
-    translationKey: 'enumIsCustomerOwnedCustomer',
+    translationKey: 'enumIsCustomerTypeCustomer',
     icon: UserCircle,
   },
 ];
