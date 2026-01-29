@@ -1,8 +1,9 @@
 package se.hjulverkstan.main.shared;
 
-import com.amazonaws.SdkClientException;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import se.hjulverkstan.main.error.exceptions.*;
-import se.hjulverkstan.main.feature.image.ImageUploadResponse;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -21,15 +22,16 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class S3Service {
-    private final AmazonS3 amazonS3;
+    private final S3Client s3Client ;
     private static final List<String> ALLOWED_MIME_TYPES = Arrays.asList("image/jpeg", "image/png", "image/gif");
     private static final Tika TIKA = new Tika();
 
     @Value("${hjulverkstan.aws-s3.bucket-name}")
     private String bucketName;
 
-    public S3Service(AmazonS3 amazonS3) {
-        this.amazonS3 = amazonS3;
+    @Autowired
+    public S3Service(S3Client s3Client) {
+        this.s3Client = s3Client;
     }
 
     /**
@@ -43,16 +45,17 @@ public class S3Service {
 
         String uniqueFileName = generateUniqueFileName(file);
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(file.getSize());
-        metadata.setContentType(file.getContentType());
+        try {
+            PutObjectRequest putRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(uniqueFileName)
+                    .contentType(file.getContentType())
+                    .acl(ObjectCannedACL.PUBLIC_READ)
+                    .build();
 
-        try (InputStream inputStream = file.getInputStream()) {
-            PutObjectRequest putRequest = new PutObjectRequest(bucketName, uniqueFileName, inputStream, metadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead);
-            amazonS3.putObject(putRequest);
+            s3Client.putObject(putRequest, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
 
-            return amazonS3.getUrl(bucketName, uniqueFileName).toString();
+            return String.format("https://%s.s3.amazonaws.com/%s", bucketName, uniqueFileName);
         } catch (IOException e) {
             throw new FileProcessingException("Error processing file: " + e.getMessage());
         } catch (SdkClientException e) {
@@ -103,8 +106,10 @@ public class S3Service {
 
     public void deleteFileByKey(String key) {
         try {
-            DeleteObjectRequest deleteRequest = new DeleteObjectRequest(bucketName, key);
-            amazonS3.deleteObject(deleteRequest);
+            DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+                            .bucket(bucketName)
+                                    .key(key).build();
+            s3Client.deleteObject(deleteRequest);
         } catch (Exception e) {
             throw new S3DeleteException("Error deleting file from S3: " + e.getMessage());
         }
@@ -112,8 +117,17 @@ public class S3Service {
 
     public void deleteFilesByKeys(List<String> keys) {
         try {
-            DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucketName).withKeys(keys.toArray(new String[0]));
-            amazonS3.deleteObjects(deleteObjectsRequest);
+
+            List<ObjectIdentifier> identifiers = keys.stream()
+                    .map(key -> ObjectIdentifier.builder().key(key).build())
+                    .collect(Collectors.toList());
+
+            DeleteObjectsRequest deleteRequest = DeleteObjectsRequest
+                    .builder()
+                    .bucket(bucketName)
+                    .delete(Delete.builder().objects(identifiers).build())
+                    .build();
+            s3Client.deleteObjects(deleteRequest);
         } catch (Exception e) {
             throw new S3DeleteException("Error deleting files from S3: " + e.getMessage());
         }
@@ -129,11 +143,14 @@ public class S3Service {
      * @return A List of Strings containing the file keys of all objects in the bucket.
      */
     public List<String> getAllImageKeys() {
-        ListObjectsV2Request request = new ListObjectsV2Request().withBucketName(bucketName);
-        ListObjectsV2Result result = amazonS3.listObjectsV2(request);
+        ListObjectsV2Request request = ListObjectsV2Request.builder()
+                .bucket(bucketName)
+                .build();
 
-        return result.getObjectSummaries().stream()
-                .map(S3ObjectSummary::getKey)
+        ListObjectsV2Response result = s3Client.listObjectsV2(request);
+
+        return result.contents().stream()
+                .map(S3Object::key)
                 .collect(Collectors.toList());
     }
 }
