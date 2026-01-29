@@ -1,22 +1,21 @@
-import { Building, UserCircle } from 'lucide-react';
+import { Building, UserCircle } from "lucide-react";
 
-import { EnumAttributesRaw } from '@data/types';
-import { CustomerType } from './types';
+import { EnumAttributesRaw } from "@data/types";
+import { CustomerType } from "./types";
 
 //
 
 export const customerType: EnumAttributesRaw[] = [
   {
-    dataKey: 'customerType',
+    dataKey: "customerType",
     value: CustomerType.ORG,
-    translationKey: 'enumIsCustomerOwnedOrg',
+    translationKey: "enumIsCustomerTypeOrg",
     icon: Building,
   },
   {
-    dataKey: 'customerType',
+    dataKey: "customerType",
     value: CustomerType.PERSON,
-
-    translationKey: 'enumIsCustomerOwnedCustomer',
+    translationKey: "enumIsCustomerTypeCustomer",
     icon: UserCircle,
   },
 ];
