@@ -36,7 +36,7 @@ public class TicketController {
     }
 
     @PutMapping("/{id}/status")
-    public TicketDto updateTicketStatus(@PathVariable Long id, @Valid @RequestBody TicketStatusDto body) {
+    public TicketStatusDto updateTicketStatus(@PathVariable Long id, @Valid @RequestBody TicketStatusDto body) {
         return ticketService.updateTicketStatus(id, body);
     }
 

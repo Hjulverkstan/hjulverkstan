@@ -20,8 +20,8 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: testuser
-          POSTGRES_PASSWORD: testpass
+          POSTGRES_USER: ${{ secrets.API_DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.API_DB_PASSWORD }}
           POSTGRES_DB: testdb
         options: >-
           --health-cmd="pg_isready -U testuser -d testdb"
@@ -46,6 +46,9 @@ jobs:
         if: ${{ inputs.run_api_tests }}
         working-directory: api
         env:
+          AWS_REGION: eu-north-1
+          AWS_ACCESS_KEY_ID: dummy-key
+          AWS_SECRET_ACCESS_KEY: dummy-secret
           API_DB_HOST: 127.0.0.1
           API_DB_PORT: 5432
           API_DB_DATABASE: testdb
@@ -69,6 +72,9 @@ jobs:
         if: ${{ inputs.run_web_build }}
         shell: bash
         env:
+          AWS_REGION: eu-north-1
+          AWS_ACCESS_KEY_ID: dummy-key
+          AWS_SECRET_ACCESS_KEY: dummy-secret
           API_DB_HOST: 127.0.0.1
           API_DB_PORT: 5432
           API_DB_DATABASE: testdb

@@ -11,6 +11,8 @@ import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.employee.EmployeeRepository;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
+import se.hjulverkstan.main.feature.notification.Notification;
+import se.hjulverkstan.main.feature.notification.NotificationService;
 import se.hjulverkstan.main.feature.vehicle.VehicleRepository;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.ListResponseDto;
@@ -28,6 +30,7 @@ public class TicketService {
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
     private final VehicleRepository vehicleRepository;
+    private final NotificationService notificationService;
 
     public ListResponseDto<TicketDto> getAllTicket() {
         List<Ticket> tickets = ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -75,10 +78,10 @@ public class TicketService {
     }
 
     @Transactional
-    public TicketDto updateTicketStatus(Long id, TicketStatusDto dto) {
+    public TicketStatusDto updateTicketStatus(Long id, TicketStatusDto dto) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Ticket"));
 
-        TicketUtils.validateTicketStatusByType(dto.getTicketStatus(), ticket.getTicketType());
+        TicketUtils.validateTicketStatusChange(ticket, dto.getTicketStatus());
 
         ticket.setTicketStatus(dto.getTicketStatus());
         ticketRepository.save(ticket);
@@ -87,7 +90,12 @@ public class TicketService {
         TicketUtils.updateVehiclesByTicketStatus(vehicles, ticket);
         vehicleRepository.saveAll(vehicles);
 
-        return new TicketDto(ticket);
+        if (dto.getTicketStatus() == TicketStatus.COMPLETE && !vehicles.isEmpty()) {
+            Notification notif = notificationService.sendRepairTicketCompleteSms(ticket);
+            dto.setRepairCompleteNotificationStatus(notif.getNotificationStatus());
+        }
+
+        return dto;
     }
 
     @Transactional
