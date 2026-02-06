@@ -58,7 +58,7 @@ export default function ShopTicketFields() {
         enums={locationEnumsQ.data ?? []}
         label="Location"
         dataKey="locationId"
-        disabled={body.vehicleIds.length}
+        disabled={body.vehicleIds?.length}
       />
 
       <DataForm.Select
