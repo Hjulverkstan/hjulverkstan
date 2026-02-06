@@ -1,3 +1,6 @@
+import { Warning } from '@data/warning/types';
+import { AlertTriangle } from 'lucide-react';
+
 export default {
   home: 'Home',
   shops: 'Shops',
@@ -146,6 +149,10 @@ export default {
 
   enumWarningOrphanLabel: 'Orphan',
   enumWarningOrphanTooltip: 'Bike orphaned: missing ticket.',
+
+  enumWarningRepairNotificationFailedLabel: 'Notification failed',
+  enumWarningRepairNotificationFailedTooltip: 'Repair complete' +
+    ' notification (SMS) failed to send.',
 
   // text enums
 

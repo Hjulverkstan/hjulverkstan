@@ -1,6 +1,5 @@
 package se.hjulverkstan.main.feature.ticket;
 
-import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.error.exceptions.MissingArgumentException;
 import se.hjulverkstan.main.error.exceptions.UnsupportedTicketStatusException;
 import se.hjulverkstan.main.error.exceptions.UnsupportedTicketVehiclesException;
@@ -44,13 +43,21 @@ public class TicketUtils {
         return str != null && !str.isBlank();
     }
 
-    public static void validateTicketStatusByType(TicketStatus status, TicketType type) {
-        if (!isValidTicketStatus(type, status)) {
-            throw new UnsupportedTicketStatusException("Invalid status transition for ticket type: " + type);
+    public static void validateTicketStatusChange (Ticket ticket, TicketStatus status) {
+        validateTicketStatusByType(ticket.getTicketType(), status);
+
+        if (ticket.getTicketStatus() == status) {
+            throw new UnsupportedTicketStatusException("Ticket status has to be different, is already " + status);
         }
     }
 
-    public static boolean isValidTicketStatus(TicketType type, TicketStatus status) {
+    public static void validateTicketStatusByType (TicketType ticketType, TicketStatus ticketStatus)  {
+        if (!isValidTicketStatusByType(ticketType, ticketStatus)) {
+            throw new UnsupportedTicketStatusException("Invalid status transition for ticket type: " + ticketStatus);
+        }
+    }
+
+    public static boolean isValidTicketStatusByType(TicketType type, TicketStatus status) {
         if (type == TicketType.RENT) return status == TicketStatus.READY ||
                 status == TicketStatus.IN_PROGRESS ||
                 status == TicketStatus.CLOSED;
