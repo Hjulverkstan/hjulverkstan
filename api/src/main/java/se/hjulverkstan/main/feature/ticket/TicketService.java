@@ -9,6 +9,9 @@ import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.customer.CustomerRepository;
 import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.employee.EmployeeRepository;
+import se.hjulverkstan.main.feature.location.Location;
+import se.hjulverkstan.main.feature.location.LocationRepository;
+import se.hjulverkstan.main.feature.notification.NotificationService;
 import se.hjulverkstan.main.feature.vehicle.VehicleRepository;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.ListResponseDto;
@@ -22,9 +25,11 @@ import java.util.List;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
+    private final LocationRepository locationRepository;
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
     private final VehicleRepository vehicleRepository;
+    private final NotificationService notificationService;
 
     public ListResponseDto<TicketDto> getAllTicket() {
         List<Ticket> tickets = ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -75,7 +80,7 @@ public class TicketService {
     public TicketDto updateTicketStatus(Long id, TicketStatusDto dto) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Ticket"));
 
-        TicketUtils.validateTicketStatusByType(dto.getTicketStatus(), ticket.getTicketType());
+        TicketUtils.validateTicketStatusChange(ticket, dto.getTicketStatus());
 
         ticket.setTicketStatus(dto.getTicketStatus());
         ticketRepository.save(ticket);
@@ -83,6 +88,10 @@ public class TicketService {
         List<Vehicle> vehicles = ticket.getVehicles();
         TicketUtils.updateVehiclesByTicketStatus(vehicles, ticket);
         vehicleRepository.saveAll(vehicles);
+
+        if (dto.getTicketStatus() == TicketStatus.COMPLETE && !vehicles.isEmpty()) {
+            notificationService.sendRepairTicketCompleteSms(ticket);
+        }
 
         return new TicketDto(ticket);
     }
@@ -98,12 +107,15 @@ public class TicketService {
     }
 
     private void applyToEntity(Ticket ticket, TicketDto dto, List<Vehicle> vehicles) {
+        Location location = locationRepository.findById(dto.getLocationId())
+                .orElseThrow(() -> new ElementNotFoundException("Location with id: " + dto.getEmployeeId()));
+
         Employee employee = employeeRepository.findById(dto.getEmployeeId())
                 .orElseThrow(() -> new ElementNotFoundException("Employee with id: " + dto.getEmployeeId()));
 
         Customer customer = customerRepository.findById(dto.getCustomerId())
                 .orElseThrow(() -> new ElementNotFoundException("Customer with id: " + dto.getCustomerId()));
 
-        dto.applyToEntity(ticket, vehicles, employee, customer);
+        dto.applyToEntity(ticket, vehicles, location, employee, customer);
     }
 }

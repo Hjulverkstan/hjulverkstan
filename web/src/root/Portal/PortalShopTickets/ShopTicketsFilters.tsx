@@ -28,7 +28,7 @@ export default function ShopTicketFilters() {
   const ticketEnumsQ = useTicketsAsEnumsQ();
   const locationState = useLocation().state as VehicleShortcutLocationState;
 
-  const locationEnumsQ = useLocationsAsEnumsQ({ dataKey: 'locationIds' });
+  const locationEnumsQ = useLocationsAsEnumsQ();
   const vehicleEnumsQ = useVehiclesAsEnumsQ({ dataKey: 'vehicleIds' });
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
@@ -96,7 +96,7 @@ export default function ShopTicketFilters() {
     }) ||
     matchEnumsBy({
       enums: locationEnumsQ.data,
-      isOf: row.locationIds,
+      isOf: row.locationId,
       startsWith: word,
     });
 
@@ -124,13 +124,16 @@ export default function ShopTicketFilters() {
         />
       </DataTable.FilterPopover>
 
-      <DataTable.FilterPopover label="Vehicles" hasSearch>
+      <DataTable.FilterPopover label="Location" hasSearch>
         <DataTable.FilterMultiSelect
-          heading="Locations"
-          filterKey="location-ids"
+          heading="Location"
+          filterKey="location-id"
           enums={locationEnumsQ.data ?? []}
-          toInitSelected={clearIfExcludesExpectedTicketsByProp('locationIds')}
+          toInitSelected={clearIfExcludesExpectedTicketsByProp('locationId')}
         />
+      </DataTable.FilterPopover>
+
+      <DataTable.FilterPopover label="Vehicles" hasSearch>
         <DataTable.FilterMultiSelect
           heading="Vehicles"
           filterKey="vehicle-ids"
