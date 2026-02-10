@@ -5,11 +5,14 @@ import { maxGearCount, minGearCount } from '@data/vehicle/form';
 import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { useState } from 'react';
 
 export default function ShopInventoryFields() {
   const { body, mode } = DataForm.useDataForm();
   const locationEnumsQ = useLocationsAsEnumsQ();
   const enums = useTranslateRawEnums(enumsRaw);
+
+  const [isDetailsOpen, setIsDetailsOpen] = useState(true);
 
   return (
     <>
@@ -97,7 +100,11 @@ export default function ShopInventoryFields() {
       />
 
       {body.vehicleType === VehicleType.BIKE && (
-        <DataForm.Collapsible label="Vehicle details">
+        <DataForm.Collapsible
+          label="Vehicle details"
+          open={isDetailsOpen}
+          onOpenChange={setIsDetailsOpen}
+        >
           <>
             <DataForm.Select
               key={body.vehicleType}
