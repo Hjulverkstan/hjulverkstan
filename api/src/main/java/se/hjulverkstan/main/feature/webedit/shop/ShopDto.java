@@ -1,9 +1,11 @@
 package se.hjulverkstan.main.feature.webedit.shop;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -39,7 +41,6 @@ public class ShopDto extends AuditableDto {
     @NotBlank(message = "Slug is required")
     private String slug;
 
-    @NotNull(message = "Must provide at least one day of open hours")
     private OpenHoursDto openHours;
 
     private boolean hasTemporaryHours;
@@ -62,24 +63,33 @@ public class ShopDto extends AuditableDto {
         imageURL = shop.getImageURL();
         slug = shop.getSlug();
         hasTemporaryHours = shop.isHasTemporaryHours();
-
-        openHours = new OpenHoursDto(shop.getOpenHours());
+        openHours = shop.getOpenHours() != null ? new OpenHoursDto(shop.getOpenHours()) : null;
         bodyText = bodyTextLocalised;
+    }
+
+    @JsonIgnore
+    public boolean isTemporaryHoursActive() {
+        if (hasTemporaryHours) {
+            return true;
+        }
+        return openHours != null;
     }
 
     // Localized content can't be applied directly and is managed by the service.
     public Shop applyToEntity (Shop shop, Location location) {
+        shop.setName(name);
         shop.setAddress(address);
         shop.setLatitude(latitude);
         shop.setLongitude(longitude);
         shop.setImageURL(imageURL);
         shop.setSlug(slug);
         shop.setHasTemporaryHours(hasTemporaryHours);
-
         shop.setLocation(location);
 
+        if(this.openHours != null) {
         OpenHours openHours = shop.getOpenHours();
         shop.setOpenHours(this.openHours.applyToEntity(openHours == null ? new OpenHours() : openHours));
+        }
 
         return shop;
     }

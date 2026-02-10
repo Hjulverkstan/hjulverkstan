@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import { createShopZ } from '@data/webedit/shop/form';
+import { createShopZ, initShop } from '@data/webedit/shop/form';
 import { useCreateShopM, useEditShopM } from '@data/webedit/shop/mutations';
 import { useShopQ, useShopsQ } from '@data/webedit/shop/queries';
 import { Shop } from '@data/webedit/shop/types';
@@ -56,7 +56,7 @@ export default function PortalWebEditShops({ mode }: PortalAppPageProps) {
           <DataForm.Provider
             mode={mode}
             isLoading={ShopQ.isLoading}
-            data={ShopQ.data}
+            data={ShopQ.data || initShop}
             zodSchema={createShopZ(lang)}
           >
             <PortalForm
