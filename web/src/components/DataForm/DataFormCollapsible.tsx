@@ -1,28 +1,28 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 import * as C from '@utils/common';
 import * as ShadCollapsible from '@components/shadcn/Collapsible';
 
-import { Mode, useDataForm } from './';
+import { useDataForm } from './';
 
 export interface CollapsibleProps {
   label: string;
   children: ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const Collapsible = ({ label, children }: CollapsibleProps) => {
-  const { isDisabled, mode, body } = useDataForm();
-
-  const shouldBeOpen = mode === Mode.CREATE && !body.isCustomerOwned;
-  const [isOpen, setIsOpen] = useState(shouldBeOpen);
-
-  useEffect(() => {
-    setIsOpen(shouldBeOpen);
-  }, [mode, body.isCustomerOwned]);
+export const Collapsible = ({
+  label,
+  children,
+  open,
+  onOpenChange,
+}: CollapsibleProps) => {
+  const { isDisabled } = useDataForm();
 
   return (
-    <ShadCollapsible.Root open={isOpen} onOpenChange={setIsOpen}>
+    <ShadCollapsible.Root open={open} onOpenChange={onOpenChange}>
       <ShadCollapsible.Trigger asChild>
         <div
           className={C.cn(
@@ -32,7 +32,7 @@ export const Collapsible = ({ label, children }: CollapsibleProps) => {
           )}
         >
           <span className="w-full">{label}</span>
-          {isOpen ? (
+          {open ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
             <ChevronDown className="h-4 w-4" />
