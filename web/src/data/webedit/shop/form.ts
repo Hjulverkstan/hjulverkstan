@@ -20,12 +20,10 @@ export const initShop: Partial<Shop> = {
 };
 
 export const createShopZ = (lang: WebEditLang) =>
-  z
-    .object({
-      name: reqString('Name'),
-      slug: z.string().optional(),
-      address: reqString('Address'),
-      locationId: z.coerce.number(),
+  z.object({
+    name: reqString('Name'),
+    address: reqString('Address'),
+    locationId: z.coerce.number(),
 
       latitude: z.coerce.number(),
       longitude: z.coerce.number(),
@@ -74,19 +72,6 @@ export const createShopZ = (lang: WebEditLang) =>
           return true;
         }
 
-        const hours = data.openHours;
-        if (!hours) return false;
-
-        const hasAnyContent = Object.values(hours).some(
-          (time) => time && typeof time === 'string' && time.trim().length > 0,
-        );
-        return hasAnyContent;
-      },
-      {
-        message: 'You must provide opening hours or enable Temporary Hours.',
-        path: ['openHours'],
-      },
-    );
       ...(lang == Global
         ? {
             bodyText: z.record(z.any()).optional().nullable(),
