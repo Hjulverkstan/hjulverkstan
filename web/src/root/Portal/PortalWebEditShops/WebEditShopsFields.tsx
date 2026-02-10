@@ -115,7 +115,7 @@ export default function WebEditShopsFields() {
             onLabel="Temporary"
             offLabel="Not temporary"
             label="Temporary hours"
-            dataKey="hasTempraryHours"
+            dataKey="hasTemporaryHours"
             disabled={lang !== Global}
           />
         </>
