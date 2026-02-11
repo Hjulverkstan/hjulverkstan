@@ -61,7 +61,7 @@ public class WebEditService {
 
         for (Language lang : langs) {
             AllWebEditEntitiesDto entitiesDto = new AllWebEditEntitiesDto();
-            ListResponseDto<ShopDto> shopsDto = shopService.getAllShopsByLang(lang, fallbackLang);
+            ListResponseDto<ShopDto> shopsDto = shopService.getAllShops();
             ListResponseDto<StoryDto> storiesDto = storyService.getAllStoriesByLang(lang, fallbackLang);
             ListResponseDto<TextDto> textsDto = textService.getAllTextsByLang(lang, fallbackLang);
 
