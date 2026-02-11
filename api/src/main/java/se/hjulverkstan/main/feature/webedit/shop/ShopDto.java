@@ -2,10 +2,8 @@ package se.hjulverkstan.main.feature.webedit.shop;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -49,9 +47,7 @@ public class ShopDto extends AuditableDto {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long locationId;
 
-    private JsonNode bodyText;
-
-    public ShopDto (Shop shop, JsonNode bodyTextLocalised) {
+    public ShopDto (Shop shop) {
         super(shop);
 
         id = shop.getId();
@@ -59,12 +55,11 @@ public class ShopDto extends AuditableDto {
         address = shop.getAddress();
         latitude = shop.getLatitude();
         longitude = shop.getLongitude();
-        locationId = shop.getLocation().getId();
+        locationId = shop.getLocation() != null ? shop.getLocation().getId() : null;
         imageURL = shop.getImageURL();
         slug = shop.getSlug();
         hasTemporaryHours = shop.isHasTemporaryHours();
         openHours = shop.getOpenHours() != null ? new OpenHoursDto(shop.getOpenHours()) : null;
-        bodyText = bodyTextLocalised;
     }
 
     @JsonIgnore

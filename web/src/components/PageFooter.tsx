@@ -44,11 +44,15 @@ interface ShopCardProps {
 }
 
 function ShopCard({ shop }: ShopCardProps) {
-  const [street, city] = shop.address.split(',');
+  const fullAddress = shop.address || '';
+
+  const parts = fullAddress.split(',');
+  const street = parts[0];
+  const city = parts[1];
 
   return (
     <div className="flex flex-col items-start gap-2 text-lg">
-      <NavLink to={`/shops/slug`}>
+      <NavLink to={`/shops/${shop.slug}`}>
         <div
           className="text-foreground transition-gap group inline-flex
             items-center gap-1.5 font-bold hover:opacity-80"
@@ -57,12 +61,20 @@ function ShopCard({ shop }: ShopCardProps) {
           <ArrowRight className="h-5 w-5 transition-all group-hover:ml-0.5" />
         </div>
       </NavLink>
+
       <div className="space-y-1">
         <p>
-          {street},<br className="hidden sm:block" />
-          {city.trim()}
+          {street}
+
+          {city ? (
+            <>
+              ,<br className="hidden sm:block" />
+              {city.trim()}
+            </>
+          ) : null}
         </p>
       </div>
+
       <div>
         <p>070 123 45 67</p>
       </div>
@@ -72,7 +84,6 @@ function ShopCard({ shop }: ShopCardProps) {
     </div>
   );
 }
-
 //
 
 const FooterDivider = () => (
