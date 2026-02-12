@@ -18,7 +18,10 @@ export const createUserZ = (mode: Mode) =>
       roles: z
         .array(z.nativeEnum(AuthRole, isReq('User role is required')))
         .min(1, 'At least one role is required'),
-      username: reqString('Username'),
+      username: reqString('Username').regex(/^[a-z0-9]+$/, {
+        message: 'Only lowercase and numbers are allowed',
+      }),
+
       email: reqString('Email').email({
         message: 'The email is not a valid email address',
       }),
