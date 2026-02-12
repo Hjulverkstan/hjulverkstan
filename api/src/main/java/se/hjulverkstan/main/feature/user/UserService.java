@@ -9,6 +9,7 @@ import se.hjulverkstan.main.error.exceptions.AlreadyUsedException;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.security.model.Role;
 import se.hjulverkstan.main.security.repository.RoleRepository;
+import se.hjulverkstan.main.security.services.RefreshTokenService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 import se.hjulverkstan.main.shared.ValidationUtils;
 
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
+    private final RefreshTokenService refreshTokenService;
 
     public ListResponseDto<UserDto> getAllUsers() {
         List<User> users = userRepository.findAllByHiddenFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -62,6 +64,7 @@ public class UserService {
     @Transactional
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("User"));
+        refreshTokenService.deleteByUserId(id);
         userRepository.delete(user);
     }
 
