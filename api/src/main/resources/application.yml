@@ -1,0 +1,3 @@
+sms:
+  templates:
+    ticketComplete: "Hej %s!\nDin cykel är redo att hämtas på Hjulverkstan i %s"

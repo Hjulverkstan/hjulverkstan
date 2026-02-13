@@ -6,6 +6,7 @@ import {
   useUpdateTicketStatusM,
 } from '@data/ticket/mutations';
 import {
+  NotificationStatus,
   Ticket,
   TicketAggregated,
   TicketStatus,
@@ -20,17 +21,25 @@ import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { useToast } from '@components/shadcn/use-toast';
 import { useDialogManager } from '@components/DialogManager';
 
-import { createErrorToast, createSuccessToast } from '../toast';
-import { PortalTableActionsProps } from '../PortalTable';
 import UpdateVehicleStatusesDialog from '@components/UpdateVehicleStatusesDialog';
 import { useVehiclesQ } from '@data/vehicle/queries';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import { findEnum } from '@utils/enums';
+import ConfirmSendNotificationDialog from '@components/ConfirmSendNotificationDialog';
+import { useCustomerQ } from '@data/customer/queries';
+
+import {
+  createErrorToast,
+  createRepairNotificationErrorToast,
+  createSuccessToast,
+} from '../toast';
+import { PortalTableActionsProps } from '../PortalTable';
 
 export default function ShopTicketsActions({
   row: ticket,
   disabled,
 }: PortalTableActionsProps<TicketAggregated>) {
+  const enums = useTranslateRawEnums(enumsRaw);
   const { openDialog } = useDialogManager();
   const { toast } = useToast();
 
@@ -39,8 +48,8 @@ export default function ShopTicketsActions({
   const deleteTicketM = useDeleteTicketM();
   const updateTicketStatusM = useUpdateTicketStatusM();
 
-  // Fetch vehicles associated with the ticket
   const vehiclesQ = useVehiclesQ();
+  const customerQ = useCustomerQ({ id: ticket.customerId });
 
   const vehicles =
     vehiclesQ.data?.filter((vehicle) =>
@@ -74,34 +83,41 @@ export default function ShopTicketsActions({
     );
   };
 
-  const onStatusUpdate = (ticketStatus: TicketStatus) => {
+  const ensureVehicleStatuses = (ticketStatus?: TicketStatus) => {
+    const notCustomerOwnedVehicles = vehicles.filter(
+      (vehicle) => !vehicle.isCustomerOwned,
+    );
+
+    if (
+      ticketStatus === TicketStatus.CLOSED &&
+      (ticket.ticketType === TicketType.RENT ||
+        ticket.ticketType === TicketType.REPAIR) &&
+      notCustomerOwnedVehicles.length > 0
+    ) {
+      openDialog(
+        <UpdateVehicleStatusesDialog vehicles={notCustomerOwnedVehicles} />,
+      );
+    }
+  };
+
+  const doUpdateStatus = (ticketStatus: TicketStatus) => {
     updateTicketStatusM.mutate(
       { id: ticket.id, ticketStatus },
       {
-        onSuccess: (res) => {
-          toast(
-            createSuccessToast({
-              verbLabel: 'update status on',
-              dataLabel: 'ticket',
-              id: res.id,
-            }),
-          );
-          const notCustomerOwnedVehicles = vehicles.filter(
-            (vehicle) => !vehicle.isCustomerOwned,
-          );
-
-          if (
-            res.ticketStatus === TicketStatus.CLOSED &&
-            (ticket.ticketType === TicketType.RENT ||
-              ticket.ticketType === TicketType.REPAIR) &&
-            notCustomerOwnedVehicles.length > 0
-          ) {
-            openDialog(
-              <UpdateVehicleStatusesDialog
-                vehicles={notCustomerOwnedVehicles}
-              />,
+        onSuccess: (res, { id }) => {
+          if (res.repairCompleteNotificationStatus === NotificationStatus.FAILED) {
+            toast(createRepairNotificationErrorToast());
+          } else {
+            toast(
+              createSuccessToast({
+                verbLabel: 'update status on',
+                dataLabel: 'ticket',
+                id,
+              }),
             );
           }
+
+          ensureVehicleStatuses(res.ticketStatus);
         },
         onError: () => {
           toast(
@@ -115,9 +131,24 @@ export default function ShopTicketsActions({
     );
   };
 
-  const allowedStatuses = ticketTypeToTicketStatus(ticket.ticketType);
+  const onStatusUpdate = (ticketStatus: TicketStatus) => {
+    const shouldAskConfirmation =
+      ticketStatus === TicketStatus.COMPLETE &&
+      ticket.ticketType === TicketType.REPAIR;
 
-  const enums = useTranslateRawEnums(enumsRaw);
+    if (shouldAskConfirmation) {
+      openDialog(
+        <ConfirmSendNotificationDialog
+          onSend={() => doUpdateStatus(ticketStatus)}
+          phoneNumber={customerQ.data!.phoneNumber}
+        />,
+      );
+    } else {
+      doUpdateStatus(ticketStatus);
+    }
+  };
+
+  const allowedStatuses = ticketTypeToTicketStatus(ticket.ticketType);
 
   return (
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>
@@ -150,7 +181,11 @@ export default function ShopTicketsActions({
                 <DropdownMenu.Item
                   key={ticketStatus}
                   onSelect={() => onStatusUpdate(ticketStatus)}
-                  disabled={ticketStatus === ticket.ticketStatus}
+                  disabled={
+                    ticketStatus === ticket.ticketStatus ||
+                    !customerQ.data ||
+                    !vehiclesQ.data
+                  }
                 >
                   {findEnum(enums, ticketStatus).label}
                   {ticketStatus === ticket.ticketStatus && (
