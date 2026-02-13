@@ -49,8 +49,8 @@ jobs:
           API_DB_HOST: 127.0.0.1
           API_DB_PORT: 5432
           API_DB_DATABASE: testdb
-          API_DB_USER: testuser
-          API_DB_PASSWORD: testpass
+          API_DB_USER: ${{ secrets.API_DB_USER }}
+          API_DB_PASSWORD: ${{ secrets.API_DB_PASSWORD }}
           API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
           API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
           API_AWS_REGION: ${{ vars.API_AWS_REGION }}
@@ -72,8 +72,8 @@ jobs:
           API_DB_HOST: 127.0.0.1
           API_DB_PORT: 5432
           API_DB_DATABASE: testdb
-          API_DB_USER: testuser
-          API_DB_PASSWORD: testpass
+          API_DB_USER: ${{ secrets.API_DB_USER }}
+          API_DB_PASSWORD: ${{ secrets.API_DB_PASSWORD }}
           API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
           API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
           API_AWS_REGION: ${{ vars.API_AWS_REGION }}
