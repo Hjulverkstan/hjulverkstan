@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import se.hjulverkstan.main.security.model.CustomUserDetails;
@@ -16,7 +15,7 @@ import se.hjulverkstan.main.security.utils.CookieUtils;
 import se.hjulverkstan.main.security.utils.JwtUtils;
 
 import java.io.IOException;
-import java.util.List;
+
 
 @RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -35,14 +34,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if (token != null) {
             try {
                 if (jwtUtils.validateToken(token)) {
-                    CustomUserDetails principal = jwtUtils.extractAsPrincipal(token);
+                    CustomUserDetails infoFromToken = jwtUtils.extractAsPrincipal(token);
+
+                    CustomUserDetails freshUserFromDb = (CustomUserDetails) userDetailsService.loadUserByUsername(infoFromToken.getUsername());
 
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            principal,
+                            freshUserFromDb,
                             null,
-                            principal.getAuthorities());
+                            freshUserFromDb.getAuthorities());
 
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+
                 } else {
                     cookieUtils.clearAuthenticationCookies(response);
                     SecurityContextHolder.clearContext();
