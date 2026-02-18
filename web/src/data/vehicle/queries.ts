@@ -65,11 +65,13 @@ export const useVehiclesAggregatedQ = () =>
 export interface UseVehiclesAsEnumsQProps {
   dataKey?: string;
   filterCustomerOwned?: boolean;
+  filterByLocationId?: string;
 }
 
 export const useVehiclesAsEnumsQ = ({
   dataKey = 'vehicleId',
   filterCustomerOwned,
+  filterByLocationId,
 }: UseVehiclesAsEnumsQProps = {}) => {
   const enums = useTranslateRawEnums(enumsRaw);
 
@@ -77,12 +79,16 @@ export const useVehiclesAsEnumsQ = ({
     ...api.createGetVehicles(),
     select: (vehicles) =>
       vehicles
-        ?.filter((vehicle) =>
-          filterCustomerOwned === undefined
-            ? true
-            : filterCustomerOwned
-              ? vehicle.isCustomerOwned
-              : !vehicle.isCustomerOwned,
+        ?.filter(
+          (vehicle) =>
+            (filterCustomerOwned === undefined
+              ? true
+              : filterCustomerOwned
+                ? !vehicle.isCustomerOwned
+                : vehicle.isCustomerOwned) &&
+            (filterByLocationId === undefined
+              ? true
+              : vehicle.locationId === filterByLocationId),
         )
         .map((vehicle) => ({
           dataKey,

@@ -1,13 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-
-import { useVehiclesQ } from '@data/vehicle/queries';
 import { useAggregatedQueries } from '@hooks/useAggregatedQueries';
-import * as C from '@utils/common';
 import { StandardError } from '../api';
 import { EnumAttributes } from '../types';
 import * as api from './api';
 import * as enumsRaw from './enums';
-import { Ticket, TicketAggregated, TicketStatus } from './types';
+import {
+  NotificationStatus,
+  Ticket,
+  TicketAggregated,
+  TicketStatus,
+} from './types';
 import { Warning } from '@data/warning/types';
 import { differenceInDays } from 'date-fns';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
@@ -43,7 +45,7 @@ export const useTicketQ = ({ id }: UseTicketQProps) =>
 
 export const useTicketsAggregatedQ = () =>
   useAggregatedQueries(
-    (tickets, vehicles): TicketAggregated[] =>
+    (tickets): TicketAggregated[] =>
       tickets.map((ticket) => {
         const daysLeft = ticket.endDate
           ? differenceInDays(new Date(ticket.endDate), new Date())
@@ -54,15 +56,22 @@ export const useTicketsAggregatedQ = () =>
           : undefined;
 
         const warnings: Warning[] = [
+          // Due for pickup
           ...(ticket.startDate &&
           new Date(ticket.startDate) < new Date() &&
           ticket.ticketStatus === 'READY'
             ? [Warning.DUE_PICKUP]
             : []),
+          // Due for return
           ...(ticket.endDate &&
           new Date(ticket.endDate) < new Date() &&
           ticket.ticketStatus === 'IN_PROGRESS'
             ? [Warning.DUE_RETURN]
+            : []),
+          // Repair notification failed
+          ...(ticket.repairCompleteNotificationStatus ===
+          NotificationStatus.FAILED
+            ? [Warning.REPAIR_NOTIFICATION_FAILED]
             : []),
         ];
 
@@ -70,17 +79,10 @@ export const useTicketsAggregatedQ = () =>
           ...ticket,
           daysLeft,
           daysSinceUpdate,
-          locationIds: C.uniq(
-            ticket.vehicleIds.map(
-              (vehicleId) =>
-                vehicles.find((vehicle) => vehicle.id === vehicleId)!
-                  .locationId,
-            ),
-          ),
           warnings,
         };
       }),
-    [useTicketsQ(), useVehiclesQ()],
+    [useTicketsQ()],
   );
 
 //

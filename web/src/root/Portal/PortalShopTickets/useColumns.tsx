@@ -56,22 +56,6 @@ export default function useColumns() {
         },
 
         {
-          key: 'customerId',
-          name: 'Customer',
-          renderFn: ({ customerId }) =>
-            customerEnumsQ.data && (
-              <BadgeGroup
-                badges={[
-                  {
-                    ...findEnumSafe(customerEnumsQ.data, customerId),
-                    href: `${coreUrl}/customers/${customerId}`,
-                  },
-                ]}
-              />
-            ),
-        },
-
-        {
           key: 'ticketStatus',
           name: 'Status',
           renderFn: ({ ticketStatus, daysSinceUpdate }) =>
@@ -93,6 +77,38 @@ export default function useColumns() {
         },
 
         {
+          key: 'customerId',
+          name: 'Customer',
+          renderFn: ({ customerId }) =>
+            customerEnumsQ.data && (
+              <BadgeGroup
+                badges={[
+                  {
+                    ...findEnumSafe(customerEnumsQ.data, customerId),
+                    href: `${coreUrl}/customers/${customerId}`,
+                  },
+                ]}
+              />
+            ),
+        },
+
+        {
+          key: 'location',
+          name: 'Location',
+          renderFn: ({ locationId }) =>
+            locationEnumsQ.data && (
+              <BadgeGroup
+                badges={[
+                  {
+                    ...findEnumSafe(locationEnumsQ.data, locationId),
+                    variant: 'outline',
+                  },
+                ]}
+              />
+            ),
+        },
+
+        {
           key: 'vehicleIds',
           name: 'Vehicles',
           renderFn: ({ vehicleIds }) =>
@@ -101,20 +117,6 @@ export default function useColumns() {
                 badges={vehicleIds.map((id) => ({
                   ...findEnumSafe(vehicleEnumsQ.data, id),
                   href: `${coreUrl}/inventory/${id}`,
-                }))}
-              />
-            ),
-        },
-
-        {
-          key: 'locations',
-          name: 'Vehicle Locations',
-          renderFn: ({ locationIds }) =>
-            locationEnumsQ.data && (
-              <BadgeGroup
-                badges={locationIds.map((id) => ({
-                  ...findEnumSafe(locationEnumsQ.data, id),
-                  variant: 'outline',
                 }))}
               />
             ),

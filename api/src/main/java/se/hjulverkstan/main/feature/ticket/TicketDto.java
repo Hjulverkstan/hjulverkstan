@@ -10,6 +10,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.employee.Employee;
+import se.hjulverkstan.main.feature.location.Location;
+import se.hjulverkstan.main.feature.notification.Notification;
+import se.hjulverkstan.main.feature.notification.NotificationStatus;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
@@ -41,6 +44,10 @@ public class TicketDto extends AuditableDto {
     @JsonSerialize(contentUsing = ToStringSerializer.class)
     private List<Long> vehicleIds;
 
+    @NotNull(message = "Location is required")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long locationId;
+
     @NotNull(message = "Employee is required")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long employeeId;
@@ -48,6 +55,11 @@ public class TicketDto extends AuditableDto {
     @NotNull(message = "Customer is required")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long customerId;
+
+    // From latest notification if present in the notification log
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private NotificationStatus repairCompleteNotificationStatus;
 
     public TicketDto (Ticket ticket) {
         super(ticket);
@@ -60,11 +72,18 @@ public class TicketDto extends AuditableDto {
         repairDescription = ticket.getRepairDescription();
         comment = ticket.getComment();
         vehicleIds = ticket.getVehicles().stream().map(Vehicle::getId).toList();
+        locationId = ticket.getLocation().getId();
         employeeId = ticket.getEmployee().getId();
         customerId = ticket.getCustomer().getId();
+
+        repairCompleteNotificationStatus = ticket.getNotifications().stream()
+                .findFirst()
+                .map(Notification::getNotificationStatus)
+                .orElse(null);
     }
 
-    public Ticket applyToEntity (Ticket ticket, List<Vehicle> vehicles, Employee employee, Customer customer) {
+    public Ticket applyToEntity (Ticket ticket, List<Vehicle> vehicles, Location location, Employee employee, Customer customer) {
+        ticket.setId(id);
         ticket.setTicketType(ticketType);
         ticket.setStartDate(ticketType == TicketType.RENT ? startDate : null);
         ticket.setEndDate(ticketType == TicketType.RENT ? endDate : null);
@@ -72,6 +91,7 @@ public class TicketDto extends AuditableDto {
         ticket.setComment(comment);
 
         ticket.setVehicles(vehicles);
+        ticket.setLocation(location);
         ticket.setEmployee(employee);
         ticket.setCustomer(customer);
 

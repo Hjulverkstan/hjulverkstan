@@ -1,7 +1,7 @@
 import { createErrorHandler, endpoints, instance } from '../api';
 import { ListResponse } from '../types';
 
-import { Ticket, TicketStatus } from './types';
+import { NotificationStatus, Ticket, TicketStatus } from './types';
 
 // GET ALL
 
@@ -60,7 +60,11 @@ export const createEditTicket = () => ({
 
 // EDIT STATUS
 
-export type EditStatusRes = Ticket;
+export interface EditStatusRes {
+  ticketStatus: TicketStatus;
+  repairCompleteNotificationStatus: NotificationStatus;
+}
+
 export interface EditStatusParams {
   id: string;
   ticketStatus: TicketStatus;
