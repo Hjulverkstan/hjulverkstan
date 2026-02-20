@@ -286,7 +286,28 @@ In the `ec2-assetts/setup.sh` we manually install docker-compose with curl again
 
 ### Manual sql init on first run of ec2 instance
 
-Right now
+Right now we dont have an automatic solution for when a new ec2 instance is created, so we have to run the sql init manually the first time, before the pipeline can actually succeed.
+
+To resolve this add these two env vars to `/opt/docker/.env`:
+
+```bash
+SPRING_SQL_INIT_MODE=always
+SPRING_JPA_HIBERNATE_DDL_AUTO=create
+```
+
+And restart the compose stack:
+
+```bash
+docker compose down && docker compose up
+```
+
+Once the table has been successfully populated, remove the env vars from `.env` and restart the container again, this time detached:
+
+```bash
+docker compose down && docker compose up -d
+```
+
+> Note that something like `docker restart api` won't work. It has to be docker compose that restarts as the env vars are coming through docker compose
 
 ## GitHub Actions
 
