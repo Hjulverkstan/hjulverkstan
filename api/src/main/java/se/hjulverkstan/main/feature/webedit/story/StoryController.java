@@ -29,8 +29,8 @@ public class StoryController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public StoryDto createStory(@Valid @RequestBody StoryDto dto, @RequestParam @Nullable Language lang) {
-        return storyService.createStoryByLang(dto, lang);
+    public StoryDto createStory(@Valid @RequestBody StoryDto dto) {
+        return storyService.createStory(dto);
     }
 
     @PutMapping("/{id}")

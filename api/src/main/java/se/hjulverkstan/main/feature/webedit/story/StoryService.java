@@ -7,9 +7,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.feature.webedit.WebEditEntity;
 import se.hjulverkstan.main.feature.webedit.localisation.FieldName;
 import se.hjulverkstan.main.feature.webedit.localisation.Language;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisationService;
+import se.hjulverkstan.main.feature.webedit.releases.ReleaseService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class StoryService {
 
     private final StoryRepository storyRepository;
     private final LocalisationService localisationService;
+    private final ReleaseService releaseService;
 
     public ListResponseDto<StoryDto> getAllStoriesByLang(Language lang, Language fallbackLang) {
         List<Story> stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -35,21 +38,30 @@ public class StoryService {
     }
 
     @Transactional
-    public StoryDto createStoryByLang(StoryDto dto, Language lang) {
-        Story story = new Story();
-
-        applyToEntity(story, dto, lang);
+    public StoryDto createStory(StoryDto dto) {
+        Story story = releaseService.attachIdentity(WebEditEntity.STORY, new Story());
+        dto.applyToEntity(story);
         storyRepository.save(story);
 
-        return toDto(story, lang, null);
+        return new StoryDto(story, null);
     }
 
     @Transactional
     public StoryDto editStoryByLang(Long id, StoryDto dto, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
 
-        applyToEntity(story, dto, lang);
-        storyRepository.save(story);
+        if (lang == null) {
+            story = story.isNotPublished() ? story : new Story(story);
+            dto.applyToEntity(story);
+            storyRepository.save(story);
+        } else {
+            localisationService.upsertRichText(
+                    story.getIdentityId(),
+                    lang,
+                    dto.getBodyText(),
+                    FieldName.BODY_TEXT
+            );
+        }
 
         return toDto(story, lang, null);
     }
@@ -58,28 +70,20 @@ public class StoryService {
     public void deleteStory(Long id, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
 
-        if (lang != null) {
-            localisationService.removeTranslationsByLang(story, lang);
-            storyRepository.save(story);
+        if (lang == null) {
+            if (story.isNotPublished()) {
+                storyRepository.delete(story);
+            } else {
+                story.setDeleted(true);
+                storyRepository.save(story);
+            }
         } else {
-            storyRepository.delete(story);
+            releaseService.deleteTranslationSet(story.getIdentityId(), lang);
         }
     }
 
-    private void applyToEntity (Story story, StoryDto dto, Language lang) {
-        dto.applyToEntity(story);
-
-        localisationService.upsertRichText(
-                story,
-                lang,
-                dto.getBodyText(),
-                FieldName.BODY_TEXT,
-                lc -> lc.setStory(story)
-        );
-    }
-
     private StoryDto toDto (Story story, Language lang, @Nullable Language fallbackLang) {
-        JsonNode bodyText = localisationService.getRichText(story, FieldName.BODY_TEXT, lang, fallbackLang);
+        JsonNode bodyText = localisationService.getRichText(story.getIdentityId(), FieldName.BODY_TEXT, lang, fallbackLang);
         return new StoryDto(story, bodyText);
     }
 }
