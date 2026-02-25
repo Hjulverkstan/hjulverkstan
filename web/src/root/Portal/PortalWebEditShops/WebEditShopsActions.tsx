@@ -12,7 +12,7 @@ import { useDeleteShopM } from '@data/webedit/shop/mutations';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import { usePortalWebEditLang } from '../PortalWebEditLang';
-import { Global } from '@data/webedit/types';
+import { fallbackLang } from '@root';
 
 export default function WebEditShopsActions({
   row: shop,
@@ -35,7 +35,7 @@ export default function WebEditShopsActions({
             createSuccessToast({
               verbLabel: 'delete',
               id: shop.id,
-              dataLabel: lang == Global ? 'Shop' : 'translation of Shop',
+              dataLabel: lang == fallbackLang ? 'Shop' : 'translation of Shop',
             }),
           );
         },
@@ -43,7 +43,7 @@ export default function WebEditShopsActions({
           toast(
             createErrorToast({
               verbLabel: 'delete',
-              dataLabel: lang == Global ? 'Shop' : 'translation of Shop',
+              dataLabel: lang == fallbackLang ? 'Shop' : 'translation of Shop',
             }),
           );
         },
@@ -56,8 +56,8 @@ export default function WebEditShopsActions({
       <ConfirmDeleteDialog
         onDelete={onDelete}
         entity={
-          lang == Global
-            ? 'Shop and all its translations'
+          lang == fallbackLang
+            ? 'Shop'
             : 'translation of shop'
         }
         entityId={shop.name}
@@ -78,9 +78,8 @@ export default function WebEditShopsActions({
         <DropdownMenu.Item
           onClick={(e) => e.stopPropagation()}
           onSelect={() => handleDeleteClick()}
-          disabled={lang !== Global && shop.bodyText == null}
         >
-          Delete {lang !== Global && 'translation'}
+          Delete {lang !== fallbackLang && 'translation'}
           <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
       </DropdownMenu.Content>

@@ -3,9 +3,6 @@ package se.hjulverkstan.main.feature.webedit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.feature.webedit.translation.Language;
-import se.hjulverkstan.main.feature.webedit.translation.TranslationRepository;
 import se.hjulverkstan.main.feature.webedit.shop.ShopDto;
 import se.hjulverkstan.main.feature.webedit.shop.ShopService;
 import se.hjulverkstan.main.feature.webedit.story.StoryDto;
@@ -13,6 +10,8 @@ import se.hjulverkstan.main.feature.webedit.story.StoryService;
 import se.hjulverkstan.main.feature.webedit.text.TextDto;
 import se.hjulverkstan.main.feature.webedit.text.TextKey;
 import se.hjulverkstan.main.feature.webedit.text.TextService;
+import se.hjulverkstan.main.feature.webedit.translation.Language;
+import se.hjulverkstan.main.feature.webedit.translation.TranslationSetRepository;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.*;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WebEditService {
 
-    private final TranslationRepository translationRepository;
+    private final TranslationSetRepository translationSetRepository;
     private final TextService textService;
     private final ShopService shopService;
     private final StoryService storyService;
@@ -36,12 +35,9 @@ public class WebEditService {
         }
 
         List<Object[]> results = switch (entity) {
-            case WebEditEntity.TEXT -> translationRepository.countLangBytext()
-                    .orElseThrow(() -> new ElementNotFoundException(WebEditEntity.TEXT.name()));
-            case WebEditEntity.SHOP -> translationRepository.countLangByShop()
-                    .orElseThrow(() -> new ElementNotFoundException(WebEditEntity.SHOP.name()));
-            case WebEditEntity.STORY -> translationRepository.countLangByStory()
-                    .orElseThrow(() -> new ElementNotFoundException(WebEditEntity.STORY.name()));
+            case WebEditEntity.TEXT  -> translationSetRepository.countLangByEntity(WebEditEntity.TEXT).orElse(List.of());
+            case WebEditEntity.SHOP  -> translationSetRepository.countLangByEntity(WebEditEntity.SHOP).orElse(List.of());
+            case WebEditEntity.STORY -> translationSetRepository.countLangByEntity(WebEditEntity.STORY).orElse(List.of());
         };
 
         results.forEach(result -> {
@@ -53,17 +49,17 @@ public class WebEditService {
         return new LangCountPerEntityDto(langCounts);
     }
 
-    public AllWebEditEntitiesByLangDto getAllLocalisedEntitiesWithFallback(Language fallbackLang) {
-        Set<Language> langs = translationRepository.findDistinctLangs()
-                .orElseThrow(() -> new ElementNotFoundException("Languages"));
+    public AllWebEditEntitiesByLangDto getAllTranslatedEntities() {
+        Set<Language> langs = translationSetRepository.findDistinctLangs()
+                .orElse(Set.of());
 
         AllWebEditEntitiesByLangDto entitiesByLangDto = new AllWebEditEntitiesByLangDto();
 
         for (Language lang : langs) {
             AllWebEditEntitiesDto entitiesDto = new AllWebEditEntitiesDto();
             ListResponseDto<ShopDto> shopsDto = shopService.getAllShops();
-            ListResponseDto<StoryDto> storiesDto = storyService.getAllStoriesByLang(lang, fallbackLang);
-            ListResponseDto<TextDto> textsDto = textService.getAllTextsByLang(lang, fallbackLang);
+            ListResponseDto<StoryDto> storiesDto = storyService.getAllStoriesByLang(lang);
+            ListResponseDto<TextDto> textsDto = textService.getAllTextsByLang(lang);
 
             Map<TextKey, String> textMap = textsDto.getContent().stream()
                     .collect(Collectors.toMap(

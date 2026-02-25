@@ -22,7 +22,6 @@ import WebEditTextActions from './WebEditTextActions';
 import WebEditTextFields from './WebEditTextFields';
 import WebEditTextFilters from './WebEditTextFilters';
 import useColumns from './useColumns';
-import { Global } from '@data/webedit/types';
 
 //
 
@@ -60,7 +59,7 @@ export default function PortalWebEditTexts({ mode }: PortalAppPageProps) {
             mode={mode}
             isLoading={TextQ.isLoading}
             data={TextQ.data}
-            zodSchema={createTextZ(lang)}
+            zodSchema={createTextZ()}
           >
             <PortalForm
               dataLabel="Text"
@@ -70,9 +69,6 @@ export default function PortalWebEditTexts({ mode }: PortalAppPageProps) {
               error={TextQ.error}
               isSubmitting={editTextM.isPending}
               saveMutation={editTextM.mutateAsync}
-              disableEdit={
-                lang == Global && 'Edit only available for translations'
-              }
               transformBodyOnSubmit={(body) => ({ ...body, lang })}
             >
               <WebEditTextFields />

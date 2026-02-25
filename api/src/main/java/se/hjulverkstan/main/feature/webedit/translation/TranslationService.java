@@ -6,106 +6,46 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.error.exceptions.InternalServerErrorException;
+import se.hjulverkstan.main.shared.AppConstants;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.UUID;
 
-/**
- * Reads and writes localised content for entities that implement {@link Translatable}.
- * <p>
- * Responsibilities:
- * <ul>
- *   <li>Upsert plain text and rich text (JsonNode) localised values.</li>
- *   <li>Resolve localised values with an optional fallback language.</li>
- *   <li>Persist rich text as JSON serialised strings; parse back on read.</li>
- * </ul>
- * <p>
- * Conventions:
- * <ul>
- *   <li>Passing {@code null} value to an upsert method removes the entry for (lang, field).</li>
- *   <li>Type mismatches (e.g. requesting text for a rich-text field) throw {@link IllegalStateException}.</li>
- * </ul>
- */
 @Component
 @RequiredArgsConstructor
 public class TranslationService {
 
     private final ObjectMapper objectMapper;
+    private final TranslationSetRepository translationSetRepository;
+    private final TranslationRepository translationRepository;
 
-    /**
-     * Adds, updates, or removes a plain text localised content entry for an entity.
-     * <p>
-     * If an entry for (lang, field) exists:
-     *   <ul>
-     *     <li>{@code value != null} → updates content</li>
-     *     <li>{@code value == null} → removes entry</li>
-     *   </ul>
-     * Otherwise, if {@code value != null}, a new entry is created.
-     *
-     * @param entity    Parent entity containing localised content
-     * @param lang      Language of the content
-     * @param value     Value to set; {@code null} deletes existing content
-     * @param field     Field this content represents
-     * @param setParent Lambda to set parent in the new {@link Translation}
-     * @param <T>       Entity type implementing {@link Translatable}
-     */
-    public <T extends Translatable> void upsertText(
-            T entity,
+    public void upsertText(
+            UUID identityId,
             Language lang,
             @Nullable String value,
-            FieldName field,
-            Consumer<Translation> setParent
+            FieldName field
     ) {
-        upsertCore(entity, lang, field, FieldType.TEXT, value, setParent);
+        upsertCore(identityId, lang, field, FieldType.TEXT, value);
     }
 
-    /**
-     * Adds, updates, or removes a rich-text localised content entry for an entity.
-     * <p>
-     * Serialises the provided {@link JsonNode} to a String before persisting.
-     * If an entry for (lang, field) exists:
-     *   <ul>
-     *     <li>{@code value != null} → updates content</li>
-     *     <li>{@code value == null} → removes entry</li>
-     *   </ul>
-     * Otherwise, if {@code value != null}, a new entry is created.
-     *
-     * @param entity    Parent entity containing localised content
-     * @param lang      Language of the content
-     * @param value     Rich-text JSON to set; {@code null} deletes existing content
-     * @param field     Field this content represents
-     * @param setParent Lambda to set parent in the new {@link Translation}
-     * @param <T>       Entity type implementing {@link Translatable}
-     */
-    public <T extends Translatable> void upsertRichText(
-            T entity,
+    public void upsertRichText(
+            UUID identityId,
             Language lang,
             @Nullable JsonNode value,
-            FieldName field,
-            Consumer<Translation> setParent
+            FieldName field
     ) {
-        upsertCore(entity, lang, field, FieldType.RICH_TEXT, (value == null ? null : writeJson(value)), setParent);
+        upsertCore(identityId, lang, field, FieldType.RICH_TEXT, (value == null ? null : writeJson(value)));
     }
 
-    /**
-     * Gets a plain text localised value for the given field and language.
-     * Falls back to {@code fallback} when no value exists in {@code lang}.
-     *
-     * @param entity   Parent entity containing localised content
-     * @param field    Field this content represents
-     * @param lang     Preferred language
-     * @param fallback Optional fallback language (can be {@code null})
-     * @param <T>      Entity type implementing {@link Translatable}
-     * @return The text value, or {@code null} if neither preferred nor fallback exist
-     * @throws IllegalStateException if stored content is rich-text
-     */
-    public <T extends Translatable> @Nullable String getText(
-            T entity, FieldName field, Language lang, @Nullable Language fallback
+    public @Nullable String getText(
+            UUID identityId, FieldName field, Language lang, boolean fallback
     ) {
         if (lang == null) return null;
 
-        Translation lc = findWithFallback(entity, field, lang, fallback);
+        Translation lc = findWithFallback(identityId, field, lang, fallback);
         if (lc == null) return null;
         if (lc.getFieldType() == FieldType.RICH_TEXT) {
             throw new IllegalStateException("Field " + field + " is RICH_TEXT; use getLocalisedRichText().");
@@ -113,24 +53,12 @@ public class TranslationService {
         return lc.getContent();
     }
 
-    /**
-     * Gets a rich-text localised value for the given field and language as a {@link JsonNode}.
-     * Falls back to {@code fallback} when no value exists in {@code lang}.
-     *
-     * @param entity   Parent entity containing localised content
-     * @param field    Field this content represents
-     * @param lang     Preferred language
-     * @param fallback Optional fallback language (can be {@code null})
-     * @param <T>      Entity type implementing {@link Translatable}
-     * @return The rich-text JSON, or {@code null} if neither preferred nor fallback exist
-     * @throws IllegalStateException if stored content is not rich-text
-     */
-    public <T extends Translatable> @Nullable JsonNode getRichText(
-            T entity, FieldName field, Language lang, @Nullable Language fallback
+    public @Nullable JsonNode getRichText(
+            UUID identityId, FieldName field, Language lang, boolean fallback
     ) {
         if (lang == null) return null;
 
-        Translation lc = findWithFallback(entity, field, lang, fallback);
+        Translation lc = findWithFallback(identityId, field, lang, fallback);
         if (lc == null) return null;
         if (lc.getFieldType() != FieldType.RICH_TEXT) {
             throw new IllegalStateException("Field " + field + " is " + lc.getFieldType() + "; use getLocalisedText().");
@@ -142,71 +70,71 @@ public class TranslationService {
         }
     }
 
-    /**
-     * Remove all translations / localized contents of a specific lang on an entity.
-     * @param entity Parent entity containing localized content
-     * @param lang   Language to remove
-     * @param <T>    Entity type implementing {@link Translatable}
-     */
+    public void removeTranslationsByLang (UUID identityId, Language lang) {
+        TranslationSet ts = translationSetRepository.findFirstByIdentityIdAndLang(identityId, lang)
+                .orElseThrow(() -> new ElementNotFoundException("TranslationSet"));
 
-    public <T extends Translatable> void removeTranslationsByLang (T entity, Language lang) {
-        List<Translation> contents = entity.getTranslations();
-        List<Translation> existing = contents.stream().filter(lc -> lang.equals(lc.getLang())).toList();
+        translationSetRepository.delete(ts);
+    }
 
-        contents.removeAll(existing);
+    public boolean hasNonDefaultLangTranslations(UUID identityId) {
+        List<TranslationSet> all = translationSetRepository.findAllByIdentityId(identityId)
+                .orElse(new ArrayList<TranslationSet>());
+
+        return all.stream().anyMatch(t -> t.getLang() != AppConstants.DEFAULT_LANGUAGE);
     }
 
     // Private
 
-    private <T extends Translatable> void upsertCore(
-            T entity,
-            Language lang,
-            FieldName field,
-            FieldType type,
-            @Nullable String serializedContent,
-            Consumer<Translation> setParent
+    private void upsertCore(
+         UUID identityId,
+         Language lang,
+         FieldName field,
+         FieldType type,
+         @Nullable String serializedContent
     ) {
         if (lang == null) return;
 
-        List<Translation> contents = entity.getTranslations();
-
-        Translation existing = contents.stream()
-                .filter(lc -> lang.equals(lc.getLang()) && field.equals(lc.getFieldName()))
-                .findFirst()
-                .orElse(null);
-
-        if (existing != null) {
-            if (serializedContent == null) {
-                contents.remove(existing);
-            } else {
-                existing.setFieldType(type);
-                existing.setContent(serializedContent);
-            }
-        } else if (serializedContent != null) {
-            Translation lc = new Translation();
-            lc.setLang(lang);
-            lc.setFieldName(field);
-            lc.setFieldType(type);
-            lc.setContent(serializedContent);
-            setParent.accept(lc);
-            contents.add(lc);
+        // Handle delete - null should remove translation (in case we get non-required translatable fields...)
+        if (serializedContent == null) {
+            translationSetRepository.findFirstByIdentityIdAndLang(identityId, lang)
+                    .flatMap(ts -> translationRepository
+                            .findByIdentityIdAndLangAndFieldName(ts.getIdentityId(), lang, field))
+                    .ifPresent(translationRepository::delete);
+            return;
         }
+
+        // Ensure the set exists
+        TranslationSet ts = translationSetRepository.findFirstByIdentityIdAndLang(identityId, lang)
+                .orElseGet(() -> translationSetRepository.save(new TranslationSet(identityId, lang)));
+
+        // Find existing translation, or create
+        Translation t = translationRepository.findByIdentityIdAndLangAndFieldName(identityId, lang, field)
+                .orElseGet(() -> {
+                    Translation created = new Translation();
+                    created.setTranslationSet(ts);
+                    created.setFieldName(field);
+                    return created;
+                });
+
+        // Upsert fields
+        t.setFieldType(type);
+        t.setContent(serializedContent);
+
+        translationRepository.save(t);
     }
 
-    private <T extends Translatable> @Nullable Translation findWithFallback(
-            T entity, FieldName field, Language lang, @Nullable Language fallback
-    ) {
-        Translation primary = entity.getTranslations().stream()
-                .filter(x -> lang.equals(x.getLang()) && field.equals(x.getFieldName()))
-                .findFirst().orElse(null);
-        if (primary != null) return primary;
+    private @Nullable Translation findWithFallback(
+            UUID identityId, FieldName field, Language lang, boolean fallback) {
 
-        if (fallback != null && fallback != lang) {
-            return entity.getTranslations().stream()
-                    .filter(x -> fallback.equals(x.getLang()) && field.equals(x.getFieldName()))
-                    .findFirst().orElse(null);
-        }
-        return null;
+        Translation primary = translationRepository.findByIdentityIdAndLangAndFieldName(identityId, lang, field)
+                .orElse(null);
+
+        return fallback
+                ? primary == null
+                    ? translationRepository.findByIdentityIdAndLangAndFieldName(identityId, AppConstants.DEFAULT_LANGUAGE, field).orElse(null)
+                    : primary
+                : primary;
     }
 
     private String writeJson(JsonNode node) {

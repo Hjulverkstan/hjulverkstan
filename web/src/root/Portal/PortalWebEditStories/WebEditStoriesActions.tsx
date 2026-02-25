@@ -8,11 +8,11 @@ import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { useToast } from '@components/shadcn/use-toast';
 import { useDialogManager } from '@components/DialogManager';
 import { useDeleteStoryM } from '@data/webedit/story/mutations';
-import { Global } from '@data/webedit/types';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import { usePortalWebEditLang } from '../PortalWebEditLang';
+import { fallbackLang } from '@root';
 
 export default function WebEditStoriesActions({
   row: story,
@@ -35,7 +35,7 @@ export default function WebEditStoriesActions({
             createSuccessToast({
               verbLabel: 'delete',
               id: story.id,
-              dataLabel: lang == Global ? 'Story' : 'translation of Story',
+              dataLabel: lang == fallbackLang ? 'Story' : 'translation of Story',
             }),
           );
         },
@@ -43,7 +43,7 @@ export default function WebEditStoriesActions({
           toast(
             createErrorToast({
               verbLabel: 'delete',
-              dataLabel: lang == Global ? 'Story' : 'translation of Story',
+              dataLabel: lang == fallbackLang ? 'Story' : 'translation of Story',
             }),
           );
         },
@@ -56,8 +56,8 @@ export default function WebEditStoriesActions({
       <ConfirmDeleteDialog
         onDelete={onDelete}
         entity={
-          lang == Global
-            ? 'Story and all its translations'
+          lang == fallbackLang
+            ? 'Story'
             : 'translation of story'
         }
         entityId={story.slug}
@@ -78,9 +78,8 @@ export default function WebEditStoriesActions({
         <DropdownMenu.Item
           onClick={(e) => e.stopPropagation()}
           onSelect={() => handleDeleteClick()}
-          disabled={lang !== Global && story.bodyText == null}
         >
-          Delete {lang !== Global && 'translation'}
+          Delete {lang !== fallbackLang && 'translation'}
           <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
       </DropdownMenu.Content>

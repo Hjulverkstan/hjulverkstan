@@ -1,7 +1,6 @@
 import { z } from 'zod';
-import { Global, WebEditLang } from '@data/webedit/types';
 
-export const createTextZ = (lang: WebEditLang) =>
+export const createTextZ = () =>
   z.object({
-    ...(lang != Global ? { value: z.string().optional() } : {}),
+    value: z.string(),
   });
