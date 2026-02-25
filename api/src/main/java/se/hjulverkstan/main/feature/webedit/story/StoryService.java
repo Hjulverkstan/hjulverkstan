@@ -3,10 +3,10 @@ package se.hjulverkstan.main.feature.webedit.story;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.error.exceptions.UnsupportedArgumentException;
 import se.hjulverkstan.main.feature.webedit.translation.FieldName;
 import se.hjulverkstan.main.feature.webedit.translation.Language;
 import se.hjulverkstan.main.feature.webedit.translation.TranslationService;
@@ -22,26 +22,27 @@ public class StoryService {
     private final StoryRepository storyRepository;
     private final TranslationService translationService;
 
-    public ListResponseDto<StoryDto> getAllStoriesByLang(Language lang, Language fallbackLang) {
+    public ListResponseDto<StoryDto> getAllStoriesByLang(Language lang) {
         List<Story> stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        return new ListResponseDto<>(stories.stream().map(story -> toDto(story, lang, fallbackLang)).toList());
+        return new ListResponseDto<>(stories.stream().map(story -> toDto(story, lang, true)).toList());
     }
 
     public StoryDto getStoryByLangAndId(Long id, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
 
-        return toDto(story, lang, null);
+        return toDto(story, lang, false);
     }
 
     @Transactional
     public StoryDto createStoryByLang(StoryDto dto, Language lang) {
-        Story story = new Story();
+        if (lang != Language.SV) throw new UnsupportedArgumentException("Create has to be in default language");
 
+        Story story = new Story();
         applyToEntity(story, dto, lang);
         storyRepository.save(story);
 
-        return toDto(story, lang, null);
+        return toDto(story, lang, false);
     }
 
     @Transactional
@@ -51,17 +52,20 @@ public class StoryService {
         applyToEntity(story, dto, lang);
         storyRepository.save(story);
 
-        return toDto(story, lang, null);
+        return toDto(story, lang, false);
     }
 
     @Transactional
     public void deleteStory(Long id, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
 
-        if (lang != null) {
-            translationService.removeTranslationsByLang(story, lang);
+        if (lang != Language.SV) {
+            translationService.removeTranslationsByLang(story.getIdentityId(), lang);
             storyRepository.save(story);
         } else {
+            if (translationService.hasNonDefaultLangTranslations(story.getIdentityId())) {
+                throw new UnsupportedArgumentException("Tried to delete story (lang = default lang) but has other translations");
+            }
             storyRepository.delete(story);
         }
     }
@@ -70,16 +74,15 @@ public class StoryService {
         dto.applyToEntity(story);
 
         translationService.upsertRichText(
-                story,
+                story.getIdentityId(),
                 lang,
                 dto.getBodyText(),
-                FieldName.BODY_TEXT,
-                lc -> lc.setStory(story)
+                FieldName.BODY_TEXT
         );
     }
 
-    private StoryDto toDto (Story story, Language lang, @Nullable Language fallbackLang) {
-        JsonNode bodyText = translationService.getRichText(story, FieldName.BODY_TEXT, lang, fallbackLang);
+    private StoryDto toDto (Story story, Language lang, boolean fallback) {
+        JsonNode bodyText = translationService.getRichText(story.getIdentityId(), FieldName.BODY_TEXT, lang, fallback);
         return new StoryDto(story, bodyText);
     }
 }

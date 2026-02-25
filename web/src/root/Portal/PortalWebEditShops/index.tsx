@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+import { fallbackLang } from '@root';
 import { createShopZ } from '@data/webedit/shop/form';
 import { useCreateShopM, useEditShopM } from '@data/webedit/shop/mutations';
 import { useShopQ, useShopsQ } from '@data/webedit/shop/queries';
@@ -7,7 +8,6 @@ import { Shop } from '@data/webedit/shop/types';
 import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import * as DataTable from '@components/DataTable';
-import { Global } from '@data/webedit/types';
 
 import { PortalAppPageProps } from '..';
 import PortalContent from '../PortalContent';
@@ -41,7 +41,7 @@ export default function PortalWebEditShops({ mode }: PortalAppPageProps) {
       disabled={mode && mode !== Mode.READ}
       data={ShopsQ.data}
     >
-      <PortalToolbar dataLabel="Shop" disableCreate={lang !== Global}>
+      <PortalToolbar dataLabel="Shop" disableCreate={lang !== fallbackLang}>
         <WebEditShopsFilters />
       </PortalToolbar>
       <PortalContent>
@@ -57,7 +57,7 @@ export default function PortalWebEditShops({ mode }: PortalAppPageProps) {
             mode={mode}
             isLoading={ShopQ.isLoading}
             data={ShopQ.data}
-            zodSchema={createShopZ(lang)}
+            zodSchema={createShopZ()}
           >
             <PortalForm
               dataLabel="Shop"

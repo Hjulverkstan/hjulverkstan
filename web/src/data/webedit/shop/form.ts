@@ -2,13 +2,12 @@ import { z } from 'zod';
 
 import { reqString } from '../../form';
 import { Shop } from './types';
-import { Global, WebEditLang } from '@data/webedit/types';
 
 export const initShop: Partial<Shop> = {
   hasTemporaryHours: false,
 };
 
-export const createShopZ = (lang: WebEditLang) =>
+export const createShopZ = () =>
   z.object({
     name: reqString('Name'),
     address: reqString('Address'),
@@ -27,10 +26,5 @@ export const createShopZ = (lang: WebEditLang) =>
       sun: z.string().optional(),
     }),
     hasTemporaryHours: z.boolean(),
-
-    ...(lang == Global
-      ? {
-          bodyText: z.record(z.any()).optional().nullable(),
-        }
-      : {}),
+    bodyText: z.record(z.any()),
   });

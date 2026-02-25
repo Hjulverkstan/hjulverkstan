@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.error.exceptions.UnsupportedArgumentException;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.feature.webedit.translation.FieldName;
@@ -24,25 +25,26 @@ public class ShopService {
     private final LocationRepository locationRepository;
     private final TranslationService translationService;
 
-    public ListResponseDto<ShopDto> getAllShopsByLang(Language lang, Language fallbackLang) {
+    public ListResponseDto<ShopDto> getAllShopsByLang(Language lang) {
         List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        return new ListResponseDto<>(shops.stream().map(shop -> toDto(shop, lang, fallbackLang)).toList());
+        return new ListResponseDto<>(shops.stream().map(shop -> toDto(shop, lang, true)).toList());
     }
 
     public ShopDto getShopByLangAndId(Long id, Language lang) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
-        return toDto(shop, lang, null);
+        return toDto(shop, lang, false);
     }
 
     @Transactional
     public ShopDto createShopByLang(ShopDto dto, Language lang) {
-        Shop shop = new Shop();
+        if (lang != Language.SV) throw new UnsupportedArgumentException("Create has to be in default language");
 
+        Shop shop = new Shop();
         applyToEntity(shop, dto, lang);
         shopRepository.save(shop);
 
-        return toDto(shop, lang, null);
+        return toDto(shop, lang, false);
     }
 
     @Transactional
@@ -52,17 +54,20 @@ public class ShopService {
         applyToEntity(shop, dto, lang);
         shopRepository.save(shop);
 
-        return toDto(shop, lang, null);
+        return toDto(shop, lang, false);
     }
 
     @Transactional
     public void deleteShop(Long id, Language lang) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
 
-        if (lang != null) {
-            translationService.removeTranslationsByLang(shop, lang);
+        if (lang != Language.SV) {
+            translationService.removeTranslationsByLang(shop.getIdentityId(), lang);
             shopRepository.save(shop);
         } else {
+            if (translationService.hasNonDefaultLangTranslations(shop.getIdentityId())) {
+                throw new UnsupportedArgumentException("Tried to delete shop (lang = default lang) but has other translations");
+            }
             shopRepository.delete(shop);
         }
     }
@@ -74,16 +79,15 @@ public class ShopService {
         dto.applyToEntity(shop, location);
 
         translationService.upsertRichText(
-                shop,
+                shop.getIdentityId(),
                 lang,
                 dto.getBodyText(),
-                FieldName.BODY_TEXT,
-                lc -> lc.setShop(shop)
+                FieldName.BODY_TEXT
         );
     }
 
-    private ShopDto toDto (Shop shop, Language lang, Language fallbackLang) {
-        JsonNode bodyText = translationService.getRichText(shop, FieldName.BODY_TEXT, lang, fallbackLang);
+    private ShopDto toDto (Shop shop, Language lang, boolean fallback) {
+        JsonNode bodyText = translationService.getRichText(shop.getIdentityId(), FieldName.BODY_TEXT, lang, fallback);
         return new ShopDto(shop, bodyText);
     }
 }
