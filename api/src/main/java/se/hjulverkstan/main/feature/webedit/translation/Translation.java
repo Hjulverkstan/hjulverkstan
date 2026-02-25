@@ -1,8 +1,7 @@
-package se.hjulverkstan.main.feature.webedit.localisation;
+package se.hjulverkstan.main.feature.webedit.translation;
 
 import jakarta.persistence.*;
 import lombok.*;
-import se.hjulverkstan.main.feature.webedit.WebEditEntity;
 import se.hjulverkstan.main.feature.webedit.text.Text;
 import se.hjulverkstan.main.feature.webedit.shop.Shop;
 import se.hjulverkstan.main.shared.auditable.Auditable;
@@ -20,7 +19,7 @@ import se.hjulverkstan.main.feature.webedit.story.Story;
         @UniqueConstraint(columnNames = {"shop_id", "lang", "field_name"}),
         @UniqueConstraint(columnNames = {"story_id", "lang", "field_name"})
 })
-public class LocalisedContent extends Auditable {
+public class Translation extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

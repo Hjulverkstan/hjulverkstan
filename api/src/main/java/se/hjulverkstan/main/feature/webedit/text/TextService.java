@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.error.exceptions.MissingArgumentException;
-import se.hjulverkstan.main.feature.webedit.localisation.FieldName;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisationService;
-import se.hjulverkstan.main.feature.webedit.story.Story;
+import se.hjulverkstan.main.feature.webedit.translation.FieldName;
+import se.hjulverkstan.main.feature.webedit.translation.Language;
+import se.hjulverkstan.main.feature.webedit.translation.TranslationService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.List;
 public class TextService {
 
     private final TextRepository textRepository;
-    private final LocalisationService localisationService;
+    private final TranslationService translationService;
 
     public ListResponseDto<TextDto> getAllTextsByLang(Language lang, Language fallbackLang) {
         List<Text> texts = textRepository.findAll(Sort.by(Sort.Direction.DESC, "key"));
@@ -51,7 +50,7 @@ public class TextService {
         Text text = textRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Text"));
 
         if (lang != null) {
-            localisationService.removeTranslationsByLang(text, lang);
+            translationService.removeTranslationsByLang(text, lang);
             textRepository.save(text);
         } else {
             throw new MissingArgumentException("Language is required when deleting text (only translations deletable)");
@@ -59,7 +58,7 @@ public class TextService {
     }
 
     private void applyToEntity (Text text, TextDto dto, Language lang) {
-        localisationService.upsertText(
+        translationService.upsertText(
                 text,
                 lang,
                 dto.getValue(),
@@ -69,7 +68,7 @@ public class TextService {
     }
 
     private TextDto toDto (Text text, Language lang, @Nullable Language fallbackLang) {
-        String value = localisationService.getText(text, FieldName.VALUE, lang, fallbackLang);
+        String value = translationService.getText(text, FieldName.VALUE, lang, fallbackLang);
         return new TextDto(text, value);
     }
 }
