@@ -2,7 +2,7 @@ package se.hjulverkstan.main.feature.webedit;
 
 import org.springframework.stereotype.Component;
 import org.springframework.core.convert.converter.Converter;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
+import se.hjulverkstan.main.feature.webedit.translation.Language;
 
 import java.util.Arrays;
 

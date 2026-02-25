@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
-import se.hjulverkstan.main.feature.webedit.localisation.FieldName;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisationService;
+import se.hjulverkstan.main.feature.webedit.translation.FieldName;
+import se.hjulverkstan.main.feature.webedit.translation.Language;
+import se.hjulverkstan.main.feature.webedit.translation.TranslationService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class ShopService {
 
     private final ShopRepository shopRepository;
     private final LocationRepository locationRepository;
-    private final LocalisationService localisationService;
+    private final TranslationService translationService;
 
     public ListResponseDto<ShopDto> getAllShopsByLang(Language lang, Language fallbackLang) {
         List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -60,7 +60,7 @@ public class ShopService {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
 
         if (lang != null) {
-            localisationService.removeTranslationsByLang(shop, lang);
+            translationService.removeTranslationsByLang(shop, lang);
             shopRepository.save(shop);
         } else {
             shopRepository.delete(shop);
@@ -73,7 +73,7 @@ public class ShopService {
 
         dto.applyToEntity(shop, location);
 
-        localisationService.upsertRichText(
+        translationService.upsertRichText(
                 shop,
                 lang,
                 dto.getBodyText(),
@@ -83,7 +83,7 @@ public class ShopService {
     }
 
     private ShopDto toDto (Shop shop, Language lang, Language fallbackLang) {
-        JsonNode bodyText = localisationService.getRichText(shop, FieldName.BODY_TEXT, lang, fallbackLang);
+        JsonNode bodyText = translationService.getRichText(shop, FieldName.BODY_TEXT, lang, fallbackLang);
         return new ShopDto(shop, bodyText);
     }
 }

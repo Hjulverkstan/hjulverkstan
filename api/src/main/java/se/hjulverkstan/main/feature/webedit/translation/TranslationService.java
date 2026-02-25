@@ -1,4 +1,4 @@
-package se.hjulverkstan.main.feature.webedit.localisation;
+package se.hjulverkstan.main.feature.webedit.translation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Reads and writes localised content for entities that implement {@link Localised}.
+ * Reads and writes localised content for entities that implement {@link Translatable}.
  * <p>
  * Responsibilities:
  * <ul>
@@ -29,7 +29,7 @@ import java.util.function.Consumer;
  */
 @Component
 @RequiredArgsConstructor
-public class LocalisationService {
+public class TranslationService {
 
     private final ObjectMapper objectMapper;
 
@@ -47,15 +47,15 @@ public class LocalisationService {
      * @param lang      Language of the content
      * @param value     Value to set; {@code null} deletes existing content
      * @param field     Field this content represents
-     * @param setParent Lambda to set parent in the new {@link LocalisedContent}
-     * @param <T>       Entity type implementing {@link Localised}
+     * @param setParent Lambda to set parent in the new {@link Translation}
+     * @param <T>       Entity type implementing {@link Translatable}
      */
-    public <T extends Localised> void upsertText(
+    public <T extends Translatable> void upsertText(
             T entity,
             Language lang,
             @Nullable String value,
             FieldName field,
-            Consumer<LocalisedContent> setParent
+            Consumer<Translation> setParent
     ) {
         upsertCore(entity, lang, field, FieldType.TEXT, value, setParent);
     }
@@ -75,15 +75,15 @@ public class LocalisationService {
      * @param lang      Language of the content
      * @param value     Rich-text JSON to set; {@code null} deletes existing content
      * @param field     Field this content represents
-     * @param setParent Lambda to set parent in the new {@link LocalisedContent}
-     * @param <T>       Entity type implementing {@link Localised}
+     * @param setParent Lambda to set parent in the new {@link Translation}
+     * @param <T>       Entity type implementing {@link Translatable}
      */
-    public <T extends Localised> void upsertRichText(
+    public <T extends Translatable> void upsertRichText(
             T entity,
             Language lang,
             @Nullable JsonNode value,
             FieldName field,
-            Consumer<LocalisedContent> setParent
+            Consumer<Translation> setParent
     ) {
         upsertCore(entity, lang, field, FieldType.RICH_TEXT, (value == null ? null : writeJson(value)), setParent);
     }
@@ -96,16 +96,16 @@ public class LocalisationService {
      * @param field    Field this content represents
      * @param lang     Preferred language
      * @param fallback Optional fallback language (can be {@code null})
-     * @param <T>      Entity type implementing {@link Localised}
+     * @param <T>      Entity type implementing {@link Translatable}
      * @return The text value, or {@code null} if neither preferred nor fallback exist
      * @throws IllegalStateException if stored content is rich-text
      */
-    public <T extends Localised> @Nullable String getText(
+    public <T extends Translatable> @Nullable String getText(
             T entity, FieldName field, Language lang, @Nullable Language fallback
     ) {
         if (lang == null) return null;
 
-        LocalisedContent lc = findWithFallback(entity, field, lang, fallback);
+        Translation lc = findWithFallback(entity, field, lang, fallback);
         if (lc == null) return null;
         if (lc.getFieldType() == FieldType.RICH_TEXT) {
             throw new IllegalStateException("Field " + field + " is RICH_TEXT; use getLocalisedRichText().");
@@ -121,16 +121,16 @@ public class LocalisationService {
      * @param field    Field this content represents
      * @param lang     Preferred language
      * @param fallback Optional fallback language (can be {@code null})
-     * @param <T>      Entity type implementing {@link Localised}
+     * @param <T>      Entity type implementing {@link Translatable}
      * @return The rich-text JSON, or {@code null} if neither preferred nor fallback exist
      * @throws IllegalStateException if stored content is not rich-text
      */
-    public <T extends Localised> @Nullable JsonNode getRichText(
+    public <T extends Translatable> @Nullable JsonNode getRichText(
             T entity, FieldName field, Language lang, @Nullable Language fallback
     ) {
         if (lang == null) return null;
 
-        LocalisedContent lc = findWithFallback(entity, field, lang, fallback);
+        Translation lc = findWithFallback(entity, field, lang, fallback);
         if (lc == null) return null;
         if (lc.getFieldType() != FieldType.RICH_TEXT) {
             throw new IllegalStateException("Field " + field + " is " + lc.getFieldType() + "; use getLocalisedText().");
@@ -146,31 +146,31 @@ public class LocalisationService {
      * Remove all translations / localized contents of a specific lang on an entity.
      * @param entity Parent entity containing localized content
      * @param lang   Language to remove
-     * @param <T>    Entity type implementing {@link Localised}
+     * @param <T>    Entity type implementing {@link Translatable}
      */
 
-    public <T extends Localised> void removeTranslationsByLang (T entity, Language lang) {
-        List<LocalisedContent> contents = entity.getLocalisedContent();
-        List<LocalisedContent> existing = contents.stream().filter(lc -> lang.equals(lc.getLang())).toList();
+    public <T extends Translatable> void removeTranslationsByLang (T entity, Language lang) {
+        List<Translation> contents = entity.getTranslations();
+        List<Translation> existing = contents.stream().filter(lc -> lang.equals(lc.getLang())).toList();
 
         contents.removeAll(existing);
     }
 
     // Private
 
-    private <T extends Localised> void upsertCore(
+    private <T extends Translatable> void upsertCore(
             T entity,
             Language lang,
             FieldName field,
             FieldType type,
             @Nullable String serializedContent,
-            Consumer<LocalisedContent> setParent
+            Consumer<Translation> setParent
     ) {
         if (lang == null) return;
 
-        List<LocalisedContent> contents = entity.getLocalisedContent();
+        List<Translation> contents = entity.getTranslations();
 
-        LocalisedContent existing = contents.stream()
+        Translation existing = contents.stream()
                 .filter(lc -> lang.equals(lc.getLang()) && field.equals(lc.getFieldName()))
                 .findFirst()
                 .orElse(null);
@@ -183,7 +183,7 @@ public class LocalisationService {
                 existing.setContent(serializedContent);
             }
         } else if (serializedContent != null) {
-            LocalisedContent lc = new LocalisedContent();
+            Translation lc = new Translation();
             lc.setLang(lang);
             lc.setFieldName(field);
             lc.setFieldType(type);
@@ -193,16 +193,16 @@ public class LocalisationService {
         }
     }
 
-    private <T extends Localised> @Nullable LocalisedContent findWithFallback(
+    private <T extends Translatable> @Nullable Translation findWithFallback(
             T entity, FieldName field, Language lang, @Nullable Language fallback
     ) {
-        LocalisedContent primary = entity.getLocalisedContent().stream()
+        Translation primary = entity.getTranslations().stream()
                 .filter(x -> lang.equals(x.getLang()) && field.equals(x.getFieldName()))
                 .findFirst().orElse(null);
         if (primary != null) return primary;
 
         if (fallback != null && fallback != lang) {
-            return entity.getLocalisedContent().stream()
+            return entity.getTranslations().stream()
                     .filter(x -> fallback.equals(x.getLang()) && field.equals(x.getFieldName()))
                     .findFirst().orElse(null);
         }

@@ -1,0 +1,1 @@
+alter table localised_content rename to translation;
