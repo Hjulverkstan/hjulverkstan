@@ -1,12 +1,7 @@
-import { Global, Lang } from '@data/webedit/types';
+import { Lang } from '@data/webedit/types';
 import { EnumAttributes, EnumAttributesRaw } from '@data/types';
 
 export const lang: EnumAttributesRaw[] = [
-  {
-    dataKey: 'lang',
-    translationKey: 'langGlobal',
-    value: Global,
-  },
   {
     dataKey: 'lang',
     translationKey: 'langSwe',

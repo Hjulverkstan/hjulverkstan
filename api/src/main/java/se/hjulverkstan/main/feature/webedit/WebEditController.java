@@ -13,8 +13,8 @@ public class WebEditController {
     private final WebEditService webEditService;
 
     @GetMapping("get-all")
-    public AllWebEditEntitiesByLangDto getAllLocalisedContentWithFallbackLang(@RequestParam Language fallbackLang) {
-        return webEditService.getAllLocalisedEntitiesWithFallback(fallbackLang);
+    public AllWebEditEntitiesByLangDto getAllTranslatedEntities() {
+        return webEditService.getAllTranslatedEntities();
     }
 
     @GetMapping("count/{entity}")

@@ -2,51 +2,40 @@ package se.hjulverkstan.main.feature.webedit.translation;
 
 import jakarta.persistence.*;
 import lombok.*;
-import se.hjulverkstan.main.feature.webedit.text.Text;
-import se.hjulverkstan.main.feature.webedit.shop.Shop;
 import se.hjulverkstan.main.shared.auditable.Auditable;
-import se.hjulverkstan.main.feature.webedit.story.Story;
 
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"text", "shop", "story"})
+@ToString(exclude = {"translationSet"})
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"text_id", "lang", "field_name"}),
-        @UniqueConstraint(columnNames = {"shop_id", "lang", "field_name"}),
-        @UniqueConstraint(columnNames = {"story_id", "lang", "field_name"})
-})
+@Table(
+        name = "translation",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"translation_set_id", "field_name"})
+        },
+        indexes = {
+                @Index(name = "ix_localised_content_set", columnList = "translation_set_id")
+        }
+)
 public class Translation extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Language lang; // We use the ISO 639-2 three letter standard where Swedish = 'swe', English = 'eng'
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "translation_set_id", nullable = false)
+    private TranslationSet translationSet;
 
     @Enumerated(EnumType.STRING)
     private FieldType fieldType;
 
     @Enumerated(EnumType.STRING)
-    private FieldName fieldName; // Multi field objects like an event can have several localised fields
+    @Column(name = "field_name", nullable = false)
+    private FieldName fieldName;
 
     @Column(columnDefinition = "TEXT")
-    private String content; // The localised content
-
-    // Nullable foreign key columns for polymorphic use of this table
-    @ManyToOne
-    @JoinColumn(name = "text_id", referencedColumnName = "id", nullable = true)
-    Text text;
-
-    @ManyToOne
-    @JoinColumn(name = "shop_id", referencedColumnName = "id", nullable = true)
-    Shop shop;
-
-    @ManyToOne
-    @JoinColumn(name = "story_id", referencedColumnName = "id", nullable = true)
-    Story story;
+    private String content;
 }
-

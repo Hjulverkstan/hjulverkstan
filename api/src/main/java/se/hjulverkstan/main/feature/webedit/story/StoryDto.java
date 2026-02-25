@@ -24,6 +24,7 @@ public class StoryDto extends AuditableDto {
     @NotNull(message = "Story slug is required")
     private String slug;
 
+    @NotNull(message = "Story text is required")
     private JsonNode bodyText;
 
     private String imageURL;

@@ -10,12 +10,12 @@ import { useToast } from '@components/shadcn/use-toast';
 import { useDialogManager } from '@components/DialogManager';
 import { useDeleteTextM } from '@data/webedit/text/mutations';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
-import { Global } from '@data/webedit/types';
 import { findEnum } from '@utils/enums';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import { usePortalWebEditLang } from '../PortalWebEditLang';
+import { fallbackLang } from '@root';
 
 export default function WebEditTextActions({
   row: text,
@@ -78,9 +78,9 @@ export default function WebEditTextActions({
         <DropdownMenu.Item
           onClick={(e) => e.stopPropagation()}
           onSelect={() => handleDeleteClick()}
-          disabled={lang === Global || !text.value}
+          disabled={lang === fallbackLang}
         >
-          Delete {lang !== Global && 'translation'}
+          Delete {lang !== fallbackLang && 'translation'}
           <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
       </DropdownMenu.Content>

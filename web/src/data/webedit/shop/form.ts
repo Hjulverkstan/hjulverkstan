@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { Shop } from './types';
-import { Global, WebEditLang } from '@data/webedit/types';
 
 /**
  * Regex for time intervals: H:MM - H:MM
@@ -24,8 +23,8 @@ export const initShop: Partial<Shop> = {
   openHours: {},
 };
 
-export const createShopZ = (lang: WebEditLang) => {
-  const baseSchema = z.object({
+export const createShopZ = () => {
+  return z.object({
     locationId: z.coerce.number(),
     latitude: z.coerce.number(),
     longitude: z.coerce.number(),
@@ -43,15 +42,9 @@ export const createShopZ = (lang: WebEditLang) => {
       .optional()
       .nullable(),
     hasTemporaryHours: z.boolean().optional(),
-  });
-
-  const extendedSchema =
-    lang === Global
-      ? baseSchema.extend({ bodyText: z.record(z.any()).optional().nullable() })
-      : baseSchema;
-
-  return extendedSchema.refine(
-    (data) => {
+  })
+    .refine(
+      (data) => {
       if (data.hasTemporaryHours) {
         return true;
       }

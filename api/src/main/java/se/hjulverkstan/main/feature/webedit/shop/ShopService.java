@@ -5,8 +5,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.error.exceptions.UnsupportedArgumentException;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
+import se.hjulverkstan.main.feature.webedit.WebEditEntity;
+import se.hjulverkstan.main.feature.webedit.release.Identity;
+import se.hjulverkstan.main.feature.webedit.release.IdentityRepository;
 import se.hjulverkstan.main.feature.webedit.translation.FieldName;
 import se.hjulverkstan.main.feature.webedit.translation.Language;
 import se.hjulverkstan.main.feature.webedit.translation.TranslationService;
@@ -21,6 +25,7 @@ public class ShopService {
 
     private final ShopRepository shopRepository;
     private final LocationRepository locationRepository;
+    private final IdentityRepository identityRepository;
 
     public ListResponseDto<ShopDto> getAllShops() {
         List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -35,8 +40,11 @@ public class ShopService {
 
     @Transactional
     public ShopDto createShop(ShopDto dto) {
-        Shop shop = new Shop();
 
+
+        Identity identity = identityRepository.save(new Identity(WebEditEntity.SHOP));
+        Shop shop = new Shop();
+        shop.setIdentityId(identity.getId());
         applyToEntity(shop, dto);
         shopRepository.save(shop);
 
