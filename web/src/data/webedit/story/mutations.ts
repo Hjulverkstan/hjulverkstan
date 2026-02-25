@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query';
 
 import { invalidateQueries } from '../../queries';
 import * as api from './api';
-import { Global } from '@data/webedit/types';
 
 export const useCreateStoryM = () =>
   useMutation({
@@ -30,6 +29,6 @@ export const useDeleteStoryM = () =>
     onSuccess: (_, { id, lang }) =>
       invalidateQueries([
         api.createGetStories({ lang }).queryKey,
-        ...(lang != Global ? [api.createGetStory({ id, lang }).queryKey] : []),
+        api.createGetStory({ id, lang }).queryKey
       ]),
   });

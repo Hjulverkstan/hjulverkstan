@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+import { fallbackLang } from '@root';
 import { createStoryZ } from '@data/webedit/story/form';
 import { useCreateStoryM, useEditStoryM } from '@data/webedit/story/mutations';
 import { useStoriesQ, useStoryQ } from '@data/webedit/story/queries';
@@ -7,7 +8,6 @@ import { Story } from '@data/webedit/story/types';
 import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import * as DataTable from '@components/DataTable';
-import { Global } from '@data/webedit/types';
 
 import { PortalAppPageProps } from '..';
 import PortalContent from '../PortalContent';
@@ -41,7 +41,7 @@ export default function PortalWebEditStories({ mode }: PortalAppPageProps) {
       disabled={mode && mode !== Mode.READ}
       data={storiesQ.data}
     >
-      <PortalToolbar dataLabel="Story" disableCreate={lang !== Global}>
+      <PortalToolbar dataLabel="Story" disableCreate={lang !== fallbackLang}>
         <WebEditStoriesFilters />
       </PortalToolbar>
       <PortalContent>
@@ -57,7 +57,7 @@ export default function PortalWebEditStories({ mode }: PortalAppPageProps) {
             mode={mode}
             isLoading={storyQ.isLoading}
             data={storyQ.data}
-            zodSchema={createStoryZ(lang)}
+            zodSchema={createStoryZ()}
           >
             <PortalForm
               dataLabel="Story"
