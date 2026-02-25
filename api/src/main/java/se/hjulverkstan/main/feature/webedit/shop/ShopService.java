@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
+import se.hjulverkstan.main.feature.webedit.translation.FieldName;
+import se.hjulverkstan.main.feature.webedit.translation.Language;
+import se.hjulverkstan.main.feature.webedit.translation.TranslationService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
