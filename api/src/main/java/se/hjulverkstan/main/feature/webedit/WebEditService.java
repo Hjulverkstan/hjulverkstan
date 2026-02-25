@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContentRepository;
+import se.hjulverkstan.main.feature.webedit.translation.Language;
+import se.hjulverkstan.main.feature.webedit.translation.TranslationRepository;
 import se.hjulverkstan.main.feature.webedit.shop.ShopDto;
 import se.hjulverkstan.main.feature.webedit.shop.ShopService;
 import se.hjulverkstan.main.feature.webedit.story.StoryDto;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WebEditService {
 
-    private final LocalisedContentRepository localisedContentRepository;
+    private final TranslationRepository translationRepository;
     private final TextService textService;
     private final ShopService shopService;
     private final StoryService storyService;
@@ -36,11 +36,11 @@ public class WebEditService {
         }
 
         List<Object[]> results = switch (entity) {
-            case WebEditEntity.TEXT -> localisedContentRepository.countLangBytext()
+            case WebEditEntity.TEXT -> translationRepository.countLangBytext()
                     .orElseThrow(() -> new ElementNotFoundException(WebEditEntity.TEXT.name()));
-            case WebEditEntity.SHOP -> localisedContentRepository.countLangByShop()
+            case WebEditEntity.SHOP -> translationRepository.countLangByShop()
                     .orElseThrow(() -> new ElementNotFoundException(WebEditEntity.SHOP.name()));
-            case WebEditEntity.STORY -> localisedContentRepository.countLangByStory()
+            case WebEditEntity.STORY -> translationRepository.countLangByStory()
                     .orElseThrow(() -> new ElementNotFoundException(WebEditEntity.STORY.name()));
         };
 
@@ -54,7 +54,7 @@ public class WebEditService {
     }
 
     public AllWebEditEntitiesByLangDto getAllLocalisedEntitiesWithFallback(Language fallbackLang) {
-        Set<Language> langs = localisedContentRepository.findDistinctLangs()
+        Set<Language> langs = translationRepository.findDistinctLangs()
                 .orElseThrow(() -> new ElementNotFoundException("Languages"));
 
         AllWebEditEntitiesByLangDto entitiesByLangDto = new AllWebEditEntitiesByLangDto();

@@ -5,16 +5,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import se.hjulverkstan.main.feature.webedit.localisation.Localised;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
+import se.hjulverkstan.main.feature.webedit.translation.Translatable;
+import se.hjulverkstan.main.feature.webedit.translation.Translation;
 import se.hjulverkstan.main.shared.auditable.Auditable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Text extends Auditable implements Localised {
+public class Text extends Auditable implements Translatable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,5 +26,5 @@ public class Text extends Auditable implements Localised {
     private TextKey key;
 
     @OneToMany(mappedBy = "text", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch =  FetchType.EAGER)
-    private List<LocalisedContent> localisedContent;
+    private List<Translation> translations = new ArrayList<>();
 }

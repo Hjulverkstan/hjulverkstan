@@ -7,9 +7,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.feature.webedit.localisation.FieldName;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisationService;
+import se.hjulverkstan.main.feature.webedit.translation.FieldName;
+import se.hjulverkstan.main.feature.webedit.translation.Language;
+import se.hjulverkstan.main.feature.webedit.translation.TranslationService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 public class StoryService {
 
     private final StoryRepository storyRepository;
-    private final LocalisationService localisationService;
+    private final TranslationService translationService;
 
     public ListResponseDto<StoryDto> getAllStoriesByLang(Language lang, Language fallbackLang) {
         List<Story> stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -59,7 +59,7 @@ public class StoryService {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
 
         if (lang != null) {
-            localisationService.removeTranslationsByLang(story, lang);
+            translationService.removeTranslationsByLang(story, lang);
             storyRepository.save(story);
         } else {
             storyRepository.delete(story);
@@ -69,7 +69,7 @@ public class StoryService {
     private void applyToEntity (Story story, StoryDto dto, Language lang) {
         dto.applyToEntity(story);
 
-        localisationService.upsertRichText(
+        translationService.upsertRichText(
                 story,
                 lang,
                 dto.getBodyText(),
@@ -79,7 +79,7 @@ public class StoryService {
     }
 
     private StoryDto toDto (Story story, Language lang, @Nullable Language fallbackLang) {
-        JsonNode bodyText = localisationService.getRichText(story, FieldName.BODY_TEXT, lang, fallbackLang);
+        JsonNode bodyText = translationService.getRichText(story, FieldName.BODY_TEXT, lang, fallbackLang);
         return new StoryDto(story, bodyText);
     }
 }
