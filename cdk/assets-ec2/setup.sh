@@ -70,5 +70,22 @@ echo "Verifying docker compose plugin..."
 ls -la /usr/local/lib/docker/cli-plugins || true
 docker compose version
 
+# --- Configure Docker Build Engine ---
+# We use the legacy build engine (DOCKER_BUILDKIT=0) to avoid installing
+# the additional Buildx plugin on Amazon Linux 2023.
+echo "Configuring environment to use legacy Docker build engine..."
+
+# Create a profile script so this applies to all users upon login
+echo 'export DOCKER_BUILDKIT=0' | sudo tee /etc/profile.d/docker-build.sh
+echo 'export COMPOSE_DOCKER_CLI_BUILD=0' | sudo tee -a /etc/profile.d/docker-build.sh
+sudo chmod +x /etc/profile.d/docker-build.sh
+
+# Apply variables to the current shell session immediately
+export DOCKER_BUILDKIT=0
+export COMPOSE_DOCKER_CLI_BUILD=0
+
+# Add variable for backup buckets to .env
+echo "DB_BACKUP_SUFFIX=$(grep API_AWS_S3_BUCKET_NAME /opt/docker/.env | cut -d'-' -f3-)" | sudo tee -a /opt/docker/.env
+
 echo "=== setup.sh completed successfully ==="
 echo "Log file: $LOG_FILE"
