@@ -146,6 +146,9 @@ export default {
   enumWarningOrphanLabel: 'Saknar status/ärende',
   enumWarningOrphanTooltip: 'Cykeln saknar status/ärende.',
 
+  enumWarningRepairNotificationFailedLabel: 'Notifikation misslyckades',
+  enumWarningRepairNotificationFailedTooltip: 'Avslutad-reparations-notifikation (SMS) misslyckades att skickas.',
+
   // Text enums
 
   enumTextSlogan: 'Slogan',

@@ -6,6 +6,7 @@ import { TicketType } from '@data/ticket/types';
 import { useVehiclesAsEnumsQ, useVehiclesQ } from '@data/vehicle/queries';
 import { max, parseISO } from 'date-fns';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { useLocationsAsEnumsQ } from '@data/location/queries';
 
 export default function ShopTicketFields() {
   const { body, mode } = DataForm.useDataForm();
@@ -19,7 +20,9 @@ export default function ShopTicketFields() {
 
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
+  const locationEnumsQ = useLocationsAsEnumsQ();
   const vehicleEnumsQ = useVehiclesAsEnumsQ({
+    filterByLocationId: body.locationId,
     filterCustomerOwned:
       body.ticketType === TicketType.RENT ||
       body.ticketType === TicketType.DONATE
@@ -52,9 +55,17 @@ export default function ShopTicketFields() {
       />
 
       <DataForm.Select
+        enums={locationEnumsQ.data ?? []}
+        label="Location"
+        dataKey="locationId"
+        disabled={body.vehicleIds?.length}
+      />
+
+      <DataForm.Select
         label="Vehicles"
         dataKey="vehicleIds"
         enums={vehicleEnumsQ.data ?? []}
+        disabled={!body.locationId}
         isMultiSelect
       />
 
