@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { buildImageUrl } from '@utils/buildImageUrl';
 
 export interface ImageWithFallbackProps
   extends ImgHTMLAttributes<HTMLImageElement> {
@@ -30,6 +31,7 @@ export const ImageWithFallback = ({
   return (
     <img
       {...imgProps}
+      src={buildImageUrl(imgProps.src)}
       alt={alt}
       onError={() => imgProps.src && setSrcWithError(imgProps.src)}
     />
