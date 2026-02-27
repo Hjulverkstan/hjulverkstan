@@ -84,8 +84,5 @@ sudo chmod +x /etc/profile.d/docker-build.sh
 export DOCKER_BUILDKIT=0
 export COMPOSE_DOCKER_CLI_BUILD=0
 
-# Add variable for backup buckets to .env
-echo "DB_BACKUP_SUFFIX=$(grep API_AWS_S3_BUCKET_NAME /opt/docker/.env | cut -d'-' -f3-)" | sudo tee -a /opt/docker/.env
-
 echo "=== setup.sh completed successfully ==="
 echo "Log file: $LOG_FILE"
