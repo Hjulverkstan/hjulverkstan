@@ -54,7 +54,7 @@ jobs:
           API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
           API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
           API_AWS_REGION: ${{ vars.API_AWS_REGION }}
-          API_AWS_S3_BUCKET_NAME: ${{ vars.API_AWS_S3_BUCKET_NAME }}
+          API_AWS_S3_IMAGES_BUCKET: ${{ vars.API_AWS_S3_IMAGES_BUCKET }}
           API_ALLOWED_ORIGINS: http://localhost
         run: mvn -B -U test
 
@@ -77,7 +77,7 @@ jobs:
           API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
           API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
           API_AWS_REGION: ${{ vars.API_AWS_REGION }}
-          API_AWS_S3_BUCKET_NAME: ${{ vars.API_AWS_S3_BUCKET_NAME }}
+          API_AWS_S3_IMAGES_BUCKET: ${{ vars.API_AWS_S3_IMAGES_BUCKET }}
           API_ALLOWED_ORIGINS: http://localhost
           SPRING_JPA_HIBERNATE_DDL_AUTO: update
           SPRING_SQL_INIT_MODE: always

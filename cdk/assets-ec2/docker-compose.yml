@@ -25,7 +25,7 @@ services:
     environment:
       SCHEDULE: '@midnight'
       S3_REGION: eu-north-1
-      S3_BUCKET: backup-bucket-${DB_BACKUP_SUFFIX}
+      S3_BUCKET: ${API_AWS_S3_BACKUP_BUCKET}
       POSTGRES_HOST: db
       POSTGRES_DATABASE: ${API_DB_DATABASE}
       POSTGRES_USER: ${API_DB_USER}

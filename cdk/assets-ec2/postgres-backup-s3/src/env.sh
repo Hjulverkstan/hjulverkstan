@@ -39,12 +39,5 @@ else
   aws_args="--endpoint-url $S3_ENDPOINT"
 fi
 
-
-if [ -n "$S3_ACCESS_KEY_ID" ]; then
-  export AWS_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID
-fi
-if [ -n "$S3_SECRET_ACCESS_KEY" ]; then
-  export AWS_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY
-fi
 export AWS_DEFAULT_REGION=$S3_REGION
 export PGPASSWORD=$POSTGRES_PASSWORD
