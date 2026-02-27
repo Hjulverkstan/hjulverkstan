@@ -19,16 +19,14 @@ public class ImageController {
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ImageUploadResponse uploadImage(@RequestParam("file") MultipartFile file) {
-        String imageURL = s3Service.uploadFile(file);
-        return new ImageUploadResponse(imageURL);
+        String imageName = s3Service.uploadFile(file);
+        return new ImageUploadResponse(imageName);
     }
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteImage(@RequestParam("imageURL") String imageURL) {
-        String fileKey = s3Service.extractKeyFromURL(imageURL);
-
-        s3Service.deleteFileByKey(fileKey);
-        imageService.deleteSpecificS3URLFromAllEntities(fileKey);
+    public void deleteImage(@RequestParam("imageURL") String imageName) {
+        s3Service.deleteFileByKey(imageName);
+        imageService.deleteSpecificS3URLFromAllEntities(imageName);
     }
 }

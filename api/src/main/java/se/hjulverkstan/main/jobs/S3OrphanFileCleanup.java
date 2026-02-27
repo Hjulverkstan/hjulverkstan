@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class S3OrphanFileCleanup {
     private static final Logger logger = LoggerFactory.getLogger(S3OrphanFileCleanup.class);
+    private static final String DEFAULT_FOLDER = "images/";
 
     private static final int BATCH_SIZE = 100;
 
@@ -25,11 +26,11 @@ public class S3OrphanFileCleanup {
 
     @Scheduled(cron = "${cleanup.s3-orphan-files.cron}")
     public void runCleanup() {
-        List<String> usedUrls = imageRepositoryImpl.getAllUsedS3URLs();
+        List<String> usedFileNames = imageRepositoryImpl.getAllUsedS3URLs();
         List<String> allImageKeys = s3Service.getAllImageKeys();
 
-        Set<String> usedKeys = usedUrls.stream()
-                        .map(s3Service::extractKeyFromURL)
+        Set<String> usedKeys = usedFileNames.stream()
+                        .map(name -> DEFAULT_FOLDER + name)
                         .collect(Collectors.toSet());
 
         List<String> orphanKeys = allImageKeys.stream()

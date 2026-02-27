@@ -25,6 +25,7 @@ public class S3Service {
     private final S3Client s3Client ;
     private static final List<String> ALLOWED_MIME_TYPES = Arrays.asList("image/jpeg", "image/png", "image/gif");
     private static final Tika TIKA = new Tika();
+    private static final String DEFAULT_FOLDER = "images/";
 
     @Value("${hjulverkstan.aws-s3.bucket-name}")
     private String bucketName;
@@ -35,27 +36,27 @@ public class S3Service {
     }
 
     /**
-     * Uploads a file to S3 and returns a public URL for the uploaded image.
+     * Uploads a file to S3 and returns a unique filename for the uploaded image.
      *
      * @param file the image file to upload
-     * @return The public URL
+     * @return The unique filename
      */
     public String uploadFile(MultipartFile file) {
         validateFile(file);
 
         String uniqueFileName = generateUniqueFileName(file);
+        String s3Key = DEFAULT_FOLDER + uniqueFileName;
 
         try {
             PutObjectRequest putRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
-                    .key(uniqueFileName)
+                    .key(s3Key)
                     .contentType(file.getContentType())
-                    .acl(ObjectCannedACL.PUBLIC_READ)
                     .build();
 
             s3Client.putObject(putRequest, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
 
-            return String.format("https://%s.s3.amazonaws.com/%s", bucketName, uniqueFileName);
+            return uniqueFileName;
         } catch (IOException e) {
             throw new FileProcessingException("Error processing file: " + e.getMessage());
         } catch (SdkClientException e) {
@@ -97,13 +98,6 @@ public class S3Service {
         return UUID.randomUUID().toString() + extension;
     }
 
-    public String extractKeyFromURL(String URL) {
-        String keyWithParams = URL.substring(URL.lastIndexOf("/") + 1);
-        int queryIndex = keyWithParams.indexOf("?");
-        String fileKey = queryIndex != -1 ? keyWithParams.substring(0, queryIndex) : keyWithParams;
-        return fileKey;
-    }
-
     public void deleteFileByKey(String key) {
         try {
             DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
@@ -136,9 +130,8 @@ public class S3Service {
     /**
      * Retrieves all imageKeys (file names) stored in the S3 bucket.
      *
-     * This method sends a request to list all objects in the specified S3 bucket
-     * and extracts their unique file keys. These keys represent the stored files
-     * without the full S3 URL.
+     * This method sends a request to list all objects in the specified S3 bucket images-map
+     * and extracts their unique file keys. These keys represent the stored files.
      *
      * @return A List of Strings containing the file keys of all objects in the bucket.
      */
