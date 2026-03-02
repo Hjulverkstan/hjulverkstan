@@ -86,6 +86,7 @@ jobs:
             echo "API_AWS_REGION=${{ vars.API_AWS_REGION }}"
             echo "API_AWS_S3_IMAGES_BUCKET=${{ vars.API_AWS_S3_IMAGES_BUCKET }}"
             echo "API_AWS_S3_BACKUP_BUCKET=${{ vars.API_AWS_S3_BACKUP_BUCKET }}"
+            echo "API_AWS_BACKUP_PASSPHRASE=${{ secrets.API_AWS_BACKUP_PASSPHRASE }}
             echo "API_ALLOWED_ORIGINS=${{ vars.API_ALLOWED_ORIGINS }}"
             echo "DOCKER_API_IMAGE_TAG=${{ env.DEPLOY_TAG }}"
             echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}"
