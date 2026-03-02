@@ -16,20 +16,17 @@ services:
 
   backup:
     build:
-      context: ./postgres-backup-s3
-      dockerfile: Dockerfile
-      args:
-        POSTGRES_VERSION: 17
-    restart: always
+      context: .
+      dockerfile: postgres-backup-s3/Dockerfile
+    container_name: backup
     env_file: .env
     environment:
-      SCHEDULE: '@midnight'
-      S3_REGION: eu-north-1
-      S3_BUCKET: ${API_AWS_S3_BACKUP_BUCKET}
       POSTGRES_HOST: db
       POSTGRES_DATABASE: ${API_DB_DATABASE}
       POSTGRES_USER: ${API_DB_USER}
       POSTGRES_PASSWORD: ${API_DB_PASSWORD}
+      S3_BUCKET: ${API_AWS_S3_BACKUP_BUCKET}
+      PASSPHRASE: ${API_AWS_BACKUP_PASSPHRASE}
     depends_on:
       - db
 
