@@ -56,7 +56,7 @@ export default function useColumns() {
         {
           key: 'longitude',
           name: 'Longitude',
-          renderFn: ({ latitude }) => <IconLabel label={latitude} />,
+          renderFn: ({ longitude }) => <IconLabel label={longitude} />,
         },
       ] as Array<DataTable.Column<Shop>>,
     [lang],
