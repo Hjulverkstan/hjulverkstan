@@ -83,8 +83,6 @@ jobs:
             echo "API_DB_DATABASE=${{ vars.API_DB_DATABASE }}"
             echo "API_DB_USER=${{ secrets.API_DB_USER }}"
             echo "API_DB_PASSWORD=${{ secrets.API_DB_PASSWORD }}"
-            echo "API_AWS_ACCESS_KEY=${{ secrets.API_AWS_ACCESS_KEY }}"
-            echo "API_AWS_SECRET_KEY=${{ secrets.API_AWS_SECRET_KEY }}"
             echo "API_AWS_REGION=${{ vars.API_AWS_REGION }}"
             echo "API_AWS_S3_IMAGES_BUCKET=${{ vars.API_AWS_S3_IMAGES_BUCKET }}"
             echo "API_AWS_S3_BACKUP_BUCKET=${{ vars.API_AWS_S3_BACKUP_BUCKET }}"

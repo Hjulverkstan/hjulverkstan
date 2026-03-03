@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 // Config
-export const baseURL = import.meta.env.VITE_BACKEND_PROXY_SLUG;
+export const baseURL = import.meta.env.VITE_API_SLUG;
 
 export const endpoints = {
   vehicle: '/vehicle',

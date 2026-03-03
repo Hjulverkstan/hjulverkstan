@@ -31,12 +31,12 @@ export async function getDataForPreloadingServerSide(
       username: env.VITE_BUILD_USERNAME,
       password: env.VITE_BUILD_PASSWORD,
     },
-    env.VITE_BACKEND_URL,
+    env.VITE_BUILD_API_URL,
   );
 
   const res = await getAllWebEditEntitiesByLang(
     { fallbackLang },
-    env.VITE_BACKEND_URL,
+    env.VITE_BUILD_API_URL,
   );
 
   ejectCookieJar();
