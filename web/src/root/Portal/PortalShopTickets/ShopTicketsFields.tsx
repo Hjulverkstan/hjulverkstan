@@ -1,5 +1,5 @@
 import * as DataForm from '@components/DataForm';
-import { useCustomersAsEnumsQ } from '@data/customer/queries';
+import { useCustomersAsEnumsQ, useCustomersQ } from '@data/customer/queries';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
 import * as enumsRaw from '@data/ticket/enums';
 import { TicketType } from '@data/ticket/types';
@@ -17,6 +17,12 @@ export default function ShopTicketFields() {
     ? vehiclesQ.data?.find((v) => v.id === body.vehicleIds[0])?.isCustomerOwned
     : undefined;
 
+  const customersQ = useCustomersQ();
+  const selectedCustomer = customersQ.data?.find(
+    (c) => c.id === body.customerId,
+  );
+  const isPerson = selectedCustomer?.customerType === 'PERSON';
+
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
   const vehicleEnumsQ = useVehiclesAsEnumsQ({
@@ -26,7 +32,9 @@ export default function ShopTicketFields() {
         ? false
         : body.ticketType === TicketType.RECEIVE
           ? true
-          : firstIsCustomerOwned
+          : body.ticketType === TicketType.REPAIR
+            ? isPerson
+            : firstIsCustomerOwned,
   });
 
   return (
@@ -65,7 +73,7 @@ export default function ShopTicketFields() {
         fat
       />
 
-      {(body.ticketType === TicketType.RENT) && (
+      {body.ticketType === TicketType.RENT && (
         <DataForm.DatePicker
           label="Start Date"
           dataKey="startDate"
@@ -73,7 +81,7 @@ export default function ShopTicketFields() {
         />
       )}
 
-      {(body.ticketType === TicketType.RENT) && (
+      {body.ticketType === TicketType.RENT && (
         <DataForm.DatePicker
           fromDate={max([
             body.startDate ? parseISO(body.startDate) : new Date(),
