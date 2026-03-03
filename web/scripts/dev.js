@@ -21,7 +21,11 @@ import { config } from 'dotenv';
 // Setup
 
 const rootPath = path.resolve(fileURLToPath(import.meta.url) + '../../..');
-config({ path: path.resolve(rootPath, '../.env'), debug: true,override: true });
+config({
+  path: path.resolve(rootPath, '../.env'),
+  debug: true,
+  override: true,
+});
 
 const vite = await createViteServer({
   root: rootPath,
@@ -34,8 +38,22 @@ const vite = await createViteServer({
 
 const app = express();
 
-const proxy = process.env.VITE_BACKEND_PROXY_SLUG;
-const api = process.env.VITE_BACKEND_URL;
+const imageSlug = process.env.VITE_IMAGES_SLUG;
+const imageUrl = process.env.DEV_PROXY_IMAGES_URL;
+
+app.use(
+  imageSlug,
+  createProxyMiddleware({
+    target: `https://${imageUrl.replace('https://', '')}`,
+    changeOrigin: true,
+    pathRewrite: {
+      [`^${imageSlug}`]: '/images',
+    },
+  }),
+);
+
+const proxy = process.env.VITE_API_SLUG;
+const api = process.env.DEV_PROXY_API_URL;
 
 app.use(
   proxy,

@@ -8,8 +8,8 @@ import { config } from 'dotenv';
 const rootPath = path.resolve(fileURLToPath(import.meta.url) + '../../..');
 config({ path: path.resolve(rootPath, '../.env') });
 
-const proxy = process.env.VITE_BACKEND_PROXY_SLUG;
-const api = process.env.VITE_BACKEND_URL;
+const proxy = process.env.VITE_API_SLUG;
+const api = process.env.VITE_BUILD_API_URL;
 
 const app = express();
 

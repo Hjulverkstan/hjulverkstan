@@ -51,8 +51,6 @@ jobs:
           API_DB_DATABASE: testdb
           API_DB_USER: testuser
           API_DB_PASSWORD: testpass
-          API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
-          API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
           API_AWS_REGION: ${{ vars.API_AWS_REGION }}
           API_AWS_S3_IMAGES_BUCKET: ${{ vars.API_AWS_S3_IMAGES_BUCKET }}
           API_ALLOWED_ORIGINS: http://localhost
@@ -74,8 +72,6 @@ jobs:
           API_DB_DATABASE: testdb
           API_DB_USER: testuser
           API_DB_PASSWORD: testpass
-          API_AWS_ACCESS_KEY: ${{ secrets.API_AWS_ACCESS_KEY }}
-          API_AWS_SECRET_KEY: ${{ secrets.API_AWS_SECRET_KEY }}
           API_AWS_REGION: ${{ vars.API_AWS_REGION }}
           API_AWS_S3_IMAGES_BUCKET: ${{ vars.API_AWS_S3_IMAGES_BUCKET }}
           API_ALLOWED_ORIGINS: http://localhost
@@ -124,5 +120,5 @@ jobs:
           VITE_BUILD_USERNAME: admin
           VITE_BUILD_PASSWORD: password
           VITE_FRONTEND_URL: http://localhost
-          VITE_BACKEND_URL: http://127.0.0.1:8080/v1/api
+          VITE_BUILD_API_URL: http://127.0.0.1:8080/v1/api
         run: cd web && npm run build

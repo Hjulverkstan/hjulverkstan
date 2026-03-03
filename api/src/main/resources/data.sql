@@ -29,14 +29,14 @@ INSERT INTO Customer
 
 INSERT INTO vehicle
 (location_id, vehicle_type, vehicle_status,   imageURL,            comment,                       is_customer_owned, bike_type,      gear_count, size,     brake_type,     brand,         reg_tag, created_at,            updated_at, created_by, updated_by) VALUES
-(1,           'BIKE',       'ARCHIVED',       'image_url_1.jpg',   null,                          true,              'CHILD',        1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  null,    '2024-05-16 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       'AVAILABLE',      'image_url_1.jpg',   null,                          false,             'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',  '2024-05-17 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       'UNAVAILABLE',    'image_url_1.jpg',   null,                          false,             'LADY',         15,         'MEDIUM', 'FOOTBRAKE',    'MONARK',      'YTLO',  '2024-05-18 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       null,             'image_url_1.jpg',   'Can not ever be repaired...', true,              'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  null,    '2024-05-19 10:00:00', NOW(),      1,          1         ),
-(2,           'BIKE',       null,             'image_url_1.jpg',   null,                          true,              'BMX',          1,          'MEDIUM', 'DISC',         'KRONAN',      null,    '2024-05-20 10:00:00', NOW(),      1,          1         ),
-(2,           'BIKE',       'AVAILABLE',      'image_url_2.jpg',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',  '2024-05-21 10:00:00', NOW(),      1,          1         ),
-(2,           'BIKE',       'UNAVAILABLE',    'image_url_3.jpg',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'QWER',  '2024-05-21 10:00:00', NOW(),      1,          1         ),
-(1,           'BIKE',       null,             'image_url_2.jpg',   null,                          true,              'MOUNTAINBIKE', 28,         'LARGE',  'CALIPER',      'PELAGO',      null,    '2024-06-21 10:00:00', NOW(),      1,          1         );
+(1,           'BIKE',       'ARCHIVED',       '312b694f-5c81-48fe-af98-c2d3a18fc1ee.png',   null,                          true,              'CHILD',        1,          'MEDIUM', 'DISC',         'SKEPPSHULT',  null,    '2024-05-16 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'AVAILABLE',      '312b694f-5c81-48fe-af98-c2d3a18fc1ee.png',   null,                          false,             'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  'ERTY',  '2024-05-17 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       'UNAVAILABLE',    '4d5fafa6-3388-455e-9f16-2ab31377eda4.jpg',   null,                          false,             'LADY',         15,         'MEDIUM', 'FOOTBRAKE',    'MONARK',      'YTLO',  '2024-05-18 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       null,             '4d5fafa6-3388-455e-9f16-2ab31377eda4.jpg',   'Can not ever be repaired...', true,              'ROAD',         12,         'MEDIUM', 'DISC',         'SKEPPSHULT',  null,    '2024-05-19 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       null,             '5b0991f2-c30e-45c5-9712-0c6a6554b4d7.png',   null,                          true,              'BMX',          1,          'MEDIUM', 'DISC',         'KRONAN',      null,    '2024-05-20 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'AVAILABLE',      '5b0991f2-c30e-45c5-9712-0c6a6554b4d7.png',   'This bike weighs nothing!',   false,             'ROAD',         18,         'LARGE',  'CALIPER',      'KRONAN',      'ANOJ',  '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(2,           'BIKE',       'UNAVAILABLE',    '5c0aca11-d3bb-49f8-ab18-8cf165fc3bf8.png ',   'Bulletproof tires',           false,             'ELECTRIC',     15,         'SMALL',  'DISC',         'KRONAN',      'QWER',  '2024-05-21 10:00:00', NOW(),      1,          1         ),
+(1,           'BIKE',       null,             '5c0aca11-d3bb-49f8-ab18-8cf165fc3bf8.png ',   null,                          true,              'MOUNTAINBIKE', 28,         'LARGE',  'CALIPER',      'PELAGO',      null,    '2024-06-21 10:00:00', NOW(),      1,          1         );
 
 --
 
@@ -77,16 +77,16 @@ INSERT INTO Open_Hours
 
 INSERT INTO Shop
 (name,                    address,                                         latitude,  longitude, imageURL,                                                                                    open_hours_id, has_temporary_hours, location_id, slug,           created_at, updated_at, created_by, updated_by) VALUES
-('Hjällbo',               'Skolspåret 15, 424 37 Angered',                 57.769667, 12.013639, 'https://hjulverkstan.s3.eu-north-1.amazonaws.com/4414679a-3c1b-4722-bd10-f95e66723a97.jpg', 1,             false,               1,           'hjallbo',      NOW(),      NOW(),      1,          1         ),
-('Backa',                 'Selma Lagerlöfs Torg 20, 422 48 Hisings Backa', 57.748000, 11.965000, 'https://hjulverkstan.s3.eu-north-1.amazonaws.com/d80043e0-2c01-4511-a6e4-f0980da04da5.jpg', 2,             false,               2,           'backa',        NOW(),      NOW(),      1,          1         ),
-('Gamlestaden',           'Lars Kaggsgatan 40D, 415 04 Göteborg',          57.720700, 12.010000, 'https://hjulverkstan.s3.eu-north-1.amazonaws.com/029c60ac-e93e-4501-98e8-8c41d72d2b75.jpg', 3,             false,               3,           'gamlestaden',  NOW(),      NOW(),      1,          1         );
+('Hjällbo',               'Skolspåret 15, 424 37 Angered',                 57.769667, 12.013639, 'image1.jpg', 1,             false,               1,           'hjallbo',      NOW(),      NOW(),      1,          1         ),
+('Backa',                 'Selma Lagerlöfs Torg 20, 422 48 Hisings Backa', 57.748000, 11.965000, 'image2.jpg', 2,             false,               2,           'backa',        NOW(),      NOW(),      1,          1         ),
+('Gamlestaden',           'Lars Kaggsgatan 40D, 415 04 Göteborg',          57.720700, 12.010000, 'image4.jpg', 3,             false,               3,           'gamlestaden',  NOW(),      NOW(),      1,          1         );
 
 
 INSERT INTO Story
 (title,                            slug,             body_text, imageurl, created_at, created_by, updated_at, updated_by) VALUES
-('New Shop opens in Hjällbo',     'hjallbo-opens',   null, null, NOW(), 1, NOW(), 1),
-('IKEA rebuilds our latest shop', 'ikea-renovation', null, null, NOW(), 1, NOW(), 1),
-('140 bikes saved this month',    '140-bikes-saved', null, null, NOW(), 1, NOW(), 1);
+('New Shop opens in Hjällbo',     'hjallbo-opens',   null, 'image5.jpg', NOW(), 1, NOW(), 1),
+('IKEA rebuilds our latest shop', 'ikea-renovation', null, 'image3.jpg', NOW(), 1, NOW(), 1),
+('140 bikes saved this month',    '140-bikes-saved', null, 'image5.jpg', NOW(), 1, NOW(), 1);
 
 --
 
