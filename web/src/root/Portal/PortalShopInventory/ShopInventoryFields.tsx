@@ -5,14 +5,25 @@ import { maxGearCount, minGearCount } from '@data/vehicle/form';
 import * as DataForm from '@components/DataForm';
 import { Mode } from '@components/DataForm';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ShopInventoryFields() {
   const { body, mode } = DataForm.useDataForm();
   const locationEnumsQ = useLocationsAsEnumsQ();
   const enums = useTranslateRawEnums(enumsRaw);
 
-  const [isDetailsOpen, setIsDetailsOpen] = useState(true);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(() => {
+    if (mode === Mode.CREATE) {
+      return !body.isCustomerOwned;
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    if (mode === Mode.CREATE) {
+      setIsDetailsOpen(!body.isCustomerOwned);
+    }
+  }, [body.isCustomerOwned, mode]);
 
   return (
     <>
