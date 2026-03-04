@@ -6,6 +6,27 @@ Please read [GUIDELINES / Release process 🚀](/GUIDELINES.md#release-process-)
 
 ## Release Candidates
 
+### 1.0.0-rc.3
+
++ Add GPG encryption to PostgreSQL backups.
++ Integrate CloudFront CDN for image delivery to replace direct S3 bucket URLs.
++ Refactor image storage to use S3 subfolders and store only filenames in the database.
++ Add automated PostgreSQL backups to S3 with cron scheduling.
++ Add automatic closing of dropdowns when ownership is set to customer.
++ Reduce required fields in create vehicle - dropdown now defaults to closed when customer owned. 
+
+* Improve AWS security by transitioning to IAM instance profiles - remove hardcoded access keys.
+* Simplify CDK stack structure by merging nested stacks and updated access permissions.
+* Refine environment variables - renamed buckets and added backup bucket variable.
+* Fix couldn't crete stories in webedit - remove NOT NULL constraint on body text.
+* Maintain vehicle details dropdown when switching between vehicles – ensure consistent UI behavior.
+* Update AWS version across all relevant files and configurations.
+* Separate translation keys for Customer and Organization enums to allow for distinct labeling.
+
+- Removed email address requirement when creating a new Customer.
+- Removed email address from shop cards.
+
+
 ### 1.0.0-rc.2
 
 * Update pipelines with support for rebuilding web in environment of choice – that the publish pipeline needed for web edit change to publish.
