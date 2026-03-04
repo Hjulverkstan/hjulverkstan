@@ -28,11 +28,11 @@ public class StoryDto extends AuditableDto {
 
     private String imageURL;
 
-    public StoryDto(Story story, JsonNode bodyTextLocalised) {
+    public StoryDto(Story story, String localizedTitle, JsonNode bodyTextLocalised) {
         super(story);
 
         id = story.getId();
-        title = story.getTitle();
+        title = localizedTitle;
         slug = story.getSlug();
         imageURL = story.getImageURL();
         bodyText = bodyTextLocalised;
@@ -40,7 +40,6 @@ public class StoryDto extends AuditableDto {
 
     // Localized content can't be applied directly and is managed by the service.
     public Story applyToEntity (Story story) {
-        story.setTitle(title);
         story.setSlug(slug);
         story.setImageURL(imageURL);
 
