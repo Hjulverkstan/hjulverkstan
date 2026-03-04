@@ -69,6 +69,14 @@ public class StoryService {
     private void applyToEntity (Story story, StoryDto dto, Language lang) {
         dto.applyToEntity(story);
 
+        localisationService.upsertText(
+                story,
+                lang,
+                dto.getTitle(),
+                FieldName.TITLE,
+                lc -> lc.setStory(story)
+        );
+
         localisationService.upsertRichText(
                 story,
                 lang,
@@ -79,7 +87,8 @@ public class StoryService {
     }
 
     private StoryDto toDto (Story story, Language lang, @Nullable Language fallbackLang) {
+        String title = localisationService.getText(story, FieldName.TITLE, lang,  fallbackLang);
         JsonNode bodyText = localisationService.getRichText(story, FieldName.BODY_TEXT, lang, fallbackLang);
-        return new StoryDto(story, bodyText);
+        return new StoryDto(story, title, bodyText);
     }
 }
