@@ -6,6 +6,7 @@ import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.auditable.Auditable;
 import se.hjulverkstan.main.feature.webedit.shop.Shop;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,7 @@ public class Location extends Auditable {
     private LocationType locationType;
     private String comment;
     @OneToMany(mappedBy = "location")
-    private List<Vehicle> vehicles;
+    private List<Vehicle> vehicles = new ArrayList<>();
     @OneToOne(mappedBy = "location")
     private Shop shop;
 }
