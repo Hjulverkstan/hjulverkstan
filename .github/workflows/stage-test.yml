@@ -46,11 +46,11 @@ jobs:
         if: ${{ inputs.run_api_tests }}
         working-directory: api
         env:
-          API_DB_HOST: ${{ vars.API_DB_HOST }}
-          API_DB_PORT: ${{ vars.API_DB_PORT }}
-          API_DB_DATABASE: ${{ vars.API_DB_DATABASE }}
-          API_DB_USER: ${{ secrets.API_DB_USER }}
-          API_DB_PASSWORD: ${{ secrets.API_DB_PASSWORD }}
+          API_DB_HOST: 127.0.0.1
+          API_DB_PORT: 5432
+          API_DB_DATABASE: testdb
+          API_DB_USER: testuser
+          API_DB_PASSWORD: testpass
           API_AWS_REGION: ${{ vars.API_AWS_REGION }}
           API_AWS_S3_IMAGES_BUCKET: ${{ vars.API_AWS_S3_IMAGES_BUCKET }}
           API_ALLOWED_ORIGINS: http://localhost
@@ -67,11 +67,11 @@ jobs:
         if: ${{ inputs.run_web_build }}
         shell: bash
         env:
-          API_DB_HOST: ${{ vars.API_DB_HOST }}
-          API_DB_PORT: ${{ vars.API_DB_PORT }}
-          API_DB_DATABASE: ${{ vars.API_DB_DATABASE }}
-          API_DB_USER: ${{ secrets.API_DB_USER }}
-          API_DB_PASSWORD: ${{ secrets.API_DB_PASSWORD }}
+          API_DB_HOST: 127.0.0.1
+          API_DB_PORT: 5432
+          API_DB_DATABASE: testdb
+          API_DB_USER: testuser
+          API_DB_PASSWORD: testpass
           API_AWS_REGION: ${{ vars.API_AWS_REGION }}
           API_AWS_S3_IMAGES_BUCKET: ${{ vars.API_AWS_S3_IMAGES_BUCKET }}
           API_ALLOWED_ORIGINS: http://localhost
