@@ -93,7 +93,7 @@ export default function Home() {
               icon={Wrench}
               title={data.text.serviceRepairTitle}
               body={data.text.serviceRepairBody}
-              linkLabel={data.text.servicesFindShop}
+              linkLabel={t('findShop')}
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -108,7 +108,7 @@ export default function Home() {
               icon={CalendarDays}
               title={data.text.serviceRentTitle}
               body={data.text.serviceRentBody}
-              linkLabel={data.text.servicesFindShop}
+              linkLabel={t('findShop')}
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -123,7 +123,7 @@ export default function Home() {
               icon={TrafficCone}
               title={data.text.serviceCoursesTitle}
               body={data.text.serviceCoursesBody}
-              linkLabel={data.text.servicesFindEvent}
+              linkLabel={t('findEvent')}
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>

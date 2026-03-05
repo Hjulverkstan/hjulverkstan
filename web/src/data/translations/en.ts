@@ -8,7 +8,7 @@ export default {
   contact: 'Contact',
   vehicle: 'Vehicle',
   portal: 'Portal',
-  pageNotFound: 'Sidan finns inte',
+  pageNotFound: 'Page not found',
 
   open: 'Open',
   closed: 'Closed',
@@ -22,6 +22,9 @@ export default {
   friday: 'Friday',
   saturday: 'Saturday',
   sunday: 'Sunday',
+
+  findShop: 'Find shop',
+  findEvent: 'Find event',
 
   loadMore: 'Load more',
   otherBikes: 'Other bikes',
