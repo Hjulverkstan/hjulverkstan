@@ -171,7 +171,7 @@ export default function Home() {
                   key={story.id}
                   title={story.title}
                   body={<TiptapContentAsText content={story.bodyText} />}
-                  link={`/stories/${story.id}`}
+                  link={`/stories/${story.slug}`}
                   ariaLabel={story.title}
                 />
               ))}
