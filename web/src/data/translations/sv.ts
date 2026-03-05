@@ -8,7 +8,7 @@ export default {
   contact: 'Kontakt',
   vehicle: 'Fordon',
   portal: 'Portal',
-  pageNotFound: 'Page not found',
+  pageNotFound: 'Sidan finns inte',
 
   open: 'Öppet',
   closed: 'Stängt',
@@ -22,6 +22,9 @@ export default {
   friday: 'Fredag',
   saturday: 'Lördag',
   sunday: 'Söndag',
+
+  findShop: 'Hitta verkstad',
+  findEvent: 'Hitta evenemang',
 
   loadMore: 'Ladda fler',
   otherBikes: 'Andra cyklar',
