@@ -22,7 +22,7 @@ public class ShopService {
     public ListResponseDto<ShopDto> getAllShops() {
         List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        return new ListResponseDto<>(shops.stream().map(shop -> toDto(shop)).toList());
+        return new ListResponseDto<>(shops.stream().map(this::toDto).toList());
     }
 
     public ShopDto getShopById(Long id) {
@@ -60,8 +60,25 @@ public class ShopService {
         Location location = locationRepository.findById(dto.getLocationId())
                 .orElseThrow(() -> new ElementNotFoundException("Location"));
 
+        // Auto-generate slug from name if not provided
+        if (dto.getSlug() == null || dto.getSlug().isBlank()) {
+            dto.setSlug(generateSlug(dto.getName()));
+        }
+
         dto.applyToEntity(shop, location);
 
+    }
+
+    private String generateSlug(String text) {
+        if (text == null) {
+            return "";
+        }
+        return text.toLowerCase()
+                .replaceAll("å", "a")
+                .replaceAll("ä", "a")
+                .replaceAll("ö", "o")
+                .replaceAll("[^a-z0-9]+", "-")
+                .replaceAll("^-|-$", "");
     }
 
     private ShopDto toDto (Shop shop) {
