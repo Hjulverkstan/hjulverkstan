@@ -3,18 +3,17 @@ package se.hjulverkstan.main.feature.webedit.shop;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.webedit.localisation.Localised;
 import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
 import se.hjulverkstan.main.shared.auditable.Auditable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ToString(exclude = {"location", "openHours"})
 public class Shop extends Auditable implements Localised {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +36,6 @@ public class Shop extends Auditable implements Localised {
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
-    @OneToMany(mappedBy = "shop", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch =  FetchType.EAGER)
-    private List<LocalisedContent> localisedContent;
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true, fetch =  FetchType.EAGER)
+    private List<LocalisedContent> localisedContent = new ArrayList<>();
 }

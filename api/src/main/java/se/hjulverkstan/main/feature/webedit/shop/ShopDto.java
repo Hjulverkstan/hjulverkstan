@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +35,7 @@ public class ShopDto extends AuditableDto {
 
     private String imageURL;
 
-    @NotBlank(message = "Slug is required")
+    // Slug is auto-generated from name if not provided
     private String slug;
 
     private OpenHoursDto openHours;
@@ -81,9 +80,16 @@ public class ShopDto extends AuditableDto {
         shop.setHasTemporaryHours(hasTemporaryHours);
         shop.setLocation(location);
 
-        if(this.openHours != null) {
-        OpenHours openHours = shop.getOpenHours();
-        shop.setOpenHours(this.openHours.applyToEntity(openHours == null ? new OpenHours() : openHours));
+        // Only create/update OpenHours if it has actual content
+        if(this.openHours != null && !this.openHours.isEmpty()) {
+            OpenHours openHours = shop.getOpenHours();
+            if (openHours == null) {
+                openHours = new OpenHours();
+            }
+            shop.setOpenHours(this.openHours.applyToEntity(openHours));
+        } else if (this.openHours == null || this.openHours.isEmpty()) {
+            // If no hours provided, remove existing OpenHours
+            shop.setOpenHours(null);
         }
 
         return shop;

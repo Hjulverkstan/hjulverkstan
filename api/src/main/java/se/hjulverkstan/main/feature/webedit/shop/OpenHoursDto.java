@@ -34,4 +34,14 @@ public class OpenHoursDto {
         openHours.setSun(sun);
         return openHours;
     }
+
+    public boolean isEmpty() {
+        return (mon == null || mon.isBlank()) &&
+               (tue == null || tue.isBlank()) &&
+               (wed == null || wed.isBlank()) &&
+               (thu == null || thu.isBlank()) &&
+               (fri == null || fri.isBlank()) &&
+               (sat == null || sat.isBlank()) &&
+               (sun == null || sun.isBlank());
+    }
 }
