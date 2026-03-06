@@ -15,13 +15,6 @@ export default function WebEditStoriesFields() {
       />
 
       <DataForm.Input
-        placeholder="Write title..."
-        label="Title"
-        dataKey="title"
-        disabled={lang !== Global}
-      />
-
-      <DataForm.Input
         placeholder="Write slug (url)..."
         label="Slug"
         dataKey="slug"
@@ -29,11 +22,20 @@ export default function WebEditStoriesFields() {
       />
 
       {lang !== Global && (
-        <DataForm.RichText
-          variant="translation"
-          label="Body Text"
-          dataKey="bodyText"
-        />
+        <>
+          <DataForm.Input
+            placeholder="Write title..."
+            variant="translation"
+            label="Title"
+            dataKey="title"
+          />
+
+          <DataForm.RichText
+            variant="translation"
+            label="Body Text"
+            dataKey="bodyText"
+          />
+        </>
       )}
     </>
   );

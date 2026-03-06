@@ -18,12 +18,6 @@ export default function useColumns() {
     () =>
       [
         {
-          key: 'title',
-          name: 'Title',
-          renderFn: ({ title }) => <IconLabel label={title} />,
-        },
-
-        {
           key: 'slug',
           name: 'Slug',
           renderFn: ({ slug }) => <IconLabel label={slug} />,
@@ -31,6 +25,22 @@ export default function useColumns() {
 
         ...(lang != Global
           ? ([
+              {
+                key: 'title',
+                name: 'Title',
+                renderFn: ({ title }) => (
+                  <IconLabel
+                    className={'text-muted-foreground'}
+                    label={title}
+                  />
+                ),
+                renderHeaderFn: () => (
+                  <PortalWebEditTranslationSortHead
+                    colKey="title"
+                    label="Title"
+                  />
+                ),
+              },
               {
                 key: 'bodyText',
                 name: 'Body text',
