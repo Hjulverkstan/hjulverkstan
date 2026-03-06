@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.CouldNotDeleteException;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.feature.webedit.shop.ShopRepository;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class LocationService {
 
     private final LocationRepository locationRepository;
+    private final ShopRepository shopRepository;
 
     public ListResponseDto<LocationDto> getAllLocations() {
         List<Location> locations = locationRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -53,7 +55,7 @@ public class LocationService {
             throw new CouldNotDeleteException("Location has associated vehicles");
         }
 
-        if (location.getShop() != null) {
+        if (shopRepository.existsByLocation_Id(id)) {
             throw new CouldNotDeleteException("Location has an associated shop");
         }
 

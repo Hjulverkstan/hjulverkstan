@@ -1,10 +1,9 @@
 package se.hjulverkstan.main.feature.webedit.shop;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,10 +35,9 @@ public class ShopDto extends AuditableDto {
 
     private String imageURL;
 
-    @NotBlank(message = "Slug is required")
+    // Slug is auto-generated from name if not provided
     private String slug;
 
-    @NotNull(message = "Must provide at least one day of open hours")
     private OpenHoursDto openHours;
 
     private boolean hasTemporaryHours;
@@ -48,9 +46,7 @@ public class ShopDto extends AuditableDto {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long locationId;
 
-    private JsonNode bodyText;
-
-    public ShopDto (Shop shop, JsonNode bodyTextLocalised) {
+    public ShopDto (Shop shop) {
         super(shop);
 
         id = shop.getId();
@@ -58,28 +54,43 @@ public class ShopDto extends AuditableDto {
         address = shop.getAddress();
         latitude = shop.getLatitude();
         longitude = shop.getLongitude();
-        locationId = shop.getLocation().getId();
+        locationId = shop.getLocation() != null ? shop.getLocation().getId() : null;
         imageURL = shop.getImageURL();
         slug = shop.getSlug();
         hasTemporaryHours = shop.isHasTemporaryHours();
+        openHours = shop.getOpenHours() != null ? new OpenHoursDto(shop.getOpenHours()) : null;
+    }
 
-        openHours = new OpenHoursDto(shop.getOpenHours());
-        bodyText = bodyTextLocalised;
+    @JsonIgnore
+    public boolean isTemporaryHoursActive() {
+        if (hasTemporaryHours) {
+            return true;
+        }
+        return openHours != null;
     }
 
     // Localized content can't be applied directly and is managed by the service.
     public Shop applyToEntity (Shop shop, Location location) {
+        shop.setName(name);
         shop.setAddress(address);
         shop.setLatitude(latitude);
         shop.setLongitude(longitude);
         shop.setImageURL(imageURL);
         shop.setSlug(slug);
         shop.setHasTemporaryHours(hasTemporaryHours);
-
         shop.setLocation(location);
 
-        OpenHours openHours = shop.getOpenHours();
-        shop.setOpenHours(this.openHours.applyToEntity(openHours == null ? new OpenHours() : openHours));
+        // Only create/update OpenHours if it has actual content
+        if(this.openHours != null && !this.openHours.isEmpty()) {
+            OpenHours openHours = shop.getOpenHours();
+            if (openHours == null) {
+                openHours = new OpenHours();
+            }
+            shop.setOpenHours(this.openHours.applyToEntity(openHours));
+        } else if (this.openHours == null || this.openHours.isEmpty()) {
+            // If no hours provided, remove existing OpenHours
+            shop.setOpenHours(null);
+        }
 
         return shop;
     }

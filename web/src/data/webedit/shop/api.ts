@@ -1,8 +1,6 @@
-import * as C from '@utils/common';
-
 import { createErrorHandler, endpoints, instance } from '../../api';
 import { ListResponse } from '../../types';
-import { Global, Lang, WebEditLang, WithWebEditLang } from '../types';
+import { Global, WebEditLang, WithWebEditLang } from '../types';
 
 import { Shop } from './types';
 
@@ -81,7 +79,7 @@ export const createEditShop = () => ({
 export type DeleteShopParams = WithWebEditLang<{ id: string }>;
 
 export const createDeleteShop = () => ({
-  mutationFn: ({ lang, id }: DeleteShopParams) =>
+  mutationFn: ({ id, lang }: DeleteShopParams) =>
     instance
       .delete(`${endpoints.webedit.shop}/${id}`, {
         params: {
