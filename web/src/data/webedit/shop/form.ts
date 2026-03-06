@@ -5,8 +5,7 @@ import { Shop } from './types';
 import { Global, WebEditLang } from '@data/webedit/types';
 
 export const initShop: Partial<Shop> = {
-  hasTemporaryHours: false,
-  openHours: {},
+  hasTemporaryHours: true,
 };
 
 export const createShopZ = (lang: WebEditLang) =>
