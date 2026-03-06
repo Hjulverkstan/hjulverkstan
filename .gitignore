@@ -1,8 +1,24 @@
 ### IntelliJ IDEA ###
-*.idea
-*.iws
+.idea/**
+
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+!.idea/prettier.xml
+!.idea/vcs.xml
+!.idea/misc.xml
+
+.idea/workspace.xml
+.idea/compiler.xml
+.idea/modules.xml
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/shelf/
 *.iml
+*.iws
 *.ipr
+
+### Run Configurations ##
+!.run/
 
 ### NetBeans ###
 /nbproject/private/
