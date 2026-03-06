@@ -28,24 +28,6 @@ export const createShopZ = (lang: WebEditLang) =>
       latitude: z.coerce.number(),
       longitude: z.coerce.number(),
       imageURL: z.string().optional().nullable(),
-
-      openHours: z
-        .object({
-          mon: timeSchema,
-          tue: timeSchema,
-          wed: timeSchema,
-          thu: timeSchema,
-          fri: timeSchema,
-          sat: timeSchema,
-          sun: timeSchema,
-        })
-        .optional()
-        .nullable(),
-
-      hasTemporaryHours: z.boolean().optional(),
-      latitude: z.coerce.number(),
-      longitude: z.coerce.number(),
-      imageURL: z.string().optional().nullable(),
       openHours: z
         .object({
           mon: z.string().optional(),
@@ -59,18 +41,6 @@ export const createShopZ = (lang: WebEditLang) =>
         .optional()
         .nullable(),
       hasTemporaryHours: z.boolean().optional(),
-
-      ...(lang == Global
-        ? {
-            bodyText: z.record(z.any()).optional().nullable(),
-          }
-        : {}),
-    })
-    .refine(
-      (data) => {
-        if (data.hasTemporaryHours) {
-          return true;
-        }
 
       ...(lang == Global
         ? {
