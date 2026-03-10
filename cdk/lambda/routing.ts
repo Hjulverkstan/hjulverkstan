@@ -5,6 +5,10 @@ let cachedManifest: string[] | null = null;
 export const handler = async (event: CloudFrontRequestEvent) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
 
+  if (/\.[a-zA-Z0-9]+$/.test(request.uri)) {
+    return request; // Static asset, pass through
+  }
+
   //console.log('Lambda is alive!');
   //await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -31,10 +35,6 @@ export const handler = async (event: CloudFrontRequestEvent) => {
   }
 
   if (cachedManifest) {
-    if (/\.[a-zA-Z0-9]+$/.test(request.uri)) {
-      return request; // Static asset, pass through
-    }
-
     const originalUri = request.uri.endsWith('/')
       ? request.uri.slice(0, -1)
       : request.uri;
@@ -48,9 +48,9 @@ export const handler = async (event: CloudFrontRequestEvent) => {
         return request;
       }
     }
-
-    request.uri = '/index.html';
   }
+
+  request.uri = '/index.html';
 
   return request;
 };
