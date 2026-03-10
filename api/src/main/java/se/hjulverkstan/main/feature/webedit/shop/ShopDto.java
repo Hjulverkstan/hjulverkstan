@@ -1,7 +1,6 @@
 package se.hjulverkstan.main.feature.webedit.shop;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import jakarta.validation.constraints.NotBlank;
@@ -48,9 +47,7 @@ public class ShopDto extends AuditableDto {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long locationId;
 
-    private JsonNode bodyText;
-
-    public ShopDto (Shop shop, JsonNode bodyTextLocalised) {
+    public ShopDto (Shop shop) {
         super(shop);
 
         id = shop.getId();
@@ -64,7 +61,6 @@ public class ShopDto extends AuditableDto {
         hasTemporaryHours = shop.isHasTemporaryHours();
 
         openHours = new OpenHoursDto(shop.getOpenHours());
-        bodyText = bodyTextLocalised;
     }
 
     // Localized content can't be applied directly and is managed by the service.

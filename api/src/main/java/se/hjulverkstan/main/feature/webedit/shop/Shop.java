@@ -5,9 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import se.hjulverkstan.main.feature.location.Location;
-import se.hjulverkstan.main.feature.webedit.localisation.Localised;
-import se.hjulverkstan.main.feature.webedit.localisation.LocalisedContent;
-import se.hjulverkstan.main.shared.auditable.Auditable;
+import se.hjulverkstan.main.feature.webedit.release.Releasable;
+import se.hjulverkstan.main.feature.webedit.translation.Translation;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(exclude = {"location", "openHours"})
-public class Shop extends Auditable implements Localised {
+public class Shop extends Releasable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,7 +35,4 @@ public class Shop extends Auditable implements Localised {
     @OneToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
-
-    @OneToMany(mappedBy = "shop", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch =  FetchType.EAGER)
-    private List<LocalisedContent> localisedContent;
 }

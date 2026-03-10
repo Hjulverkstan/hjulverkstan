@@ -3,7 +3,7 @@ package se.hjulverkstan.main.feature.webedit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import se.hjulverkstan.main.feature.webedit.localisation.Language;
+import se.hjulverkstan.main.feature.webedit.translation.Language;
 
 @RestController
 @RequestMapping("v1/api/web-edit")
@@ -13,8 +13,8 @@ public class WebEditController {
     private final WebEditService webEditService;
 
     @GetMapping("get-all")
-    public AllWebEditEntitiesByLangDto getAllLocalisedContentWithFallbackLang(@RequestParam Language fallbackLang) {
-        return webEditService.getAllLocalisedEntitiesWithFallback(fallbackLang);
+    public AllWebEditEntitiesByLangDto getAllTranslatedEntities() {
+        return webEditService.getAllTranslatedEntities();
     }
 
     @GetMapping("count/{entity}")

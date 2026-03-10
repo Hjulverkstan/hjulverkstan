@@ -1,4 +1,4 @@
-package se.hjulverkstan.main.feature.webedit.localisation;
+package se.hjulverkstan.main.feature.webedit.translation;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

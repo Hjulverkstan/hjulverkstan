@@ -6,16 +6,14 @@ import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import { findEnum } from '@utils/enums';
-import { Global } from '@data/webedit/types';
-
-import { usePortalWebEditLang } from '../PortalWebEditLang';
-import { PortalWebEditTranslationSortHead } from '../PortalWebEditTranslationSortHead';
+import {
+  PortalWebEditTranslationSortHead
+} from '../PortalWebEditTranslationSortHead';
 
 //
 
 export default function useColumns() {
   const enums = useTranslateRawEnums(enumsRaw);
-  const lang = usePortalWebEditLang();
 
   return useMemo(
     () =>
@@ -28,26 +26,22 @@ export default function useColumns() {
           ),
         },
 
-        ...(lang != Global
-          ? ([
-              {
-                key: 'value',
-                name: 'Value',
-                renderFn: ({ value }) => (
-                  <span className="text-muted-foreground text-elipsis">
-                    {value}
-                  </span>
-                ),
-                renderHeaderFn: () => (
-                  <PortalWebEditTranslationSortHead
-                    colKey="value"
-                    label="Value"
-                  />
-                ),
-              },
-            ] as Array<DataTable.Column<Text>>)
-          : []),
+        {
+          key: 'value',
+          name: 'Value',
+          renderFn: ({ value }) => (
+            <span className="text-muted-foreground text-elipsis">
+              {value}
+            </span>
+          ),
+          renderHeaderFn: () => (
+            <PortalWebEditTranslationSortHead
+              colKey="value"
+              label="Value"
+            />
+          ),
+        },
       ] as Array<DataTable.Column<Text>>,
-    [lang],
+    [],
   );
 }
