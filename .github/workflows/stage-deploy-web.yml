@@ -50,10 +50,10 @@ jobs:
           aws s3 sync web/dist/static "s3://${{ vars.DEPLOY_WEB_BUCKET_NAME }}" --delete
 
       - name: Invalidate CloudFront cache
-        if: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+        if: ${{ vars.DEPLOY_WEB_CLOUDFRONT_DISTRIBUTION_ID != '' }}
         shell: bash
         run: |
           set -euo pipefail
           aws cloudfront create-invalidation \
-            --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}" \
+            --distribution-id "${{ vars.DEPLOY_WEB_CLOUDFRONT_DISTRIBUTION_ID }}" \
             --paths "/*"
