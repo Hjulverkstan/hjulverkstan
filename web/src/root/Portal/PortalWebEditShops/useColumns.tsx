@@ -3,10 +3,6 @@ import { useMemo } from 'react';
 import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { Shop } from '@data/webedit/shop/types';
-import {
-  PortalWebEditTranslationSortHead
-} from '../PortalWebEditTranslationSortHead';
-import { TiptapContentAsText } from '@components/TiptapContentAsText';
 
 //
 
@@ -24,22 +20,6 @@ export default function useColumns() {
           key: 'address',
           name: 'Address',
           renderFn: ({ address }) => <IconLabel label={address} />,
-        },
-
-        {
-          key: 'bodyText',
-          name: 'Body text',
-          renderFn: ({ bodyText }) => (
-            <span className="text-muted-foreground">
-              <TiptapContentAsText content={bodyText} max={60} />
-            </span>
-          ),
-          renderHeaderFn: () => (
-            <PortalWebEditTranslationSortHead
-              colKey="bodyText"
-              label="Body Text"
-            />
-          ),
         },
 
         {

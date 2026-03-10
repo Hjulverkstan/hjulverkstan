@@ -41,16 +41,18 @@ const app = express();
 const imageSlug = process.env.VITE_IMAGES_SLUG;
 const imageUrl = process.env.DEV_PROXY_IMAGES_URL;
 
-app.use(
-  imageSlug,
-  createProxyMiddleware({
-    target: `https://${imageUrl.replace('https://', '')}`,
-    changeOrigin: true,
-    pathRewrite: {
-      [`^${imageSlug}`]: '/images',
-    },
-  }),
-);
+if (imageUrl) {
+  app.use(
+    imageSlug,
+    createProxyMiddleware({
+      target: `https://${imageUrl.replace('https://', '')}`,
+      changeOrigin: true,
+      pathRewrite: {
+        [`^${imageSlug}`]: '/images',
+      },
+    }),
+  );
+}
 
 const proxy = process.env.VITE_API_SLUG;
 const api = process.env.DEV_PROXY_API_URL;
