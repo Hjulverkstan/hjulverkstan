@@ -11,7 +11,6 @@ import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.feature.webedit.WebEditEntity;
 import se.hjulverkstan.main.feature.webedit.release.Identity;
 import se.hjulverkstan.main.feature.webedit.release.IdentityRepository;
-import se.hjulverkstan.main.feature.webedit.translation.FieldName;
 import se.hjulverkstan.main.feature.webedit.translation.Language;
 import se.hjulverkstan.main.feature.webedit.translation.TranslationService;
 import se.hjulverkstan.main.shared.ListResponseDto;

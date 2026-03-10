@@ -52,7 +52,7 @@ public class ShopDto extends AuditableDto {
         address = shop.getLocation().getAddress();
         latitude = shop.getLatitude();
         longitude = shop.getLongitude();
-        locationId = shop.getLocation() != null ? shop.getLocation().getId() : null;
+        locationId = shop.getLocation().getId();
         imageURL = shop.getImageURL();
         slug = shop.getSlug();
         hasTemporaryHours = shop.isHasTemporaryHours();
