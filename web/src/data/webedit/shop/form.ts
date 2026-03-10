@@ -28,5 +28,4 @@ export const createShopZ = () =>
       sun: z.string().optional(),
     }),
     hasTemporaryHours: z.boolean(),
-    bodyText: z.record(z.any()).nullable().optional(),
   });

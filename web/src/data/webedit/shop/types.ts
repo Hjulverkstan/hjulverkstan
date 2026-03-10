@@ -1,5 +1,3 @@
-import type { JSONContent } from '@tiptap/core';
-
 import { Auditable } from '../../types';
 
 export interface Shop extends Auditable {
@@ -12,7 +10,6 @@ export interface Shop extends Auditable {
   longitude: string;
   openHours: OpenHours;
   hasTemporaryHours: boolean;
-  bodyText: JSONContent;
   slug: string;
 }
 

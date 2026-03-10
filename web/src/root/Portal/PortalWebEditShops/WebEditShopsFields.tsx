@@ -1,6 +1,5 @@
 import * as DataForm from '@components/DataForm';
 
-import { usePortalWebEditLang } from '../PortalWebEditLang';
 import { useLocationsAsEnumsQ } from '@data/location/queries';
 
 export default function WebEditShopsFields() {
@@ -47,12 +46,6 @@ export default function WebEditShopsFields() {
         placeholder="Write longitude..."
         label="Longitude"
         dataKey="longitude"
-      />
-
-      <DataForm.RichText
-        variant="translation"
-        label="Body Text"
-        dataKey="bodyText"
       />
 
       <DataForm.Collapsible label="Opening Hours">
