@@ -102,6 +102,11 @@ export class AppStack extends cdk.Stack {
       ],
     });
 
+    role.addToPolicy(new iam.PolicyStatement({
+      actions: ['sns:Publish'],
+      resources: ['*'],
+    }));
+
     const instance = new ec2.Instance(this, 'Instance', {
       instanceType: props.instanceType,
       machineImage: ec2.MachineImage.latestAmazonLinux2023(),

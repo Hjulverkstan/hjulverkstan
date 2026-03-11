@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.location.Location;
+import se.hjulverkstan.main.feature.notification.Notification;
+import se.hjulverkstan.main.feature.notification.NotificationStatus;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
 
@@ -54,6 +56,11 @@ public class TicketDto extends AuditableDto {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long customerId;
 
+    // From latest notification if present in the notification log
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private NotificationStatus repairCompleteNotificationStatus;
+
     public TicketDto (Ticket ticket) {
         super(ticket);
 
@@ -68,6 +75,11 @@ public class TicketDto extends AuditableDto {
         locationId = ticket.getLocation().getId();
         employeeId = ticket.getEmployee().getId();
         customerId = ticket.getCustomer().getId();
+
+        repairCompleteNotificationStatus = ticket.getNotifications().stream()
+                .findFirst()
+                .map(Notification::getNotificationStatus)
+                .orElse(null);
     }
 
     public Ticket applyToEntity (Ticket ticket, List<Vehicle> vehicles, Location location, Employee employee, Customer customer) {
