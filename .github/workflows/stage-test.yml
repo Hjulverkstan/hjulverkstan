@@ -46,12 +46,12 @@ jobs:
         if: ${{ inputs.run_api_tests }}
         working-directory: api
         env:
+          AWS_REGION: ${{ vars.API_AWS_REGION }}
           API_DB_HOST: 127.0.0.1
           API_DB_PORT: 5432
           API_DB_DATABASE: testdb
           API_DB_USER: testuser
           API_DB_PASSWORD: testpass
-          API_AWS_REGION: ${{ vars.API_AWS_REGION }}
           API_AWS_S3_IMAGES_BUCKET: ${{ vars.API_AWS_S3_IMAGES_BUCKET }}
           API_ALLOWED_ORIGINS: http://localhost
         run: mvn -B -U test
@@ -67,12 +67,12 @@ jobs:
         if: ${{ inputs.run_web_build }}
         shell: bash
         env:
+          AWS_REGION: ${{ vars.API_AWS_REGION }}
           API_DB_HOST: 127.0.0.1
           API_DB_PORT: 5432
           API_DB_DATABASE: testdb
           API_DB_USER: testuser
           API_DB_PASSWORD: testpass
-          API_AWS_REGION: ${{ vars.API_AWS_REGION }}
           API_AWS_S3_IMAGES_BUCKET: ${{ vars.API_AWS_S3_IMAGES_BUCKET }}
           API_ALLOWED_ORIGINS: http://localhost
           SPRING_JPA_HIBERNATE_DDL_AUTO: update

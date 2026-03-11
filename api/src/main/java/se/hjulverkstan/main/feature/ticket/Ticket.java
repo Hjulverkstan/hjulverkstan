@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import se.hjulverkstan.main.feature.customer.Customer;
 import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.location.Location;
+import se.hjulverkstan.main.feature.notification.Notification;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.auditable.Auditable;
 
@@ -21,7 +22,6 @@ public class Ticket extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ticket_type", updatable = false)
@@ -57,8 +57,12 @@ public class Ticket extends Auditable {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @OneToMany(mappedBy = "ticket")
+    @OrderBy("createdAt DESC")
+    private List<Notification> notifications = new ArrayList<>();
+
     public void setTicketStatus(TicketStatus ticketStatus) {
-        TicketUtils.validateTicketStatusByType(ticketStatus, ticketType);
+        TicketUtils.validateTicketStatusByType(ticketType, ticketStatus);
         this.ticketStatus = ticketStatus;
         statusUpdatedAt = LocalDateTime.now();
     }

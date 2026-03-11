@@ -8,6 +8,11 @@ export enum TicketType {
   RECEIVE = 'RECEIVE',
 }
 
+export enum NotificationStatus {
+  ACCEPTED = 'ACCEPTED',
+  FAILED = 'FAILED',
+}
+
 export interface Ticket extends Auditable {
   id: string;
   ticketType: TicketType;
@@ -18,6 +23,7 @@ export interface Ticket extends Auditable {
   employeeId: string;
   customerId: string;
   statusUpdatedAt?: string;
+  repairCompleteNotificationStatus?: NotificationStatus;
   //
   startDate?: string;
   endDate?: string;

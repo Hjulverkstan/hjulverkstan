@@ -150,6 +150,10 @@ export default {
   enumWarningOrphanLabel: 'Orphan',
   enumWarningOrphanTooltip: 'Bike orphaned: missing ticket.',
 
+  enumWarningRepairNotificationFailedLabel: 'Notification failed',
+  enumWarningRepairNotificationFailedTooltip:
+    'Repair complete' + ' notification (SMS) failed to send.',
+
   // text enums
 
   enumTextSlogan: 'Slogan',

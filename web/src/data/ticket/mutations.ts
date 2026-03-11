@@ -32,7 +32,7 @@ export const useDeleteTicketM = () =>
 export const useUpdateTicketStatusM = () =>
   useMutation({
     ...api.createUpdateTicketStatus(),
-    onSuccess: ({ id }) =>
+    onSuccess: (_, { id }) =>
       invalidateQueries([
         api.createGetTickets().queryKey,
         api.createGetTicket({ id }).queryKey,

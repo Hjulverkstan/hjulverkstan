@@ -13,6 +13,14 @@ export const createErrorToast = ({
   duration: 5000,
 });
 
+export const createRepairNotificationErrorToast = () => ({
+  variant: 'red' as any,
+  title: `SMS notification failed.`,
+  description:
+    'Failed to notify the customer via SMS – try to send it manually.',
+  duration: 10000000,
+});
+
 export const createSuccessToast = ({
   verbLabel,
   dataLabel,
