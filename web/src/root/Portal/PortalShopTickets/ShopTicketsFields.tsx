@@ -27,17 +27,33 @@ export default function ShopTicketFields() {
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
   const locationEnumsQ = useLocationsAsEnumsQ();
+
+  let filterCustomerOwned;
+
+  switch (body.ticketType) {
+    case TicketType.RECEIVE:
+      filterCustomerOwned = false;
+      break;
+
+    case TicketType.REPAIR:
+      filterCustomerOwned = !isPerson;
+      break;
+
+    case TicketType.DONATE:
+      filterCustomerOwned = true;
+      break;
+
+    case TicketType.RENT:
+      filterCustomerOwned = true;
+      break;
+
+    default:
+      filterCustomerOwned = firstIsCustomerOwned;
+  }
+
   const vehicleEnumsQ = useVehiclesAsEnumsQ({
     filterByLocationId: body.locationId,
-    filterCustomerOwned:
-      body.ticketType === TicketType.RENT ||
-      body.ticketType === TicketType.DONATE
-        ? false
-        : body.ticketType === TicketType.RECEIVE
-          ? true
-          : body.ticketType === TicketType.REPAIR
-            ? isPerson
-            : firstIsCustomerOwned,
+    filterCustomerOwned,
   });
 
   return (
