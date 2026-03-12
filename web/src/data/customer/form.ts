@@ -9,7 +9,7 @@ export const initCustomer = {} as Partial<Customer>;
 const customerBaseZ = z.object({
   customerType: z.nativeEnum(CustomerType, isReq('Customer type')),
   firstName: reqString('First name'),
-  lastName: reqString('Last name'),
+  lastName: reqString('Last name').optional(),
   phoneNumber: reqString('Phone number'),
   email: z
     .string()

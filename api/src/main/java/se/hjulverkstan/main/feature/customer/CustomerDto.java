@@ -32,7 +32,6 @@ public class CustomerDto extends AuditableDto {
     @NotBlank(message = "Customer first name is required")
     private String firstName;
 
-    @NotBlank(message = "Customer last name is required")
     private String lastName;
 
     @Pattern(
