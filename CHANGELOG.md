@@ -6,6 +6,27 @@ Please read [GUIDELINES / Release process 🚀](/GUIDELINES.md#release-process-)
 
 ## Release Candidates
 
+### 1.0.0-rc.4
+
++ Send SMS notification on repair ticket closure.
++ Add location to Ticket.
++ Enable localized story titles in admin portal and API.
++ Toggle vehicle details visibility in create mode.
++ Add fail-safe routing to index.html in CloudFront.
+
+* Fix shop creation and deletion issues in WebEdit.
+* Fix required fields for opening hours – temporary hours no longer require regular opening hours.
+* Fix duplicate values occurring in latitude/longitude fields.
+* Fix address parsing and remove localisation dependency for body text.
+* Fix CloudFront invalidation pipeline step.
+* Fix intermittent 403 AccessDenied errors in CDK.
+* Fix homepage story cards to use slugs for navigation.
+* Fix redirect to login when current user is deleted.
+* Fix deleting user not also deleting reference token.
+* Fix only lowercase and numbers allowed for usernames.
+* Initialize vehicles list in Location entity.
+* Homepage card buttons use correct translations.
+
 ### 1.0.0-rc.3
 
 + Add GPG encryption to PostgreSQL backups.
