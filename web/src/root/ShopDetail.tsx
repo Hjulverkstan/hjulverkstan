@@ -14,7 +14,9 @@ import { usePublicVehiclesByLocationQ } from '@data/vehicle/queries';
 import { CardVehicle } from '@components/CardVehicle';
 import { CardContact } from '@components/CardContact';
 import { useTranslations } from '@hooks/useTranslations';
-
+import { ImageWithFallback } from '@components/ImageWithFallback';
+import Error from '@components/Error';
+import { endpoints } from '@data/api';
 const ITEMS_TO_LOAD = 6;
 
 export default function ShopDetail() {
@@ -60,10 +62,18 @@ export default function ShopDetail() {
               className="flex max-h-[659px] items-center justify-center
                 overflow-hidden rounded-lg"
             >
-              <img
+              <ImageWithFallback
                 src={shop?.imageURL}
-                alt={`${shop?.name} exteriör`}
-                className="h-full w-full object-contain"
+                alt={shop?.name}
+                fallback={
+                  <Error
+                    className="h-full w-full object-contain"
+                    error={{
+                      error: 'NOT_FOUND',
+                      endpoint: endpoints.image,
+                    }}
+                  />
+                }
               />
             </div>
           )}
