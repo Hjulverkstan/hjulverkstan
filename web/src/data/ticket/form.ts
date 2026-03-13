@@ -6,6 +6,7 @@ import { isReq, reqString } from '../form';
 
 export const initTicket = {
   vehicleIds: [],
+  ticketType: TicketType.REPAIR,
 } as Partial<Ticket>;
 
 const ticketBaseZ = z.object({
