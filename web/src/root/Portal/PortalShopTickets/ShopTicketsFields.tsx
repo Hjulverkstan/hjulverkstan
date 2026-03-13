@@ -26,7 +26,7 @@ export default function ShopTicketFields() {
 
   const employeeEnumsQ = useEmployeesAsEnumsQ();
   const customerEnumsQ = useCustomersAsEnumsQ();
-  const locationEnumsQ = useLocationsAsEnumsQ();
+  const locationEnumsQ = useLocationsAsEnumsQ({ allowedTypes: ['SHOP'] });
 
   let filterCustomerOwned;
 
