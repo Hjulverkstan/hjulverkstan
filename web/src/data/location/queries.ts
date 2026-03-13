@@ -32,17 +32,25 @@ export const useLocationQ = ({ id }: UseLocationQProps) =>
 
 //
 
-export const useLocationsAsEnumsQ = ({ dataKey = 'locationId' } = {}) => {
+export const useLocationsAsEnumsQ = ({
+  dataKey = 'locationId',
+  allowedTypes,
+}: { dataKey?: string; allowedTypes?: string[] } = {}) => {
   const enums = useTranslateRawEnums(enumsRaw);
 
   return useQuery<Location[], StandardError, EnumAttributes[]>({
     ...api.createGetLocations(),
     select: (locations) =>
-      locations?.map((location) => ({
-        dataKey,
-        icon: findEnum(enums, location.locationType).icon,
-        label: location.name,
-        value: location.id,
-      })) ?? [],
+      locations
+        ?.filter(
+          (location) =>
+            !allowedTypes || allowedTypes.includes(location.locationType),
+        )
+        .map((location) => ({
+          dataKey,
+          icon: findEnum(enums, location.locationType).icon,
+          label: location.name,
+          value: location.id,
+        })) ?? [],
   });
 };
