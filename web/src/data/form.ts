@@ -53,3 +53,10 @@ export const swedishPIN = z
   .refine((data) => !data || isValidSwedishPIN(data), {
     message: 'Invalid personal identification number',
   });
+
+export const phoneNumberZ = z
+  .string({ required_error: 'Phone number is required.' })
+  .min(1, { message: 'Phone number is required.' })
+  .regex(/^\+46\d{9}$/, {
+    message: 'Phone number must be in the format +46xxxxxxxxx',
+  });
