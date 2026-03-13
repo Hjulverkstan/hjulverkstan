@@ -2,15 +2,17 @@ import { z } from 'zod';
 
 import { Customer, CustomerType } from '@data/customer/types';
 
-import { reqString, isReq, swedishPIN } from '../form';
+import { isReq, phoneNumberZ, reqString, swedishPIN } from '../form';
 
-export const initCustomer = {} as Partial<Customer>;
+export const initCustomer = {
+  customerType: CustomerType.PERSON,
+} as Partial<Customer>;
 
 const customerBaseZ = z.object({
   customerType: z.nativeEnum(CustomerType, isReq('Customer type')),
   firstName: reqString('First name'),
   lastName: reqString('Last name').optional(),
-  phoneNumber: reqString('Phone number'),
+  phoneNumber: phoneNumberZ,
   email: z
     .string()
     .email({ message: 'Email is not valid' })

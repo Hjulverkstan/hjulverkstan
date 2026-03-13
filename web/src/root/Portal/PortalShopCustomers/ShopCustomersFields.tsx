@@ -44,7 +44,7 @@ export default function ShopCustomerFields() {
 
       <DataForm.Input
         type="tel"
-        placeholder="+46712345678"
+        placeholder="+46700000000"
         label="Phone number"
         dataKey="phoneNumber"
       />
