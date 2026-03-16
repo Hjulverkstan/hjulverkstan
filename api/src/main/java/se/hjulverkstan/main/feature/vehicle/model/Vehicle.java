@@ -19,6 +19,9 @@ public class Vehicle extends Auditable {
     @Column(unique = true)
     private String regTag;
 
+    @Column(unique = true)
+    private String frameNumber;
+
     @Enumerated(EnumType.STRING)
     private VehicleType vehicleType;
 

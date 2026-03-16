@@ -6,10 +6,8 @@ import se.hjulverkstan.main.feature.vehicle.model.*;
 import se.hjulverkstan.main.shared.FilterUtils;
 import se.hjulverkstan.main.shared.ValueCountDto;
 import se.hjulverkstan.main.shared.auditable.AuditableFilterCountsDto;
-import se.hjulverkstan.main.shared.auditable.AuditableFilterDto;
 import se.hjulverkstan.main.shared.specs.IntRangeDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,6 +19,7 @@ public class VehicleFilterCountsDto extends AuditableFilterCountsDto {
     private List<ValueCountDto<Long>> ticketIds;
     private List<ValueCountDto<Boolean>> isCustomerOwned;
     private List<ValueCountDto<String>> regTag;
+    private List<ValueCountDto<String>> frameNumber;
     private IntRangeDto gearCount;
     private IntRangeDto batchCount;
     private List<ValueCountDto<BikeSize>> size;
@@ -37,6 +36,7 @@ public class VehicleFilterCountsDto extends AuditableFilterCountsDto {
         ticketIds = FilterUtils.flattenedCountsList(vehicles, VehicleDto::getTicketIds);
         isCustomerOwned = FilterUtils.countsList(vehicles, VehicleDto::isCustomerOwned);
         regTag = FilterUtils.countsList(vehicles, VehicleDto::getRegTag);
+        frameNumber = FilterUtils.countsList(vehicles, VehicleDto::getFrameNumber);
 
         gearCount = FilterUtils.intRange(vehicles, VehicleDto::getGearCount);
         batchCount = FilterUtils.intRange(vehicles, VehicleDto::getBatchCount);

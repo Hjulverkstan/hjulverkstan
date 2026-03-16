@@ -46,6 +46,7 @@ public class VehicleDto extends AuditableDto {
 
     // vehicleType != BATCH && isCustomerOwned == false
     private String regTag;
+    private String frameNumber;
 
     // vehicleType == BIKE
     private Integer gearCount;
@@ -74,6 +75,7 @@ public class VehicleDto extends AuditableDto {
         locationId = vehicle.getLocation() == null ? null : vehicle.getLocation().getId();
 
         regTag = vehicle.getRegTag();
+        frameNumber = vehicle.getFrameNumber();
         batchCount = vehicle.getBatchCount();
         gearCount = vehicle.getGearCount();
         bikeType = vehicle.getBikeType();
@@ -89,6 +91,7 @@ public class VehicleDto extends AuditableDto {
 
         vehicle.setCustomerOwned(vehicleType != VehicleType.BATCH && isCustomerOwned);
         vehicle.setRegTag((isCustomerOwned || vehicleType == VehicleType.BATCH) ? null : regTag);
+        vehicle.setFrameNumber((isCustomerOwned || vehicleType == VehicleType.BATCH) ? null : frameNumber);
         vehicle.setBatchCount(vehicleType == VehicleType.BATCH ? batchCount : null);
         vehicle.setGearCount(vehicleType == VehicleType.BIKE ? gearCount : null);
         vehicle.setBikeType(vehicleType == VehicleType.BIKE ? bikeType : null);
@@ -99,5 +102,13 @@ public class VehicleDto extends AuditableDto {
         vehicle.setLocation(location);
 
         return vehicle;
+    }
+
+    public void setRegTag(String regTag) {
+        this.regTag = regTag != null ? regTag.trim().toUpperCase() : null;
+    }
+
+    public void setFrameNumber(String frameNumber) {
+        this.frameNumber = frameNumber != null ? frameNumber.trim().toUpperCase() : null;
     }
 }

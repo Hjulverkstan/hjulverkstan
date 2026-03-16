@@ -10,6 +10,7 @@ export interface Vehicle extends Auditable {
   comment: string;
   ticketIds: string[];
   regTag: string;
+  frameNumber?: string;
   locationId: string;
   //
   strollerType?: StrollerType;

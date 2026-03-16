@@ -19,6 +19,7 @@ public class VehicleFilter {
                 Specs.inManyToMany(dto.getTicketIds(), r -> r.join(Vehicle_.tickets).get(Ticket_.id)),
                 Specs.in(dto.getIsCustomerOwned(), r -> r.get(Vehicle_.isCustomerOwned)),
                 Specs.containsAny(dto.getRegTag(), r -> r.get(Vehicle_.regTag)),
+                Specs.containsAny(dto.getFrameNumber(), r -> r.get(Vehicle_.frameNumber)),
                 Specs.intRange(dto.getGearCount(), r -> r.get(Vehicle_.gearCount)),
                 Specs.intRange(dto.getBatchCount(), r -> r.get(Vehicle_.batchCount)),
                 Specs.enumIn(dto.getSize(), r -> r.get(Vehicle_.size)),

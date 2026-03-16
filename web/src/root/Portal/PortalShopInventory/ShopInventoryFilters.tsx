@@ -19,7 +19,11 @@ export default function ShopInventoryFilters() {
         placeholder="Search in Inventory..."
         matchFn={(word: string, row: Vehicle) =>
           matchEnumsOnRow(enums, word, row) ||
-          DataTable.fuzzyMatchFn(['comment', 'regTag'], word, row) ||
+          DataTable.fuzzyMatchFn(
+            ['comment', 'regTag', 'frameNumber'],
+            word,
+            row,
+          ) ||
           word === String(row.gearCount) ||
           matchEnumsBy({
             enums: ticketEnumsQ.data,
