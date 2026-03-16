@@ -17,6 +17,7 @@ public class VehicleFilterDto extends AuditableFilterDto {
     private List<Long> ticketIds;
     private List<Boolean> isCustomerOwned;
     private List<String> regTag;
+    private List<String> frameNumber;
     private IntRangeDto gearCount;
     private IntRangeDto batchCount;
     private List<BikeSize> size;

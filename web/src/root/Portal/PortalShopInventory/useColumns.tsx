@@ -135,6 +135,13 @@ export default function useColumns() {
         },
 
         {
+          key: 'frameNumber',
+          name: 'Frame number',
+          renderFn: ({ frameNumber }) =>
+            !!frameNumber && <span>{frameNumber}</span>,
+        },
+
+        {
           key: 'comment',
           name: 'Comment',
           renderFn: (row) => (

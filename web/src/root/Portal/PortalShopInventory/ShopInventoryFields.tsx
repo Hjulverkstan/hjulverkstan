@@ -135,6 +135,14 @@ export default function ShopInventoryFields() {
               dataKey="brakeType"
               enums={enums.brakeType}
             />
+            {!body.isCustomerOwned && (
+              <DataForm.Input
+                type="string"
+                placeholder="Set frame number"
+                label="Frame number"
+                dataKey="frameNumber"
+              />
+            )}
             <DataForm.Input
               type="number"
               placeholder="Set gear count"

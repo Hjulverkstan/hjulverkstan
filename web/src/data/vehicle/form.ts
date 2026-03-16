@@ -48,6 +48,7 @@ export function useVehicleZ() {
       isCustomerOwned: z.boolean(isReq('Ownership')),
       vehicleStatus: z.nativeEnum(VehicleStatus).optional(),
       regTag: z.string().optional(),
+      frameNumber: z.string().optional(),
     };
 
     return z
