@@ -19,10 +19,8 @@ public class ShopDto extends AuditableDto {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @NotNull(message = "Shop name is required")
     private String name;
 
-    @NotNull(message = "Shop address is required")
     private String address;
 
     @JsonSerialize(using = ToStringSerializer.class)
@@ -50,8 +48,8 @@ public class ShopDto extends AuditableDto {
         super(shop);
 
         id = shop.getId();
-        name = shop.getName();
-        address = shop.getAddress();
+        name = shop.getLocation().getName();
+        address = shop.getLocation().getAddress();
         latitude = shop.getLatitude();
         longitude = shop.getLongitude();
         locationId = shop.getLocation() != null ? shop.getLocation().getId() : null;
@@ -71,8 +69,6 @@ public class ShopDto extends AuditableDto {
 
     // Localized content can't be applied directly and is managed by the service.
     public Shop applyToEntity (Shop shop, Location location) {
-        shop.setName(name);
-        shop.setAddress(address);
         shop.setLatitude(latitude);
         shop.setLongitude(longitude);
         shop.setImageURL(imageURL);
