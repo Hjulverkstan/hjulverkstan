@@ -24,23 +24,9 @@ export default function WebEditShopsFields() {
       />
 
       <DataForm.Input
-        placeholder="Write name..."
-        label="Name"
-        dataKey="name"
-        disabled={lang !== Global}
-      />
-
-      <DataForm.Input
         placeholder="Url of the shop"
         label="Slug"
         dataKey="slug"
-        disabled={lang !== Global}
-      />
-
-      <DataForm.Input
-        placeholder="Write address..."
-        label="Address"
-        dataKey="address"
         disabled={lang !== Global}
       />
 

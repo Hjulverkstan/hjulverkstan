@@ -6,8 +6,9 @@ INSERT INTO Location
 ('456 Elm Street',  'Backa',       'SHOP',        'Sample location 2 comment', '2024-05-17 10:00:00', NOW(),      1,          1         ),
 ('789 Oak Avenue',  'Gamlestaden', 'SHOP',        'Sample location 3 comment', '2024-05-18 10:00:00', NOW(),      1,          1         ),
 ('101 Pine Road',   'Majorna',     'SHOP',        'Sample location 4 comment', '2024-05-19 10:00:00', NOW(),      1,          1         ),
-('202 Birch Lane',  'Gamlestaden', 'SHOP',       'Sample location 5 comment', '2024-05-20 10:00:00', NOW(),      1,          1         ),
-('303 Cedar Street', 'Majorna',    'SHOP',        'Sample location 6 comment', '2024-05-21 10:00:00', NOW(),      1,          1         );
+('202 Birch Lane',  'Gamlestaden', 'STORAGE',       'Sample location 5 comment', '2024-05-20 10:00:00', NOW(),      1,          1         ),
+('303 Cedar Street', 'Majorna',    'STORAGE',        'Sample location 6 comment', '2024-05-21 10:00:00', NOW(),      1,          1         ),
+('354 Bamboo Lane', 'Frölunda', 'SHOP', 'Sample location 7 comment', '2026-05-16 10:00:00', NOW(), 1, 1);
 
 --
 
@@ -76,10 +77,10 @@ INSERT INTO Open_Hours
 
 
 INSERT INTO Shop
-(name,                    address,                                         latitude,  longitude, imageURL,                                                                                    open_hours_id, has_temporary_hours, location_id, slug,           created_at, updated_at, created_by, updated_by) VALUES
-('Hjällbo',               'Skolspåret 15, 424 37 Angered',                 57.769667, 12.013639, 'image1.jpg', 1,             false,               1,           'hjallbo',      NOW(),      NOW(),      1,          1         ),
-('Backa',                 'Selma Lagerlöfs Torg 20, 422 48 Hisings Backa', 57.748000, 11.965000, 'image2.jpg', 2,             false,               2,           'backa',        NOW(),      NOW(),      1,          1         ),
-('Gamlestaden',           'Lars Kaggsgatan 40D, 415 04 Göteborg',          57.720700, 12.010000, 'image4.jpg', 3,             false,               3,           'gamlestaden',  NOW(),      NOW(),      1,          1         );
+(latitude,  longitude, imageURL,                                                                                    open_hours_id, has_temporary_hours, location_id, slug,           created_at, updated_at, created_by, updated_by) VALUES
+(57.769667, 12.013639, 'image1.jpg', 1,             false,               1,           'hjallbo',      NOW(),      NOW(),      1,          1         ),
+(57.748000, 11.965000, 'image2.jpg', 2,             false,               2,           'backa',        NOW(),      NOW(),      1,          1         ),
+(57.720700, 12.010000, 'image4.jpg', 3,             false,               3,           'gamlestaden',  NOW(),      NOW(),      1,          1         );
 
 
 INSERT INTO Story

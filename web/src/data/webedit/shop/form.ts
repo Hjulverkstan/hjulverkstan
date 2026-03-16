@@ -1,13 +1,11 @@
 import { z } from 'zod';
-
-import { reqString } from '../../form';
 import { Shop } from './types';
 import { Global, WebEditLang } from '@data/webedit/types';
 
 /**
- * Regex för tidsintervall: H:MM - H:MM
- * Tillåter valfria mellanslag runt bindestrecket.
- * Exempel som matchar: "8:00-17:00", "08:30 - 18:00", "9:00 - 9:00"
+ * Regex for time intervals: H:MM - H:MM
+ * Allows optional spaces around the hyphen.
+ * Examples: "8:00-17:00", "08:30 - 18:00", "9:00 - 9:00"
  */
 const timeRangeRegex =
   /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]\s*-\s*([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
@@ -28,8 +26,6 @@ export const initShop: Partial<Shop> = {
 
 export const createShopZ = (lang: WebEditLang) => {
   const baseSchema = z.object({
-    name: reqString('Name'),
-    address: reqString('Address'),
     locationId: z.coerce.number(),
     latitude: z.coerce.number(),
     longitude: z.coerce.number(),
