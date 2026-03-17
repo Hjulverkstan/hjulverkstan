@@ -80,15 +80,28 @@ export class AppStack extends cdk.Stack {
     });
 
     const securityGroup = new ec2.SecurityGroup(this, 'SecurityGroup', {
-      description: 'Allow SSH, HTTP, HTTPS, and App Traffic',
+      description: 'Allow SSH and API',
       allowAllOutbound: true,
       vpc,
     });
 
     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'SSH');
-    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80), 'HTTP');
-    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443), 'SSL');
-    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(8080), 'API');
+
+    new cdk.CfnMapping(this, 'AWSCloudFrontPrefixLists', {
+      mapping: {
+        'eu-north-1': { PrefixListId: 'pl-fab65393' },
+        'eu-west-1':  { PrefixListId: 'pl-4fa04526'},
+        'us-east-1':  { PrefixListId: 'pl-3b927c52' },
+      },
+    });
+
+    const cloudFrontPrefixListId = cdk.Fn.findInMap('AWSCloudFrontPrefixLists', cdk.Aws.REGION, 'PrefixListId');
+
+    securityGroup.addIngressRule(
+      ec2.Peer.prefixList(cloudFrontPrefixListId),
+      ec2.Port.tcp(8080),
+      'Allow traffic from Cloudfront only'
+    )
 
     // Instance
 
