@@ -148,20 +148,7 @@ export default function ShopInventoryActions({
         <DropdownMenu.Item
           onClick={(e) => {
             e.stopPropagation();
-            navigate((id ? '../..' : '..') + '/ticketz/create', {
-              state: {
-                vehicleId: vehicle.id,
-                action: VehicleShortcutAction.CREATE_TICKET,
-              },
-            });
-          }}
-        >
-          Create ticket
-        </DropdownMenu.Item>
-        <DropdownMenu.Item
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate((id ? '../..' : '..') + '/ticketz/', {
+            navigate((id ? '../..' : '..') + '/tickets/', {
               state: {
                 vehicleId: vehicle.id,
                 action: VehicleShortcutAction.FILTER_BY_VEHICLE,
