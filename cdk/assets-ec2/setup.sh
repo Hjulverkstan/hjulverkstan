@@ -33,8 +33,25 @@ sudo dnf -y remove \
 sudo dnf clean all -y
 sudo rm -rf /var/cache/dnf
 
-# --- Install AWS-packaged Docker + nightly auto updates ---
 sudo dnf -y update
+
+echo "Installing and configuring Fail2Ban..."
+dnf install -y fail2ban
+
+cat <<EOF > /etc/fail2ban/jail.local
+[sshd]
+enabled = true
+port    = 22
+backend = systemd
+bantime = 3600
+findtime = 600
+maxretry = 5
+EOF
+
+systemctl enable --now fail2ban
+echo "Fail2Ban is up and running."
+
+# --- Install AWS-packaged Docker + nightly auto updates ---
 sudo dnf -y install docker dnf-automatic
 
 # Apply unit changes & enable services
