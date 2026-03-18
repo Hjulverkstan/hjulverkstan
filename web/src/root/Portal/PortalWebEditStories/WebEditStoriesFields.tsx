@@ -3,13 +3,11 @@ import * as DataForm from '@components/DataForm';
 export default function WebEditStoriesFields() {
   return (
     <>
-      <DataForm.Image
-        label="Image"
-        dataKey="imageURL"
-      />
+      <DataForm.Image label="Image" dataKey="imageURL" />
 
       <DataForm.Input
         placeholder="Write title..."
+        variant="translation"
         label="Title"
         dataKey="title"
       />

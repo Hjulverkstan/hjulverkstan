@@ -4,9 +4,7 @@ import * as DataTable from '@components/DataTable';
 import IconLabel from '@components/IconLabel';
 import { Story } from '@data/webedit/story/types';
 import { TiptapContentAsText } from '@components/TiptapContentAsText';
-import {
-  PortalWebEditTranslationSortHead
-} from '../PortalWebEditTranslationSortHead';
+import { PortalWebEditTranslationSortHead } from '../PortalWebEditTranslationSortHead';
 
 //
 
@@ -15,17 +13,23 @@ export default function useColumns() {
     () =>
       [
         {
-          key: 'title',
-          name: 'Title',
-          renderFn: ({ title }) => <IconLabel label={title} />,
-        },
-
-        {
           key: 'slug',
           name: 'Slug',
           renderFn: ({ slug }) => <IconLabel label={slug} />,
         },
-
+        {
+          key: 'title',
+          name: 'Title',
+          renderFn: ({ title }) => (
+            <IconLabel className="text-muted-foreground" label={title} />
+          ),
+          renderHeaderFn: () => (
+            <PortalWebEditTranslationSortHead
+              colKey={'title'}
+              label={'Title'}
+            />
+          ),
+        },
         {
           key: 'bodyText',
           name: 'Body text',
