@@ -37,9 +37,14 @@ export interface PortalWebEditLangProviderProps {
 }
 
 export const Provider = ({ children }: PortalWebEditLangProviderProps) => {
-  const [lang, setLang] = usePersistentState<Lang>( 'web-edit-lang',
+  const [lang, setLang] = usePersistentState<Lang>(
+    'web-edit-lang',
     fallbackLang,
   );
+
+  if ((lang as string) === 'global') {
+    setLang(fallbackLang);
+  }
 
   return (
     <PortalWebEditLangContext.Provider value={{ lang, setLang }}>
@@ -55,8 +60,7 @@ export const Select = () => {
   const { lang, setLang } = useStrictContext(PortalWebEditLangContext);
 
   const { tailSlug } = usePortalSlugs();
-  const disabled = tailSlug?.includes('create')
-    || tailSlug?.includes('edit');
+  const disabled = tailSlug?.includes('create') || tailSlug?.includes('edit');
 
   return (
     <div>
