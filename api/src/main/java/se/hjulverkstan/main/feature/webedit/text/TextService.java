@@ -26,7 +26,7 @@ public class TextService {
     public ListResponseDto<TextDto> getAllTextsByLang(Language lang) {
         List<Text> texts = textRepository.findAll(Sort.by(Sort.Direction.DESC, "key"));
 
-        return new ListResponseDto<>(texts.stream().map(text -> toDto(text, lang, true)).toList());
+        return new ListResponseDto<>(texts.stream().map(text -> toDto(text, lang, false)).toList());
 
     }
 
