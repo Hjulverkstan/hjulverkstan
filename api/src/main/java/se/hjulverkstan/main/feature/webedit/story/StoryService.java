@@ -29,7 +29,7 @@ public class StoryService {
     public ListResponseDto<StoryDto> getAllStoriesByLang(Language lang) {
         List<Story> stories = storyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        return new ListResponseDto<>(stories.stream().map(story -> toDto(story, lang, true)).toList());
+        return new ListResponseDto<>(stories.stream().map(story -> toDto(story, lang, false)).toList());
     }
 
     public StoryDto getStoryByLangAndId(Long id, Language lang) {
@@ -46,7 +46,7 @@ public class StoryService {
 
         Story story = new Story();
         story.setIdentityId(identity.getId());
-        dto.applyToEntity(story);
+        applyToEntity(story, dto, lang);
         storyRepository.save(story);
 
         return toDto(story, lang, false);
@@ -73,6 +73,12 @@ public class StoryService {
             if (translationService.hasNonDefaultLangTranslations(story.getIdentityId())) {
                 throw new UnsupportedArgumentException("Tried to delete story (lang = default lang) but has other translations");
             }
+
+            Identity identity = identityRepository.findById(story.getIdentityId()).orElseThrow(() -> new ElementNotFoundException("Story"));
+            identityRepository.delete(identity);
+
+            translationService.removeTranslationsByLang(story.getIdentityId(), lang);
+
             storyRepository.delete(story);
         }
     }
