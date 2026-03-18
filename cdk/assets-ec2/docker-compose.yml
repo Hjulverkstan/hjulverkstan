@@ -1,8 +1,8 @@
 services:
   db:
     image: postgres:17
+    restart: unless-stopped
     container_name: db
-    restart: always
     env_file:
       - .env
     environment:
@@ -18,6 +18,7 @@ services:
     build:
       context: .
       dockerfile: postgres-backup-s3/Dockerfile
+    restart: unless-stopped
     container_name: backup
     env_file: .env
     environment:
@@ -32,6 +33,7 @@ services:
 
   api:
     image: ${DOCKER_REPO}:${DOCKER_API_IMAGE_TAG}
+    restart: unless-stopped
     container_name: api
     # Used if starting against an empty db - use once only
     #    environment:
