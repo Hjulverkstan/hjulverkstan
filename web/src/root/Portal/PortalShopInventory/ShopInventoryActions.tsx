@@ -30,6 +30,7 @@ export enum VehicleShortcutAction {
 export interface VehicleShortcutLocationState {
   action: VehicleShortcutAction;
   vehicleId: string;
+  locationId?: string;
 }
 
 export default function ShopInventoryActions({
@@ -148,9 +149,10 @@ export default function ShopInventoryActions({
         <DropdownMenu.Item
           onClick={(e) => {
             e.stopPropagation();
-            navigate((id ? '../..' : '..') + '/ticketz/create', {
+            navigate((id ? '../..' : '..') + '/tickets/create', {
               state: {
                 vehicleId: vehicle.id,
+                locationId: vehicle.locationId,
                 action: VehicleShortcutAction.CREATE_TICKET,
               },
             });
@@ -161,7 +163,7 @@ export default function ShopInventoryActions({
         <DropdownMenu.Item
           onClick={(e) => {
             e.stopPropagation();
-            navigate((id ? '../..' : '..') + '/ticketz/', {
+            navigate((id ? '../..' : '..') + '/tickets/', {
               state: {
                 vehicleId: vehicle.id,
                 action: VehicleShortcutAction.FILTER_BY_VEHICLE,
