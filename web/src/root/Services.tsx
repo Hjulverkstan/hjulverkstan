@@ -145,6 +145,46 @@ export const ServicesJoinCourseView: React.FC<{
   );
 };
 
+export const ServicesHowToRentBike: React.FC<{
+  mode?: 'page' | 'dialog';
+  endpoint?: string;
+}> = ({ mode = 'page', endpoint }) => {
+  const { data } = usePreloadedDataLocalized();
+
+  return (
+    <CardServices
+      mode={mode}
+      title={data.text.servicesHowToRent}
+      icon={Bike}
+      linkLabel={'Stäng'}
+      linkDestination={`/vehicle/${endpoint}`}
+      a11yTitle={data.text.servicesHowToRent}
+      a11yDescription={data.text.servicesHowToRent}
+    >
+      <CardServicesSteps
+        icon={MapPin}
+        label={data.text.servicesVisit}
+        description={data.text.servicesNoOnlineBooking}
+      />
+      <CardServicesSteps
+        icon={CheckCircle}
+        label={data.text.servicesPickAVehicle}
+        description={data.text.servicesHelpYouChose}
+      />
+      <CardServicesSteps
+        icon={Calendar}
+        label={data.text.servicesUseForWeeks}
+        description={data.text.servicesFreeOfCharge}
+      />
+      <CardServicesSteps
+        icon={LogIn}
+        label={data.text.servicesReturn}
+        description={data.text.servicesReturnVehicle}
+      />
+    </CardServices>
+  );
+};
+
 // Must wrap a service if of mode = 'dialog'
 export const ServicesAsDialogWrapper: FC<{ children: ReactNode }> = ({
   children,
