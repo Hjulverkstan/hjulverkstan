@@ -1,88 +1,115 @@
 import * as DataForm from '@components/DataForm';
 import { useCustomersAsEnumsQ, useCustomersQ } from '@data/customer/queries';
+import { CustomerType } from '@data/customer/types';
 import { useEmployeesAsEnumsQ } from '@data/employee/queries';
+import { useLocationsAsEnumsQ } from '@data/location/queries';
 import * as enumsRaw from '@data/ticket/enums';
 import { TicketType } from '@data/ticket/types';
-import { useVehiclesAsEnumsQ, useVehiclesQ } from '@data/vehicle/queries';
-import { max, parseISO } from 'date-fns';
+import { useVehiclesAsEnumsQ } from '@data/vehicle/queries';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
-import { useLocationsAsEnumsQ } from '@data/location/queries';
+import { max, parseISO } from 'date-fns';
+import { useEffect } from 'react';
 
 export default function ShopTicketFields() {
-  const { body, mode } = DataForm.useDataForm();
-  const vehiclesQ = useVehiclesQ();
-
+  const { body, mode, setBodyProp } = DataForm.useDataForm();
   const enums = useTranslateRawEnums(enumsRaw);
 
-  const firstIsCustomerOwned = body.vehicleIds?.length
-    ? vehiclesQ.data?.find((v) => v.id === body.vehicleIds[0])?.isCustomerOwned
-    : undefined;
-
   const customersQ = useCustomersQ();
+
   const selectedCustomer = customersQ.data?.find(
     (c) => c.id === body.customerId,
   );
-  const isPerson = selectedCustomer?.customerType === 'PERSON';
+  const isOrgCustomer = selectedCustomer?.customerType === CustomerType.ORG;
+  const isPersonCustomer =
+    selectedCustomer?.customerType === CustomerType.PERSON;
 
-  const employeeEnumsQ = useEmployeesAsEnumsQ();
-  const customerEnumsQ = useCustomersAsEnumsQ();
-  const locationEnumsQ = useLocationsAsEnumsQ({ allowedTypes: ['SHOP'] });
+  const filteredCustomerEnums = (useCustomersAsEnumsQ().data ?? []).filter(
+    (e) => {
+      const c = customersQ.data?.find((cust) => cust.id === e.value);
+      if (!c) return true;
 
-  let filterCustomerOwned;
+      if (
+        body.ticketType === TicketType.RECEIVE &&
+        c.customerType === CustomerType.PERSON
+      )
+        return false;
+      if (
+        body.ticketType === TicketType.RENT &&
+        c.customerType === CustomerType.ORG
+      )
+        return false;
 
-  switch (body.ticketType) {
-    case TicketType.RECEIVE:
-      filterCustomerOwned = false;
-      break;
+      return true;
+    },
+  );
 
-    case TicketType.REPAIR:
-      filterCustomerOwned = !isPerson;
-      break;
+  useEffect(() => {
+    if (mode === DataForm.Mode.CREATE && body.customerId) {
+      const isStillAllowed = filteredCustomerEnums.some(
+        (c) => c.value === body.customerId,
+      );
+      if (!isStillAllowed) {
+        setBodyProp('customerId', undefined);
+      }
+    }
+  }, [body.ticketType, customersQ.data, body.customerId, setBodyProp, mode]);
 
-    case TicketType.DONATE:
-      filterCustomerOwned = true;
-      break;
-
-    case TicketType.RENT:
-      filterCustomerOwned = true;
-      break;
-
-    default:
-      filterCustomerOwned = firstIsCustomerOwned;
+  let showOrgBikes: boolean | undefined = undefined;
+  if (
+    body.ticketType === TicketType.RENT ||
+    body.ticketType === TicketType.DONATE
+  ) {
+    showOrgBikes = true;
+  } else if (body.ticketType === TicketType.RECEIVE) {
+    showOrgBikes = false;
+  } else if (body.ticketType === TicketType.REPAIR) {
+    showOrgBikes = isPersonCustomer ? false : isOrgCustomer ? true : undefined;
   }
 
   const vehicleEnumsQ = useVehiclesAsEnumsQ({
     filterByLocationId: body.locationId,
-    filterCustomerOwned,
+    showOrgBikes,
   });
+
+  useEffect(() => {
+    if (
+      mode === DataForm.Mode.CREATE &&
+      body.vehicleIds?.length &&
+      vehicleEnumsQ.data
+    ) {
+      const allowedIds = vehicleEnumsQ.data.map((v) => v.value);
+      const validSelectedVehicles = body.vehicleIds.filter((id: string) =>
+        allowedIds.includes(id),
+      );
+
+      if (validSelectedVehicles.length !== body.vehicleIds.length) {
+        setBodyProp('vehicleIds', validSelectedVehicles);
+      }
+    }
+  }, [vehicleEnumsQ.data, setBodyProp, mode]);
 
   return (
     <>
       <DataForm.Select
         label="Type"
         dataKey="ticketType"
-        enums={
-          firstIsCustomerOwned
-            ? enums.ticketType.filter(
-                (t) =>
-                  t.value !== TicketType.RENT && t.value !== TicketType.DONATE,
-              )
-            : enums.ticketType
-        }
+        enums={enums.ticketType}
         disabled={mode === DataForm.Mode.EDIT}
+        allowDeselect
       />
 
       <DataForm.Select
         label="Customer"
         dataKey="customerId"
-        enums={customerEnumsQ.data ?? []}
+        enums={filteredCustomerEnums}
+        allowDeselect
       />
 
       <DataForm.Select
-        enums={locationEnumsQ.data ?? []}
         label="Location"
         dataKey="locationId"
-        disabled={body.vehicleIds?.length}
+        enums={useLocationsAsEnumsQ({ allowedTypes: ['SHOP'] }).data ?? []}
+        disabled={!!body.vehicleIds?.length}
       />
 
       <DataForm.Select
@@ -96,27 +123,26 @@ export default function ShopTicketFields() {
       <DataForm.Select
         label="Employee"
         dataKey="employeeId"
-        enums={employeeEnumsQ.data ?? []}
+        enums={useEmployeesAsEnumsQ().data ?? []}
         fat
       />
 
       {body.ticketType === TicketType.RENT && (
-        <DataForm.DatePicker
-          label="Start Date"
-          dataKey="startDate"
-          fromDate={new Date()}
-        />
-      )}
-
-      {body.ticketType === TicketType.RENT && (
-        <DataForm.DatePicker
-          fromDate={max([
-            body.startDate ? parseISO(body.startDate) : new Date(),
-            new Date(),
-          ])}
-          label="End Date"
-          dataKey="endDate"
-        />
+        <>
+          <DataForm.DatePicker
+            label="Start Date"
+            dataKey="startDate"
+            fromDate={new Date()}
+          />
+          <DataForm.DatePicker
+            label="End Date"
+            dataKey="endDate"
+            fromDate={max([
+              body.startDate ? parseISO(body.startDate) : new Date(),
+              new Date(),
+            ])}
+          />
+        </>
       )}
 
       {body.ticketType === TicketType.REPAIR && (
