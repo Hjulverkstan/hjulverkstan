@@ -64,13 +64,13 @@ export const useVehiclesAggregatedQ = () =>
 
 export interface UseVehiclesAsEnumsQProps {
   dataKey?: string;
-  filterCustomerOwned?: boolean;
+  showOrgBikes?: boolean;
   filterByLocationId?: string;
 }
 
 export const useVehiclesAsEnumsQ = ({
   dataKey = 'vehicleId',
-  filterCustomerOwned,
+  showOrgBikes,
   filterByLocationId,
 }: UseVehiclesAsEnumsQProps = {}) => {
   const enums = useTranslateRawEnums(enumsRaw);
@@ -81,9 +81,9 @@ export const useVehiclesAsEnumsQ = ({
       vehicles
         ?.filter(
           (vehicle) =>
-            (filterCustomerOwned === undefined
+            (showOrgBikes === undefined
               ? true
-              : filterCustomerOwned
+              : showOrgBikes
                 ? !vehicle.isCustomerOwned
                 : vehicle.isCustomerOwned) &&
             (filterByLocationId === undefined

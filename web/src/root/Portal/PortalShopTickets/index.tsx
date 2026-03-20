@@ -41,7 +41,11 @@ export default function PortalShopTickets({ mode }: PortalAppPageProps) {
     locationState?.action === VehicleShortcutAction.CREATE_TICKET;
 
   const initTicketInjected = shouldInjectWithVehicleId
-    ? { ...initTicket, vehicleIds: [locationState?.vehicleId] }
+    ? {
+        ...initTicket,
+        vehicleIds: [locationState?.vehicleId],
+        locationId: locationState?.locationId || initTicket.locationId,
+      }
     : initTicket;
 
   const ticketsQ = useTicketsAggregatedQ();
