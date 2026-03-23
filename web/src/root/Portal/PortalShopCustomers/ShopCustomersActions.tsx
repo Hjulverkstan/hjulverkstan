@@ -51,6 +51,10 @@ export default function ShopCustomersActions({
     );
   };
 
+  if (customer.anonymized) {
+    return null;
+  }
+
   return (
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>
       <DropdownMenu.Trigger asChild>

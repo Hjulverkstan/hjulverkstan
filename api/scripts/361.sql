@@ -1,0 +1,1 @@
+ALTER TABLE customer ADD COLUMN anonymized BOOLEAN NOT NULL DEFAULT false;

@@ -25,17 +25,23 @@ export default function useColumns() {
           key: 'firstName',
           name: 'Name',
           renderFn: (
-            { customerType, firstName, lastName, organizationName },
+            { customerType, firstName, lastName, organizationName, anonymized },
             { selected },
           ) => (
             <BadgeGroup
               badges={[
                 {
                   icon: findEnum(enums, customerType).icon!,
-                  variant: selected ? 'contrast' : 'outline',
-                  label: organizationName
-                    ? `${organizationName} (${firstName} ${lastName ?? ''})`
-                    : `${firstName} ${lastName ?? ''}`,
+                  variant: anonymized
+                    ? 'secondary'
+                    : selected
+                      ? 'contrast'
+                      : 'outline',
+                  label: anonymized
+                    ? 'Removed Customer'
+                    : organizationName
+                      ? `${organizationName} (${firstName} ${lastName ?? ''})`
+                      : `${firstName} ${lastName ?? ''}`,
                 },
               ]}
             />

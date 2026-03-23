@@ -47,22 +47,28 @@ export const useCustomerQ = ({ id }: UseCustomerQProps) =>
 export const useCustomersAsEnumsQ = ({
   dataKey = 'customerId',
   withOrgPerson = false,
+  excludeAnonymized = false,
 } = {}) => {
   const enums = useTranslateRawEnums(enumsRaw);
 
   return useQuery<Customer[], StandardError, EnumAttributes[]>({
     ...api.createGetCustomers(),
     select: (customers) =>
-      customers?.map((customer) => ({
-        dataKey,
-        icon: findEnum(enums, customer.customerType).icon,
-        label:
-          customer.customerType === CustomerType.PERSON
-            ? `${customer.firstName} ${customer.lastName ?? ''}`
-            : withOrgPerson
-              ? `${customer.organizationName} (${customer.firstName} ${customer.lastName ?? ''})`
-              : customer.organizationName!,
-        value: customer.id,
-      })) ?? [],
+      customers
+        ?.filter((customer) => !excludeAnonymized || !customer.anonymized)
+        .map((customer) => ({
+          dataKey,
+          icon: customer.anonymized
+            ? undefined
+            : findEnum(enums, customer.customerType).icon,
+          label: customer.anonymized
+            ? 'Removed Customer'
+            : customer.customerType === CustomerType.PERSON
+              ? `${customer.firstName} ${customer.lastName ?? ''}`
+              : withOrgPerson
+                ? `${customer.organizationName} (${customer.firstName} ${customer.lastName ?? ''})`
+                : customer.organizationName!,
+          value: customer.id,
+        })) ?? [],
   });
 };

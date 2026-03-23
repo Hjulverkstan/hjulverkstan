@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.hjulverkstan.main.error.exceptions.CouldNotDeleteException;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.error.exceptions.MissingArgumentException;
+import se.hjulverkstan.main.error.exceptions.InvalidDataException;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
@@ -43,6 +42,11 @@ public class CustomerService {
         CustomerUtils.validateDtoBySelf(dto);
 
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Customer"));
+
+        if (customer.isAnonymized()) {
+            throw new InvalidDataException("Cannot edit an anonymized customer");
+        }
+
         dto.applyToEntity(customer);
         customerRepository.save(customer);
 
@@ -50,13 +54,41 @@ public class CustomerService {
     }
 
     @Transactional
-    public void deleteCustomer(Long id) {
+    public CustomerDto deleteCustomer(Long id) {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Customer"));
 
-        if (customer.getTickets() != null && !customer.getTickets().isEmpty()) {
-            throw new CouldNotDeleteException("Can't delete employees with tickets!");
+        boolean hasTickets = customer.getTickets() != null && !customer.getTickets().isEmpty();
+
+        if (hasTickets && !customer.isAnonymized()) {
+            return anonymizeCustomer(customer);
         }
 
+        if (hasTickets) {
+            throw new InvalidDataException("Cannot delete an anonymized customer that still has tickets");
+        }
+
+        CustomerDto dto = new CustomerDto(customer);
         customerRepository.delete(customer);
+        return dto;
+    }
+
+    private CustomerDto anonymizeCustomer(Customer customer) {
+        if (customer.isAnonymized()) {
+            throw new InvalidDataException("Customer is already anonymized");
+        }
+
+        customer.setFirstName("Removed");
+        customer.setLastName("Customer");
+        customer.setPersonalIdentityNumber(null);
+        if (customer.getCustomerType() == CustomerType.ORGANIZATION) {
+            customer.setOrganizationName("Removed Organization");
+        }
+        customer.setPhoneNumber(null);
+        customer.setEmail(null);
+        customer.setComment(null);
+        customer.setAnonymized(true);
+
+        customerRepository.save(customer);
+        return new CustomerDto(customer);
     }
 }

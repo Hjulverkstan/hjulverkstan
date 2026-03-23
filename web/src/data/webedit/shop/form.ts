@@ -14,8 +14,8 @@ const timeSchema = z
   .string()
   .optional()
   .nullable()
-  .refine((val) => !val || timeRegex.test(val), {
-    message: 'Format must be H:MM (e.g. 8:00 or 17:30)',
+  .refine((val) => !val || timeRangeRegex.test(val), {
+    message: 'Format must be H:MM (e.g. 8:00 or 17:00)',
   });
 
 export const initShop: Partial<Shop> = {

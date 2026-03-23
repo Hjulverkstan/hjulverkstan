@@ -23,10 +23,11 @@ export default function ShopTicketFields() {
   const isPersonCustomer =
     selectedCustomer?.customerType === CustomerType.PERSON;
 
-  const filteredCustomerEnums = (useCustomersAsEnumsQ().data ?? []).filter(
-    (e) => {
-      const c = customersQ.data?.find((cust) => cust.id === e.value);
-      if (!c) return true;
+  const filteredCustomerEnums = (
+    useCustomersAsEnumsQ({ excludeAnonymized: true }).data ?? []
+  ).filter((e) => {
+    const c = customersQ.data?.find((cust) => cust.id === e.value);
+    if (!c) return true;
 
       if (
         body.ticketType === TicketType.RECEIVE &&
