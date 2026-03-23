@@ -61,7 +61,7 @@ export default function Home() {
       <div
         className="light relative flex w-full flex-col items-center
           justify-center bg-cover bg-center py-24 md:h-[70vh] md:max-h-[40rem]
-          md:items-start"
+          md:items-start lg:-mt-20 lg:h-[83vh] lg:max-h-[83vh]"
         style={{ backgroundImage: "url('/hero.jpg')" }}
       >
         <div className="absolute inset-0 bg-black opacity-50" />

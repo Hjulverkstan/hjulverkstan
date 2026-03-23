@@ -40,12 +40,14 @@ const triggerVariants = cva(
 type TriggerProps = React.ComponentPropsWithoutRef<
   typeof SelectPrimitive.Trigger
 > &
-  VariantProps<typeof triggerVariants>;
+  VariantProps<typeof triggerVariants> & {
+    iconClassName?: string;
+  };
 
 export const Trigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   TriggerProps
->(({ className, children, variant, ...props }, ref) => (
+>(({ className, children, variant, iconClassName, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(triggerVariants({ variant }), className)}
@@ -53,7 +55,7 @@ export const Trigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <CaretSortIcon className={cn('h-4 w-4 opacity-50')} />
+      <CaretSortIcon className={cn('h-4 w-4', iconClassName)} />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
