@@ -17,6 +17,7 @@ export interface Customer extends Auditable {
   comment?: string;
   //
   organizationName?: string;
+  anonymized: boolean;
 }
 
 export interface AggregatedCustomer extends Customer {

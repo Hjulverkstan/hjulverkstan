@@ -53,6 +53,9 @@ public class CustomerDto extends AuditableDto {
     private String organizationName;
     private String comment;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean anonymized;
+
     public CustomerDto(Customer customer) {
         super(customer);
 
@@ -66,6 +69,7 @@ public class CustomerDto extends AuditableDto {
         email = customer.getEmail();
         ticketIds = customer.getTickets().stream().map(Ticket::getId).toList();
         comment = customer.getComment();
+        anonymized = customer.isAnonymized();
     }
 
     public Customer applyToEntity (Customer customer) {

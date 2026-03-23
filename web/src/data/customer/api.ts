@@ -63,7 +63,7 @@ export const createEditCustomer = () => ({
 export const createDeleteCustomer = () => ({
   mutationFn: (id: string) =>
     instance
-      .delete(`${endpoints.customer}/${id}`)
+      .delete<Customer>(`${endpoints.customer}/${id}`)
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.customer)),
 });
