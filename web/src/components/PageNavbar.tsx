@@ -55,7 +55,10 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
       variant={i === navLinks.length - 1 ? 'default' : 'link'}
       subVariant="rounded"
       onClick={() => setIsOpen(false)}
-      className="h-8 lg:last:ml-2"
+      className={cn(
+        'h-8 lg:last:ml-2',
+        onHero && 'text-white hover:text-gray-300',
+      )}
     >
       {t(link.translationKey)}
     </Link>
@@ -66,8 +69,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
       className={cn(
         'fixed top-0 z-50 w-full transition-colors duration-300',
         'bg-background text-foreground',
-        onHero &&
-          'text-background lg:bg-background lg:text-foreground bg-transparent',
+        onHero && 'bg-transparent text-white',
       )}
     >
       <div
@@ -77,20 +79,21 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
         <div
           className={cn(
             'relative text-2xl font-semibold transition-opacity duration-300',
-            onHero && 'opacity-0 lg:opacity-100',
+            onHero && 'opacity-0',
           )}
-        >
-          Hjulverkstan
-        </div>
+        ></div>
         <div className="flex items-center justify-end gap-6">
           <nav className="hidden items-center gap-2 lg:flex">
             {navLinksContent}
           </nav>
           <Select.Root value={currLang} onValueChange={changeLang}>
-            <Select.Trigger className="h-8 rounded-full">
+            <Select.Trigger className={cn('h-8 rounded-full')}>
               <div className="px-1 lg:flex lg:items-center">
                 <Globe
-                  className="text-muted-foreground mr-2 hidden lg:inline-flex"
+                  className={cn(
+                    'mr-2 hidden lg:inline-flex',
+                    onHero ? 'text-white' : 'text-muted-foreground',
+                  )}
                   size={16}
                 />
                 <Select.Value />
