@@ -24,7 +24,7 @@ INSERT INTO Customer
 (customer_type,  first_name, last_name,  personal_identity_number,    organization_name,phone_number,    email,                  created_at, updated_at, created_by, updated_by) VALUES
 ('PERSON',       'Tuva',     'Nilsson',  '19900101-1239',             null,             '+46798382301',  'tuva@example.com',     '2024-05-16 10:00:00',      NOW(),      1,          1         ),
 ('PERSON',       'Emil',     'Berglund', '19851224-5674',             null,             '+46832103988',  'emil@example.com',     '2024-05-17 10:00:00',      NOW(),      1,          1         ),
-('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Biltema',        '+46798381201',  'bosseboss@biltema.se', '2024-05-18 10:00:00',      NOW(),      1,          1         );
+('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Hjulverkstan',        '+46798381201',  'bosseboss@hjulverkstan.se', '2024-05-18 10:00:00',      NOW(),      1,          1         );
 
 --
 
@@ -78,9 +78,9 @@ INSERT INTO Open_Hours
 
 INSERT INTO Shop
 (identity_id,                                        latitude,  longitude, imageURL,                                                                                    open_hours_id, has_temporary_hours, location_id, slug,           created_at, updated_at, created_by, updated_by) VALUES
-('c2a00000-0000-0000-0000-000000000001'::uuid, 57.769667, 12.013639, 'https://hjulverkstan.s3.eu-north-1.amazonaws.com/4414679a-3c1b-4722-bd10-f95e66723a97.jpg', 1,             false,               1,           'hjallbo',      NOW(),      NOW(),      1,          1         ),
-('c2a00000-0000-0000-0000-000000000002'::uuid, 57.748000, 11.965000, 'https://hjulverkstan.s3.eu-north-1.amazonaws.com/d80043e0-2c01-4511-a6e4-f0980da04da5.jpg', 2,             false,               2,           'backa',        NOW(),      NOW(),      1,          1         ),
-('c2a00000-0000-0000-0000-000000000003'::uuid, 57.720700, 12.010000, 'https://hjulverkstan.s3.eu-north-1.amazonaws.com/029c60ac-e93e-4501-98e8-8c41d72d2b75.jpg', 3,             false,               3,           'gamlestaden',  NOW(),      NOW(),      1,          1         );
+('c2a00000-0000-0000-0000-000000000001'::uuid, 57.769667, 12.013639, 'image1.jpg', 1,             false,               1,           'hjallbo',      NOW(),      NOW(),      1,          1         ),
+('c2a00000-0000-0000-0000-000000000002'::uuid, 57.748000, 11.965000, 'image2.jpg', 2,             false,               2,           'backa',        NOW(),      NOW(),      1,          1         ),
+('c2a00000-0000-0000-0000-000000000003'::uuid, 57.720700, 12.010000, 'image4.jpg', 3,             false,               3,           'gamlestaden',  NOW(),      NOW(),      1,          1         );
 
 
 INSERT INTO Story
