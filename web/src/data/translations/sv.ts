@@ -24,6 +24,7 @@ export default {
   sunday: 'Söndag',
 
   findShop: 'Hitta verkstad',
+  toShop: 'Till verkstad',
   findEvent: 'Hitta evenemang',
 
   loadMore: 'Ladda fler',
