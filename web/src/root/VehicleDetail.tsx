@@ -29,6 +29,8 @@ import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import * as enumsRaw from '@data/vehicle/enums';
 import { useTranslations } from '@hooks/useTranslations';
 import { findEnum } from '@utils/enums';
+import { ServicesAsDialogWrapper, ServicesHowToRentView } from './Services';
+import { useDialogManager } from '@components/DialogManager';
 
 const ITEMS_TO_LOAD_OTHER_BIKES = 3;
 
@@ -56,7 +58,7 @@ const VehicleAttribute = ({
 
 const ShopRentalSection = ({ shop }: { shop: any }) => {
   const { data } = usePreloadedDataLocalized();
-
+  const { openDialog } = useDialogManager();
   const { t } = useTranslations();
 
   return (
@@ -100,6 +102,17 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
           size="default"
           className="bg-green-accent text-background hover:bg-success-accent
             rounded-full"
+          onClick={() =>
+            openDialog(
+              <ServicesAsDialogWrapper>
+                <ServicesHowToRentView
+                  mode="dialog"
+                  endpoint={shop.slug}
+                  label={true}
+                />
+              </ServicesAsDialogWrapper>,
+            )
+          }
         />
       </div>
     </>

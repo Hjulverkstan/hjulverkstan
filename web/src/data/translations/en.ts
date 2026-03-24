@@ -24,6 +24,7 @@ export default {
   sunday: 'Sunday',
 
   findShop: 'Find shop',
+  toShop: 'To shop',
   findEvent: 'Find event',
 
   loadMore: 'Load more',

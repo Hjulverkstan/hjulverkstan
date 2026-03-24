@@ -69,16 +69,19 @@ export const ServicesRepairCardView: React.FC<{
 
 export const ServicesHowToRentView: React.FC<{
   mode?: 'page' | 'dialog';
-}> = ({ mode = 'page' }) => {
+  endpoint?: string;
+  label?: boolean;
+}> = ({ mode = 'page', endpoint, label }) => {
   const { data } = usePreloadedDataLocalized();
+  const { t } = useTranslations();
 
   return (
     <CardServices
       mode={mode}
       title={data.text.servicesHowToRent}
       icon={Bike}
-      linkLabel={data.text.servicesFindShop}
-      linkDestination="/shops"
+      linkLabel={label ? t('toShop') : data.text.servicesFindShop}
+      linkDestination={endpoint ? `/shops/${endpoint}` : '/shops'}
       a11yTitle={data.text.servicesHowToRent}
       a11yDescription={data.text.servicesHowToRent}
     >
