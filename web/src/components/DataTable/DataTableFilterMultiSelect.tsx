@@ -33,7 +33,9 @@ export const FilterMultiSelect = ({
       (toInitSelected && toInitSelected(fromStore)) ?? fromStore ?? [],
   );
 
-  const { setActiveLabels } = useFilterPopover();
+  const { setActiveLabels } = useFilterPopover({
+    onClear: () => setSelected([]),
+  });
 
   const { filterFnMap, setFilterFn, rawData } = useDataTable({
     onClearAllFilters: () => setSelected([]),
@@ -49,21 +51,13 @@ export const FilterMultiSelect = ({
 
     const filteredData = rawData.filter(filterFnOtherFilters);
 
-    return enums
-      .map((e) => ({
-        ...e,
-        count: filteredData
-          .map((row) => row[e.dataKey])
-          .flat()
-          .filter((x) => x === e.value).length,
-      }))
-      .filter((e) =>
-        rawData.some((row) =>
-          Array.isArray(row[e.dataKey])
-            ? row[e.dataKey].includes(e.value)
-            : row[e.dataKey] === e.value,
-        ),
-      );
+    return enums.map((e) => ({
+      ...e,
+      count: filteredData
+        .map((row) => row[e.dataKey])
+        .flat()
+        .filter((x) => x === e.value).length,
+    }));
   }, [enums, rawData, filterFnMap]);
 
   const dataIsLoaded = !!rawData.length;

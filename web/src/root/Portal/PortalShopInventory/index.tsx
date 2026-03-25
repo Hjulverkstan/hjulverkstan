@@ -24,14 +24,15 @@ import useColumns from './useColumns';
 import { Vehicle } from '@data/vehicle/types';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import { findEnum } from '@utils/enums';
+import { useAuth } from '@components/Auth';
 
 //
 
 export default function PortalShopInventory({ mode }: PortalAppPageProps) {
   const { id = '' } = useParams();
 
+  const { auth } = useAuth();
   const enums = useTranslateRawEnums(enumsRaw);
-
   const vehiclesQ = useVehiclesAggregatedQ();
   const vehicleQ = useVehicleQ({ id });
   const createVehicleM = useCreateVehicleM();
@@ -66,7 +67,7 @@ export default function PortalShopInventory({ mode }: PortalAppPageProps) {
             isLoading={vehicleQ.isLoading || locationsQ.isLoading}
             data={vehicleQ.data}
             zodSchema={vehicleZ}
-            initCreateBody={initVehicle}
+            initCreateBody={initVehicle(auth?.locationId)}
           >
             <PortalForm
               dataLabel="Vehicle"

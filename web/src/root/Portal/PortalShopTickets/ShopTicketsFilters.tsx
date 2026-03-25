@@ -20,8 +20,10 @@ import {
 import { matchDateWithoutTimestamp } from '@utils/common';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import { matchEnumsBy, matchEnumsOnRow } from '@utils/enums';
+import { useAuth } from '@components/Auth';
 
 export default function ShopTicketFilters() {
+  const { auth } = useAuth();
   const enums = useTranslateRawEnums<typeof enumsRaw>(enumsRaw);
 
   const ticketsQ = useTicketsAggregatedQ();
@@ -125,12 +127,22 @@ export default function ShopTicketFilters() {
       </DataTable.FilterPopover>
 
       <DataTable.FilterPopover label="Location" hasSearch>
-        <DataTable.FilterMultiSelect
-          heading="Location"
-          filterKey="location-id"
-          enums={locationEnumsQ.data ?? []}
-          toInitSelected={clearIfExcludesExpectedTicketsByProp('locationId')}
-        />
+        {locationEnumsQ.data && (
+          <DataTable.FilterMultiSelect
+            key={`ticket-location-filter-${auth?.id}`}
+            heading="Location"
+            filterKey="location-id"
+            enums={locationEnumsQ.data ?? []}
+            toInitSelected={(fromStore?: any[]) => {
+              if (vehicleIdToSelect || ticketByParam) {
+                return clearIfExcludesExpectedTicketsByProp('locationId')(
+                  fromStore,
+                );
+              }
+              return auth?.locationId ? [String(auth.locationId)] : [];
+            }}
+          />
+        )}
       </DataTable.FilterPopover>
 
       <DataTable.FilterPopover label="Vehicles" hasSearch>

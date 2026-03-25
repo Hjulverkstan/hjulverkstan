@@ -7,4 +7,5 @@ export interface User extends Auditable {
   email: string;
   password?: string;
   roles: AuthRole[];
+  locationId?: number;
 }

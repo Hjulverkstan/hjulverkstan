@@ -4,10 +4,14 @@ import { Ticket, TicketType } from '@data/ticket/types';
 
 import { isReq, reqString } from '../form';
 
-export const initTicket = {
-  vehicleIds: [],
+export const initTicket = (
+  locationId?: string | number,
+  vehicleIds: string[] = [],
+): Partial<Ticket> => ({
+  vehicleIds: vehicleIds,
   ticketType: TicketType.REPAIR,
-} as Partial<Ticket>;
+  locationId: locationId ? String(locationId) : undefined,
+});
 
 const ticketBaseZ = z.object({
   ticketType: z.nativeEnum(TicketType, isReq('Ticket type')),
