@@ -1,10 +1,8 @@
 package se.hjulverkstan.main.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +19,7 @@ public class CustomUserDetails implements UserDetails {
     private final String username;
     private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
+    private final Long locationId;
 
     @JsonIgnore
     private String password;
@@ -33,6 +32,7 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .toList();
+        this.locationId = user.getDefaultLocation() != null ? user.getDefaultLocation().getId() : null;
     }
 
     public List<ERole> getAuthoritiesAsRoles() {

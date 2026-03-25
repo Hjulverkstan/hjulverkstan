@@ -29,11 +29,12 @@ public class JwtUtils {
     @Value("${saveChild.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateToken(String username, Long id, String email, List<ERole> roles) {
+    public String generateToken(String username, Long id, String email, List<ERole> roles, Long locationId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", roles.stream().map(ERole::name).toList());
         claims.put("id", id);
         claims.put("email", email);
+        claims.put("locationId", locationId);
 
         return createToken(claims, username);
     }
@@ -55,10 +56,12 @@ public class JwtUtils {
         Long id = extractClaim(token, claims -> claims.get("id", Long.class));
         String email = extractClaim(token, claims -> claims.get("email", String.class));
 
+        Long locationId = extractClaim(token, claims -> claims.get("locationId", Long.class));
+
         List<String> roles = extractClaim(token, claims -> claims.get("roles", List.class));
         List<SimpleGrantedAuthority> authorities = roles.stream().map(SimpleGrantedAuthority::new).toList();
 
-        return new CustomUserDetails(id, username, email, authorities);
+        return new CustomUserDetails(id, username, email, authorities, locationId);
     }
 
     public boolean validateToken(String token) {

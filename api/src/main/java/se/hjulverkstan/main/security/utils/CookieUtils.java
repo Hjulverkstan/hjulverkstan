@@ -25,13 +25,14 @@ public class CookieUtils {
     private Integer jwtRefreshExpirationMs;
 
     public void setAuthenticationCookies (HttpServletResponse response, User user, String refreshJwt) {
-        String jwt = jwtUtils.generateToken(user.getUsername(), user.getId(), user.getEmail(), user.getRolesDirectly());
+        Long locationId = user.getDefaultLocation() != null ? user.getDefaultLocation().getId() : null;
+        String jwt = jwtUtils.generateToken(user.getUsername(), user.getId(), user.getEmail(), user.getRolesDirectly(), locationId);
         applyCookies(response, user.getRolesDirectly(), jwt, refreshJwt);
     }
 
     public void setAuthenticationCookies (HttpServletResponse response, CustomUserDetails principal, String refreshJwt) {
         List<ERole> roles = principal.getAuthoritiesAsRoles();
-        String jwt = jwtUtils.generateToken(principal.getUsername(), principal.getId(), principal.getEmail(), roles);
+        String jwt = jwtUtils.generateToken(principal.getUsername(), principal.getId(), principal.getEmail(), roles, principal.getLocationId());
         applyCookies(response, roles, jwt, refreshJwt);
     }
 

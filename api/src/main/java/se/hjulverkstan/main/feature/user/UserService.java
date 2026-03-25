@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.AlreadyUsedException;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.security.model.Role;
 import se.hjulverkstan.main.security.repository.RoleRepository;
 import se.hjulverkstan.main.security.services.RefreshTokenService;
@@ -24,6 +25,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final RefreshTokenService refreshTokenService;
+    private final LocationRepository locationRepository;
 
     public ListResponseDto<UserDto> getAllUsers() {
         List<User> users = userRepository.findAllByHiddenFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -75,5 +77,12 @@ public class UserService {
         String password = (dto.getPassword() != null) ? encoder.encode(dto.getPassword()) : null;
 
         dto.applyToEntity(user, roles, password);
+
+        if (dto.getLocationId() != null) {
+            var location = locationRepository.findById(dto.getLocationId()).orElseThrow(() -> new ElementNotFoundException("Location"));
+            user.setDefaultLocation(location);
+        } else {
+            user.setDefaultLocation(null);
+        }
     }
 }
