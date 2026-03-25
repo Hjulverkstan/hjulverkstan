@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.security.model.ERole;
 import se.hjulverkstan.main.security.model.Role;
 import se.hjulverkstan.main.shared.auditable.Auditable;
@@ -50,6 +51,10 @@ public class User extends Auditable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    private Location defaultLocation;
 
     @Column(nullable = false)
     private boolean hidden = false;

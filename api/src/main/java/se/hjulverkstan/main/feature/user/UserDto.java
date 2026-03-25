@@ -37,6 +37,8 @@ public class UserDto extends AuditableDto {
     @NotNull(message = "Roles is required, set empty array for no roles")
     private List<ERole> roles = new ArrayList<>();
 
+    private Long locationId;
+
     public UserDto(User user) {
         super(user);
 
@@ -45,6 +47,7 @@ public class UserDto extends AuditableDto {
         password = user.getPassword();
         email = user.getEmail();
         roles = user.getRolesDirectly();
+        locationId = user.getDefaultLocation() != null ? user.getDefaultLocation().getId() : null;
     }
 
     // Roles should be set on service level

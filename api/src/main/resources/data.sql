@@ -209,10 +209,10 @@ ON CONFLICT (key) DO NOTHING;
 --
 
 INSERT INTO users
-(username,       email,                     password,                                                       hidden, created_at,            updated_at, created_by, updated_by) VALUES
-('user',         'user@example.com',        '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', false,  '2024-07-17 10:00:00', NOW(),      1,          2),
-('admin',        'admin2@example.com',      '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', false,  '2024-10-18 10:00:00', NOW(),      1,          2),
-('pipeline',     'hjulverkstan@alten.se',   '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', true,   '2024-10-18 10:00:00', NOW(),      1,          2);
+(username,       email,                     password,                                                       hidden, location_id, created_at,            updated_at, created_by, updated_by) VALUES
+('user',     'user@example.com',      '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', false,  1,           '2024-07-17 10:00:00', NOW(),      1,          2),
+('admin',    'admin2@example.com',    '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', false,  2,           '2024-10-18 10:00:00', NOW(),      1,          2),
+('pipeline', 'hjulverkstan@alten.se', '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', true,   1,           '2024-10-18 10:00:00', NOW(),      1,          2);
 
 INSERT INTO roles
 (id, name       ) VALUES
