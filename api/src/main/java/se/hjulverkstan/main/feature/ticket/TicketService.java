@@ -110,7 +110,7 @@ public class TicketService {
 
     private void applyToEntity(Ticket ticket, TicketDto dto, List<Vehicle> vehicles) {
         Location location = locationRepository.findById(dto.getLocationId())
-                .orElseThrow(() -> new ElementNotFoundException("Location with id: " + dto.getEmployeeId()));
+                .orElseThrow(() -> new ElementNotFoundException("Location with id: " + dto.getLocationId()));
 
         Employee employee = employeeRepository.findById(dto.getEmployeeId())
                 .orElseThrow(() -> new ElementNotFoundException("Employee with id: " + dto.getEmployeeId()));
