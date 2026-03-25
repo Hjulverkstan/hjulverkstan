@@ -7,12 +7,13 @@ import { Vehicle } from '@data/vehicle/types';
 import { PortalFilterDate } from '../PortalFilterDate';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import { matchEnumsBy, matchEnumsOnRow } from '@utils/enums';
+import { useAuth } from '@components/Auth';
 
 export default function ShopInventoryFilters() {
+  const { auth } = useAuth();
   const locationEnumsQ = useLocationsAsEnumsQ();
   const ticketEnumsQ = useTicketsAsEnumsQ();
   const enums = useTranslateRawEnums<typeof enumsRaw>(enumsRaw);
-
   return (
     <>
       <DataTable.FilterSearch
@@ -63,10 +64,16 @@ export default function ShopInventoryFilters() {
       </DataTable.FilterPopover>
 
       <DataTable.FilterPopover label="Location">
-        <DataTable.FilterMultiSelect
-          filterKey="location"
-          enums={locationEnumsQ.data ?? []}
-        />
+        {locationEnumsQ.data && locationEnumsQ.data.length > 0 && (
+          <DataTable.FilterMultiSelect
+            key={`location-filter-${auth?.id}`}
+            filterKey="locationId"
+            enums={locationEnumsQ.data}
+            toInitSelected={() => {
+              return auth?.locationId ? [String(auth.locationId)] : [];
+            }}
+          />
+        )}
       </DataTable.FilterPopover>
 
       <DataTable.FilterPopover label="Ticket">

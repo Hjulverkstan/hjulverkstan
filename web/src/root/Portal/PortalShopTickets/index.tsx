@@ -30,23 +30,22 @@ import {
 import { useDialogManager } from '@components/DialogManager';
 import { CreateTicketParams } from '@data/ticket/api';
 import ConfirmConvertDialog from '@components/ConfirmConvertDialog';
+import { useAuth } from '@components/Auth';
 
 //
 
 export default function PortalShopTickets({ mode }: PortalAppPageProps) {
   const { id = '' } = useParams();
+  const { auth } = useAuth();
   const locationState = useLocation().state as VehicleShortcutLocationState;
 
   const shouldInjectWithVehicleId =
     locationState?.action === VehicleShortcutAction.CREATE_TICKET;
 
-  const initTicketInjected = shouldInjectWithVehicleId
-    ? {
-        ...initTicket,
-        vehicleIds: [locationState?.vehicleId],
-        locationId: locationState?.locationId || initTicket.locationId,
-      }
-    : initTicket;
+  const initTicketInjected = initTicket(
+    locationState?.locationId || auth?.locationId,
+    shouldInjectWithVehicleId ? [locationState?.vehicleId] : [],
+  );
 
   const ticketsQ = useTicketsAggregatedQ();
   const ticketQ = useTicketQ({ id });

@@ -7,11 +7,13 @@ import IconLabel from '@components/IconLabel';
 import BadgeGroup from '@components/BadgeGroup';
 import { format } from 'date-fns';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { useLocationsAsEnumsQ } from '@data/location/queries';
 
 //
 
 export default function useColumns() {
   const enums = useTranslateRawEnums(enumsRaw);
+  const { data: locationEnums = [] } = useLocationsAsEnumsQ();
   return useMemo(
     () =>
       [
@@ -40,6 +42,17 @@ export default function useColumns() {
         },
 
         {
+          key: 'locationId',
+          name: 'Location',
+          renderFn: ({ locationId }) => {
+            const location = locationEnums.find(
+              (e) => String(e.value) === String(locationId),
+            );
+            return <IconLabel label={location?.label || ''} />;
+          },
+        },
+
+        {
           key: 'createdAt',
           name: 'Created at',
           renderFn: ({ createdAt }) => (
@@ -50,11 +63,12 @@ export default function useColumns() {
         {
           key: 'updatedAt',
           name: 'Edited at',
-          renderFn: ({ updatedAt }) => updatedAt && (
-            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
-          ),
+          renderFn: ({ updatedAt }) =>
+            updatedAt && (
+              <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
+            ),
         },
       ] as Array<DataTable.Column<User>>,
-    [],
+    [enums, locationEnums],
   );
 }

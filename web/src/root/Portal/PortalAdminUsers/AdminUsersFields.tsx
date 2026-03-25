@@ -1,11 +1,13 @@
 import * as enumsRaw from '@data/user/enums';
 import * as DataForm from '@components/DataForm';
 import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
+import { useLocationsAsEnumsQ } from '@data/location/queries';
 
 export default function AdminUsersFields() {
   const { mode, body } = DataForm.useDataForm();
 
   const enums = useTranslateRawEnums(enumsRaw);
+  const { data: locationEnums = [] } = useLocationsAsEnumsQ();
 
   return (
     <>
@@ -64,6 +66,12 @@ export default function AdminUsersFields() {
         dataKey="roles"
         isMultiSelect
         enums={enums.roles}
+      />
+
+      <DataForm.Select
+        label="Default Location"
+        dataKey="locationId"
+        enums={locationEnums}
       />
     </>
   );

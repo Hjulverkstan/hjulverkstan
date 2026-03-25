@@ -55,7 +55,16 @@ export default function PortalAdminUsers({ mode }: PortalAppPageProps) {
           <DataForm.Provider
             mode={mode}
             isLoading={userQ.isLoading}
-            data={userQ.data}
+            data={
+              userQ.data
+                ? {
+                    ...userQ.data,
+                    locationId: userQ.data.locationId
+                      ? String(userQ.data.locationId)
+                      : undefined,
+                  }
+                : undefined
+            }
             zodSchema={createUserZ(mode)}
             initCreateBody={initUser}
           >

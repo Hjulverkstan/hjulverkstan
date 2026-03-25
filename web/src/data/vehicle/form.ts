@@ -16,11 +16,14 @@ import { useParams } from 'react-router-dom';
 
 //
 
-export const initVehicle: Partial<Vehicle> = {
+export const initVehicle = (
+  locationId?: string | number,
+): Partial<Vehicle> => ({
   vehicleType: VehicleType.BIKE,
   isCustomerOwned: true,
   ticketIds: [],
-};
+  locationId: locationId ? String(locationId) : undefined,
+});
 
 // Vehicle
 

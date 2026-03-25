@@ -62,6 +62,7 @@ export interface LogInRes {
   email: string;
   id: number;
   roles: string[];
+  locationId?: number;
 }
 
 export interface LogInParams {
