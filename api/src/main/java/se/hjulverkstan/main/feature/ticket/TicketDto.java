@@ -83,7 +83,6 @@ public class TicketDto extends AuditableDto {
     }
 
     public Ticket applyToEntity (Ticket ticket, List<Vehicle> vehicles, Location location, Employee employee, Customer customer) {
-        ticket.setId(id);
         ticket.setTicketType(ticketType);
         ticket.setStartDate(ticketType == TicketType.RENT ? startDate : null);
         ticket.setEndDate(ticketType == TicketType.RENT ? endDate : null);
