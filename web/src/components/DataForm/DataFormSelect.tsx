@@ -65,7 +65,7 @@ export const Select = ({
     return (
       <Command.Item
         key={e.value}
-        value={e.value}
+        value={`${e.label}${e.value}`}
         onSelect={() => {
           if (isMultiSelect) {
             const updatedBody = C.toUpdatedArray(getBodyProp(dataKey), {
