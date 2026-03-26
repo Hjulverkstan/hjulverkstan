@@ -19,7 +19,7 @@ export default function ConfirmSendNotificationDialog({
   phoneNumber,
 }: confirmSendNotificationDialogProps) {
   return (
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="sm:max-w-[440px]">
       <DialogHeader>
         <DialogTitle>
           Completing this repair will notify the customer
