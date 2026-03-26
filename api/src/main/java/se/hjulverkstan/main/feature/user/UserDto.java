@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import se.hjulverkstan.main.security.model.ERole;
 import se.hjulverkstan.main.security.model.Role;
 import se.hjulverkstan.main.shared.auditable.AuditableDto;
@@ -32,7 +31,6 @@ public class UserDto extends AuditableDto {
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotBlank(message = "Password is required")
     @Size(min = 3, max = 120)
     transient private String password;
 
