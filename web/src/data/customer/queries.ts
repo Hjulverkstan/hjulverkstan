@@ -58,9 +58,9 @@ export const useCustomersAsEnumsQ = ({
         icon: findEnum(enums, customer.customerType).icon,
         label:
           customer.customerType === CustomerType.PERSON
-            ? `${customer.firstName} ${customer.lastName}`
+            ? `${customer.firstName} ${customer.lastName ?? ''}`
             : withOrgPerson
-              ? `${customer.organizationName} (${customer.firstName} ${customer.lastName})`
+              ? `${customer.organizationName} (${customer.firstName} ${customer.lastName ?? ''})`
               : customer.organizationName!,
         value: customer.id,
       })) ?? [],

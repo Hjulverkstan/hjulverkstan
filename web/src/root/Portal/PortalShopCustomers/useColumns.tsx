@@ -34,8 +34,8 @@ export default function useColumns() {
                   icon: findEnum(enums, customerType).icon!,
                   variant: selected ? 'contrast' : 'outline',
                   label: organizationName
-                    ? `${organizationName} (${firstName} ${lastName})`
-                    : `${firstName} ${lastName}`,
+                    ? `${organizationName} (${firstName} ${lastName ?? ''})`
+                    : `${firstName} ${lastName ?? ''}`,
                 },
               ]}
             />
@@ -101,9 +101,10 @@ export default function useColumns() {
         {
           key: 'updatedAt',
           name: 'Edited at',
-          renderFn: ({ updatedAt }) => updatedAt && (
-            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
-          ),
+          renderFn: ({ updatedAt }) =>
+            updatedAt && (
+              <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
+            ),
         },
       ] as Array<DataTable.Column<AggregatedCustomer>>,
     [ticketEnumsQ.data],

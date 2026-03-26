@@ -66,7 +66,8 @@ export default function PortalShopCustomers({ mode }: PortalAppPageProps) {
               dataLabel="Customer"
               toToolbarName={(body: Customer) =>
                 body.id &&
-                (body.organizationName || `${body.firstName} ${body.lastName}`)
+                (body.organizationName ||
+                  `${body.firstName} ${body.lastName ?? ''}`)
               }
               error={customerQ.error}
               isSubmitting={
