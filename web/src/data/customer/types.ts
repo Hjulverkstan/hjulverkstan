@@ -9,7 +9,7 @@ export interface Customer extends Auditable {
   id: string;
   customerType: CustomerType;
   firstName: string;
-  lastName: string;
+  lastName?: string;
   personalIdentityNumber?: string;
   phoneNumber: string;
   email: string;
