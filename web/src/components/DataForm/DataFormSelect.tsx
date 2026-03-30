@@ -17,6 +17,7 @@ export interface SelectProps extends Omit<FieldProps, 'children'> {
   disabled?: boolean;
   fat?: boolean;
   allowDeselect?: boolean;
+  preLine?: boolean;
 }
 
 export const Select = ({
@@ -28,6 +29,7 @@ export const Select = ({
   disabled,
   fat,
   allowDeselect,
+  preLine,
 }: SelectProps) => {
   const { isLoading, getBodyProp, setBodyProp, isDisabled } = useDataForm();
   const [open, setOpen] = useState(false);
@@ -38,9 +40,17 @@ export const Select = ({
     ? getBodyProp(dataKey)?.length > 3
       ? `${getBodyProp(dataKey)?.length} selected`
       : getBodyProp(dataKey)
-          ?.map((value: string) => enums.find((e) => e.value === value)?.label)
+          ?.map((value: string) => {
+            const e = enums.find((e) => e.value === value);
+            const label = e?.shortLabel || e?.label;
+            return label?.toString().replace(' | ', ' ');
+          })
           .join(', ')
-    : enums.find((e) => e.value === getBodyProp(dataKey))?.label;
+    : (() => {
+        const e = enums.find((e) => e.value === getBodyProp(dataKey));
+        const label = e?.shortLabel || e?.label;
+        return label?.toString().replace(' | ', ' ');
+      })();
 
   const Icon =
     !isMultiSelect &&
@@ -62,10 +72,13 @@ export const Select = ({
       ? getBodyProp(dataKey)?.includes(e.value)
       : getBodyProp(dataKey) === e.value;
 
+    const safeValue = String(e.label)
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
     return (
       <Command.Item
         key={e.value}
-        value={`${e.label}${e.value}`}
+        value={safeValue}
         onSelect={() => {
           if (isMultiSelect) {
             const updatedBody = C.toUpdatedArray(getBodyProp(dataKey), {
@@ -85,7 +98,9 @@ export const Select = ({
       >
         <div className={C.cn('flex w-full items-center', fat && 'py-1')}>
           {e.icon && <e.icon className="mr-2 h-4 w-4" />}
-          <span className="flex-grow">{e.label}</span>
+          <span className={C.cn('flex-grow', preLine && 'whitespace-pre-line')}>
+            {e.label?.toString().replace(' | ', '\n')}
+          </span>
           <CheckIcon
             className={C.cn(
               'ml-2 h-4 w-4',
