@@ -107,6 +107,7 @@ public class TicketService {
 
         Customer customer = ticket.getCustomer();
         ticketRepository.delete(ticket);
+        ticketRepository.flush();
 
         if (customer.isAnonymized()) {
             long remainingTickets = ticketRepository.countByCustomerId(customer.getId());
