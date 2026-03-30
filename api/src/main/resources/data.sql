@@ -21,10 +21,10 @@ INSERT INTO Employee
 --
 
 INSERT INTO Customer
-(customer_type,  first_name, last_name,  personal_identity_number,    organization_name,phone_number,    email,                  created_at, updated_at, created_by, updated_by) VALUES
-('PERSON',       'Tuva',     'Nilsson',  '19900101-1239',             null,             '+46798382301',  'tuva@example.com',     '2024-05-16 10:00:00',      NOW(),      1,          1         ),
-('PERSON',       'Emil',     'Berglund', '19851224-5674',             null,             '+46832103988',  'emil@example.com',     '2024-05-17 10:00:00',      NOW(),      1,          1         ),
-('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Hjulverkstan',        '+46798381201',  'bosseboss@hjulverkstan.se', '2024-05-18 10:00:00',      NOW(),      1,          1         );
+(customer_type,  first_name, last_name,  personal_identity_number,    organization_name,phone_number,    email,                  created_at, updated_at, created_by, updated_by, anonymized) VALUES
+('PERSON',       'Tuva',     'Nilsson',  '19900101-1239',             null,             '+46798382301',  'tuva@example.com',     '2024-05-16 10:00:00',      NOW(),      1,          1,         false),
+('PERSON',       'Emil',     'Berglund', '19851224-5674',             null,             '+46832103988',  'emil@example.com',     '2024-05-17 10:00:00',      NOW(),      1,          1,         false),
+('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Hjulverkstan',        '+46798381201',  'bosseboss@hjulverkstan.se', '2024-05-18 10:00:00',      NOW(),      1,          1,         false);
 
 --
 
