@@ -106,6 +106,7 @@ public class TicketService {
         ticket.getVehicles().forEach(vehicle -> vehicle.getTickets().remove(ticket));
 
         ticketRepository.delete(ticket);
+
     }
 
     private void applyToEntity(Ticket ticket, TicketDto dto, List<Vehicle> vehicles) {
