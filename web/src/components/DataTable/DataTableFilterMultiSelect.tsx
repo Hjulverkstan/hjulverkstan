@@ -68,7 +68,10 @@ export const FilterMultiSelect = ({
     if (dataIsLoaded) {
       setActiveLabels(
         filterKey,
-        selected.map((value) => enums.find((e) => e.value === value)!.label),
+        selected.map((value) => {
+          const item = enums.find((e) => e.value === value);
+          return item ? item.label.toString().replace(' | ', ' ') : '';
+        }),
       );
 
       setFilterFn(

@@ -79,17 +79,21 @@ export default function useColumns() {
         {
           key: 'customerId',
           name: 'Customer',
-          renderFn: ({ customerId }) =>
-            customerEnumsQ.data && (
+          renderFn: ({ customerId }) => {
+            if (!customerEnumsQ.data) return null;
+            const customerEnum = findEnumSafe(customerEnumsQ.data, customerId);
+            return (
               <BadgeGroup
                 badges={[
                   {
-                    ...findEnumSafe(customerEnumsQ.data, customerId),
+                    ...customerEnum,
+                    label: customerEnum.shortLabel || customerEnum.label,
                     href: `${coreUrl}/customers/${customerId}`,
                   },
                 ]}
               />
-            ),
+            );
+          },
         },
 
         {

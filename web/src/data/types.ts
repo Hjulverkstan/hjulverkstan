@@ -17,6 +17,7 @@ export interface EnumAttributesRaw {
 export type EnumAttributes<V extends EnumAttributesRaw = EnumAttributesRaw> =
   V & {
     label: string;
+    shortLabel?: string;
   };
 
 // The result of doing "import * as enumsRaw from '...'

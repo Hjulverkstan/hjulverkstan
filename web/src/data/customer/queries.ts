@@ -64,10 +64,15 @@ export const useCustomersAsEnumsQ = ({
           label: customer.anonymized
             ? 'Removed Customer'
             : customer.customerType === CustomerType.PERSON
-              ? `${customer.firstName} ${customer.lastName ?? ''}`
+              ? `${customer.firstName} ${customer.lastName ?? ''} | ${customer.phoneNumber ?? ''}`.trim()
               : withOrgPerson
-                ? `${customer.organizationName} (${customer.firstName} ${customer.lastName ?? ''})`
+                ? `${customer.organizationName} | (${customer.firstName} ${customer.lastName ?? ''})`.trim()
                 : customer.organizationName!,
+          shortLabel: customer.anonymized
+            ? 'Removed Customer'
+            : customer.customerType === CustomerType.PERSON
+              ? `${customer.firstName} ${customer.lastName ?? ''}`.trim()
+              : customer.organizationName!,
           value: customer.id,
         })) ?? [],
   });

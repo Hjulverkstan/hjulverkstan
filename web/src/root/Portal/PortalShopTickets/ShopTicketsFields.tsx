@@ -29,20 +29,19 @@ export default function ShopTicketFields() {
     const c = customersQ.data?.find((cust) => cust.id === e.value);
     if (!c) return true;
 
-      if (
-        body.ticketType === TicketType.RECEIVE &&
-        c.customerType === CustomerType.PERSON
-      )
-        return false;
-      if (
-        body.ticketType === TicketType.RENT &&
-        c.customerType === CustomerType.ORG
-      )
-        return false;
+    if (
+      body.ticketType === TicketType.RECEIVE &&
+      c.customerType === CustomerType.PERSON
+    )
+      return false;
+    if (
+      body.ticketType === TicketType.RENT &&
+      c.customerType === CustomerType.ORG
+    )
+      return false;
 
-      return true;
-    },
-  );
+    return true;
+  });
 
   useEffect(() => {
     if (mode === DataForm.Mode.CREATE && body.customerId) {
@@ -104,6 +103,7 @@ export default function ShopTicketFields() {
         dataKey="customerId"
         enums={filteredCustomerEnums}
         allowDeselect
+        preLine
       />
 
       <DataForm.Select
