@@ -105,7 +105,15 @@ public class TicketService {
         // We don't cascade remove – but the relation in the many-to-many needs to be cleared.
         ticket.getVehicles().forEach(vehicle -> vehicle.getTickets().remove(ticket));
 
+        Customer customer = ticket.getCustomer();
         ticketRepository.delete(ticket);
+
+        if (customer.isAnonymized()) {
+            long remainingTickets = ticketRepository.countByCustomerId(customer.getId());
+            if (remainingTickets == 0) {
+                customerRepository.delete(customer);
+            }
+        }
     }
 
     private void applyToEntity(Ticket ticket, TicketDto dto, List<Vehicle> vehicles) {

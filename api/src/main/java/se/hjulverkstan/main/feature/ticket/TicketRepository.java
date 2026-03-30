@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> findByVehicles(List<Vehicle> vehicles);
+    long countByCustomerId(Long customerId);
 }
