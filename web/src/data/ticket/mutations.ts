@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { invalidateQueries } from '../queries';
+import { createGetCustomers } from '../customer/api';
 import * as api from './api';
 
 export const useCreateTicketM = () =>
@@ -26,7 +27,11 @@ export const useEditTicketM = () =>
 export const useDeleteTicketM = () =>
   useMutation({
     ...api.createDeleteTicket(),
-    onSuccess: () => invalidateQueries([api.createGetTickets().queryKey]),
+    onSuccess: () =>
+      invalidateQueries([
+        api.createGetTickets().queryKey,
+        createGetCustomers().queryKey,
+      ]),
   });
 
 export const useUpdateTicketStatusM = () =>
