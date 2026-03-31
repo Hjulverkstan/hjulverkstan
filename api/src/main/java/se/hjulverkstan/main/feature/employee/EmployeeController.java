@@ -40,8 +40,7 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEmployee(@PathVariable Long id) {
-        employeeService.deleteEmployee(id);
+    public EmployeeDto deleteEmployee(@PathVariable Long id) {
+        return employeeService.deleteEmployee(id);
     }
 }

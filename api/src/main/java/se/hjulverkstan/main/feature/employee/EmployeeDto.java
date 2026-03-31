@@ -47,6 +47,9 @@ public class EmployeeDto extends AuditableDto {
 
     private String comment;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean anonymized;
+
     public EmployeeDto(Employee employee) {
         super(employee);
 
@@ -58,6 +61,7 @@ public class EmployeeDto extends AuditableDto {
         personalIdentityNumber = employee.getPersonalIdentityNumber();
         ticketIds = employee.getTickets().stream().map(Ticket::getId).toList();
         comment = employee.getComment();
+        anonymized = employee.isAnonymized();
     }
 
     public Employee applyToEntity (Employee employee) {
