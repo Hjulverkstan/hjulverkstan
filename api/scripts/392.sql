@@ -1,0 +1,1 @@
+ALTER TABLE employee ADD COLUMN anonymized BOOLEAN NOT NULL DEFAULT false;
