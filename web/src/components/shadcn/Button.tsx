@@ -40,6 +40,8 @@ export const buttonVariants = cva(
         contrast: ['bg-contrast text-contrast-foreground hover:bg-contrast/80'],
         mutedSharp: ['bg-muted text-foreground shadow-none hover:opacity-80'],
         background: ['bg-background text-foreground hover:opacity-80'],
+        brownBackground: ['bg-brown text-contrast-foreground hover:opacity-80'],
+        brownText: ['bg-background text-brown hover:opacity-80'],
         accent: [
           [
             `data-[state=active]:text-accent-foreground

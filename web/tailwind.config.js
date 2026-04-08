@@ -26,6 +26,12 @@ module.exports = {
         extrabold: '750',
         black: '850',
       },
+      backgroundImage: {
+        blue: "url('/images/grain.svg'), linear-gradient(180deg, rgba(0, 0, 0, 0.08) 5.41%, rgba(0, 0, 0, 0.00) 62.48%), linear-gradient(118deg, #E09CF7 15.26%, #B887FC 44.03%, #64A3F9 85.66%)",
+        peach:
+          "url('/images/grain.svg'), linear-gradient(95deg, #FF877C 17.49%, #FF669E 78.02%)",
+        grain: "url('/images/grain.svg')",
+      },
       colors: {
         border: {
           DEFAULT: 'hsl(var(--border))',
@@ -80,6 +86,17 @@ module.exports = {
           fill: 'hsl(var(--purple-fill))',
           foreground: 'hsl(var(--purple-foreground))',
           border: 'hsl(var(--purple-foreground) / 0.25)',
+        },
+        brown: {
+          DEFAULT: 'hsl(var(--brown))',
+          accent: 'hsl(var(--brown-accent))',
+          border: 'hsl(var(--brown) / 0.25)',
+        },
+
+        plum: {
+          DEFAULT: 'hsl(var(--plum))',
+          accent: 'hsl(var(--plum-accent))',
+          border: 'hsl(var(--plum) / 0.25)',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

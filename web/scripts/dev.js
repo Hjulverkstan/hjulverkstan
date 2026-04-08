@@ -45,11 +45,8 @@ if (imageUrl) {
   app.use(
     imageSlug,
     createProxyMiddleware({
-      target: `https://${imageUrl.replace('https://', '')}`,
+      target: imageUrl,
       changeOrigin: true,
-      pathRewrite: {
-        [`^${imageSlug}`]: '/images',
-      },
     }),
   );
 }

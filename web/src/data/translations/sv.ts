@@ -9,6 +9,7 @@ export default {
   vehicle: 'Fordon',
   portal: 'Portal',
   pageNotFound: 'Sidan finns inte',
+  donate: 'Donera',
 
   open: 'Öppet',
   closed: 'Stängt',
@@ -47,7 +48,7 @@ export default {
   statsBikesLent: 'Cyklar utlånade',
   statsEmployeesHired: 'Anställda',
 
-  communityLinkLabel: 'Arbeta med oss',
+  communityLinkLabel: 'Om oss',
   storiesLinkLabel: 'Se alla berättelser',
   shopsLinkLabel: 'Se alla verkstäder',
 

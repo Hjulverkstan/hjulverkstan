@@ -9,6 +9,7 @@ export default {
   vehicle: 'Vehicle',
   portal: 'Portal',
   pageNotFound: 'Page not found',
+  donate: 'Donate',
 
   open: 'Open',
   closed: 'Closed',
@@ -42,7 +43,7 @@ export default {
   langBos: 'Bosnian',
   langTur: 'Turkish',
 
-  communityLinkLabel: 'Work with us',
+  communityLinkLabel: 'About us',
   storiesLinkLabel: 'See all stories',
   shopsLinkLabel: 'See all shops',
 
