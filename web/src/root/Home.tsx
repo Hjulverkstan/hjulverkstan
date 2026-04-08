@@ -1,18 +1,6 @@
-import {
-  Bike,
-  CalendarDays,
-  CoinsIcon,
-  Hammer,
-  HeartHandshake,
-  PackagePlusIcon,
-  TrafficCone,
-  Wrench,
-} from 'lucide-react';
-
 import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 import { Section } from '@components/Section';
 import { SectionContent } from '@components/SectionContent';
-import { CardDefault } from '@components/CardDefault';
 import { CardStory } from '@components/CardStory';
 import { CardCompact } from '@components/CardCompact';
 import { CardShop } from '@components/CardShop';
@@ -29,6 +17,7 @@ import {
   ServicesRepairCardView,
 } from './Services';
 import { TiptapContentAsText } from '@components/TiptapContentAsText';
+import { ImageCard } from '@components/ImageCard';
 
 const Statistic = ({ label, value }: { label: string; value: number }) => (
   <div className="flex h-full flex-col items-center justify-start text-center">
@@ -85,30 +74,15 @@ export default function Home() {
         </div>
       </div>
 
-      <Section variant="muted">
+      <Section variant="peach" className="relative w-full bg-cover bg-center">
         <SectionContent>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
-            {/* Repair */}
-            <CardDefault
-              icon={Wrench}
-              title={data.text.serviceRepairTitle}
-              body={data.text.serviceRepairBody}
-              linkLabel={t('findShop')}
-              onClick={() =>
-                openDialog(
-                  <ServicesAsDialogWrapper>
-                    <ServicesRepairCardView mode="dialog" />
-                  </ServicesAsDialogWrapper>,
-                )
-              }
-            />
-
-            {/* Rent */}
-            <CardDefault
-              icon={CalendarDays}
+            {/* Borrow */}
+            <ImageCard
               title={data.text.serviceRentTitle}
               body={data.text.serviceRentBody}
-              linkLabel={t('findShop')}
+              image="borrow.jpg"
+              ariaLabel="Learn more about how to borrow our bikes"
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -117,13 +91,29 @@ export default function Home() {
                 )
               }
             />
-
+            {/* Repair */}
+            <ImageCard
+              title={data.text.serviceRepairTitle}
+              body={data.text.serviceRepairBody}
+              variant="pink"
+              image="cardLightPink.jpg"
+              secondaryImage="bicycle.svg"
+              secondImageVariant="fit"
+              ariaLabel="Learn more about hor to repair your bike"
+              onClick={() =>
+                openDialog(
+                  <ServicesAsDialogWrapper>
+                    <ServicesRepairCardView mode="dialog" />
+                  </ServicesAsDialogWrapper>,
+                )
+              }
+            />
             {/* Courses */}
-            <CardDefault
-              icon={TrafficCone}
+            <ImageCard
               title={data.text.serviceCoursesTitle}
               body={data.text.serviceCoursesBody}
-              linkLabel={t('findEvent')}
+              image="courses.jpg"
+              ariaLabel="Learn more about how to go on a course"
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -131,21 +121,23 @@ export default function Home() {
                   </ServicesAsDialogWrapper>,
                 )
               }
-              className="pointer-events-none opacity-25"
             />
-
             {/* Community */}
-            <CardDefault
-              icon={Bike}
+            <ImageCard
               title={data.text.serviceCommunityTitle}
               body={data.text.serviceCommunityBody}
-              link="/"
+              variant="multiple"
+              secondImageVariant="fullBleed"
               linkLabel={t('communityLinkLabel')}
-              className="pointer-events-none opacity-25"
+              ariaLabel="Learn more about joining our community"
+              secondaryImage="community.png"
+              image="cardPink.jpg"
             />
           </div>
         </SectionContent>
+      </Section>
 
+      <Section>
         <SectionContent
           heading={t('stories')}
           linkTo="/stories"
@@ -224,41 +216,45 @@ export default function Home() {
 
       <div className="border-divider w-full border-t"></div>
 
-      <Section>
-        <SectionContent heading={t('joinUsHeading')}>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
-            <CardDefault
-              icon={PackagePlusIcon}
-              title={data.text.supportDonateMaterialTitle}
-              body={data.text.supportDonateMaterialBody}
-              link="/"
-              ariaLabel="Learn more about donating material"
-              variant="muted"
-            />
-            <CardDefault
-              icon={CoinsIcon}
-              title={data.text.supportDonateSwishTitle}
-              body={data.text.supportDonateSwishBody}
-              link="/"
-              ariaLabel="Learn more about donating via Swish"
-              variant="muted"
-            />
-            <CardDefault
-              icon={Hammer}
+      <Section variant="blue" className="relative w-full bg-cover bg-center">
+        <SectionContent>
+          <div
+            className="mx-auto grid w-fit grid-cols-1 justify-center gap-8
+              sm:grid-cols-2 xl:grid-cols-3"
+          >
+            {/* Work with us */}
+            <ImageCard
               title={data.text.supportWorkTitle}
               body={data.text.supportWorkBody}
-              link="/"
-              ariaLabel="Learn more about working with us"
-              variant="muted"
+              baseClassName={true}
+              image="work.jpg"
+              ariaLabel="Learn more about donating via Swish"
             />
-            <CardDefault
-              icon={HeartHandshake}
+            {/* Material */}
+            <ImageCard
+              title={data.text.supportDonateMaterialTitle}
+              body={data.text.supportDonateMaterialBody}
+              image="donate.jpg"
+              variant="brown"
+              className="text-brown"
+              baseClassName={true}
+              ariaLabel="Learn more about hor to repair your bike"
+              onClick={() =>
+                openDialog(
+                  <ServicesAsDialogWrapper>
+                    <ServicesRepairCardView mode="dialog" />
+                  </ServicesAsDialogWrapper>,
+                )
+              }
+            />
+            {/* Partner */}
+            <ImageCard
               title={data.text.supportPartnerTitle}
               body={data.text.supportPartnerBody}
-              link="/contact"
+              baseClassName={true}
+              image="partner.jpg"
               ariaLabel="Learn more about becoming a partner"
-              linkLabel={t('contactUsLinkLabel')}
-              variant="muted"
+              link="/contact"
             />
           </div>
         </SectionContent>

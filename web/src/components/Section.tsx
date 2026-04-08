@@ -7,6 +7,8 @@ const sectionStyles = cva('flex flex-col gap-16 py-16 md:gap-32 md:py-32', {
     variant: {
       default: 'bg-background',
       muted: 'bg-muted',
+      blue: 'bg-blue',
+      peach: 'bg-peach',
     },
   },
   defaultVariants: {

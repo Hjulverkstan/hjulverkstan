@@ -119,7 +119,15 @@ const cardImageVariants = cva('bg-muted overflow-hidden', {
   variants: {
     variant: {
       background: 'absolute inset-0 z-0 h-full w-full',
+      imageBackground: 'absolute inset-0 z-0 h-full w-full',
       inline: 'relative mb-4 w-full self-stretch rounded-lg',
+      noShadow: 'absolute inset-0 z-0 h-full w-full',
+      fullBleed: [
+        'relative self-stretch',
+        '-mx-8 min-w-[calc(100%+4rem)] max-w-none',
+        'mt-auto bg-transparent',
+      ],
+      fit: 'mx-auto mt-auto max-w-[230px] bg-transparent',
     },
   },
   defaultVariants: {
@@ -172,12 +180,20 @@ export const Image: React.FC<CardImageProps> = ({
         </div>
       )}
     </div>
-    {variant === 'background' && (
+    {(variant === 'background' || variant === 'imageBackground') && (
       <div
-        className="absolute inset-0 z-10 bg-gradient-to-t from-black/70
-          via-black/20 to-transparent"
+        className={cn(
+          'absolute inset-0 z-10',
+          variant === 'background' &&
+            'bg-gradient-to-t from-black/50 via-black/20 to-transparent',
+          variant === 'imageBackground' &&
+            'bg-gradient-to-b from-black/50 via-black/20 to-transparent',
+        )}
         aria-hidden="true"
       />
+    )}
+    {variant === 'noShadow' && (
+      <div className={cn('absolute inset-0 z-10')} aria-hidden="true" />
     )}
   </>
 );
@@ -186,7 +202,7 @@ Image.displayName = 'CardImage';
 
 //
 
-const cardBaseVariants = cva('flex flex-col overflow-hidden rounded-lg', {
+const cardBaseVariants = cva('flex flex-col overflow-hidden rounded-[32px]', {
   variants: {
     variant: {
       default: 'bg-background h-auto p-8',
@@ -194,6 +210,12 @@ const cardBaseVariants = cva('flex flex-col overflow-hidden rounded-lg', {
       imageBackground: [
         `text-background light relative h-auto justify-end gap-4 bg-cover
         bg-center p-8`,
+      ],
+      brown: [
+        'text-brown relative h-auto justify-end gap-4 bg-cover bg-center p-8',
+      ],
+      pink: [
+        'text-plum relative h-auto justify-end gap-4 bg-cover bg-center p-8',
       ],
       compact: 'bg-background h-auto w-full flex-1 gap-4 p-8',
       imageAbove: 'bg-background w-full gap-2 rounded-lg md:flex-1',
