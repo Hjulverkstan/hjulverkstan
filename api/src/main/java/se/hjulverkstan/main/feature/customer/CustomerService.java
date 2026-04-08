@@ -88,6 +88,8 @@ public class CustomerService {
         customer.setComment(null);
         customer.setAnonymized(true);
 
+        customer.getTickets().forEach(ticket -> ticket.setComment(null));
+
         customerRepository.save(customer);
         return new CustomerDto(customer);
     }
