@@ -59,7 +59,7 @@ export const useCustomersAsEnumsQ = ({
         .map((customer) => ({
           dataKey,
           icon: customer.anonymized
-            ? undefined
+            ? findEnum(enums, customer.customerType).icon
             : findEnum(enums, customer.customerType).icon,
           label: customer.anonymized
             ? 'Removed Customer'
