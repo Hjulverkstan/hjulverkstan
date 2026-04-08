@@ -27,12 +27,27 @@ module.exports = {
         black: '850',
       },
       backgroundImage: {
-        blue: "url('/images/grain.svg'), linear-gradient(180deg, rgba(0, 0, 0, 0.08) 5.41%, rgba(0, 0, 0, 0.00) 62.48%), linear-gradient(118deg, #E09CF7 15.26%, #B887FC 44.03%, #64A3F9 85.66%)",
-        peach:
-          "url('/images/grain.svg'), linear-gradient(95deg, #FF877C 17.49%, #FF669E 78.02%)",
-        lightPink: "url('/images/Frame 40030.jpg')",
+        'warm-gradient': 'linear-gradient(97deg, #FC6A82 1.89%, #F74284 122.8%)', //pinkish
+        'blue-gradient': 'linear-gradient(94deg, #57ADF9 -20.59%, #A274FD 144.82%)', //blueish/purplish
+        lightPink: 'url(\'/images/Frame 40030.jpg\')',
+        blue: 'linear-gradient(180deg, rgba(0, 0, 0, 0.08) 5.41%, rgba(0, 0, 0, 0.00) 62.48%), linear-gradient(118deg, #E09CF7 15.26%, #B887FC 44.03%, #64A3F9 85.66%)',
+        peach: 'linear-gradient(95deg, #FF877C 17.49%, #FF669E 78.02%)',
+      },
+      boxShadow: {
+        'pink-blur': '0 0 69.1px 0 rgba(95, 17, 58, 0.10)',
+        'bottom-1': '0 0.5px 0 0 hsl(var(--border))',
+      },
+      borderRadius: {
+        'button': '77px',
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        hjul: {
+          dark: '#4A2A0B',
+          muted: '#927C6B',
+        },
         border: {
           DEFAULT: 'hsl(var(--border))',
           dark: 'hsl(var(--border-dark))',
@@ -110,14 +125,6 @@ module.exports = {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',
         },
-      },
-      boxShadow: {
-        'bottom-1': '0 0.5px 0 0 hsl(var(--border))', // Simulates a 1px bottom border
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
         'accordion-down': {

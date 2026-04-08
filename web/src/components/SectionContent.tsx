@@ -22,6 +22,7 @@ const contentStyles = cva('', {
 interface SectionContentProps extends VariantProps<typeof contentStyles> {
   children: React.ReactNode;
   className?: string;
+  linkClassName?: string;
   heading?: string;
   linkTo?: string;
   linkLabel?: string;
@@ -31,6 +32,7 @@ interface SectionContentProps extends VariantProps<typeof contentStyles> {
 export const SectionContent: React.FC<SectionContentProps> = ({
   children,
   className,
+  linkClassName,
   heading,
   linkTo,
   linkLabel,
@@ -55,7 +57,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({
             to={linkTo}
             text={linkLabel}
             icon={ArrowRight}
-            className="hidden md:inline-flex"
+            className={cn("hidden md:inline-flex", linkClassName)}
             variant={linkVariant}
             subVariant="rounded"
             size="large"
@@ -71,6 +73,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({
           to={linkTo}
           text={linkLabel}
           icon={ArrowRight}
+          className={linkClassName}
           variant={linkVariant}
           subVariant="rounded"
           size="large"
