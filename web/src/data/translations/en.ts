@@ -2,6 +2,7 @@ export default {
   home: 'Home',
   shops: 'Shops',
   services: 'Services',
+  updates: 'Updates',
   stories: 'Stories',
   story: 'Story',
   support: 'Support',

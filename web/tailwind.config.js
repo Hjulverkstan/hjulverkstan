@@ -30,7 +30,7 @@ module.exports = {
         blue: "url('/images/grain.svg'), linear-gradient(180deg, rgba(0, 0, 0, 0.08) 5.41%, rgba(0, 0, 0, 0.00) 62.48%), linear-gradient(118deg, #E09CF7 15.26%, #B887FC 44.03%, #64A3F9 85.66%)",
         peach:
           "url('/images/grain.svg'), linear-gradient(95deg, #FF877C 17.49%, #FF669E 78.02%)",
-        grain: "url('/images/grain.svg')",
+        lightPink: "url('/images/Frame 40030.jpg')",
       },
       colors: {
         border: {

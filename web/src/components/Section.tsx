@@ -9,6 +9,7 @@ const sectionStyles = cva('flex flex-col gap-16 py-16 md:gap-32 md:py-32', {
       muted: 'bg-muted',
       blue: 'bg-blue',
       peach: 'bg-peach',
+      lightPink: 'bg-lightPink backDrop-blur-xl',
     },
   },
   defaultVariants: {
