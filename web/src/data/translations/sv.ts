@@ -3,6 +3,7 @@ export default {
   shops: 'Verkstäder',
   services: 'Tjänster',
   stories: 'Berättelser',
+  updates: 'Uppdateringar',
   story: 'Berättelse',
   support: 'Support',
   contact: 'Kontakt',

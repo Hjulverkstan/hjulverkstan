@@ -42,7 +42,6 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
   const { openDialog } = useDialogManager();
-
   const { t } = useTranslations();
 
   return (
@@ -137,9 +136,31 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section>
+      <Section variant={'lightPink'}>
         <SectionContent
-          heading={t('stories')}
+          heading={t('shops')}
+          linkTo="/shops"
+          linkLabel={t('shopsLinkLabel')}
+        >
+          <div
+            className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
+              xl:grid-cols-3"
+          >
+            {data.shops.slice(0, 3).map((shop) => (
+              <CardShop key={shop.id} shop={shop} />
+            ))}
+          </div>
+          <div
+            className="hidden gap-x-8 gap-y-12 md:grid md:grid-cols-2 xl:hidden"
+          >
+            {data.shops.slice(0, 4).map((shop) => (
+              <CardShop key={shop.id} shop={shop} />
+            ))}
+          </div>
+        </SectionContent>
+
+        <SectionContent
+          heading={t('updates')}
           linkTo="/stories"
           linkLabel={t('storiesLinkLabel')}
           linkVariant="background"
@@ -171,32 +192,6 @@ export default function Home() {
           </div>
         </SectionContent>
       </Section>
-
-      <Section>
-        <SectionContent
-          heading={t('shops')}
-          linkTo="/shops"
-          linkLabel={t('shopsLinkLabel')}
-        >
-          <div
-            className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
-              xl:grid-cols-3"
-          >
-            {data.shops.slice(0, 3).map((shop) => (
-              <CardShop key={shop.id} shop={shop} />
-            ))}
-          </div>
-          <div
-            className="hidden gap-x-8 gap-y-12 md:grid md:grid-cols-2 xl:hidden"
-          >
-            {data.shops.slice(0, 4).map((shop) => (
-              <CardShop key={shop.id} shop={shop} />
-            ))}
-          </div>
-        </SectionContent>
-      </Section>
-
-      <div className="border-divider w-full border-t"></div>
 
       <Section>
         <SectionContent>
