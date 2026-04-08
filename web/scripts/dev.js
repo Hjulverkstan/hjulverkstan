@@ -41,7 +41,6 @@ const app = express();
 const imageSlug = process.env.VITE_IMAGES_SLUG;
 const imageUrl = process.env.DEV_PROXY_IMAGES_URL;
 
-if (imageUrl) {
   app.use(
     imageSlug,
     createProxyMiddleware({
@@ -49,7 +48,7 @@ if (imageUrl) {
       changeOrigin: true,
     }),
   );
-}
+
 
 const proxy = process.env.VITE_API_SLUG;
 const api = process.env.DEV_PROXY_API_URL;

@@ -25,17 +25,14 @@ const Statistic = ({ label, value }: { label: string; value: number }) => (
       {value}
     </span>
     <span className="text-h3 text-foreground font-bold">{label}</span>
-  </div>
-);
+  </div>);
 
-const PartnerImg = ({ partner }: { partner: Partner }) => (
-  <img
-    src={partner.src}
-    alt={partner.name}
-    className="max-h-20 w-auto min-w-0 max-w-64 flex-shrink object-contain
+const PartnerImg = ({ partner }: { partner: Partner }) => (<img
+  src={partner.src}
+  alt={partner.name}
+  className="max-h-20 w-auto min-w-0 max-w-64 flex-shrink object-contain
       md:max-w-52"
-  />
-);
+/>);
 
 //
 
@@ -136,80 +133,94 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant={'lightPink'}>
-        <SectionContent
-          heading={t('shops')}
-          linkTo="/shops"
-          linkLabel={t('shopsLinkLabel')}
-        >
-          <div
-            className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
+    <Section variant={'lightPink'}>
+      <SectionContent
+        heading={t('shops')}
+        linkTo="/shops"
+        linkLabel={t('shopsLinkLabel')}
+        className="[&_h2]:text-hjul-dark [&_h2]:font-bold"
+        linkClassName="!bg-warm-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
+      >
+        <div
+          className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
               xl:grid-cols-3"
-          >
-            {data.shops.slice(0, 3).map((shop) => (
-              <CardShop key={shop.id} shop={shop} />
-            ))}
-          </div>
-          <div
-            className="hidden gap-x-8 gap-y-12 md:grid md:grid-cols-2 xl:hidden"
-          >
-            {data.shops.slice(0, 4).map((shop) => (
-              <CardShop key={shop.id} shop={shop} />
-            ))}
-          </div>
-        </SectionContent>
-
-        <SectionContent
-          heading={t('updates')}
-          linkTo="/stories"
-          linkLabel={t('storiesLinkLabel')}
-          linkVariant="background"
         >
-          <div className="flex flex-col gap-8 xl:flex-row">
-            <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
-              {data.stories.slice(0, 2).map((story) => (
-                <CardStory
-                  key={story.id}
-                  story={story}
-                  className="h-96 xl:h-auto"
-                />
-              ))}
-            </div>
-            <div
-              className="flex flex-col gap-8 md:basis-1/3 md:flex-row
-                xl:flex-col"
-            >
-              {data.stories.slice(2, 4).map((story) => (
-                <CardCompact
-                  key={story.id}
-                  title={story.title}
-                  body={<TiptapContentAsText content={story.bodyText} />}
-                  link={`/stories/${story.slug}`}
-                  ariaLabel={story.title}
-                />
-              ))}
-            </div>
-          </div>
-        </SectionContent>
-      </Section>
+          {data.shops.slice(0, 3).map((shop) => (
+            <CardShop
+              key={shop.id}
+              shop={shop}
+              className="
+                !bg-transparent !shadow-none
+                text-hjul-dark [&_h2]:font-normal
+                [&_p]:text-hjul-muted
+                [&_span]:text-hjul-muted
+                [&_svg]:text-hjul-muted" />))}
+        </div>
+        <div
+          className="hidden gap-x-8 gap-y-12 md:grid md:grid-cols-2 xl:hidden"
+        >
+          {data.shops.slice(0, 4).map((shop) => (
+            <CardShop
+              key={shop.id}
+              shop={shop}
+              className="
+              !bg-transparent !shadow-none
+                [&_h2]:text-hjul-dark
+                [&_p]:text-hjul-muted
+                [&_span]:text-hjul-muted
+                [&_svg]:text-hjul-muted" />))}
+        </div>
+      </SectionContent>
 
-      <Section>
-        <SectionContent>
+      <SectionContent
+        heading={t('updates')}
+        linkTo="/stories"
+        linkLabel={t('storiesLinkLabel')}
+        linkVariant="background"
+        className="[&_h2]:text-hjul-dark [&_h2]:font-bold"
+        linkClassName="!bg-blue-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
+      >
+        <div className="flex flex-col gap-8 xl:flex-row">
+          <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
+            {data.stories.slice(0, 2).map((story) => (<CardStory
+              key={story.id}
+              story={story}
+              className="h-96 xl:h-auto"
+            />))}
+          </div>
           <div
-            className="flex flex-col items-center justify-center gap-x-32
+            className="flex flex-col gap-8 md:basis-1/3 md:flex-row
+                xl:flex-col"
+          >
+            {data.stories.slice(2, 4).map((story) => (<CardCompact
+              key={story.id}
+              title={story.title}
+              body={<TiptapContentAsText content={story.bodyText} />}
+              link={`/stories/${story.slug}`}
+              ariaLabel={story.title}
+            />))}
+          </div>
+        </div>
+      </SectionContent>
+    </Section>
+
+    <Section>
+      <SectionContent>
+        <div
+          className="flex flex-col items-center justify-center gap-x-32
               gap-y-24 sm:grid sm:grid-cols-2 sm:px-16 md:px-36
               min-[1200px]:flex min-[1200px]:flex-row
               min-[1200px]:items-baseline min-[1200px]:px-0"
-          >
-            <Statistic label={t('statsBikesRepaired')} value={628} />
-            <Statistic label={t('statsBikesSaved')} value={500} />
-            <Statistic label={t('statsBikesLent')} value={86} />
-            <Statistic label={t('statsEmployeesHired')} value={30} />
-          </div>
-        </SectionContent>
-      </Section>
+        >
+          <Statistic label={t('statsBikesRepaired')} value={628} />
+          <Statistic label={t('statsBikesSaved')} value={500} />
+          <Statistic label={t('statsBikesLent')} value={86} />
+          <Statistic label={t('statsEmployeesHired')} value={30} />
+        </div>
+      </SectionContent>
+    </Section>
 
-      <div className="border-divider w-full border-t"></div>
+    <div className="border-divider w-full border-t"></div>
 
       <Section variant="blue" className="relative w-full bg-cover bg-center">
         <SectionContent>
