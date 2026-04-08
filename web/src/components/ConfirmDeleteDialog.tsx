@@ -38,7 +38,7 @@ export default function ConfirmDeleteDialog({
 
           <p>
             <strong>Archiving</strong> preserves all repair history and records.
-            <strong>Deleting</strong> is <strong>permanent </strong>and should
+            <strong> Deleting</strong> is <strong>permanent </strong>and should
             only be used if this {item} was created by mistake.
           </p>
         </DialogDescription>
