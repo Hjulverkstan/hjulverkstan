@@ -70,11 +70,13 @@ Copy the `.env.template` to `.env`, it should be plug and play except for s3 fun
 
 **1.** Install [IDEA Ultimate](https://www.jetbrains.com/idea/download/) for your OS of choice and activate your licence.
 
-**2.** Open cloned repository in IDEA
+**2.** Open cloned repository in IDEA.
 
-**3.** Navigate to the file `main/src/main/java/se/hjulverkstan/main/MainApplication` and install the JDK from the banner in the code editor. (this way you do not have to do it manually. In case you lose this banner you can always create a new java project in IDEA and install the JDK from there).
+**3.** Import Maven Project: Since IDE-files are not tracked, you must manually link the Maven project to get the correct source folder settings:
+- Right-click the `api/pom.xml` file in the project tree.
+- Select **"Add as Maven Project"**.
 
-**4.** Run the backend and frontend from the run toolbar.
+**4.** Navigate to the file `api/src/main/java/se/hjulverkstan/main/MainApplication` and install the JDK from the banner in the code editor. (this way you do not have to do it manually. In case you lose this banner you can always create a new java project in IDEA and install the JDK from there).
 
 ### IntelliJ IDEA Comunity Edition
 
@@ -136,7 +138,7 @@ This will create the database schema and initialize the required tables.
 
 
 ```bash
-cd main
+cd api
 ./mvn spring-boot:run -D spring-boot.run.profiles=dev
 ```
 
