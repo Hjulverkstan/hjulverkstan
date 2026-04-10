@@ -64,7 +64,7 @@ Copy the `.env.template` to `.env`, it should be plug and play except for s3 fun
 
 > If using IntelliJ IDEA Ultimate the .idea folder will already have a run configuration configured that will read automatically from the .env file.
 
-## Run the project
+## Project Setup
 
 ### IntelliJ IDEA Ultimate
 
@@ -77,6 +77,13 @@ Copy the `.env.template` to `.env`, it should be plug and play except for s3 fun
 - Select **"Add as Maven Project"**.
 
 **4.** Navigate to the file `api/src/main/java/se/hjulverkstan/main/MainApplication` and install the JDK from the banner in the code editor. (this way you do not have to do it manually. In case you lose this banner you can always create a new java project in IDEA and install the JDK from there).
+
+
+**5.** Open a terminal and run: 
+
+```bash
+cd web && npm install
+```
 
 ### IntelliJ IDEA Comunity Edition
 
