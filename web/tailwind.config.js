@@ -13,9 +13,16 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],
+        inter: ['Bricolage Grotesque', 'sans-serif'],
         'dm-mono': ['DMMono', 'Courier New'],
+        'bricolage': ['"Bricolage Grotesque"', 'sans-serif'],
       },
+        fontSize: {
+          'display': ['60px', {
+            lineHeight: '60px',
+            letterSpacing: '-0.72px',
+          }],
+        },
       fontWeight: {
         thin: '100',
         light: '250',

@@ -22,7 +22,7 @@ export const CardShop: React.FC<CardShopProps> = ({ shop, className }) => (
         variant="inline"
         src={shop.imageURL}
         alt={shop.name}
-        className="h-64 w-full object-cover"
+        className="h-64 w-full object-cover rounded-[32px]"
       />
       <Title>{shop.name}</Title>
       <Bullet icon={MapPin}>

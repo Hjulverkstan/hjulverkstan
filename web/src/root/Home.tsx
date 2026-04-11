@@ -45,25 +45,25 @@ export default function Home() {
     <Page hasHeroSection>
       <div
         className="light relative flex w-full flex-col items-center
-          justify-center bg-cover bg-center py-24 md:h-[70vh] md:max-h-[40rem]
-          md:items-start lg:-mt-20 lg:h-[83vh] lg:max-h-[83vh]"
-        style={{ backgroundImage: "url('/hero.jpg')" }}
-      >
+            justify-center bg-cover bg-center py-24 md:h-[70vh] md:max-h-[40rem]
+            md:items-start lg:-mt-20 lg:h-[83vh] lg:max-h-[83vh]"
+       style={{ backgroundImage: "url('/hero.jpg')" }}
+     >
         <div className="absolute inset-0 bg-black opacity-50" />
         <div
           className="relative z-10 mx-auto flex w-[88vw] flex-col items-center
-            gap-4 sm:w-[76vw]"
+              gap-4 sm:w-[76vw]"
         >
           <img
             src="/newlogo.svg"
             alt="Logo"
             className="mb-2 h-20 w-auto sm:mb-4 sm:h-44"
           />
-          <h1 className="text-background text-h1">Hjulverkstan</h1>
+          <h1 className="text-background text-h1 !text-white">Hjulverkstan</h1>
 
           <p
             className="text-h3 text-background mt-2 max-w-[700px] !text-xl
-              sm:mt-4 sm:pr-0 sm:!text-3xl"
+                sm:mt-4 sm:pr-0 sm:!text-3xl"
           >
             {data.text.slogan}
           </p>
@@ -138,18 +138,17 @@ export default function Home() {
         heading={t('shops')}
         linkTo="/shops"
         linkLabel={t('shopsLinkLabel')}
-        className="[&_h2]:text-hjul-dark [&_h2]:font-bold"
+        className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage [&_h2]:text-display [&_h2]:font-bold"
         linkClassName="!bg-warm-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
       >
         <div
           className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
               xl:grid-cols-3"
         >
-          {data.shops.slice(0, 3).map((shop) => (
-            <CardShop
-              key={shop.id}
-              shop={shop}
-              className="
+          {data.shops.slice(0, 3).map((shop) => (<CardShop
+            key={shop.id}
+            shop={shop}
+            className="
                 !bg-transparent !shadow-none
                 text-hjul-dark [&_h2]:font-normal
                 [&_p]:text-hjul-muted
@@ -159,11 +158,10 @@ export default function Home() {
         <div
           className="hidden gap-x-8 gap-y-12 md:grid md:grid-cols-2 xl:hidden"
         >
-          {data.shops.slice(0, 4).map((shop) => (
-            <CardShop
-              key={shop.id}
-              shop={shop}
-              className="
+          {data.shops.slice(0, 4).map((shop) => (<CardShop
+            key={shop.id}
+            shop={shop}
+            className="
               !bg-transparent !shadow-none
                 [&_h2]:text-hjul-dark
                 [&_p]:text-hjul-muted
@@ -177,7 +175,7 @@ export default function Home() {
         linkTo="/stories"
         linkLabel={t('storiesLinkLabel')}
         linkVariant="background"
-        className="[&_h2]:text-hjul-dark [&_h2]:font-bold"
+        className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage [&_h2]:text-display [&_h2]:font-bold"
         linkClassName="!bg-blue-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
       >
         <div className="flex flex-col gap-8 xl:flex-row">
@@ -189,16 +187,23 @@ export default function Home() {
             />))}
           </div>
           <div
-            className="flex flex-col gap-8 md:basis-1/3 md:flex-row
-                xl:flex-col"
-          >
+            className="flex flex-col gap-8 md:basis-1/3">
             {data.stories.slice(2, 4).map((story) => (<CardCompact
-              key={story.id}
-              title={story.title}
-              body={<TiptapContentAsText content={story.bodyText} />}
-              link={`/stories/${story.slug}`}
-              ariaLabel={story.title}
-            />))}
+                key={story.id}
+                title={story.title}
+                body={<TiptapContentAsText content={story.bodyText} />}
+                link={`/stories/${story.slug}`}
+                ariaLabel={story.title}
+                className="text-hjul-dark"
+              />))}
+            {data.stories[2] && (<CardCompact
+                key="manual-test-card"
+                title={data.stories[2].title}
+                body={<TiptapContentAsText
+                  content={data.stories[2].bodyText} />}
+                link={`/stories/${data.stories[2].slug}`}
+                ariaLabel={data.stories[2].title}
+              />)}
           </div>
         </div>
       </SectionContent>
