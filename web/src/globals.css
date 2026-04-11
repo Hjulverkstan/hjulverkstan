@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -127,17 +129,17 @@
 
 h1,
 .text-h1 {
-  @apply text-5xl font-semibold sm:text-7xl;
+  @apply text-5xl font-bricolage sm:text-7xl font-bold text-hjul-dark;
 }
 
 h2,
 .text-h2 {
-  @apply text-[2.5rem] font-semibold sm:text-6xl;
+  @apply text-[2.5rem] font-bricolage sm:text-6xl font-bold text-hjul-dark;
 }
 
 h3,
 .text-h3 {
-  @apply -my-[0.25rem] text-2xl font-semibold sm:-my-[0.1875rem] sm:text-3xl;
+  @apply -my-[0.25rem] text-2xl font-bricolage sm:-my-[0.1875rem] sm:text-3xl font-bold;
 }
 
 h4,

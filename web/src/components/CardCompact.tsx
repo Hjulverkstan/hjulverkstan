@@ -20,7 +20,7 @@ export const CardCompact: React.FC<CardCompactProps> = ({
   ariaLabel,
   className,
 }) => (
-  <Base variant="compact" className={cn('flex flex-col', className)}>
+  <Base variant="compact" className={cn('flex flex-col rounded-[32px]', className)}>
     <Title className="text-h3 mb-4 line-clamp-1">{title}</Title>
     <Row className="items-end">
       <Body className="line-clamp-2">{body}</Body>

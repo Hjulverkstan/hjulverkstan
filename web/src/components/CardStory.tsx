@@ -4,6 +4,7 @@ import { IconLink } from '@components/shadcn/Button';
 import { Base, Body, Image, Row, Title } from '@components/Card';
 import { Story } from '@data/webedit/story/types';
 import { TiptapContentAsText } from '@components/TiptapContentAsText';
+import { cn } from '@utils/common';
 
 interface CardStoryProps {
   story: Story;
@@ -11,7 +12,9 @@ interface CardStoryProps {
 }
 
 export const CardStory: React.FC<CardStoryProps> = ({ story, className }) => (
-  <Base variant="imageBackground" className={className}>
+  <Base variant="imageBackground" className={cn('rounded-[32px]' +
+    ' overflow-hidden', className)}
+  >
     <Image variant="background" src={story.imageURL} alt={story.title} />
     <Title variant="imageBackground">{story.title}</Title>
     <Row className="items-end">
