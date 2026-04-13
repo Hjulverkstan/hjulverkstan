@@ -8,11 +8,13 @@ import {
 } from '@components/shadcn/Dialog';
 import { Button, IconButton } from '@components/shadcn/Button';
 import { Trash2, Archive } from 'lucide-react';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 interface confirmDeleteDialogProps {
   onDelete: () => void;
   onCancel?: () => void;
   onArchive?: () => void;
+  disable?: boolean;
   entity: string;
   entityId?: string;
 }
@@ -23,6 +25,7 @@ export default function ConfirmDeleteDialog({
   entity,
   entityId,
   onArchive,
+  disable,
 }: confirmDeleteDialogProps) {
   const item = entity.toLowerCase();
   const id = entityId?.toLowerCase();
@@ -57,16 +60,30 @@ export default function ConfirmDeleteDialog({
         </DialogClose>
 
         <div className="flex gap-3">
-          <DialogClose asChild>
-            <IconButton
-              variant={'default'}
-              type="button"
-              onClick={onArchive}
-              icon={Archive}
-              text="Archive"
-              className="whitespace-nowrap"
-            />
-          </DialogClose>
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger>
+                <DialogClose asChild>
+                  <IconButton
+                    variant={'default'}
+                    type="button"
+                    onClick={onArchive}
+                    icon={Archive}
+                    text="Archive"
+                    className="whitespace-nowrap"
+                    disabled={disable}
+                  />
+                </DialogClose>
+              </Tooltip.Trigger>
+              {disable && (
+                <Tooltip.Content
+                  className="bg-primary rounded-sm p-2 text-white"
+                >
+                  Archive ticket first.
+                </Tooltip.Content>
+              )}
+            </Tooltip.Root>
+          </Tooltip.Provider>
 
           <DialogClose asChild>
             <IconButton

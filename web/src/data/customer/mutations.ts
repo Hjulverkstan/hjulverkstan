@@ -27,3 +27,9 @@ export const useDeleteCustomerM = () =>
     ...api.createDeleteCustomer(),
     onSuccess: () => invalidateQueries([api.createGetCustomers().queryKey]),
   });
+
+export const useArchiveCustomerM = () =>
+  useMutation({
+    ...api.createSoftDeleteCustomer(),
+    onSuccess: () => invalidateQueries([api.createGetCustomers().queryKey]),
+  });

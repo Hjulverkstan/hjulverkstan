@@ -29,6 +29,16 @@ export const useDeleteStoryM = () =>
     onSuccess: (_, { id, lang }) =>
       invalidateQueries([
         api.createGetStories({ lang }).queryKey,
-        api.createGetStory({ id, lang }).queryKey
+        api.createGetStory({ id, lang }).queryKey,
+      ]),
+  });
+
+export const useSoftDeleteStoryM = () =>
+  useMutation({
+    ...api.createSoftDeleteStory(),
+    onSuccess: (_, { id, lang }) =>
+      invalidateQueries([
+        api.createGetStories({ lang }).queryKey,
+        api.createGetStory({ id, lang }).queryKey,
       ]),
   });

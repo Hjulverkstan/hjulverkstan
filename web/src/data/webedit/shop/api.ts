@@ -40,7 +40,9 @@ export type CreateShopParams = WithLang<Omit<Shop, 'id'>>;
 export const createCreateShop = () => ({
   mutationFn: ({ lang, ...body }: CreateShopParams) =>
     instance
-      .post<CreateShopRes>(`${endpoints.webedit.shop}`, body, { params: { lang } })
+      .post<CreateShopRes>(`${endpoints.webedit.shop}`, body, {
+        params: { lang },
+      })
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.webedit.shop)),
 });
@@ -53,7 +55,9 @@ export type EditShopParams = WithLang<Shop>;
 export const createEditShop = () => ({
   mutationFn: ({ id, lang, ...body }: EditShopParams) =>
     instance
-      .put<EditShopRes>(`${endpoints.webedit.shop}/${id}`, body, { params: { lang } })
+      .put<EditShopRes>(`${endpoints.webedit.shop}/${id}`, body, {
+        params: { lang },
+      })
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.webedit.shop)),
 });
@@ -64,6 +68,18 @@ export type DeleteShopParams = WithLang<{ id: string }>;
 
 export const createDeleteShop = () => ({
   mutationFn: ({ id, lang }: DeleteShopParams) =>
+    instance
+      .delete(`${endpoints.webedit.shop}/${id}/hard`, { params: { lang } })
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.webedit.shop)),
+});
+
+// SOFT DELETE
+
+export type SoftDeleteShopParams = WithLang<{ id: string }>;
+
+export const createSoftDeleteShop = () => ({
+  mutationFn: ({ id, lang }: SoftDeleteShopParams) =>
     instance
       .delete(`${endpoints.webedit.shop}/${id}`, { params: { lang } })
       .then((res) => res.data)

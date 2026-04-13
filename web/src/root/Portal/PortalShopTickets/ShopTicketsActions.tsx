@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import {
   useDeleteTicketM,
+  useSoftDeleteTicketM,
   useUpdateTicketStatusM,
 } from '@data/ticket/mutations';
 import {
@@ -34,6 +35,7 @@ import {
   createSuccessToast,
 } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
+import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
 
 export default function ShopTicketsActions({
   row: ticket,
@@ -45,6 +47,7 @@ export default function ShopTicketsActions({
 
   const [open, setOpen] = useState(false);
 
+  const archiveTicketM = useSoftDeleteTicketM();
   const deleteTicketM = useDeleteTicketM();
   const updateTicketStatusM = useUpdateTicketStatusM();
 
@@ -55,6 +58,23 @@ export default function ShopTicketsActions({
     vehiclesQ.data?.filter((vehicle) =>
       ticket.vehicleIds.includes(vehicle.id),
     ) ?? [];
+
+  const onArchive = () => {
+    archiveTicketM.mutate(ticket.id, {
+      onSuccess: (res: Ticket) => {
+        toast(
+          createSuccessToast({
+            verbLabel: 'archive',
+            dataLabel: 'ticket',
+            id: res.id,
+          }),
+        );
+      },
+      onError: () => {
+        toast(createErrorToast({ verbLabel: 'archive', dataLabel: 'ticket' }));
+      },
+    });
+  };
 
   const onDelete = () => {
     deleteTicketM.mutate(ticket.id, {
@@ -73,10 +93,21 @@ export default function ShopTicketsActions({
     });
   };
 
+  const handleArchiveClick = () => {
+    openDialog(
+      <ConfirmArchiveDialog
+        onArchive={onArchive}
+        entity={ticket.ticketType}
+        entityId={ticket.id}
+      />,
+    );
+  };
+
   const handleDeleteClick = () => {
     openDialog(
       <ConfirmDeleteDialog
         onDelete={onDelete}
+        onArchive={onArchive}
         entity={ticket.ticketType}
         entityId={ticket.id}
       />,
@@ -162,17 +193,8 @@ export default function ShopTicketsActions({
         />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content align="end" className="w-[160px]">
-        <DropdownMenu.Item
-          onClick={(e) => e.stopPropagation()}
-          onSelect={() => handleDeleteClick()}
-        >
-          Delete
-          <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
-        </DropdownMenu.Item>
-
         {allowedStatuses?.length && (
           <DropdownMenu.Sub>
-            <DropdownMenu.Separator />
             <DropdownMenu.SubTrigger>Status</DropdownMenu.SubTrigger>
             <DropdownMenu.SubContent
               onClick={(e) => {
@@ -198,8 +220,23 @@ export default function ShopTicketsActions({
                 </DropdownMenu.Item>
               ))}
             </DropdownMenu.SubContent>
+            <DropdownMenu.Separator />
           </DropdownMenu.Sub>
         )}
+        <DropdownMenu.Item
+          onClick={(e) => e.stopPropagation()}
+          onSelect={() => handleArchiveClick()}
+        >
+          Archive
+          <DropdownMenu.Shortcut></DropdownMenu.Shortcut>
+        </DropdownMenu.Item>
+        <DropdownMenu.Item
+          onClick={(e) => e.stopPropagation()}
+          onSelect={() => handleDeleteClick()}
+        >
+          Delete
+          <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
+        </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

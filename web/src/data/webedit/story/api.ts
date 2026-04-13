@@ -27,7 +27,9 @@ export const createGetStory = ({ id, lang }: GetStoryParams) => ({
   queryKey: [endpoints.webedit.story, id, lang],
   queryFn: () =>
     instance
-      .get<GetStoryRes>(`${endpoints.webedit.story}/${id}`, { params: { lang } })
+      .get<GetStoryRes>(`${endpoints.webedit.story}/${id}`, {
+        params: { lang },
+      })
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.webedit.story)),
 });
@@ -40,7 +42,9 @@ export type CreateStoryParams = WithLang<Omit<Story, 'id'>>;
 export const createCreateStory = () => ({
   mutationFn: ({ lang, ...body }: CreateStoryParams) =>
     instance
-      .post<CreateStoryRes>(`${endpoints.webedit.story}`, body, { params: { lang } })
+      .post<CreateStoryRes>(`${endpoints.webedit.story}`, body, {
+        params: { lang },
+      })
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.webedit.story)),
 });
@@ -53,7 +57,9 @@ export type EditStoryParams = WithLang<Story>;
 export const createEditStory = () => ({
   mutationFn: ({ id, lang, ...body }: EditStoryParams) =>
     instance
-      .put<EditStoryRes>(`${endpoints.webedit.story}/${id}`, body, { params: { lang } })
+      .put<EditStoryRes>(`${endpoints.webedit.story}/${id}`, body, {
+        params: { lang },
+      })
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.webedit.story)),
 });
@@ -64,6 +70,18 @@ export type DeleteStoryParams = WithLang<{ id: string }>;
 
 export const createDeleteStory = () => ({
   mutationFn: ({ id, lang }: DeleteStoryParams) =>
+    instance
+      .delete(`${endpoints.webedit.story}/${id}/hard`, { params: { lang } })
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.webedit.story)),
+});
+
+// SOFT DELETE
+
+export type SoftDeleteStoryParams = WithLang<{ id: string }>;
+
+export const createSoftDeleteStory = () => ({
+  mutationFn: ({ id, lang }: SoftDeleteStoryParams) =>
     instance
       .delete(`${endpoints.webedit.story}/${id}`, { params: { lang } })
       .then((res) => res.data)

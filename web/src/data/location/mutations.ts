@@ -27,3 +27,9 @@ export const useDeleteLocationM = () =>
     ...api.createDeleteLocation(),
     onSuccess: () => invalidateQueries([api.createGetLocations().queryKey]),
   });
+
+export const useSoftDeleteLocationM = () =>
+  useMutation({
+    ...api.createSoftDeleteLocation(),
+    onSuccess: () => invalidateQueries([api.createGetLocations().queryKey]),
+  });

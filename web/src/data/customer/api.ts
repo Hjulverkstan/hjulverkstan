@@ -63,6 +63,16 @@ export const createEditCustomer = () => ({
 export const createDeleteCustomer = () => ({
   mutationFn: (id: string) =>
     instance
+      .delete<Customer>(`${endpoints.customer}/${id}/purge`)
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.customer)),
+});
+
+// SOFT DELETE
+
+export const createSoftDeleteCustomer = () => ({
+  mutationFn: (id: string) =>
+    instance
       .delete<Customer>(`${endpoints.customer}/${id}`)
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.customer)),

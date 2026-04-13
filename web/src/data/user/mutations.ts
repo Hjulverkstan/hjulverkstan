@@ -22,6 +22,12 @@ export const useEditUserM = () =>
       ]),
   });
 
+export const useSoftDeleteUserM = () =>
+  useMutation({
+    ...api.createSoftDeleteUser(),
+    onSuccess: () => invalidateQueries([api.createGetUsers().queryKey]),
+  });
+
 export const useDeleteUserM = () =>
   useMutation({
     ...api.createDeleteUser(),

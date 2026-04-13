@@ -63,6 +63,16 @@ export const createEditLocation = () => ({
 export const createDeleteLocation = () => ({
   mutationFn: (id: string) =>
     instance
+      .delete(`${endpoints.location}/${id}/hard`)
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.location)),
+});
+
+// SOFT DELETE
+
+export const createSoftDeleteLocation = () => ({
+  mutationFn: (id: string) =>
+    instance
       .delete(`${endpoints.location}/${id}`)
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.location)),

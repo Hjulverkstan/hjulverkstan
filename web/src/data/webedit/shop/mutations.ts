@@ -29,3 +29,10 @@ export const useDeleteShopM = () =>
     onSuccess: (_, { lang }) =>
       invalidateQueries([api.createGetShops({ lang }).queryKey]),
   });
+
+export const useSoftDeleteShopM = () =>
+  useMutation({
+    ...api.createSoftDeleteShop(),
+    onSuccess: (_, { lang }) =>
+      invalidateQueries([api.createGetShops({ lang }).queryKey]),
+  });

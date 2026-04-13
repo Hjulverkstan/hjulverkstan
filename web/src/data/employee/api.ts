@@ -63,6 +63,16 @@ export const createEditEmployee = () => ({
 export const createDeleteEmployee = () => ({
   mutationFn: (id: string) =>
     instance
+      .delete(`${endpoints.employee}/${id}/purge`)
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.employee)),
+});
+
+// SOFT DELETE
+
+export const createSoftDeleteEmployee = () => ({
+  mutationFn: (id: string) =>
+    instance
       .delete(`${endpoints.employee}/${id}`)
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.employee)),
