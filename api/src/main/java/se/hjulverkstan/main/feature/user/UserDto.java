@@ -38,6 +38,7 @@ public class UserDto extends AuditableDto {
     private List<ERole> roles = new ArrayList<>();
 
     private Long locationId;
+    private boolean isArchived;
 
     public UserDto(User user) {
         super(user);
@@ -48,12 +49,14 @@ public class UserDto extends AuditableDto {
         email = user.getEmail();
         roles = user.getRolesDirectly();
         locationId = user.getDefaultLocation() != null ? user.getDefaultLocation().getId() : null;
+        isArchived = user.isArchived();
     }
 
     // Roles should be set on service level
     public User applyToEntity (User user, List<Role> roles, String password) {
        user.setUsername(username);
        user.setEmail(email);
+       user.setArchived(isArchived);
 
        user.setRoles(roles);
        if (password != null) user.setPassword(password);

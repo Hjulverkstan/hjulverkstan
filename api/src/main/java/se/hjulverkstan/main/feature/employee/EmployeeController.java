@@ -38,9 +38,13 @@ public class EmployeeController {
         return employeeService.editEmployee(id, employee);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/purge")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public EmployeeDto deleteEmployee(@PathVariable Long id) {
         return employeeService.deleteEmployee(id);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public EmployeeDto softDeleteEmployee(@PathVariable Long id) { return employeeService.softDeleteEmployee(id); }
 }

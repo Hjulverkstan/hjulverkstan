@@ -10,7 +10,6 @@ import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.feature.vehicle.model.VehicleStatus;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +27,14 @@ public class SiteRepository {
 
         String baseQuery = """
                     SELECT v FROM Vehicle v
-                    WHERE v.isCustomerOwned = false
+                    WHERE v.archived = false
+                      AND v.isCustomerOwned = false
                       AND v.vehicleStatus = :status
                       AND NOT EXISTS (
                           SELECT t FROM Ticket t
                           JOIN t.vehicles tv
                           WHERE tv = v
+                            AND t.archived = false
                             AND t.ticketType = :rentType
                             AND t.ticketStatus != :closed
                             AND t.startDate BETWEEN :now AND :margin

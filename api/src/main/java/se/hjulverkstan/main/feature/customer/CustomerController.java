@@ -35,8 +35,13 @@ public class CustomerController {
         return customerService.editCustomer(id, dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/purge")
     public CustomerDto deleteCustomer(@PathVariable Long id){
         return customerService.deleteCustomer(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public CustomerDto softDeleteCustomer(@PathVariable Long id){
+        return customerService.softDeleteCustomer(id);
     }
 }

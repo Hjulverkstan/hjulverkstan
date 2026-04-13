@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.webedit.release.Releasable;
-import se.hjulverkstan.main.feature.webedit.translation.Translation;
-
-import java.util.List;
 
 @Entity
 @Data
@@ -20,6 +17,7 @@ public class Shop extends Releasable {
     private Double longitude;
     private String imageURL;
     private String slug;
+    private boolean archived = false;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "open_hours_id", referencedColumnName = "id")

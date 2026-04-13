@@ -42,7 +42,13 @@ public class TicketController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTicket(@PathVariable Long id) {
-        ticketService.deleteTicket(id);
+    public void softDeleteTicket(@PathVariable Long id) {
+        ticketService.softDeleteTicket(id);
+    }
+
+    @DeleteMapping("/{id}/hard")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void hardDelete(@PathVariable Long id) {
+        ticketService.hardDelete(id);
     }
 }

@@ -52,6 +52,7 @@ public class CustomerDto extends AuditableDto {
 
     private String organizationName;
     private String comment;
+    private boolean archived;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean anonymized;
@@ -67,9 +68,10 @@ public class CustomerDto extends AuditableDto {
         organizationName = customer.getOrganizationName();
         phoneNumber = customer.getPhoneNumber();
         email = customer.getEmail();
-        ticketIds = customer.getTickets().stream().map(Ticket::getId).toList();
+        ticketIds = customer.getTickets().stream().filter(ticket -> !ticket.isArchived()).map(Ticket::getId).toList();
         comment = customer.getComment();
         anonymized = customer.isAnonymized();
+        archived = customer.isArchived();
     }
 
     public Customer applyToEntity (Customer customer) {
@@ -81,6 +83,7 @@ public class CustomerDto extends AuditableDto {
         customer.setPhoneNumber(phoneNumber);
         customer.setEmail(email);
         customer.setComment(comment);
+        customer.setArchived(archived);
 
         return customer;
     }

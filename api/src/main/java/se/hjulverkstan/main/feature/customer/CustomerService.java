@@ -18,7 +18,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public ListResponseDto<CustomerDto> getAllCustomer() {
-        List<Customer> customers = customerRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Customer> customers = customerRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(customers.stream().map(CustomerDto::new).toList());
     }
 
@@ -69,6 +69,22 @@ public class CustomerService {
 
         CustomerDto dto = new CustomerDto(customer);
         customerRepository.delete(customer);
+        return dto;
+    }
+
+    @Transactional
+    public CustomerDto softDeleteCustomer(Long id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Customer"));
+
+        boolean hasActiveTickets = customer.getTickets().stream().anyMatch(ticket -> !ticket.isArchived());
+
+        if(hasActiveTickets) {
+           throw new InvalidDataException("Cannot archive a customer with active tickets");
+        }
+
+        customer.setArchived(true);
+        CustomerDto dto = new CustomerDto(customer);
+        customerRepository.save(customer);
         return dto;
     }
 

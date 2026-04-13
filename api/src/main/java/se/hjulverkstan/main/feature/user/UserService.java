@@ -28,7 +28,7 @@ public class UserService {
     private final LocationRepository locationRepository;
 
     public ListResponseDto<UserDto> getAllUsers() {
-        List<User> users = userRepository.findAllByHiddenFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<User> users = userRepository.findAllByHiddenFalseAndArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(users.stream().map(UserDto::new).toList());
     }
 
@@ -61,6 +61,13 @@ public class UserService {
         applyToEntity(user, dto);
         userRepository.save(user);
         return new UserDto(user);
+    }
+
+    @Transactional
+    public void softDeleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("User"));
+        user.setArchived(true);
+        userRepository.save(user);
     }
 
     @Transactional

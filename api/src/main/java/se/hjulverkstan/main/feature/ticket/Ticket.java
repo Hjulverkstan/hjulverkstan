@@ -36,6 +36,7 @@ public class Ticket extends Auditable {
     private String repairDescription; // Used when type = repair
     private String comment;
     private LocalDateTime statusUpdatedAt;
+    private boolean archived = false;
 
     @ManyToMany
     @JoinTable(

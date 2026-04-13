@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
+import se.hjulverkstan.main.error.exceptions.InvalidDataException;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.feature.ticket.Ticket;
@@ -25,7 +26,7 @@ public class VehicleService {
     private final LocationRepository locationRepository;
 
     public ListResponseDto<VehicleDto> getAllVehicles() {
-        List<Vehicle> vehicles = vehicleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Vehicle> vehicles = vehicleRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<VehicleDto> dtos = vehicles.stream().map(VehicleDto::new).toList();
         return new ListResponseDto<>(dtos);
     }
@@ -36,7 +37,7 @@ public class VehicleService {
     }
 
     public FilteredResponseDto<VehicleDto, VehicleFilterCountsDto> searchVehicles(VehicleFilterDto filterDto) {
-        List<Vehicle> vehicles = vehicleRepository.findAll(VehicleFilter.create(filterDto), Sort.by("createdAt"));
+        List<Vehicle> vehicles = vehicleRepository.findAllByArchivedFalse(VehicleFilter.create(filterDto), Sort.by("createdAt"));
         List<VehicleDto> dtos = vehicles.stream().map(VehicleDto::new).toList();
 
         return new FilteredResponseDto<>(dtos, new VehicleFilterCountsDto(dtos));
@@ -82,10 +83,26 @@ public class VehicleService {
     }
 
     @Transactional
+    public void softDeleteVehicle(Long id) {
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Vehicle"));
+
+        boolean hasActiveTickets = vehicle.getTickets().stream().anyMatch(ticket -> !ticket.isArchived());
+        if(hasActiveTickets) {
+            throw new InvalidDataException("Cannot archive vehicle with active tickets");
+        }
+
+        vehicle.setArchived(true);
+        vehicleRepository.save(vehicle);
+    }
+
+    @Transactional
     public void deleteVehicle(Long id) {
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Vehicle"));
 
-        vehicle.getTickets().forEach(ticket -> ticket.getVehicles().remove(vehicle));
+        if(vehicle.getTickets() != null && !vehicle.getTickets().isEmpty()) {
+            throw new InvalidDataException("Cannot delete vehicle with active tickets");
+        }
+
         vehicleRepository.delete(vehicle);
     }
 

@@ -42,6 +42,13 @@ public class LocationController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void softDeleteLocation(@PathVariable Long id) {
+        locationService.softDeleteLocation(id);
+    }
+
+    @DeleteMapping("/{id}/hard")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLocation(@PathVariable Long id) {
         locationService.deleteLocation(id);
     }

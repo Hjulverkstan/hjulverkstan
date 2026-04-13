@@ -20,7 +20,7 @@ public class LocationService {
     private final ShopRepository shopRepository;
 
     public ListResponseDto<LocationDto> getAllLocations() {
-        List<Location> locations = locationRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Location> locations = locationRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(locations.stream().map(LocationDto::new).toList());
     }
 
@@ -45,6 +45,25 @@ public class LocationService {
         locationRepository.save(location);
 
         return new LocationDto(location);
+    }
+
+    @Transactional
+    public void softDeleteLocation(Long id) {
+        Location location = locationRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Location"));
+
+        boolean hasActiveVehicles = location.getVehicles().stream().anyMatch(vehicle -> !vehicle.isArchived());
+
+        if (hasActiveVehicles) {
+            throw new CouldNotDeleteException("Location has associated vehicles");
+        }
+
+        if (shopRepository.existsByLocation_Id(id)) {
+            throw new CouldNotDeleteException("Location has an associated shop");
+        }
+
+        location.setArchived(true);
+
+        locationRepository.save(location);
     }
 
     @Transactional

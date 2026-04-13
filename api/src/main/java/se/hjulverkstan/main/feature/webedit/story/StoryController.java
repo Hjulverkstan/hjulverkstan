@@ -3,7 +3,6 @@ package se.hjulverkstan.main.feature.webedit.story;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.hjulverkstan.main.feature.webedit.translation.Language;
@@ -39,6 +38,12 @@ public class StoryController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void softDeleteStory(@PathVariable Long id, @RequestParam Language lang) {
+        storyService.softDeleteStory(id, lang);
+    }
+
+    @DeleteMapping("/{id}/hard")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStory(@PathVariable Long id, @RequestParam Language lang) {
         storyService.deleteStory(id, lang);
