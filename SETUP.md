@@ -72,14 +72,17 @@ Copy the `.env.template` to `.env`, it should be plug and play except for s3 fun
 
 **2.** Open cloned repository in IDEA.
 
-**3.** Import Maven Project: Since IDE-files are not tracked, you must manually link the Maven project to get the correct source folder settings:
+**3.** Navigate to the file `api/src/main/java/se/hjulverkstan/main/MainApplication` and install the JDK from the banner in the code editor. (this way you do not have to do it manually. In case you lose this banner you can always create a new java project in IDEA and install the JDK from there).
+
+**4.** Restart IntelliJ IDEA.
+
+**5.** Reload Maven: Double-click Shift, search for "Reload All Maven Projects", and run it.
+
+**6.** Import Maven Project: Since IDE-files are not tracked, you must manually link the Maven project to get the correct source folder settings:
 - Right-click the `api/pom.xml` file in the project tree.
 - Select **"Add as Maven Project"**.
 
-**4.** Navigate to the file `api/src/main/java/se/hjulverkstan/main/MainApplication` and install the JDK from the banner in the code editor. (this way you do not have to do it manually. In case you lose this banner you can always create a new java project in IDEA and install the JDK from there).
-
-
-**5.** Open a terminal and run: 
+**7.** Open a terminal and run: 
 
 ```bash
 cd web && npm install
