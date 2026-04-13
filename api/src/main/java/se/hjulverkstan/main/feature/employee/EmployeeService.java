@@ -18,7 +18,7 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     public ListResponseDto<EmployeeDto> getAllEmployees() {
-        List<Employee> employees = employeeRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Employee> employees = employeeRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(employees.stream().map(EmployeeDto::new).toList());
     }
 
@@ -46,6 +46,20 @@ public class EmployeeService {
         dto.applyToEntity(employee);
         employeeRepository.save(employee);
 
+        return new EmployeeDto(employee);
+    }
+
+    @Transactional
+    public EmployeeDto softDeleteEmployee(Long id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Employee"));
+
+        boolean hasActiveTickets = employee.getTickets().stream().anyMatch(ticket -> !ticket.isArchived());
+        if(hasActiveTickets) {
+            throw new IllegalStateException("Can't archive employee: archive active tickets first");
+        }
+
+        employee.setArchived(true);
+        employeeRepository.save(employee);
         return new EmployeeDto(employee);
     }
 

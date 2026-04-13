@@ -31,6 +31,6 @@ public class Customer extends Auditable {
     private List<Ticket> tickets = new ArrayList<>();
 
     private String comment;
-
     private boolean anonymized = false;
+    private boolean archived = false;
 }

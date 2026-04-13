@@ -241,7 +241,7 @@ export default function ShopInventoryActions({
               </DropdownMenu.Item>
             </Tooltip.Trigger>
             {hasTickets && (
-              <Tooltip.Content className="bg-primary text-white">
+              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
                 Archive ticket first.
               </Tooltip.Content>
             )}
@@ -260,7 +260,7 @@ export default function ShopInventoryActions({
               </DropdownMenu.Item>
             </Tooltip.Trigger>
             {hasTickets && (
-              <Tooltip.Content className="bg-primary text-white">
+              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
                 Delete ticket first.
               </Tooltip.Content>
             )}

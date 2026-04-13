@@ -110,7 +110,7 @@ export default function AdminEmployeesActions({
               </DropdownMenu.Item>
             </Tooltip.Trigger>
             {hasTickets && (
-              <Tooltip.Content className="bg-primary text-white">
+              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
                 Cannot archive employees with tickets.
               </Tooltip.Content>
             )}
@@ -129,7 +129,7 @@ export default function AdminEmployeesActions({
               </DropdownMenu.Item>
             </Tooltip.Trigger>
             {hasTickets && (
-              <Tooltip.Content className="bg-primary text-white">
+              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
                 Cannot delete employees with tickets.
               </Tooltip.Content>
             )}

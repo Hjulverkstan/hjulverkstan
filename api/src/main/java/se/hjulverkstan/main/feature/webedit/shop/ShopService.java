@@ -5,14 +5,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.hjulverkstan.main.error.exceptions.ElementNotFoundException;
-import se.hjulverkstan.main.error.exceptions.UnsupportedArgumentException;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
 import se.hjulverkstan.main.feature.webedit.WebEditEntity;
 import se.hjulverkstan.main.feature.webedit.release.Identity;
 import se.hjulverkstan.main.feature.webedit.release.IdentityRepository;
-import se.hjulverkstan.main.feature.webedit.translation.Language;
-import se.hjulverkstan.main.feature.webedit.translation.TranslationService;
 import se.hjulverkstan.main.shared.ListResponseDto;
 
 import java.util.List;
@@ -27,7 +24,7 @@ public class ShopService {
     private final IdentityRepository identityRepository;
 
     public ListResponseDto<ShopDto> getAllShops() {
-        List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Shop> shops = shopRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
 
         return new ListResponseDto<>(shops.stream().map(this::toDto).toList());
     }
@@ -58,6 +55,13 @@ public class ShopService {
         shopRepository.save(shop);
 
         return toDto(shop);
+    }
+
+    @Transactional
+    public void softDeleteShop(Long id) {
+        Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
+        shop.setArchived(true);
+        shopRepository.save(shop);
     }
 
     @Transactional

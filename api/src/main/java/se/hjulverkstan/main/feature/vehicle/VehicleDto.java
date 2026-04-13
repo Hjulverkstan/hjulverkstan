@@ -41,6 +41,7 @@ public class VehicleDto extends AuditableDto {
     @JsonProperty("isCustomerOwned")
     private boolean isCustomerOwned;
 
+    private boolean archived;
     private String imageURL;
     private String comment;
 
@@ -70,8 +71,9 @@ public class VehicleDto extends AuditableDto {
         vehicleStatus = vehicle.getVehicleStatus();
         imageURL = vehicle.getImageURL();
         comment = vehicle.getComment();
-        ticketIds = vehicle.getTickets().stream().map(Ticket::getId).toList();
+        ticketIds = vehicle.getTickets().stream().filter(ticket -> !ticket.isArchived()).map(Ticket::getId).toList();
         isCustomerOwned = vehicle.isCustomerOwned();
+        archived = vehicle.isArchived();
         locationId = vehicle.getLocation() == null ? null : vehicle.getLocation().getId();
 
         regTag = vehicle.getRegTag();
@@ -88,6 +90,7 @@ public class VehicleDto extends AuditableDto {
     public Vehicle applyToEntity (Vehicle vehicle, Location location) {
         vehicle.setVehicleType(vehicleType);
         vehicle.setImageURL(imageURL);
+        vehicle.setArchived(archived);
 
         vehicle.setCustomerOwned(vehicleType != VehicleType.BATCH && isCustomerOwned);
         vehicle.setRegTag((isCustomerOwned || vehicleType == VehicleType.BATCH) ? null : regTag);

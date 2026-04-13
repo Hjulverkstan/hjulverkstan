@@ -46,6 +46,7 @@ public class EmployeeDto extends AuditableDto {
     private List<Long> ticketIds = new ArrayList<>();
 
     private String comment;
+    private boolean archived;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean anonymized;
@@ -59,8 +60,9 @@ public class EmployeeDto extends AuditableDto {
         phoneNumber = employee.getPhoneNumber();
         email = employee.getEmail();
         personalIdentityNumber = employee.getPersonalIdentityNumber();
-        ticketIds = employee.getTickets().stream().map(Ticket::getId).toList();
+        ticketIds = employee.getTickets().stream().filter(ticket -> !ticket.isArchived()).map(Ticket::getId).toList();
         comment = employee.getComment();
+        archived = employee.isArchived();
         anonymized = employee.isAnonymized();
     }
 
@@ -71,6 +73,7 @@ public class EmployeeDto extends AuditableDto {
         employee.setEmail(email);
         employee.setPersonalIdentityNumber(personalIdentityNumber);
         employee.setComment(comment);
+        employee.setArchived(archived);
 
         return employee;
     }

@@ -48,6 +48,12 @@ public class VehicleController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void softDeleteVehicle(@PathVariable Long id) {
+        vehicleService.softDeleteVehicle(id);
+    }
+
+    @DeleteMapping("/{id}/hard")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicle(id);
     }

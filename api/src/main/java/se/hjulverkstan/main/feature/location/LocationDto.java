@@ -37,6 +37,7 @@ public class LocationDto extends AuditableDto {
     @JsonSerialize(contentUsing = ToStringSerializer.class)
     private List<Long> vehicleIds = new ArrayList<>();
     private String comment;
+    private boolean archived;
 
     public LocationDto(Location location) {
         super(location);
@@ -46,6 +47,7 @@ public class LocationDto extends AuditableDto {
         this.locationType = location.getLocationType();
         this.vehicleIds = location.getVehicles().stream().map(Vehicle::getId).toList();
         this.comment = location.getComment();
+        this.archived = location.isArchived();
     }
 
     public Location applyToEntity (Location location) {
@@ -53,6 +55,7 @@ public class LocationDto extends AuditableDto {
         location.setName(name);
         location.setLocationType(locationType);
         location.setComment(comment);
+        location.setArchived(archived);
 
         return location;
     }

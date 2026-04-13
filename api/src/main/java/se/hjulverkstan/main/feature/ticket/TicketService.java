@@ -33,7 +33,8 @@ public class TicketService {
     private final NotificationService notificationService;
 
     public ListResponseDto<TicketDto> getAllTicket() {
-        List<Ticket> tickets = ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        // List<Ticket> tickets = ticketRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Ticket> tickets = ticketRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(tickets.stream().map(TicketDto::new).toList());
     }
 
@@ -99,7 +100,15 @@ public class TicketService {
     }
 
     @Transactional
-    public void deleteTicket(Long id) {
+    public void softDeleteTicket(Long id) {
+        Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Ticket"));
+
+        ticket.setArchived(true);
+        ticketRepository.save(ticket);
+    }
+
+    @Transactional
+    public void hardDelete(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Ticket"));
 
         // We don't cascade remove – but the relation in the many-to-many needs to be cleared.

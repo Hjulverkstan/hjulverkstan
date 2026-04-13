@@ -21,6 +21,7 @@ public class Location extends Auditable {
     @Enumerated(EnumType.STRING)
     private LocationType locationType;
     private String comment;
+    private boolean archived = false;
     @OneToMany(mappedBy = "location")
     private List<Vehicle> vehicles = new ArrayList<>();
 }
