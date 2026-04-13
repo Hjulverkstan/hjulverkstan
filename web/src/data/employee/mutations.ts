@@ -27,3 +27,9 @@ export const useDeleteEmployeeM = () =>
     ...api.createDeleteEmployee(),
     onSuccess: () => invalidateQueries([api.createGetEmployees().queryKey]),
   });
+
+export const useSoftDeleteEmployeeM = () =>
+  useMutation({
+    ...api.createSoftDeleteEmployee(),
+    onSuccess: () => invalidateQueries([api.createGetEmployees().queryKey]),
+  });

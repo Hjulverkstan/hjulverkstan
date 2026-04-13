@@ -24,6 +24,16 @@ export const useEditTicketM = () =>
       ]),
   });
 
+export const useSoftDeleteTicketM = () =>
+  useMutation({
+    ...api.createSoftDeleteTicket(),
+    onSuccess: () =>
+      invalidateQueries([
+        api.createGetTickets().queryKey,
+        createGetCustomers().queryKey,
+      ]),
+  });
+
 export const useDeleteTicketM = () =>
   useMutation({
     ...api.createDeleteTicket(),

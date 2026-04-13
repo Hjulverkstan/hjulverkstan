@@ -29,6 +29,12 @@ export const useDeleteVehicleM = () =>
     onSuccess: () => invalidateQueries([api.createGetVehicles().queryKey]),
   });
 
+export const useSoftDeleteVehicleM = () =>
+  useMutation({
+    ...api.createSoftDeleteVehicle(),
+    onSuccess: () => invalidateQueries([api.createGetVehicles().queryKey]),
+  });
+
 export const useUpdateVehicleStatusM = () =>
   useMutation({
     ...api.createUpdateVehicleStatus(),

@@ -58,12 +58,22 @@ export const createEditUser = () => ({
       .catch(createErrorHandler(endpoints.user)),
 });
 
+// SOFT DELETE
+
+export const createSoftDeleteUser = () => ({
+  mutationFn: (id: string) =>
+    instance
+      .delete(`${endpoints.user}/${id}`)
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.user)),
+});
+
 // DELETE
 
 export const createDeleteUser = () => ({
   mutationFn: (id: string) =>
     instance
-      .delete(`${endpoints.user}/${id}`)
+      .delete(`${endpoints.user}/${id}/hard`)
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.user)),
 });

@@ -7,12 +7,17 @@ import { IconButton } from '@components/shadcn/Button';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { useToast } from '@components/shadcn/use-toast';
 import { useDialogManager } from '@components/DialogManager';
-import { useDeleteStoryM } from '@data/webedit/story/mutations';
+import {
+  useDeleteStoryM,
+  useSoftDeleteStoryM,
+} from '@data/webedit/story/mutations';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import { usePortalWebEditLang } from '../PortalWebEditLang';
 import { fallbackLang } from '@root';
+import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 export default function WebEditStoriesActions({
   row: story,
@@ -24,7 +29,37 @@ export default function WebEditStoriesActions({
 
   const [open, setOpen] = useState(false);
 
+  const archiveStoryM = useSoftDeleteStoryM();
   const deleteStoryM = useDeleteStoryM();
+
+  const notFallbacktLang = lang !== fallbackLang;
+
+  const onArchive = () => {
+    archiveStoryM.mutate(
+      { id: story.id, lang },
+      {
+        onSuccess: () => {
+          toast(
+            createSuccessToast({
+              verbLabel: 'archive',
+              id: story.id,
+              dataLabel:
+                lang == fallbackLang ? 'Story' : 'translation of Story',
+            }),
+          );
+        },
+        onError: () => {
+          toast(
+            createErrorToast({
+              verbLabel: 'archive',
+              dataLabel:
+                lang == fallbackLang ? 'Story' : 'translation of Story',
+            }),
+          );
+        },
+      },
+    );
+  };
 
   const onDelete = () => {
     deleteStoryM.mutate(
@@ -35,7 +70,8 @@ export default function WebEditStoriesActions({
             createSuccessToast({
               verbLabel: 'delete',
               id: story.id,
-              dataLabel: lang == fallbackLang ? 'Story' : 'translation of Story',
+              dataLabel:
+                lang == fallbackLang ? 'Story' : 'translation of Story',
             }),
           );
         },
@@ -43,7 +79,8 @@ export default function WebEditStoriesActions({
           toast(
             createErrorToast({
               verbLabel: 'delete',
-              dataLabel: lang == fallbackLang ? 'Story' : 'translation of Story',
+              dataLabel:
+                lang == fallbackLang ? 'Story' : 'translation of Story',
             }),
           );
         },
@@ -51,15 +88,22 @@ export default function WebEditStoriesActions({
     );
   };
 
+  const handleArchiveClick = () => {
+    openDialog(
+      <ConfirmArchiveDialog
+        onArchive={onArchive}
+        entity={lang == fallbackLang ? 'Story' : 'translation of story'}
+        entityId={story.slug}
+      />,
+    );
+  };
+
   const handleDeleteClick = () => {
     openDialog(
       <ConfirmDeleteDialog
         onDelete={onDelete}
-        entity={
-          lang == fallbackLang
-            ? 'Story'
-            : 'translation of story'
-        }
+        onArchive={onArchive}
+        entity={lang == fallbackLang ? 'Story' : 'translation of story'}
         entityId={story.slug}
       />,
     );
@@ -75,6 +119,24 @@ export default function WebEditStoriesActions({
         />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content align="end" className="w-max-[250px]">
+        <Tooltip.Provider>
+          <Tooltip.Root>
+            <Tooltip.Trigger className="w-full">
+              <DropdownMenu.Item
+                onClick={(e) => e.stopPropagation()}
+                onSelect={handleArchiveClick}
+                disabled={notFallbacktLang}
+              >
+                Archive
+              </DropdownMenu.Item>
+            </Tooltip.Trigger>
+            {notFallbacktLang && (
+              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
+                Archiving requires Swedish
+              </Tooltip.Content>
+            )}
+          </Tooltip.Root>
+        </Tooltip.Provider>
         <DropdownMenu.Item
           onClick={(e) => e.stopPropagation()}
           onSelect={() => handleDeleteClick()}

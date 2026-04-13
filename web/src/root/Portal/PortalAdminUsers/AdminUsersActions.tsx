@@ -1,7 +1,7 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
-import { useDeleteUserM } from '@data/user/mutations';
+import { useDeleteUserM, useSoftDeleteUserM } from '@data/user/mutations';
 import { User } from '@data/user/types';
 
 import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
@@ -12,6 +12,7 @@ import { useDialogManager } from '@components/DialogManager';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
+import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
 
 export default function AdminUsersActions({
   row: user,
@@ -22,7 +23,25 @@ export default function AdminUsersActions({
 
   const [open, setOpen] = useState(false);
 
+  const archiveUserM = useSoftDeleteUserM();
   const deleteUserM = useDeleteUserM();
+
+  const onArchive = () => {
+    archiveUserM.mutate(user.id, {
+      onSuccess: (res: User) => {
+        toast(
+          createSuccessToast({
+            verbLabel: 'archive',
+            dataLabel: 'user',
+            id: res.username,
+          }),
+        );
+      },
+      onError: () => {
+        toast(createErrorToast({ verbLabel: 'archive', dataLabel: 'user' }));
+      },
+    });
+  };
 
   const onDelete = () => {
     deleteUserM.mutate(user.id, {
@@ -41,10 +60,21 @@ export default function AdminUsersActions({
     });
   };
 
+  const handleArchiveClick = () => {
+    openDialog(
+      <ConfirmArchiveDialog
+        onArchive={onArchive}
+        entity="user"
+        entityId={user.username}
+      />,
+    );
+  };
+
   const handleDeleteClick = () => {
     openDialog(
       <ConfirmDeleteDialog
         onDelete={onDelete}
+        onArchive={onArchive}
         entity="user"
         entityId={user.username}
       />,
@@ -61,6 +91,12 @@ export default function AdminUsersActions({
         />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content align="end" className="w-[160px]">
+        <DropdownMenu.Item
+          onClick={(e) => e.stopPropagation()}
+          onSelect={() => handleArchiveClick()}
+        >
+          Archive
+        </DropdownMenu.Item>
         <DropdownMenu.Item
           onClick={(e) => e.stopPropagation()}
           onSelect={() => handleDeleteClick()}

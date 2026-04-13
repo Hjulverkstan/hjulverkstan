@@ -81,6 +81,16 @@ export const createUpdateVehicleStatus = () => ({
 export const createDeleteVehicle = () => ({
   mutationFn: (id: string) =>
     instance
+      .delete(`${endpoints.vehicle}/${id}/hard`)
+      .then((res) => res.data)
+      .catch(createErrorHandler(endpoints.vehicle)),
+});
+
+// SOFT DELETE
+
+export const createSoftDeleteVehicle = () => ({
+  mutationFn: (id: string) =>
+    instance
       .delete(`${endpoints.vehicle}/${id}`)
       .then((res) => res.data)
       .catch(createErrorHandler(endpoints.vehicle)),

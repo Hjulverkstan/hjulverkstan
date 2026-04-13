@@ -5,6 +5,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 
 import {
   useDeleteVehicleM,
+  useSoftDeleteVehicleM,
   useUpdateVehicleStatusM,
 } from '@data/vehicle/mutations';
 import { Vehicle, VehicleStatus, VehicleType } from '@data/vehicle/types';
@@ -21,6 +22,7 @@ import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import { findEnum } from '@utils/enums';
+import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
 
 export enum VehicleShortcutAction {
   CREATE_TICKET = 'CREATE_TICKET',
@@ -42,6 +44,8 @@ export default function ShopInventoryActions({
   const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
+
+  const archiveVehicleM = useSoftDeleteVehicleM();
   const deleteVehicleM = useDeleteVehicleM();
   const updateVehicleStatusM = useUpdateVehicleStatusM();
 
@@ -58,6 +62,23 @@ export default function ShopInventoryActions({
       ticket.ticketStatus !== undefined &&
       ticket.ticketStatus !== TicketStatus.CLOSED,
   );
+
+  const onArchive = () => {
+    archiveVehicleM.mutate(vehicle.id, {
+      onSuccess: (res: Vehicle) => {
+        toast(
+          createSuccessToast({
+            verbLabel: 'archive',
+            dataLabel: 'vehicle',
+            id: res.id,
+          }),
+        );
+      },
+      onError: () => {
+        toast(createErrorToast({ verbLabel: 'archive', dataLabel: 'vehicle' }));
+      },
+    });
+  };
 
   const onDelete = () => {
     deleteVehicleM.mutate(vehicle.id, {
@@ -76,10 +97,24 @@ export default function ShopInventoryActions({
     });
   };
 
+  const handleArchiveClick = () =>
+    openDialog(
+      <ConfirmArchiveDialog
+        onArchive={onArchive}
+        entity={vehicle.vehicleType}
+        entityId={
+          vehicle.vehicleType === VehicleType.BATCH
+            ? 'Batch'
+            : vehicle.regTag || vehicle.id
+        }
+      />,
+    );
+
   const handleDeleteClick = () =>
     openDialog(
       <ConfirmDeleteDialog
         onDelete={onDelete}
+        onArchive={onArchive}
         entity={vehicle.vehicleType}
         entityId={
           vehicle.vehicleType === VehicleType.BATCH
@@ -126,26 +161,6 @@ export default function ShopInventoryActions({
         />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content align="end" className="w-[160px]">
-        <Tooltip.Provider>
-          <Tooltip.Root>
-            <Tooltip.Trigger>
-              <DropdownMenu.Item
-                onClick={(e) => e.stopPropagation()}
-                onSelect={handleDeleteClick}
-                disabled={hasTickets}
-              >
-                Delete
-                <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
-              </DropdownMenu.Item>
-            </Tooltip.Trigger>
-            {hasTickets && (
-              <Tooltip.Content className="bg-primary text-white">
-                Delete ticket first.
-              </Tooltip.Content>
-            )}
-          </Tooltip.Root>
-        </Tooltip.Provider>
-        <DropdownMenu.Separator />
         <DropdownMenu.Item
           onClick={(e) => {
             e.stopPropagation();
@@ -213,6 +228,44 @@ export default function ShopInventoryActions({
             </Tooltip.Provider>
           </>
         )}
+        <DropdownMenu.Separator />
+        <Tooltip.Provider>
+          <Tooltip.Root>
+            <Tooltip.Trigger className="w-full">
+              <DropdownMenu.Item
+                onClick={(e) => e.stopPropagation()}
+                onSelect={handleArchiveClick}
+                disabled={hasTickets}
+              >
+                Archive
+              </DropdownMenu.Item>
+            </Tooltip.Trigger>
+            {hasTickets && (
+              <Tooltip.Content className="bg-primary text-white">
+                Archive ticket first.
+              </Tooltip.Content>
+            )}
+          </Tooltip.Root>
+        </Tooltip.Provider>
+        <Tooltip.Provider>
+          <Tooltip.Root>
+            <Tooltip.Trigger className="w-full">
+              <DropdownMenu.Item
+                onClick={(e) => e.stopPropagation()}
+                onSelect={handleDeleteClick}
+                disabled={hasTickets}
+              >
+                Delete
+                <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
+              </DropdownMenu.Item>
+            </Tooltip.Trigger>
+            {hasTickets && (
+              <Tooltip.Content className="bg-primary text-white">
+                Delete ticket first.
+              </Tooltip.Content>
+            )}
+          </Tooltip.Root>
+        </Tooltip.Provider>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
