@@ -66,19 +66,19 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-black opacity-50" />
         <div
-          className="relative z-10 mx-auto flex w-[88vw] flex-col items-start
+          className="relative z-10 mx-auto flex w-[88vw] flex-col items-center
             gap-4 sm:w-[76vw]"
         >
           <img
-            src="/logo.svg"
+            src="/newlogo.svg"
             alt="Logo"
-            className="mb-2 h-12 w-auto sm:mb-4 sm:h-16"
+            className="mb-2 h-20 w-auto sm:mb-4 sm:h-44"
           />
           <h1 className="text-background text-h1">Hjulverkstan</h1>
 
           <p
-            className="text-h3 text-background max-w-[700px] pr-10 !text-xl
-              sm:pr-0 sm:!text-3xl"
+            className="text-h3 text-background mt-2 max-w-[700px] !text-xl
+              sm:mt-4 sm:pr-0 sm:!text-3xl"
           >
             {data.text.slogan}
           </p>
