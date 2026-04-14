@@ -5,7 +5,7 @@
 @layer base {
   :root,
   .light {
-    --background: 0 0% 100%;
+    --background: 34 100% 97.5%;
     --foreground: 224 20% 4%;
 
     --popover: 0 0% 100%;
@@ -14,14 +14,14 @@
     --primary: 338 85% 57%;
     --primary-foreground: 210 5% 98%;
 
-    --secondary: 220 4% 95%;
-    --secondary-foreground: 220 10% 40%;
+    --secondary: 34 11% 92%;
+    --secondary-foreground: 34 5% 40%;
 
     --contrast: 222 6% 25%;
     --contrast-foreground: 210 20% 98%;
 
-    --muted: 220 5% 97.5%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 33 39% 95%;
+    --muted-foreground: 33 10% 40%;
 
     --accent: 220 5% 93%;
     --accent-foreground: 221 15% 11%;

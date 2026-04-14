@@ -104,7 +104,7 @@ export default function PageFooter() {
       <SectionContent className="flex justify-center">
         <nav
           aria-label="Footer navigation"
-          className="bg-muted text-muted-foreground flex flex-wrap
+          className="bg-background text-muted-foreground flex flex-wrap
             justify-center gap-y-2 rounded-full px-6 py-3"
         >
           {navLinks.map((link) => (
