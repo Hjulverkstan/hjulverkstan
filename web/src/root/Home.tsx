@@ -20,11 +20,11 @@ import { TiptapContentAsText } from '@components/TiptapContentAsText';
 import { ImageCard } from '@components/ImageCard';
 
 const Statistic = ({ label, value }: { label: string; value: number }) => (
-  <div className="flex h-full flex-col items-center justify-start text-center">
-    <span className="text-primary mb-8 text-[100px] font-bold leading-[75px]">
+  <div className="flex h-full flex-col items-center justify-start text-center ">
+    <span className="!text-hjul-plum mb-8 text-[100px] font-bold leading-[75px]">
       {value}
     </span>
-    <span className="text-h3 text-foreground font-bold">{label}</span>
+    <span className="text-hjul-plum text-h3 text-foreground font-bold">{label}</span>
   </div>);
 
 const PartnerImg = ({ partner }: { partner: Partner }) => (<img
@@ -209,7 +209,7 @@ export default function Home() {
       </SectionContent>
     </Section>
 
-    <Section>
+    <Section variant={'pink'}>
       <SectionContent>
         <div
           className="flex flex-col items-center justify-center gap-x-32
