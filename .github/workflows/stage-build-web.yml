@@ -16,7 +16,7 @@ jobs:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ inputs.commit_sha != '' && inputs.commit_sha || github.sha }}
           fetch-depth: 0
@@ -49,7 +49,7 @@ jobs:
         run: cd web && npm run build
 
       - name: Upload dist artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: web-dist
           path: web/dist
