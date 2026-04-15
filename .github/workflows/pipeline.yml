@@ -26,13 +26,13 @@ jobs:
       deploy_api: ${{ steps.route.outputs.deploy_api }}
       deploy_web: ${{ steps.route.outputs.deploy_web }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Detect module file changes
         id: changes
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         with:
           base: main
           filters: |
