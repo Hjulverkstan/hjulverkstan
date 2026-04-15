@@ -30,13 +30,13 @@ jobs:
           --health-retries=20
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # RUN API UNIT TESTS
 
       - name: Test Api - Set up JDK
         if: ${{ inputs.run_api_tests || inputs.run_web_build }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
@@ -101,7 +101,7 @@ jobs:
 
       # BUILD WEB
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: ${{ inputs.run_web_build }}
         with:
           node-version: '22'
