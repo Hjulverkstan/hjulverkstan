@@ -12,22 +12,36 @@ module.exports = {
       },
     },
     extend: {
-      'stats-value':['80px', {
-        lineHeight: '75px',
-        letterSpacing: '-0.96px',
-        fontWeight: '700',
-      }],
+      'stats-value': [
+        '80px',
+        {
+          lineHeight: '75px',
+          letterSpacing: '-0.96px',
+          fontWeight: '700',
+        },
+      ],
       fontFamily: {
         inter: ['Bricolage Grotesque', 'sans-serif'],
         'dm-mono': ['DMMono', 'Courier New'],
-        'bricolage': ['"Bricolage Grotesque"', 'sans-serif'],
+        bricolage: ['"Bricolage Grotesque"', 'sans-serif'],
       },
-        fontSize: {
-          'display': ['60px', {
+      fontSize: {
+        display: [
+          '60px',
+          {
             lineHeight: '60px',
             letterSpacing: '-0.72px',
-          }],
-        },
+          },
+        ],
+        'stats-value': [
+          '80px',
+          {
+            lineHeight: '75px',
+            letterSpacing: '-0.96px',
+            fontWeight: '700',
+          },
+        ],
+      },
       fontWeight: {
         thin: '100',
         light: '250',
@@ -39,10 +53,12 @@ module.exports = {
         black: '850',
       },
       backgroundImage: {
-        'warm-gradient': 'linear-gradient(97deg, #FC6A82 1.89%, #F74284 122.8%)', //pinkish
-        'blue-gradient': 'linear-gradient(94deg, #57ADF9 -20.59%, #A274FD 144.82%)', //blueish/purplish
-        'lightPink': "url('/images/LightpinkMidsec.jpg')",
-        'pink': "url('/images/backgroundLightPink.jpg')",
+        'warm-gradient':
+          'linear-gradient(97deg, #FC6A82 1.89%, #F74284 122.8%)', //pinkish
+        'blue-gradient':
+          'linear-gradient(94deg, #57ADF9 -20.59%, #A274FD 144.82%)', //blueish/purplish
+        lightPink: "url('/images/LightpinkMidsec.jpg')",
+        pink: "url('/images/backgroundLightPink.jpg')",
         blue: 'linear-gradient(180deg, rgba(0, 0, 0, 0.08) 5.41%, rgba(0, 0, 0, 0.00) 62.48%), linear-gradient(118deg, #E09CF7 15.26%, #B887FC 44.03%, #64A3F9 85.66%)',
         peach: 'linear-gradient(95deg, #FF877C 17.49%, #FF669E 78.02%)',
       },
@@ -51,7 +67,7 @@ module.exports = {
         'bottom-1': '0 0.5px 0 0 hsl(var(--border))',
       },
       borderRadius: {
-        'button': '77px',
+        button: '77px',
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
@@ -60,7 +76,7 @@ module.exports = {
         hjul: {
           dark: '#4A2A0B',
           muted: '#927C6B',
-          plum: '#6D024C'
+          plum: '#6D024C',
         },
         border: {
           DEFAULT: 'hsl(var(--border))',
