@@ -20,19 +20,24 @@ import { TiptapContentAsText } from '@components/TiptapContentAsText';
 import { ImageCard } from '@components/ImageCard';
 
 const Statistic = ({ label, value }: { label: string; value: number }) => (
-  <div className="flex h-full flex-col items-center justify-start text-center ">
-    <span className="!text-hjul-plum mb-8 text-[100px] font-bold leading-[75px]">
+  <div className="flex h-full flex-col items-center justify-start text-center">
+    <span className="!text-hjul-plum text-stats-value font-bricolage mb-8">
       {value}
     </span>
-    <span className="text-hjul-plum text-h3 text-foreground font-bold">{label}</span>
-  </div>);
+    <span className="text-hjul-plum text-h3 text-foreground font-bold">
+      {label}
+    </span>
+  </div>
+);
 
-const PartnerImg = ({ partner }: { partner: Partner }) => (<img
-  src={partner.src}
-  alt={partner.name}
-  className="max-h-20 w-auto min-w-0 max-w-64 flex-shrink object-contain
+const PartnerImg = ({ partner }: { partner: Partner }) => (
+  <img
+    src={partner.src}
+    alt={partner.name}
+    className="max-h-20 w-auto min-w-0 max-w-64 flex-shrink object-contain
       md:max-w-52"
-/>);
+  />
+);
 
 //
 
@@ -133,86 +138,152 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-    <Section variant={'lightPink'}>
-      <SectionContent
-        heading={t('shops')}
-        linkTo="/shops"
-        linkLabel={t('shopsLinkLabel')}
-        className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage [&_h2]:text-display [&_h2]:font-bold"
-        linkClassName="!bg-warm-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
-      >
-        <div
-          className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
+      <Section variant={'lightPink'}>
+        <SectionContent
+          heading={t('shops')}
+          linkTo="/shops"
+          linkLabel={t('shopsLinkLabel')}
+          className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage
+            [&_h2]:text-display [&_h2]:font-bold"
+          linkClassName="!bg-warm-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
+        >
+          <div
+            className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
               xl:grid-cols-3"
-        >
-          {data.shops.slice(0, 3).map((shop) => (<CardShop
-            key={shop.id}
-            shop={shop}
-            className="
-                !bg-transparent !shadow-none
-                text-hjul-dark [&_h2]:font-normal
-                [&_p]:text-hjul-muted
-                [&_span]:text-hjul-muted
-                [&_svg]:text-hjul-muted" />))}
-        </div>
-        <div
-          className="hidden gap-x-8 gap-y-12 md:grid md:grid-cols-2 xl:hidden"
-        >
-          {data.shops.slice(0, 4).map((shop) => (<CardShop
-            key={shop.id}
-            shop={shop}
-            className="
-              !bg-transparent !shadow-none
-                [&_h2]:text-hjul-dark
-                [&_p]:text-hjul-muted
-                [&_span]:text-hjul-muted
-                [&_svg]:text-hjul-muted" />))}
-        </div>
-      </SectionContent>
-
-      <SectionContent
-        heading={t('updates')}
-        linkTo="/stories"
-        linkLabel={t('storiesLinkLabel')}
-        linkVariant="background"
-        className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage [&_h2]:text-display [&_h2]:font-bold"
-        linkClassName="!bg-blue-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
-      >
-        <div className="flex flex-col gap-8 xl:flex-row">
-          <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
-            {data.stories.slice(0, 2).map((story) => (<CardStory
-              key={story.id}
-              story={story}
-              className="h-96 xl:h-auto"
-            />))}
+          >
+            {data.shops.slice(0, 3).map((shop) => (
+              <CardShop
+                key={shop.id}
+                shop={shop}
+                className="text-hjul-dark [&_p]:text-hjul-muted
+                  [&_span]:text-hjul-muted [&_svg]:text-hjul-muted
+                  !bg-transparent !shadow-none [&_h2]:font-normal"
+              />
+            ))}
           </div>
           <div
-            className="flex flex-col gap-8 md:basis-1/3">
-            {data.stories.slice(2, 4).map((story) => (<CardCompact
-                key={story.id}
-                title={story.title}
-                body={<TiptapContentAsText content={story.bodyText} />}
-                link={`/stories/${story.slug}`}
-                ariaLabel={story.title}
-                className="text-hjul-dark"
-              />))}
-            {data.stories[2] && (<CardCompact
-                key="manual-test-card"
-                title={data.stories[2].title}
-                body={<TiptapContentAsText
-                  content={data.stories[2].bodyText} />}
-                link={`/stories/${data.stories[2].slug}`}
-                ariaLabel={data.stories[2].title}
-              />)}
+            className="hidden gap-x-8 gap-y-12 md:grid md:grid-cols-2 xl:hidden"
+          >
+            {data.shops.slice(0, 4).map((shop) => (
+              <CardShop
+                key={shop.id}
+                shop={shop}
+                className="[&_h2]:text-hjul-dark [&_p]:text-hjul-muted
+                  [&_span]:text-hjul-muted [&_svg]:text-hjul-muted
+                  !bg-transparent !shadow-none"
+              />
+            ))}
           </div>
-        </div>
-      </SectionContent>
-    </Section>
+        </SectionContent>
 
-    <Section variant={'pink'}>
-      <SectionContent>
+        <SectionContent
+          heading={t('updates')}
+          linkTo="/stories"
+          linkLabel={t('storiesLinkLabel')}
+          linkVariant="background"
+          className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage
+            [&_h2]:text-display [&_h2]:font-bold"
+          linkClassName="!bg-blue-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
+        >
+          <div className="flex flex-col gap-8 xl:flex-row">
+            <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
+              {data.stories.slice(0, 2).map((story) => (
+                <CardStory
+                  key={story.id}
+                  story={story}
+                  className="h-96 xl:h-auto"
+                />
+              ))}
+            </div>
+            <div className="flex flex-col gap-8 md:basis-1/3">
+              {data.stories.slice(2, 4).map((story) => (
+                <CardCompact
+                  key={story.id}
+                  title={story.title}
+                  body={<TiptapContentAsText content={story.bodyText} />}
+                  link={`/stories/${story.slug}`}
+                  ariaLabel={story.title}
+                  className="text-hjul-dark"
+                />
+              ))}
+              {data.stories[2] && (
+                <CardCompact
+                  key="manual-test-card"
+                  title={data.stories[2].title}
+                  body={
+                    <TiptapContentAsText content={data.stories[2].bodyText} />
+                  }
+                  link={`/stories/${data.stories[2].slug}`}
+                  ariaLabel={data.stories[2].title}
+                />
+              )}
+            </div>
+          </div>
+        </SectionContent>
+      </Section>
+
+      <Section variant={'pink'}>
+        <SectionContent>
+          <div
+            className="mb-25 grid grid-cols-1 gap-12 text-center md:grid-cols-3"
+          >
+            <div className="flex flex-col items-center">
+              <img src="/images/bicycle.svg" className="h-26 mb-7" alt="Bike" />
+              <h3 className="text-hjul-plum mb-4 text-xl font-bold">
+                The joy of riding, for everyone.
+              </h3>
+              <p className="text-hjul-dark max-w-[300px] text-sm">
+                We believe everyone should have the ability to ride – with
+                access to learning, free services and bikes for borrowing.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <img
+                src="/images/collaboration.svg"
+                className="h-26 mb-7"
+                alt="Collaboration"
+              />
+              <h3 className="text-hjul-plum mb-4 text-xl font-bold">
+                Built on collaboration.
+              </h3>
+              <p className="text-hjul-dark max-w-[300px] text-sm">
+                A combined effort by public, private and non-profit sector – key
+                partners such as Save the Children, Poseidon, Göteborgs Stad and
+                more.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <img
+                src="/images/motion.svg"
+                className="h-26 mb-7"
+                alt="In motion"
+              />
+              <h3 className="text-hjul-plum mb-4 text-xl font-bold">
+                Already in motion.
+              </h3>
+              <p className="text-hjul-dark max-w-[300px] text-sm">
+                Five locations established in the Gothenburg area – and growing.
+              </p>
+            </div>
+          </div>
+        </SectionContent>
+
         <div
-          className="flex flex-col items-center justify-center gap-x-32
+          className="h-[1px] w-full"
+          style={{
+            backgroundImage: `linear-gradient(to right, #6D0266 50%, rgba(255,255,255,0) 0%)`,
+            backgroundPosition: 'bottom',
+            backgroundSize: '12px 1px',
+            backgroundRepeat: 'repeat-x',
+            opacity: 0.25,
+          }}
+        />
+
+        <SectionContent>
+          <div
+            className="flex flex-col items-center justify-center gap-x-32
               gap-y-24 sm:grid sm:grid-cols-2 sm:px-16 md:px-36
               min-[1200px]:flex min-[1200px]:flex-row
               min-[1200px]:items-baseline min-[1200px]:px-0"
