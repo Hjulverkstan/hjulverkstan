@@ -145,24 +145,26 @@ export const Select = ({
               className="h-9"
             />
             <Command.Empty>No {label.toLowerCase()} found.</Command.Empty>
-            {isMultiSelect ? (
-              <>
-                {!!getBodyProp(dataKey)?.length && (
-                  <Command.Group heading="Selected">
+            <div className="max-h-[400px] overflow-y-auto overflow-x-hidden">
+              {isMultiSelect ? (
+                <>
+                  {!!getBodyProp(dataKey)?.length && (
+                    <Command.Group heading="Selected">
+                      {sortedEnums
+                        .filter((e) => getBodyProp(dataKey)?.includes(e.value))
+                        .map(renderItem)}
+                    </Command.Group>
+                  )}
+                  <Command.Group heading="Unselected">
                     {sortedEnums
-                      .filter((e) => getBodyProp(dataKey)?.includes(e.value))
+                      .filter((e) => !getBodyProp(dataKey)?.includes(e.value))
                       .map(renderItem)}
                   </Command.Group>
-                )}
-                <Command.Group heading="Unselected">
-                  {sortedEnums
-                    .filter((e) => !getBodyProp(dataKey)?.includes(e.value))
-                    .map(renderItem)}
-                </Command.Group>
-              </>
-            ) : (
-              <Command.Group>{sortedEnums.map(renderItem)}</Command.Group>
-            )}
+                </>
+              ) : (
+                <Command.Group>{sortedEnums.map(renderItem)}</Command.Group>
+              )}
+            </div>
           </Command.Root>
         </Popover.Content>
       </Popover.Root>
