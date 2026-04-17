@@ -74,7 +74,7 @@ export const Select = ({
 
     const safeValue = String(e.label)
       .toLowerCase()
-      .replace(/[^a-z0-9]/g, '');
+      .replace(/[^a-z0-9+]/g, '');
     return (
       <Command.Item
         key={e.value}

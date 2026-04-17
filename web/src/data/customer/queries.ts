@@ -58,16 +58,14 @@ export const useCustomersAsEnumsQ = ({
         ?.filter((customer) => !excludeAnonymized || !customer.anonymized)
         .map((customer) => ({
           dataKey,
-          icon: customer.anonymized
-            ? findEnum(enums, customer.customerType).icon
-            : findEnum(enums, customer.customerType).icon,
+          icon: findEnum(enums, customer.customerType).icon,
           label: customer.anonymized
             ? 'Removed Customer'
             : customer.customerType === CustomerType.PERSON
               ? `${customer.firstName} ${customer.lastName ?? ''} | ${customer.phoneNumber ?? ''}`.trim()
               : withOrgPerson
-                ? `${customer.organizationName} | (${customer.firstName} ${customer.lastName ?? ''})`.trim()
-                : customer.organizationName!,
+                ? `${customer.organizationName} | (${customer.firstName} ${customer.lastName ?? ''}) | ${customer.phoneNumber ?? ''}`.trim()
+                : `${customer.organizationName} | ${customer.phoneNumber ?? ''}`.trim(), // Lagt till tel här
           shortLabel: customer.anonymized
             ? 'Removed Customer'
             : customer.customerType === CustomerType.PERSON
