@@ -48,16 +48,6 @@ export default function ShopInventoryFields() {
         disabled={mode !== DataForm.Mode.CREATE}
       />
 
-      {mode === Mode.CREATE &&
-        body.vehicleType !== VehicleType.BATCH &&
-        !body.isCustomerOwned && (
-          <DataForm.Select
-            label="Vehicle status"
-            dataKey="vehicleStatus"
-            enums={enums.vehicleStatus}
-          />
-        )}
-
       {body.vehicleType !== VehicleType.BATCH &&
         body.isCustomerOwned === false && (
           <DataForm.Input

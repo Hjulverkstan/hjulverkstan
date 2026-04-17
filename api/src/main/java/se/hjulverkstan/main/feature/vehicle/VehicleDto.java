@@ -91,6 +91,7 @@ public class VehicleDto extends AuditableDto {
         vehicle.setVehicleType(vehicleType);
         vehicle.setImageURL(imageURL);
         vehicle.setArchived(archived);
+        vehicle.setVehicleStatus(VehicleStatus.UNAVAILABLE);
 
         vehicle.setCustomerOwned(vehicleType != VehicleType.BATCH && isCustomerOwned);
         vehicle.setRegTag((isCustomerOwned || vehicleType == VehicleType.BATCH) ? null : regTag);

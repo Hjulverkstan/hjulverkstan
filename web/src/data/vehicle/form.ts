@@ -7,7 +7,6 @@ import {
   BrakeType,
   StrollerType,
   Vehicle,
-  VehicleStatus,
   VehicleType,
 } from './types';
 import { useMemo } from 'react';
@@ -49,7 +48,6 @@ export function useVehicleZ() {
   return useMemo(() => {
     const commonProps = {
       isCustomerOwned: z.boolean(isReq('Ownership')),
-      vehicleStatus: z.nativeEnum(VehicleStatus).optional(),
       regTag: z.string().optional(),
       frameNumber: z.string().optional(),
     };
@@ -113,14 +111,6 @@ export function useVehicleZ() {
         if (data.vehicleType === VehicleType.BATCH) return;
 
         if (!data.isCustomerOwned) {
-          if (!data.vehicleStatus) {
-            ctx.addIssue({
-              code: 'custom',
-              path: ['vehicleStatus'],
-              message: 'Vehicle Status is required',
-            });
-          }
-
           if (!data.regTag) {
             ctx.addIssue({
               code: 'custom',
