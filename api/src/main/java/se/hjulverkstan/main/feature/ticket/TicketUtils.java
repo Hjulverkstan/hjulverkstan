@@ -91,7 +91,7 @@ public class TicketUtils {
     }
 
     public static void updateVehiclesByTicketType(List<Vehicle> vehicles, Ticket ticket) {
-        if (ticket.getTicketType() == TicketType.REPAIR && ticket.getTicketStatus() != TicketStatus.CLOSED) {
+        if ((ticket.getTicketType() == TicketType.REPAIR || ticket.getTicketType() == TicketType.RENT) && ticket.getTicketStatus() != TicketStatus.CLOSED) {
             for (Vehicle vehicle : vehicles) {
                 // All vehicles on an ongoing repair should not be available
                 if (vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE && !vehicle.isCustomerOwned()) {
