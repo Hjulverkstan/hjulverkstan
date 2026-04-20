@@ -51,7 +51,7 @@ export default function useColumns() {
           key: 'comment',
           name: 'Comment',
           renderFn: (row) => (
-            <span className="text-muted-foreground text-elipsis">
+            <span className="text-elipsis text-muted-foreground">
               {row.comment}
             </span>
           ),
@@ -69,7 +69,9 @@ export default function useColumns() {
           key: 'updatedAt',
           name: 'Edited at',
           renderFn: ({ updatedAt }) => (
-            <IconLabel label={format(new Date(updatedAt), 'yyyy-MM-dd')} />
+            <IconLabel
+              label={updatedAt ? format(new Date(updatedAt), 'yyyy-MM-dd') : ''}
+            />
           ),
         },
       ] as Array<DataTable.Column<Employee>>,

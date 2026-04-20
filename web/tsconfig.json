@@ -12,6 +12,7 @@
     "isolatedModules": true, 
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "skipLibCheck": true,
     "paths": {
       "@components": ["./src/components"],
       "@components/*": ["./src/components/*"],

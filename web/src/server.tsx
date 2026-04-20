@@ -1,5 +1,5 @@
 import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom/server';
+import { StaticRouter } from 'react-router-dom';
 
 import * as C from '@utils/common';
 import { logIn } from '@data/auth/api';
