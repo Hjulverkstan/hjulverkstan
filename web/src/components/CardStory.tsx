@@ -12,11 +12,14 @@ interface CardStoryProps {
 }
 
 export const CardStory: React.FC<CardStoryProps> = ({ story, className }) => (
-  <Base variant="imageBackground" className={cn('rounded-[32px]' +
-    ' overflow-hidden', className)}
+  <Base
+    variant="imageBackground"
+    className={cn('rounded-[32px]' + ' overflow-hidden', className)}
   >
     <Image variant="background" src={story.imageURL} alt={story.title} />
-    <Title variant="imageBackground">{story.title}</Title>
+    <Title variant="imageBackground" className="mt-auto">
+      {story.title}
+    </Title>
     <Row className="items-end">
       <Body className="line-clamp-3">
         <TiptapContentAsText content={story?.bodyText} />
@@ -28,6 +31,7 @@ export const CardStory: React.FC<CardStoryProps> = ({ story, className }) => (
         size="large"
         icon={ArrowRight}
         aria-label={story.title}
+        className="!text-hjul-dark"
       />
     </Row>
   </Base>
