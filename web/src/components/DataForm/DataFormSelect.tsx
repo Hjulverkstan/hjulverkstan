@@ -59,7 +59,7 @@ export const Select = ({
     enums.find((e) => e.value === getBodyProp(dataKey))?.icon;
 
   const sortedEnums = useMemo(
-    () => enums.sort(C.toSortFnByProp('label')),
+    () => [...enums].sort(C.toSortFnByProp('label')),
     [enums],
   );
 
@@ -75,10 +75,15 @@ export const Select = ({
     const safeValue = String(e.label)
       .toLowerCase()
       .replace(/[^a-z0-9+]/g, '');
+
     return (
       <Command.Item
         key={e.value}
         value={safeValue}
+        onPointerDown={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        }}
         onSelect={() => {
           if (isMultiSelect) {
             const updatedBody = C.toUpdatedArray(getBodyProp(dataKey), {
@@ -124,21 +129,28 @@ export const Select = ({
             role="combobox"
             aria-expanded={open}
             className={C.cn(
+              'w-full justify-start text-left font-normal',
               isDisabledUnion && '!opacity-75',
               fat && 'h-10',
-              !hasData && 'text-muted-foreground font-normal',
+              !hasData && 'text-muted-foreground',
             )}
           >
             {Icon && <Icon className="mr-2 h-4 w-4" />}
-            {isLoading
-              ? ''
-              : hasData
-                ? buttonLabel
-                : `Select ${label.toLowerCase()}...`}
+            <span className="truncate">
+              {isLoading
+                ? ''
+                : hasData
+                  ? buttonLabel
+                  : `Select ${label.toLowerCase()}...`}
+            </span>
             <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </Popover.Trigger>
-        <Popover.Content className="w-[15.5rem] p-0" id={dataKey}>
+        <Popover.Content
+          className="w-[var(--radix-popover-trigger-width)] p-0"
+          id={dataKey}
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
           <Command.Root>
             <Command.Input
               placeholder={`Search ${label.toLowerCase()}`}
