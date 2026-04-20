@@ -281,13 +281,9 @@ export default function Home() {
         </SectionContent>
 
         <div
-          className="h-[1px]"
+          className="w-full border-t border-dashed"
           style={{
-            backgroundImage: `linear-gradient(to right, #6D0266 50%, rgba(255,255,255,0) 0%)`,
-            backgroundPosition: 'bottom',
-            backgroundSize: '12px 1px',
-            backgroundRepeat: 'repeat-x',
-            opacity: 0.2,
+            borderColor: 'rgba(109, 2, 102, 0.2)',
           }}
         />
 
