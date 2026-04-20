@@ -20,17 +20,24 @@ export const CardCompact: React.FC<CardCompactProps> = ({
   ariaLabel,
   className,
 }) => (
-  <Base variant="compact" className={cn('flex flex-col rounded-[32px]', className)}>
+  <Base
+    variant="compact"
+    className={cn('flex flex-col rounded-[32px]', className)}
+  >
     <Title className="text-h3 mb-4 line-clamp-1">{title}</Title>
     <Row className="items-end">
-      <Body className="line-clamp-2">{body}</Body>
+      <Body
+        className="text-hjul-dark line-clamp-2 text-lg font-medium leading-7"
+      >
+        {body}
+      </Body>
       <IconLink
         to={link}
         variant="mutedSharp"
         subVariant="rounded"
         size="large"
         icon={ArrowRight}
-        className="ml-auto"
+        className="text-hjul-dark ml-auto !rounded-[20px] !bg-[#EFECE8]"
         aria-label={ariaLabel}
       />
     </Row>

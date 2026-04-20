@@ -49,11 +49,10 @@ export default function Home() {
   return (
     <Page hasHeroSection>
       <div
-        className="light relative flex w-full flex-col items-center
-            justify-center bg-cover bg-center py-24 md:h-[70vh] md:max-h-[40rem]
-            md:items-start lg:-mt-20 lg:h-[83vh] lg:max-h-[83vh]"
-       style={{ backgroundImage: "url('/hero.jpg')" }}
-     >
+        className="light bg-hero relative flex w-full flex-col items-center
+          justify-center bg-cover bg-center py-24 md:h-[70vh] md:max-h-[40rem]
+          md:items-start lg:-mt-20 lg:h-[83vh] lg:max-h-[83vh]"
+      >
         <div className="absolute inset-0 bg-black opacity-50" />
         <div
           className="relative z-10 mx-auto flex w-[88vw] flex-col items-center
@@ -145,7 +144,7 @@ export default function Home() {
           linkLabel={t('shopsLinkLabel')}
           className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage
             [&_h2]:text-display [&_h2]:font-bold"
-          linkClassName="!bg-warm-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
+          linkClassName="!bg-warm-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-9 !shadow-md [&_svg]:-translate-y-px"
         >
           <div
             className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
@@ -168,9 +167,9 @@ export default function Home() {
               <CardShop
                 key={shop.id}
                 shop={shop}
-                className="[&_h2]:text-hjul-dark [&_p]:text-hjul-muted
+                className="text-hjul-dark [&_p]:text-hjul-muted
                   [&_span]:text-hjul-muted [&_svg]:text-hjul-muted
-                  !bg-transparent !shadow-none"
+                  !bg-transparent !shadow-none [&_h2]:font-normal"
               />
             ))}
           </div>
@@ -183,7 +182,7 @@ export default function Home() {
           linkVariant="background"
           className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage
             [&_h2]:text-display [&_h2]:font-bold"
-          linkClassName="!bg-blue-gradient !text-white !rounded-button !px-6 !py-2 !shadow-md"
+          linkClassName="!bg-blue-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-9 !shadow-md [&_svg]:-translate-y-px"
         >
           <div className="flex flex-col gap-8 xl:flex-row">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
@@ -195,7 +194,7 @@ export default function Home() {
                 />
               ))}
             </div>
-            <div className="flex flex-col gap-8 md:basis-1/3">
+            <div className="flex flex-col justify-start gap-8 md:basis-1/3">
               {data.stories.slice(2, 4).map((story) => (
                 <CardCompact
                   key={story.id}
@@ -206,17 +205,6 @@ export default function Home() {
                   className="text-hjul-dark"
                 />
               ))}
-              {data.stories[2] && (
-                <CardCompact
-                  key="manual-test-card"
-                  title={data.stories[2].title}
-                  body={
-                    <TiptapContentAsText content={data.stories[2].bodyText} />
-                  }
-                  link={`/stories/${data.stories[2].slug}`}
-                  ariaLabel={data.stories[2].title}
-                />
-              )}
             </div>
           </div>
         </SectionContent>
@@ -228,11 +216,21 @@ export default function Home() {
             className="mb-25 grid grid-cols-1 gap-12 text-center md:grid-cols-3"
           >
             <div className="flex flex-col items-center">
-              <img src="/images/bicycle.svg" className="h-26 mb-7" alt="Bike" />
-              <h3 className="text-hjul-plum mb-4 text-xl font-bold">
+              <img
+                src="/images/bicycle.svg"
+                className="mb-7 h-[183.7px] w-[209px]"
+                alt="Bike"
+              />
+              <h3
+                className="text-hjul-plum mb-2 self-stretch text-2xl
+                  font-semibold"
+              >
                 The joy of riding, for everyone.
               </h3>
-              <p className="text-hjul-dark max-w-[300px] text-sm">
+              <p
+                className="text-hjul-plum max-w-[450px] text-lg font-medium
+                  leading-7"
+              >
                 We believe everyone should have the ability to ride – with
                 access to learning, free services and bikes for borrowing.
               </p>
@@ -241,13 +239,19 @@ export default function Home() {
             <div className="flex flex-col items-center">
               <img
                 src="/images/collaboration.svg"
-                className="h-26 mb-7"
+                className="mb-7 h-[183.7px] w-[209px]"
                 alt="Collaboration"
               />
-              <h3 className="text-hjul-plum mb-4 text-xl font-bold">
+              <h3
+                className="text-hjul-plum mb-2 self-stretch text-2xl
+                  font-semibold"
+              >
                 Built on collaboration.
               </h3>
-              <p className="text-hjul-dark max-w-[300px] text-sm">
+              <p
+                className="text-hjul-plum max-w-[450px] text-lg font-medium
+                  leading-7"
+              >
                 A combined effort by public, private and non-profit sector – key
                 partners such as Save the Children, Poseidon, Göteborgs Stad and
                 more.
@@ -257,13 +261,19 @@ export default function Home() {
             <div className="flex flex-col items-center">
               <img
                 src="/images/motion.svg"
-                className="h-26 mb-7"
+                className="mb-7 h-[183.7px] w-[209px]"
                 alt="In motion"
               />
-              <h3 className="text-hjul-plum mb-4 text-xl font-bold">
+              <h3
+                className="text-hjul-plum text-align-center mb-2 self-stretch
+                  text-2xl font-semibold"
+              >
                 Already in motion.
               </h3>
-              <p className="text-hjul-dark max-w-[300px] text-sm">
+              <p
+                className="text-hjul-plum max-w-[450px] text-lg font-medium
+                  leading-7"
+              >
                 Five locations established in the Gothenburg area – and growing.
               </p>
             </div>
@@ -271,13 +281,13 @@ export default function Home() {
         </SectionContent>
 
         <div
-          className="h-[1px] w-full"
+          className="h-[1px]"
           style={{
             backgroundImage: `linear-gradient(to right, #6D0266 50%, rgba(255,255,255,0) 0%)`,
             backgroundPosition: 'bottom',
             backgroundSize: '12px 1px',
             backgroundRepeat: 'repeat-x',
-            opacity: 0.25,
+            opacity: 0.2,
           }}
         />
 
@@ -287,16 +297,16 @@ export default function Home() {
               gap-y-24 sm:grid sm:grid-cols-2 sm:px-16 md:px-36
               min-[1200px]:flex min-[1200px]:flex-row
               min-[1200px]:items-baseline min-[1200px]:px-0"
-        >
-          <Statistic label={t('statsBikesRepaired')} value={628} />
-          <Statistic label={t('statsBikesSaved')} value={500} />
-          <Statistic label={t('statsBikesLent')} value={86} />
-          <Statistic label={t('statsEmployeesHired')} value={30} />
-        </div>
-      </SectionContent>
-    </Section>
+          >
+            <Statistic label={t('statsBikesRepaired')} value={628} />
+            <Statistic label={t('statsBikesSaved')} value={500} />
+            <Statistic label={t('statsBikesLent')} value={86} />
+            <Statistic label={t('statsEmployeesHired')} value={30} />
+          </div>
+        </SectionContent>
+      </Section>
 
-    <div className="border-divider w-full border-t"></div>
+      <div className="border-divider w-full border-t"></div>
 
       <Section variant="blue" className="relative w-full bg-cover bg-center">
         <SectionContent>
