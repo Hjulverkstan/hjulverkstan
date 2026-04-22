@@ -21,10 +21,10 @@ import { ImageCard } from '@components/ImageCard';
 
 const Statistic = ({ label, value }: { label: string; value: number }) => (
   <div className="flex h-full flex-col items-center justify-start text-center">
-    <span className="!text-hjul-plum text-stats-value font-bricolage mb-8">
+    <span className="mb-8 font-bricolage text-stats-value !text-hjul-plum">
       {value}
     </span>
-    <span className="text-hjul-plum text-h3 text-foreground font-bold">
+    <span className="text-h3 font-bold text-foreground text-hjul-plum">
       {label}
     </span>
   </div>
@@ -49,9 +49,9 @@ export default function Home() {
   return (
     <Page hasHeroSection>
       <div
-        className="light bg-hero relative flex w-full flex-col items-center
-          justify-center bg-cover bg-center py-24 md:h-[70vh] md:max-h-[40rem]
-          md:items-start lg:-mt-20 lg:h-[83vh] lg:max-h-[83vh]"
+        className="light relative flex w-full flex-col items-center
+          justify-center bg-hero bg-cover bg-center py-24 md:h-[70vh]
+          md:max-h-[40rem] md:items-start lg:-mt-20 lg:h-[83vh] lg:max-h-[83vh]"
       >
         <div className="absolute inset-0 bg-black opacity-50" />
         <div
@@ -63,11 +63,10 @@ export default function Home() {
             alt="Logo"
             className="mb-2 h-20 w-auto sm:mb-4 sm:h-44"
           />
-          <h1 className="text-background text-h1 !text-white">Hjulverkstan</h1>
-
+          <h1 className="text-h1 !text-white text-background">Hjulverkstan</h1>
           <p
-            className="text-h3 text-background mt-2 max-w-[700px] !text-xl
-                sm:mt-4 sm:pr-0 sm:!text-3xl"
+            className="text-h3 mt-2 max-w-[700px] !text-xl text-background
+              sm:mt-4 sm:pr-0 sm:!text-3xl"
           >
             {data.text.slogan}
           </p>
@@ -142,9 +141,9 @@ export default function Home() {
           heading={t('shops')}
           linkTo="/shops"
           linkLabel={t('shopsLinkLabel')}
-          className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage
-            [&_h2]:text-display [&_h2]:font-bold"
-          linkClassName="!bg-warm-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-9 !shadow-md [&_svg]:-translate-y-px"
+          className="[&_h2]:font-bricolage [&_h2]:text-display [&_h2]:font-bold
+            [&_h2]:!text-hjul-dark"
+          linkClassName="!flex !items-center !justify-start !bg-warm-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[7px] !h-10 !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
         >
           <div
             className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
@@ -152,11 +151,10 @@ export default function Home() {
           >
             {data.shops.slice(0, 3).map((shop) => (
               <CardShop
-                key={shop.id}
                 shop={shop}
-                className="text-hjul-dark [&_p]:text-hjul-muted
-                  [&_span]:text-hjul-muted [&_svg]:text-hjul-muted
-                  !bg-transparent !shadow-none [&_h2]:font-normal"
+                className="!bg-transparent text-hjul-dark !shadow-none
+                  [&_h2]:font-normal [&_p]:text-hjul-muted
+                  [&_span]:text-hjul-muted [&_svg]:text-hjul-muted"
               />
             ))}
           </div>
@@ -167,9 +165,9 @@ export default function Home() {
               <CardShop
                 key={shop.id}
                 shop={shop}
-                className="text-hjul-dark [&_p]:text-hjul-muted
-                  [&_span]:text-hjul-muted [&_svg]:text-hjul-muted
-                  !bg-transparent !shadow-none [&_h2]:font-normal"
+                className="!bg-transparent text-hjul-dark !shadow-none
+                  [&_h2]:font-normal [&_p]:text-hjul-muted
+                  [&_span]:text-hjul-muted [&_svg]:text-hjul-muted"
               />
             ))}
           </div>
@@ -180,9 +178,9 @@ export default function Home() {
           linkTo="/stories"
           linkLabel={t('storiesLinkLabel')}
           linkVariant="background"
-          className="[&_h2]:!text-hjul-dark [&_h2]:font-bricolage
-            [&_h2]:text-display [&_h2]:font-bold"
-          linkClassName="!bg-blue-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-9 !shadow-md [&_svg]:-translate-y-px"
+          className="[&_h2]:font-bricolage [&_h2]:text-display [&_h2]:font-bold
+            [&_h2]:!text-hjul-dark"
+          linkClassName="!flex !items-center !bg-blue-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-10 !gap-[7px] !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
         >
           <div className="flex flex-col gap-8 xl:flex-row">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
@@ -222,14 +220,14 @@ export default function Home() {
                 alt="Bike"
               />
               <h3
-                className="text-hjul-plum mb-2 self-stretch text-2xl
-                  font-semibold"
+                className="mb-2 self-stretch text-2xl font-semibold
+                  text-hjul-plum"
               >
                 The joy of riding, for everyone.
               </h3>
               <p
-                className="text-hjul-plum max-w-[450px] text-lg font-medium
-                  leading-7"
+                className="max-w-[450px] text-lg font-medium leading-7
+                  text-hjul-plum"
               >
                 We believe everyone should have the ability to ride – with
                 access to learning, free services and bikes for borrowing.
@@ -243,14 +241,14 @@ export default function Home() {
                 alt="Collaboration"
               />
               <h3
-                className="text-hjul-plum mb-2 self-stretch text-2xl
-                  font-semibold"
+                className="mb-2 self-stretch text-2xl font-semibold
+                  text-hjul-plum"
               >
                 Built on collaboration.
               </h3>
               <p
-                className="text-hjul-plum max-w-[450px] text-lg font-medium
-                  leading-7"
+                className="max-w-[450px] text-lg font-medium leading-7
+                  text-hjul-plum"
               >
                 A combined effort by public, private and non-profit sector – key
                 partners such as Save the Children, Poseidon, Göteborgs Stad and
@@ -265,14 +263,14 @@ export default function Home() {
                 alt="In motion"
               />
               <h3
-                className="text-hjul-plum text-align-center mb-2 self-stretch
-                  text-2xl font-semibold"
+                className="text-align-center mb-2 self-stretch text-2xl
+                  font-semibold text-hjul-plum"
               >
                 Already in motion.
               </h3>
               <p
-                className="text-hjul-plum max-w-[450px] text-lg font-medium
-                  leading-7"
+                className="max-w-[450px] text-lg font-medium leading-7
+                  text-hjul-plum"
               >
                 Five locations established in the Gothenburg area – and growing.
               </p>
