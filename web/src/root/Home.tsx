@@ -44,6 +44,7 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
   const { openDialog } = useDialogManager();
+
   const { t } = useTranslations();
 
   return (
@@ -78,12 +79,15 @@ export default function Home() {
         className="relative w-full bg-cover bg-center md:pt-32"
       >
         <SectionContent>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
+          <div
+            className="mx-auto grid w-fit grid-cols-1 justify-center gap-8
+              sm:grid-cols-2 2xl:grid-cols-4"
+          >
             {/* Borrow */}
             <ImageCard
               title={data.text.serviceRentTitle}
               body={data.text.serviceRentBody}
-              image="borrow.jpg"
+              image="/borrow.jpg"
               ariaLabel="Learn more about how to borrow our bikes"
               onClick={() =>
                 openDialog(
@@ -98,8 +102,8 @@ export default function Home() {
               title={data.text.serviceRepairTitle}
               body={data.text.serviceRepairBody}
               variant="pink"
-              image="cardLightPink.jpg"
-              secondaryImage="bicycle.svg"
+              image="/cardLightPink.jpg"
+              secondaryImage="/bicycle.svg"
               secondImageVariant="fit"
               ariaLabel="Learn more about hor to repair your bike"
               onClick={() =>
@@ -114,7 +118,7 @@ export default function Home() {
             <ImageCard
               title={data.text.serviceCoursesTitle}
               body={data.text.serviceCoursesBody}
-              image="courses.jpg"
+              image="/courses.jpg"
               ariaLabel="Learn more about how to go on a course"
               onClick={() =>
                 openDialog(
@@ -132,8 +136,8 @@ export default function Home() {
               secondImageVariant="fullBleed"
               linkLabel={t('communityLinkLabel')}
               ariaLabel="Learn more about joining our community"
-              secondaryImage="community.png"
-              image="cardPink.jpg"
+              secondaryImage="/community.png"
+              image="/cardPink.jpg"
             />
           </div>
         </SectionContent>
@@ -328,18 +332,16 @@ export default function Home() {
             <ImageCard
               title={data.text.supportWorkTitle}
               body={data.text.supportWorkBody}
-              baseClassName={true}
-              image="work.jpg"
+              image="/work.jpg"
               ariaLabel="Learn more about donating via Swish"
             />
             {/* Material */}
             <ImageCard
               title={data.text.supportDonateMaterialTitle}
               body={data.text.supportDonateMaterialBody}
-              image="donate.jpg"
+              image="/donate.jpg"
               variant="brown"
               className="text-brown"
-              baseClassName={true}
               ariaLabel="Learn more about hor to repair your bike"
               onClick={() =>
                 openDialog(
@@ -353,8 +355,7 @@ export default function Home() {
             <ImageCard
               title={data.text.supportPartnerTitle}
               body={data.text.supportPartnerBody}
-              baseClassName={true}
-              image="partner.jpg"
+              image="/partner.jpg"
               ariaLabel="Learn more about becoming a partner"
               link="/contact"
             />
