@@ -28,7 +28,7 @@ public class UserService {
     private final LocationRepository locationRepository;
 
     public ListResponseDto<UserDto> getAllUsers() {
-        List<User> users = userRepository.findAllByHiddenFalseAndArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<User> users = userRepository.findAllByHiddenFalseAndDeletedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(users.stream().map(UserDto::new).toList());
     }
 
@@ -66,12 +66,12 @@ public class UserService {
     @Transactional
     public void softDeleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("User"));
-        user.setArchived(true);
+        user.setDeleted(true);
         userRepository.save(user);
     }
 
     @Transactional
-    public void deleteUser(Long id) {
+    public void hardDeleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("User"));
         refreshTokenService.deleteByUserId(id);
         userRepository.delete(user);

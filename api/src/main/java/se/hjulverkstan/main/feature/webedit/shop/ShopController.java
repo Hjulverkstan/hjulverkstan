@@ -44,6 +44,6 @@ public class ShopController {
     @DeleteMapping("/{id}/hard")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteShop(@PathVariable Long id) {
-        shopService.deleteShop(id);
+        shopService.hardDeleteShop(id);
     }
 }

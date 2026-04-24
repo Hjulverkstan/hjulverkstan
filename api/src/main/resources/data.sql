@@ -1,7 +1,7 @@
 -- SEED Table
 
 INSERT INTO Location
-(address,           name,          location_type, comment,                     created_at,          updated_at, created_by, updated_by, archived) VALUES
+(address,           name,          location_type, comment,                     created_at,          updated_at, created_by, updated_by, deleted) VALUES
 ('123 Main Street', 'Hjällbo',     'SHOP',        'Sample location 1 comment', '2024-05-16 10:00:00', NOW(),1,1, false),
 ('456 Elm Street',  'Backa',       'SHOP',        'Sample location 2 comment', '2024-05-17 10:00:00', NOW(),1,1, false),
 ('789 Oak Avenue',  'Gamlestaden', 'SHOP',        'Sample location 3 comment', '2024-05-18 10:00:00', NOW(),1,1, false),
@@ -13,7 +13,7 @@ INSERT INTO Location
 --
 
 INSERT INTO Employee
-(first_name,              last_name,              phone_number,      personal_identity_number,    email,                                 created_at, updated_at, created_by, updated_by, comment,                    anonymized, archived) VALUES
+(first_name,              last_name,              phone_number,      personal_identity_number,    email,                                 created_at, updated_at, created_by, updated_by, comment,                    anonymized, deleted) VALUES
 ('Christopher ',          'Lo-Martire',           '+46712345678',    '19990703-9870',             'christopher.lomartire@example.com',   '2024-05-16 10:00:00',      NOW(),      1,          1,          'Sample comment 1',         false,         false),
 ('Samuel',                'Siesjö',               '+46723019838',    '20010203-4567',             'samuel.siesjo@example.com',           '2024-05-18 10:00:01',      NOW(),      1,          1,          'Sample comment 2',         false,         false),
 ('Jona',                  'Cwejman',              '555-111-2222',    '19720408-2288',             'jona.cqwejman@example.com',           '2024-05-17 10:00:00',      NOW(),      1,          1,          'Sample employee 3 comment', false,         false),
@@ -21,7 +21,7 @@ INSERT INTO Employee
 --
 
 INSERT INTO Customer
-(customer_type,  first_name, last_name,  personal_identity_number,    organization_name,phone_number,    email,                  created_at, updated_at, created_by, updated_by, anonymized, archived) VALUES
+(customer_type,  first_name, last_name,  personal_identity_number,    organization_name,phone_number,    email,                  created_at, updated_at, created_by, updated_by, anonymized, deleted) VALUES
 ('PERSON',       'Tuva',     'Nilsson',  '19900101-1239',             null,             '+46798382301',  'tuva@example.com',     '2024-05-16 10:00:00',      NOW(),      1,          1,         false,         false),
 ('PERSON',       'Emil',     'Berglund', '19851224-5674',             null,             '+46832103988',  'emil@example.com',     '2024-05-17 10:00:00',      NOW(),      1,          1,         false,         false),
 ('ORGANIZATION', 'Bosse',    'Boström',  '20030515-9018',             'Hjulverkstan',        '+46798381201',  'bosseboss@hjulverkstan.se', '2024-05-18 10:00:00',      NOW(),      1,          1,         false,         false);
@@ -29,7 +29,7 @@ INSERT INTO Customer
 --
 
 INSERT INTO vehicle
-(location_id, vehicle_type, vehicle_status, imageURL,                                    comment,                       is_customer_owned, bike_type,      gear_count, size,     brake_type,  brand,        reg_tag, frame_number, created_at,            updated_at, created_by, updated_by, archived) VALUES
+(location_id, vehicle_type, vehicle_status, imageURL,                                    comment,                       is_customer_owned, bike_type,      gear_count, size,     brake_type,  brand,        reg_tag, frame_number, created_at,            updated_at, created_by, updated_by, deleted) VALUES
 (1,           'BIKE',       'ARCHIVED',     '312b694f-5c81-48fe-af98-c2d3a18fc1ee.png',  null,                          true,              'CHILD',        1,          'MEDIUM', 'DISC',      'SKEPPSHULT', null,    null,         '2024-05-16 10:00:00', NOW(),      1,          1, false),
 (1,           'BIKE',       'AVAILABLE',    '312b694f-5c81-48fe-af98-c2d3a18fc1ee.png',  null,                          false,             'ROAD',         12,         'MEDIUM', 'DISC',      'SKEPPSHULT', 'ERTY',  null,    '2024-05-17 10:00:00', NOW(),      1,          1, false),
 (1,           'BIKE',       'UNAVAILABLE',  '4d5fafa6-3388-455e-9f16-2ab31377eda4.jpg',  null,                          false,             'LADY',         15,         'MEDIUM', 'FOOTBRAKE', 'MONARK',     'YTLO',  null,    '2024-05-18 10:00:00', NOW(),      1,          1, false),
@@ -42,7 +42,7 @@ INSERT INTO vehicle
 --
 
 INSERT INTO Ticket
-(ticket_type, ticket_status, employee_id, customer_id, location_id, start_date, end_date, comment, repair_description, created_at, updated_at, created_by, updated_by, archived) VALUES
+(ticket_type, ticket_status, employee_id, customer_id, location_id, start_date, end_date, comment, repair_description, created_at, updated_at, created_by, updated_by, deleted) VALUES
 ('REPAIR',    'CLOSED',      2,           1,           1,           '2024-05-17', '2024-05-20', 'Important',            'Adjust gears and lubricate',        '2024-05-16 10:00:00', NOW(), 1, 1, false),
 ('RENT',      'CLOSED',      1,           2,           1,           '2024-05-16', '2024-05-22', null,                   null,                                '2024-05-16 10:00:00', NOW(), 1, 1, false),
 ('REPAIR',    'CLOSED',      2,           1,           1,           '2024-05-20', '2024-05-20', 'Could be back earlier', 'Flat tire front and loose handlebar', '2024-05-20 10:00:01', NOW(), 1, 1, false),
@@ -77,14 +77,14 @@ INSERT INTO Open_Hours
 
 
 INSERT INTO Shop
-(identity_id,                                        latitude,  longitude, imageURL,                                                                                    open_hours_id, has_temporary_hours, location_id, slug,           created_at, updated_at, created_by, updated_by, archived) VALUES
+(identity_id,                                        latitude,  longitude, imageURL,                                                                                    open_hours_id, has_temporary_hours, location_id, slug,           created_at, updated_at, created_by, updated_by, deleted) VALUES
 ('c2a00000-0000-0000-0000-000000000001'::uuid, 57.769667, 12.013639, 'image1.jpg', 1,             false,               1,           'hjallbo',      NOW(),      NOW(),      1,          1 , false        ),
 ('c2a00000-0000-0000-0000-000000000002'::uuid, 57.748000, 11.965000, 'image2.jpg', 2,             false,               2,           'backa',        NOW(),      NOW(),      1,          1   , false      ),
 ('c2a00000-0000-0000-0000-000000000003'::uuid, 57.720700, 12.010000, 'image4.jpg', 3,             false,               3,           'gamlestaden',  NOW(),      NOW(),      1,          1     , false    );
 
 
 INSERT INTO Story
-(identity_id,                                  slug,             imageurl, created_at, created_by, updated_at, updated_by, archived) VALUES
+(identity_id,                                  slug,             imageurl, created_at, created_by, updated_at, updated_by, deleted) VALUES
 ('c1a00000-0000-0000-0000-000000000001'::uuid, 'hjallbo-opens',   'image5.jpg',   NOW(),      1,          NOW(),      1, false),
 ('c1a00000-0000-0000-0000-000000000002'::uuid, 'ikea-renovation', 'image3.jpg',   NOW(),      1,          NOW(),      1, false),
 ('c1a00000-0000-0000-0000-000000000003'::uuid, '140-bikes-saved', 'image5.jpg',   NOW(),      1,          NOW(),      1, false);
@@ -322,7 +322,7 @@ ON CONFLICT (key) DO NOTHING;
 --
 
 INSERT INTO users
-(username,       email,                     password,                                                       hidden, location_id, created_at,            updated_at, created_by, updated_by, archived) VALUES
+(username,       email,                     password,                                                       hidden, location_id, created_at,            updated_at, created_by, updated_by, deleted) VALUES
 ('user',     'user@example.com',      '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', false,  1,           '2024-07-17 10:00:00', NOW(),      1,          2, false),
 ('admin',    'admin2@example.com',    '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', false,  null,           '2024-10-18 10:00:00', NOW(),      1,          2, false),
 ('pipeline', 'hjulverkstan@alten.se', '$2a$10$OV/brazFuYRnDqmaNKNereIvy8VK0RzZOw1ptctgw4fJLRCMckRfO', true,   1,           '2024-10-18 10:00:00', NOW(),      1,          2, false);

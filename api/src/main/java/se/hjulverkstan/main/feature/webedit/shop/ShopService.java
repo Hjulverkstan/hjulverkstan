@@ -24,7 +24,7 @@ public class ShopService {
     private final IdentityRepository identityRepository;
 
     public ListResponseDto<ShopDto> getAllShops() {
-        List<Shop> shops = shopRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Shop> shops = shopRepository.findAllByDeletedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
 
         return new ListResponseDto<>(shops.stream().map(this::toDto).toList());
     }
@@ -60,12 +60,12 @@ public class ShopService {
     @Transactional
     public void softDeleteShop(Long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
-        shop.setArchived(true);
+        shop.setDeleted(true);
         shopRepository.save(shop);
     }
 
     @Transactional
-    public void deleteShop(Long id) {
+    public void hardDeleteShop(Long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Shop"));
         shopRepository.delete(shop);
     }

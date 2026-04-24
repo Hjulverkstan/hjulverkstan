@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     boolean existsByLocation_Id(Long id);
-    List<Shop> findAllByArchivedFalse(Sort createdAt);
+    List<Shop> findAllByDeletedFalse(Sort createdAt);
 }

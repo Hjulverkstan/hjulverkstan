@@ -26,7 +26,7 @@ public class VehicleService {
     private final LocationRepository locationRepository;
 
     public ListResponseDto<VehicleDto> getAllVehicles() {
-        List<Vehicle> vehicles = vehicleRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Vehicle> vehicles = vehicleRepository.findAllByDeletedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         List<VehicleDto> dtos = vehicles.stream().map(VehicleDto::new).toList();
         return new ListResponseDto<>(dtos);
     }
@@ -37,7 +37,7 @@ public class VehicleService {
     }
 
     public FilteredResponseDto<VehicleDto, VehicleFilterCountsDto> searchVehicles(VehicleFilterDto filterDto) {
-        List<Vehicle> vehicles = vehicleRepository.findAllByArchivedFalse(VehicleFilter.create(filterDto), Sort.by("createdAt"));
+        List<Vehicle> vehicles = vehicleRepository.findAllByDeletedFalse(VehicleFilter.create(filterDto), Sort.by("createdAt"));
         List<VehicleDto> dtos = vehicles.stream().map(VehicleDto::new).toList();
 
         return new FilteredResponseDto<>(dtos, new VehicleFilterCountsDto(dtos));
@@ -86,17 +86,17 @@ public class VehicleService {
     public void softDeleteVehicle(Long id) {
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Vehicle"));
 
-        boolean hasActiveTickets = vehicle.getTickets().stream().anyMatch(ticket -> !ticket.isArchived());
+        boolean hasActiveTickets = vehicle.getTickets().stream().anyMatch(ticket -> !ticket.isDeleted());
         if(hasActiveTickets) {
-            throw new InvalidDataException("Cannot archive vehicle with active tickets");
+            throw new InvalidDataException("Cannot delete vehicle with active tickets");
         }
 
-        vehicle.setArchived(true);
+        vehicle.setDeleted(true);
         vehicleRepository.save(vehicle);
     }
 
     @Transactional
-    public void deleteVehicle(Long id) {
+    public void hardDeleteVehicle(Long id) {
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Vehicle"));
 
         if(vehicle.getTickets() != null && !vehicle.getTickets().isEmpty()) {

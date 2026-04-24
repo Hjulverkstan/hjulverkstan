@@ -17,7 +17,7 @@ public class Shop extends Releasable {
     private Double longitude;
     private String imageURL;
     private String slug;
-    private boolean archived = false;
+    private boolean deleted = false;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "open_hours_id", referencedColumnName = "id")

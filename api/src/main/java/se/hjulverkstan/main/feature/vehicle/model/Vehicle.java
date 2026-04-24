@@ -38,7 +38,7 @@ public class Vehicle extends Auditable {
     private String imageURL;
     private String comment;
     private boolean isCustomerOwned;
-    private boolean archived = false;
+    private boolean deleted = false;
 
     // vehicleType == BATCH
     private Integer batchCount;

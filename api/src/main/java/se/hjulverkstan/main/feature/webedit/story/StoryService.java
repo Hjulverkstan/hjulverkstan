@@ -27,7 +27,7 @@ public class StoryService {
     private final TranslationService translationService;
 
     public ListResponseDto<StoryDto> getAllStoriesByLang(Language lang) {
-        List<Story> stories = storyRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Story> stories = storyRepository.findAllByDeletedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
 
         return new ListResponseDto<>(stories.stream().map(story -> toDto(story, lang, false)).toList());
     }
@@ -66,16 +66,16 @@ public class StoryService {
     public void softDeleteStory(Long id, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
         if(lang != Language.SV) {
-            throw new UnsupportedArgumentException("Can only be archived in default lang");
+            throw new UnsupportedArgumentException("Can only be deleted in default lang");
         }
 
-        story.setArchived(true);
+        story.setDeleted(true);
 
         storyRepository.save(story);
     }
 
     @Transactional
-    public void deleteStory(Long id, Language lang) {
+    public void hardDeleteStory(Long id, Language lang) {
         Story story = storyRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Story"));
 
         if (lang != Language.SV) {

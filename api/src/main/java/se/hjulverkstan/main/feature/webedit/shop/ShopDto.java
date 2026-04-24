@@ -39,7 +39,7 @@ public class ShopDto extends AuditableDto {
     private OpenHoursDto openHours;
 
     private boolean hasTemporaryHours;
-    private boolean archived;
+    private boolean deleted;
 
     @NotNull(message = "Location id is required to link shop to a location")
     @JsonSerialize(using = ToStringSerializer.class)
@@ -58,7 +58,7 @@ public class ShopDto extends AuditableDto {
         slug = shop.getSlug();
         hasTemporaryHours = shop.isHasTemporaryHours();
         openHours = shop.getOpenHours() != null ? new OpenHoursDto(shop.getOpenHours()) : null;
-        archived = shop.isArchived();
+        deleted = shop.isDeleted();
     }
 
     @JsonIgnore
@@ -77,7 +77,7 @@ public class ShopDto extends AuditableDto {
         shop.setSlug(slug);
         shop.setHasTemporaryHours(hasTemporaryHours);
         shop.setLocation(location);
-        shop.setArchived(archived);
+        shop.setDeleted(deleted);
 
         // Only create/update OpenHours if it has actual content
         if(this.openHours != null && !this.openHours.isEmpty()) {
