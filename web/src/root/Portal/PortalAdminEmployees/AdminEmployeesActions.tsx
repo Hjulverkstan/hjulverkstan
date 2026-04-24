@@ -16,7 +16,6 @@ import { useDialogManager } from '@components/DialogManager';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
 
 export default function AdminEmployeesActions({
   row: employee,
@@ -28,11 +27,11 @@ export default function AdminEmployeesActions({
   const hasTickets = !!employee.ticketIds.length;
   const [open, setOpen] = useState(false);
 
-  const archiveEmployeeM = useSoftDeleteEmployeeM();
-  const deleteEmployeeM = useDeleteEmployeeM();
+  const deleteEmployeeM = useSoftDeleteEmployeeM();
+  const hardDeleteEmployeeM = useDeleteEmployeeM();
 
-  const onDelete = () => {
-    deleteEmployeeM.mutate(employee.id, {
+  const onHardDelete = () => {
+    hardDeleteEmployeeM.mutate(employee.id, {
       onSuccess: (res: Employee) => {
         toast(
           createSuccessToast({
@@ -48,42 +47,31 @@ export default function AdminEmployeesActions({
     });
   };
 
-  const onArchive = () => {
-    archiveEmployeeM.mutate(employee.id, {
+  const onDelete = () => {
+    deleteEmployeeM.mutate(employee.id, {
       onSuccess: (res: Employee) => {
         toast(
           createSuccessToast({
-            verbLabel: 'archive',
+            verbLabel: 'remove',
             dataLabel: 'employee',
             id: `${res.firstName} ${res.lastName}`,
           }),
         );
       },
       onError: () => {
-        toast(
-          createErrorToast({ verbLabel: 'archive', dataLabel: 'employee' }),
-        );
+        toast(createErrorToast({ verbLabel: 'delete', dataLabel: 'employee' }));
       },
     });
   };
 
-  const handleDeleteClick = () => {
+  const handleHardDeleteClick = () => {
     openDialog(
       <ConfirmDeleteDialog
+        onHardDelete={onHardDelete}
         onDelete={onDelete}
-        onArchive={onArchive}
         entity="employee"
         entityId={`${employee.firstName} ${employee.lastName}`}
-      />,
-    );
-  };
-
-  const handleArchiveClick = () => {
-    openDialog(
-      <ConfirmArchiveDialog
-        onArchive={onArchive}
-        entity="employee"
-        entityId={`${employee.firstName} ${employee.lastName}`}
+        disable={hasTickets}
       />,
     );
   };
@@ -103,36 +91,12 @@ export default function AdminEmployeesActions({
             <Tooltip.Trigger className="w-full">
               <DropdownMenu.Item
                 onClick={(e) => e.stopPropagation()}
-                onSelect={() => handleArchiveClick()}
-                disabled={hasTickets}
-              >
-                Archive
-              </DropdownMenu.Item>
-            </Tooltip.Trigger>
-            {hasTickets && (
-              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
-                Cannot archive employees with tickets.
-              </Tooltip.Content>
-            )}
-          </Tooltip.Root>
-        </Tooltip.Provider>
-        <Tooltip.Provider>
-          <Tooltip.Root>
-            <Tooltip.Trigger className="w-full">
-              <DropdownMenu.Item
-                onClick={(e) => e.stopPropagation()}
-                onSelect={() => handleDeleteClick()}
-                disabled={hasTickets}
+                onSelect={() => handleHardDeleteClick()}
               >
                 Delete
                 <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
               </DropdownMenu.Item>
             </Tooltip.Trigger>
-            {hasTickets && (
-              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
-                Cannot delete employees with tickets.
-              </Tooltip.Content>
-            )}
           </Tooltip.Root>
         </Tooltip.Provider>
       </DropdownMenu.Content>

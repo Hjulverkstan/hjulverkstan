@@ -22,13 +22,13 @@ export const useEditCustomerM = () =>
       ]),
   });
 
-export const useDeleteCustomerM = () =>
+export const useHardDeleteCustomerM = () =>
   useMutation({
     ...api.createDeleteCustomer(),
     onSuccess: () => invalidateQueries([api.createGetCustomers().queryKey]),
   });
 
-export const useArchiveCustomerM = () =>
+export const useSoftDeleteCustomerM = () =>
   useMutation({
     ...api.createSoftDeleteCustomer(),
     onSuccess: () => invalidateQueries([api.createGetCustomers().queryKey]),

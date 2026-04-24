@@ -1,13 +1,9 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
-import {
-  useDeleteLocationM,
-  useSoftDeleteLocationM,
-} from '@data/location/mutations';
+import { useSoftDeleteLocationM } from '@data/location/mutations';
 import { Location } from '@data/location/types';
 
-import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { IconButton } from '@components/shadcn/Button';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { useToast } from '@components/shadcn/use-toast';
@@ -15,7 +11,7 @@ import { useDialogManager } from '@components/DialogManager';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
-import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
+import ConfirmRemoveDialog from '@components/ConfirmSoftDeleteDialog';
 import * as Tooltip from '@radix-ui/react-tooltip';
 
 export default function AdminLocationsActions({
@@ -27,29 +23,9 @@ export default function AdminLocationsActions({
 
   const [open, setOpen] = useState(false);
 
-  const archiveLocationM = useSoftDeleteLocationM();
-  const deleteLocationM = useDeleteLocationM();
+  const deleteLocationM = useSoftDeleteLocationM();
 
   const hasVehicles = !!location.vehicleIds.length;
-
-  const onArchive = () => {
-    archiveLocationM.mutate(location.id, {
-      onSuccess: (res: Location) => {
-        toast(
-          createSuccessToast({
-            verbLabel: 'archive',
-            dataLabel: 'location',
-            id: res.name,
-          }),
-        );
-      },
-      onError: () => {
-        toast(
-          createErrorToast({ verbLabel: 'archive', dataLabel: 'location' }),
-        );
-      },
-    });
-  };
 
   const onDelete = () => {
     deleteLocationM.mutate(location.id, {
@@ -68,21 +44,10 @@ export default function AdminLocationsActions({
     });
   };
 
-  const handleArchiveClick = () => {
-    openDialog(
-      <ConfirmArchiveDialog
-        onArchive={onArchive}
-        entity={location.locationType}
-        entityId={location.id}
-      />,
-    );
-  };
-
   const handleDeleteClick = () => {
     openDialog(
-      <ConfirmDeleteDialog
+      <ConfirmRemoveDialog
         onDelete={onDelete}
-        onArchive={onArchive}
         entity={location.locationType}
         entityId={location.id}
       />,
@@ -101,24 +66,15 @@ export default function AdminLocationsActions({
       <DropdownMenu.Content align="end" className="w-[160px]">
         <DropdownMenu.Item
           onClick={(e) => e.stopPropagation()}
-          onSelect={() => handleArchiveClick()}
+          onSelect={() => handleDeleteClick()}
         >
-          Archive
+          Delete
+          <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
         <Tooltip.Provider>
           <Tooltip.Root>
-            <Tooltip.Trigger className="w-full">
-              <DropdownMenu.Item
-                onClick={(e) => e.stopPropagation()}
-                onSelect={handleDeleteClick}
-                disabled={hasVehicles}
-              >
-                Delete
-                <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
-              </DropdownMenu.Item>
-            </Tooltip.Trigger>
             {hasVehicles && (
-              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
+              <Tooltip.Content className="rounded-sm bg-primary p-2 text-white">
                 Location has vehicles
               </Tooltip.Content>
             )}

@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import * as Tooltip from '@radix-ui/react-tooltip';
 
 import {
-  useDeleteVehicleM,
   useSoftDeleteVehicleM,
   useUpdateVehicleStatusM,
 } from '@data/vehicle/mutations';
@@ -13,7 +12,6 @@ import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { IconButton } from '@components/shadcn/Button';
 import { useToast } from '@components/shadcn/use-toast';
 import { useDialogManager } from '@components/DialogManager';
-import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import * as enumsRaw from '@data/vehicle/enums';
 import { useTicketsQ } from '@data/ticket/queries';
 import { TicketStatus } from '@data/ticket/types';
@@ -22,7 +20,7 @@ import { useTranslateRawEnums } from '@hooks/useTranslateRawEnums';
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
 import { findEnum } from '@utils/enums';
-import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
+import DeleteVehicleDialog from '@components/DeleteVehicleDialog';
 
 export enum VehicleShortcutAction {
   CREATE_TICKET = 'CREATE_TICKET',
@@ -45,8 +43,7 @@ export default function ShopInventoryActions({
 
   const { id } = useParams<{ id: string }>();
 
-  const archiveVehicleM = useSoftDeleteVehicleM();
-  const deleteVehicleM = useDeleteVehicleM();
+  const deleteVehicleM = useSoftDeleteVehicleM();
   const updateVehicleStatusM = useUpdateVehicleStatusM();
 
   const [open, setOpen] = useState(false);
@@ -62,23 +59,6 @@ export default function ShopInventoryActions({
       ticket.ticketStatus !== undefined &&
       ticket.ticketStatus !== TicketStatus.CLOSED,
   );
-
-  const onArchive = () => {
-    archiveVehicleM.mutate(vehicle.id, {
-      onSuccess: (res: Vehicle) => {
-        toast(
-          createSuccessToast({
-            verbLabel: 'archive',
-            dataLabel: 'vehicle',
-            id: res.id,
-          }),
-        );
-      },
-      onError: () => {
-        toast(createErrorToast({ verbLabel: 'archive', dataLabel: 'vehicle' }));
-      },
-    });
-  };
 
   const onDelete = () => {
     deleteVehicleM.mutate(vehicle.id, {
@@ -97,24 +77,11 @@ export default function ShopInventoryActions({
     });
   };
 
-  const handleArchiveClick = () =>
-    openDialog(
-      <ConfirmArchiveDialog
-        onArchive={onArchive}
-        entity={vehicle.vehicleType}
-        entityId={
-          vehicle.vehicleType === VehicleType.BATCH
-            ? 'Batch'
-            : vehicle.regTag || vehicle.id
-        }
-      />,
-    );
-
   const handleDeleteClick = () =>
     openDialog(
-      <ConfirmDeleteDialog
+      <DeleteVehicleDialog
         onDelete={onDelete}
-        onArchive={onArchive}
+        onArchive={() => onStatusUpdate(VehicleStatus.ARCHIVED)}
         entity={vehicle.vehicleType}
         entityId={
           vehicle.vehicleType === VehicleType.BATCH
@@ -234,24 +201,6 @@ export default function ShopInventoryActions({
             <Tooltip.Trigger className="w-full">
               <DropdownMenu.Item
                 onClick={(e) => e.stopPropagation()}
-                onSelect={handleArchiveClick}
-                disabled={hasTickets}
-              >
-                Archive
-              </DropdownMenu.Item>
-            </Tooltip.Trigger>
-            {hasTickets && (
-              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
-                Archive ticket first.
-              </Tooltip.Content>
-            )}
-          </Tooltip.Root>
-        </Tooltip.Provider>
-        <Tooltip.Provider>
-          <Tooltip.Root>
-            <Tooltip.Trigger className="w-full">
-              <DropdownMenu.Item
-                onClick={(e) => e.stopPropagation()}
                 onSelect={handleDeleteClick}
                 disabled={hasTickets}
               >
@@ -260,7 +209,7 @@ export default function ShopInventoryActions({
               </DropdownMenu.Item>
             </Tooltip.Trigger>
             {hasTickets && (
-              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
+              <Tooltip.Content className="rounded-sm bg-primary p-2 text-white">
                 Delete ticket first.
               </Tooltip.Content>
             )}

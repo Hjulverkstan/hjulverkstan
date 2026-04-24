@@ -13,29 +13,33 @@ import { usePreloadedDataLocalized } from '@hooks/usePreloadedData';
 //
 
 export const buttonVariants = cva(
-  `focus-visible:ring-ring inline-flex flex-shrink-0 items-center justify-center
-  whitespace-nowrap rounded-md text-sm font-medium transition-colors
-  focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none
+  `inline-flex flex-shrink-0 items-center justify-center whitespace-nowrap
+  rounded-md text-sm font-medium transition-colors focus-visible:outline-none
+  focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none
   disabled:opacity-50`,
   {
     variants: {
       variant: {
         default:
           'bg-primary text-primary-foreground hover:bg-primary/80' +
-          ' data-[state=open]:bg-muted shadow',
+          ' shadow data-[state=open]:bg-muted',
         red: ['bg-red text-background hover:bg-red/80'],
         outline: [
-          `border-input bg-background hover:bg-muted
-          hover:text-accent-foreground hover:border-border-dark border`,
+          `border border-input bg-background hover:border-border-dark
+          hover:bg-muted hover:text-accent-foreground`,
         ],
         secondary: [
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow',
+          'bg-secondary text-secondary-foreground shadow hover:bg-secondary/80',
         ],
         secondarySharp: [
           'bg-secondary text-foreground shadow-none hover:opacity-80',
         ],
+        secondaryBorder: [
+          `border border-secondary-foreground/20 bg-secondary text-[#555555]
+          hover:bg-secondary/70`,
+        ],
         blueMuted: [
-          'border-blue-border text-blue-foreground bg-blue-muted border',
+          'border border-blue-border bg-blue-muted text-blue-foreground',
         ],
         contrast: ['bg-contrast text-contrast-foreground hover:bg-contrast/80'],
         mutedSharp: ['bg-muted text-foreground shadow-none hover:opacity-80'],
@@ -44,14 +48,16 @@ export const buttonVariants = cva(
         brownText: ['bg-background text-brown hover:opacity-80'],
         accent: [
           [
-            `data-[state=active]:text-accent-foreground
-            data-[state=active]:border-secondary-border bg-accent
-            hover:border-border-dark text-muted-foreground
-            hover:text-accent-foreground border-accent border`,
+            `border border-accent bg-accent text-muted-foreground
+            hover:border-border-dark hover:text-accent-foreground
+            data-[state=active]:border-secondary-border
+            data-[state=active]:text-accent-foreground`,
           ],
         ],
-        ghost: 'hover:bg-accent hover:text-accent-foreground !shadow-none',
-        link: 'text-foreground hover:text-foreground/55 !shadow-none',
+        ghost: '!shadow-none hover:bg-accent hover:text-accent-foreground',
+        link: 'text-foreground !shadow-none hover:text-foreground/55',
+        erase: ['border border-red bg-background text-red hover:bg-muted'],
+        black: ['bg-black text-background hover:bg-black/80'],
       },
       subVariant: {
         default: 'shadow-sm',
@@ -77,7 +83,8 @@ export const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   tooltip?: string;
@@ -127,8 +134,10 @@ Button.displayName = 'Button';
 
 //
 
-export interface IconButtonProps
-  extends Omit<ButtonProps, 'children' | 'size'> {
+export interface IconButtonProps extends Omit<
+  ButtonProps,
+  'children' | 'size'
+> {
   icon?: any;
   text?: string;
   iconRight?: true;
@@ -171,8 +180,7 @@ IconButton.displayName = 'IconButton';
 //
 
 export interface LinkProps
-  extends RouterLinkProps,
-    VariantProps<typeof buttonVariants> {
+  extends RouterLinkProps, VariantProps<typeof buttonVariants> {
   to: string;
 }
 
@@ -199,8 +207,10 @@ Link.displayName = RouterLink.displayName;
 
 //
 
-export interface IconLinkProps
-  extends Omit<LinkProps, 'children' | 'ref' | 'size'> {
+export interface IconLinkProps extends Omit<
+  LinkProps,
+  'children' | 'ref' | 'size'
+> {
   icon: React.ElementType;
   iconRight?: true;
   size?: 'default' | 'large';

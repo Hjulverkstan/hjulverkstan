@@ -7,24 +7,24 @@ import {
   DialogTitle,
 } from '@components/shadcn/Dialog';
 import { Button, IconButton } from '@components/shadcn/Button';
-import { Trash2, Archive } from 'lucide-react';
+import { Trash2, Ghost } from 'lucide-react';
 import * as Tooltip from '@radix-ui/react-tooltip';
 
 interface confirmDeleteDialogProps {
-  onDelete: () => void;
+  onHardDelete?: () => void;
   onCancel?: () => void;
-  onArchive?: () => void;
+  onDelete?: () => void;
   disable?: boolean;
   entity: string;
   entityId?: string;
 }
 
 export default function ConfirmDeleteDialog({
-  onDelete,
+  onHardDelete,
   onCancel,
   entity,
   entityId,
-  onArchive,
+  onDelete,
   disable,
 }: confirmDeleteDialogProps) {
   const item = entity.toLowerCase();
@@ -33,16 +33,20 @@ export default function ConfirmDeleteDialog({
   return (
     <DialogContent className="max-w-[600px] p-6 text-left">
       <DialogHeader>
-        <DialogTitle className="mb-2 text-xl">{`Delete ${item}`}</DialogTitle>
+        <DialogTitle className="mb-2 text-xl">
+          {'Choose delete method'}
+        </DialogTitle>
         <DialogDescription className="leading-relaxed text-slate-700">
           <p className="mb-4">
-            {`You are trying to delete a ${item} ${id ? `with id ${id}.` : ''}`}
+            {`You are trying to delete ${item} ${id ? `with id ${id}.` : ''}`}
           </p>
-
           <p>
-            <strong>Archiving</strong> preserves all repair history and records.
-            <strong> Deleting</strong> is <strong>permanent </strong>and should
-            only be used if this {item} was created by mistake.
+            <strong>Delete</strong> removes the customer but keeps history on
+            vehicles and tickets (repair descriptions and vehicle images).
+            <br />
+            <br />
+            <strong>Erase</strong> is permanent and irreversible in accordance
+            with GDPR; all data on vehicles and tickets is removed.
           </p>
         </DialogDescription>
       </DialogHeader>
@@ -65,11 +69,11 @@ export default function ConfirmDeleteDialog({
               <Tooltip.Trigger>
                 <DialogClose asChild>
                   <IconButton
-                    variant={'default'}
+                    variant={'red'}
                     type="button"
-                    onClick={onArchive}
-                    icon={Archive}
-                    text="Archive"
+                    onClick={onDelete}
+                    icon={Trash2}
+                    text="Remove"
                     className="whitespace-nowrap"
                     disabled={disable}
                   />
@@ -77,9 +81,9 @@ export default function ConfirmDeleteDialog({
               </Tooltip.Trigger>
               {disable && (
                 <Tooltip.Content
-                  className="bg-primary rounded-sm p-2 text-white"
+                  className="rounded-sm bg-primary p-2 text-white"
                 >
-                  Archive ticket first.
+                  Delete ticket first.
                 </Tooltip.Content>
               )}
             </Tooltip.Root>
@@ -87,11 +91,11 @@ export default function ConfirmDeleteDialog({
 
           <DialogClose asChild>
             <IconButton
-              variant={'red'}
+              variant={'erase'}
               type="button"
-              onClick={onDelete}
-              icon={Trash2}
-              text="Permanent Delete"
+              onClick={onHardDelete}
+              icon={Ghost}
+              text="Erase"
               className="whitespace-nowrap"
             />
           </DialogClose>

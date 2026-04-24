@@ -7,40 +7,36 @@ import {
   DialogTitle,
 } from '@components/shadcn/Dialog';
 import { Button, IconButton } from '@components/shadcn/Button';
-import { Archive } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 interface confirmDeleteDialogProps {
   onCancel?: () => void;
-  onArchive?: () => void;
+  onDelete?: () => void;
   entity: string;
   entityId?: string;
 }
 
-export default function ConfirmArchiveDialog({
+export default function ConfirmDeleteDialog({
   onCancel,
   entity,
   entityId,
-  onArchive,
+  onDelete,
 }: confirmDeleteDialogProps) {
   const item = entity.toLowerCase();
   const id = entityId?.toLowerCase();
 
   return (
-    <DialogContent className="max-w-[600px] p-6 text-left">
+    <DialogContent className="max-w-[600px] p-8 text-left">
       <DialogHeader>
-        <DialogTitle className="mb-2 text-xl">{`Archive ${item}`}</DialogTitle>
+        <DialogTitle className="mb-4 text-xl">{'Confirm deletion'}</DialogTitle>
         <DialogDescription className="leading-relaxed text-slate-700">
-          <p className="mb-4">
-            {`You are trying to archive a ${item} ${id ? `with id ${id}.` : ''}`}
-          </p>
-
-          <p>
-            <strong>Archiving</strong> preserves all history and records.
+          <p className="">
+            {`You are trying to delete ${item} ${id ? `with id ${id}.` : ''}`}
           </p>
         </DialogDescription>
       </DialogHeader>
 
-      <DialogFooter className="mt-8 flex flex-row items-center">
+      <DialogFooter className="flex flex-row items-center">
         <DialogClose asChild>
           <Button variant="outline" type="button" onClick={onCancel}>
             Cancel
@@ -49,11 +45,11 @@ export default function ConfirmArchiveDialog({
 
         <DialogClose asChild>
           <IconButton
-            variant={'default'}
+            variant={'red'}
             type="button"
-            onClick={onArchive}
-            icon={Archive}
-            text="Archive"
+            onClick={onDelete}
+            icon={Trash2}
+            text="Delete"
             className="whitespace-nowrap"
           />
         </DialogClose>
