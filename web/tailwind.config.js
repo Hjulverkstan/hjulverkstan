@@ -49,9 +49,9 @@ module.exports = {
           'linear-gradient(97deg, #FC6A82 1.89%, #F74284 122.8%)', //pinkish for button
         'blue-gradient':
           'linear-gradient(92deg, #55AEFD -55.17%, #CF76FE 114.73%)', //blueish/purplish for button
-        lightPink: "url('/images/grain.svg'), url('/images/shopsPink.jpg')",
-        pink: "url('/images/grain.svg'), url('/images/backgroundLightPink.jpg')",
-        hero: "url('/images/grain.svg'), url('/hero.jpg')",
+        lightPink: "url('/VeryLightPink.jpg')",
+        pink: "url('/backgroundLightPink.jpg')",
+        hero: "url('/hero.jpg')",
         blue: 'linear-gradient(180deg, rgba(0, 0, 0, 0.08) 5.41%, rgba(0, 0, 0, 0.00) 62.48%), linear-gradient(118deg, #E09CF7 15.26%, #B887FC 44.03%, #64A3F9 85.66%)',
         peach: 'linear-gradient(95deg, #FF877C 17.49%, #FF669E 78.02%)',
       },

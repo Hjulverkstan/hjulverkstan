@@ -182,17 +182,18 @@ export default function Home() {
             [&_h2]:!text-hjul-dark"
           linkClassName="!flex !items-center !bg-blue-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-10 !gap-[7px] !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
         >
-          <div className="flex flex-col gap-8 xl:flex-row">
+          <div className="flex flex-col gap-8 xl:flex-row xl:items-start">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
               {data.stories.slice(0, 2).map((story) => (
                 <CardStory
                   key={story.id}
                   story={story}
-                  className="h-96 xl:h-auto"
+                  className="h-96 border border-black/10 !shadow-pink-blur
+                    xl:h-96"
                 />
               ))}
             </div>
-            <div className="flex flex-col justify-start gap-8 md:basis-1/3">
+            <div className="flex flex-col justify-start gap-8 md:basis-1/4">
               {data.stories.slice(2, 4).map((story) => (
                 <CardCompact
                   key={story.id}
@@ -200,7 +201,8 @@ export default function Home() {
                   body={<TiptapContentAsText content={story.bodyText} />}
                   link={`/stories/${story.slug}`}
                   ariaLabel={story.title}
-                  className="text-hjul-dark"
+                  className="border border-black/10 !bg-[#FFFFFF] text-hjul-dark
+                    !shadow-pink-blur"
                 />
               ))}
             </div>
@@ -215,7 +217,7 @@ export default function Home() {
           >
             <div className="flex flex-col items-center">
               <img
-                src="/images/bicycle.svg"
+                src="/bicycle.svg"
                 className="mb-7 h-[183.7px] w-[209px]"
                 alt="Bike"
               />
@@ -236,7 +238,7 @@ export default function Home() {
 
             <div className="flex flex-col items-center">
               <img
-                src="/images/collaboration.svg"
+                src="/collaboration.svg"
                 className="mb-7 h-[183.7px] w-[209px]"
                 alt="Collaboration"
               />
@@ -258,7 +260,7 @@ export default function Home() {
 
             <div className="flex flex-col items-center">
               <img
-                src="/images/motion.svg"
+                src="/motion.svg"
                 className="mb-7 h-[183.7px] w-[209px]"
                 alt="In motion"
               />
@@ -278,12 +280,19 @@ export default function Home() {
           </div>
         </SectionContent>
 
-        <div
-          className="w-full border-t border-dashed"
-          style={{
-            borderColor: 'rgba(109, 2, 102, 0.2)',
-          }}
-        />
+        <div className="w-full">
+          <svg width="100%" height="2" className="block">
+            <line
+              x1="0"
+              y1="1"
+              x2="100%"
+              y2="1"
+              stroke="rgba(109, 2, 102, 0.5)"
+              strokeWidth="1"
+              strokeDasharray="3 5"
+            />
+          </svg>
+        </div>
 
         <SectionContent>
           <div
