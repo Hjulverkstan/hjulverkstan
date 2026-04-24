@@ -43,8 +43,8 @@ Icon.displayName = 'CardIcon';
 export const cardTitleVariants = cva('z-10', {
   variants: {
     variant: {
-      default: 'text-foreground text-h3 line-clamp-2',
-      imageBackground: 'text-background text-h3',
+      default: 'text-h3 line-clamp-2 text-foreground',
+      imageBackground: 'text-h3 text-background',
     },
   },
   defaultVariants: {
@@ -53,7 +53,8 @@ export const cardTitleVariants = cva('z-10', {
 });
 
 export interface CardTitleProps
-  extends HTMLAttributes<HTMLHeadingElement>,
+  extends
+    HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof cardTitleVariants> {
   children: React.ReactNode;
   className?: string;
@@ -115,7 +116,7 @@ Row.displayName = 'CardRow';
 
 //
 
-const cardImageVariants = cva('bg-muted overflow-hidden', {
+const cardImageVariants = cva('overflow-hidden bg-muted', {
   variants: {
     variant: {
       background: 'absolute inset-0 z-0 h-full w-full',
@@ -136,7 +137,8 @@ const cardImageVariants = cva('bg-muted overflow-hidden', {
 });
 
 export interface CardImageProps
-  extends React.ImgHTMLAttributes<HTMLImageElement>,
+  extends
+    React.ImgHTMLAttributes<HTMLImageElement>,
     VariantProps<typeof cardImageVariants> {
   src?: string;
   alt: string;
@@ -173,8 +175,8 @@ export const Image: React.FC<CardImageProps> = ({
         />
       ) : (
         <div
-          className="text-muted-foreground/60 flex h-full items-center
-            justify-center"
+          className="flex h-full items-center justify-center
+            text-muted-foreground/60"
         >
           <FallbackIcon size={40} />
         </div>
@@ -205,22 +207,23 @@ Image.displayName = 'CardImage';
 const cardBaseVariants = cva('flex flex-col overflow-hidden rounded-[32px]', {
   variants: {
     variant: {
-      default: 'bg-background h-auto p-8',
-      muted: 'bg-muted h-auto p-8',
+      default: 'h-auto bg-background p-8',
+      muted: 'h-auto bg-muted p-8',
       imageBackground: [
-        `text-background light relative h-auto justify-end gap-4 bg-cover
-        bg-center p-8`,
+        `light relative h-auto justify-end gap-4 bg-cover bg-center p-8
+        text-background`,
       ],
       brown: [
-        'text-brown relative h-auto justify-end gap-4 bg-cover bg-center p-8',
+        'relative h-auto justify-end gap-4 bg-cover bg-center p-8 text-brown',
       ],
       pink: [
-        'text-plum relative h-auto justify-end gap-4 bg-cover bg-center p-8',
+        'relative h-auto justify-end gap-4 bg-cover bg-center p-8 text-plum',
       ],
-      compact: 'bg-background h-auto w-full flex-1 gap-4 p-8',
-      imageAbove: 'bg-background w-full gap-2 rounded-lg md:flex-1',
+      compact: 'h-auto w-full flex-1 gap-4 bg-background p-8',
+      imageAbove:
+        'w-full gap-2 overflow-visible rounded-lg bg-background md:flex-1',
       padded:
-        'bg-muted md:bg-background h-auto w-full px-5 py-10 md:px-16 md:py-16',
+        'h-auto w-full bg-muted px-5 py-10 md:bg-background md:px-16 md:py-16',
     },
   },
   defaultVariants: {
@@ -229,7 +232,8 @@ const cardBaseVariants = cva('flex flex-col overflow-hidden rounded-[32px]', {
 });
 
 export interface CardBaseProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardBaseVariants> {
   children: React.ReactNode;
   className?: string;

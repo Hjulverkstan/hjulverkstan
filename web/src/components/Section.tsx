@@ -7,10 +7,10 @@ const sectionStyles = cva('flex flex-col gap-16 py-16 md:gap-32 md:py-32', {
     variant: {
       default: 'bg-background',
       muted: 'bg-muted',
+      lightPink: 'backDrop-blur-xl bg-lightPink bg-cover',
+      pink: 'bg-pink bg-cover bg-center bg-no-repeat',
       blue: 'bg-blue',
       peach: 'bg-peach',
-      lightPink: 'bg-lightPink backDrop-blur-xl',
-      pink: 'bg-pink bg-cover bg-center bg-no-repeat',
     },
   },
   defaultVariants: {
@@ -24,7 +24,21 @@ type SectionProps = VariantProps<typeof sectionStyles> & {
 };
 
 export const Section = ({ variant, children, className }: SectionProps) => (
-  <section className={cn(sectionStyles({ variant }), className)}>
+  <section
+    className={cn(
+      sectionStyles({ variant }),
+      'relative overflow-hidden',
+      className,
+    )}
+  >
+    <div
+      className="pointer-events-none absolute inset-0 opacity-[0.75]"
+      style={{
+        backgroundImage: "url('/grain.png')",
+        backgroundRepeat: 'repeat',
+        zIndex: 0,
+      }}
+    />
     {children}
   </section>
 );
