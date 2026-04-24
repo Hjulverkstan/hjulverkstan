@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Text } from '@data/webedit/text/types';
 import * as rawEnums from '@data/webedit/text/enums';
-import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
+import ConfirmDeleteDialog from '@components/ConfirmSoftDeleteDialog';
 import { IconButton } from '@components/shadcn/Button';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { useToast } from '@components/shadcn/use-toast';
@@ -80,7 +80,7 @@ export default function WebEditTextActions({
           onSelect={() => handleDeleteClick()}
           disabled={lang === fallbackLang}
         >
-          Delete {lang !== fallbackLang && 'translation'}
+          Delete
           <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
       </DropdownMenu.Content>

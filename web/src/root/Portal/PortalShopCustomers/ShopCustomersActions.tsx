@@ -2,8 +2,8 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
 import {
-  useArchiveCustomerM,
-  useDeleteCustomerM,
+  useSoftDeleteCustomerM,
+  useHardDeleteCustomerM,
 } from '@data/customer/mutations';
 import { Customer } from '@data/customer/types';
 
@@ -15,7 +15,6 @@ import { useDialogManager } from '@components/DialogManager';
 
 import { createErrorToast, createSuccessToast } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
-import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
 import * as Tooltip from '@radix-ui/react-tooltip';
 
 export default function ShopCustomersActions({
@@ -28,10 +27,28 @@ export default function ShopCustomersActions({
   const [open, setOpen] = useState(false);
 
   const hasTickets = !!customer.ticketIds.length;
-  const isAnonymous = customer.anonymized;
 
-  const deleteCustomerM = useDeleteCustomerM();
-  const archiveCustomerM = useArchiveCustomerM();
+  const hardDeleteCustomerM = useHardDeleteCustomerM();
+  const deleteCustomerM = useSoftDeleteCustomerM();
+
+  const onHardDelete = () => {
+    hardDeleteCustomerM.mutate(customer.id, {
+      onSuccess: (res: Customer) => {
+        toast(
+          createSuccessToast({
+            verbLabel: 'hard delete',
+            dataLabel: 'customer',
+            id: res.organizationName ?? `${res.firstName} ${res.lastName}`,
+          }),
+        );
+      },
+      onError: () => {
+        toast(
+          createErrorToast({ verbLabel: 'hard delete', dataLabel: 'customer' }),
+        );
+      },
+    });
+  };
 
   const onDelete = () => {
     deleteCustomerM.mutate(customer.id, {
@@ -50,40 +67,11 @@ export default function ShopCustomersActions({
     });
   };
 
-  const onArchive = () => {
-    archiveCustomerM.mutate(customer.id, {
-      onSuccess: (res: Customer) => {
-        toast(
-          createSuccessToast({
-            verbLabel: 'archive',
-            dataLabel: 'customer',
-            id: res.organizationName ?? `${res.firstName} ${res.lastName}`,
-          }),
-        );
-      },
-      onError: () => {
-        toast(
-          createErrorToast({ verbLabel: 'archive', dataLabel: 'customer' }),
-        );
-      },
-    });
-  };
-
-  const handleArchiveClick = () => {
-    openDialog(
-      <ConfirmArchiveDialog
-        onArchive={onArchive}
-        entity={customer.customerType}
-        entityId={customer.id}
-      />,
-    );
-  };
-
-  const handleDeleteClick = () => {
+  const handleHardDeleteClick = () => {
     openDialog(
       <ConfirmDeleteDialog
+        onHardDelete={onHardDelete}
         onDelete={onDelete}
-        onArchive={onArchive}
         entity={customer.customerType}
         entityId={customer.id}
         disable={hasTickets}
@@ -106,27 +94,14 @@ export default function ShopCustomersActions({
             <Tooltip.Trigger className="w-full">
               <DropdownMenu.Item
                 onClick={(e) => e.stopPropagation()}
-                onSelect={handleArchiveClick}
-                disabled={hasTickets}
+                onSelect={handleHardDeleteClick}
               >
-                Archive
+                Delete
+                <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
               </DropdownMenu.Item>
             </Tooltip.Trigger>
-            {hasTickets && (
-              <Tooltip.Content className="bg-primary rounded-sm p-2 text-white">
-                Archive ticket first.
-              </Tooltip.Content>
-            )}
           </Tooltip.Root>
         </Tooltip.Provider>
-        <DropdownMenu.Item
-          onClick={(e) => e.stopPropagation()}
-          onSelect={() => handleDeleteClick()}
-          disabled={isAnonymous}
-        >
-          Delete
-          <DropdownMenu.Shortcut>⌘⌫</DropdownMenu.Shortcut>
-        </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

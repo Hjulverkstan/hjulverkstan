@@ -7,7 +7,7 @@ import { Vehicle } from '@data/vehicle/types';
 import { Button, IconButton } from '@components/shadcn/Button';
 import Spinner from '@components/Spinner';
 import * as Drawer from '@components/shadcn/Drawer';
-import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
+import ConfirmDeleteDialog from '@components/ConfirmSoftDeleteDialog';
 import { useDialogManager } from '@components/DialogManager';
 import { useToast } from '@components/shadcn/use-toast';
 import {

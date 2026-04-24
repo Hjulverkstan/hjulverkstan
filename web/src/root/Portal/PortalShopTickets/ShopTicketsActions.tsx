@@ -2,7 +2,6 @@ import { CheckIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
 import {
-  useDeleteTicketM,
   useSoftDeleteTicketM,
   useUpdateTicketStatusM,
 } from '@data/ticket/mutations';
@@ -16,7 +15,6 @@ import {
 } from '@data/ticket/types';
 import * as enumsRaw from '@data/ticket/enums';
 
-import ConfirmDeleteDialog from '@components/ConfirmDeleteDialog';
 import { IconButton } from '@components/shadcn/Button';
 import * as DropdownMenu from '@components/shadcn/DropdownMenu';
 import { useToast } from '@components/shadcn/use-toast';
@@ -35,7 +33,7 @@ import {
   createSuccessToast,
 } from '../toast';
 import { PortalTableActionsProps } from '../PortalTable';
-import ConfirmArchiveDialog from '@components/ConfirmArchvieDialog';
+import DeleteTicketDialog from '@components/DeleteTicketDialog';
 
 export default function ShopTicketsActions({
   row: ticket,
@@ -47,8 +45,7 @@ export default function ShopTicketsActions({
 
   const [open, setOpen] = useState(false);
 
-  const archiveTicketM = useSoftDeleteTicketM();
-  const deleteTicketM = useDeleteTicketM();
+  const deleteTicketM = useSoftDeleteTicketM();
   const updateTicketStatusM = useUpdateTicketStatusM();
 
   const vehiclesQ = useVehiclesQ();
@@ -58,23 +55,6 @@ export default function ShopTicketsActions({
     vehiclesQ.data?.filter((vehicle) =>
       ticket.vehicleIds.includes(vehicle.id),
     ) ?? [];
-
-  const onArchive = () => {
-    archiveTicketM.mutate(ticket.id, {
-      onSuccess: (res: Ticket) => {
-        toast(
-          createSuccessToast({
-            verbLabel: 'archive',
-            dataLabel: 'ticket',
-            id: res.id,
-          }),
-        );
-      },
-      onError: () => {
-        toast(createErrorToast({ verbLabel: 'archive', dataLabel: 'ticket' }));
-      },
-    });
-  };
 
   const onDelete = () => {
     deleteTicketM.mutate(ticket.id, {
@@ -93,21 +73,11 @@ export default function ShopTicketsActions({
     });
   };
 
-  const handleArchiveClick = () => {
-    openDialog(
-      <ConfirmArchiveDialog
-        onArchive={onArchive}
-        entity={ticket.ticketType}
-        entityId={ticket.id}
-      />,
-    );
-  };
-
   const handleDeleteClick = () => {
     openDialog(
-      <ConfirmDeleteDialog
+      <DeleteTicketDialog
+        onCloseTicket={() => onStatusUpdate(TicketStatus.CLOSED)}
         onDelete={onDelete}
-        onArchive={onArchive}
         entity={ticket.ticketType}
         entityId={ticket.id}
       />,
@@ -223,13 +193,6 @@ export default function ShopTicketsActions({
             <DropdownMenu.Separator />
           </DropdownMenu.Sub>
         )}
-        <DropdownMenu.Item
-          onClick={(e) => e.stopPropagation()}
-          onSelect={() => handleArchiveClick()}
-        >
-          Archive
-          <DropdownMenu.Shortcut></DropdownMenu.Shortcut>
-        </DropdownMenu.Item>
         <DropdownMenu.Item
           onClick={(e) => e.stopPropagation()}
           onSelect={() => handleDeleteClick()}
