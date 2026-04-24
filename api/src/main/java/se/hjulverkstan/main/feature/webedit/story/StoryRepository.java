@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface StoryRepository extends JpaRepository<Story, Long> {
-    List<Story> findAllByArchivedFalse(Sort createdAt);
+    List<Story> findAllByDeletedFalse(Sort createdAt);
 }

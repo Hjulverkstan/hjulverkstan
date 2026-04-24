@@ -15,5 +15,5 @@ public class Story extends Releasable {
     private String title;
     private String slug;
     private String imageURL;
-    private boolean archived = false;
+    private boolean deleted = false;
 }

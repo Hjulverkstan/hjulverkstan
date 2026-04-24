@@ -49,6 +49,6 @@ public class TicketController {
     @DeleteMapping("/{id}/hard")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void hardDelete(@PathVariable Long id) {
-        ticketService.hardDelete(id);
+        ticketService.hardDeleteTicket(id);
     }
 }

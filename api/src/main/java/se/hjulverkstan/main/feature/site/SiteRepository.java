@@ -27,14 +27,14 @@ public class SiteRepository {
 
         String baseQuery = """
                     SELECT v FROM Vehicle v
-                    WHERE v.archived = false
+                    WHERE v.deleted = false
                       AND v.isCustomerOwned = false
                       AND v.vehicleStatus = :status
                       AND NOT EXISTS (
                           SELECT t FROM Ticket t
                           JOIN t.vehicles tv
                           WHERE tv = v
-                            AND t.archived = false
+                            AND t.deleted = false
                             AND t.ticketType = :rentType
                             AND t.ticketStatus != :closed
                             AND t.startDate BETWEEN :now AND :margin

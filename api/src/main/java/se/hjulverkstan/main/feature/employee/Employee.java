@@ -26,7 +26,7 @@ public class Employee extends Auditable {
     private String personalIdentityNumber;
     private String comment;
     private boolean anonymized = false;
-    private boolean archived = false;
+    private boolean deleted = false;
 
     @OneToMany(mappedBy = "employee")
     private List<Ticket> tickets = new ArrayList<>();

@@ -18,7 +18,7 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     public ListResponseDto<EmployeeDto> getAllEmployees() {
-        List<Employee> employees = employeeRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Employee> employees = employeeRepository.findAllByDeletedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(employees.stream().map(EmployeeDto::new).toList());
     }
 
@@ -53,18 +53,18 @@ public class EmployeeService {
     public EmployeeDto softDeleteEmployee(Long id) {
         Employee employee = employeeRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Employee"));
 
-        boolean hasActiveTickets = employee.getTickets().stream().anyMatch(ticket -> !ticket.isArchived());
+        boolean hasActiveTickets = employee.getTickets().stream().anyMatch(ticket -> !ticket.isDeleted());
         if(hasActiveTickets) {
-            throw new IllegalStateException("Can't archive employee: archive active tickets first");
+            throw new IllegalStateException("Can't delete employee: delete active tickets first");
         }
 
-        employee.setArchived(true);
+        employee.setDeleted(true);
         employeeRepository.save(employee);
         return new EmployeeDto(employee);
     }
 
     @Transactional
-    public EmployeeDto deleteEmployee(Long id) {
+    public EmployeeDto hardDeleteEmployee(Long id) {
         Employee employee = employeeRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Employee"));
 
         boolean hasTickets = employee.getTickets() != null && !employee.getTickets().isEmpty();

@@ -46,6 +46,6 @@ public class StoryController {
     @DeleteMapping("/{id}/hard")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStory(@PathVariable Long id, @RequestParam Language lang) {
-        storyService.deleteStory(id, lang);
+        storyService.hardDeleteStory(id, lang);
     }
 }

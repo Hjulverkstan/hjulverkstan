@@ -32,5 +32,5 @@ public class Customer extends Auditable {
 
     private String comment;
     private boolean anonymized = false;
-    private boolean archived = false;
+    private boolean deleted = false;
 }

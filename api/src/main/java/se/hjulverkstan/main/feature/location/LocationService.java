@@ -20,7 +20,7 @@ public class LocationService {
     private final ShopRepository shopRepository;
 
     public ListResponseDto<LocationDto> getAllLocations() {
-        List<Location> locations = locationRepository.findAllByArchivedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Location> locations = locationRepository.findAllByDeletedFalse(Sort.by(Sort.Direction.DESC, "createdAt"));
         return new ListResponseDto<>(locations.stream().map(LocationDto::new).toList());
     }
 
@@ -51,7 +51,7 @@ public class LocationService {
     public void softDeleteLocation(Long id) {
         Location location = locationRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Location"));
 
-        boolean hasActiveVehicles = location.getVehicles().stream().anyMatch(vehicle -> !vehicle.isArchived());
+        boolean hasActiveVehicles = location.getVehicles().stream().anyMatch(vehicle -> !vehicle.isDeleted());
 
         if (hasActiveVehicles) {
             throw new CouldNotDeleteException("Location has associated vehicles");
@@ -61,13 +61,13 @@ public class LocationService {
             throw new CouldNotDeleteException("Location has an associated shop");
         }
 
-        location.setArchived(true);
+        location.setDeleted(true);
 
         locationRepository.save(location);
     }
 
     @Transactional
-    public void deleteLocation(Long id) {
+    public void hardDeleteLocation(Long id) {
         Location location = locationRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Location"));
 
         if (location.getVehicles() != null && !location.getVehicles().isEmpty()) {

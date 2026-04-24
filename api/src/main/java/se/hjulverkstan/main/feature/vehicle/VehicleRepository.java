@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface VehicleRepository extends JpaRepository<Vehicle, Long>, JpaSpecificationExecutor<Vehicle> {
     Optional<Vehicle> findByRegTag(String regTag);
 
-    List<Vehicle> findAllByArchivedFalse(Sort createdAt);
+    List<Vehicle> findAllByDeletedFalse(Sort createdAt);
 
-    List<Vehicle> findAllByArchivedFalse(Specification<Vehicle> vehicleSpecification, Sort createdAt);
+    List<Vehicle> findAllByDeletedFalse(Specification<Vehicle> vehicleSpecification, Sort createdAt);
 }

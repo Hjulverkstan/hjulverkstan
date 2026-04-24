@@ -39,7 +39,7 @@ public class TicketDto extends AuditableDto {
     private LocalDate endDate; // Used when type = rent
     private String repairDescription; // Used when type = repair
     private String comment;
-    private boolean archived;
+    private boolean deleted;
 
     @NotNull(message = "List of vehicles is required")
     @JsonSerialize(contentUsing = ToStringSerializer.class)
@@ -76,7 +76,7 @@ public class TicketDto extends AuditableDto {
         locationId = ticket.getLocation().getId();
         employeeId = ticket.getEmployee().getId();
         customerId = ticket.getCustomer().getId();
-        archived = ticket.isArchived();
+        deleted = ticket.isDeleted();
 
         repairCompleteNotificationStatus = ticket.getNotifications().stream()
                 .findFirst()
@@ -90,7 +90,7 @@ public class TicketDto extends AuditableDto {
         ticket.setEndDate(ticketType == TicketType.RENT ? endDate : null);
         ticket.setRepairDescription(ticketType == TicketType.REPAIR ? repairDescription : null);
         ticket.setComment(comment);
-        ticket.setArchived(archived);
+        ticket.setDeleted(deleted);
 
         ticket.setVehicles(vehicles);
         ticket.setLocation(location);

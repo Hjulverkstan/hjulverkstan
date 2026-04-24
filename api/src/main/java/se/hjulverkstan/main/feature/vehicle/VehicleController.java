@@ -55,6 +55,6 @@ public class VehicleController {
     @DeleteMapping("/{id}/hard")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteVehicle(@PathVariable Long id) {
-        vehicleService.deleteVehicle(id);
+        vehicleService.hardDeleteVehicle(id);
     }
 }

@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepository extends JpaRepository <Customer, Long> {
-    List<Customer> findAllByArchivedFalse(Sort createdAt);
+    List<Customer> findAllByDeletedFalse(Sort createdAt);
 
 }

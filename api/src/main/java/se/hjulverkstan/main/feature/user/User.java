@@ -59,7 +59,7 @@ public class User extends Auditable {
     @Column(nullable = false)
     private boolean hidden = false;
 
-    private boolean archived = false;
+    private boolean deleted = false;
 
     public List<ERole> getRolesDirectly () {
         return roles.stream().map(Role::getName).collect(Collectors.toList());

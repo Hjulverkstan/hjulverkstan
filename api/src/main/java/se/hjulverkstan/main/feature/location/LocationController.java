@@ -50,6 +50,6 @@ public class LocationController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLocation(@PathVariable Long id) {
-        locationService.deleteLocation(id);
+        locationService.hardDeleteLocation(id);
     }
 }
