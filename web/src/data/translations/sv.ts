@@ -222,4 +222,12 @@ export default {
     'Tjänster: Butiksdetalj brödenumText',
 
   enumTextBikeDetailRentText: 'Cykeldetalj: HyresenumText',
+  enumTextShopDetailsNoVehiclesAvailableRegular:
+    'Verstäder: Inga cyklar tillgängliga text',
+  enumTextShopDetailsNoVehiclesAvailableBold:
+    'Verstäder: Inga cyklar tillgängliga fet',
+  enumTextShopDetailsAllVehicleBorrowedBold:
+    'Verkstäder: Alla cyklar utlånade fet',
+  enumTextShopDetailsAllVehicleBorrowedRegular:
+    'Verkstäder: Alla cyklar utlånade text',
 } as const;

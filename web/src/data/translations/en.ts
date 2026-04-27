@@ -222,4 +222,10 @@ export default {
     'Services: Shop Detail Card Body Regular',
 
   enumTextBikeDetailRentText: 'Bike Detail: Rent enumText',
+
+  enumTextShopDetailsNoVehiclesAvailableRegular:
+    'Shop: No Vehicles Available' + ' Regular',
+  enumTextShopDetailsNoVehiclesAvailableBold:
+    'Shop: No Vehicles Available' + ' Bold',
+  enumTextShopDetailsAllVehicleBorrowed: 'Shop: All Vehicles Borrowed',
 } as const;
