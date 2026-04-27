@@ -34,7 +34,7 @@ export const OpenBadge: React.FC<OpenBadgeProps> = ({
 
   return (
     <Badge
-      variant={isOpen ? 'greenMuted' : 'yellowMuted'}
+      variant={isOpen ? 'greenWhite' : 'yellowWhite'}
       borderless={true}
       icon={Icon}
       className={cn(
