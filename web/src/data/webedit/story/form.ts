@@ -10,5 +10,5 @@ export const createStoryZ = () =>
     title: reqString('Title'),
     slug: reqString('Slug (web url)'),
     imageURL: z.string().optional(),
-    bodyText: z.record(z.any()).nullable().optional(),
+    bodyText: z.record(z.string(), z.any()).nullable().optional(),
   });
