@@ -201,8 +201,8 @@ export default function Home() {
                   body={<TiptapContentAsText content={story.bodyText} />}
                   link={`/stories/${story.slug}`}
                   ariaLabel={story.title}
-                  className="border border-black/10 !bg-[#FFFFFF] text-hjul-dark
-                    !shadow-pink-blur"
+                  className="z-10 border border-black/10 !bg-[#FFFFFF]
+                    text-hjul-dark !shadow-pink-blur"
                 />
               ))}
             </div>

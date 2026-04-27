@@ -5,9 +5,9 @@ import { cn } from '@utils/common';
 import { ComponentType } from 'react';
 
 export const badgeVariants = cva(
-  `focus:ring-ring inline-flex items-center rounded-md border px-2.5 py-0.5
-  text-xs font-semibold transition-colors focus:outline-none focus:ring-2
-  focus:ring-offset-2`,
+  `inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs
+  font-semibold transition-colors focus:outline-none focus:ring-2
+  focus:ring-ring focus:ring-offset-2`,
   {
     variants: {
       variant: {
@@ -25,12 +25,14 @@ export const badgeVariants = cva(
           hover:bg-yellow-fill/80`,
         ],
         yellowMuted: 'border-box bg-muted !text-yellow-accent',
+        yellowWhite: 'border-box bg-white !text-yellow-accent',
         yellowOutline: 'border-box border-yellow-border text-yellow-foreground',
         green: [
           `border-box border-green-border bg-green-fill text-green-foreground
           hover:bg-green-fill/80`,
         ],
         greenMuted: 'border-box bg-muted !text-green-accent',
+        greenWhite: 'border-box bg-white !text-green-accent',
         greenOutline: 'border-box border-green-border text-green-foreground',
         blue: [
           `border-box border-blue-border bg-blue-fill text-blue-foreground
@@ -45,8 +47,8 @@ export const badgeVariants = cva(
           hover:bg-purple-fill/80`,
         ],
         purpleOutline: 'border-box border-purple-border text-purple-foreground',
-        contrast: 'bg-contrast text-contrast-foreground border-contrast',
-        outline: 'text-foreground/70 border-foreground/12',
+        contrast: 'border-contrast bg-contrast text-contrast-foreground',
+        outline: 'border-foreground/12 text-foreground/70',
       },
       borderless: {
         yes: 'border-transparent',
@@ -60,7 +62,8 @@ export const badgeVariants = cva(
 );
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     Omit<VariantProps<typeof badgeVariants>, 'borderless'> {
   icon?: ComponentType<any>;
   borderless?: boolean;

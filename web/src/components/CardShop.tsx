@@ -31,7 +31,11 @@ export const CardShop: React.FC<CardShopProps> = ({ shop, className }) => (
       <Title>{shop.name}</Title>
       <Bullet icon={MapPin}>
         <p className="text-body mr-2 truncate">{shop.address}</p>
-        <OpenBadge openHours={shop.openHours} variant="large" />
+        <OpenBadge
+          openHours={shop.openHours}
+          variant="large"
+          className="z-10"
+        />
       </Bullet>
     </Base>
   </Link>
