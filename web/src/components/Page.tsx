@@ -58,11 +58,12 @@ export const Page = ({
       {heading && (
         <div
           className={cn(
-            'mx-auto -mb-8 w-[88vw] pt-28 md:-mb-16 md:pt-16',
+            'relative z-10 mx-auto -mb-28 w-[88vw] pt-28 md:-mb-32' +
+              ' md:pt-1',
             headingStyles({ headingWidth }),
           )}
         >
-          <h1>{heading}</h1>
+          <h1 className="md:pt-16">{heading}</h1>
         </div>
       )}
       {children}

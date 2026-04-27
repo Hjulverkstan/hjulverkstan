@@ -33,7 +33,7 @@ export const CardDefault: React.FC<CardDefaultProps> = ({
   onClick,
 }) => {
   return (
-    <Base variant={variant} className={className}>
+    <Base variant={variant} className={cn('z-10', className)}>
       {icon && <Icon icon={icon} />}
       <Title className="pb-4 pt-6">{title}</Title>
       <Body>{body}</Body>

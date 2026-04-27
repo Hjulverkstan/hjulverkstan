@@ -13,7 +13,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        inter: ['Bricolage Grotesque', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
         'dm-mono': ['DMMono', 'Courier New'],
         bricolage: ['"Bricolage Grotesque"', 'sans-serif'],
       },

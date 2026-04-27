@@ -73,7 +73,10 @@ export default function Home() {
         </div>
       </div>
 
-      <Section variant="peach" className="relative w-full bg-cover bg-center">
+      <Section
+        variant="peach"
+        className="relative w-full bg-cover bg-center md:pt-32"
+      >
         <SectionContent>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
             {/* Borrow */}
@@ -136,7 +139,7 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant={'lightPink'}>
+      <Section variant={'lightPink'} className="md:pt-32">
         <SectionContent
           heading={t('shops')}
           linkTo="/shops"
@@ -151,6 +154,7 @@ export default function Home() {
           >
             {data.shops.slice(0, 3).map((shop) => (
               <CardShop
+                key={shop.id}
                 shop={shop}
                 className="!bg-transparent text-hjul-dark !shadow-none
                   [&_h2]:font-normal [&_p]:text-hjul-muted
@@ -210,7 +214,7 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant={'pink'}>
+      <Section variant={'pink'} className="md:pt-32">
         <SectionContent>
           <div
             className="mb-25 grid grid-cols-1 gap-12 text-center md:grid-cols-3"
@@ -311,7 +315,10 @@ export default function Home() {
 
       <div className="border-divider w-full border-t"></div>
 
-      <Section variant="blue" className="relative w-full bg-cover bg-center">
+      <Section
+        variant="blue"
+        className="relative w-full bg-cover bg-center md:pt-32"
+      >
         <SectionContent>
           <div
             className="mx-auto grid w-fit grid-cols-1 justify-center gap-8
@@ -355,7 +362,7 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant="muted">
+      <Section variant="muted" className="md:pt-32">
         <SectionContent
           heading={t('partnerHeading')}
           linkTo="/partners"
