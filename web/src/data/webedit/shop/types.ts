@@ -10,6 +10,7 @@ export interface Shop extends Auditable {
   longitude: string;
   openHours: OpenHours;
   hasTemporaryHours: boolean;
+  hasVehicleBorrowing: boolean;
   slug: string;
 }
 
