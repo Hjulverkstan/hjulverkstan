@@ -281,4 +281,24 @@ export const textKey: EnumAttributesRaw[] = [
     value: TextKey.BIKE_DETAIL_RENT_TEXT,
     translationKey: 'enumTextBikeDetailRentText',
   },
+  {
+    dataKey: 'text',
+    value: TextKey.SHOP_DETAILS_NO_VEHICLES_AVAILABLE_REGULAR,
+    translationKey: 'enumTextShopDetailsNoVehiclesAvailableRegular',
+  },
+  {
+    dataKey: 'text',
+    value: TextKey.SHOP_DETAILS_NO_VEHICLES_AVAILABLE_BOLD,
+    translationKey: 'enumTextShopDetailsNoVehiclesAvailableBold',
+  },
+  {
+    dataKey: 'text',
+    value: TextKey.SHOP_DETAILS_ALL_VEHICLES_BORROWED_BOLD,
+    translationKey: 'enumTextShopDetailsAllVehicleBorrowedBold',
+  },
+  {
+    dataKey: 'text',
+    value: TextKey.SHOP_DETAILS_ALL_VEHICLES_BORROWED_REGULAR,
+    translationKey: 'enumTextShopDetailsAllVehicleBorrowedRegular',
+  },
 ];

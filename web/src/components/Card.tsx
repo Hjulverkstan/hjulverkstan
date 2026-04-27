@@ -226,6 +226,7 @@ const cardBaseVariants = cva('flex flex-col overflow-hidden rounded-[32px]', {
         'w-full gap-2 overflow-visible rounded-lg bg-background md:flex-1',
       padded:
         'h-auto w-full bg-muted px-5 py-10 md:bg-background md:px-16 md:py-16',
+      yellow: 'h-auto bg-yellow-soft p-8 text-yellow-dark',
     },
   },
   defaultVariants: {
