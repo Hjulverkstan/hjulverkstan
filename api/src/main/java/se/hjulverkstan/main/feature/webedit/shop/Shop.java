@@ -18,6 +18,7 @@ public class Shop extends Releasable {
     private String imageURL;
     private String slug;
     private boolean deleted = false;
+    private boolean hasVehicleBorrowing;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "open_hours_id", referencedColumnName = "id")

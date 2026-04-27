@@ -2,7 +2,6 @@ package se.hjulverkstan.main.feature.webedit.text;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -70,6 +69,11 @@ public enum TextKey {
     SHOP_DETAIL_JUST_DROP_BY_TITLE("shopDetailJustDropByTitle"),
     SHOP_DETAIL_JUST_DROP_BY_BODY_BOLD("shopDetailJustDropByBodyBold"),
     SHOP_DETAILS_JUST_DROP_BY_BODY_REGULAR("shopDetailsJustDropByBodyRegular"),
+
+    SHOP_DETAILS_NO_VEHICLES_AVAILABLE_REGULAR("shopDetailsNoVehiclesAvailableRegular"),
+    SHOP_DETAILS_NO_VEHICLES_AVAILABLE_BOLD("shopDetailsNoVehiclesAvailableBold"),
+    SHOP_DETAILS_ALL_VEHICLES_BORROWED_REGULAR("shopDetailsAllVehiclesBorrowedRegular"),
+    SHOP_DETAILS_ALL_VEHICLES_BORROWED_BOLD("shopDetailsAllVehiclesBorrowedBold"),
 
     BIKE_DETAIL_RENT_TEXT("bikeDetailRentText");
 
