@@ -43,8 +43,10 @@ Icon.displayName = 'CardIcon';
 export const cardTitleVariants = cva('z-10', {
   variants: {
     variant: {
-      default: 'text-h3 line-clamp-2 text-foreground',
-      imageBackground: 'text-h3 text-background',
+      // prettier-ignore
+      default: 'text-foreground text-h3 line-clamp-2',
+      // prettier-ignore
+      imageBackground: 'text-background text-h3',
     },
   },
   defaultVariants: {

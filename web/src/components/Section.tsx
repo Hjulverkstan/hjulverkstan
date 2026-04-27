@@ -2,21 +2,24 @@ import { cva, VariantProps } from 'class-variance-authority';
 import React from 'react';
 import { cn } from '@utils/common';
 
-const sectionStyles = cva('flex flex-col gap-16 py-16 md:gap-32 md:py-32', {
-  variants: {
-    variant: {
-      default: 'bg-background',
-      muted: 'bg-muted',
-      lightPink: 'backDrop-blur-xl bg-lightPink bg-cover',
-      pink: 'bg-pink bg-cover bg-center bg-no-repeat',
-      blue: 'bg-blue',
-      peach: 'bg-peach',
+const sectionStyles = cva(
+  'flex flex-col gap-16 py-16 pt-40 md:gap-32' + ' md:py-32' + ' md:pt-52',
+  {
+    variants: {
+      variant: {
+        default: 'bg-background',
+        muted: 'bg-muted',
+        lightPink: 'backDrop-blur-xl bg-lightPink bg-cover',
+        pink: 'bg-pink bg-cover bg-center bg-no-repeat',
+        blue: 'bg-blue',
+        peach: 'bg-peach',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
     },
   },
-  defaultVariants: {
-    variant: 'default',
-  },
-});
+);
 
 type SectionProps = VariantProps<typeof sectionStyles> & {
   children: React.ReactNode;
