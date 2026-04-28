@@ -9,10 +9,11 @@ const sectionStyles = cva(
       variant: {
         default: 'bg-background',
         muted: 'bg-muted',
-        lightPink: 'backDrop-blur-xl bg-lightPink bg-cover',
+        lightPink: `backDrop-blur-xl bg-lightPink bg-cover
+        shadow-[inset_0_-1px_0_0_rgba(109,2,102,0.18)]`,
         pink: 'bg-pink bg-cover bg-center bg-no-repeat',
-        blue: 'bg-blue',
-        peach: 'bg-peach',
+        blue: 'bg-blue shadow-[inset_0_1px_0_0_rgba(52,6,242,0.13)]',
+        peach: 'bg-peach shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.08)]',
       },
     },
     defaultVariants: {

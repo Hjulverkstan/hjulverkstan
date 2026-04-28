@@ -57,7 +57,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black opacity-50" />
         <div
           className="relative z-10 mx-auto flex w-[88vw] flex-col items-center
-              gap-4 sm:w-[76vw]"
+            gap-4 sm:w-[76vw]"
         >
           <img
             src="/newlogo.svg"
@@ -223,20 +223,17 @@ export default function Home() {
           <div
             className="mb-25 grid grid-cols-1 gap-12 text-center md:grid-cols-3"
           >
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/bicycle.svg"
-                className="mb-7 h-[183.7px] w-[209px]"
+                className="mb-9 h-[183.7px] w-[209px]"
                 alt="Bike"
               />
-              <h3
-                className="mb-2 self-stretch text-2xl font-semibold
-                  text-hjul-plum"
-              >
+              <h3 className="text-hjul-plum">
                 The joy of riding, for everyone.
               </h3>
               <p
-                className="max-w-[450px] text-lg font-medium leading-7
+                className="max-w-[450px] text-lg font-semibold leading-7
                   text-hjul-plum"
               >
                 We believe everyone should have the ability to ride – with
@@ -244,20 +241,15 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/collaboration.svg"
-                className="mb-7 h-[183.7px] w-[209px]"
+                className="mb-9 h-[183.7px] w-[209px]"
                 alt="Collaboration"
               />
-              <h3
-                className="mb-2 self-stretch text-2xl font-semibold
-                  text-hjul-plum"
-              >
-                Built on collaboration.
-              </h3>
+              <h3 className="text-hjul-plum">Built on collaboration.</h3>
               <p
-                className="max-w-[450px] text-lg font-medium leading-7
+                className="max-w-[450px] text-lg font-semibold leading-7
                   text-hjul-plum"
               >
                 A combined effort by public, private and non-profit sector – key
@@ -266,20 +258,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/motion.svg"
-                className="mb-7 h-[183.7px] w-[209px]"
+                className="mb-9 h-[183.7px] w-[209px]"
                 alt="In motion"
               />
-              <h3
-                className="text-align-center mb-2 self-stretch text-2xl
-                  font-semibold text-hjul-plum"
-              >
+              <h3 className="text-align-center text-hjul-plum">
                 Already in motion.
               </h3>
               <p
-                className="max-w-[450px] text-lg font-medium leading-7
+                className="max-w-[450px] text-lg font-semibold leading-7
                   text-hjul-plum"
               >
                 Five locations established in the Gothenburg area – and growing.

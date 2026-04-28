@@ -5,9 +5,9 @@ import { cn } from '@utils/common';
 import { ComponentType } from 'react';
 
 export const badgeVariants = cva(
-  `inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs
-  font-semibold transition-colors focus:outline-none focus:ring-2
-  focus:ring-ring focus:ring-offset-2`,
+  `inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium
+  transition-colors focus:outline-none focus:ring-2 focus:ring-ring
+  focus:ring-offset-2`,
   {
     variants: {
       variant: {
@@ -32,7 +32,7 @@ export const badgeVariants = cva(
           hover:bg-green-fill/80`,
         ],
         greenMuted: 'border-box bg-muted !text-green-accent',
-        greenWhite: 'border-box bg-white !text-green-accent',
+        greenWhite: 'border-box text bg-white !text-green-accent',
         greenOutline: 'border-box border-green-border text-green-foreground',
         blue: [
           `border-box border-blue-border bg-blue-fill text-blue-foreground
