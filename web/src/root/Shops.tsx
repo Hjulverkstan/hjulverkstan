@@ -19,7 +19,7 @@ export default function Shops() {
         <SectionContent>
           <div
             className={cn(
-              'bg-muted relative flex flex-col overflow-hidden rounded-lg',
+              'relative flex flex-col overflow-hidden rounded-[32px] bg-muted',
               'md:p-10',
               'md:flex-row md:items-center',
             )}
@@ -31,7 +31,7 @@ export default function Shops() {
                 )}
 
                 {data.text.shopsWelcomeSubheading && (
-                  <Body className="text-muted-foreground mb-2 mt-4">
+                  <Body className="mb-2 mt-4 text-muted-foreground">
                     {data.text.shopsWelcomeSubheading}
                   </Body>
                 )}

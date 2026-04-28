@@ -21,7 +21,7 @@ export default function StoryDetail() {
         <SectionContent contentWidth="medium">
           <div
             className="mt-4 flex max-h-[550px] items-center justify-center
-              overflow-hidden rounded-lg md:mt-0"
+              overflow-hidden rounded-[32px] md:mt-0"
           >
             <ImageWithFallback
               src={story?.imageURL}

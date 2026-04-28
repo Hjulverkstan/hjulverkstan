@@ -123,7 +123,7 @@ const cardImageVariants = cva('overflow-hidden bg-muted', {
     variant: {
       background: 'absolute inset-0 z-0 h-full w-full',
       imageBackground: 'absolute inset-0 z-0 h-full w-full',
-      inline: 'relative mb-4 w-full self-stretch rounded-lg',
+      inline: 'relative mb-4 w-full self-stretch rounded-[32px]',
       noShadow: 'absolute inset-0 z-0 h-full w-full',
       fullBleed: [
         'relative self-stretch',
