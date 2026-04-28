@@ -116,6 +116,33 @@
     --ring: 224 71% 70%;
   }
 */
+  .portal-theme {
+    --background: 0 0% 100%;
+    --foreground: 224 20% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 72% 4%;
+
+    --primary: 338 85% 57%;
+    --primary-foreground: 210 5% 98%;
+
+    --secondary: 220 4% 95%;
+    --secondary-foreground: 220 10% 40%;
+
+    --contrast: 222 6% 25%;
+    --contrast-foreground: 210 20% 98%;
+
+    --muted: 220 5% 97.5%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 220 5% 93%;
+    --accent-foreground: 221 5% 11%;
+
+    --border: 220 6% 91%;
+    --border-dark: 220 6% 89%;
+    --input: 220 13% 91%;
+    --ring: 224 71% 4%;
+  }
 }
 
 @layer base {

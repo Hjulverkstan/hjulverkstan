@@ -6,6 +6,7 @@ interface ThemeProviderProps {
   children: React.ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
+  forcedClass?: string;
 }
 
 interface ThemeProviderState {
@@ -24,31 +25,36 @@ export default function ThemeProvider({
   children,
   defaultTheme = 'system',
   storageKey = 'vite-ui-theme',
+  forcedClass,
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => defaultTheme);
 
   useEffect(() => {
-    setTheme((window.localStorage.getItem(storageKey) as Theme) || theme);
-  }, []);
+    const saved = window.localStorage.getItem(storageKey) as Theme;
+    if (saved) setTheme(saved);
+  }, [storageKey]);
 
   useEffect(() => {
     const root = window.document.documentElement;
 
-    root.classList.remove('light', 'dark');
+    root.classList.remove('light', 'dark', 'portal-theme');
+
+    if (forcedClass) {
+      root.classList.add(forcedClass);
+      return;
+    }
 
     if (theme === 'system') {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
         .matches
         ? 'dark'
         : 'light';
-
       root.classList.add(systemTheme);
-      return;
+    } else {
+      root.classList.add(theme);
     }
-
-    root.classList.add(theme);
-  }, [theme]);
+  }, [theme, forcedClass]);
 
   const value = {
     theme,
