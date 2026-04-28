@@ -7,10 +7,7 @@ export default function WebEditShopsFields() {
 
   return (
     <>
-      <DataForm.Image
-        label="Image"
-        dataKey="imageURL"
-      />
+      <DataForm.Image label="Image" dataKey="imageURL" />
 
       <DataForm.Select
         enums={locationEnumsQ.data ?? []}
@@ -34,6 +31,13 @@ export default function WebEditShopsFields() {
         placeholder="Write longitude..."
         label="Longitude"
         dataKey="longitude"
+      />
+
+      <DataForm.Switch
+        onLabel="Enable"
+        offLabel="Disable"
+        label="Offer Vehicle Rentals"
+        dataKey="hasVehicleBorrowing"
       />
 
       <DataForm.Collapsible label="Opening Hours">

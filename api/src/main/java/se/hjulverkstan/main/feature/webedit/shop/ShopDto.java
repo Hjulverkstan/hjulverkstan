@@ -39,6 +39,7 @@ public class ShopDto extends AuditableDto {
     private OpenHoursDto openHours;
 
     private boolean hasTemporaryHours;
+    private boolean hasVehicleBorrowing;
     private boolean deleted;
 
     @NotNull(message = "Location id is required to link shop to a location")
@@ -58,6 +59,7 @@ public class ShopDto extends AuditableDto {
         slug = shop.getSlug();
         hasTemporaryHours = shop.isHasTemporaryHours();
         openHours = shop.getOpenHours() != null ? new OpenHoursDto(shop.getOpenHours()) : null;
+        hasVehicleBorrowing = shop.isHasVehicleBorrowing();
         deleted = shop.isDeleted();
     }
 
@@ -77,6 +79,7 @@ public class ShopDto extends AuditableDto {
         shop.setSlug(slug);
         shop.setHasTemporaryHours(hasTemporaryHours);
         shop.setLocation(location);
+        shop.setHasVehicleBorrowing(hasVehicleBorrowing);
         shop.setDeleted(deleted);
 
         // Only create/update OpenHours if it has actual content

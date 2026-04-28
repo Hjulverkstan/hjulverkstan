@@ -17,6 +17,7 @@ import { useTranslations } from '@hooks/useTranslations';
 import { ImageWithFallback } from '@components/ImageWithFallback';
 import Error from '@components/Error';
 import { endpoints } from '@data/api';
+import { InfoCard } from '@components/InfoCard';
 const ITEMS_TO_LOAD = 6;
 
 export default function ShopDetail() {
@@ -102,8 +103,18 @@ export default function ShopDetail() {
           </div>
         </SectionContent>
 
-        <SectionContent heading={t('availableAt')}>
-          {vehiclesQ.data && (
+        <SectionContent heading={t('availableBikes')}>
+          {!shop.hasVehicleBorrowing ? (
+            <InfoCard
+              bodyBold={data?.text.shopDetailsNoVehiclesAvailableBold}
+              bodyRegular={data?.text.shopDetailsNoVehiclesAvailableRegular}
+            />
+          ) : vehicleIncremental.length === 0 ? (
+            <InfoCard
+              bodyBold={data?.text.shopDetailsAllVehiclesBorrowedBold}
+              bodyRegular={data?.text.shopDetailsAllVehiclesBorrowedRegular}
+            />
+          ) : (
             <>
               <div
                 className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
