@@ -25,6 +25,7 @@ public class OpenHoursDto {
     }
 
     public OpenHours applyToEntity (OpenHours openHours) {
+        validate();
         openHours.setMon(mon);
         openHours.setTue(tue);
         openHours.setWed(wed);
@@ -33,6 +34,16 @@ public class OpenHoursDto {
         openHours.setSat(sat);
         openHours.setSun(sun);
         return openHours;
+    }
+
+    public void validate() {
+        OpenHoursUtils.validateTimeSlot(mon, "Monday");
+        OpenHoursUtils.validateTimeSlot(tue, "Tuesday");
+        OpenHoursUtils.validateTimeSlot(wed, "Wednesday");
+        OpenHoursUtils.validateTimeSlot(thu, "Thursday");
+        OpenHoursUtils.validateTimeSlot(fri, "Friday");
+        OpenHoursUtils.validateTimeSlot(sat, "Saturday");
+        OpenHoursUtils.validateTimeSlot(sun, "Sunday");
     }
 
     public boolean isEmpty() {

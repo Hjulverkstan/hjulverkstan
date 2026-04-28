@@ -65,7 +65,11 @@ public class JwtUtils {
     }
 
     public boolean validateToken(String token) {
-        return !isTokenExpired(token) && isTokenSignatureValid(token);
+        try {
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean isTokenExpired(String token) {
