@@ -211,28 +211,38 @@ function ScrollToTop() {
 
 //
 
-const renderLocalizedRoute = (route: RouteAttributes, lang?: string) => (
-  <Route
-    key={route.path + lang}
-    path={lang ? `/${lang}${route.path}` : route.path}
-    element={
-      <LangProvider value={lang ?? fallbackLang}>
-        <Tooltip.Provider delayDuration={500}>
-          <DialogManager.Provider>
-            <RouteHelmet route={route} lang={lang ?? fallbackLang} />
-            <route.component />
-            {!lang && (
-              <RedirectDelayed
-                path={`/${fallbackLang}${route.path.replace('/*', '')}`}
-              />
-            )}
-            <Toaster />
-          </DialogManager.Provider>
-        </Tooltip.Provider>
-      </LangProvider>
-    }
-  />
-);
+const renderLocalizedRoute = (route: RouteAttributes, lang?: string) => {
+  const isPortal = route.path.startsWith('/portal');
+
+  return (
+    <Route
+      key={route.path + lang}
+      path={lang ? `/${lang}${route.path}` : route.path}
+      element={
+        <ThemeProvider
+          storageKey={isPortal ? 'portal-theme-choice' : 'vite-ui-theme'}
+          forcedClass={isPortal ? 'portal-theme' : undefined}
+          defaultTheme={isPortal ? 'light' : 'system'}
+        >
+          <LangProvider value={lang ?? fallbackLang}>
+            <Tooltip.Provider delayDuration={500}>
+              <DialogManager.Provider>
+                <RouteHelmet route={route} lang={lang ?? fallbackLang} />
+                <route.component />
+                {!lang && (
+                  <RedirectDelayed
+                    path={`/${fallbackLang}${route.path.replace('/*', '')}`}
+                  />
+                )}
+                <Toaster />
+              </DialogManager.Provider>
+            </Tooltip.Provider>
+          </LangProvider>
+        </ThemeProvider>
+      }
+    />
+  );
+};
 
 /**
  * Root of the component tree for all components commonly found in server and
@@ -252,7 +262,7 @@ export default function Root() {
   });
 
   return (
-    <ThemeProvider storageKey="vite-ui-theme">
+    <>
       <ScrollToTop />
       <QueryClientProvider client={queryClient}>
         <Routes>
@@ -265,6 +275,6 @@ export default function Root() {
         </Routes>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-    </ThemeProvider>
+    </>
   );
 }
