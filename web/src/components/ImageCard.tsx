@@ -12,7 +12,6 @@ interface ImageCardProps {
   image?: string;
   secondaryImage?: string;
   secondImageVariant?: 'fullBleed' | 'fit';
-  baseClassName?: boolean;
   className?: string;
   onClick?: React.MouseEventHandler;
   link?: string;
@@ -30,7 +29,6 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   image,
   secondaryImage,
   secondImageVariant,
-  baseClassName,
   className,
 }) => {
   const baseVariant =
@@ -51,15 +49,12 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   return (
     <Base
       variant={baseVariant}
-      className={cn(
-        'h-[540px] shadow-2xl max-[1400px]:h-[500px]',
-        baseClassName && 'max-w-[390px]',
-      )}
+      className={cn('shadow-card-glow h-[540px] max-w-[390px]')}
     >
       <Image src={image} variant={imageVariant} alt="" />
       <div className="relative z-10 flex h-full flex-col">
         <Title className="pb-4">{title}</Title>
-        <Body className={className}>{body}</Body>
+        <Body className={cn(className, 'font-medium')}>{body}</Body>
 
         {(variant === 'multiple' || variant === 'pink') && (
           <Image variant={secondImageVariant} src={secondaryImage} alt="" />

@@ -44,6 +44,7 @@ const PartnerImg = ({ partner }: { partner: Partner }) => (
 export default function Home() {
   const { data } = usePreloadedDataLocalized();
   const { openDialog } = useDialogManager();
+
   const { t } = useTranslations();
 
   return (
@@ -56,7 +57,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black opacity-50" />
         <div
           className="relative z-10 mx-auto flex w-[88vw] flex-col items-center
-              gap-4 sm:w-[76vw]"
+            gap-4 sm:w-[76vw]"
         >
           <img
             src="/newlogo.svg"
@@ -78,12 +79,15 @@ export default function Home() {
         className="relative w-full bg-cover bg-center md:pt-32"
       >
         <SectionContent>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
+          <div
+            className="mx-auto grid w-fit grid-cols-1 justify-center gap-8
+              sm:grid-cols-2 2xl:grid-cols-4"
+          >
             {/* Borrow */}
             <ImageCard
               title={data.text.serviceRentTitle}
               body={data.text.serviceRentBody}
-              image="borrow.jpg"
+              image="/borrow.jpg"
               ariaLabel="Learn more about how to borrow our bikes"
               onClick={() =>
                 openDialog(
@@ -98,8 +102,8 @@ export default function Home() {
               title={data.text.serviceRepairTitle}
               body={data.text.serviceRepairBody}
               variant="pink"
-              image="cardLightPink.jpg"
-              secondaryImage="bicycle.svg"
+              image="/cardLightPink.jpg"
+              secondaryImage="/bicycle.svg"
               secondImageVariant="fit"
               ariaLabel="Learn more about hor to repair your bike"
               onClick={() =>
@@ -114,7 +118,7 @@ export default function Home() {
             <ImageCard
               title={data.text.serviceCoursesTitle}
               body={data.text.serviceCoursesBody}
-              image="courses.jpg"
+              image="/courses.jpg"
               ariaLabel="Learn more about how to go on a course"
               onClick={() =>
                 openDialog(
@@ -132,8 +136,8 @@ export default function Home() {
               secondImageVariant="fullBleed"
               linkLabel={t('communityLinkLabel')}
               ariaLabel="Learn more about joining our community"
-              secondaryImage="community.png"
-              image="cardPink.jpg"
+              secondaryImage="/community.png"
+              image="/cardPink.jpg"
             />
           </div>
         </SectionContent>
@@ -219,20 +223,17 @@ export default function Home() {
           <div
             className="mb-25 grid grid-cols-1 gap-12 text-center md:grid-cols-3"
           >
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/bicycle.svg"
-                className="mb-7 h-[183.7px] w-[209px]"
+                className="mb-9 h-[183.7px] w-[209px]"
                 alt="Bike"
               />
-              <h3
-                className="mb-2 self-stretch text-2xl font-semibold
-                  text-hjul-plum"
-              >
+              <h3 className="text-hjul-plum">
                 The joy of riding, for everyone.
               </h3>
               <p
-                className="max-w-[450px] text-lg font-medium leading-7
+                className="max-w-[450px] text-lg font-semibold leading-7
                   text-hjul-plum"
               >
                 We believe everyone should have the ability to ride – with
@@ -240,20 +241,15 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/collaboration.svg"
-                className="mb-7 h-[183.7px] w-[209px]"
+                className="mb-9 h-[183.7px] w-[209px]"
                 alt="Collaboration"
               />
-              <h3
-                className="mb-2 self-stretch text-2xl font-semibold
-                  text-hjul-plum"
-              >
-                Built on collaboration.
-              </h3>
+              <h3 className="text-hjul-plum">Built on collaboration.</h3>
               <p
-                className="max-w-[450px] text-lg font-medium leading-7
+                className="max-w-[450px] text-lg font-semibold leading-7
                   text-hjul-plum"
               >
                 A combined effort by public, private and non-profit sector – key
@@ -262,20 +258,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/motion.svg"
-                className="mb-7 h-[183.7px] w-[209px]"
+                className="mb-9 h-[183.7px] w-[209px]"
                 alt="In motion"
               />
-              <h3
-                className="text-align-center mb-2 self-stretch text-2xl
-                  font-semibold text-hjul-plum"
-              >
+              <h3 className="text-align-center text-hjul-plum">
                 Already in motion.
               </h3>
               <p
-                className="max-w-[450px] text-lg font-medium leading-7
+                className="max-w-[450px] text-lg font-semibold leading-7
                   text-hjul-plum"
               >
                 Five locations established in the Gothenburg area – and growing.
@@ -328,18 +321,16 @@ export default function Home() {
             <ImageCard
               title={data.text.supportWorkTitle}
               body={data.text.supportWorkBody}
-              baseClassName={true}
-              image="work.jpg"
+              image="/work.jpg"
               ariaLabel="Learn more about donating via Swish"
             />
             {/* Material */}
             <ImageCard
               title={data.text.supportDonateMaterialTitle}
               body={data.text.supportDonateMaterialBody}
-              image="donate.jpg"
+              image="/donate.jpg"
               variant="brown"
               className="text-brown"
-              baseClassName={true}
               ariaLabel="Learn more about hor to repair your bike"
               onClick={() =>
                 openDialog(
@@ -353,8 +344,7 @@ export default function Home() {
             <ImageCard
               title={data.text.supportPartnerTitle}
               body={data.text.supportPartnerBody}
-              baseClassName={true}
-              image="partner.jpg"
+              image="/partner.jpg"
               ariaLabel="Learn more about becoming a partner"
               link="/contact"
             />

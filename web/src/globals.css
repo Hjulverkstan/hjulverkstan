@@ -188,7 +188,7 @@ h2,
 
 h3,
 .text-h3 {
-  @apply -my-[0.25rem] font-bricolage text-2xl font-bold sm:-my-[0.1875rem]
+  @apply -my-[0.25rem] font-bricolage text-2xl font-semibold sm:-my-[0.1875rem]
     sm:text-3xl;
 }
 
