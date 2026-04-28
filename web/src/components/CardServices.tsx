@@ -42,7 +42,7 @@ export const CardServicesSteps: React.FC<CardServicesStepsProps> = ({
       className="py-4"
     >
       <div className="ml-2">
-        <p className="text-foreground text-base font-medium tracking-tight">
+        <p className="text-base font-medium tracking-tight text-foreground">
           {label}
         </p>
         <p className="text-base text-zinc-500">{description}</p>
@@ -79,7 +79,7 @@ export const CardServices: React.FC<CardServicesProps> = ({
   return (
     <Base
       className={cn(
-        'px-0',
+        'z-10 px-0',
         mode === 'dialog' && 'min-h-[65vh]' + 'h-[95vh]' + ' max-h-[95dvh]',
       )}
     >
@@ -106,7 +106,7 @@ export const CardServices: React.FC<CardServicesProps> = ({
             'min-h-0 flex-1 overflow-y-auto sm:overflow-visible',
         )}
       >
-        <div className="divide-secondary-border -my-4 divide-y px-8">
+        <div className="-my-4 divide-y divide-secondary-border px-8">
           {children}
         </div>
       </div>

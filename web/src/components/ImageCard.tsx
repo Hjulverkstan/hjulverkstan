@@ -49,12 +49,12 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   return (
     <Base
       variant={baseVariant}
-      className={cn('h-[540px] max-w-[390px] shadow-card-glow')}
+      className={cn('shadow-card-glow h-[540px] max-w-[390px]')}
     >
       <Image src={image} variant={imageVariant} alt="" />
       <div className="relative z-10 flex h-full flex-col">
         <Title className="pb-4">{title}</Title>
-        <Body className={className}>{body}</Body>
+        <Body className={cn(className, 'font-medium')}>{body}</Body>
 
         {(variant === 'multiple' || variant === 'pink') && (
           <Image variant={secondImageVariant} src={secondaryImage} alt="" />

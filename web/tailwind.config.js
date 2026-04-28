@@ -58,6 +58,10 @@ module.exports = {
       boxShadow: {
         'pink-blur': '0 0 69.1px 0 rgba(95, 17, 58, 0.10)',
         'bottom-1': '0 0.5px 0 0 hsl(var(--border))',
+        'card-glow': '0 0 69.1px 0 rgba(95, 17, 58, 0.38)',
+        'inner-plum': 'inset 0 -1px 0 0 rgba(109, 2, 102, 0.18)',
+        'inner-blue-top': 'inset 0 1px 0 0 rgba(52, 6, 242, 0.13)',
+        'inner-soft': 'inset 0 -1px 0 0 rgba(0, 0, 0, 0.08)',
       },
       borderRadius: {
         button: '77px',
@@ -166,5 +170,6 @@ module.exports = {
       },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require('tailwindcss-animate')],
 };

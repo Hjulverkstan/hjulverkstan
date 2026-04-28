@@ -68,7 +68,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
     <header
       className={cn(
         'fixed top-0 z-50 w-full transition-colors duration-300',
-        'bg-background text-foreground',
+        'bg-white text-foreground',
         onHero && 'bg-transparent text-white',
       )}
     >
@@ -122,8 +122,8 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
       {isOpen && (
         <div className="lg:hidden">
           <nav
-            className="border-muted flex flex-col items-center gap-6 space-y-1
-              border-b border-t px-2 py-12 sm:px-3"
+            className="flex flex-col items-center gap-6 space-y-1 border-b
+              border-t border-muted px-2 py-12 sm:px-3"
           >
             {navLinksContent}
           </nav>
