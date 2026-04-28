@@ -142,6 +142,28 @@
     --border-dark: 220 6% 89%;
     --input: 220 13% 91%;
     --ring: 224 71% 4%;
+
+    & h1,
+    & .text-h1,
+    & h2,
+    & .text-h2,
+    & h3,
+    & .text-h3,
+    & h4,
+    & .text-h4,
+    & .dialog-title-override {
+      font-family: 'Inter', sans-serif !important;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: hsl(var(--foreground)) !important;
+      text-transform: none;
+    }
+
+    & [data-radix-collection-item],
+    & h2[id^='radix-'] {
+      font-family: 'Inter', sans-serif;
+      color: hsl(var(--foreground));
+    }
   }
 }
 
@@ -156,17 +178,18 @@
 
 h1,
 .text-h1 {
-  @apply text-5xl font-bricolage sm:text-7xl font-bold text-hjul-dark;
+  @apply font-bricolage text-5xl font-bold text-hjul-dark sm:text-7xl;
 }
 
 h2,
 .text-h2 {
-  @apply text-[2.5rem] font-bricolage sm:text-6xl font-bold text-hjul-dark;
+  @apply font-bricolage text-[2.5rem] font-bold text-hjul-dark sm:text-6xl;
 }
 
 h3,
 .text-h3 {
-  @apply -my-[0.25rem] text-2xl font-bricolage sm:-my-[0.1875rem] sm:text-3xl font-bold;
+  @apply -my-[0.25rem] font-bricolage text-2xl font-bold sm:-my-[0.1875rem]
+    sm:text-3xl;
 }
 
 h4,
