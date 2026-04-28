@@ -154,8 +154,8 @@ export const ServicesAsDialogWrapper: FC<{ children: ReactNode }> = ({
 }) => (
   <DialogContent
     onOpenAutoFocus={(e) => e.preventDefault()}
-    className="overflow-hidden rounded-2xl border-none p-0 shadow-2xl
-      sm:max-w-[425px]"
+    className="overflow-hidden border-none p-0 shadow-2xl sm:max-w-[425px]
+      sm:rounded-[32px]"
   >
     {children}
   </DialogContent>
