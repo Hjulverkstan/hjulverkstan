@@ -162,7 +162,7 @@ export default function VehicleDetail() {
       variant="muted"
       headingWidth="small"
     >
-      <Section variant="muted" className="md:pb-20 md:pt-44">
+      <Section variant="muted" className="md:pb-20 md:pt-28">
         <SectionContent contentWidth="small">
           <div
             className="mb-8 hidden w-full flex-col rounded-lg bg-secondary
