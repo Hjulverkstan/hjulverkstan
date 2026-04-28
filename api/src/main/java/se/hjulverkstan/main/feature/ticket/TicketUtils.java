@@ -1,16 +1,25 @@
 package se.hjulverkstan.main.feature.ticket;
 
+import se.hjulverkstan.main.error.exceptions.InvalidDataException;
 import se.hjulverkstan.main.error.exceptions.MissingArgumentException;
 import se.hjulverkstan.main.error.exceptions.UnsupportedTicketStatusException;
 import se.hjulverkstan.main.error.exceptions.UnsupportedTicketVehiclesException;
+import se.hjulverkstan.main.feature.customer.Customer;
+import se.hjulverkstan.main.feature.employee.Employee;
+import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.feature.vehicle.model.VehicleStatus;
+import se.hjulverkstan.main.shared.ValidationUtils;
 
 import java.util.List;
 
 public class TicketUtils {
-    public static void validateDtoBySelf(TicketDto dto) {
 
+    private TicketUtils() {}
+
+    public static void validateDtoBySelf(TicketDto dto) {
+        ValidationUtils.validateNotNull(dto.getTicketType(), "ticketType");
+        
         if (dto.getTicketType() == TicketType.REPAIR && !hasChars(dto.getRepairDescription())) {
             throw new MissingArgumentException("repairDescription");
         }
@@ -33,9 +42,21 @@ public class TicketUtils {
         if (hasCustomerOwned && hasNonCustomerOwned) {
             throw new UnsupportedTicketVehiclesException("Cannot set customer owned and not customer owned vehicles");
         }
+    }
 
-        if (vehicles.stream().anyMatch(v -> v.getLocation().getId() != dto.getLocationId())) {
-            throw new UnsupportedTicketVehiclesException("Ticket contains vehicles of another location");
+    public static void validateResourceIntegrity(Customer customer, List<Vehicle> vehicles, Location location, Employee employee) {
+        // Anonymization Wall
+        if (customer.isAnonymized()) {
+            throw new InvalidDataException("Cannot create/edit tickets for anonymized customers");
+        }
+
+        // Location Jail Integrity
+        Long targetLocationId = location.getId();
+
+        for (Vehicle v : vehicles) {
+            if (!v.getLocation().getId().equals(targetLocationId)) {
+                throw new UnsupportedTicketVehiclesException("Vehicle " + v.getRegTag() + " belongs to another location");
+            }
         }
     }
 
@@ -43,17 +64,27 @@ public class TicketUtils {
         return str != null && !str.isBlank();
     }
 
-    public static void validateTicketStatusChange (Ticket ticket, TicketStatus status) {
-        validateTicketStatusByType(ticket.getTicketType(), status);
+    public static void validateTicketStatusChange(Ticket ticket, TicketStatus newStatus) {
+        validateTicketStatusByType(ticket.getTicketType(), newStatus);
 
-        if (ticket.getTicketStatus() == status) {
-            throw new UnsupportedTicketStatusException("Ticket status has to be different, is already " + status);
+        if (ticket.getTicketStatus() == newStatus) {
+            throw new UnsupportedTicketStatusException("Ticket status has to be different, is already " + newStatus);
+        }
+
+        // Forward-only jumping (loosely enforced, but prevents moving backward to READY)
+        if (newStatus == TicketStatus.READY && ticket.getTicketStatus() != null) {
+             throw new UnsupportedTicketStatusException("Cannot move ticket back to READY status");
+        }
+
+        // Technician Requirement for COMPLETE
+        if (newStatus == TicketStatus.COMPLETE && ticket.getEmployee() == null) {
+            throw new UnsupportedTicketStatusException("Cannot complete ticket without an assigned technician");
         }
     }
 
-    public static void validateTicketStatusByType (TicketType ticketType, TicketStatus ticketStatus)  {
+    public static void validateTicketStatusByType(TicketType ticketType, TicketStatus ticketStatus) {
         if (!isValidTicketStatusByType(ticketType, ticketStatus)) {
-            throw new UnsupportedTicketStatusException("Invalid status transition for ticket type: " + ticketStatus);
+            throw new UnsupportedTicketStatusException("Invalid status for ticket type " + ticketType + ": " + ticketStatus);
         }
     }
 
