@@ -19,7 +19,7 @@ export default function Stories() {
               <CardStory
                 key={story.id}
                 story={story}
-                className="aspect-video rounded-xl"
+                className="aspect-video rounded-[32px]"
               />
             ))}
           </div>

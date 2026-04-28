@@ -60,7 +60,7 @@ export default function ShopDetail() {
           {shop?.imageURL && (
             <div
               className="flex max-h-[659px] items-center justify-center
-                overflow-hidden rounded-lg"
+                overflow-hidden rounded-[32px]"
             >
               <ImageWithFallback
                 src={shop?.imageURL}
