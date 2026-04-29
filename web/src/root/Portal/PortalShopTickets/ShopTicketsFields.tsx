@@ -66,9 +66,12 @@ export default function ShopTicketFields() {
     showOrgBikes = isPersonCustomer ? false : isOrgCustomer ? true : undefined;
   }
 
+  const onlyAvailable = body.ticketType === TicketType.RENT ? true : undefined;
+
   const vehicleEnumsQ = useVehiclesAsEnumsQ({
     filterByLocationId: body.locationId,
     showOrgBikes,
+    onlyAvailable,
   });
 
   useEffect(() => {

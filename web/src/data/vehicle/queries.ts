@@ -13,7 +13,12 @@ import { EnumAttributes } from '../types';
 
 import * as api from './api';
 import * as enumsRaw from './enums';
-import { Vehicle, VehicleAggregated, VehicleType } from './types';
+import {
+  Vehicle,
+  VehicleAggregated,
+  VehicleStatus,
+  VehicleType,
+} from './types';
 import { findEnum } from '@utils/enums';
 
 //
@@ -66,12 +71,14 @@ export interface UseVehiclesAsEnumsQProps {
   dataKey?: string;
   showOrgBikes?: boolean;
   filterByLocationId?: string;
+  onlyAvailable?: boolean;
 }
 
 export const useVehiclesAsEnumsQ = ({
   dataKey = 'vehicleId',
   showOrgBikes,
   filterByLocationId,
+  onlyAvailable,
 }: UseVehiclesAsEnumsQProps = {}) => {
   const enums = useTranslateRawEnums(enumsRaw);
 
@@ -88,7 +95,10 @@ export const useVehiclesAsEnumsQ = ({
                 : vehicle.isCustomerOwned) &&
             (filterByLocationId === undefined
               ? true
-              : vehicle.locationId === filterByLocationId),
+              : vehicle.locationId === filterByLocationId) &&
+            (onlyAvailable
+              ? vehicle.vehicleStatus === VehicleStatus.AVAILABLE
+              : true),
         )
         .map((vehicle) => ({
           dataKey,
