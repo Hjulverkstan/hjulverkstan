@@ -27,7 +27,7 @@ function FooterLink({ to, imgSrc, text, linkLabel }: FooterLinkProps) {
         href={to}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-foreground flex items-center gap-3 font-medium
+        className="flex items-center gap-3 font-medium text-foreground
           hover:opacity-80"
       >
         <img src={imgSrc} alt={text} className="h-7" />
@@ -54,8 +54,8 @@ function ShopCard({ shop }: ShopCardProps) {
     <div className="flex flex-col items-start gap-2 text-lg">
       <NavLink to={`/shops/${shop.slug}`}>
         <div
-          className="text-foreground transition-gap group inline-flex
-            items-center gap-1.5 font-bold hover:opacity-80"
+          className="transition-gap group inline-flex items-center gap-1.5
+            font-bold text-foreground hover:opacity-80"
         >
           <span>{shop.name}</span>
           <ArrowRight className="h-5 w-5 transition-all group-hover:ml-0.5" />
@@ -88,7 +88,7 @@ function ShopCard({ shop }: ShopCardProps) {
 
 const FooterDivider = () => (
   <SectionContent>
-    <div className="border-border-dark w-full border-t" aria-hidden="true" />
+    <div className="w-full border-t border-border-dark" aria-hidden="true" />
   </SectionContent>
 );
 
@@ -100,12 +100,12 @@ export default function PageFooter() {
   const { t } = useTranslations();
 
   return (
-    <footer className="bg-secondary flex flex-col gap-16 py-32">
+    <footer className="flex flex-col gap-16 bg-secondary-footer py-32">
       <SectionContent className="flex justify-center">
         <nav
           aria-label="Footer navigation"
-          className="bg-background text-muted-foreground flex flex-wrap
-            justify-center gap-y-2 rounded-full px-6 py-3"
+          className="flex flex-wrap justify-center gap-y-2 rounded-full
+            bg-background-footer px-6 py-3 text-muted-foreground"
         >
           {navLinks.map((link) => (
             <Link variant="link" key={link.translationKey} to={link.path}>
@@ -135,8 +135,8 @@ export default function PageFooter() {
       <FooterDivider />
 
       <SectionContent
-        className="text-muted-foreground flex w-full flex-col items-center
-          justify-center gap-8 xl:flex-row"
+        className="flex w-full flex-col items-center justify-center gap-8
+          text-muted-foreground xl:flex-row"
       >
         <FooterLink
           to="https://www.savethechildren.net"
@@ -144,14 +144,14 @@ export default function PageFooter() {
           text={t('footerSaveTheChildrenBody')}
           linkLabel={t('footerSaveTheChildrenLinkLabel')}
         />
-        <div className="border-border hidden h-10 border-l xl:block" />
+        <div className="hidden h-10 border-l border-border xl:block" />
         <FooterLink
           to="https://www.alten.se"
           imgSrc="/icons/alten.svg"
           text={t('footerDevelopBody')}
           linkLabel={t('footerDevelopLinkLabel')}
         />
-        <div className="border-border hidden h-10 border-l xl:block" />
+        <div className="hidden h-10 border-l border-border xl:block" />
         <FooterLink
           to="https://github.com/Hjulverkstan"
           imgSrc="/icons/github.svg"

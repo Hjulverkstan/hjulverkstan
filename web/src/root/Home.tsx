@@ -352,12 +352,12 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant="muted" className="md:pt-32" grain={false}>
+      <Section variant="mutedFooter" className="md:pt-32" grain={false}>
         <SectionContent
           heading={t('partnerHeading')}
           linkTo="/partners"
           linkLabel={t('partnerLinkLabel')}
-          linkVariant="background"
+          linkVariant="backgroundFooter"
         >
           <GridBetween rows={2} cols={4} className="hidden lg:flex">
             {partners.map((partner, index) => (

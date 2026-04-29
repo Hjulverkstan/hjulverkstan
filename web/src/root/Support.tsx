@@ -19,7 +19,7 @@ export default function Support() {
 
   return (
     <Page heading={t('support')}>
-      <Section>
+      <Section grain={false}>
         <SectionContent>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
             <CardDefault
