@@ -49,7 +49,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   return (
     <Base
       variant={baseVariant}
-      className={cn('shadow-card-glow h-[540px] max-w-[390px]')}
+      className={cn('h-[540px] max-w-[390px] shadow-card-glow')}
     >
       <Image src={image} variant={imageVariant} alt="" />
       <div className="relative z-10 flex h-full flex-col">
@@ -66,6 +66,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
             text={linkLabel}
             variant={buttonVariant}
             subVariant="rounded"
+            className={cn(variant !== 'brown' && 'bg-background-footer')}
             size="large"
             icon={ArrowRight}
             aria-label={ariaLabel}
