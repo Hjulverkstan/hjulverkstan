@@ -47,12 +47,12 @@ const VehicleAttribute = ({
   value,
 }: VehicleAttributeProps) =>
   value !== undefined && (
-    <div key={label} className="text-secondary-foreground flex items-center">
+    <div key={label} className="flex items-center text-secondary-foreground">
       {Icon && (
         <Icon className="mr-2 h-4 w-4 flex-shrink-0" aria-hidden="true" />
       )}
       <span className="mr-2">{label}</span>
-      <span className="text-foreground font-small">{value}</span>
+      <span className="font-small text-foreground">{value}</span>
     </div>
   );
 
@@ -69,7 +69,7 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
             justify-center gap-4 lg:my-4 lg:ml-8 lg:mr-8 lg:flex-row
             lg:items-center"
         >
-          <p className="text-foreground text-center text-xl">
+          <p className="text-center text-xl text-foreground">
             {t('availableAt')} <span className="font-bold">{shop.name}</span>
           </p>
           <OpenBadge
@@ -90,7 +90,7 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
         className="flex w-full flex-1 flex-col items-center gap-4 p-8
           text-center lg:flex-row lg:items-center lg:justify-center"
       >
-        <p className="text-foreground text-lg font-medium">
+        <p className="text-lg font-medium text-foreground">
           {data.text.bikeDetailRentText}
         </p>
         <IconButton
@@ -100,8 +100,8 @@ const ShopRentalSection = ({ shop }: { shop: any }) => {
           aria-label={t('rentAria')}
           variant="default"
           size="default"
-          className="bg-green-accent text-background hover:bg-success-accent
-            rounded-full"
+          className="hover:bg-success-accent rounded-full bg-green-accent
+            text-background"
           onClick={() =>
             openDialog(
               <ServicesAsDialogWrapper>
@@ -162,26 +162,28 @@ export default function VehicleDetail() {
       variant="muted"
       headingWidth="small"
     >
-      <Section variant="muted" className="md:mt-16 md:pb-20 md:pt-16">
+      <Section variant="muted" className="md:pb-20 md:pt-44">
         <SectionContent contentWidth="small">
           <div
-            className="bg-secondary mb-8 hidden w-full flex-col rounded-lg
-              sm:flex-row sm:items-stretch sm:justify-around md:flex lg:p-4"
+            className="mb-8 hidden w-full flex-col rounded-lg bg-secondary
+              sm:mt-8 sm:flex-row sm:items-stretch sm:justify-around
+              sm:rounded-[32px] md:flex lg:p-4"
           >
             <ShopRentalSection shop={shop} />
           </div>
 
-          <div className="bg-muted flex w-full flex-col">
+          <div className="flex w-full flex-col bg-muted">
             {vehicleQ.data?.imageURL ? (
               <div className="mb-8 w-full">
                 <ImageWithFallback
                   src={vehicleQ.data.imageURL}
                   alt={vehicleQ.data.regTag}
-                  className="aspect-[16/9] h-auto w-full rounded-lg
-                    object-cover"
+                  className="aspect-[16/9] h-auto w-full rounded-lg object-cover
+                    sm:rounded-[32px]"
                   fallback={
                     <Error
-                      className="bg-secondary aspect-[16/9] h-full"
+                      className="aspect-[16/9] h-full bg-secondary
+                        sm:rounded-[32px]"
                       error={{
                         error: 'NOT_FOUND',
                         endpoint: endpoints.image,
@@ -192,8 +194,9 @@ export default function VehicleDetail() {
               </div>
             ) : (
               <div
-                className="bg-secondary text-muted-foreground/60 mb-8 flex
-                  aspect-[16/9] w-full items-center justify-center rounded-lg"
+                className="mb-8 flex aspect-[16/9] w-full items-center
+                  justify-center rounded-lg bg-secondary
+                  text-muted-foreground/60"
               >
                 <Bike size={40} />
               </div>
@@ -201,8 +204,8 @@ export default function VehicleDetail() {
 
             {vehicleQ.data && (
               <div
-                className="bg-muted mb-10 mt-2 flex flex-wrap items-center
-                  justify-center gap-x-6 gap-y-4 text-lg sm:gap-x-10 md:mb-0"
+                className="mb-10 mt-2 flex flex-wrap items-center justify-center
+                  gap-x-6 gap-y-4 bg-muted text-lg sm:gap-x-10 md:mb-0"
               >
                 <VehicleAttribute
                   icon={Bike}
@@ -238,7 +241,7 @@ export default function VehicleDetail() {
             )}
           </div>
           <div
-            className="bg-secondary mb-12 flex w-full flex-col rounded-lg
+            className="mb-12 flex w-full flex-col rounded-lg bg-secondary
               md:hidden md:max-w-md md:p-4 md:px-4"
           >
             <ShopRentalSection shop={shop} />
@@ -264,7 +267,7 @@ export default function VehicleDetail() {
                   variant="mutedSharp"
                   subVariant="rounded"
                   size="large"
-                  className="text-foreground hover:bg-muted border px-8 py-3"
+                  className="border px-8 py-3 text-foreground hover:bg-muted"
                   onClick={handleLoadMoreOtherBikes}
                 >
                   {t('loadMore')}
