@@ -1,9 +1,7 @@
 package se.hjulverkstan.main.security.utils;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Component;
 import se.hjulverkstan.main.security.model.CustomUserDetails;
 import se.hjulverkstan.main.security.model.ERole;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -43,42 +41,41 @@ public class JwtUtils {
         LocalDateTime expiryDateTime = LocalDateTime.now().plus(jwtExpirationMs, ChronoUnit.MILLIS);
 
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(Date.from(expiryDateTime.atZone(ZoneId.systemDefault()).toInstant()))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .claims(claims)
+                .subject(username)
+                .issuedAt(new Date())
+                .expiration(Date.from(expiryDateTime.atZone(ZoneId.systemDefault()).toInstant()))
+                .signWith(getSignKey())
                 .compact();
     }
 
-    public CustomUserDetails extractAsPrincipal (String token) {
-        String username = extractClaim(token, Claims::getSubject);
-        Long id = extractClaim(token, claims -> claims.get("id", Long.class));
-        String email = extractClaim(token, claims -> claims.get("email", String.class));
+    public CustomUserDetails extractAsPrincipal(String token) {
+        Claims claims = extractAllClaims(token);
 
-        Long locationId = extractClaim(token, claims -> claims.get("locationId", Long.class));
+        String username = claims.getSubject();
+        Long id = claims.get("id", Long.class);
+        String email = claims.get("email", String.class);
+        Long locationId = claims.get("locationId", Long.class);
 
-        List<String> roles = extractClaim(token, claims -> claims.get("roles", List.class));
-        List<SimpleGrantedAuthority> authorities = roles.stream().map(SimpleGrantedAuthority::new).toList();
+        @SuppressWarnings("unchecked")
+        List<String> roles = claims.get("roles", List.class);
+        List<SimpleGrantedAuthority> authorities = roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .toList();
 
         return new CustomUserDetails(id, username, email, authorities, locationId);
     }
 
     public boolean validateToken(String token) {
-        return !isTokenExpired(token) && isTokenSignatureValid(token);
+        try {
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
-    }
-
-    private boolean isTokenSignatureValid(String token) {
-        try {
-            extractAllClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     private <T> T extractClaim(String token, java.util.function.Function<Claims, T> claimsResolver) {
@@ -87,14 +84,14 @@ public class JwtUtils {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignKey())
+        return Jwts.parser()
+                .verifyWith(getSignKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
-    private Key getSignKey() {
+    private SecretKey getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
