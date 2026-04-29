@@ -31,7 +31,7 @@ export const CardStory: React.FC<CardStoryProps> = ({ story, className }) => (
         size="large"
         icon={ArrowRight}
         aria-label={story.title}
-        className="!text-hjul-dark"
+        className="bg-background-footer !text-hjul-dark"
       />
     </Row>
   </Base>
