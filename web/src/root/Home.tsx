@@ -62,11 +62,11 @@ export default function Home() {
           <img
             src="/newlogo.svg"
             alt="Logo"
-            className="mb-2 h-20 w-auto sm:mb-4 sm:h-44"
+            className="mb-2 h-32 w-auto sm:mb-4 sm:h-44"
           />
           <h1 className="text-h1 !text-white text-background">Hjulverkstan</h1>
           <p
-            className="text-h3 mt-2 max-w-[700px] !text-xl text-background
+            className="text-h2 mt-2 max-w-[700px] !text-xl text-background
               sm:mt-4 sm:pr-0 sm:!text-3xl"
           >
             {data.text.slogan}
