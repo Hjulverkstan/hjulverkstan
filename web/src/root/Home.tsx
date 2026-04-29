@@ -66,8 +66,8 @@ export default function Home() {
           />
           <h1 className="text-h1 !text-white text-background">Hjulverkstan</h1>
           <p
-            className="text-h2 mt-2 max-w-[700px] !text-xl text-background
-              sm:mt-4 sm:pr-0 sm:!text-3xl"
+            className="text-h2 mt-2 max-w-[700px] !text-xl !text-white
+              text-background sm:mt-4 sm:pr-0 sm:!text-3xl"
           >
             {data.text.slogan}
           </p>
@@ -148,8 +148,6 @@ export default function Home() {
           heading={t('shops')}
           linkTo="/shops"
           linkLabel={t('shopsLinkLabel')}
-          className="[&_h2]:font-bricolage [&_h2]:text-display [&_h2]:font-bold
-            [&_h2]:!text-hjul-dark"
           linkClassName="!flex !items-center !justify-start !bg-warm-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[7px] !h-10 !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
         >
           <div
@@ -186,8 +184,6 @@ export default function Home() {
           linkTo="/stories"
           linkLabel={t('storiesLinkLabel')}
           linkVariant="background"
-          className="[&_h2]:font-bricolage [&_h2]:text-display [&_h2]:font-bold
-            [&_h2]:!text-hjul-dark"
           linkClassName="!flex !items-center !bg-blue-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-10 !gap-[7px] !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
         >
           <div className="flex flex-col gap-8 xl:flex-row xl:items-start">

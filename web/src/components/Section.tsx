@@ -3,7 +3,7 @@ import React from 'react';
 import { cn } from '@utils/common';
 
 const sectionStyles = cva(
-  'flex flex-col gap-16 py-16 pt-40 md:gap-32' + ' md:py-32' + ' md:pt-44',
+  'flex flex-col gap-16 py-16 md:gap-32 md:pt-40' + ' md:py-32' + ' md:pt-44',
   {
     variants: {
       variant: {
