@@ -9,6 +9,7 @@ const sectionStyles = cva(
       variant: {
         default: 'bg-background',
         muted: 'bg-muted',
+        mutedFooter: 'bg-muted-footer',
         lightPink: 'backDrop-blur-xl bg-lightPink bg-cover shadow-inner-plum',
         pink: 'bg-pink bg-cover bg-center bg-no-repeat',
         blue: 'bg-blue shadow-inner-blue-top',
