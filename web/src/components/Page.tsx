@@ -58,8 +58,7 @@ export const Page = ({
       {heading && (
         <div
           className={cn(
-            'relative z-10 mx-auto -mb-28 w-[88vw] pt-28 md:-mb-32' +
-              ' md:pt-1',
+            'relative z-10 mx-auto -mb-8 w-[88vw] pt-28 md:-mb-32' + ' md:pt-1',
             headingStyles({ headingWidth }),
           )}
         >
