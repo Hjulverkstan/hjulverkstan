@@ -51,18 +51,20 @@ export const SectionContent: React.FC<SectionContentProps> = ({
         className="mb-8 flex flex-col items-start gap-4 sm:flex-row
           sm:items-center sm:justify-between md:mb-16"
       >
-        <h2 className="text-h2 text-foreground font-semibold">{heading}</h2>
+        <h2 className="text-h2 font-semibold text-foreground">{heading}</h2>
         {linkTo && linkLabel && (
-          <IconLink
-            to={linkTo}
-            text={linkLabel}
-            icon={ArrowRight}
-            className={cn("hidden md:inline-flex", linkClassName)}
-            variant={linkVariant}
-            subVariant="rounded"
-            size="large"
-            iconRight
-          />
+          <div className="hidden md:inline-flex">
+            <IconLink
+              to={linkTo}
+              text={linkLabel}
+              icon={ArrowRight}
+              className={linkClassName}
+              variant={linkVariant}
+              subVariant="rounded"
+              size="large"
+              iconRight
+            />
+          </div>
         )}
       </div>
     )}
