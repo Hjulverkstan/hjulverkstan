@@ -66,7 +66,10 @@ export const ImageCard: React.FC<ImageCardProps> = ({
             text={linkLabel}
             variant={buttonVariant}
             subVariant="rounded"
-            className={cn(variant !== 'brown' && 'bg-background-footer')}
+            className={cn(
+              variant !== 'brown' && 'bg-background-footer',
+              'text-[18px] font-[500]',
+            )}
             size="large"
             icon={ArrowRight}
             aria-label={ariaLabel}
