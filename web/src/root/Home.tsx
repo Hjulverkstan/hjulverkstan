@@ -353,7 +353,7 @@ export default function Home() {
               body={data.text.supportPartnerBody}
               image="/partner.jpg"
               ariaLabel="Learn more about becoming a partner"
-              link="/contact"
+              to="/contact"
             />
           </div>
         </SectionContent>
