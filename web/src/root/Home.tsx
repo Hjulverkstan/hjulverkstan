@@ -56,6 +56,14 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-black opacity-50" />
         <div
+          className="pointer-events-none absolute inset-0 opacity-[0.75]"
+          style={{
+            backgroundImage: "url('/grain.png')",
+            backgroundRepeat: 'repeat',
+            zIndex: 0,
+          }}
+        />
+        <div
           className="relative z-10 mx-auto flex w-[88vw] flex-col items-center
             gap-4 sm:w-[76vw]"
         >
