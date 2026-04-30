@@ -39,7 +39,7 @@ export const OpenBadge: React.FC<OpenBadgeProps> = ({
       icon={Icon}
       className={cn(
         variant === 'large' && 'text-body',
-        variant === 'minimal' && 'bg-secondary p-0 text-base',
+        variant === 'minimal' && 'bg-secondary px-2 text-base',
         className,
       )}
     >
