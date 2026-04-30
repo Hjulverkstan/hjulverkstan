@@ -14,7 +14,7 @@ interface ImageCardProps {
   secondImageVariant?: 'fullBleed' | 'fit';
   className?: string;
   onClick?: React.MouseEventHandler;
-  link?: string;
+  to?: string;
   linkLabel?: string;
 }
 
@@ -24,7 +24,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   onClick,
   linkLabel,
   variant = 'default',
-  link = '/',
+  to = '/',
   ariaLabel,
   image,
   secondaryImage,
@@ -47,43 +47,55 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   const buttonVariant = variant === 'brown' ? 'brownBackground' : 'brownText';
 
   return (
-    <Base
-      variant={baseVariant}
-      className={cn('h-[540px] max-w-[390px] shadow-card-glow')}
-    >
-      <Image src={image} variant={imageVariant} alt="" />
-      <div className="relative z-10 flex h-full flex-col">
-        <Title className="pb-4">{title}</Title>
-        <Body className={cn(className, 'font-medium')}>{body}</Body>
-
-        {(variant === 'multiple' || variant === 'pink') && (
-          <Image variant={secondImageVariant} src={secondaryImage} alt="" />
+    <div className="contents cursor-pointer">
+      <Base
+        variant={baseVariant}
+        className={cn(
+          'h-[540px] max-w-[390px] shadow-card-glow transition-shadow' +
+            ' duration-300 ease-out' +
+            ' hover:-translate-y-0.5 hover:shadow-card-glow-hover',
         )}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick?.(e);
+        }}
+      >
+        <Image src={image} variant={imageVariant} alt="" />
+        <div className="relative z-10 flex h-full flex-col">
+          <Title className="pb-4">{title}</Title>
+          <Body className={cn(className, 'font-medium')}>{body}</Body>
 
-        <div className={cn('mt-auto flex justify-end')}>
-          <IconLink
-            to={link}
-            text={linkLabel}
-            variant={buttonVariant}
-            subVariant="rounded"
-            className={cn(
-              variant !== 'brown' && 'bg-background-footer',
-              'text-[18px] font-[500]',
-            )}
-            size="large"
-            icon={ArrowRight}
-            aria-label={ariaLabel}
-            iconRight
-            onClick={onClick}
-          />
+          {(variant === 'multiple' || variant === 'pink') && (
+            <Image variant={secondImageVariant} src={secondaryImage} alt="" />
+          )}
+
+          <div className={cn('mt-auto flex justify-end')}>
+            <IconLink
+              to={to}
+              text={linkLabel}
+              variant={buttonVariant}
+              subVariant="rounded"
+              className={cn(variant !== 'brown' && 'bg-background-footer',
+                'text-[18px] font-[500]',
+                )}
+              size="large"
+              icon={ArrowRight}
+              aria-label={ariaLabel}
+              iconRight
+              onClick={(e) => {
+                e.stopPropagation();
+                onClick?.(e);
+              }}
+            />
+          </div>
         </div>
-      </div>
 
-      <div
-        className="pointer-events-none absolute inset-0 z-30 rounded-[32px]
-          ring-1 ring-inset ring-[#FDFDFD]/35"
-        aria-hidden="true"
-      />
-    </Base>
+        <div
+          className="pointer-events-none absolute inset-0 z-30 rounded-[32px]
+            ring-1 ring-inset ring-[#FDFDFD]/35"
+          aria-hidden="true"
+        />
+      </Base>
+    </div>
   );
 };
