@@ -56,7 +56,7 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
       subVariant="rounded"
       onClick={() => setIsOpen(false)}
       className={cn(
-        'h-8 lg:last:ml-2',
+        'h-8 text-[16px] font-[500] lg:last:ml-2',
         onHero && 'text-white hover:text-gray-300',
       )}
     >
