@@ -79,7 +79,11 @@ function ShopCard({ shop }: ShopCardProps) {
         <p>070 123 45 67</p>
       </div>
       <div>
-        <OpenBadge variant="minimal" openHours={shop.openHours} />
+        <OpenBadge
+          variant="minimal"
+          openHours={shop.openHours}
+          className="bg-transparent"
+        />
       </div>
     </div>
   );
