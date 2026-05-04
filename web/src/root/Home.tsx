@@ -56,10 +56,11 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-black opacity-50" />
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.75]"
+          className="pointer-events-none absolute inset-0 opacity-[0.06]"
           style={{
             backgroundImage: "url('/grain.png')",
             backgroundRepeat: 'repeat',
+            backgroundSize: '200px 200px',
             zIndex: 0,
           }}
         />
@@ -85,6 +86,7 @@ export default function Home() {
       <Section
         variant="peach"
         className="relative w-full bg-cover bg-center md:pt-32"
+        grain
       >
         <SectionContent>
           <div
@@ -151,7 +153,7 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant={'lightPink'} className="md:pt-32">
+      <Section variant={'lightPink'} className="md:pt-32" grain>
         <SectionContent
           heading={t('shops')}
           linkTo="/shops"
@@ -222,7 +224,7 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant={'pink'} className="md:pt-32">
+      <Section variant={'pink'} className="md:pt-32" grain>
         <SectionContent>
           <div
             className="mb-25 grid grid-cols-1 gap-12 text-center md:grid-cols-3"
@@ -315,6 +317,7 @@ export default function Home() {
       <Section
         variant="blue"
         className="relative w-full bg-cover bg-center md:pt-32"
+        grain
       >
         <SectionContent>
           <div
@@ -356,7 +359,7 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant="mutedFooter" className="md:pt-32" grain={false}>
+      <Section variant="mutedFooter" className="md:pt-32">
         <SectionContent
           heading={t('partnerHeading')}
           linkTo="/partners"

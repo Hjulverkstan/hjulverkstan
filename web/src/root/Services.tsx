@@ -166,7 +166,7 @@ export default function Services() {
 
   return (
     <Page heading={t('services')} variant="muted">
-      <Section variant="muted" grain={false}>
+      <Section variant="muted">
         <SectionContent>
           <div
             className="grid grid-cols-1 items-start gap-8 sm:grid-cols-2

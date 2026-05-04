@@ -15,7 +15,7 @@ export default function Shops() {
 
   return (
     <Page heading={t('shops')} variant="default">
-      <Section grain={false}>
+      <Section>
         <SectionContent>
           <div
             className={cn(

@@ -42,7 +42,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({
   <div
     className={cn(
       contentStyles({ contentWidth }),
-      'mx-auto w-[88vw]',
+      'z-10 mx-auto w-[88vw]',
       className,
     )}
   >
