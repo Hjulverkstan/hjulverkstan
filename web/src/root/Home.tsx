@@ -360,12 +360,7 @@ export default function Home() {
       </Section>
 
       <Section variant="mutedFooter" className="md:pt-32">
-        <SectionContent
-          heading={t('partnerHeading')}
-          linkTo="/partners"
-          linkLabel={t('partnerLinkLabel')}
-          linkVariant="backgroundFooter"
-        >
+        <SectionContent heading={t('partnerHeading')}>
           <GridBetween rows={2} cols={4} className="hidden lg:flex">
             {partners.map((partner, index) => (
               <PartnerImg key={index} partner={partner} />
