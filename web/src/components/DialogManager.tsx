@@ -10,6 +10,7 @@ import { Dialog } from '@components/shadcn/Dialog';
 interface DialogContextTypes {
   openDialog: (content: ReactNode) => symbol;
   closeDialog: (id: symbol) => void;
+  closeCurrentDialog: () => void;
 }
 
 const DialogManagerContext = createContext<undefined | DialogContextTypes>(
@@ -49,8 +50,14 @@ export const Provider = ({ children }: DialogProviderProps) => {
     setDialogs((prev) => prev.filter((dialog) => dialog.id !== id));
   }, []);
 
+  const closeCurrentDialog = useCallback(() => {
+    setDialogs((prev) => prev.slice(1));
+  }, []);
+
   return (
-    <DialogManagerContext.Provider value={{ openDialog, closeDialog }}>
+    <DialogManagerContext.Provider
+      value={{ openDialog, closeDialog, closeCurrentDialog }}
+    >
       {children}
       {!!dialogs.length && (
         <Dialog

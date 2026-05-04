@@ -35,7 +35,7 @@ export default function DeleteTicketDialog({
         </DialogTitle>
         <DialogDescription className="leading-relaxed text-slate-700">
           <p className="mb-4">
-            {`You are trying to delete ticket ${item ? `with id ${id}` : 'this ticket'}.`}
+            {`You are trying to delete ${item ? item : 'this ticket'} ${id ? `with id ${id}` : ''}.`}
           </p>
           <div className="space-y-4">
             <p>

@@ -49,7 +49,7 @@ export const Page = ({
 }: PageProps) => (
   <>
     <PageNavbar hasHeroSection={hasHeroSection} />
-    <div
+    <main
       className={cn(
         pageStyles({ variant }),
         hasHeroSection ? 'lg:mt-16' : 'md:mt-16',
@@ -67,7 +67,7 @@ export const Page = ({
         </div>
       )}
       {children}
-    </div>
+    </main>
     <PageFooter />
   </>
 );

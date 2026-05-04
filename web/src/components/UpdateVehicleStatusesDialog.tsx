@@ -13,6 +13,9 @@ import { Vehicle, VehicleStatus } from '@data/vehicle/types';
 import { useUpdateVehicleStatusM } from '@data/vehicle/mutations';
 import { useToast } from '@components/shadcn/use-toast';
 import { createErrorToast, createSuccessToast } from '../root/Portal/toast';
+import {
+  useDialogManager,
+} from '@components/DialogManager';
 
 interface UpdateVehicleStatusesDialogProps {
   vehicles: Vehicle[];
@@ -26,6 +29,7 @@ export default function UpdateVehicleStatusesDialog({
   >({});
   const updateVehicleStatusM = useUpdateVehicleStatusM();
   const { toast } = useToast();
+  const { closeCurrentDialog } = useDialogManager();
 
   const handleConfirm = async () => {
     const vehiclesWithoutStatus = vehicles.filter(
@@ -65,7 +69,10 @@ export default function UpdateVehicleStatusesDialog({
           dataLabel: 'vehicle statuses',
         }),
       );
+      return;
     }
+
+    closeCurrentDialog();
   };
 
   return (
@@ -116,11 +123,9 @@ export default function UpdateVehicleStatusesDialog({
             Cancel
           </Button>
         </DialogClose>
-        <DialogClose asChild>
-          <Button onClick={handleConfirm} type="button">
-            Confirm
-          </Button>
-        </DialogClose>
+        <Button onClick={handleConfirm} type="button">
+          Confirm
+        </Button>
       </DialogFooter>
     </DialogContent>
   );

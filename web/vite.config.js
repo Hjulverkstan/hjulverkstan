@@ -23,4 +23,8 @@ export default defineConfig({
       '@data': path.resolve(__dirname, './src/data'),
     },
   },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./src/test/setup.tsx'],
+  },
 });

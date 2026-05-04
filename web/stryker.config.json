@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schema.stryker-mutator.io/stryker-config.schema.json",
+  "packageManager": "npm",
+  "reporters": [
+    "html",
+    "clear-text",
+    "progress"
+  ],
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vite.config.js"
+  },
+  "mutate": [
+    "src/components/Auth.tsx",
+    "src/components/ConfirmConvertDialog.tsx",
+    "src/components/UpdateVehicleStatusesDialog.tsx"
+  ],
+  "concurrency": 2
+}
