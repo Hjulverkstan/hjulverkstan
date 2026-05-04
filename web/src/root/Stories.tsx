@@ -12,7 +12,7 @@ export default function Stories() {
 
   return (
     <Page heading={t('stories')}>
-      <Section grain={false}>
+      <Section>
         <SectionContent>
           <div className="grid gap-8 lg:grid-cols-2">
             {data.stories.map((story) => (

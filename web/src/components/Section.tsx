@@ -32,7 +32,7 @@ export const Section = ({
   variant,
   children,
   className,
-  grain = true,
+  grain = false,
 }: SectionProps) => (
   <section
     className={cn(
@@ -43,15 +43,15 @@ export const Section = ({
   >
     {grain && (
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.75]"
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
         style={{
           backgroundImage: "url('/grain.png')",
+          backgroundSize: '200px 200px',
           backgroundRepeat: 'repeat',
           zIndex: 0,
         }}
       />
     )}
-
     {children}
   </section>
 );
