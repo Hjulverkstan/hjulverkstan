@@ -16,6 +16,7 @@ interface ImageCardProps {
   onClick?: React.MouseEventHandler;
   to?: string;
   linkLabel?: string;
+  alt: string;
 }
 
 export const ImageCard: React.FC<ImageCardProps> = ({
@@ -30,6 +31,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   secondaryImage,
   secondImageVariant,
   className,
+  alt,
 }) => {
   const baseVariant =
     variant == 'brown'
@@ -51,7 +53,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
       <Base
         variant={baseVariant}
         className={cn(
-          'h-[540px] max-w-[390px] shadow-card-glow',
+          'h-[500px] max-w-[390px] md:h-[540px] shadow-card-glow',
           'lg:transition-[transform,box-shadow] lg:duration-300',
           'lg:hover:-translate-y-1.5 lg:hover:shadow-card-glow-hover',
         )}
@@ -60,13 +62,17 @@ export const ImageCard: React.FC<ImageCardProps> = ({
           onClick?.(e);
         }}
       >
-        <Image src={image} variant={imageVariant} alt="" />
+        <Image src={image} variant={imageVariant} alt={alt} />
         <div className="relative z-10 flex h-full flex-col">
           <Title className="pb-4">{title}</Title>
-          <Body className={cn(className, 'font-medium')}>{body}</Body>
+          <Body className="font-medium">{body}</Body>
 
           {(variant === 'multiple' || variant === 'pink') && (
-            <Image variant={secondImageVariant} src={secondaryImage} alt="" />
+            <Image
+              variant={secondImageVariant}
+              src={secondaryImage}
+              alt={alt}
+            />
           )}
 
           <div className={cn('mt-auto flex justify-end')}>

@@ -91,7 +91,7 @@ export default function Home() {
         <SectionContent>
           <div
             className="mx-auto grid w-fit grid-cols-1 justify-center gap-8
-              sm:grid-cols-2 2xl:grid-cols-4"
+              md:grid-cols-2 2xl:grid-cols-4"
           >
             {/* Borrow */}
             <ImageCard
@@ -99,6 +99,7 @@ export default function Home() {
               body={data.text.serviceRentBody}
               image="/borrow.jpg"
               ariaLabel="Learn more about how to borrow our bikes"
+              alt="Borrow bikes"
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -116,6 +117,7 @@ export default function Home() {
               secondaryImage="/bicycle.svg"
               secondImageVariant="fit"
               ariaLabel="Learn more about hor to repair your bike"
+              alt="Repair bikes"
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -130,6 +132,7 @@ export default function Home() {
               body={data.text.serviceCoursesBody}
               image="/courses.jpg"
               ariaLabel="Learn more about how to go on a course"
+              alt="Courses"
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -148,6 +151,7 @@ export default function Home() {
               ariaLabel="Learn more about joining our community"
               secondaryImage="/community.png"
               image="/cardPink.jpg"
+              alt="Community"
             />
           </div>
         </SectionContent>
@@ -194,7 +198,9 @@ export default function Home() {
           linkTo="/stories"
           linkLabel={t('storiesLinkLabel')}
           linkVariant="background"
-          linkClassName="!flex !items-center !bg-blue-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-10 !gap-[7px] !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
+          linkClassName="!flex !items-center !bg-blue-gradient !text-hjul-soft
+          !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-10 !gap-[7px]
+          !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
         >
           <div className="flex flex-col gap-8 xl:flex-row xl:items-start">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
@@ -322,23 +328,30 @@ export default function Home() {
         <SectionContent>
           <div
             className="mx-auto grid w-fit grid-cols-1 justify-center gap-8
-              sm:grid-cols-2 xl:grid-cols-3"
+              xl:grid-cols-3"
           >
             {/* Work with us */}
             <ImageCard
+              className="md:h-[360px] md:max-w-none xl:h-[540px]
+                xl:max-w-[390px]"
               title={data.text.supportWorkTitle}
               body={data.text.supportWorkBody}
               image="/work.jpg"
               ariaLabel="Learn more about donating via Swish"
+              alt="Work with us"
             />
             {/* Material */}
             <ImageCard
+              className="text-brown md:h-[360px] md:max-w-none xl:h-[540px]
+                xl:max-w-[390px] md:[&_img]:relative md:[&_img]:-top-32
+                md:[&_img]:h-auto xl:[&_img]:absolute xl:[&_img]:top-0
+                xl:[&_img]:h-full"
               title={data.text.supportDonateMaterialTitle}
               body={data.text.supportDonateMaterialBody}
               image="/donate.jpg"
               variant="brown"
-              className="text-brown"
               ariaLabel="Learn more about hor to repair your bike"
+              alt="Material"
               onClick={() =>
                 openDialog(
                   <ServicesAsDialogWrapper>
@@ -349,11 +362,14 @@ export default function Home() {
             />
             {/* Partner */}
             <ImageCard
+              className="md:h-[360px] md:max-w-none xl:h-[540px]
+                xl:max-w-[390px]"
               title={data.text.supportPartnerTitle}
               body={data.text.supportPartnerBody}
               image="/partner.jpg"
               ariaLabel="Learn more about becoming a partner"
               to="/contact"
+              alt="Partner"
             />
           </div>
         </SectionContent>
