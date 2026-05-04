@@ -54,8 +54,11 @@ export const ImageCard: React.FC<ImageCardProps> = ({
         variant={baseVariant}
         className={cn(
           'h-[500px] max-w-[390px] shadow-card-glow md:h-[540px]',
-          'lg:transition-[transform,box-shadow] lg:duration-300',
-          'lg:hover:-translate-y-1.5 lg:hover:shadow-card-glow-hover',
+
+          'lg:transition-[transform,box-shadow] lg:duration-500 lg:ease-out',
+
+          'lg:hover:-translate-y-2 lg:hover:shadow-card-glow-hover',
+          'lg:hover:duration-100 lg:hover:ease-in',
           className,
         )}
         onClick={(e) => {
