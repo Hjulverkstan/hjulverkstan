@@ -52,8 +52,8 @@ export const ImageCard: React.FC<ImageCardProps> = ({
         variant={baseVariant}
         className={cn(
           'h-[540px] max-w-[390px] shadow-card-glow',
-          'transition-[transform,box-shadow] duration-300',
-          'hover:-translate-y-1.5 hover:shadow-card-glow-hover',
+          'lg:transition-[transform,box-shadow] lg:duration-300',
+          'lg:hover:-translate-y-1.5 lg:hover:shadow-card-glow-hover',
         )}
         onClick={(e) => {
           e.stopPropagation();
@@ -75,9 +75,10 @@ export const ImageCard: React.FC<ImageCardProps> = ({
               text={linkLabel}
               variant={buttonVariant}
               subVariant="rounded"
-              className={cn(variant !== 'brown' && 'bg-background-footer',
+              className={cn(
+                variant !== 'brown' && 'bg-background-footer',
                 'text-[18px] font-[500]',
-                )}
+              )}
               size="large"
               icon={ArrowRight}
               aria-label={ariaLabel}
