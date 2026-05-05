@@ -11,7 +11,7 @@ interface ImageCardProps {
   variant?: 'default' | 'brown' | 'multiple' | 'noShadow' | 'pink';
   image?: string;
   secondaryImage?: string;
-  secondImageVariant?: 'fullBleed' | 'fit';
+  secondImageVariant?: 'fullBleed' | 'fit' | 'bleed';
   className?: string;
   onClick?: React.MouseEventHandler;
   to?: string;
@@ -53,7 +53,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
       <Base
         variant={baseVariant}
         className={cn(
-          'h-[500px] max-w-[390px] shadow-card-glow md:h-[540px]',
+          'h-[360px] shadow-card-glow md:h-[540px] md:max-w-[390px]',
           'lg:transition-[transform,box-shadow] lg:duration-300',
           'lg:hover:-translate-y-1.5 lg:hover:shadow-card-glow-hover',
           className,

@@ -125,10 +125,15 @@ const cardImageVariants = cva('overflow-hidden bg-muted', {
       imageBackground: 'absolute inset-0 z-0 h-full w-full',
       inline: 'relative mb-4 w-full self-stretch rounded-[32px]',
       noShadow: 'absolute inset-0 z-0 h-full w-full',
+      bleed:
+        'relative w-full self-stretch bg-transparent' +
+        ' overflow-visible' +
+        ' -mx-8 min-w-[calc(100%+4rem)] max-w-none' +
+        ' object-scale-down',
       fullBleed: [
         'relative self-stretch',
         '-mx-8 min-w-[calc(100%+4rem)] max-w-none',
-        'mt-auto bg-transparent',
+        'mt-auto bg-transparent object-scale-down md:overflow-hidden',
       ],
       fit: 'mx-auto mt-auto max-w-[230px] bg-transparent',
     },
