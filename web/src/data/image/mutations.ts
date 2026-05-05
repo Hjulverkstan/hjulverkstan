@@ -24,7 +24,7 @@ export const useDeleteAndSetVehicleImage = () => {
 
   return useMutation({
     mutationFn: async ({ imageURL, ...vehicle }: Vehicle) => {
-      imageURL && (await deleteFn({ imageURL }));
+      if (imageURL) await deleteFn({ imageURL });
       return editFn(vehicle);
     },
     onSuccess: () => {
