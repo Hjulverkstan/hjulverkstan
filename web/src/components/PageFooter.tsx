@@ -76,9 +76,6 @@ function ShopCard({ shop }: ShopCardProps) {
       </div>
 
       <div>
-        <p>070 123 45 67</p>
-      </div>
-      <div>
         <OpenBadge
           variant="minimal"
           openHours={shop.openHours}
