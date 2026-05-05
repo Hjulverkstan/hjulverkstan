@@ -81,7 +81,9 @@ export default function PageNavbar({ hasHeroSection }: PageNavbarProps) {
             'relative text-2xl font-semibold transition-opacity duration-300',
             onHero && 'opacity-0',
           )}
-        ></div>
+        >
+          Hjulverkstan
+        </div>
         <div className="flex items-center justify-end gap-6">
           <nav className="hidden items-center gap-2 lg:flex">
             {navLinksContent}
