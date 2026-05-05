@@ -108,8 +108,8 @@ export default function PageFooter() {
       <SectionContent className="flex justify-center">
         <nav
           aria-label="Footer navigation"
-          className="flex flex-wrap justify-center gap-y-2 rounded-full
-            bg-background-footer px-6 py-3 text-muted-foreground"
+          className="flex flex-wrap justify-center gap-y-2 rounded-full bg-white
+            px-6 py-3 text-muted-foreground"
         >
           {navLinks.map((link) => (
             <Link variant="link" key={link.translationKey} to={link.path}>
