@@ -6,24 +6,18 @@ export interface Partner {
 }
 
 export const partners = [
-  {
-    name: 'Familjebostäder',
-    src: '/partners/familjebostader.svg',
-  },
   { name: 'Poseidon', src: '/partners/poseidon.svg' },
   {
     name: 'Bostadsbolaget',
     src: '/partners/bostadsbolaget.svg',
   },
-  { name: 'Framtiden', src: '/partners/framtiden.png' },
   {
     name: 'Alten',
     src: '/partners/alten.svg',
   },
   { name: 'Göteborgsstad', src: '/partners/goteborgstad.svg' },
   {
-    name: 'Volvo',
-    src: '/partners/volvo.svg',
+    name: 'Save the Children',
+    src: '/partners/savethechildren.svg',
   },
-  { name: 'Familjebostäder', src: '/partners/familjebostader.svg' },
 ] as Partner[];
