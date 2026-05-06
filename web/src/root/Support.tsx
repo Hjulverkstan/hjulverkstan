@@ -1,9 +1,4 @@
-import {
-  CoinsIcon,
-  Hammer,
-  HeartHandshake,
-  PackagePlusIcon,
-} from 'lucide-react';
+import { Hammer, HeartHandshake, PackagePlusIcon } from 'lucide-react';
 
 import { Page } from '@components/Page';
 import { Section } from '@components/Section';
@@ -28,14 +23,6 @@ export default function Support() {
               body={data.text.supportDonateMaterialBody}
               link="/"
               ariaLabel="Learn more about donating material"
-              variant="muted"
-            />
-            <CardDefault
-              icon={CoinsIcon}
-              title={data.text.supportDonateSwishTitle}
-              body={data.text.supportDonateSwishBody}
-              link="/"
-              ariaLabel="Learn more about donating via Swish"
               variant="muted"
             />
             <CardDefault
