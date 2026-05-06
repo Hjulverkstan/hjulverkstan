@@ -380,9 +380,9 @@ export default function Home() {
         </SectionContent>
       </Section>
 
-      <Section variant="mutedFooter" className="md:pt-32">
+      <Section variant="mutedFooter" className="md:pt-32 lg:pb-40">
         <SectionContent heading={t('partnerHeading')}>
-          <GridBetween rows={2} cols={4} className="hidden lg:flex">
+          <GridBetween rows={1} cols={5} className="hidden lg:flex">
             {partners.map((partner, index) => (
               <PartnerImg key={index} partner={partner} />
             ))}
