@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi } from 'vitest';
 import { Provider, useDialogManager } from './DialogManager';
@@ -10,14 +10,18 @@ const Consumer = () => {
     <>
       <button
         onClick={() => {
-          const id = openDialog(<div data-testid="dialog-child">Hello Dialog</div>);
+          const id = openDialog(
+            <div data-testid="dialog-child">Hello Dialog</div>,
+          );
           // expose close for later
           (window as any).__testDialogId = id;
         }}
       >
         Open
       </button>
-      <button onClick={() => closeDialog((window as any).__testDialogId)}>Close</button>
+      <button onClick={() => closeDialog((window as any).__testDialogId)}>
+        Close
+      </button>
     </>
   );
 };
@@ -34,7 +38,7 @@ describe('DialogManager Provider', () => {
     render(
       <Provider>
         <p>App content</p>
-      </Provider>
+      </Provider>,
     );
 
     // Assert
@@ -50,7 +54,7 @@ describe('DialogManager Provider', () => {
     render(
       <Provider>
         <Consumer />
-      </Provider>
+      </Provider>,
     );
 
     await user.click(screen.getByRole('button', { name: 'Open' }));
@@ -67,7 +71,7 @@ describe('DialogManager Provider', () => {
     render(
       <Provider>
         <Consumer />
-      </Provider>
+      </Provider>,
     );
 
     await user.click(screen.getByRole('button', { name: 'Open' }));
@@ -89,7 +93,7 @@ describe('DialogManager Provider', () => {
 
     // Assert
     expect(() => render(<BrokenConsumer />)).toThrow(
-      'useDialog must be invoked in a descendant for <DialogProvider />'
+      'useDialog must be invoked in a descendant for <DialogProvider />',
     );
   });
 });

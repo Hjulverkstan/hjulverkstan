@@ -1,5 +1,5 @@
-import { render, act } from '@testing-library/react';
-import { describe, expect, test, vi, beforeEach, afterEach } from 'vitest';
+import { act, render } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import Spinner from './Spinner';
 
 vi.mock('lucide-react', async (importOriginal) => {

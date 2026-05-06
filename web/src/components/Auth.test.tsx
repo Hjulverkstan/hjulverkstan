@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, test, vi, beforeEach } from 'vitest';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import { Provider, useAuth, ProtectedByRole } from './Auth';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { ProtectedByRole, Provider, useAuth } from './Auth';
 import * as api from '../data/auth/api';
 
 // Mock the API
@@ -21,7 +21,9 @@ vi.mock('@components/shadcn/use-toast', () => ({
 
 // Mock Button
 vi.mock('./shadcn/Button', () => ({
-  Button: ({ children, onClick }: any) => <button onClick={onClick}>{children}</button>,
+  Button: ({ children, onClick }: any) => (
+    <button onClick={onClick}>{children}</button>
+  ),
 }));
 
 // Fix MouseEvent reference error
@@ -32,7 +34,8 @@ if (typeof MouseEvent === 'undefined') {
 // A helper consumer to test useAuth
 const AuthConsumer = () => {
   const { auth, logIn, logOut, isInitialising, isLoading } = useAuth();
-  if (isInitialising) return <div data-testid="initialising">Initialising...</div>;
+  if (isInitialising)
+    return <div data-testid="initialising">Initialising...</div>;
   return (
     <div>
       {auth ? (
@@ -64,12 +67,14 @@ describe('Auth Component & Provider', () => {
         <Provider>
           <ProtectedByRole roles={['admin']} />
         </Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
     await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith(expect.stringContaining('authenticated user'));
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringContaining('authenticated user'),
+      );
     });
   });
 
@@ -78,57 +83,72 @@ describe('Auth Component & Provider', () => {
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
 
     // Assert
     expect(screen.getByTestId('initialising')).toBeInTheDocument();
-    
+
     await waitFor(() => {
       expect(screen.queryByTestId('initialising')).not.toBeInTheDocument();
     });
-    
+
     expect(screen.getByTestId('no-user')).toBeInTheDocument();
     expect(api.verifyAuth).toHaveBeenCalledTimes(1);
   });
 
   test('should initialise and show user if verification succeeds', async () => {
     // Arrange
-    (api.verifyAuth as any).mockResolvedValue({ username: 'sessionuser', roles: ['admin'] });
+    (api.verifyAuth as any).mockResolvedValue({
+      username: 'sessionuser',
+      roles: ['admin'],
+    });
 
     // Act
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
 
     // Assert
     await waitFor(() => {
-      expect(screen.getByTestId('user-info')).toHaveTextContent('User: sessionuser');
+      expect(screen.getByTestId('user-info')).toHaveTextContent(
+        'User: sessionuser',
+      );
     });
   });
 
   test('should update state on successful login', async () => {
     // Arrange
     const user = userEvent.setup();
-    (api.logIn as any).mockResolvedValue({ username: 'newuser', roles: ['user'] });
+    (api.logIn as any).mockResolvedValue({
+      username: 'newuser',
+      roles: ['user'],
+    });
 
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
-    await waitFor(() => expect(screen.queryByTestId('initialising')).not.toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.queryByTestId('initialising')).not.toBeInTheDocument(),
+    );
 
     // Act
     await user.click(screen.getByRole('button', { name: /login/i }));
 
     // Assert
     await waitFor(() => {
-      expect(screen.getByTestId('user-info')).toHaveTextContent('User: newuser');
+      expect(screen.getByTestId('user-info')).toHaveTextContent(
+        'User: newuser',
+      );
     });
-    expect(api.logIn).toHaveBeenCalledWith({ username: 'testuser', password: 'password' });
+    expect(api.logIn).toHaveBeenCalledWith({
+      username: 'testuser',
+      password: 'password',
+    });
   });
 
   test('should show toast on failed login', async () => {
@@ -139,18 +159,22 @@ describe('Auth Component & Provider', () => {
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
-    await waitFor(() => expect(screen.queryByTestId('initialising')).not.toBeInTheDocument()); // Wait for initialising to disappear
+    await waitFor(() =>
+      expect(screen.queryByTestId('initialising')).not.toBeInTheDocument(),
+    ); // Wait for initialising to disappear
 
     // Act
     await user.click(screen.getByRole('button', { name: /login/i }));
 
     // Assert
     await waitFor(() => {
-      expect(mockToast).toHaveBeenCalledWith(expect.objectContaining({
-        title: 'Failed to log in the user.',
-      }));
+      expect(mockToast).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Failed to log in the user.',
+        }),
+      );
     });
   });
 
@@ -163,9 +187,11 @@ describe('Auth Component & Provider', () => {
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
-    await waitFor(() => expect(screen.getByTestId('user-info')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByTestId('user-info')).toBeInTheDocument(),
+    );
 
     // Act
     await user.click(screen.getByRole('button', { name: /logout/i }));
@@ -186,18 +212,22 @@ describe('Auth Component & Provider', () => {
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
-    await waitFor(() => expect(screen.getByTestId('user-info')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByTestId('user-info')).toBeInTheDocument(),
+    );
 
     // Act
     await user.click(screen.getByRole('button', { name: /logout/i }));
 
     // Assert
     await waitFor(() => {
-      expect(mockToast).toHaveBeenCalledWith(expect.objectContaining({
-        title: 'Failed to log out the user.',
-      }));
+      expect(mockToast).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Failed to log out the user.',
+        }),
+      );
     });
   });
 
@@ -211,12 +241,14 @@ describe('Auth Component & Provider', () => {
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
 
     // Assert
     await waitFor(() => {
-      expect(screen.getByTestId('user-info')).toHaveTextContent('User: refreshed');
+      expect(screen.getByTestId('user-info')).toHaveTextContent(
+        'User: refreshed',
+      );
     });
     expect(api.verifyAuth).toHaveBeenCalledTimes(2);
   });
@@ -231,9 +263,11 @@ describe('Auth Component & Provider', () => {
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
-    await waitFor(() => expect(screen.queryByTestId('initialising')).not.toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.queryByTestId('initialising')).not.toBeInTheDocument(),
+    );
 
     // Act: simulate refresh failure
     refreshFailedCb();
@@ -246,32 +280,41 @@ describe('Auth Component & Provider', () => {
     // Arrange
     const user = userEvent.setup();
     let resolveLogin: any;
-    (api.logIn as any).mockReturnValue(new Promise((resolve) => {
-      resolveLogin = resolve;
-    }));
+    (api.logIn as any).mockReturnValue(
+      new Promise((resolve) => {
+        resolveLogin = resolve;
+      }),
+    );
 
     render(
       <Provider>
         <AuthConsumer />
-      </Provider>
+      </Provider>,
     );
-    await waitFor(() => expect(screen.queryByTestId('initialising')).not.toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.queryByTestId('initialising')).not.toBeInTheDocument(),
+    );
 
     // Act
     await user.click(screen.getByRole('button', { name: /login/i }));
 
     // Assert
     expect(screen.getByTestId('loading')).toBeInTheDocument();
-    
+
     // Cleanup
     resolveLogin({ username: 'test', roles: [] });
-    await waitFor(() => expect(screen.queryByTestId('loading')).not.toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.queryByTestId('loading')).not.toBeInTheDocument(),
+    );
   });
 
   describe('ProtectedByRole', () => {
     test('should render content if user has ALL required roles', async () => {
       // Arrange
-      (api.verifyAuth as any).mockResolvedValue({ username: 'admin', roles: ['admin', 'user'] });
+      (api.verifyAuth as any).mockResolvedValue({
+        username: 'admin',
+        roles: ['admin', 'user'],
+      });
 
       render(
         <MemoryRouter>
@@ -280,7 +323,7 @@ describe('Auth Component & Provider', () => {
               <div data-testid="protected-content">Secret Content</div>
             </ProtectedByRole>
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       // Assert
@@ -291,7 +334,10 @@ describe('Auth Component & Provider', () => {
 
     test('should NOT render content if user has only some of the required roles', async () => {
       // Arrange
-      (api.verifyAuth as any).mockResolvedValue({ username: 'admin', roles: ['admin'] });
+      (api.verifyAuth as any).mockResolvedValue({
+        username: 'admin',
+        roles: ['admin'],
+      });
 
       render(
         <MemoryRouter>
@@ -300,7 +346,7 @@ describe('Auth Component & Provider', () => {
               <div data-testid="protected-content">Secret Content</div>
             </ProtectedByRole>
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       // Assert
@@ -312,7 +358,10 @@ describe('Auth Component & Provider', () => {
 
     test('should render content if user has required roles (single)', async () => {
       // Arrange
-      (api.verifyAuth as any).mockResolvedValue({ username: 'admin', roles: ['admin'] });
+      (api.verifyAuth as any).mockResolvedValue({
+        username: 'admin',
+        roles: ['admin'],
+      });
 
       render(
         <MemoryRouter>
@@ -321,7 +370,7 @@ describe('Auth Component & Provider', () => {
               <div data-testid="protected-content">Secret Content</div>
             </ProtectedByRole>
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       // Assert
@@ -332,18 +381,29 @@ describe('Auth Component & Provider', () => {
 
     test('should render Outlet if no children provided', async () => {
       // Arrange
-      (api.verifyAuth as any).mockResolvedValue({ username: 'admin', roles: ['admin'] });
+      (api.verifyAuth as any).mockResolvedValue({
+        username: 'admin',
+        roles: ['admin'],
+      });
 
       render(
         <MemoryRouter initialEntries={['/protected']}>
           <Provider>
             <Routes>
-              <Route path="/protected" element={<ProtectedByRole roles={['admin']} />}>
-                <Route index element={<div data-testid="outlet-content">Outlet Content</div>} />
+              <Route
+                path="/protected"
+                element={<ProtectedByRole roles={['admin']} />}
+              >
+                <Route
+                  index
+                  element={
+                    <div data-testid="outlet-content">Outlet Content</div>
+                  }
+                />
               </Route>
             </Routes>
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       // Assert
@@ -354,14 +414,17 @@ describe('Auth Component & Provider', () => {
 
     test('should return null if no access and no landing page/redirect', async () => {
       // Arrange
-      (api.verifyAuth as any).mockResolvedValue({ username: 'user', roles: ['user'] });
+      (api.verifyAuth as any).mockResolvedValue({
+        username: 'user',
+        roles: ['user'],
+      });
 
       const { container } = render(
         <MemoryRouter>
           <Provider>
             <ProtectedByRole roles={['admin']} />
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       // Assert
@@ -374,19 +437,24 @@ describe('Auth Component & Provider', () => {
     test('should go back when clicking button in landing page', async () => {
       // Arrange
       const user = userEvent.setup();
-      (api.verifyAuth as any).mockResolvedValue({ username: 'user', roles: ['user'] });
+      (api.verifyAuth as any).mockResolvedValue({
+        username: 'user',
+        roles: ['user'],
+      });
 
       render(
         <MemoryRouter>
           <Provider>
             <ProtectedByRole roles={['admin']} renderLandingPage />
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       // Act
       await waitFor(() => {
-        expect(screen.getByRole('button', { name: /go back/i })).toBeInTheDocument();
+        expect(
+          screen.getByRole('button', { name: /go back/i }),
+        ).toBeInTheDocument();
       });
       await user.click(screen.getByRole('button', { name: /go back/i }));
 
@@ -397,12 +465,14 @@ describe('Auth Component & Provider', () => {
   test('should throw error if useAuth is used outside of Provider', () => {
     // Hide console.error for this test as React logs the boundary error
     vi.spyOn(console, 'error').mockImplementation(() => {});
-    
+
     const ComponentOutside = () => {
       useAuth();
       return null;
     };
 
-    expect(() => render(<ComponentOutside />)).toThrow('useAuth must be invoked');
+    expect(() => render(<ComponentOutside />)).toThrow(
+      'useAuth must be invoked',
+    );
   });
 });

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, test, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import RichTextEditorDialog from './RichTextEditorDialog';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -11,11 +11,17 @@ if (typeof MouseEvent === 'undefined') {
 
 // Mock Dialog sub-components
 vi.mock('@components/shadcn/Dialog', () => ({
-  DialogContent: ({ children }: any) => <div data-testid="dialog-content">{children}</div>,
+  DialogContent: ({ children }: any) => (
+    <div data-testid="dialog-content">{children}</div>
+  ),
   DialogHeader: ({ children }: any) => <div>{children}</div>,
   DialogFooter: ({ children }: any) => <div>{children}</div>,
-  DialogTitle: ({ children, className }: any) => <h2 className={className}>{children}</h2>,
-  DialogDescription: ({ children, className }: any) => <div className={className}>{children}</div>,
+  DialogTitle: ({ children, className }: any) => (
+    <h2 className={className}>{children}</h2>
+  ),
+  DialogDescription: ({ children, className }: any) => (
+    <div className={className}>{children}</div>
+  ),
   DialogClose: ({ children }: any) => <>{children}</>,
 }));
 
@@ -83,12 +89,14 @@ describe('RichTextEditorDialog Component', () => {
     render(
       <MemoryRouter>
         <RichTextEditorDialog content={{}} onSubmit={vi.fn()} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
     expect(screen.getByTestId('tiptap-editor')).toBeInTheDocument();
-    expect(screen.getByText(/using the toolbar and text box bellow/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/using the toolbar and text box bellow/i),
+    ).toBeInTheDocument();
   });
 
   test('should show Edit button instead of toolbar when not in edit/create mode', () => {
@@ -99,12 +107,14 @@ describe('RichTextEditorDialog Component', () => {
     render(
       <MemoryRouter>
         <RichTextEditorDialog content={{}} onSubmit={vi.fn()} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
     expect(screen.getByRole('button', { name: /edit/i })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /done/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /done/i }),
+    ).not.toBeInTheDocument();
   });
 
   test('should call navigate to edit when Edit button is clicked', async () => {
@@ -115,7 +125,7 @@ describe('RichTextEditorDialog Component', () => {
     render(
       <MemoryRouter>
         <RichTextEditorDialog content={{}} onSubmit={vi.fn()} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Act
@@ -134,7 +144,7 @@ describe('RichTextEditorDialog Component', () => {
     render(
       <MemoryRouter>
         <RichTextEditorDialog content={{}} onSubmit={onSubmit} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Act
@@ -149,14 +159,14 @@ describe('RichTextEditorDialog Component', () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn();
     mockSlugs.tailSlug = 'edit';
-    
+
     // Mock empty text
     mockEditor.getText = () => '   ';
 
     render(
       <MemoryRouter>
         <RichTextEditorDialog content={{}} onSubmit={onSubmit} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Act

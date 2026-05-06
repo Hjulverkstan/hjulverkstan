@@ -3,6 +3,7 @@ import {
   useCreateVehicleM,
   useDeleteVehicleM,
   useEditVehicleM,
+  useSoftDeleteVehicleM,
   useUpdateVehicleStatusM,
 } from './mutations';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -117,6 +118,18 @@ describe('vehicle mutations hooks', () => {
         ),
       ),
     ).toBe(true);
+  });
+
+  it('useSoftDeleteVehicleM should invalidate list query on success', () => {
+    renderHook(() => useSoftDeleteVehicleM(), { wrapper });
+    const onSuccess = (reactQuery.useMutation as any).mock.calls.at(-1)[0]
+      ?.onSuccess;
+    onSuccess?.();
+
+    expect(invalidateQueries).toHaveBeenCalled();
+    const keys = (invalidateQueries as any).mock.calls[0][0];
+    expect(keys).toContainEqual(['vehicles']);
+    expect(keys).toHaveLength(1);
   });
 
   it('useUpdateVehicleStatusM should invalidate queries on success', async () => {

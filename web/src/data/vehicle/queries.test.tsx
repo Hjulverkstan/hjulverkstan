@@ -11,6 +11,7 @@ import * as api from './api';
 import { useTicketsQ } from '../ticket/queries';
 import { VehicleType } from './types';
 import { TicketStatus, TicketType } from '../ticket/types';
+import { Warning } from '../warning/types';
 
 vi.mock('./api', () => ({
   createGetVehicles: vi.fn(() => ({
@@ -59,6 +60,11 @@ describe('vehicle queries hooks', () => {
     expect(api.createGetVehicle).toHaveBeenCalledWith({ id: '123' });
   });
 
+  it('useVehicleQ should be disabled when id is not provided', () => {
+    const { result } = renderHook(() => useVehicleQ({}), { wrapper });
+    expect(result.current.fetchStatus).toBe('idle');
+  });
+
   it('useVehiclesAggregatedQ should aggregate vehicle and ticket data', async () => {
     const mockVehicles = [
       {
@@ -72,7 +78,7 @@ describe('vehicle queries hooks', () => {
       {
         id: 't1',
         ticketType: TicketType.REPAIR,
-        ticketStatus: TicketStatus.DONE,
+        ticketStatus: TicketStatus.COMPLETE,
       },
     ];
 
@@ -91,6 +97,79 @@ describe('vehicle queries hooks', () => {
     expect(result.current.isError).toBe(false);
     expect(result.current.data).toHaveLength(1);
     expect(result.current.data?.[0].ticketTypes).toContain(TicketType.REPAIR);
+  });
+
+  it('useVehiclesAggregatedQ should add ORPHAN warning for customer-owned vehicle with no tickets', async () => {
+    (api.createGetVehicles as any).mockReturnValue({
+      queryKey: ['vehicles'],
+      queryFn: () =>
+        Promise.resolve([
+          {
+            id: 'v1',
+            ticketIds: [],
+            isCustomerOwned: true,
+            vehicleType: VehicleType.BIKE,
+          },
+        ]),
+    });
+    (useTicketsQ as any).mockReturnValue({ data: [], isSuccess: true });
+
+    const { result } = renderHook(() => useVehiclesAggregatedQ(), { wrapper });
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+    expect(result.current.data?.[0].warnings).toContainEqual(Warning.ORPHAN);
+  });
+
+  it('useVehiclesAggregatedQ should NOT add ORPHAN warning for org-owned vehicle with no tickets', async () => {
+    (api.createGetVehicles as any).mockReturnValue({
+      queryKey: ['vehicles'],
+      queryFn: () =>
+        Promise.resolve([
+          {
+            id: 'v1',
+            ticketIds: [],
+            isCustomerOwned: false,
+            vehicleType: VehicleType.BIKE,
+          },
+        ]),
+    });
+    (useTicketsQ as any).mockReturnValue({ data: [], isSuccess: true });
+
+    const { result } = renderHook(() => useVehiclesAggregatedQ(), { wrapper });
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+    expect(result.current.data?.[0].warnings).toEqual([]);
+  });
+
+  it('useVehiclesAggregatedQ should filter out undefined ticketStatuses', async () => {
+    (api.createGetVehicles as any).mockReturnValue({
+      queryKey: ['vehicles'],
+      queryFn: () =>
+        Promise.resolve([
+          {
+            id: 'v1',
+            ticketIds: ['t1', 't2'],
+            isCustomerOwned: true,
+            vehicleType: VehicleType.BIKE,
+          },
+        ]),
+    });
+    (useTicketsQ as any).mockReturnValue({
+      data: [
+        {
+          id: 't1',
+          ticketType: TicketType.REPAIR,
+          ticketStatus: TicketStatus.COMPLETE,
+        },
+        { id: 't2', ticketType: TicketType.REPAIR, ticketStatus: undefined },
+      ],
+      isSuccess: true,
+    });
+
+    const { result } = renderHook(() => useVehiclesAggregatedQ(), { wrapper });
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+    expect(result.current.data?.[0].ticketStatuses).toHaveLength(1);
+    expect(result.current.data?.[0].ticketStatuses).toContain(
+      TicketStatus.COMPLETE,
+    );
   });
 
   describe('useVehiclesAsEnumsQ', () => {
@@ -126,6 +205,87 @@ describe('vehicle queries hooks', () => {
       expect(result.current.data).toHaveLength(1);
       expect(result.current.data?.[0].value).toBe('v2');
       expect(result.current.data?.[0].label).toBe('XYZ');
+    });
+
+    it('should use "vehicleId" as the default dataKey', async () => {
+      (api.createGetVehicles as any).mockReturnValue({
+        queryKey: ['vehicles'],
+        queryFn: () =>
+          Promise.resolve([
+            {
+              id: 'v1',
+              isCustomerOwned: true,
+              vehicleType: VehicleType.BIKE,
+              regTag: 'A',
+            },
+          ]),
+      });
+      const { result } = renderHook(() => useVehiclesAsEnumsQ(), { wrapper });
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+      expect(result.current.data?.[0].dataKey).toBe('vehicleId');
+    });
+
+    it('BATCH vehicle should have label "Batch"', async () => {
+      (api.createGetVehicles as any).mockReturnValue({
+        queryKey: ['vehicles'],
+        queryFn: () =>
+          Promise.resolve([
+            {
+              id: 'v1',
+              isCustomerOwned: false,
+              vehicleType: VehicleType.BATCH,
+            },
+          ]),
+      });
+      const { result } = renderHook(
+        () => useVehiclesAsEnumsQ({ showOrgBikes: true }),
+        { wrapper },
+      );
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+      expect(result.current.data?.[0].label).toBe('Batch');
+    });
+
+    it('vehicle without regTag should use "#id" as label', async () => {
+      (api.createGetVehicles as any).mockReturnValue({
+        queryKey: ['vehicles'],
+        queryFn: () =>
+          Promise.resolve([
+            { id: 'v1', isCustomerOwned: true, vehicleType: VehicleType.BIKE },
+          ]),
+      });
+      const { result } = renderHook(() => useVehiclesAsEnumsQ(), { wrapper });
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+      expect(result.current.data?.[0].label).toBe('#v1');
+    });
+
+    it('should filter vehicles by locationId', async () => {
+      (api.createGetVehicles as any).mockReturnValue({
+        queryKey: ['vehicles'],
+        queryFn: () =>
+          Promise.resolve([
+            {
+              id: 'v1',
+              isCustomerOwned: true,
+              vehicleType: VehicleType.BIKE,
+              locationId: 'L1',
+              regTag: 'A',
+            },
+            {
+              id: 'v2',
+              isCustomerOwned: true,
+              vehicleType: VehicleType.BIKE,
+              locationId: 'L2',
+              regTag: 'B',
+            },
+          ]),
+      });
+      const { result } = renderHook(
+        () => useVehiclesAsEnumsQ({ filterByLocationId: 'L1' }),
+        { wrapper },
+      );
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+      expect(result.current.data).toHaveLength(1);
+      expect(result.current.data?.[0].value).toBe('v1');
     });
   });
 });

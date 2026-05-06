@@ -1,25 +1,20 @@
-import { render, screen, act } from '@testing-library/react';
-import { describe, expect, test, vi } from 'vitest';
+import { act, render, screen } from '@testing-library/react';
+import { describe, expect, test } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import * as Tooltip from '@components/shadcn/Tooltip';
 import BadgeGroup, { Badge } from './BadgeGroup';
 
-const MockIcon = () => <div data-testid="mock-icon" />;
-
 describe('BadgeGroup Component', () => {
   test('should render a list of basic badges', () => {
     // Arrange
-    const badges: Badge[] = [
-      { label: 'Badge 1' },
-      { label: 'Badge 2' },
-    ];
+    const badges: Badge[] = [{ label: 'Badge 1' }, { label: 'Badge 2' }];
 
     // Act
     render(
       <MemoryRouter>
         <BadgeGroup badges={badges} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
@@ -39,7 +34,7 @@ describe('BadgeGroup Component', () => {
     render(
       <MemoryRouter>
         <BadgeGroup badges={badges} limit={3} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
@@ -61,7 +56,7 @@ describe('BadgeGroup Component', () => {
     render(
       <MemoryRouter>
         <BadgeGroup badges={badges} limit={1} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
@@ -73,15 +68,13 @@ describe('BadgeGroup Component', () => {
 
   test('should wrap in Link when href provided', () => {
     // Arrange
-    const badges: Badge[] = [
-      { label: 'Link Badge', href: '/some-path' },
-    ];
+    const badges: Badge[] = [{ label: 'Link Badge', href: '/some-path' }];
 
     // Act
     render(
       <MemoryRouter>
         <BadgeGroup badges={badges} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
@@ -104,17 +97,19 @@ describe('BadgeGroup Component', () => {
         <MemoryRouter>
           <BadgeGroup badges={badges} />
         </MemoryRouter>
-      </Tooltip.Provider>
+      </Tooltip.Provider>,
     );
 
     // Assert: Hover to show tooltip
     const badgeElement = screen.getByText('Tooltip Badge');
-    
+
     await act(async () => {
       await user.hover(badgeElement);
     });
-    
+
     // Check if tooltip content is rendered
-    expect(await screen.findByRole('tooltip', { name: 'Tooltip Content' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('tooltip', { name: 'Tooltip Content' }),
+    ).toBeInTheDocument();
   });
 });

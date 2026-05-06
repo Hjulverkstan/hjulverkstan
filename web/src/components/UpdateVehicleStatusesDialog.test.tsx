@@ -1,13 +1,15 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, test, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import UpdateVehicleStatusesDialog from './UpdateVehicleStatusesDialog';
 import { VehicleStatus } from '../data/vehicle/types';
 import { useUpdateVehicleStatusM } from '../data/vehicle/mutations';
 
 // Mock Dialog sub-components
 vi.mock('@components/shadcn/Dialog', () => ({
-  DialogContent: ({ children }: any) => <div data-testid="dialog-content">{children}</div>,
+  DialogContent: ({ children }: any) => (
+    <div data-testid="dialog-content">{children}</div>
+  ),
   DialogHeader: ({ children }: any) => <div>{children}</div>,
   DialogFooter: ({ children }: any) => <div>{children}</div>,
   DialogTitle: ({ children }: any) => <h2>{children}</h2>,
@@ -36,13 +38,17 @@ vi.mock('../data/vehicle/mutations', () => ({
 vi.mock('@components/shadcn/Select', () => ({
   Root: ({ children, onValueChange, value }: any) => (
     <div data-testid="mock-select">
-      <select 
-        value={value} 
+      <select
+        value={value}
         onChange={(e) => onValueChange(e.target.value)}
         data-testid="status-select"
       >
         <option value="">Choose</option>
-        {Object.values(VehicleStatus).map(s => <option key={s} value={s}>{s}</option>)}
+        {Object.values(VehicleStatus).map((s) => (
+          <option key={s} value={s}>
+            {s}
+          </option>
+        ))}
       </select>
       {children}
     </div>
@@ -50,7 +56,9 @@ vi.mock('@components/shadcn/Select', () => ({
   Trigger: ({ children }: any) => <div>{children}</div>,
   Value: ({ placeholder }: any) => <span>{placeholder}</span>,
   Content: ({ children }: any) => <div>{children}</div>,
-  Item: ({ children, value }: any) => <div data-testid={`real-item-${value}`}>{children}</div>,
+  Item: ({ children, value }: any) => (
+    <div data-testid={`real-item-${value}`}>{children}</div>
+  ),
 }));
 
 describe('UpdateVehicleStatusesDialog Component', () => {
@@ -61,7 +69,9 @@ describe('UpdateVehicleStatusesDialog Component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(useUpdateVehicleStatusM).mockReturnValue({ mutateAsync: vi.fn() } as any);
+    vi.mocked(useUpdateVehicleStatusM).mockReturnValue({
+      mutateAsync: vi.fn(),
+    } as any);
   });
 
   test('should render vehicle list and status selectors', () => {
@@ -83,9 +93,11 @@ describe('UpdateVehicleStatusesDialog Component', () => {
     await user.click(screen.getByRole('button', { name: /confirm/i }));
 
     // Assert
-    expect(mockToast).toHaveBeenCalledWith(expect.objectContaining({
-      title: 'Failed to choose the status for all vehicles.',
-    }));
+    expect(mockToast).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Failed to choose the status for all vehicles.',
+      }),
+    );
     expect(mockCloseCurrentDialog).not.toHaveBeenCalled();
   });
 
@@ -93,10 +105,12 @@ describe('UpdateVehicleStatusesDialog Component', () => {
     // Arrange
     const user = userEvent.setup();
     const mockMutateAsync = vi.fn().mockResolvedValue({});
-    vi.mocked(useUpdateVehicleStatusM).mockReturnValue({ mutateAsync: mockMutateAsync } as any);
+    vi.mocked(useUpdateVehicleStatusM).mockReturnValue({
+      mutateAsync: mockMutateAsync,
+    } as any);
 
     render(<UpdateVehicleStatusesDialog vehicles={mockVehicles} />);
-    
+
     // Act: Set statuses for both vehicles
     const selects = screen.getAllByTestId('status-select');
     await user.selectOptions(selects[0], VehicleStatus.AVAILABLE);
@@ -108,20 +122,27 @@ describe('UpdateVehicleStatusesDialog Component', () => {
     await waitFor(() => {
       expect(mockMutateAsync).toHaveBeenCalledTimes(2);
     });
-    expect(mockToast).toHaveBeenCalledWith(expect.objectContaining({
-      title: 'Successfully managed to update the vehicle statuses: undefined.',
-    }));
+    expect(mockToast).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title:
+          'Successfully managed to update the vehicle statuses: undefined.',
+      }),
+    );
     expect(mockCloseCurrentDialog).toHaveBeenCalledTimes(1);
   });
 
   test('should show error toast if mutation fails', async () => {
     // Arrange
     const user = userEvent.setup();
-    const mockMutateAsync = vi.fn().mockRejectedValue(new Error('Update failed'));
-    vi.mocked(useUpdateVehicleStatusM).mockReturnValue({ mutateAsync: mockMutateAsync } as any);
+    const mockMutateAsync = vi
+      .fn()
+      .mockRejectedValue(new Error('Update failed'));
+    vi.mocked(useUpdateVehicleStatusM).mockReturnValue({
+      mutateAsync: mockMutateAsync,
+    } as any);
 
     render(<UpdateVehicleStatusesDialog vehicles={mockVehicles} />);
-    
+
     const selects = screen.getAllByTestId('status-select');
     await user.selectOptions(selects[0], VehicleStatus.AVAILABLE);
     await user.selectOptions(selects[1], VehicleStatus.BROKEN);
@@ -130,9 +151,11 @@ describe('UpdateVehicleStatusesDialog Component', () => {
 
     // Assert
     await waitFor(() => {
-      expect(mockToast).toHaveBeenCalledWith(expect.objectContaining({
-        title: 'Failed to update the vehicle statuses.',
-      }));
+      expect(mockToast).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Failed to update the vehicle statuses.',
+        }),
+      );
     });
     expect(mockCloseCurrentDialog).not.toHaveBeenCalled();
   });

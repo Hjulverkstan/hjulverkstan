@@ -11,9 +11,16 @@
     "configFile": "vite.config.js"
   },
   "mutate": [
-    "src/components/Auth.tsx",
-    "src/components/ConfirmConvertDialog.tsx",
-    "src/components/UpdateVehicleStatusesDialog.tsx"
+    "src/data/**/*.ts",
+    "src/data/**/*.tsx",
+    "!src/data/**/*.test.ts",
+    "!src/data/**/*.test.tsx",
+    "!src/data/**/*types.ts",
+    "!src/data/translations/sv.ts",
+    "!src/data/translations/en.ts"
   ],
-  "concurrency": 2
+  "coverageAnalysis": "perTest",
+  "ignoreStatic": true,
+  "dryRunTimeoutMinutes": 15,
+  "concurrency": 4
 }

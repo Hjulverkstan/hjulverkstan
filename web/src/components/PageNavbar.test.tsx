@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, test, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import PageNavbar from './PageNavbar';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ vi.mock('@data/translations/enums', () => ({
 
 vi.mock('@utils/enums', () => ({
   findEnum: (enums: any[], value: string) => {
-    const found = enums.find(e => e.value === value);
+    const found = enums.find((e) => e.value === value);
     if (!found) return { label: value };
     return found;
   },
@@ -57,7 +57,9 @@ vi.mock('@components/shadcn/Select', () => ({
   Trigger: ({ children }: any) => <div>{children}</div>,
   Value: () => <span>Select Lang</span>,
   Content: ({ children }: any) => <div>{children}</div>,
-  Item: ({ children, value }: any) => <div data-testid={`lang-item-${value}`}>{children}</div>,
+  Item: ({ children, value }: any) => (
+    <div data-testid={`lang-item-${value}`}>{children}</div>
+  ),
 }));
 
 describe('PageNavbar Component', () => {
@@ -70,13 +72,15 @@ describe('PageNavbar Component', () => {
     render(
       <MemoryRouter>
         <PageNavbar />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
     expect(screen.getByRole('link', { name: /^home$/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /^shops$/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /^contact$/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /^contact$/i }),
+    ).toBeInTheDocument();
   });
 
   test('should render language switcher', () => {
@@ -84,7 +88,7 @@ describe('PageNavbar Component', () => {
     render(
       <MemoryRouter>
         <PageNavbar />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert
@@ -97,7 +101,7 @@ describe('PageNavbar Component', () => {
     render(
       <MemoryRouter>
         <PageNavbar />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Act: Open menu
@@ -118,12 +122,12 @@ describe('PageNavbar Component', () => {
   test('should apply transparent class when onHero is true', () => {
     // Arrange
     // onHero is true when hasHeroSection=true AND scrolledPast=false AND isOpen=false
-    
+
     // Act
     const { container } = render(
       <MemoryRouter>
         <PageNavbar hasHeroSection={true} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Assert

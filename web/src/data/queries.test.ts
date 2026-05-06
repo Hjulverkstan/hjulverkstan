@@ -55,6 +55,23 @@ describe('queries utilities', () => {
       expect(predicate({ queryKey: ['vehicle', { id: 456 }] })).toBe(false);
     });
 
+    it('should handle a plain string queryKey without throwing', () => {
+      invalidateQueries([['test']]);
+      const predicate = (queryClient.invalidateQueries as any).mock.calls[0][0]
+        .predicate;
+      expect(() => predicate({ queryKey: 'test' })).not.toThrow();
+      expect(predicate({ queryKey: '"test"' })).toBe(true);
+    });
+
+    it('should match if ANY of multiple keys matches (some, not every)', () => {
+      invalidateQueries([['no-match'], ['vehicle']]);
+      const predicate = (queryClient.invalidateQueries as any).mock.calls[0][0]
+        .predicate;
+      expect(predicate({ queryKey: ['vehicle', '1'] })).toBe(true);
+      expect(predicate({ queryKey: ['no-match'] })).toBe(true);
+      expect(predicate({ queryKey: ['other'] })).toBe(false);
+    });
+
     it('should throw error if queryClient.invalidateQueries fails', async () => {
       (queryClient.invalidateQueries as any).mockRejectedValue(
         new Error('Network Error'),

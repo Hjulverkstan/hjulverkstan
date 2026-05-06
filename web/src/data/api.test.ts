@@ -1,13 +1,12 @@
 import { describe, expect, it, vi } from 'vitest';
 import { AxiosError } from 'axios';
-import { baseURL, createErrorHandler, endpoints, instance } from './api';
+import { createErrorHandler, endpoints, instance } from './api';
 
 // We need to mock axios BEFORE api.ts is imported if we want to capture the interceptors
 // But since instance is already created, we can just spy on its interceptors or use them.
 
 describe('api core', () => {
   it('should have correct configuration', () => {
-    expect(baseURL).toBeDefined();
     expect(instance.defaults.timeout).toBe(5000);
     expect(instance.defaults.withCredentials).toBe(true);
   });
@@ -76,7 +75,31 @@ describe('api core', () => {
         refreshSuccess: undefined,
       });
 
-      expect(warnSpy).toHaveBeenCalled();
+      expect(warnSpy).toHaveBeenCalledWith(
+        'Incomplete error response in api layer, some values have been inferred',
+        expect.any(Object),
+      );
+      warnSpy.mockRestore();
+    });
+
+    it('should NOT warn when all fields are present', async () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      await handler({ code: 'ERR', message: 'msg', status: 404 } as any).catch(
+        () => {},
+      );
+      expect(warnSpy).not.toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+
+    it('AxiosError without a response should fall back to defaults', async () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const axiosError = new AxiosError('Network Error', 'ERR_NETWORK');
+      await expect(handler(axiosError as any)).rejects.toMatchObject({
+        endpoint,
+        status: 400,
+        error: 'UNKNOWN_ERROR',
+        message: 'N/A',
+      });
       warnSpy.mockRestore();
     });
   });

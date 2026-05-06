@@ -14,7 +14,8 @@
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,md}\"",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,md}\"",
     "format": "prettier --config ../.prettierrc --write \"**/*.{js,jsx,ts,tsx,md}\"",
-    "test": "vitest run"
+    "test": "vitest run",
+    "mutation": "stryker run"
   },
   "author": "",
   "license": "ISC",
