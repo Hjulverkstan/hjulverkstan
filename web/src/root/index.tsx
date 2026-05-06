@@ -117,7 +117,7 @@ export const createRoutes = (data?: LangAllEntitiesMap): RouteAttributes[] => {
     },
     {
       path: '/stories',
-      titleTranslationKey: 'stories',
+      titleTranslationKey: 'updates',
       component: Stories,
     },
     {

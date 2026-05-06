@@ -20,7 +20,7 @@ export const navLinks = [
   },
   { translationKey: 'services', path: '/services' },
   {
-    translationKey: 'stories',
+    translationKey: 'updates',
     path: '/stories',
   },
   { translationKey: 'support', path: '/support' },

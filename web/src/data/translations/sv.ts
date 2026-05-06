@@ -50,7 +50,7 @@ export default {
   statsEmployeesHired: 'Anställda',
 
   communityLinkLabel: 'Om oss',
-  storiesLinkLabel: 'Se alla berättelser',
+  storiesLinkLabel: 'Se alla uppdateringar',
   shopsLinkLabel: 'Se alla verkstäder',
 
   joinUsHeading: 'Bli en av oss',
