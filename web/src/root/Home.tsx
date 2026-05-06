@@ -21,7 +21,9 @@ import { ImageCard } from '@components/ImageCard';
 
 const Statistic = ({ label, value }: { label: string; value: number }) => (
   <div className="flex h-full flex-col items-center justify-start text-center">
-    <span className="mb-8 font-bricolage text-stats-value !text-hjul-plum">
+    <span
+      className="mb-1 font-bricolage text-stats-value !text-hjul-plum md:mb-8"
+    >
       {value}
     </span>
     <span className="text-h3 font-bold text-foreground text-hjul-plum">
@@ -162,7 +164,7 @@ export default function Home() {
           heading={t('shops')}
           linkTo="/shops"
           linkLabel={t('shopsLinkLabel')}
-          linkClassName="!flex !items-center !justify-start !bg-warm-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[7px] !h-10 !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
+          linkClassName="!flex !items-center !justify-start !bg-warm-gradient !text-hjul-soft !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[7px] !h-10 !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0 mt-2 md:mt-0"
         >
           <div
             className="grid grid-cols-1 gap-x-8 gap-y-12 md:hidden xl:grid
@@ -200,7 +202,7 @@ export default function Home() {
           linkVariant="background"
           linkClassName="!flex !items-center !bg-blue-gradient !text-hjul-soft
           !rounded-full !pl-5 !pr-2.5 !py-0 !gap-[2px] !h-10 !gap-[7px]
-          !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0"
+          !font-inter !text-[18px] !font-[500] !leading-7 [&_span]:!p-0 mt-2 md:mt-0"
         >
           <div className="flex flex-col gap-8 xl:flex-row xl:items-start">
             <div className="flex flex-col gap-8 md:basis-3/4 md:flex-row">
@@ -238,7 +240,8 @@ export default function Home() {
             <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/bicycle.svg"
-                className="mb-9 h-[183.7px] w-[209px]"
+                className="mb-2 h-[183.7px] w-[209px] md:mb-9 md:h-[183.7px]
+                  md:w-[209px]"
                 alt="Bike"
               />
               <h3 className="text-hjul-plum">
@@ -256,12 +259,13 @@ export default function Home() {
             <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/collaboration.svg"
-                className="mb-9 h-[183.7px] w-[209px]"
+                className="scale-120 mb-0 mt-2 h-[165px] w-[209px] md:mb-9
+                  md:mt-0 md:h-[183.7px] md:w-[209px] md:scale-100"
                 alt="Collaboration"
               />
               <h3 className="text-hjul-plum">Built on collaboration.</h3>
               <p
-                className="max-w-[450px] text-lg font-semibold leading-7
+                className="mb-2 max-w-[450px] text-lg font-semibold leading-7
                   text-hjul-plum"
               >
                 A combined effort by public, private and non-profit sector – key
@@ -273,7 +277,8 @@ export default function Home() {
             <div className="flex flex-col items-center gap-2.5">
               <img
                 src="/motion.svg"
-                className="mb-9 h-[183.7px] w-[209px]"
+                className="mb-0 mt-2 h-[173.7px] w-[209px] md:mb-9 md:mt-0
+                  md:h-[183.7px] md:w-[209px]"
                 alt="In motion"
               />
               <h3 className="text-align-center text-hjul-plum">
@@ -306,7 +311,7 @@ export default function Home() {
         <SectionContent>
           <div
             className="flex flex-col items-center justify-center gap-x-32
-              gap-y-24 sm:grid sm:grid-cols-2 sm:px-16 md:px-36
+              gap-y-16 sm:grid sm:grid-cols-2 sm:px-16 md:gap-y-24 md:px-36
               min-[1200px]:flex min-[1200px]:flex-row
               min-[1200px]:items-baseline min-[1200px]:px-0"
           >
