@@ -45,7 +45,7 @@ export default {
   langTur: 'Turkish',
 
   communityLinkLabel: 'About us',
-  storiesLinkLabel: 'See all stories',
+  storiesLinkLabel: 'See all updates',
   shopsLinkLabel: 'See all shops',
 
   statsBikesRepaired: 'Bikes repaired',

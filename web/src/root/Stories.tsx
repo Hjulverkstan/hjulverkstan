@@ -11,7 +11,7 @@ export default function Stories() {
   const { t } = useTranslations();
 
   return (
-    <Page heading={t('stories')}>
+    <Page heading={t('updates')}>
       <Section>
         <SectionContent>
           <div className="grid gap-8 lg:grid-cols-2">
