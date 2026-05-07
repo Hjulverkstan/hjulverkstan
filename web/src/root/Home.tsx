@@ -210,8 +210,8 @@ export default function Home() {
                 <CardStory
                   key={story.id}
                   story={story}
-                  className="h-96 border border-black/10 !shadow-pink-blur
-                    xl:h-96"
+                  className="h-96 w-full border border-black/10
+                    !shadow-pink-blur md:max-w-[calc(50%-1rem)] xl:h-96"
                 />
               ))}
             </div>
