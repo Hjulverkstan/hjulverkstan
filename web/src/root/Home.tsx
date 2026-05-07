@@ -309,16 +309,24 @@ export default function Home() {
         </div>
 
         <SectionContent>
+          <div className="flex flex-col items-center">
+            <p
+              className="text-h3 text-center font-bricolage text-lg font-bold
+                text-hjul-plum"
+            >
+              This year we've accomplished:
+            </p>
+          </div>
           <div
-            className="flex flex-col items-center justify-center gap-x-32
-              gap-y-16 sm:grid sm:grid-cols-2 sm:px-16 md:gap-y-24 md:px-36
-              min-[1200px]:flex min-[1200px]:flex-row
+            className="mt-14 flex flex-col items-center justify-center gap-x-32
+              gap-y-16 sm:grid sm:grid-cols-2 sm:px-16 md:mt-20 md:gap-y-24
+              md:px-36 min-[1200px]:flex min-[1200px]:flex-row
               min-[1200px]:items-baseline min-[1200px]:px-0"
           >
-            <Statistic label={t('statsBikesRepaired')} value={628} />
-            <Statistic label={t('statsBikesSaved')} value={500} />
-            <Statistic label={t('statsBikesLent')} value={86} />
-            <Statistic label={t('statsEmployeesHired')} value={30} />
+            <Statistic label={t('statsBikesRepaired')} value={395} />
+            <Statistic label={t('statsBikesSaved')} value={32} />
+            <Statistic label={t('statsBikesLent')} value={46} />
+            <Statistic label={t('statsEmployeesHired')} value={26} />
           </div>
         </SectionContent>
       </Section>
