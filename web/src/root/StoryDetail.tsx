@@ -26,6 +26,7 @@ export default function StoryDetail() {
             <ImageWithFallback
               src={story?.imageURL}
               alt={story?.title}
+              className="obejct-cover h-full w-full"
               fallback={
                 <Error
                   className="h-full w-full object-contain"
