@@ -6,6 +6,39 @@ Please read [GUIDELINES / Release process 🚀](/GUIDELINES.md#release-process-)
 
 ## Release Candidates
 
+### 1.0.0-rc.5
+
++ Implement soft delete and PII anonymization for Customers and Employees.
++ Add frame number support for Vehicles.
++ Add phone number search with plus prefix support for customer selection.
++ Add "Archive" button and enhanced confirmation dialogs for entity removal.
++ Enable filtering of vehicles by type and auto-reset of invalid selections in forms.
++ Implement auto-filling of locations in filters and creation forms based on user location.
++ Update Rent Tickets to automatically set vehicle status to "Unavailable" and filter for available vehicles.
++ Major UI overhaul: New logo, rounded corners across all cards/dialogs, and portal-specific theme separation.
++ Add "ImageCard" component and grain overlay effects for the homepage.
++ Rename "Stories" to "Updates" across the website.
++ Integrate fail2ban and port limiting in CDK for hardened security.
++ Automate Docker container startup in EC2 via CDK.
++ Simplify translation logic by removing "global mode" and renaming localized content to "translations".
+
+* Fix inability to delete tickets that have associated notifications.
+* Fix vehicle status logic for customer-owned vehicles.
+* Fix Zod schema validation for stories and resolve story deletion issues.
+* Fix "Create ticket" and "See tickets" button navigation.
+* Fix manual ID setter in applyToEntity causing save failures.
+* Fix crash related to invalid global language state.
+* Fix address and filtering issues in ticket creation.
+* Fix layout overlaps, button margins, and OpenBadge padding.
+* Fix Story cards on homepage to use object-cover and consistent widths.
+* Fix last name being required for Customers; now correctly optional.
+* Upgrade Node.js runtime to v24 and update Maven/NPM dependencies (including JJWT 0.12.6).
+* Add missing default region to AWS configuration.
+
+- Removed body text requirement for Shops.
+- Removed Swish donation card from the Support page.
+- Completed migration/refactor from "archived" to "deleted" terminology.
+
 ### 1.0.0-rc.4
 
 + Send SMS notification on repair ticket closure.
