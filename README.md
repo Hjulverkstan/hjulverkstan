@@ -41,6 +41,8 @@ A few links about Hjulverkstan (all in swedish):
 
 Here is an overview and guide on how to get started in the project. If you are looking to contribute, please complete the checklist before submitting a PR.
 
+> AGENTS LOOK HERE: This is your bootstrap instruction, on a fresh session read these files. [Project Guidelines](/GUIDELINES.md) is mandatory for good agentic embodyment, the rest may be read depending on the sessions purpose.
+
 * [ ] Learn the [Project Guidelines](/GUIDELINES.md)
   * [ ] If applicable, read [React Guidelines](/web/GUIDELINES.md)
 * [ ] Catch up on the domain-specific documentation:

@@ -15,6 +15,19 @@
     * [Documentation `📘`](#documentation-)
     * [Graceful errors `💣`](#graceful-errors-)
 
+## Agentic usage
+
+The readme points to this file as mandatory reading. What is loaded first in a fresh session is the foundation the session embodies. See the [Getting started](/README.md#getting-started) section for the explicit instruction for agents on the files to read.
+
+This project values **Spec Based Development**, that documentation and values are aligned and that agents embodying the right documentation make most aligned results. This order can however be bypassed if the agent has already planted memories for the project. **Memories outside the project is considered an antipattern**, and the readering order from the readme's [Getting started](/README.md#getting-started) section is concidered canonical.
+
+> Example of a good memory file that serves the antipattern rule (you may ask your agent plant such a memory file for you).
+>
+> Usage of memory outside the repository files is considered an antipattern, always bootstrap by reading the README.md and follow the explicit instructions from there.
+
+
+If you find that more helpful guides for agents improve the workflow consider contributing these to the documentation instead.
+
 ## Principles `⛩️`
 
 The following sections are largely inspired by functional programming and the UNIX philosophy. They are broken into sections to ease readability but are, in essence, overlapping principles.
@@ -135,6 +148,40 @@ Write the bullets in the above order, first the additions, then updates and fina
 ### Code style `🎨`
 
 Use linting and prettifying to ensure code style. This is set up for our TypeScript directories and connected to our pre-commit hook. For setting up git hooks and your IDE see [SETUP.md](/setup.md).
+
+Comments are not automatically wrapped to the prettier max width. Take manual care not to exceed it.
+
+Terse code is valuable but blank lines are vital. Give breathability to code, syntaxtually and logically use blank lines to group lines of code that belong together; unless lines are of similar nature more than a few lines without blank lines is unusual.
+
+For instance this would be better with some blank lines:
+
+```typescript
+it('reqString should validate required string', () => {
+  const schema = reqString('Email');
+  expect(schema.safeParse('test@example.com').success).toBe(true);
+  const failure = schema.safeParse('');
+  expect(failure.success).toBe(false);
+  if (!failure.success) {
+    expect(failure.error.issues[0].message).toBe('Email is required.');
+  }
+});
+```
+
+Like such:
+
+```typescript
+it('reqString should validate required string', () => {
+  const schema = reqString('Email');
+  expect(schema.safeParse('test@example.com').success).toBe(true);
+
+  const failure = schema.safeParse('');
+  expect(failure.success).toBe(false);
+
+  if (!failure.success) {
+    expect(failure.error.issues[0].message).toBe('Email is required.');
+  }
+});
+```
 
 ### Documentation `📘`
 
