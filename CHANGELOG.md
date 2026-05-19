@@ -11,10 +11,9 @@ Please read [GUIDELINES / Release process 🚀](/GUIDELINES.md#release-process-)
 + Implement soft delete and PII anonymization for Customers and Employees.
 + Add frame number support for Vehicles.
 + Add phone number search with plus prefix support for customer selection.
-+ Add "Archive" button and enhanced confirmation dialogs for entity removal.
-+ Enable filtering of vehicles by type and auto-reset of invalid selections in forms.
++ Enable filtering of vehicles by customer type and auto-reset of invalid selections in forms.
 + Implement auto-filling of locations in filters and creation forms based on user location.
-+ Update Rent Tickets to automatically set vehicle status to "Unavailable" and filter for available vehicles.
++ Update Rent Tickets to automatically set vehicle status to "Unavailable" when completed.
 + Major UI overhaul: New logo, rounded corners across all cards/dialogs, and portal-specific theme separation.
 + Add "ImageCard" component and grain overlay effects for the homepage.
 + Rename "Stories" to "Updates" across the website.
