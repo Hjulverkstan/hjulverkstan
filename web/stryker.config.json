@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schema.stryker-mutator.io/stryker-config.schema.json",
+  "packageManager": "npm",
+  "reporters": [
+    "html",
+    "clear-text",
+    "progress"
+  ],
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vite.config.js"
+  },
+  "mutate": [
+    "src/data/**/*.ts",
+    "src/data/**/*.tsx",
+    "!src/data/**/*.test.ts",
+    "!src/data/**/*.test.tsx",
+    "!src/data/**/*types.ts",
+    "!src/data/translations/sv.ts",
+    "!src/data/translations/en.ts"
+  ],
+  "coverageAnalysis": "perTest",
+  "ignoreStatic": true,
+  "dryRunTimeoutMinutes": 15,
+  "concurrency": 4
+}
