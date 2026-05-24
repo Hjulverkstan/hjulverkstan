@@ -202,7 +202,9 @@ const useHeadlessTable = <R extends Row>({
 
   const subscribeToClearAllFilters = useCallback((callback: () => void) => {
     listeners.current.push(callback);
-    return () => listeners.current.filter((fn) => fn !== callback);
+    return () => {
+      listeners.current = listeners.current.filter((fn) => fn !== callback);
+    };
   }, []);
 
   const clearAllFilters = useCallback(

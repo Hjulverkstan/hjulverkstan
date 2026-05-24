@@ -182,7 +182,7 @@ export const formatDays = (dayCount?: number) =>
     : dayCount === 1
       ? '1 day ago'
       : dayCount && dayCount > 1
-        ? `${dayCount} days ago}`
+        ? `${dayCount} days ago`
         : undefined;
 
 export function matchDateWithoutTimestamp(

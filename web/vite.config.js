@@ -23,4 +23,10 @@ export default defineConfig({
       '@data': path.resolve(__dirname, './src/data'),
     },
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/test-setup.ts'],
+    exclude: ['**/node_modules/**', '**/stryker-tmp/**'],
+  },
 });
