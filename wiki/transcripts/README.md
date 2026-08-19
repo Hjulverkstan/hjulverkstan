@@ -20,7 +20,9 @@ We call them transcripts, but they are not records of speech. Each is the knowle
 
 **Length is an outcome, not a target.** A dense fold may only shrink to two thirds, a rambling one to a third, a personal one barely; about half overall is what results. Never pad or starve a fold to hit it.
 
-Exemplars: [`2026-08-17-intro-pt1.md`](2026-08-17-intro-pt1.md) and [`-pt2.md`](2026-08-17-intro-pt2.md), the second written after the digest rule was named.
+**A working session keeps what it established, not what was dictated.** *(Ruled 2026-08-19, on the third meeting.)* When the recording is of someone driving an agent — instructions typed, output read aloud — the instructions are superseded by the practice they produced and are not reproduced; what survives is what each passage decided or taught, and the reasoning around it. Reading output aloud keeps the knowledge in the output, not the reading. Such a file still lands near half of the clean — what is dictated is short; what is reasoned around it is not. Before the writer starts, the fold map is put to the human for a keep / compress / exclude ruling per fold; the ruling goes into `.raw/…/ruling.md` and binds the checker too, so a compression under the ruling is not a loss.
+
+Exemplars: [`2026-08-17-intro-pt1.md`](2026-08-17-intro-pt1.md) and [`-pt2.md`](2026-08-17-intro-pt2.md), the second written after the digest rule was named; [`2026-08-18-intro-pt3.md`](2026-08-18-intro-pt3.md) for a working session, and the first to run every step including the independent check of the clean.
 
 ## The method
 
@@ -40,6 +42,8 @@ Personal content stays in the transcript if its speaker approves it; it is disti
 
 Recorders attribute speech badly when several people share a room. One "ball": whoever speaks takes it and says their name first; passing it on is a name too. Foolproof attribution at the source, at no cost.
 
+*Open (Jona, 2026-08-19):* the ball may not be necessary — the transcript is not an audit of who said what; what is discussed is what matters, and personal passages by anyone but the speaker who owns them are written unattributed anyway (see the third meeting). Kept as a proposal until a meeting has tried it.
+
 ## The shape of a transcript
 
 1. **Header** — title with date; an italic block: source (`.vtt` name, kept outside the repo, duration), participants (everyone present), attribution caveats, check passes, and **status** (`pending approval` · `approved`).
@@ -56,3 +60,4 @@ Recorders attribute speech badly when several people share a room. One "ball": w
 ## Current
 
 - `2026-08-17-intro-pt1.md`, `-pt2.md` — the intro meetings. Written and checked (part 1: two passes, clean on the second; part 2: three, clean on the third). Status: pending approval — Jona has reviewed part 1's personal content; Shudong and the interns have not reviewed their lines; three room voices in part 2 are attributed to Mauricio `[?]` pending his word; the ball didn't exist yet. Step 2 was not run for these — the `.vtt` files are with Jona, not in `.raw/`.
+- `2026-08-18-intro-pt3.md` — the working session of the day after, in which the intro transcripts were processed; it precedes the sessions that shaped the draft (its first agent session runs inside it) and was transcribed retroactively on 2026-08-19, so its proposals are the state of that morning. First run of the full method: clean checked independently (two passes, clean on the second), written under a per-fold ruling from Jona, writing checked four times, three rewrites (the second to compress, after Jona's first read). Status: pending approval — Jona has ruled on the personal content's shape and read it once; Mauricio's positions and the interns' unattributed passages await their word.

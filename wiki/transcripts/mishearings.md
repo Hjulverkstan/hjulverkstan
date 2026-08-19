@@ -4,13 +4,23 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 
 ## Names and project terms
 
-- Euan Pakistan, UXL → Hjulverkstan
+- Euan Pakistan, UXL, Urbakistan, you vaccine, you back → Hjulverkstan
 - Wintons → interns
 - monary → monorepo
 - read me → README
 - Vapor structures code → infrastructure as code
 - JACOBSON → JSON
 - Cloud → Claude
+- Faber, table ("select table") → Fable
+- plot subscription → Claude subscription
+- hornets → harness
+- VQ → wiki
+- Mario → Mauricio
+- should all ("appreciation or should all") → Shudong
+- main model → domain model
+- tool subject → two sub-agents
+- lockdown directory → markdown directory
+- node structure, another structure → knowledge structure
 - Gentic → agentic
 - bytecoding → vibe-coding
 - Happy News → Hacker News
@@ -28,7 +38,7 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 
 ## Generic slips
 
-- phone, fault, faults → fold, folds (when the context is knowledge/structure)
+- phone, fault, faults, polls → fold, folds (when the context is knowledge/structure)
 - gate ↔ Git — disambiguate by context ("pulling from gate" = Git; "gates" as entry points is intended)
 - Johan, Jona → Java (when the sentence is about the language)
 - leaf code → diff code
@@ -40,3 +50,6 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 - terms → turns
 - the chat use KIF → chat use case
 - OLOFSSON → "the answer" (garbled)
+- pros, Paulos, pro → prose
+- of our baiting → verbatim
+- down throughout → down-to-earth
