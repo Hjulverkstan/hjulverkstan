@@ -20,3 +20,4 @@ build/
 .log/
 .env
 .DS_Store
+wiki/transcripts/.raw/
