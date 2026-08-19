@@ -16,6 +16,7 @@
 
   * [Table of contents `📖`](#table-of-contents-)
   * [Short intro `💬`](#short-intro-)
+  * [Knowledge `📚`](#knowledge-)
   * [Getting started `🏁`](#getting-started-)
   * [Development Recap `🛠️`](#development-recap-)
   * [Roadmap `🎯`](#roadmap-)
@@ -36,6 +37,12 @@ A few links about Hjulverkstan (all in swedish):
 - [raddabarnen.se (swedish)](https://www.raddabarnen.se/vad-vi-gor/barn-i-sverige/bekampar-utanforskap/plv/hjulverkstan-plv/)
 - [poseidon.goteborg.se (swedish)](https://poseidon.goteborg.se/nyheter/nu-oppnar-hjulverkstan-i-backa/)
 - [vartgoteborg.se (swedish)](https://vartgoteborg.se/p/hjulverkstan-oppnar-i-backa/)
+
+## Knowledge `📚`
+
+Everything about this project beyond the code — what the application is, how we work, the values behind the code, and what we teach each other — lives in [`wiki/`](wiki/) and is being built into a single, first-class knowledge structure for humans and agents alike. It is young; the current shape and its open questions are in [`wiki/drafts/knowledge-structure.md`](wiki/drafts/knowledge-structure.md), and how meetings become knowledge is in [`wiki/transcripts/README.md`](wiki/transcripts/README.md). Agents start at [`AGENTS.md`](AGENTS.md).
+
+*This README will be reworked into the entry point of that structure — purpose first, then a reading order — once the product itself has been captured.*
 
 ## Getting started `🏁`
 
