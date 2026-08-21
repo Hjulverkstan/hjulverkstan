@@ -1,6 +1,6 @@
 # The knowledge structure
 
-*Draft — the map of the work, held open. Settled points are stated plainly; leans and open questions are marked. Nothing here is binding until it is folded into `README.md`, `AGENTS.md` or `conventions/`. Until GitHub Projects holds this work, this file is its board, kept true to our current understanding. Sources: the intro meetings of 2026-08-17 and the working session of 2026-08-18 ([transcripts](../transcripts/)), and the sessions since ([log](../log/)).*
+*Draft — the map of the work, held open. Settled points are stated plainly; leans and open questions are marked. Nothing here is binding until it is folded into `README.md`, `AGENTS.md` or `conventions/`. Until GitHub Projects holds this work, the board below is its board. Sources: the intro meetings of 2026-08-17, the working session of 2026-08-18, the client meeting of 2026-08-19 ([transcripts](../transcripts/)), and the sessions since ([log](../log/)) — the team review of 2026-08-21 among them. This draft may itself split into files as sections harden; the study already has its own: [`study.md`](study.md).*
 
 ## The aim
 
@@ -10,15 +10,41 @@ The project is larger than the product. Hjulverkstan and Save the Children have 
 
 ## Principles
 
-1. **Folds.** Knowledge nests. A directory or file is a closure: readable on its own, entered from above, descended into when work calls for it. A reader — human or agent — navigates without loading everything; the context-window argument and the safe-space argument are the same argument.
-2. **Order is a tattoo.** What comes first in a session weighs most, for agents as for humans. The entry states purpose first, technical gates last. Reading order is one property of the structure, not the structure: how files, levels and directories dispose the knowledge, and how they map to each other, is the larger question.
-3. **Two kinds of knowledge.** Superseded-by-code (ticket detail, how to build this) versus persistent (client, users, features, behaviours, decisions, the committed architecture). The wiki holds the second; the first stays in Projects, PRs and code.
-4. **Sources are not the structure.** Meetings are events; the wiki is state. Transcripts stay as provenance; a distilled claim points back to fold and minute.
-5. **Digest; don't sequence.** A fold — or a directory — is organised around what it establishes, not around the order things happened to be said. This is why content is not poured in before the shape exists.
-6. **A blank session is the same for everyone.** No agent memory, no private context; the repo is the recipe (`AGENTS.md`).
-7. **Openness is marked in place.** An unmarked statement reads as settled.
+*Author's note (Jona, with the team, 2026-08-21): this list is the heart of the work, and it is not settled. It is a grounded starting point we return to iteratively as insight grows. The rungs are a ladder — each uses only what stands below it, so vocabulary builds step by step; words are minted only where folk speech runs out. The principles reach below coding and below any one practice: they aim at the most foundational truths we can state about knowledge, which is close to our nature.*
 
-## The shape
+1. **Every head is bounded.** No reader — human or agent — holds everything at once; a person's comprehension and an agent's context window are one limitation. Every rung above stands on this one.
+
+2. **Knowledge nests.** A unit readable on its own, entered from above, descended into by reference — we call it a *fold*. A fold is a safe space: inside it you understand everything, and what you don't understand is a reference — a thread to pull, not a failure. Because heads are bounded, the fold that spares an agent's window is the same fold that gives a person footing.
+
+3. **What is met first weighs most.** For an agent the start of the window is a tattoo; for a person, so are first impressions. An entry gives purpose first, gates last. *Open:* whether a reading order is one line or a tree — a common core branching by audience and outcome, each branch ending where the knowledge stops serving that outcome.
+
+4. **One fact, one home.** Single source of truth, lifted from the guidelines into knowledge itself: a fact is stated once and referenced from everywhere else. Meetings stay events; the wiki is state; a distilled claim points back to the fold and minute it came from.
+
+5. **Untracked change is drift.** Git gave code one source, tracked change and a principled merge; infrastructure as code gave every other layer of the onion the same. Knowledge living in verbal training, an unwritten workshop or a Teams thread mutates with no record — that is drift. The wiki is the same move applied once more: knowledge as code.
+
+6. **A blank session is the same for everyone.** No agent memory, no private context; the repository is the recipe. A private copy is a second source.
+
+7. **Home follows lifetime.** Some knowledge dies into the code — ticket detail, how-to-build-this; some persists — the client, the users, the decisions, the committed architecture. The registers follow: transcripts are sources, the log is history, drafts are workspace, and the hardened state they all feed is — *open vocabulary; lean* — the **spec**. All of it one structure, folding and pointing the same way.
+
+8. **A claim carries its ground and its status.** Ground: it points at its source — the guidelines themselves were built this way, on other people's writings. Status: unmarked reads settled, so a lean or an open question says so where it stands. An unmarked open question is knowledge failing silently — the same law the guidelines give code.
+
+9. **Questions have an address.** In a structured space, disagreement and non-understanding are welcome because they land somewhere: a newcomer may not follow, but knows which paragraph the question attaches to. That is what a gate buys, and it is the only way an unbuilt structure gets questioned into a grounded one.
+
+10. **Nothing is lost silently.** A meeting, a session, a decision either lands in state or is deliberately left out — and listed. *Lossless* is the practice's word for it.
+
+11. **Written whole, around what it establishes.** Prose is not modular; meaning lives in transitions and in what has already been said. A fold is organised around what it establishes, not the order things happened to be said — and new knowledge is folded in by rewriting the whole, never patched on.
+
+12. **The personal is knowledge, and its speaker owns it.** We are the people doing the commits; how we learn and what we navigate is knowledge too. It is compressed less, distilled only generalised, and its speaker keeps, trims or removes it — a final edit, no justification owed.
+
+13. **Don't run ahead of comprehension.** In reading, in building, in growing: move a little, gain footing, and when a leap is forced without understanding, stop and talk. The client holds the same principle from their side — platform before expansion, quality before quantity.
+
+14. **Knowledge compounds.** *(Open — the word itself is a lean, and this rung has the most left to study and ground in sources.)* Cooperation is what humans do — politically, economically, academically — and it runs on shared knowledge; we accept governance together because we hold goals together, and the goals are usually about generating value. What is harmonious in the shared knowledge compounds harmoniously; what is unseen or unspoken compounds too — as cost, and the learning tends to arrive only after the cost has already turned the course. Sometimes the mistake is never even named; it just becomes the circumstance the organisation lives in. Understanding before acting is cheap; remedy after is not. This is the wide ground under rung 13.
+
+15. **Beauty is comprehension.** Beautiful code is in the eye of the beholder: one sees it as beautiful because one understands why it is. Much of a developer's friction — rulings not agreed with, refactors denied, stakeholders unfathomed — is knowledge that never travelled; where the why travels with the work, the work can be beautiful to every party. That is core to this structure's purpose.
+
+## The shape — a hypothesis
+
+*Nothing in this section is ruled or settled. It holds ideas that make sense and are appreciated — that is all they are; we are at the beginning of studying how a knowledge structure is done. Even markdown in this repository is the near-term vehicle, not a given end form — though for the near future, markdown it is.*
 
 ```
 README.md            entry: purpose, map, reading order — and nothing else
@@ -31,7 +57,7 @@ wiki/
   solutions/         the committed architecture — how the back end works, how the front
                      end works, how things move through the cloud; product/ mapped to code
   conventions/       rulings that apply everywhere — the guidelines, how we work, how we
-                     build, how agents behave; how it divides is the disposition's to decide
+                     build, how agents behave
   lore/              transferable teaching folds — history of the web, IaC, completion
                      models, the harness, how to approach code you don't understand
   drafts/            proposals, explorations, critiques — not binding
@@ -39,46 +65,35 @@ wiki/
   transcripts/       approved sources; the meeting method lives in its README
 ```
 
-**Above `product/`** is what flows from above — the gap the first meeting named: the initiative, the goals, the reasons why. Little is written yet; the client meeting of 2026-08-19 ([transcript](../transcripts/2026-08-19-client-meeting.md), pending approval) is its first source — and its topical folds are a first sketch of what the fold holds: the initiative and how Save the Children works, what a Hjulverkstan is, the places and partners, the new centre, expansion. *Open:* a directory of its own or the head of `product/`, and its name.
+**Above `product/`** is what flows from above — the gap the first meeting named: the initiative, the goals, the reasons why. The client meeting of 2026-08-19 is its first source, and its topical folds a first sketch of what the fold holds. **`solutions/`** would be the gap that, once filled, makes the code expendable: the architecture as committed, not as aspired to — holding what the code cannot say about itself, not a re-description of it (single source of truth holds for knowledge too). Both hypothetical, names included.
 
-**`solutions/`** is the gap that, once filled, makes the code expendable: the architecture as committed, not as aspired to. Conventions say how we build; solutions say how this is built. Today the two are tangled in the three technical READMEs, which will split between them. *Lean:* the name. *Open:* the boundary against the code — `GUIDELINES.md` already puts references and in-code decisions in the code, and single source of truth holds for knowledge too, so `solutions/` holds what the code cannot say about itself, not a re-description of it.
+What already stands, distinct from the hypothesis: the GitHub wiki was researched and rejected (no Projects or Figma integration to justify fragmenting) — `wiki/` lives in the monorepo; `transcripts/`, `log/` and `drafts/` exist and carry their practices; directory READMEs only where earned. `process/`, `decisions/`, `horizon/`, `board/`, `people/` were considered and dropped — process is conventions, decisions are log entries lifted into state, the future belongs to a board, personal content compounds as insight and never as profiles.
 
-Rulings behind it, briefly: the GitHub wiki was researched and rejected (no Projects or Figma integration to justify fragmenting); `wiki/` names the wiki-as-code the meetings reached for. `process/`, `decisions/`, `horizon/`, `board/`, `people/` were considered and dropped — process is conventions, decisions are log entries lifted into state files, the future belongs to GitHub Projects, personal content compounds as insight and never as profiles. Directory READMEs only where earned (`transcripts/`, `log/`, and `conventions/` when it fills). Module READMEs become pointers into `conventions/` and `solutions/` once redigested. A practice lives where it is practised, which keeps `conventions/` from bloating.
+## The study
 
-## Phases
+What makes a good knowledge structure is still under study — declared rather than assumed, and what we are doing is niche enough that tasting the wider well grounds us. Two studies, run together, both **open to every member** — creative freedom is the rule, and the space for questions, findings and files of one's own is [`study.md`](study.md):
 
-What makes a good knowledge structure is still under study — declared here rather than assumed.
+**Outward — how do others do it?** Not only knowledge structure: the question opens onto the human mind. How are things presented engagingly; how do stories carry comprehension; how do encyclopedias ground claims; what does spec-based development actually name. Proposed areas and the questions the principles stand with are seeded in `study.md` — all of it marked very open.
 
-1. **Study.** Understand what makes a good knowledge structure: how top-down (purpose, goals, what invites) and bottom-up (the technical gates) meet; spec-based development (named on record, unresearched); reference structures; how the two kinds of knowledge and the two registers (knowledge / personal) live together; what levels, directories and cross-references buy. Researched and pondered, but tested against the conventions we already have. Output: understanding — principles, marked settled or open. Not a proposal.
-2. **Draft the disposition.** A hypothetical structure of the fold above product, `product/`, `solutions/`, `conventions/`, `lore/`: which files, what each holds, how they map to reading order and to each other. Two streams feed it at once — the study, and the knowledge we actually hold: the transcripts, the repo's markdown (root README, `GUIDELINES.md`, the three technical READMEs), Projects, Figma. Drafting the disposition and digesting what we have are one act: files cannot be disposed without knowing what goes in them, and knowledge cannot be placed without a disposition. Drafted, not committed; no full prose in `conventions/`; iterated as understanding grows. The `product/` part of the draft doubles as the agenda for the product meeting.
-3. **Commit.** Write the structure and move the knowledge in — transcripts, repo markdown, the product meeting, and Projects, Figma, Teams-chat feedback as they become reachable. `lore/` can go early; its folds are self-contained and its place is settled.
-4. **Purify.** Against the bar; iterate.
+**Inward — what do we hold?** Mapping the breadth of our own knowledge: the sources (transcripts, the repo's markdown, Projects, Figma, the Teams chat, the verbal), and the outcomes we want from the structure — with the roles and audiences each outcome implies. A width we do not yet comprehend; kept unsettled. Reflection on the outward study happens against this map: what does a finding mean *for us*.
 
-Where we are: four meetings through the method (written and checked; approval pending) — the client meeting of 2026-08-19 among them, the first source above product; a small fourth meeting that day was not recorded, nothing lost; phases 1 and 2 open, and they run together.
+## From here
 
-## Horizon
+No grand plan past the study — we will stand on different insight then. The goals that steer meanwhile:
 
-Not committed; named so the near decisions don't close it off. First class to every party means, down the line, a structure the client can read and share — first class for the tech-illiterate — and possibly one that is technically integrated: learning material for employees in the portal app is the same knowledge the developers and the agents need, and interfacing it from several sides means something more evolved than markdown in this repository. Nothing is designed for that yet; what is decided now should not prevent it.
+- **The client starts using the product** — the highest delivery goal. The product is built and not in use, and onboarding is itself a process of knowledge: meetings, workshops, an exchange in both directions, since our understanding of how they work is also lacking. The knowledge structure is not a strict prerequisite for this, but it is the preferred path — preferably we meet, collect, understand, and hand them understanding that helps them onboard.
+- **We start fresh.** Nothing of the solution we have is ruled; with no knowledge structure around it, the code is treated as an artifact. We approach this as the beginning of a project that happens to come with a product ready to use. It may be the product fits what we learn together and is used as it stands; more likely the insight compounds into new plans for where development time goes.
 
-## Open threads
+Where we are: four meetings through the method, approval pending; principles grounded 2026-08-21; the study opening.
 
-Each can be picked up in its own session; none blocks a meeting on the product gap.
+## The board
 
-- **Study** (phase 1) — read spec-based development and a few public knowledge structures; test against our guidelines; write the principles into a drafts file, settled and open marked. Done when we can say what good looks like and why.
-- **Draft the disposition** (phase 2, with the study) — files, contents, mappings for the fold above product, `product/`, `solutions/`, `conventions/`, `lore/`, drafted from what the transcripts and the repo's markdown actually hold. Done when an intern can walk it and say what is missing, and every piece of knowledge we have has a place or a named gap.
-- ~~**The meetings of 2026-08-19**~~ — the client meeting is through the method ([log](../log/2026-08-19-client-meeting-transcript.md)); the other, small, was not recorded. Next: its approval, then distilling it into the fold above product and into `product/`.
-- **Ingest the client meeting** (after approval) — the first act of phase 3 for the fold above product: its topical folds into state files, claims pointing back to fold and minute; the plan it produced (adoption first, education days, admin access, the next meeting) into the board. Open: whether the fold above product is drafted from this transcript alone or waits for the product meeting.
-- ~~**Third meeting through the method**~~ — done 2026-08-19 ([log](../log/2026-08-19-intro-pt3-transcript.md)): steps 0–5 run, including the independent check of the clean; step 6 pending. It ruled the working-session rule into `transcripts/README.md`.
-- **Approval of the transcripts** — Shudong and the interns review their lines; Mauricio confirms the room voices marked `[?]` in parts 2 and 3; decide the mechanism (PR review vs in-file checklist) — *Lean:* PR review, tried first on the client meeting ([log](../log/2026-08-19-client-meeting-transcript.md)).
-- **Projects sync** — a local script saving GitHub Projects as purified JSON, gitignored, run by practice at bootstrap; its convention written when it exists.
-- **Root README** (after the disposition) — becomes purpose and entry only; its sections go where the disposition says.
-- **Technical docs and `GUIDELINES.md`** (after the disposition) — `GUIDELINES.md` into `conventions/`; the three module READMEs split between `conventions/` and `solutions/` and become pointers. *Open:* `SETUP.md` is procedure, not ruling — placed when this happens.
-- **Figma** — designs are truth (tokens, typography, rounding); whether design values can be linked or consumed directly is unexplored.
+*Tasks with the insight behind them, one line each. Openness already marked in place above is not restated here.*
 
-## Held open
-
-- How personal knowledge is used in the structure (transcripts keep it less compressed meanwhile).
-- The language of the wiki (English) against a Swedish client and product — sharper once the structure is meant to reach the client.
-- **Where transcripts live.** Mauricio's position in the third meeting (transcript pending approval; his lines are inferred `[?]`): internal conversation does not belong in this public repo — a separate repo for transcripts, the resulting knowledge in the project. Current practice answers part of it (`.raw/` gitignored; nothing published before every voice approves; personal passages by others than their owner written unattributed) but the transcripts themselves are still headed for the public repo. Against splitting stands the compounding argument in *The aim*. Not ruled.
-- **Whether working sessions are transcribed at all.** The third meeting was one; it yielded reasoning worth keeping (how to process transcripts, the public-domain question, the critique of the first proposed structure) at a little under half the clean's length. Lean: yes, under the working-session rule; but Jona asked in the meeting itself whether it needed saving.
-- **The ball.** Proposed in the third meeting; Jona's lean since is that it may not be needed — see *Open* in `transcripts/README.md`.
+- **Approval of the four transcripts** — peer review in the PR; the client meeting first.
+- **Ingest the client meeting** once approved — first content for the fold above product; its plan items (education days, admin access for Samir, the next meeting) feed the client goal above.
+- **The study** — questions and findings into [`study.md`](study.md); free exploration.
+- **Map what we hold** — the inward study's first act.
+- **Jona** — proposal to the client for the coming meetings and goals.
+- After a disposition exists: root `README.md` becomes purpose and entry only; `GUIDELINES.md` and the three technical READMEs redistribute.
+- Not ruled, parked: where transcripts live (this public repo vs a separate one); the wiki's language (English) against a Swedish client; Figma as a linkable source of design truth; whether working sessions are transcribed (lean: yes, under the working-session rule); the ball (see `transcripts/README.md`).

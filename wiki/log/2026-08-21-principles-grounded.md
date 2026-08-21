@@ -1,0 +1,13 @@
+# 2026-08-21 — Principles grounded; the draft rewritten whole
+
+Session in dialog with Jona, following a team hour reviewing the draft and this session's earlier turns. The draft's principles were the dissonance: mixed strata, vocabulary asserted before it was built ("context-window argument and safe-space argument are the same" — unintelligible to a fresh reader), techniques among ground constructs.
+
+**Done.** [`drafts/knowledge-structure.md`](../drafts/knowledge-structure.md) rewritten whole. The seven principles became a fifteen-rung ladder, each rung using only what stands below it — first proposed from the draft alone, then corrected after a second, deeper mining of the transcripts, which held ground constructs the list had missed: *untracked change is drift* (the onion fold), *lossless*, *the personal is knowledge and its speaker owns it*, *don't run ahead of comprehension* (held independently by client and team — the convergence the client-meeting log named), *questions have an address*.
+
+**Added (Jona, from the team session):** *Knowledge compounds* — cooperation runs on shared knowledge; the harmonious compounds harmoniously, the unseen compounds as cost, and learning tends to arrive after the cost has turned the course; understanding early is cheap, remedy late is not. Marked open — the word itself a lean, the most left to ground in sources. And *beauty is comprehension* — beautiful code is in the eye of the beholder; developer friction is mostly knowledge that never travelled.
+
+**Reframed (Jona):** the principles carry an author's note — the heart of the work, a grounded starting point, returned to iteratively, never settled here. *The shape* demoted to explicit hypothesis (even markdown is the near-term vehicle, not a given), with what already stands separated from it. *Phases* replaced by *The study* — outward (how others do it, opened wide beyond knowledge structure to the human mind, storytelling, pedagogy) and inward (mapping what we hold: sources, outcomes, audiences) — run together, free for every member. *Open threads* and *Held open* replaced by a terse board; continuation past the study deliberately unplanned, steered by two goals: the client starts using the product (onboarding as knowledge exchange), and we start fresh (the code treated as an artifact, nothing of the solution ruled).
+
+**Created.** [`drafts/study.md`](../drafts/study.md) — the team's study space: the questions the principles stand with, proposed areas to taste, the inward map's first strokes. All seeded as proposal, marked very open.
+
+**Files.** `wiki/drafts/knowledge-structure.md` (rewritten whole) · `wiki/drafts/study.md` (new) · this entry. Nothing committed.
