@@ -39,7 +39,7 @@ wiki/
   transcripts/       approved sources; the meeting method lives in its README
 ```
 
-**Above `product/`** is what flows from above — the gap the first meeting named: the initiative, the goals, the reasons why. Little is written yet; the meetings of 2026-08-19 are its first sources. *Open:* a directory of its own or the head of `product/`, and its name.
+**Above `product/`** is what flows from above — the gap the first meeting named: the initiative, the goals, the reasons why. Little is written yet; the client meeting of 2026-08-19 ([transcript](../transcripts/2026-08-19-client-meeting.md), pending approval) is its first source — and its topical folds are a first sketch of what the fold holds: the initiative and how Save the Children works, what a Hjulverkstan is, the places and partners, the new centre, expansion. *Open:* a directory of its own or the head of `product/`, and its name.
 
 **`solutions/`** is the gap that, once filled, makes the code expendable: the architecture as committed, not as aspired to. Conventions say how we build; solutions say how this is built. Today the two are tangled in the three technical READMEs, which will split between them. *Lean:* the name. *Open:* the boundary against the code — `GUIDELINES.md` already puts references and in-code decisions in the code, and single source of truth holds for knowledge too, so `solutions/` holds what the code cannot say about itself, not a re-description of it.
 
@@ -54,7 +54,7 @@ What makes a good knowledge structure is still under study — declared here rat
 3. **Commit.** Write the structure and move the knowledge in — transcripts, repo markdown, the product meeting, and Projects, Figma, Teams-chat feedback as they become reachable. `lore/` can go early; its folds are self-contained and its place is settled.
 4. **Purify.** Against the bar; iterate.
 
-Where we are: three meetings through the method (written and checked; approval pending); two meetings of 2026-08-19 recorded, rich, not yet processed; phases 1 and 2 open, and they run together.
+Where we are: four meetings through the method (written and checked; approval pending) — the client meeting of 2026-08-19 among them, the first source above product; a small fourth meeting that day was not recorded, nothing lost; phases 1 and 2 open, and they run together.
 
 ## Horizon
 
@@ -66,9 +66,10 @@ Each can be picked up in its own session; none blocks a meeting on the product g
 
 - **Study** (phase 1) — read spec-based development and a few public knowledge structures; test against our guidelines; write the principles into a drafts file, settled and open marked. Done when we can say what good looks like and why.
 - **Draft the disposition** (phase 2, with the study) — files, contents, mappings for the fold above product, `product/`, `solutions/`, `conventions/`, `lore/`, drafted from what the transcripts and the repo's markdown actually hold. Done when an intern can walk it and say what is missing, and every piece of knowledge we have has a place or a named gap.
-- **The meetings of 2026-08-19** — two recordings through the method; first sources for the fold above product and for `product/`.
+- ~~**The meetings of 2026-08-19**~~ — the client meeting is through the method ([log](../log/2026-08-19-client-meeting-transcript.md)); the other, small, was not recorded. Next: its approval, then distilling it into the fold above product and into `product/`.
+- **Ingest the client meeting** (after approval) — the first act of phase 3 for the fold above product: its topical folds into state files, claims pointing back to fold and minute; the plan it produced (adoption first, education days, admin access, the next meeting) into the board. Open: whether the fold above product is drafted from this transcript alone or waits for the product meeting.
 - ~~**Third meeting through the method**~~ — done 2026-08-19 ([log](../log/2026-08-19-intro-pt3-transcript.md)): steps 0–5 run, including the independent check of the clean; step 6 pending. It ruled the working-session rule into `transcripts/README.md`.
-- **Approval of the transcripts** — Shudong and the interns review their lines; Mauricio confirms the room voices marked `[?]` in parts 2 and 3; decide the mechanism (PR review vs in-file checklist).
+- **Approval of the transcripts** — Shudong and the interns review their lines; Mauricio confirms the room voices marked `[?]` in parts 2 and 3; decide the mechanism (PR review vs in-file checklist) — *Lean:* PR review, tried first on the client meeting ([log](../log/2026-08-19-client-meeting-transcript.md)).
 - **Projects sync** — a local script saving GitHub Projects as purified JSON, gitignored, run by practice at bootstrap; its convention written when it exists.
 - **Root README** (after the disposition) — becomes purpose and entry only; its sections go where the disposition says.
 - **Technical docs and `GUIDELINES.md`** (after the disposition) — `GUIDELINES.md` into `conventions/`; the three module READMEs split between `conventions/` and `solutions/` and become pointers. *Open:* `SETUP.md` is procedure, not ruling — placed when this happens.
