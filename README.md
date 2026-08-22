@@ -18,6 +18,7 @@
   * [Short intro `💬`](#short-intro-)
   * [Knowledge `📚`](#knowledge-)
   * [Getting started `🏁`](#getting-started-)
+  * [Onboarding `🧭`](/ONBOARDING.md)
   * [Development Recap `🛠️`](#development-recap-)
   * [Roadmap `🎯`](#roadmap-)
   * [Contribution welcome `💡`](#contribution-welcome-)
@@ -48,6 +49,7 @@ Everything about this project beyond the code — what the application is, how w
 
 Here is an overview and guide on how to get started in the project. If you are looking to contribute, please complete the checklist before submitting a PR.
 
+* [ ] Read the [Onboarding guide](/ONBOARDING.md) — the fastest path from "cloned the repo" to your first real change, including the data flow and a guided first task
 * [ ] Learn the [Project Guidelines](/GUIDELINES.md)
   * [ ] If applicable, read [React Guidelines](/web/GUIDELINES.md)
 * [ ] Catch up on the domain-specific documentation:
