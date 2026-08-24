@@ -1,8 +1,6 @@
 package se.hjulverkstan.main.shared.auditable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,8 +12,8 @@ public class AuditableDto {
     public AuditableDto (Auditable auditable) {
         createdAt = auditable.getCreatedAt();
         updatedAt = auditable.getUpdatedAt();
-        createdBy = auditable.getCreatedBy().toString();
-        updatedBy = auditable.getUpdatedAt().toString();
+        createdBy = auditable.getCreatedBy() != null ? auditable.getCreatedBy().toString() : null;
+        updatedBy = auditable.getUpdatedBy() != null ? auditable.getUpdatedBy().toString() : null;
     }
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
