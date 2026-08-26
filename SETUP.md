@@ -149,7 +149,7 @@ This will create the database schema and initialize the required tables.
 
 ```bash
 cd api
-./mvn spring-boot:run -D spring-boot.run.profiles=dev
+./mvnw spring-boot:run -D spring-boot.run.profiles=dev
 ```
 
 After the application has started successfully, revert the changes in application.properties:
