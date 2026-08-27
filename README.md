@@ -54,6 +54,7 @@ Here is an overview and guide on how to get started in the project. If you are l
   * [ ] [Front End Readme](/web/README.md) 
   * [ ] [Back End Readme](/api/README.md)
   * [ ] [Infrastructure Readme](/cdk/README.md)
+* [ ] Set up the sandboxed runtimes (Node 22 + Java 21) with our [Sandbox guide](/SANDBOX.md)
 * [ ] Run the project locally with our [Setup guide](/SETUP.md)
 
 ## Development Recap `🛠️`

@@ -7,6 +7,8 @@
 - JDK v21
 - Git
 
+Node.js and the JDK are **not installed manually anymore** — they are pinned per-repository with [mise](https://mise.jdx.dev/) and installed by it. Follow the [Sandbox guide](/SANDBOX.md) first; it takes a few minutes and works on macOS, Windows and Linux.
+
 ## Prerequisite steps
 
 ### Postgres
@@ -32,9 +34,9 @@ Create the database:
    \l
    ```
    
-### Node.js
+### Node.js & JDK
 
-Run the [Node Installer](https://nodejs.org/en)
+Installed automatically by mise — see the [Sandbox guide](/SANDBOX.md). No manual steps.
 
 ### Git
 
@@ -97,33 +99,7 @@ In community edition there is no built-in run configuration for spring but using
 
 ### From terminal
 
-#### Install JDK
-
-#### Windows
-
-Install OpenJDK v21 from Command Prompt / Powershell using the built in Windows package manager:
-
-```bash
-winget install --name EclipseAdoptium.Temurin.21.JDK
-```
-
-#### MacOS
-
-Install Homebrew
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-And then OpenJDK v21
-
-```bash
-brew install openjdk@21
-```
-
-#### Linux
-
-Download and install from [JDK Archive](https://jdk.java.net/archive/)
+JDK and Node are installed by mise — see the [Sandbox guide](/SANDBOX.md).
 
 ### Run the stack
 
