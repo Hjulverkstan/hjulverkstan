@@ -4,7 +4,7 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 
 ## Names and project terms
 
-- Euan Pakistan, UXL, Urbakistan, you vaccine, you back → Hjulverkstan
+- Euan Pakistan, UXL, Urbakistan, Urbekistan, Ubakistan, you vaccine, you back, LJUNGSVIK, Ulvergstan, Ulvakstan, Uwexton, Uwexta, Yulvak, Yulvak Center, Gilberkstan, Euan back then, U of I, ATOKARAN, EU ("a pop-up of EU") → Hjulverkstan
 - Wintons → interns
 - monary → monorepo
 - read me → README
@@ -35,6 +35,31 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 - team shot → Teams chat
 - paper → repo
 - system problem → system prompt
+- Geto Bostard, Yat Bashtar, GoTableStart → Göteborgs Stad
+- the Teresa, the tourist set, the reset → Returhuset (the reuse house in Gamlestaden: café, garden, second-hand hall; the new centre)
+- Gamlestan → Gamlestaden
+- Yelbu, Yelvo → Hjällbo
+- Baca → Backa
+- Florenta, Luna, "in front" → Frölunda (the latter two `[?]`)
+- Bergen → Bergsjön
+- Kotodala → Kortedala
+- Biscop → Biskopsgården `[?]`
+- business blog → Bostadsbolaget `[?]` (the municipal housing company)
+- Estra → Östra `[?]`
+- Posade on, Poseidon → Poseidon (the municipal housing company; four places on one contract)
+- Tori → torg (squares)
+- Don → Daniel (two Daniels: the gruppchef at Save the Children, and the bike-shop instructor)
+- group chef → gruppchef (group boss)
+- Laurie → Mauricio `[?]`
+- Jacob → Chiaco
+- Samuel → Samir
+- FlakrimFejzielleviose → Frihamnsdagarna `[?]` (the Gothenburg festival)
+- the CEO, SCO → SEO
+- Circle Club → the summer touring project with the city, name not resolved `[?]` (Cykelklubben? Cykelkollo?)
+- Unni → a partner company, not resolved `[?]`
+- Wiktor → a private landlord, not resolved `[?]` (Victoriahem?)
+- competence protected → not resolved `[?]`
+- Olikan; "OBC on the back… That's Lopes"; "the ultimate trick lift"; "Daniel is right place I have soon"; "if the boss start do Dells"; "the reset and secure XRS" (→ "Returhuset and [garbled]") → garbled
 
 ## Generic slips
 
@@ -53,3 +78,18 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 - pros, Paulos, pro → prose
 - of our baiting → verbatim
 - down throughout → down-to-earth
+- spikes → bikes
+- racing → raising
+- Minister → administer
+- the fellow → the vendor `[?]`
+- variance → variants `[?]`
+- improve ("improve one more people") → employ
+- employment ("for the employment to get access") → employees
+- countries ("so many different countries") → contacts `[?]`
+- won't ("everyone won't have a bike shop") → wants
+- Croatian ("start a Croatian") → collaboration `[?]`
+- somewhat ("the tour we're doing in somewhat") → summer `[?]`
+- read ("it's something read") → real `[?]`
+- to do set → to do SEO
+- with four ("not so fair for those we do with four") → we do it for `[?]`
+- Stick sounds like → It sounds like
