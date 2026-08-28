@@ -93,7 +93,8 @@ Where we are: four meetings through the method, approval pending; principles gro
 - **Approval of the four transcripts** — peer review in the PR; the client meeting first.
 - **Ingest the client meeting** once approved — first content for the fold above product; its plan items (education days, admin access for Samir, the next meeting) feed the client goal above.
 - **The study** — questions and findings into [`study.md`](study.md); free exploration. First outward pass done: [`chart.md`](chart.md), eleven territories with eight proposals to the ladder.
-- **The code** — [`code.md`](code.md), brought in 2026-08-25 from the sister project OpenLight, where our ladder and chart were inputs. It proposes to replace the fifteen rungs with two values, eight facts and six principles, plus a method, tests with named runners, and an open list. *Proposed there, binding on nothing here* — the team works it over, and whether it supersedes this draft's principles is ours to rule.
+- **The code** — [`code.md`](code.md), from the sister project OpenLight, where our ladder and chart were inputs. Replaced whole 2026-08-28 with a draft a fifth the length: one limit, two primitives (the *fold*, the *link*), two laws. It states a core and declines to rule on the rest until something is built under it. *Binding on nothing here* — whether it supersedes this draft's principles is ours to rule.
+- **The first proof** — the code's closing link points at a document not yet written. Next: use the code to generate a structure for OpenLight's sweep pass, and let the practice grow the poc side.
 - **Map what we hold** — the inward study's first act.
 - **Jona** — proposal to the client for the coming meetings and goals.
 - After a disposition exists: root `README.md` becomes purpose and entry only; `GUIDELINES.md` and the three technical READMEs redistribute.
