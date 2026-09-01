@@ -9,6 +9,8 @@
 
 Node.js and the JDK are **not installed manually anymore** — they are pinned per-repository with [mise](https://mise.jdx.dev/) and installed by it. Follow the [Sandbox guide](/SANDBOX.md) first; it takes a few minutes and works on macOS, Windows and Linux.
 
+> **Shortest path:** from the repository root run `bash first_setup.sh` (macOS / Windows in Git Bash). It performs the runtime setup plus the git config, `.env` and npm steps of this guide in one go, and prints a summary of what passed. See [SANDBOX.md](/SANDBOX.md) for the manual steps and [log_script_creation_process.md](/log_script_creation_process.md) for how the script was built and tested.
+
 ## Prerequisite steps
 
 ### Postgres

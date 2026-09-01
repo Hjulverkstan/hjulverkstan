@@ -11,6 +11,16 @@ These are the same versions CI runs (see `.github/workflows/`). Instead of insta
 
 Everything about the versions lives in [`.tool-versions`](.tool-versions) at the repo root. If that file changes, you only need to run `mise install` again — nothing else.
 
+## Quick start (recommended)
+
+From the repository root, one command does steps 1–3 below for you (macOS and Windows/Git Bash):
+
+```bash
+bash first_setup.sh
+```
+
+It does the runtime setup from steps 1–3 below, plus the git config, `.env` creation, and npm dependency install from [SETUP.md](/SETUP.md). It is safe to re-run. Read the steps below to understand what it does — and to follow manually if it ever stops halfway (it prints a summary of exactly which steps passed, warned, or failed).
+
 ## 1. Install mise
 
 Pick your operating system. One command is enough.
