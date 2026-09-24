@@ -4,7 +4,7 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 
 ## Names and project terms
 
-- Euan Pakistan, UXL, Urbakistan, you vaccine, you back → Hjulverkstan
+- Euan Pakistan, UXL, Urbakistan, you vaccine, you back, Ubergson, Urvexon, Yulbakstan, Ulbekstan, Urasan, Jira Rexam, your backs, Ubax, Univac, UVA → Hjulverkstan
 - Wintons → interns
 - monary → monorepo
 - read me → README
@@ -35,6 +35,20 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 - team shot → Teams chat
 - paper → repo
 - system problem → system prompt
+- Aalta, Aalto → Alten
+- Ilgo → Yrgo
+- Marica, Maricio, Marita, Maria → Mauricio
+- Jacob, Jacques, Shaka, Sunny → Chiaco
+- Ritu Reset, tier set, theory set, "the two" → Returhuset
+- Andrea → Andre
+- Florida, Verlander → Frölunda
+- BISCO, Biskops Gordon → Biskopsgården
+- Baka → Backa
+- Gotham City → the city of Gothenburg
+- Fixothekit, Fixo Tacket, fix-to-ticket → Fixoteket
+- Spotron → Sportson [?]
+- Almanaz → Arvsfonden [?]
+- Trinity, tree meter design → Trinity, Jona's name for the ticket wizard
 
 ## Generic slips
 
@@ -53,3 +67,6 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 - pros, Paulos, pro → prose
 - of our baiting → verbatim
 - down throughout → down-to-earth
+- shame (on a bike) → chain
+- node system (paper notes on bikes) → note system
+- put opinion → put a pin in
