@@ -40,7 +40,7 @@ A few links about Hjulverkstan (all in swedish):
 
 ## Knowledge `📚`
 
-Everything about this project beyond the code — what the application is, how we work, the values behind the code, and what we teach each other — lives in [`wiki/`](wiki/) and is being built into a single, first-class knowledge structure for humans and agents alike. It is young; the current shape and its open questions are in [`wiki/drafts/knowledge-structure.md`](wiki/drafts/knowledge-structure.md), and how meetings become knowledge is in [`wiki/transcripts/README.md`](wiki/transcripts/README.md). Agents start at [`AGENTS.md`](AGENTS.md).
+Everything about this project beyond the code — what the application is, how we work, the values behind the code, and what we teach each other — lives in [`wiki/`](wiki/README.md) and is being built into a single, first-class knowledge structure for humans and agents alike. It is under construction; [`wiki/README.md`](wiki/README.md) says what is in it now. Agents start at [`AGENTS.md`](AGENTS.md).
 
 *This README will be reworked into the entry point of that structure — purpose first, then a reading order — once the product itself has been captured.*
 
