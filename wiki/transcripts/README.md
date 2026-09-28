@@ -1,3 +1,8 @@
+---
+under: the rule
+kind: brief
+---
+
 # Transcripts
 
 A transcript is the knowledge a meeting presented, written up afterwards as knowledge rather than as speech. The recording stays in the gitignored `.raw/`, never leaving the machine, so anyone can descend from a claim to the minute it came from. Transcripts are written and made under [the rule](../the-rule/rule.md), with [`mishearings.md`](mishearings.md) at hand for the recorder's slips; the latest transcript shows the shape. This page holds only what a transcript adds.
@@ -17,3 +22,17 @@ A transcript is the knowledge a meeting presented, written up afterwards as know
 Every voice approves before a transcript is used. Each speaker reviews their own lines and keeps, trims or removes them; that edit is final and needs no justification. An agent never ingests from a transcript whose status is not `approved`. *Open:* the mechanism, a PR each speaker approves or an explicit go from each.
 
 Personal content beyond the transcript is used only in general form, an insight about how people learn or feel safe; a profile of a person belongs nowhere.
+
+## 3. The transcripts
+
+The meetings so far, oldest first. The three parts of the intro stand on each other in that order, and what follows builds on them. The first four were written in the meeting's order under the full method, the Frölunda workshop in the knowledge's order; both are in [`methods.md`](methods.md).
+
+[Intro meeting, part 1](2026-08-17-intro-pt1.md)
+
+[Intro meeting, part 2](2026-08-17-intro-pt2.md)
+
+[Intro meeting, part 3](2026-08-18-intro-pt3.md)
+
+[Meeting with the client](2026-08-19-client-meeting.md)
+
+[Workshop at Hjulverkstan Frölunda](2026-09-16-frolunda.md)
