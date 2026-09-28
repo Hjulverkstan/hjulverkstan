@@ -1,0 +1,3 @@
+[submodule "wiki/the-rule"]
+	path = wiki/the-rule
+	url = https://github.com/Cwejman/the-rule.git
