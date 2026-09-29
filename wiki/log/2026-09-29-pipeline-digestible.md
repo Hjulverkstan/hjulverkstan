@@ -61,3 +61,33 @@ On Eric's request the holon was rewritten in plain English: short sentences with
 The pages went from about 6,350 words to about 5,600. Most of the gain is in readability; less was cut than first estimated (a third), because plain sentences run longer and the open list kept every item.
 
 A fresh head read it as a B2-level English reader, and one round followed: idioms and unexplained words (rc, EC2, Postgres, container, health-gated) and two inexact claims in `writing.md` were fixed. Git basics such as commit, branch and pull request are left unexplained, since the reader is assumed to know git.
+
+## The top layer, for fresh eyes
+
+On Eric's direction the top layer, each title with its first paragraph and each heading with the first paragraph under it, was rewritten for a reader outside the project: why first, then briefly how, then the rest. Every page's opening now says why before how, and the entry's second paragraph, a map of the parts below, was removed as the rule's prose principle asks. Each opening gives what lies beneath in small rather than as a list, and a sentence before the API's and the web's cards says what opening them gives.
+
+A fresh head read only the top layer, as an outsider, and one round followed. Sections that opened with how, or only pointed at a list beneath, now give the why and the gist first; the story's opening names its whole route; pull request, merge and release tag are explained where the entry first uses them. The web's opening now answers why an edit to the site only shows after a rebuild. The entry's reading and writing section moved after the two sections on runs, and in `open.md` the one item that affects users, the web read from an old API, moved first. Its advice to put the three copies before the story, and the API's server before its renaming, was not taken, since the story explains the copies as it goes and the server stands on the renaming.
+
+The top layer still uses technical words an outsider may not know, such as Docker, AWS and CloudFront, below the entry's first sections; it is explained on the page it belongs to, not in the top layer everywhere. *Open*, whether an outsider's top layer should gloss them all.
+
+On Eric's direction the entry's opening now first says what a pipeline is, at a basic level and for anyone, as an assembly line of automatic steps; why Hjulverkstan needs one follows in the next paragraph.
+
+## Why, before anything
+
+On Eric's direction that the whys be foolproof, the entry gained a first section, "Why a pipeline": the story of delivering by hand and what goes wrong, what a pipeline changes, the sketch `pipeline/.img/by-hand.svg` setting the two side by side, and CI and CD by name. The sections after it moved down one number, and the links into them were rewritten.
+
+A reader new to software delivery read the entry through "Inside one run" and listed what it was asked to accept without a reason. Each got its why where it stands: why dev does not wait for a release, why a tag deploys both parts, why the web's build needs an API, why a tag must be written as it is, why a run with no change stops. Branch, pull request, `main`, commit, API, build, deploy and the Actions tab are now explained where the story first uses them.
+
+Why the web's deploy waits for the API's is not written anywhere. The caption gives the likely reason, that the new site should not go live before the API it talks to, and says the files do not say. *Open*, for whoever wrote the pipeline to confirm.
+
+## Nested by wins
+
+On Eric's direction the holon was nested by the gradient, so no segment reads force-fed: the heaviest briefs sat at the top of the entry, 270 to 330 words each. Each was asked whether its win could be given without the rest, and where it could, the rest went one level down. The entry's why split into delivering by hand and CI and CD; the story into its three steps, with the route and picture above; what starts a run gained why releases use tags and starting a run by hand; inside one run gained what init decides, what test checks, and build and deploy with the two cards. In `api.md` the server split into its containers and what a deploy does; in `web.md` the build into what it needs and the old API; in `writing.md` the example, the secrets and trying a change each gained a level. The check now traces 62 briefs.
+
+A fresh head audited the nesting against the rule and the practice. It found words given only inside briefs a reader may skip (the web, commit, rc, web edit), faces that mapped their parts instead of giving their win, two lead-ins whose bullets carried everything, and one level too small to hold a heading. All were fixed, the small level folded into its parent. Two bullet lists it called borderline were kept, since each bullet is one fact.
+
+## An intro for anyone
+
+On Eric's direction the entry's intro was written for a reader not interested in the subject: what a pipeline is, as an assembly line; a first picture, `pipeline/.img/flow.svg`, of the whole road and where a person decides; why the workshops need it, in their terms (bikes, repairs, customers); and a line saying the reader may stop there. Two more pictures were added where newcomers stumble: `branch.svg`, a branch and its merge into `main`, in §2.1, and `tags.svg`, tags pinned to commits, in §4.1.
+
+A reader playing a workshop coordinator with one minute read the intro and the section faces. The intro alone gave them the idea, and the line inviting them to stop let them leave. Their stumbles, prod, "tried as a release", a nested gloss in §4, init and GitHub Actions, were fixed. The sections from §2 on read as written for developers, which is what they are.
