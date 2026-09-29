@@ -5,91 +5,119 @@ kind: brief
 
 # The pipeline
 
-Every change to Hjulverkstan reaches its users the same way. When you open a pull request, a machine checks it. When it is merged to `main`, the machine builds it and puts it on the dev environment. When someone tags a release, marking a commit with a version number, the same happens for the test or prod environment. Nobody deploys by hand, so what runs is what was checked.
+The pipeline is how a change reaches the people who use Hjulverkstan. You open a pull request, and GitHub's machines check it. You merge it, and they build it and deploy it to a copy of the system for developers. A release sends it on to the copy the workshops use. If you know these steps, you know where your change is, and where to look when it fails.
 
-This is the whole road for a developer new to the project. Beneath it are the two things that travel it, the API and the web, and how to read the workflow files yourself.
+This page shows the whole pipeline. Below it are links to the API's path, the web's path, and how to read and write the workflow files.
 
-*Seen, in `.github/workflows/` as it stands on 2026-09-28; an agent's reading.*
+*Everything in these pages is an agent's reading of `.github/workflows/` on 2026-09-29, not checked against a real run.*
 
-## 1. The road a change travels
+## 1. One change, from pull request to the workshops
 
-A pipeline is a program that runs on its own when something happens in the repository. Ours lives in `.github/workflows/` and runs on GitHub Actions, GitHub's machines. What starts a run decides where the change ends up.
+Imagine you fix a wrong opening time on the public site. You push your branch and open a pull request. Soon a check appears on it: GitHub's machines have run the API's tests and checked that the web still builds. Green means both passed. Nothing is deployed yet.
 
-There are three environments, each a full copy of the system with its own server, database and website. Dev always holds the newest `main`. Test holds a release candidate, a version tried before it is trusted. Prod is the one the workshops use.
+The pull request is merged into `main`. That starts the pipeline. It sees that only `web/` changed, so it tests, builds and deploys only the web, to dev. Dev is the copy of the system that always has the newest `main`. A little later your fix is on dev, and anyone can look at it.
 
-![Four rows, one per event. A pull request runs only the test stage and lands nowhere. A push to main, a tag vX.Y.Z-rc.N and a tag vX.Y.Z each run init, test, build and deploy, and land in dev, test and prod respectively](.img/road.svg)\
-A pull request runs only the checks. Every other event runs the same four stages, and the event decides which environment the change lands in.
+Later someone makes a release. They add a git tag, a name on a commit, to a commit on `main`: `v1.4.0-rc.1`. The "rc" means release candidate, a version to try before the real release. The pipeline runs again, now with both the API and the web. This time it deploys to the test environment, where a release is tried. If it works, they add the tag `v1.4.0`, and the pipeline runs once more, to prod. Prod is the copy the workshops use. Nobody copied a file by hand.
 
-A few things the picture leaves out:
+![Four rows, one per event. A pull request runs only the test stage and lands nowhere. A push to main, a tag vX.Y.Z-rc.N and a tag vX.Y.Z each run init, test, build and deploy, and land in dev, test and prod](.img/road.svg)\
+A pull request only runs the checks. The other events run the same four stages, and the event decides where the change lands. Note that "test" is two things: a stage that checks the change, and an environment where it lands.
 
-- The pull request's checks are a workflow of their own, `pr.yml`: the API's tests and a build of the web. The result shows on the pull request; nothing is deployed.
+*Seen, in `pr.yml` and `pipeline.yml`. The story is an example, not a real run.*
 
-- Merging a pull request is a push to `main`. Pushes and tags run `pipeline.yml`, and a tag is only accepted on a commit that is on `main`.
+## 2. Three copies of the system
 
-- `pipeline.yml` can also be started by hand from the Actions tab, choosing to deploy the API, the web or both to dev.
+Dev, test and prod are the three environments. Each is a full copy of the system, with its own website, API and database. They differ in what is allowed onto them.
 
-How to cut a release, the branch, the changelog and the tag, is in the [release process in the guidelines](../../GUIDELINES.md#release-process-); this page only says what the pipeline does with it.
+![Three columns headed dev, test and prod, each listing website, API and database. Under dev: updated by each merge to main, where a change is seen first. Under test: updated by a tag vX.Y.Z-rc.N, where a release is tried. Under prod: updated by a tag vX.Y.Z, what the workshops use](.img/environments.svg)\
+The same three parts in each environment. Only what updates them, and who uses them, is different.
 
-*Seen, in `pr.yml` and `pipeline.yml`; what each environment is for is reasoned from its name and the guidelines, an agent's reading.*
+Because they are separate, a mistake on dev stays on dev. The data is separate too: a bike you add on dev never appears in prod.
 
-## 2. What one run does
+*Seen, in `cdk/assets-ec2/docker-compose.yml` and `cdk/README.md`. What each is for is reasoned from the [release process](../../GUIDELINES.md#release-process-).*
 
-A run of `pipeline.yml` has four stages, and each one waits for the one before it. Each stage is written in a file of its own, `stage-test.yml` and so on, which `pipeline.yml` calls.
+## 3. What starts a run
 
-- **Init** decides what this run is. It reads the event to pick the environment, and looks at which folders changed, `api/` or `web/`, to decide what to deploy. On a push only what changed is deployed, and if neither changed, the run stops here. A tag always deploys both, and init first checks that the tag is a proper version on a commit on `main`.
+A workflow is a file in `.github/workflows/` that GitHub runs when something happens. Which thing happened decides where the change goes.
 
-- **Test** runs the checks for what is about to be deployed: the API's tests, the web's build, or both.
+- A pull request runs `pr.yml`: the API's tests and the web's build. It deploys nothing.
 
-- **Build** makes the thing that will run. The API becomes a Docker image, a sealed package of the application; the web becomes a folder of finished files.
+- A push to `main`, such as a merge, runs `pipeline.yml` and deploys to dev.
 
-- **Deploy** puts it in place, the API on the environment's server and the web on its file storage.
+- A tag runs `pipeline.yml` too. `vX.Y.Z-rc.N` deploys to test, and `vX.Y.Z` to prod. A tag in another form, or on a commit that is not on `main`, is refused.
 
-At build the road splits in two, because the API and the web are built and deployed in different ways. Each has its own page.
+- The *Run workflow* button in the Actions tab starts `pipeline.yml` by hand. You choose to deploy the API, the web, both, or what changed.
+
+One more workflow, `publish.yml`, is only started by its button. It rebuilds the web when only the content has changed, as [the web's path](web.md#3-publish-rebuilding-when-only-the-content-changed) explains. How to make a release is in the [release process](../../GUIDELINES.md#release-process-).
+
+*Seen, in `pr.yml`, `pipeline.yml` and `publish.yml`.*
+
+## 4. Inside one run
+
+A run of `pipeline.yml` has four stages. Init decides what to do, test checks it, build makes it, and deploy puts it on the environment. After test, the API and the web go separate ways.
+
+![A flow of jobs. Init leads to test. From test the road forks: build API leads to deploy API, and build web leads on to deploy web. Deploy API also leads into deploy web, so deploy web waits for both. Build web and deploy API are marked, with the note: the web is built while the API deploys](.img/run.svg)\
+The jobs of one run. Deploy web waits for deploy API. Build web waits only for test, so it runs while the API deploys.
+
+- Init chooses the environment from the event. It also looks at which folders changed, `api/` or `web/`, and deploys only those. If neither changed, the run stops. A tag always deploys both. Init writes its decisions at the top of the run's page.
+
+- Test runs the checks for what will be deployed: the API's tests, or a build of the web. The web's build needs an API to read content from, so the check starts one just for this.
+
+- Build makes the API into a Docker image, a packaged app, and the web into a folder of finished files.
+
+- Deploy puts them on the environment.
 
 [The API's path](api.md)
 
 [The web's path](web.md)
 
-*Seen, in `pipeline.yml`; an agent's reading.*
+*Seen, in `pipeline.yml` and `stage-test.yml`.*
 
-## 3. Reading a workflow file
+## 5. Reading and writing a workflow
 
-Everything above can be checked in the files themselves, and a developer who can read them can find out the rest. They are short once you know about a dozen words of GitHub Actions, and the page beneath teaches them on our own files.
+You can check everything on these pages in the files themselves. The files are short once you know about a dozen words of GitHub Actions. The first page teaches them using our own files.
 
 [Reading a workflow](reading.md)
 
-*Seen, in `.github/workflows/`; an agent's reading.*
+The second page is for changing the pipeline: the ideas it is built on, where a change belongs, and how to try it.
 
-## 4. When a run fails
+[Writing a pipeline](writing.md)
 
-A failed run is shown in red in the repository's Actions tab, and in the pull request if it came from one. Open the run, then the failed job, then the failed step: its log is where the error is. The init stage also writes a short summary at the top of every deploy run, saying which environment it aimed at and what it decided to deploy.
+*Seen, in `.github/workflows/`.*
 
-- **A test fails.** The API's test output or the web's build error is in the step's log. Run the same thing locally, as the [setup guide](../../SETUP.md) shows, before pushing a fix.
+## 6. Looking at a run
 
-- **A tag is refused.** Init stops a tag that is not written `vX.Y.Z` or `vX.Y.Z-rc.N`, or whose commit is not on `main`. Delete the tag and tag the right commit.
+Every run can be watched on GitHub. Look at a green run once, and a red one becomes much easier to read. Try it:
 
-- **The API does not come up.** The deploy step prints the containers' state and their last log lines when docker compose fails, so the reason is usually in that step's log.
+1. Open the Actions tab and choose *Deploy* on the left. That is the name `pipeline.yml` gives itself, in its first line.
 
-- **A brand new environment fails its first deploy.** This is expected: its database is empty. The [infrastructure readme](../../cdk/README.md) says how to initialise it and run again.
+2. Open the newest run. The summary at the top is from init: the environment, and whether it deployed the API, the web or both.
 
-*Seen, in the workflow files and `cdk/README.md`; not checked against a failing run, an agent's reading.*
+3. Below it is the graph of jobs from [§4](#4-inside-one-run). A job with nothing to do is shown as skipped.
 
-## 5. What is open
+4. Open a job, then a step. Its log is what the machine printed.
 
-Reading the files for this page turned up places where the pipeline, or what is written about it, does not match. None of them is fixed here; they are recorded so they can be.
+A pull request's checks look the same. Open them from the pull request.
 
-- The guidelines name the release workflow `.github/workflows/release.yml`. There is no such file; it is `pipeline.yml`.
+*Reasoned, from how GitHub shows a run. Not tried in this repository.*
 
-- The guidelines call the environment image tags `dev-latest`, `test-latest` and `latest`. The tags actually come from the variable `DOCKER_API_IMAGE_TAG`, which `cdk/README.md` gives as `dev-release`, `test-release` and `release`.
+## 7. When a run fails
 
-- Init watches `.github/actions/**` for changes, and that folder does not exist.
+A failed run is red in the Actions tab, and on the pull request if it came from one. Open the run, then the red job, then the red step. The error is in its log.
 
-- When the backend does not come up in time in the test stage, the step prints `backend.log`, which nothing writes, so the failure shows no backend output.
+- A test fails. Read the log, then run the same check locally, as the [setup guide](../../SETUP.md) shows.
 
-- The deploy calls docker compose's wait "health-gated", but the compose file on the server gives the API no health check, so the wait ends when the container has started, not when the API answers.
+- A tag is refused. The tag is in the wrong form, or its commit is not on `main`. Delete it with `git tag -d <tag>` and `git push --delete origin <tag>`, then tag the right commit.
 
-- The web may be built from the API as it was before the same run deployed a new one, as [the web's path](web.md#1-built-into-static-files-with-the-content-inside) explains.
+- The API does not start. The deploy restarts the API on its server, as [the API's path](api.md#3-deployed-on-the-server) shows. If it has not started after two minutes, the log shows what was running and its last lines.
 
-- The pipeline does not deploy the infrastructure itself. The server, buckets and CDN are made with CDK by hand, as the roadmap in the [project readme](../../README.md#roadmap-) says is still to do.
+- The first deploy to a new environment fails. This is expected: its database is empty, so the web's build finds no content. The [infrastructure readme](../../cdk/README.md) says how to fill it.
 
-*Open, each seen in the files on 2026-09-28; the last-but-one reasoned from the order of the jobs, not seen in a run.*
+*Seen, in the workflow files and `cdk/README.md`. Not checked against a failing run.*
+
+## 8. For whoever maintains the pipeline
+
+Some parts of the pipeline, or of what is written about it, do not match. They matter mostly to whoever maintains the pipeline.
+
+[What is open](open.md)
+
+*Open, recorded 2026-09-28.*
