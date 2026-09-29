@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 600 216" width="600" height="216">
+<style id="sketch">
+svg.sketch { font-family: var(--sans, "Source Sans 3", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif); font-size: 13px; }
+svg.sketch text { fill: var(--ink, #141414); font-weight: calc(400 - var(--thin, 0)); }
+svg.sketch .note { font-size: 11px; }
+svg.sketch .strong { font-weight: calc(600 - var(--thin, 0)); }
+svg.sketch .ground { fill: var(--ground, #ffffff); }
+svg.sketch .stroke-ground { stroke: var(--ground, #ffffff); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-ink { stroke: var(--ink, #141414); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-muted { stroke: var(--muted, #6b6b6b); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-faint { stroke: var(--faint, #a8a8a8); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-wash { stroke: var(--wash, rgb(0 0 0 / .035)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-veil { stroke: var(--veil, rgb(0 0 0 / .05)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-track { stroke: var(--track, rgb(0 0 0 / .08)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-meter { stroke: var(--meter, oklch(62% 0.19 28)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-rim { stroke: var(--rim, rgb(0 0 0 / .08)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-rest { stroke: var(--rest, oklch(88% 0.045 var(--h, 60))); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-door { stroke: var(--door, oklch(74% 0.085 var(--h, 60))); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-on { stroke: var(--on, oklch(42% 0.072 var(--h, 60))); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-lit { stroke: var(--lit, oklch(60% 0.12 var(--h, 60))); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-glow { stroke: var(--glow, oklch(80% 0.08 var(--h, 60))); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-grey { stroke: var(--grey, oklch(90% 0 0)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-hub { stroke: var(--hub, oklch(92% 0.01 60)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-glass { stroke: var(--glass, oklch(97.5% 0.002 60 / .82)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-sheer { stroke: var(--sheer, oklch(97.5% 0.002 60 / .6)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .stroke-bezel { stroke: var(--bezel, rgb(255 255 255 / .9)); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+svg.sketch .fill-ground { fill: var(--ground, #ffffff); }
+svg.sketch .fill-ink { fill: var(--ink, #141414); }
+svg.sketch .fill-muted { fill: var(--muted, #6b6b6b); }
+svg.sketch .fill-faint { fill: var(--faint, #a8a8a8); }
+svg.sketch .fill-wash { fill: var(--wash, rgb(0 0 0 / .035)); }
+svg.sketch .fill-veil { fill: var(--veil, rgb(0 0 0 / .05)); }
+svg.sketch .fill-track { fill: var(--track, rgb(0 0 0 / .08)); }
+svg.sketch .fill-meter { fill: var(--meter, oklch(62% 0.19 28)); }
+svg.sketch .fill-rim { fill: var(--rim, rgb(0 0 0 / .08)); }
+svg.sketch .fill-rest { fill: var(--rest, oklch(88% 0.045 var(--h, 60))); }
+svg.sketch .fill-door { fill: var(--door, oklch(74% 0.085 var(--h, 60))); }
+svg.sketch .fill-on { fill: var(--on, oklch(42% 0.072 var(--h, 60))); }
+svg.sketch .fill-lit { fill: var(--lit, oklch(60% 0.12 var(--h, 60))); }
+svg.sketch .fill-glow { fill: var(--glow, oklch(80% 0.08 var(--h, 60))); }
+svg.sketch .fill-grey { fill: var(--grey, oklch(90% 0 0)); }
+svg.sketch .fill-hub { fill: var(--hub, oklch(92% 0.01 60)); }
+svg.sketch .fill-glass { fill: var(--glass, oklch(97.5% 0.002 60 / .82)); }
+svg.sketch .fill-sheer { fill: var(--sheer, oklch(97.5% 0.002 60 / .6)); }
+svg.sketch .fill-bezel { fill: var(--bezel, rgb(255 255 255 / .9)); }
+</style>
+<rect class="ground" width="600" height="216" rx="10"/>
+<text class="note fill-muted" x="24" y="32">build, once per environment</text>
+<text x="24" y="64">the code, web/</text>
+<text x="24" y="104">content, from the API</text>
+<path class="stroke-door" d="M120 60 C168 60 176 84 212 84"/>
+<path class="stroke-door" d="M164 100 C188 100 192 84 212 84"/>
+<path class="stroke-door" d="M208 80 L212 84 L208 88"/>
+<text x="220" y="88">npm run build</text>
+<path class="stroke-door" d="M312 84 H364 M360 80 L364 84 L360 88"/>
+<text class="strong" x="372" y="88">finished files</text>
+<text class="note fill-muted" x="372" y="104">pages already written</text>
+<text class="note fill-muted" x="24" y="144">deploy</text>
+<text class="strong" x="24" y="176">finished files</text>
+<text class="note fill-muted" x="24" y="192">plus version.json</text>
+<path class="stroke-door" d="M124 172 H164 M160 168 L164 172 L160 176"/>
+<text x="172" y="176">S3 bucket</text>
+<text class="note fill-muted" x="172" y="192">the storage</text>
+<path class="stroke-door" d="M240 172 H280 M276 168 L280 172 L276 176"/>
+<text x="288" y="176">CloudFront</text>
+<text class="note fill-muted" x="288" y="192">caches, emptied each deploy</text>
+<path class="stroke-door" d="M364 172 H436 M432 168 L436 172 L432 176"/>
+<text x="444" y="176">a visitor</text>
+</svg>

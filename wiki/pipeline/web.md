@@ -5,38 +5,39 @@ kind: brief
 
 # The web's path
 
-The web, the public site and the portal, is built into a folder of plain files and copied to storage that serves them. Unlike the API it cannot be renamed from one environment to the next, since the build writes in the environment's addresses and the site's content.
+The web is the public site and the portal that staff use. It is delivered as a folder of plain files that a browser can read directly. The API's image can move between environments, as [the API's path](api.md) shows, but the web's build cannot. The build writes the environment's addresses and the site's content into the files. So each environment gets its own build.
 
-So each environment's web is built for it, and when only the content changes, a second workflow rebuilds it.
+![Two rows. Build, once per environment: the code in web/ and content from the API both flow into npm run build, which gives finished files, pages already written. Deploy: the finished files, plus version.json, flow into an S3 bucket, the storage, then CloudFront, caches emptied each deploy, then a visitor](.img/web-path.svg)\
+The build joins the code with the content. The deploy puts the result in storage on AWS, with caches in front of it, as §2 explains.
 
-*Seen, in `stage-build-web.yml`, `stage-deploy-web.yml`, `publish.yml` and `web/src/server.tsx`; an agent's reading.*
+*An agent's reading of the workflow files, not checked against a real run.*
 
-## 1. Built into static files, with the content inside
+## 1. Built into finished pages
 
-The build does not only compile the code. It fetches the site's content from the environment's API and writes every page of the public site as finished HTML, so a visitor gets a page already written rather than one assembled in their browser. This is static site generation.
+The build does more than compile the code. It asks the environment's API for the site's content, and writes every page of the public site as finished HTML. So a visitor gets a page that is already written. This is called static site generation.
 
-The build stage is the file `stage-build-web.yml`, which runs `npm run build` in `web/`. The environment's `VITE_` variables, the settings the web reads at build time, tell it which API to ask and give it a login for it. The content it fetches is what staff write in web edit, the part of the portal where the public site's text and images are edited.
+The build stage is `stage-build-web.yml`, which runs `npm run build` in `web/`. The environment's `VITE_` variables are settings the web reads while it is built. They say which API to ask, and give a username and password to sign in. The content is what staff write in web edit, the part of the portal where the public site's text and images are edited.
 
-The result is uploaded as an artifact named `web-dist`, a file GitHub keeps between the jobs of a run, for the deploy stage to pick up.
+The result is saved as an artifact named `web-dist`, a file GitHub keeps between the jobs of one run. The deploy stage picks it up from there.
 
-The build reads the content from the API that is running at that moment, and in `pipeline.yml` the web is built at the same time as the API is deployed, not after. So on a run that deploys both, the site is written from the API as it was before this deploy. That is harmless while the API's web edit endpoints stay the same, and it is recorded as [open](README.md#5-what-is-open).
+The build reads from the API that is running at that moment. In a run, the web is built while the API deploys, not after. So when a run deploys both, the site is built from the old API. This is fine as long as the parts of the API that the build reads stay the same. It is listed as [open](open.md#3-the-web-may-read-an-old-api).
 
-*Seen, in `stage-build-web.yml`, `web/src/server.tsx` and the order of jobs in `pipeline.yml`; the consequence reasoned, not seen in a run, an agent's reading.*
+*Seen, in `stage-build-web.yml`, `web/src/server.tsx` and `pipeline.yml`. The effect is reasoned, not seen in a run.*
 
-## 2. Put in place on S3 and CloudFront
+## 2. Deployed to S3 and CloudFront
 
-The deploy stage is the file `stage-deploy-web.yml`. It first writes a `version.json` into the files, saying the app's version and the commit it was built from. On dev the version is simply `dev`. Then it copies the files to the environment's S3 bucket, AWS's file storage, deleting whatever the new build no longer has.
+The deploy stage, `stage-deploy-web.yml`, first adds a file `version.json`. It says the app's version and the commit it was built from. On dev the version is just `dev`. Then the deploy copies the files to the environment's S3 bucket, AWS's file storage. Files the new build no longer has are deleted.
 
-Visitors do not reach the bucket directly but through CloudFront, AWS's network of caches around the world. A cache would go on serving the old site, so the last step tells CloudFront to forget everything it holds, in every environment whose CloudFront is named in its variables.
+Visitors do not reach the bucket directly. They go through CloudFront, AWS's network of caches around the world. A cache would keep showing the old site, so the last step tells CloudFront to empty its caches. This step is skipped if the environment has no CloudFront in its variables.
 
 To see which version an environment runs, open `/version.json` on its site.
 
-*Seen, in `stage-deploy-web.yml`; the last line reasoned from where the file is written, an agent's reading.*
+*Seen, in `stage-deploy-web.yml`. The last line is reasoned, not tried on a live site.*
 
 ## 3. Publish: rebuilding when only the content changed
 
-An edit in the portal's web edit changes the database, not the site, since the site's pages were written at the last build. To show the edit, the site is rebuilt, and `publish.yml` does only that.
+An edit in web edit changes the database, not the site. The site's pages were written at the last build. To show the edit, the site must be built again, and `publish.yml` does only that.
 
-It is started by hand from the Actions tab, choosing the environment. It reads that environment's `version.json` straight from its bucket to find the commit it runs, builds the web again from that exact commit with the content as it is now, and deploys it with the same version. The code stays the same and only the content moves on.
+You start it with the *Run workflow* button in the Actions tab, and choose the environment. It reads that environment's `version.json` from its bucket to find the commit. Then it builds the web again from that commit, with the newest content, and deploys it with the same version. The code stays the same. Only the content changes.
 
-*Seen, in `publish.yml`; that it is only started by hand is seen in that nothing in the repository starts it, an agent's reading.*
+*Seen, in `publish.yml`. Nothing else in the repository starts it.*
