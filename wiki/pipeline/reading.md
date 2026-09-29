@@ -5,7 +5,9 @@ kind: brief
 
 # Reading a workflow
 
-A workflow file says when it runs, which jobs it runs, in what order, and on what conditions. It is written in YAML, a simple format of names, colons and indentation. You need about a dozen words to read all of our files. This page teaches them one at a time, each with an example from our files. The last section reads a whole file.
+You never have to trust these pages on their word: every claim can be checked in the workflow files themselves. They are written in YAML, a simple format of names, colons and indentation, and about a dozen words are enough to read all of ours. This page teaches them one at a time, on our own files.
+
+A workflow file says when it runs, which jobs it runs, in what order, and on what conditions. The last section reads a whole file.
 
 Only the words our files use are here. The rest is in [GitHub Actions' documentation](https://docs.github.com/en/actions), which these pages have not covered.
 
@@ -67,7 +69,7 @@ A workflow with `workflow_call` is not started by an event. Another workflow cal
 
 The caller names the file with `uses`, and gives its inputs with `with`. The stage file lists the inputs and secrets it takes. `secrets: inherit` in the caller passes all of its secrets.
 
-Our build and deploy stages take an input called `run`. It is our own name, not the `run` of a step. When it is false, the stage skips its job. So when [init](README.md#4-inside-one-run) sees that only `api/` changed, the web's stages run but do nothing.
+Our build and deploy stages take an input called `run`. It is our own name, not the `run` of a step. When it is false, the stage skips its job. So when [init](README.md#5-inside-one-run) sees that only `api/` changed, the web's stages run but do nothing.
 
 *Seen, in `pipeline.yml` and the stage files.*
 

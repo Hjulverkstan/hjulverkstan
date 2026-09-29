@@ -5,15 +5,15 @@ kind: brief
 
 # Writing a pipeline
 
-Writing a pipeline is less about YAML than about two choices: what should fail first, and where each value comes from. Our pipeline is built on a few ideas that answer these. If you know them, you know where a change belongs and how to make it safely.
+A mistake in the pipeline can stop every deploy, or let a broken one through, so changing it takes more care than ordinary code. Most of that care is two choices: what should fail first, and where each value comes from. Our pipeline is built on a few ideas that answer both, and knowing them tells you where a change belongs and how to make it safely.
 
-This page gives the ideas first, then how to change our pipeline, with an example. It uses the words from [reading a workflow](reading.md).
+It uses the words from [reading a workflow](reading.md).
 
 *An agent's reading of our files. The ideas are common practice, but our pipeline's authors have not written them down, and no outside source was checked.*
 
 ## 1. The ideas ours is built on
 
-Every job in a pipeline can fail. Each idea below makes failure cheaper, earlier, or easier to understand.
+Every job in a pipeline can fail, so the ideas all come down to one thing: when something fails, it should fail early, cheaply, and with a clear reason.
 
 *Reasoned, from the files.*
 
@@ -62,13 +62,13 @@ When you add a step that can fail, do the same. Print what was wrong, in words a
 
 ## 2. Changing our pipeline
 
-A pipeline change is normal code: make it on a branch, and merge it with a pull request. Two things are different: finding the right file, and testing the change safely.
+A pipeline change is normal code, made on a branch and merged with a pull request. What makes it different is that a mistake can stop every deploy, so it pays to know where the change belongs, what it needs, and how to try it safely.
 
 *Reasoned, from the files and from GitHub's documented behaviour.*
 
 ### 2.1 Find where the change belongs
 
-Each kind of change has one right place, following the stages of [a run](README.md#4-inside-one-run):
+Each kind of change has one right place, following the stages of [a run](README.md#5-inside-one-run): decisions in init, checks in the test stage, and building and deploying in their own stages.
 
 - A decision about what a run does, such as a new folder to watch, belongs in init, inside `pipeline.yml`.
 
@@ -100,17 +100,23 @@ A lint is a check, so it goes in `stage-test.yml`. It is cheaper than the web's 
 
 Each line uses a word from [reading a workflow](reading.md): a step with a `name`, an `if` that reads the stage's input, and a `run`. The picture in [§1.4](#14-write-each-stage-once) shows that this change reaches both `pr.yml` and `pipeline.yml`.
 
-In this file, the web's steps come after the API's steps, so the lint still waits for them. Moving the web's steps first would make it faster. That is a second change, kept separate so the first stays small. The lint fails only on errors. Warnings are printed, but the job still passes.
+*Seen, in `web/package.json` and `stage-test.yml`.*
+
+#### 2.2.1 Before you add it
+
+Three things are worth knowing first, so the change does not surprise you.
+
+The lint fails the job only on errors. Warnings are printed, but the job still passes.
 
 Nobody knows yet if the web passes its lint. If it does not, the pull request that adds the step will show the errors. Fix them in the same pull request.
 
-*Seen, in `web/package.json` and `stage-test.yml`. That warnings pass is reasoned from the script. The lint was not run.*
+The lint is not yet cheapest first. In this file the web's steps come after the API's, so the lint still waits for them. Moving the web's steps first would make it faster. That is a second change, kept separate so the first stays small.
+
+*Seen, in `stage-test.yml`. That warnings pass is reasoned from the script. The lint was not run.*
 
 ### 2.3 Adding a value or a secret
 
-Add a new value on GitHub, in each environment's settings. Make it a variable if anyone may see it, and a secret if not. A stage reads it by its name.
-
-Most stage files list the secrets they use under `secrets:` at the top. But a secret missing from the list still arrives. This is because callers pass all secrets with `secrets: inherit`. `stage-deploy-api.yml` uses `API_AWS_BACKUP_PASSPHRASE` this way. But the list tells a reader what the stage needs, so add new secrets to it.
+Values that differ between environments, or must stay secret, are kept on GitHub and never in the files. Add a new value in each environment's settings: as a variable if anyone may see it, and as a secret if not. A stage reads it by its name.
 
 Never write a secret in a workflow file, or print it in a step. GitHub hides known secrets in logs, but not a changed version of one, such as half of it.
 
@@ -118,32 +124,47 @@ If the value is a setting the API reads, more places are needed. [The API's path
 
 *Seen, in the stage files. How GitHub hides secrets is from its documentation, not checked here.*
 
+#### 2.3.1 The list of secrets
+
+Most stage files list the secrets they use under `secrets:` at the top, so a reader can see what a stage needs. Add new secrets to it.
+
+A secret missing from the list still arrives, because callers pass all secrets with `secrets: inherit`. `stage-deploy-api.yml` uses `API_AWS_BACKUP_PASSPHRASE` this way, so its list is not complete.
+
+*Seen, in the stage files.*
+
 ### 2.4 Trying a change safely
 
-A pipeline is hard to test, because it runs on GitHub's machines and deploys to real environments. How you can test a change depends on the file.
+A pipeline is hard to test, because it runs on GitHub's machines and deploys to real environments. A change to the checks tests itself in its pull request. A change to building or deploying is first tried on dev, which is what dev is for.
 
-A change to `pr.yml` or `stage-test.yml` tests itself. A pull request runs the workflows from its own branch, so your pull request runs your change.
+A change to `pr.yml` or `stage-test.yml` tests itself, because a pull request runs the workflows from its own branch.
 
-A change to `pipeline.yml`, or to a build or deploy stage, first runs when it is merged, and deploys to dev. That is what dev is for: a broken deploy there costs little. Watch the run after merging. If it breaks, fix it with a new commit.
+A change to `pipeline.yml`, or to a build or deploy stage, first runs when it is merged, and deploys to dev, where a broken deploy costs little. Watch the run after merging. If it breaks, fix it with a new commit.
 
-You can also test before merging with the *Run workflow* button, choosing your branch. It deploys your branch to dev. Dev then keeps your unmerged code until a later run replaces it. A later merge only redeploys what it changed. So if the next merge only changes `web/`, your branch's API stays on dev. Tell the team before you do this.
+Two outside tools, not covered in these pages, find some mistakes even earlier: [actionlint](https://github.com/rhysd/actionlint) checks a workflow file without running it, and [act](https://github.com/nektos/act) runs a workflow on your own machine.
 
-Two outside tools can help, though these pages have not covered them: [actionlint](https://github.com/rhysd/actionlint) finds mistakes in a workflow file without running it, and [act](https://github.com/nektos/act) runs a workflow on your own machine.
+*Reasoned, from GitHub's documented behaviour. Not tried in this repository.*
 
-*Reasoned, from GitHub's documented behaviour and from how init handles a run from a branch. Not tried in this repository.*
+#### 2.4.1 Running from a branch
+
+You can try a change before merging with the *Run workflow* button, choosing your branch, but it leaves your code on dev.
+
+It deploys your branch to dev, and dev keeps your unmerged code until a later run replaces it. A later merge only redeploys what it changed. So if the next merge only changes `web/`, your branch's API stays on dev. Tell the team before you do this.
+
+*Reasoned, from how init handles a run from a branch. Not tried.*
+
 
 ## 3. Before you merge
 
-Check these before merging a pipeline change:
+Five questions catch most pipeline mistakes before they reach dev:
 
 1. The change is in the right file, by [§2.1](#21-find-where-the-change-belongs).
 
 2. The change is right for every workflow that calls the changed stage, by [the picture](#14-write-each-stage-once).
 
-3. New values are set in all three environments, and new secrets are listed in their stage.
+3. New values are set in all three environments, and new secrets are [listed in their stage](#231-the-list-of-secrets).
 
-4. A step that can fail says why in its log.
+4. A step that can fail [says why](#15-say-what-was-decided-and-why-it-failed) in its log.
 
-5. Someone will watch the first run on dev after the merge.
+5. Someone will [watch the first run on dev](#24-trying-a-change-safely) after the merge.
 
 *Reasoned, from the ideas above.*
