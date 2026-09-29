@@ -5,36 +5,64 @@ kind: brief
 
 # The API's path
 
-The API is built into a Docker image, a sealed package of the Java application and everything it needs to run. The image is named by the commit it came from, and deploying means pointing the environment's name at an image and telling its server to run it. So the server never builds anything, and every environment runs an image built from the exact commit it was given.
+The API is delivered as a Docker image. An image is the Java application packed together with everything it needs, so it runs the same on any machine. The pipeline builds an image, gives it names, and tells the environment's server which name to run. The server never builds anything itself.
 
-*Seen, in `stage-build-api.yml` and `stage-deploy-api.yml`; an agent's reading.*
+*An agent's reading of the workflow files, not checked against a real run.*
 
-## 1. Built once per run, named by its commit
+## 1. Built and named by its commit
 
-The build stage is the file `stage-build-api.yml`. It builds the image from `api/` and pushes it to Docker Hub, the registry our images are kept in, tagged with the first six characters of the commit hash, such as `:2b1618`.
+The build stage, `stage-build-api.yml`, builds the image from `api/`. It uploads the image to Docker Hub, where our images are stored. The image's name is the first six characters of its commit, such as `:2b1618`, so you can always see which code it holds.
 
-It is built for both common kinds of processor, `amd64` and `arm64`. A build cache is kept both on GitHub and in the registry, so a build that changes little is fast.
+A release tag builds the image again from its commit, instead of reusing the one dev ran. The new image gets the same name. The name then points to the new image. Both images are built from the same code.
 
-*Seen, in `stage-build-api.yml`; an agent's reading.*
+*Seen, in `stage-build-api.yml` and `pipeline.yml`. That the name moves to the new image is reasoned from how Docker Hub handles an upload.*
 
 ## 2. Promoted by renaming
 
-The deploy stage is the file `stage-deploy-api.yml`, and before touching the server it gives the image more names. A Docker tag is only a name pointing at an image, so a new tag costs nothing and changes nothing inside it. It is not the git tag that starts a release, though a release gives the image a Docker tag of the same name.
+The deploy stage, `stage-deploy-api.yml`, first gives the image more names. This renaming is most of what deploying the API means. A Docker tag is only a name that points to an image, like a label on a box. Adding a label changes nothing inside the box.
 
-- When a git tag started the run, the commit's image is also given the version as a Docker tag, such as `:v1.2.0`.
+![Three names on the left, each with a note: :2b1618, named at build by its commit; :v1.2.0-rc.1, added when a release tag started the run; :test-release, the environment's name, moved on each deploy. Arrows from all three meet at one image, in Docker Hub, built from 2b1618. A note says test's server runs whatever :test-release points at](.img/image-names.svg)\
+One image with three names, after a release candidate is deployed to test. Only the last name moves between images, and the server follows it.
 
-- Every deploy then points the environment's own tag at that image. The tag's name is the environment's variable `DOCKER_API_IMAGE_TAG`, and the server always runs whatever that tag points at.
+- If a git tag started the run, the image also gets the version as a name, such as `:v1.2.0-rc.1`. A git tag names a commit. A Docker tag names an image. Here they share the same text.
 
-A tag run builds the image for its commit again before promoting it, mostly from the cache, so the image in test or prod is built from the same code as the one that ran in dev, not copied from it.
+- Every deploy then moves the environment's own name to the image. That name is in the environment's variable `DOCKER_API_IMAGE_TAG`, such as `test-release`. The server always runs the image this name points to.
 
-*Seen, in both files; an agent's reading.*
+*Seen, in `stage-deploy-api.yml`. The names are as `cdk/README.md` gives them, not checked on GitHub.*
 
-## 3. Put in place on the server
+## 3. Deployed on the server
 
-Each environment has one server, an EC2 machine on AWS, which runs the API, its Postgres database and a backup job side by side. Docker compose is what runs them: one file lists the containers, and one command starts or stops them all. Their compose file and folder, `/opt/docker`, were put there when the server was made, and the pipeline does not change them.
+Each environment has one server, an EC2 machine: a server rented from AWS. It runs three containers, a container being one running copy of an image: the API, its database in Postgres (the database program), and a backup job that copies the database to S3, AWS's file storage.
 
-What the pipeline sends is the configuration. It writes a `.env` file from the environment's variables and secrets on GitHub, the database password among them, and copies it to the server over SSH, a login to the machine with a key kept among those secrets. Then it stops docker compose and starts it again, which pulls the image the environment's tag now points at. The API is down for the moment between. If the containers do not start within two minutes, the step prints their state and logs and fails.
+![On the left, GitHub Actions, which writes .env from the settings, and Docker Hub, which holds the images. An arrow labelled SSH: send .env, restart runs from GitHub Actions to the environment's server, an EC2 machine in /opt/docker. An arrow labelled pull runs from Docker Hub to the server's api. The server lists api, which runs the image its tag names; db, Postgres with its data kept on the server; and backup, which copies the database to S3](.img/server.svg)\
+The settings come from the pipeline. The image comes from Docker Hub.
 
-The `.env` is written line by line in the step, not copied whole. So a setting the API needs is added in four places: the application, the [`.env.template`](../../.env.template), the environment's variables on GitHub, and the step that writes `.env`.
+Docker compose runs the three containers. One file on the server lists them, and one command starts or stops them all. That file is in `/opt/docker`. It was put there when the server was made, and the pipeline never changes it.
 
-*Seen, in `stage-deploy-api.yml`, `cdk/assets-ec2/docker-compose.yml` and `cdk/lib/app.ts`; the four places reasoned from them, an agent's reading.*
+The deploy then does three things:
+
+1. It writes a `.env` file with the environment's [variables and secrets](reading.md#5-environments-variables-and-secrets) from GitHub, such as the database password.
+
+2. It copies the file to the server over SSH, a secure login with a key that is stored as a secret.
+
+3. It stops docker compose and starts it again. Docker then downloads the image the environment's name points to. The API is offline for a moment.
+
+If the containers have not started after two minutes, the step shows their state and last log lines, and fails.
+
+*Seen, in `stage-deploy-api.yml`, `cdk/assets-ec2/docker-compose.yml` and `cdk/lib/app.ts`.*
+
+## 4. Adding a setting the API needs
+
+The deploy writes the `.env` file one line at a time. So a new setting for the API, such as a new address or key, must be added in each of these places. If one is missing, the API on the server never gets it.
+
+1. The application, in `api/src/main/resources/application.properties`.
+
+2. The [`.env.template`](../../.env.template), which developers copy to run the project locally.
+
+3. The [variable or secret](reading.md#5-environments-variables-and-secrets) on GitHub, in all three environments.
+
+4. The *Generate .env* step in `stage-deploy-api.yml`.
+
+5. If the API's tests need it, the test step in `stage-test.yml`, which gives the tests their own values.
+
+*Reasoned, from where the current settings are. Not tried with a new setting.*

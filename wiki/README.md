@@ -8,7 +8,7 @@ The wiki is where everything about this project beyond the code is meant to live
 
 - [`log/`](log/README.md) — one entry per session or meeting that changed what the wiki holds.
 
-- [`the-rule/`](the-rule/README.md) — the rule, with its practice and skill: how knowledge is written. Transcripts are written under it, but it is not adopted as the wiki's structure, and it is not yet tracked in git.
+- [`the-rule/`](the-rule/README.md) — the rule, with its practice and skill: how knowledge is written. Transcripts are written under it, but it is not adopted as the wiki's structure. It is mounted as a git submodule, [`Cwejman/the-rule`](https://github.com/Cwejman/the-rule).
 
 ## Reading order, for now
 
