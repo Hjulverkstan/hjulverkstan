@@ -75,6 +75,8 @@ A branch leaves `main`, holds your commits, and joins `main` again when its pull
 
 - Docker image: a program packed with everything it needs to run, so it runs the same on any machine.
 
-- GitHub: the site where the code is kept. Its Actions tab lists every run of the pipeline.
+- GitHub: the site where the code is kept.
+
+- GitHub Actions: GitHub's own service for running pipelines. A pipeline is written as workflow files in the folder `.github/workflows/`, and GitHub runs them on its own machines when something happens in the repository, such as a pull request or a merge. Its Actions tab lists every run.
 
 *Common usage.*
