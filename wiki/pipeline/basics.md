@@ -52,6 +52,8 @@ A few everyday words of software work appear on every page. Each is given here o
 
 - Code: the text a program is written in.
 
+- Git: the tool that keeps every version of the code, so nothing is lost and anyone can see what changed, when and by whom. The code together with its history is a repository.
+
 - Commit: a saved version of the code, with a note saying what changed.
 
 - Branch: your own copy of the code, where you make a change without disturbing anyone.
@@ -75,7 +77,7 @@ A branch leaves `main`, holds your commits, and joins `main` again when its pull
 
 - Docker image: a program packed with everything it needs to run, so it runs the same on any machine.
 
-- GitHub: the site where the code is kept.
+- GitHub: the site where the repository is kept.
 
 - GitHub Actions: GitHub's own service for running pipelines. A pipeline is written as workflow files in the folder `.github/workflows/`, and GitHub runs them on its own machines when something happens in the repository, such as a pull request or a merge. Its Actions tab lists every run.
 
