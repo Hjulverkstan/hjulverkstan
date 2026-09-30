@@ -69,7 +69,7 @@ A workflow with `workflow_call` is not started by an event. Another workflow cal
 
 The caller names the file with `uses`, and gives its inputs with `with`. The stage file lists the inputs and secrets it takes. `secrets: inherit` in the caller passes all of its secrets.
 
-Our build and deploy stages take an input called `run`. It is our own name, not the `run` of a step. When it is false, the stage skips its job. So when [init](README.md#5-inside-one-run) sees that only `api/` changed, the web's stages run but do nothing.
+Our build and deploy stages take an input called `run`. It is our own name, not the `run` of a step. When it is false, the stage skips its job. So when [init](deliver.md#3-inside-one-run) sees that only `api/` changed, the web's stages run but do nothing.
 
 *Seen, in `pipeline.yml` and the stage files.*
 

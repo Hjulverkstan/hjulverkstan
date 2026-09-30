@@ -57,7 +57,7 @@ svg.sketch .fill-bezel { fill: var(--bezel, rgb(255 255 255 / .9)); }
 <text x="392" y="112">on every change</text>
 <text class="note fill-muted" x="24" y="144">what runs where</text>
 <text class="fill-muted" x="176" y="144">someone has to know</text>
-<text x="392" y="144">named by version and commit</text>
+<text x="392" y="144">named by version</text>
 <text class="note fill-muted" x="24" y="176">releases</text>
 <text class="fill-muted" x="176" y="176">rare, big and risky</text>
 <text x="392" y="176">often, small and routine</text>
