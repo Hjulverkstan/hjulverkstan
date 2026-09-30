@@ -7,7 +7,7 @@ kind: brief
 
 Visitors should get Hjulverkstan's public site fast, with every page already written. So the web, the public site and the portal staff use, is built ahead of time into plain files, with its content inside. Because each build holds one environment's content and addresses, every environment gets its own build.
 
-This is the opposite of the API, whose image moves between environments, as [the API's path](api.md) shows. It is also why an edit to the site's text only shows after the site is built again, which [§3](#3-publish-rebuilding-when-only-the-content-changed) explains.
+This is the opposite of the API, whose image moves between environments, as [the API's path](api.md) shows. It is also why an edit to the site's text only shows after the site is built again, which [republishing](publish.md) explains.
 
 ![Two rows. Build, once per environment: the code in web/ and content from the API both flow into npm run build, which gives finished files, pages already written. Deploy: the finished files, plus version.json, flow into an S3 bucket, the storage, then CloudFront, caches emptied each deploy, then a visitor](.img/web-path.svg)\
 The build joins the code with the content. The deploy puts the result in storage on AWS, with caches in front of it, as §2 explains.
@@ -24,7 +24,7 @@ A visitor should get a page that is already written, not one their browser has t
 
 The build needs to know which API to ask, and needs a login there, because the content is not in the code.
 
-The build stage is `stage-build-web.yml`, which runs `npm run build` in `web/`. The environment's `VITE_` variables are settings the web reads while it is built. They say which API to ask, and give a username and password to sign in. The content is what staff write in web edit, the part of the portal where the public site's text and images are edited.
+The build stage is `stage-build-web.yml`, which runs `npm run build` in `web/`. The environment's `VITE_` settings are read by the web while it is built. Its variables say which API to ask, and two secrets give a username and password to sign in. The content is what staff write in web edit, the part of the portal where the public site's text and images are edited.
 
 The result is saved as an artifact named `web-dist`, a file GitHub keeps between the jobs of one run. The deploy stage picks it up from there.
 
@@ -34,7 +34,7 @@ The result is saved as an artifact named `web-dist`, a file GitHub keeps between
 
 The build reads from the API that is running at that moment, and in a run that is not always the new one.
 
-The web is built while the API deploys, not after. So when a run deploys both, the site is built from the old API. This is fine as long as the parts of the API that the build reads stay the same. It is listed as [open](open.md#1-the-web-may-read-an-old-api).
+The web is built at the same time as the API is built and deployed, not after, as [inside one run](deliver.md#3-inside-one-run) shows. So when a run deploys both, the site is built from the old API. This is fine as long as the parts of the API that the build reads stay the same. It is listed as [open](open.md#1-the-web-may-read-an-old-api).
 
 *Reasoned, from the order of jobs in `pipeline.yml`; not seen in a run.*
 
@@ -49,11 +49,3 @@ Visitors do not reach the bucket directly. They go through CloudFront, AWS's net
 To see which version an environment runs, open `/version.json` on its site.
 
 *Seen, in `stage-deploy-web.yml`. The last line is reasoned, not tried on a live site.*
-
-## 3. Publish: rebuilding when only the content changed
-
-An edit in web edit, the part of the portal where the site's text and images are edited, changes the database, not the site. The site's pages were written at the last build. To show the edit, the site must be built again, and `publish.yml` does only that.
-
-You start it with the *Run workflow* button in the Actions tab, and choose the environment. It reads that environment's `version.json` from its bucket to find the commit. Then it builds the web again from that commit, with the newest content, and deploys it with the same version. The code stays the same. Only the content changes.
-
-*Seen, in `publish.yml`. Nothing else in the repository starts it.*

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 600 140" width="600" height="140">
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 600 176" width="600" height="176">
 <style id="sketch">
 svg.sketch { font-family: var(--sans, "Source Sans 3", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif); font-size: 13px; }
 svg.sketch text { fill: var(--ink, #141414); font-weight: calc(400 - var(--thin, 0)); }
@@ -44,25 +44,18 @@ svg.sketch .fill-glass { fill: var(--glass, oklch(97.5% 0.002 60 / .82)); }
 svg.sketch .fill-sheer { fill: var(--sheer, oklch(97.5% 0.002 60 / .6)); }
 svg.sketch .fill-bezel { fill: var(--bezel, rgb(255 255 255 / .9)); }
 </style>
-<rect class="ground" width="600" height="140" rx="10"/>
-<text class="note fill-muted" x="24" y="36">automatic</text>
-<path class="stroke-door" d="M24 46 H320"/>
-<text class="note fill-muted" x="364" y="36">after a person makes a release</text>
-<path class="stroke-door" d="M364 46 H576"/>
-<text x="24" y="84">a change</text>
-<path class="stroke-door" d="M88 80 H132 M128 76 L132 80 L128 84"/>
-<text x="140" y="84">checked</text>
-<path class="stroke-door" d="M200 80 H256 M252 76 L256 80 L252 84"/>
-<text x="264" y="84">dev</text>
-<path class="stroke-door" d="M296 80 H356 M352 76 L356 80 L352 84"/>
-<text x="364" y="84">test</text>
-<path class="stroke-door" d="M400 80 H456 M452 76 L456 80 L452 84"/>
-<text class="strong" x="464" y="84">the workshops</text>
-<text class="note fill-muted" x="24" y="104">a fix or a feature</text>
-<text class="note fill-muted" x="140" y="104">by machines</text>
-<text class="note fill-muted" x="264" y="104">tried by</text>
-<text class="note fill-muted" x="264" y="118">developers</text>
-<text class="note fill-muted" x="364" y="104">tried once</text>
-<text class="note fill-muted" x="364" y="118">more</text>
-<text class="note fill-muted" x="464" y="104">the real system,</text><text class="note fill-muted" x="464" y="118">called prod</text>
+<rect class="ground" width="600" height="176" rx="10"/>
+<text class="note fill-muted" x="24" y="40">the job</text>
+<text class="note fill-muted" x="152" y="40">when it happens</text>
+<text class="note fill-muted" x="344" y="40">what it gives</text>
+<path class="stroke-door" d="M24 52 H576"/>
+<text class="strong" x="24" y="84">check</text>
+<text x="152" y="84">a change is proposed</text>
+<text x="344" y="84">a yes or no; nothing goes live</text>
+<text class="strong" x="24" y="116">deliver</text>
+<text x="152" y="116">it is accepted or released</text>
+<text x="344" y="116">a new version, live</text>
+<text class="strong" x="24" y="148">republish</text>
+<text x="152" y="148">someone asks for it</text>
+<text x="344" y="148">the website with its newest text</text>
 </svg>

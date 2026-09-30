@@ -68,7 +68,7 @@ A pipeline change is normal code, made on a branch and merged with a pull reques
 
 ### 2.1 Find where the change belongs
 
-Each kind of change has one right place, following the stages of [a run](README.md#5-inside-one-run): decisions in init, checks in the test stage, and building and deploying in their own stages.
+Each kind of change has one right place, following the stages of [a run](deliver.md#3-inside-one-run): decisions in init, checks in the test stage, and building and deploying in their own stages.
 
 - A decision about what a run does, such as a new folder to watch, belongs in init, inside `pipeline.yml`.
 
