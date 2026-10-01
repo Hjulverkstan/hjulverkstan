@@ -5,7 +5,7 @@ kind: brief
 
 # Checking every change
 
-A mistake is cheapest to fix before anyone has accepted it. So every [pull request](basics.md#3-the-words) is checked by machines as soon as it is opened: they run the API's tests and build the web, and show the result on the pull request as green or red. Nothing is deployed. This is the CI half of the pipeline, continuous integration, as [pipelines in general](basics.md#21-ci-continuous-integration) explains.
+A mistake is cheapest to fix before anyone has accepted it. So every [pull request](basics/README.md#3-the-words) is checked by machines as soon as it is opened: they run the API's tests and build the web, and show the result on the pull request as green or red. Nothing is deployed. This is the CI half of the pipeline, continuous integration, as [pipelines in general](basics/README.md#21-ci-continuous-integration) explains.
 
 The workflow is `pr.yml`. It runs one stage file, `stage-test.yml`, with both checks turned on. The same stage file runs again before every delivery, so nothing reaches dev, test or prod without passing it, as [inside one run](deliver.md#3-inside-one-run) shows.
 

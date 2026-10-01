@@ -5,13 +5,13 @@ kind: brief
 
 # The pipeline
 
-Every change to Hjulverkstan's portal and website is tested, tried and released the same safe way, so nothing reaches the workshops broken and nobody copies files by hand. The pipeline does this in three jobs: it checks each proposed change ([CI](basics.md#21-ci-continuous-integration)), delivers it step by step to the version the workshops use ([CD](basics.md#22-cd-continuous-delivery)), and rebuilds the website when staff edit its text.
+Every change to Hjulverkstan's portal and website is tested, tried and released the same safe way, so nothing reaches the workshops broken and nobody copies files by hand. The pipeline does this in three jobs: it checks each proposed change ([CI](basics/README.md#21-ci-continuous-integration)), delivers it step by step to the version the workshops use ([CD](basics/README.md#22-cd-continuous-delivery)), and rebuilds the website when staff edit its text.
 
 The workshops rely on the portal every day, so nothing reaches them untested, and a person decides when a change does.
 
-If pipelines, git or GitHub are new to you, begin with the basics.
+If pipelines, git, GitHub or GitHub Actions are new to you, begin with the basics.
 
-[Pipelines in general](basics.md)
+[Pipelines in general](basics/README.md)
 
 ![A table of the three jobs. Check: happens whenever someone proposes a change; gives a yes or no, and nothing goes live. Deliver: happens when a change is accepted or released; puts a new version live. Republish: happens when someone asks for it; gives the website with its newest text](.img/jobs.svg)\
 The pipeline's three jobs, when each happens, and what each gives.
@@ -32,7 +32,7 @@ Republishing is for the public site's content. Staff edit its text and images in
 
 ## 1. Three copies of the system
 
-Three separate copies are what make it safe to try things: a mistake on one copy cannot harm the others. The copies are called environments: dev, test and prod. Each has its own web (the public site and the portal staff use), API (the server program that holds the data) and database, and they differ only in what is allowed onto them.
+Three separate copies are what make it safe to try things: a mistake on one copy cannot harm the others. The copies are Hjulverkstan's [environments](basics/README.md#3-the-words): dev, test and prod. Each has its own web (the public site and the portal staff use), API (the server program that holds the data) and database, and they differ only in what is allowed onto them.
 
 ![Three columns headed dev, test and prod, each listing website, API and database. Under dev: updated by each merge to main, where a change is seen first. Under test: updated by a tag vX.Y.Z-rc.N, where a release is tried. Under prod: updated by a tag vX.Y.Z, what the workshops use](.img/environments.svg)\
 The same three parts in each environment. Only what updates them, and who uses them, is different.
@@ -41,29 +41,13 @@ The data is separate too: a bike you add on dev never appears in prod.
 
 *Seen, in `cdk/assets-ec2/docker-compose.yml` and `cdk/README.md`. What each is for is reasoned from the [release process](../../GUIDELINES.md#release-process-).*
 
-## 2. Watching a run
+## 2. When a run fails
 
-Every run can be watched on GitHub, and its log always says why it failed. Reading one successful run first is the quickest way to feel at home, and makes a failed one much easier to read. Try it:
-
-1. Open the Actions tab and choose *Deploy* on the left. That is the name `pipeline.yml` gives itself, in its first line.
-
-2. Open the newest run. The summary at the top is from the first stage, init: the environment, and whether it deployed the API, the web or both.
-
-3. Below it is [the graph of the run's steps](deliver.md#3-inside-one-run), drawn as boxes. A box with nothing to do is shown as skipped.
-
-4. Open one of the boxes in the graph, then a step. Its log is what the machine printed.
-
-A pull request's checks look the same. Open them from the pull request.
-
-*Reasoned, from how GitHub shows a run. Not tried in this repository.*
-
-### 2.1 When a run fails
-
-When a run fails, the reason is always written down, three clicks away: open the run, then the red box in its graph, then the red step. A failed run is red in the Actions tab, and on the pull request if it came from one.
+When one of our runs fails, its log says why, as [watching a run](basics/README.md#4-watching-a-run) shows. The reason is usually one of four.
 
 - A test fails. [Reading a red check](check.md#3-reading-a-red-check) says what to do.
 
-- A [tag](basics.md#3-the-words) is refused. It is in the wrong form, or its commit is not on `main`, as [why releases use tags](deliver.md#21-why-releases-use-tags) explains. Delete it with `git tag -d <tag>` and `git push --delete origin <tag>`, then tag the right commit.
+- A [tag](basics/README.md#3-the-words) is refused. It is in the wrong form, or its commit is not on `main`, as [why releases use tags](deliver.md#21-why-releases-use-tags) explains. Delete it with `git tag -d <tag>` and `git push --delete origin <tag>`, then tag the right commit.
 
 - The API does not start. If it has not started after two minutes, the log shows what was running and its last lines. [The API's path](api.md#3-deployed-on-the-server) shows the server.
 
@@ -71,22 +55,16 @@ When a run fails, the reason is always written down, three clicks away: open the
 
 *Seen, in the workflow files and `cdk/README.md`. Not checked against a failing run.*
 
-## 3. Reading and writing a workflow
+## 3. Maintaining the pipeline
 
-The workflow files hold every detail these pages leave out, and a few words are enough to read them.
+What remains is for whoever changes the pipeline itself.
 
-[Reading a workflow](reading.md)
+When you are ready to change it, this says how ours follows the ideas of a good pipeline, where each kind of change belongs, and how to try one safely. It stands on [reading a workflow](basics/reading.md) and [what a good pipeline is built on](basics/ideas.md), in the basics, and on [inside one run](deliver.md#3-inside-one-run).
 
-When you are ready to change the pipeline yourself, start here.
+[Changing our pipeline](writing.md)
 
-[Writing a pipeline](writing.md)
-
-*Seen, in `.github/workflows/`.*
-
-## 4. What does not match yet
-
-A handful of small mismatches turned up while these pages were written. They matter mostly to whoever maintains the pipeline.
+A handful of small mismatches turned up while these pages were written, and they are worth knowing before you change anything.
 
 [What is open](open.md)
 
-*Open, recorded 2026-09-28 and read again 2026-09-29.*
+*Seen, in `.github/workflows/`. What is open was recorded 2026-09-28 and read again 2026-09-29.*

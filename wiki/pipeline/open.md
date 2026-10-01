@@ -45,6 +45,6 @@ The pipeline deploys the application, not what it runs on. The servers, the file
 
 ## 5. The web's lint is not run
 
-The web has a lint, `npm run lint`, but no workflow runs it. [Writing a pipeline](writing.md#22-example-adding-the-webs-lint) shows how to add it.
+The web has a lint, `npm run lint`, but no workflow runs it. [Changing our pipeline](writing.md#22-example-adding-the-webs-lint) shows how to add it.
 
 *Open, found 2026-09-29.*

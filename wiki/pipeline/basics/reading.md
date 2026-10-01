@@ -5,9 +5,9 @@ kind: brief
 
 # Reading a workflow
 
-You never have to trust these pages on their word: every claim can be checked in the workflow files themselves. They are written in YAML, a simple format of names, colons and indentation, and about a dozen words are enough to read all of ours. This page teaches them one at a time, on our own files.
+You never have to trust a page about a pipeline on its word: every claim can be checked in the workflow files themselves. They are written in YAML, a simple format of names, colons and indentation, and about a dozen words are enough to read all of Hjulverkstan's. The words are GitHub Actions' own, but this page teaches them on our files, since those are the ones you will open.
 
-A workflow file says when it runs, which jobs it runs, in what order, and on what conditions. The last section reads a whole file.
+A workflow file says when it runs, which jobs it runs, in what order, and on what conditions.
 
 Only the words our files use are here. The rest is in [GitHub Actions' documentation](https://docs.github.com/en/actions), which these pages have not covered.
 
@@ -29,7 +29,7 @@ on:
       mode: ...
 ```
 
-A push to `main`, or a tag that starts with `v`, starts it. `workflow_dispatch` adds a *Run workflow* button to the Actions tab. `inputs` are the choices the button gives, here which parts to deploy. `pr.yml` is started by `pull_request`, and `publish.yml` only by its button.
+A push to `main`, or a tag that starts with `v`, starts it. `workflow_dispatch` adds a *Run workflow* button to the Actions tab. `inputs` are the choices the button gives, here which parts to deploy. `pr.yml` is started by `pull_request`, and `publish.yml` only by its button. A pull request runs the workflows from its own branch, so a change to a workflow that a pull request starts is tried in that same pull request.
 
 *Seen, in the three files.*
 
@@ -43,7 +43,7 @@ A step does one of two things:
 
 - `uses` runs an action, a ready-made step that someone has published. `with` gives it its settings. `actions/checkout` downloads the repository to the machine. Almost every job starts with it, because a new machine is empty.
 
-A job can also start `services` beside it: containers it can talk to. A container is a running copy of a Docker image, as [the API's path](api.md#3-deployed-on-the-server) explains. `stage-test.yml` starts a Postgres database this way, so the API's tests have a real database.
+A job can also start `services` beside it: containers it can talk to. A [container](README.md#3-the-words) is a running copy of a Docker image. `stage-test.yml` starts a Postgres database this way, so the API's tests have a real database.
 
 *Seen, in every file.*
 
@@ -69,21 +69,17 @@ A workflow with `workflow_call` is not started by an event. Another workflow cal
 
 The caller names the file with `uses`, and gives its inputs with `with`. The stage file lists the inputs and secrets it takes. `secrets: inherit` in the caller passes all of its secrets.
 
-Our build and deploy stages take an input called `run`. It is our own name, not the `run` of a step. When it is false, the stage skips its job. So when [init](deliver.md#3-inside-one-run) sees that only `api/` changed, the web's stages run but do nothing.
-
 *Seen, in `pipeline.yml` and the stage files.*
 
 ## 5. Environments, variables and secrets
 
 One workflow deploys to three environments by reading different values for each. A job that names an `environment` reads that environment's settings. They are stored on GitHub, in the repository's settings under *Environments*, not in the code.
 
-- Variables, read as `${{ vars.NAME }}`, are settings anyone may see, such as a bucket name or the API's address.
+- Variables, read as `${{ vars.NAME }}`, are settings anyone may see, such as the API's address.
 
-- Secrets, read as `${{ secrets.NAME }}`, are passwords and keys. GitHub hides them in logs, and nobody can read one after it is saved.
+- Secrets, read as `${{ secrets.NAME }}`, are passwords and keys. GitHub hides them in logs, though not a changed version of one, such as half of it, and nobody can read one after it is saved.
 
-The [infrastructure readme](../../cdk/README.md#github-actions) lists the names each environment needs.
-
-*Seen, in the stage files and `cdk/README.md`.*
+*Seen, in the stage files. How GitHub hides secrets is from its documentation, not checked here.*
 
 ## 6. A whole file
 
