@@ -5,7 +5,7 @@ kind: brief
 
 # Changing our pipeline
 
-Every change on its way to the workshops passes through our pipeline, so a mistake in the pipeline itself can stop every delivery, or let a broken one through. A change to it is normal code, made on a branch and merged with a pull request, but it takes more care. Read on for how ours follows the ideas good pipelines share and where it falls short, where each kind of change belongs, how to try one safely, and the questions to ask before you merge.
+Every change on its way to the workshops passes through our pipeline, so a mistake in the pipeline itself can stop every delivery, or let a broken one through. A change to it is normal code, made on a branch and merged with a pull request, but it takes more care. What keeps it safe is knowing where in ours each kind of change belongs, where ours falls short of a good pipeline's ideas, and how to try a change before it reaches anyone.
 
 It uses the words from [reading a workflow](basics/reading.md), and the ideas from [what a good pipeline is built on](basics/ideas.md).
 

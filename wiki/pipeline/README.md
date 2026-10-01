@@ -9,7 +9,7 @@ Every change to Hjulverkstan's portal and website is tested, tried and released 
 
 The workshops rely on the portal every day, so nothing reaches them untested, and a person decides when a change does.
 
-If pipelines, git, GitHub or GitHub Actions are new to you, begin with the basics.
+If pipelines, git, GitHub or GitHub Actions are new to you, begin with Pipelines in general.
 
 [Pipelines in general](basics/README.md)
 
@@ -18,19 +18,19 @@ If pipelines, git, GitHub or GitHub Actions are new to you, begin with the basic
 ![A table of the three jobs. Check: happens whenever someone proposes a change; gives a yes or no, and nothing goes live. Deliver: happens when a change is accepted or released; puts a new version live. Republish: happens when someone asks for it; gives the website with its newest text](.img/jobs.svg)\
 The pipeline's three jobs, when each happens, and what each gives.
 
-Checking is the first gate. As soon as someone proposes a change, it is tested automatically, so a mistake is caught while it is still cheap to fix and before it reaches anyone. A developer meets this on their first pull request, as a green or red mark beside it.
+Checking is the first gate, and the part of the pipeline a developer meets first, on their first pull request.
 
 [Checking every change](check.md)
 
 ---
 
-Delivering takes checked code to the people who use it, in two steps. Every change accepted into the shared code goes by itself to dev, a practice version for developers. Prod, the version the workshops use, only changes when someone makes a release, and a release is tried on test, a second practice version, first.
+Once a change has passed its checks and been accepted, delivering takes it the rest of the way.
 
 [Delivering to dev, test and prod](deliver.md)
 
 ---
 
-Republishing is for the public site's content. Staff edit its text and images in the portal, but visitors keep seeing the old text until the site is built again. Republishing does that rebuild from the code already running, so only the content moves on.
+The third job is the only one not started by a change to the code. It is for when staff change the site's text.
 
 [Republishing the site's content](publish.md)
 
@@ -65,7 +65,7 @@ When one of our runs fails, its log says why, as [watching a run](basics/README.
 
 What remains is for whoever changes the pipeline itself.
 
-The page on changing it stands on [reading a workflow](basics/reading.md) and [what a good pipeline is built on](basics/ideas.md), in the basics, and on [inside one run](deliver.md#3-inside-one-run).
+The page on changing it stands on [reading a workflow](basics/reading.md) and [what a good pipeline is built on](basics/ideas.md), in Pipelines in general, and on [inside one run](deliver.md#3-inside-one-run).
 
 [Changing our pipeline](writing.md)
 
