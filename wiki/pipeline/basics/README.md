@@ -5,9 +5,9 @@ kind: brief
 
 # Pipelines in general
 
-A pipeline is a row of automatic steps that checks every change to a program and delivers it to the people who use it. It works like an assembly line: the same stations, in the same order, every time. Teams use one because doing this by hand goes wrong in ways that are easy to predict.
+A pipeline is a row of automatic steps that checks every change to a program and delivers it to the people who use it. It works like an assembly line: the same stations, in the same order, every time, so no step depends on someone remembering it. Teams use one because doing this by hand goes wrong in ways that are easy to predict. Read on for why, what the two jobs every pipeline does are called, and the everyday words of git and GitHub that the other pipeline pages use without explaining.
 
-Nothing here is special to Hjulverkstan, so if you already know pipelines and the everyday words of software work, you lose nothing by skipping it. The last two sections, on watching a run and on reading and building a workflow, are the exception: they are for anyone who will work with GitHub Actions, so skip them only if you already know GitHub Actions.
+Nothing here is special to Hjulverkstan, so if you already know pipelines and the everyday words of software work, you lose nothing by skipping it. The exception is the last section, [pipelines on GitHub](#5-pipelines-on-github), which is for anyone who will work with GitHub Actions: skip it only if you already know them.
 
 ![A table with four questions down the side and two columns, by hand and with a pipeline. The steps: done from memory, or written once and run by a machine. The checks: if someone remembers, or on every change. What runs where: someone has to know, or named by version. Releases: rare, big and risky, or often, small and routine](.img/by-hand.svg)\
 The same four questions, answered by hand and by a pipeline.
@@ -32,7 +32,7 @@ A pipeline does two things, and they have names you will meet everywhere: CI che
 
 ### 2.1 CI, continuous integration
 
-CI means that every change is checked automatically, each time it is merged, joined, into the shared code, the one version everyone works from. Small changes checked often are easier to fix than big ones checked rarely.
+CI means that every change is checked automatically, each time it is added to the code everyone shares. Small changes checked often are easier to fix than big ones checked rarely.
 
 In Hjulverkstan's pipeline, CI is [checking every change](../check.md).
 
@@ -46,48 +46,40 @@ Some teams go further, with continuous deployment, and send every change all the
 
 *Common usage, not checked against a source.*
 
-## 3. The words
+## 3. How a change travels
 
-A few everyday words of software work appear on every page. Each is given here once, so the other pages can use them without stopping to explain.
+A change travels into the shared code in a few steps, and each step has a name. The pipeline acts on these steps, so the other pages use the names without stopping to explain them.
 
-- Code: the text a program is written in.
+The text a program is written in is its **code**. It is kept with **git**, a tool that keeps every version of it, so nothing is lost and anyone can see what changed, when and by whom. The code together with its history is a **repository**, and it is kept on **GitHub**, a site where a team keeps its repositories and works on them together.
 
-- Git: the tool that keeps every version of the code, so nothing is lost and anyone can see what changed, when and by whom. The code together with its history is a repository.
+The shared version everyone works from is called **`main`**. To make a change you take a **branch**, your own copy of the code, where you work without disturbing anyone. Each time you save your work you make a **commit**: a saved version of the code, with a note saying what changed.
 
-- Commit: a saved version of the code, with a note saying what changed.
-
-- Branch: your own copy of the code, where you make a change without disturbing anyone.
-
-- `main`: the shared version of the code that everyone works from.
-
-- Pull request: a request to add the change on your branch to `main`, where others can review it first.
-
-- Merge: adding the change to `main`, once the pull request is accepted.
+When the change is ready you open a **pull request**, a request to add your branch to `main`, where others can review it first. Once it is accepted it is **merged**, and the change joins `main`.
 
 ![A horizontal line labelled main, the shared version. A second line, your branch, leaves it, carries two commits marked as dots, and joins main again at a dark dot labelled merged: the change joins main. Under the branch: checked in the pull request](.img/branch.svg)\
 A branch leaves `main`, holds your commits, and joins `main` again when its pull request is merged.
 
-- Tag: a name, such as `v1.4.0`, pinned to one commit.
-
-- Semantic versioning: numbering versions as three numbers, such as `1.4.0`, so the number says how big the change is.
-
-- Build: turning the code into something that can run.
-
-- Deploy: putting a built program where its users can reach it.
-
-- Docker image: a program packed with everything it needs to run, so it runs the same on any machine.
-
-- Container: a running copy of a Docker image.
-
-- Environment: one whole running copy of a system, with its own data. A team usually keeps practice copies for trying changes beside the one the users use, so a mistake on one cannot harm the others.
-
-- GitHub: the site where the repository is kept.
-
-- GitHub Actions: GitHub's own service for running pipelines. A pipeline is written as workflow files in the folder `.github/workflows/`, and GitHub runs them on its own machines when something happens in the repository, such as a pull request or a merge. Its Actions tab lists every run.
+Some versions of `main` become releases. A release is marked with a **tag**, a name such as `v1.4.0` pinned to one commit. The name follows **semantic versioning**: three numbers, where the first grows for a big change and the last for a small fix, so the name says how big the change is.
 
 *Common usage.*
 
-## 4. Watching a run
+## 4. From code to a running program
+
+Code is only text, and a few more steps turn it into a program people can use. These too have names the other pages use.
+
+To **build** is to turn the code into something that can run. What is built is often packed as a **Docker image**, a program packed with everything it needs to run, so it runs the same on any machine. A running copy of a Docker image is a **container**.
+
+To **deploy** is to put a built program where its users can reach it. Where it is deployed is an **environment**: one whole running copy of a system, with its own data, on one or more servers. A team usually keeps practice copies for trying changes beside the one the users use, so a mistake on one cannot harm the others.
+
+*Common usage.*
+
+## 5. Pipelines on GitHub
+
+**GitHub Actions** is GitHub's own service for running pipelines, and this section is for anyone who will work with it. A pipeline is written as workflow files in the folder `.github/workflows/`, and GitHub runs them on its own machines when something happens in the repository, such as a pull request or a merge. Its **Actions tab** lists every run.
+
+*Common usage.*
+
+### 5.1 Watching a run
 
 Every run can be watched on GitHub, and when one fails, its log says why. Reading one successful run first is the quickest way to feel at home, and makes a failed one much easier to read. Try it:
 
@@ -95,9 +87,9 @@ Every run can be watched on GitHub, and when one fails, its log says why. Readin
 
 2. Open the newest run. A workflow can write a summary at the top, saying what it decided.
 
-3. Below it is the graph of the run's steps, drawn as boxes. A box with nothing to do is shown as skipped.
+3. Below it is the graph of the run's jobs, drawn as boxes, each holding its steps. A box with nothing to do is shown as skipped.
 
-4. Open one of the boxes in the graph, then a step. Its log is what the machine printed.
+4. Open one of the boxes in the graph, then one of its steps. Its log is what the machine printed.
 
 A pull request's checks look the same. Open them from the pull request.
 
@@ -105,11 +97,13 @@ A failed run is red in the Actions tab, and on the pull request if it came from 
 
 *Reasoned, from how GitHub shows a run. Not tried in this repository, nor checked against a failing run.*
 
-## 5. Reading and building a workflow
+### 5.2 Reading and building a workflow
 
 A workflow file holds every detail of what a pipeline does, and a dozen words are enough to read one. The page teaches them one at a time, on Hjulverkstan's own files.
 
 [Reading a workflow](reading.md)
+
+---
 
 Knowing the words, what remains is why a workflow is laid out the way it is. A few ideas are shared by most good pipelines, and they tell you where a change belongs and how to make it safely.
 

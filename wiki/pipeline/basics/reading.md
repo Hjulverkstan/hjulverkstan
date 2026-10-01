@@ -5,11 +5,9 @@ kind: brief
 
 # Reading a workflow
 
-You never have to trust a page about a pipeline on its word: every claim can be checked in the workflow files themselves. They are written in YAML, a simple format of names, colons and indentation, and about a dozen words are enough to read all of Hjulverkstan's. The words are GitHub Actions' own, but this page teaches them on our files, since those are the ones you will open.
+Every claim about a pipeline can be checked in its workflow files, so you never have to take a page like this one on its word. A workflow file says when it runs, which jobs it runs, in what order, and on what conditions. It is written in YAML, a simple format of names, colons and indentation, and about a dozen words are enough to read all of Hjulverkstan's. This page teaches them one at a time, on our own files, since those are the ones you will open.
 
-A workflow file says when it runs, which jobs it runs, in what order, and on what conditions.
-
-Only the words our files use are here. The rest is in [GitHub Actions' documentation](https://docs.github.com/en/actions), which these pages have not covered.
+The words are GitHub Actions' own, and only the ones our files use are here. The rest is in [GitHub Actions' documentation](https://docs.github.com/en/actions), which these pages have not covered.
 
 *An agent's reading of our files, not checked against GitHub's documentation.*
 
@@ -43,7 +41,7 @@ A step does one of two things:
 
 - `uses` runs an action, a ready-made step that someone has published. `with` gives it its settings. `actions/checkout` downloads the repository to the machine. Almost every job starts with it, because a new machine is empty.
 
-A job can also start `services` beside it: containers it can talk to. A [container](README.md#3-the-words) is a running copy of a Docker image. `stage-test.yml` starts a Postgres database this way, so the API's tests have a real database.
+A job can also start `services` beside it: containers it can talk to. A [container](README.md#4-from-code-to-a-running-program) is a running copy of a Docker image. `stage-test.yml` starts a Postgres database this way, so the API's tests have a real database.
 
 *Seen, in every file.*
 

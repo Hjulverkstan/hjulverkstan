@@ -5,7 +5,9 @@ kind: brief
 
 # Checking every change
 
-A mistake is cheapest to fix before anyone has accepted it. So every [pull request](basics/README.md#3-the-words) is checked by machines as soon as it is opened: they run the API's tests and build the web, and show the result on the pull request as green or red. Nothing is deployed. This is the CI half of the pipeline, continuous integration, as [pipelines in general](basics/README.md#21-ci-continuous-integration) explains.
+A mistake is cheapest to fix before anyone has accepted it, so every [pull request](basics/README.md#3-how-a-change-travels) is checked automatically as soon as it is opened, and nothing is deployed. The checks answer the two questions a reviewer cannot answer by reading the code: does the API still work, and can the web still be built? Read on for exactly what runs, why the web's check starts its own copy of the API, and what to do when your pull request turns red.
+
+The result shows on the pull request as green or red. This is the CI half of the pipeline, continuous integration, as [pipelines in general](basics/README.md#21-ci-continuous-integration) explains.
 
 The workflow is `pr.yml`. It runs one stage file, `stage-test.yml`, with both checks turned on. The same stage file runs again before every delivery, so nothing reaches dev, test or prod without passing it, as [inside one run](deliver.md#3-inside-one-run) shows.
 
@@ -13,7 +15,7 @@ The workflow is `pr.yml`. It runs one stage file, `stage-test.yml`, with both ch
 
 ## 1. What the checks run
 
-The two checks answer the two questions a reviewer cannot answer by reading: does the API still work, and can the web still be built?
+There is one check for each of those two questions.
 
 - The API's tests run with `mvn test`, against a real Postgres database that the job starts beside itself and throws away afterwards.
 
