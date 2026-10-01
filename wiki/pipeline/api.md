@@ -55,7 +55,7 @@ The three are the API, its database in Postgres (the database program), and a ba
 
 A deploy sends the server its settings, then restarts the containers so the API picks up the new image. It does three things:
 
-1. It writes a `.env` file with the environment's [variables and secrets](reading.md#5-environments-variables-and-secrets) from GitHub, such as the database password.
+1. It writes a `.env` file with the environment's [variables and secrets](basics/reading.md#5-environments-variables-and-secrets) from GitHub, such as the database password.
 
 2. It copies the file to the server over SSH, a secure login with a key that is stored as a secret. Passwords live only in GitHub's secrets and on the server, never in the code, so anyone can read the code without seeing them.
 
@@ -73,7 +73,7 @@ A new setting for the API, such as a new address or key, must be added in five p
 
 2. The [`.env.template`](../../.env.template), which developers copy to run the project locally.
 
-3. The [variable or secret](reading.md#5-environments-variables-and-secrets) on GitHub, in all three environments.
+3. The [variable or secret](basics/reading.md#5-environments-variables-and-secrets) on GitHub, in all three environments.
 
 4. The *Generate .env* step in `stage-deploy-api.yml`.
 

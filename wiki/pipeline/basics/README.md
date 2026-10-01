@@ -7,7 +7,7 @@ kind: brief
 
 A pipeline is a row of automatic steps that checks every change to a program and delivers it to the people who use it. It works like an assembly line: the same stations, in the same order, every time. Teams use one because doing this by hand goes wrong in ways that are easy to predict.
 
-Nothing on this page is special to Hjulverkstan, so if you already know pipelines and the everyday words of software work, you lose nothing by skipping it.
+Nothing here is special to Hjulverkstan, so if you already know pipelines and the everyday words of software work, you lose nothing by skipping it. The last two sections, on watching a run and on reading and building a workflow, are the exception: they are for anyone who will work with GitHub Actions, so skip them only if you already know GitHub Actions.
 
 ![A table with four questions down the side and two columns, by hand and with a pipeline. The steps: done from memory, or written once and run by a machine. The checks: if someone remembers, or on every change. What runs where: someone has to know, or named by version. Releases: rare, big and risky, or often, small and routine](.img/by-hand.svg)\
 The same four questions, answered by hand and by a pipeline.
@@ -34,7 +34,7 @@ A pipeline does two things, and they have names you will meet everywhere: CI che
 
 CI means that every change is checked automatically, each time it is merged, joined, into the shared code, the one version everyone works from. Small changes checked often are easier to fix than big ones checked rarely.
 
-In Hjulverkstan's pipeline, CI is [checking every change](check.md).
+In Hjulverkstan's pipeline, CI is [checking every change](../check.md).
 
 *Common usage, not checked against a source.*
 
@@ -42,7 +42,7 @@ In Hjulverkstan's pipeline, CI is [checking every change](check.md).
 
 CD means that every checked change is delivered automatically, at least to a place where it can be tried.
 
-Some teams go further, with continuous deployment, and send every change all the way to the users by itself. Others, like Hjulverkstan, let a person decide when a change reaches the users. In Hjulverkstan's pipeline, CD is [delivering to dev, test and prod](deliver.md).
+Some teams go further, with continuous deployment, and send every change all the way to the users by itself. Others, like Hjulverkstan, let a person decide when a change reaches the users. In Hjulverkstan's pipeline, CD is [delivering to dev, test and prod](../deliver.md).
 
 *Common usage, not checked against a source.*
 
@@ -77,8 +77,42 @@ A branch leaves `main`, holds your commits, and joins `main` again when its pull
 
 - Docker image: a program packed with everything it needs to run, so it runs the same on any machine.
 
+- Container: a running copy of a Docker image.
+
+- Environment: one whole running copy of a system, with its own data. A team usually keeps practice copies for trying changes beside the one the users use, so a mistake on one cannot harm the others.
+
 - GitHub: the site where the repository is kept.
 
 - GitHub Actions: GitHub's own service for running pipelines. A pipeline is written as workflow files in the folder `.github/workflows/`, and GitHub runs them on its own machines when something happens in the repository, such as a pull request or a merge. Its Actions tab lists every run.
 
 *Common usage.*
+
+## 4. Watching a run
+
+Every run can be watched on GitHub, and when one fails, its log says why. Reading one successful run first is the quickest way to feel at home, and makes a failed one much easier to read. Try it:
+
+1. Open the Actions tab. The workflows are listed on the left, each by the name its file gives itself in its first line. Choose one.
+
+2. Open the newest run. A workflow can write a summary at the top, saying what it decided.
+
+3. Below it is the graph of the run's steps, drawn as boxes. A box with nothing to do is shown as skipped.
+
+4. Open one of the boxes in the graph, then a step. Its log is what the machine printed.
+
+A pull request's checks look the same. Open them from the pull request.
+
+A failed run is red in the Actions tab, and on the pull request if it came from one. Its reason is three clicks away: open the run, then the red box in its graph, then the red step.
+
+*Reasoned, from how GitHub shows a run. Not tried in this repository, nor checked against a failing run.*
+
+## 5. Reading and building a workflow
+
+A workflow file holds every detail of what a pipeline does, and a dozen words are enough to read one. The page teaches them one at a time, on Hjulverkstan's own files.
+
+[Reading a workflow](reading.md)
+
+Knowing the words, what remains is why a workflow is laid out the way it is. A few ideas are shared by most good pipelines, and they tell you where a change belongs and how to make it safely.
+
+[What a good pipeline is built on](ideas.md)
+
+*Each page gives its own grounds.*
