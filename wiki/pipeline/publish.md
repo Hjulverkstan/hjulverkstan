@@ -26,7 +26,7 @@ An edit in web edit changes the database, not the pages. The pages still hold th
 
 Publish must not bring in new code by accident, so it rebuilds from exactly the commit that is already running.
 
-You start it with the *Run workflow* button in GitHub's [Actions tab](basics.md#3-the-words), and choose the environment. It reads that environment's [`version.json`](web.md#2-deployed-to-s3-and-cloudfront), a file every deploy writes with the version and commit, from its storage to find the commit. Then it builds the web from that commit, with the content as it is now, and deploys it with the same version. It uses the same [build and deploy stages](deliver.md#32-build-and-deploy-one-path-for-each-part) as a delivery.
+You start it with the *Run workflow* button in GitHub's [Actions tab](basics/README.md#3-the-words), and choose the environment. It reads that environment's [`version.json`](web.md#2-deployed-to-s3-and-cloudfront), a file every deploy writes with the version and commit, from its storage to find the commit. Then it builds the web from that commit, with the content as it is now, and deploys it with the same version. It uses the same [build and deploy stages](deliver.md#32-build-and-deploy-one-path-for-each-part) as a delivery.
 
 *Seen, in `publish.yml`.*
 

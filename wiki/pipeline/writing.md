@@ -3,33 +3,29 @@ under: the rule
 kind: brief
 ---
 
-# Writing a pipeline
+# Changing our pipeline
 
-A mistake in the pipeline can stop every deploy, or let a broken one through, so changing it takes more care than ordinary code. Most of that care is two choices: what should fail first, and where each value comes from. Our pipeline is built on a few ideas that answer both, and knowing them tells you where a change belongs and how to make it safely.
+Every change on its way to the workshops passes through our pipeline, so a change to the pipeline itself takes more care than ordinary code. This page says how ours follows the ideas good pipelines share, where each kind of change belongs, and how to try one safely.
 
-It uses the words from [reading a workflow](reading.md).
+It uses the words from [reading a workflow](basics/reading.md), and the ideas from [what a good pipeline is built on](basics/ideas.md).
 
-*An agent's reading of our files. The ideas are common practice, but our pipeline's authors have not written them down, and no outside source was checked.*
+*An agent's reading of our files. Our pipeline's authors have not written its ideas down.*
 
-## 1. The ideas ours is built on
+## 1. The ideas, in ours
 
-Every job in a pipeline can fail, so the ideas all come down to one thing: when something fails, it should fail early, cheaply, and with a clear reason.
+Ours follows each of the five ideas, though not all of them fully, and where it falls short is where a change needs the most care.
 
-*Reasoned, from the files.*
+*Seen, in the files.*
 
 ### 1.1 Fail early, where it is cheap
 
-A mistake costs less the sooner it is found. In a pull request it costs one more push. On dev it costs a fix and a wait. In prod it can cost the workshops a working day. So checks run as early as possible, the cheapest first.
-
-Ours does this in three places. The pull request runs the checks before anything is merged. In a run, test comes before build. And when init finds that nothing changed, the rest of the run is skipped.
+Ours [fails early](basics/ideas.md#1-fail-early-where-it-is-cheap) in three places. The pull request runs the checks before anything is merged. In a run, test comes before build. And when [init](deliver.md#31-init-decides-what-to-deploy) finds that nothing changed, the rest of the run is skipped.
 
 *Seen, in `pr.yml` and `pipeline.yml`.*
 
 ### 1.2 Build once, then promote
 
-Prod should get exactly what was tried on test. The safest way is to build once, then move that same result forward by renaming it. This is called promoting.
-
-The API almost does this. Its image is promoted by renaming, as [the API's path](api.md#2-promoted-by-renaming) shows. But every release tag builds the image again from its commit. So prod runs an image built from the same code as test's, not the very same image.
+The API almost [builds once and promotes](basics/ideas.md#2-build-once-then-promote). Its image is promoted by renaming, as [the API's path](api.md#2-promoted-by-renaming) shows. But every release tag builds the image again from its commit. So prod runs an image built from the same code as test's, not the very same image.
 
 The web cannot do this at all, because its build writes each environment's addresses and content into the files. [The web's path](web.md) explains why.
 
@@ -37,32 +33,32 @@ The web cannot do this at all, because its build writes each environment's addre
 
 ### 1.3 One file, many environments
 
-Dev, test and prod use the same workflow files. What differs is stored in each environment's variables and secrets on GitHub, never in the files. So a fix to the pipeline reaches all three environments at once.
-
-A value that differs between environments belongs there, read as [reading a workflow](reading.md#5-environments-variables-and-secrets) shows.
+Ours keeps [one file for many environments](basics/ideas.md#3-one-file-many-environments) fully: dev, test and prod use the same workflow files. A value that differs between them belongs in their settings on GitHub, read as [reading a workflow](basics/reading.md#5-environments-variables-and-secrets) shows.
 
 *Seen, in the stage files.*
 
 ### 1.4 Write each stage once
 
-A stage used in two places is written once, as a reusable workflow, and both places call it. Then the checks in a pull request and in a deploy can never become different, because they are the same file.
+Ours [writes each stage once](basics/ideas.md#4-write-each-stage-once), in its `stage-*.yml` files. `stage-test.yml`, for one, is called by both `pr.yml` and `pipeline.yml`.
 
 ![A matrix. Down the side, the five stage files: stage-test, stage-build-api, stage-deploy-api, stage-build-web and stage-deploy-web. Across the top, the three workflows that call them. pr.yml calls stage-test only. pipeline.yml calls all five. publish.yml calls stage-build-web and stage-deploy-web. A note says init, and publish's own first job, are written inside their workflows](.img/callers.svg)\
 Which workflow calls which stage. Look here before changing a stage: every mark in its row is a workflow your change will reach.
 
-*Seen, in `pr.yml`, `pipeline.yml` and `publish.yml`.*
+Our build and deploy stages take an input called `run`. It is our own name, not the `run` of a step. When it is false, the stage skips its job. So when init sees that only `api/` changed, the web's stages run but do nothing.
+
+*Seen, in `pr.yml`, `pipeline.yml`, `publish.yml` and the stage files.*
 
 ### 1.5 Say what was decided, and why it failed
 
-Nobody watches a pipeline while it runs, so it must write down what it decided and why it stopped. Init writes a summary at the top of every run. Its check of a release tag prints what it expected and what it got. The API's deploy prints the containers' state and logs before it fails.
+Ours [says what it decided, and why it failed](basics/ideas.md#5-say-what-was-decided-and-why-it-failed), in three places. Init writes a summary at the top of every run. Its check of a release tag prints what it expected and what it got. The API's deploy prints the containers' state and logs before it fails.
 
-When you add a step that can fail, do the same. Print what was wrong, in words a developer understands, before the step exits.
+When you add a step that can fail, do the same.
 
 *Seen, in `pipeline.yml` and `stage-deploy-api.yml`.*
 
-## 2. Changing our pipeline
+## 2. Making a change
 
-A pipeline change is normal code, made on a branch and merged with a pull request. What makes it different is that a mistake can stop every deploy, so it pays to know where the change belongs, what it needs, and how to try it safely.
+A pipeline change is normal code, made on a branch and merged with a pull request. It pays to know where the change belongs, what it needs, and how to try it safely.
 
 *Reasoned, from the files and from GitHub's documented behaviour.*
 
@@ -98,7 +94,7 @@ A lint is a check, so it goes in `stage-test.yml`. It is cheaper than the web's 
         run: cd web && npm run lint       # fails the job on a lint error
 ```
 
-Each line uses a word from [reading a workflow](reading.md): a step with a `name`, an `if` that reads the stage's input, and a `run`. The picture in [§1.4](#14-write-each-stage-once) shows that this change reaches both `pr.yml` and `pipeline.yml`.
+Each line uses a word from [reading a workflow](basics/reading.md): a step with a `name`, an `if` that reads the stage's input, and a `run`. The picture in [§1.4](#14-write-each-stage-once) shows that this change reaches both `pr.yml` and `pipeline.yml`.
 
 *Seen, in `web/package.json` and `stage-test.yml`.*
 
@@ -116,13 +112,13 @@ The lint is not yet cheapest first. In this file the web's steps come after the 
 
 ### 2.3 Adding a value or a secret
 
-Values that differ between environments, or must stay secret, are kept on GitHub and never in the files. Add a new value in each environment's settings: as a variable if anyone may see it, and as a secret if not. A stage reads it by its name.
+Values that differ between environments, or must stay secret, are kept on GitHub and never in the files. Add a new value in each environment's settings: as a variable if anyone may see it, and as a secret if not. A stage reads it by its name. The [infrastructure readme](../../cdk/README.md#github-actions) lists the names each environment needs.
 
-Never write a secret in a workflow file, or print it in a step. GitHub hides known secrets in logs, but not a changed version of one, such as half of it.
+Never write a secret in a workflow file, or print it in a step, since [GitHub hides only the secret itself](basics/reading.md#5-environments-variables-and-secrets).
 
 If the value is a setting the API reads, more places are needed. [The API's path](api.md#4-adding-a-setting-the-api-needs) lists them.
 
-*Seen, in the stage files. How GitHub hides secrets is from its documentation, not checked here.*
+*Seen, in the stage files and `cdk/README.md`.*
 
 #### 2.3.1 The list of secrets
 
@@ -134,13 +130,13 @@ A secret missing from the list still arrives, because callers pass all secrets w
 
 ### 2.4 Trying a change safely
 
-A pipeline is hard to test, because it runs on GitHub's machines and deploys to real environments. A change to the checks tests itself in its pull request. A change to building or deploying is first tried on dev, which is what dev is for.
+A pipeline is hard to test, because it runs on GitHub's machines and deploys to real environments. A change to the checks tests itself, and a change to building or deploying is first tried on dev, which is what dev is for.
 
-A change to `pr.yml` or `stage-test.yml` tests itself, because a pull request runs the workflows from its own branch.
+A change to `pr.yml` or `stage-test.yml` tests itself, because [a pull request runs the workflows from its own branch](basics/reading.md#1-a-workflow-and-what-starts-it).
 
 A change to `pipeline.yml`, or to a build or deploy stage, first runs when it is merged, and deploys to dev, where a broken deploy costs little. Watch the run after merging. If it breaks, fix it with a new commit.
 
-Two outside tools, not covered in these pages, find some mistakes even earlier: [actionlint](https://github.com/rhysd/actionlint) checks a workflow file without running it, and [act](https://github.com/nektos/act) runs a workflow on your own machine.
+[Two outside tools](basics/ideas.md#1-fail-early-where-it-is-cheap) find some mistakes even before a pull request.
 
 *Reasoned, from GitHub's documented behaviour. Not tried in this repository.*
 
@@ -148,7 +144,7 @@ Two outside tools, not covered in these pages, find some mistakes even earlier: 
 
 You can try a change before merging with the *Run workflow* button, choosing your branch, but it leaves your code on dev.
 
-It deploys your branch to dev, and dev keeps your unmerged code until a later run replaces it. A later merge only redeploys what it changed. So if the next merge only changes `web/`, your branch's API stays on dev. Tell the team before you do this.
+It deploys your branch to dev, and dev keeps your unmerged code until a later run replaces it. A later merge only [redeploys what it changed](deliver.md#31-init-decides-what-to-deploy). So if the next merge only changes `web/`, your branch's API stays on dev. Tell the team before you do this.
 
 *Reasoned, from how init handles a run from a branch. Not tried.*
 
