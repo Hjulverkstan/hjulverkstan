@@ -5,7 +5,7 @@ kind: brief
 
 # Checking every change
 
-A mistake is cheapest to fix before anyone has accepted it, so every [pull request](basics/README.md#3-how-a-change-travels) is checked automatically as soon as it is opened, and nothing is deployed. The checks answer the two questions a reviewer cannot answer by reading the code: does the API still work, and can the web still be built? Read on for exactly what runs, why the web's check starts its own copy of the API, and what to do when your pull request turns red.
+A mistake is cheapest to fix before anyone has accepted it, so every [pull request](basics/README.md#3-how-a-change-travels) is checked automatically as soon as it is opened, and nothing is deployed. The checks answer the two questions a reviewer cannot answer by reading the code: does the API still work, and can the web still be built?
 
 The result shows on the pull request as green or red. This is the CI half of the pipeline, continuous integration, as [pipelines in general](basics/README.md#21-ci-continuous-integration) explains.
 

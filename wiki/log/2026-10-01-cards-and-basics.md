@@ -12,6 +12,8 @@ On Eric's feedback that a fresh reader could not tell which card belonged to whi
 
 - The basics: §2 *CI and CD* in plain words, §3 *How a change travels* and §4 *From code to a running program* in prose instead of one list of words, and §5 *Pipelines on GitHub* gathering GitHub Actions, watching a run and the two cards. Eric's approval of the outline. Each word is in bold where it is given.
 
+- Later the same day, on reading the practice's §3.1–3.3 together: the paragraph before a card says only where the card stands and why it comes here, and the card gives its own why and what. Eric's direction, after two tries at a summary above each card were reverted, since a summary there copies the card. The placements of checking, delivering, republishing and reading a workflow were rewritten to that, the copied sentence under the ideas' placement went, and the "Read on for…" lists left the cards, since §4.1 forbids a map of the parts to come. *Changing our pipeline* got a sentence of its own for its what. The entry names the basics as *Pipelines in general*.
+
 ## Moved, and given one home
 
 - The word list `#3-the-words` is gone. Every link to it, and to the old `#4-watching-a-run`, now points at the section that gives the word: §3, §4, §5 or §5.1.
@@ -26,7 +28,9 @@ A fresh head read the rule and the reordered basics cold. From it: §2.1 no long
 
 - The new card faces have not been read by a fresh head.
 
-- The rule's submodule is checked out ten commits behind what the branch records, and was left out of the commit.
+- The rule's submodule was pulled to `3883710`, past what the branch records, and the move is not committed.
+
+- Three card faces stay past the flag of 400, each with its reason: *Reading a workflow* (455) was never changed, *Changing our pipeline* (437) needs its new what, and *What is open* (410) is its list of mismatches.
 
 ## How it was checked
 
