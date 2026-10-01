@@ -5,9 +5,7 @@ kind: brief
 
 # The API's path
 
-The API holds Hjulverkstan's data and rules, so its servers must only run code that anyone can trace back to the exact version it came from. That is why the API is delivered as a Docker image: the Java application packed with everything it needs, named by the commit it came from. The pipeline builds the image and tells each server which one to run.
-
-So the server never builds anything itself, and an image runs the same on any machine.
+The API holds Hjulverkstan's data and rules, so its servers must only run code that anyone can trace back to the exact version it came from. That is why the API is delivered as a Docker image, the Java application packed with everything it needs, and named by the commit it came from. The pipeline builds the image and tells each server which one to run, so a server never builds anything itself. Read on for how the image is named and promoted, what runs on the server, and what it takes to add a setting the API needs.
 
 *An agent's reading of the workflow files, not checked against a real run.*
 
