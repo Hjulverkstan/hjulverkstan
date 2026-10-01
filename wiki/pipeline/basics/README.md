@@ -5,7 +5,7 @@ kind: brief
 
 # Pipelines in general
 
-A pipeline is a row of automatic steps that checks every change to a program and delivers it to the people who use it. It works like an assembly line: the same stations, in the same order, every time, so no step depends on someone remembering it. Teams use one because doing this by hand goes wrong in ways that are easy to predict. Read on for why, what the two jobs every pipeline does are called, and the everyday words of git and GitHub that the other pipeline pages use without explaining.
+A pipeline is a row of automatic steps that checks every change to a program and delivers it to the people who use it. It works like an assembly line: the same stations, in the same order, every time, so no step depends on someone remembering it. Teams use one because doing this by hand goes wrong in ways that are easy to predict.
 
 Nothing here is special to Hjulverkstan, so if you already know pipelines and the everyday words of software work, you lose nothing by skipping it. The exception is the last section, [pipelines on GitHub](#5-pipelines-on-github), which is for anyone who will work with GitHub Actions: skip it only if you already know them.
 
@@ -99,13 +99,13 @@ A failed run is red in the Actions tab, and on the pull request if it came from 
 
 ### 5.2 Reading and building a workflow
 
-A workflow file holds every detail of what a pipeline does, and a dozen words are enough to read one. The page teaches them one at a time, on Hjulverkstan's own files.
+Watching a run shows what a pipeline did. To see why, and to check any page about it, you read its workflow files.
 
 [Reading a workflow](reading.md)
 
 ---
 
-Knowing the words, what remains is why a workflow is laid out the way it is. A few ideas are shared by most good pipelines, and they tell you where a change belongs and how to make it safely.
+Knowing the words, what remains is why a workflow is laid out the way it is.
 
 [What a good pipeline is built on](ideas.md)
 

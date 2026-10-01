@@ -5,7 +5,7 @@ kind: brief
 
 # Delivering to dev, test and prod
 
-Checked code only helps once people can use it, so the pipeline delivers it one step at a time, and each step only happens if the one before it worked. Every merge into `main` goes to dev by itself. A release goes to test, and then to prod, the version the workshops use, only when a person decides. Read on to follow one change all the way to the workshops, to see what starts each step and why releases use tags, and to look inside one run at how the API and the web each travel.
+Checked code only helps once people can use it, so the pipeline delivers it one step at a time, and each step only happens if the one before it worked. Every merge into `main` goes to dev by itself. A release goes to test, and then to prod, the version the workshops use, only when a person decides.
 
 This is the CD half of the pipeline, continuous delivery, as [pipelines in general](basics/README.md#22-cd-continuous-delivery) explains, and it is one workflow, `pipeline.yml`, that runs the same four stages every time.
 
