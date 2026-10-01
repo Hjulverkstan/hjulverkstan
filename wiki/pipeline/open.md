@@ -5,7 +5,7 @@ kind: brief
 
 # What is open
 
-Knowing where the pipeline or its description is wrong stops anyone from trusting the wrong thing, and makes each fix easy to pick up. These are the places that do not match. None is fixed yet.
+A few things in the pipeline, or in what is written about it, do not match. The web may be built from an old API, the guidelines describe a release process that has changed, a few lines in the workflow files do less than they seem to, the servers are made by hand, and the web's lint is never run. Knowing them keeps you from trusting the wrong thing, and each one is a fix ready to pick up. None is fixed yet.
 
 *Open. Each seen in the files on 2026-09-28 and read again 2026-09-29, unless marked otherwise.*
 

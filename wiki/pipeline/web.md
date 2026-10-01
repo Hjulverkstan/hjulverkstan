@@ -5,7 +5,7 @@ kind: brief
 
 # The web's path
 
-Visitors should get Hjulverkstan's public site fast, with every page already written. So the web, the public site and the portal staff use, is built ahead of time into plain files, with its content inside. Because each build holds one environment's content and addresses, every environment gets its own build.
+Visitors should get Hjulverkstan's public site fast, with every page already written. So the web, the public site and the portal staff use, is built ahead of time into plain files, with its content inside. Because each build holds one environment's content and addresses, every environment gets its own build. Read on for what the build needs, why it may read an old API, and how the finished files reach visitors through AWS.
 
 This is the opposite of the API, whose image moves between environments, as [the API's path](api.md) shows. It is also why an edit to the site's text only shows after the site is built again, which [republishing](publish.md) explains.
 

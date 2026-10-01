@@ -5,7 +5,7 @@ kind: brief
 
 # What a good pipeline is built on
 
-A mistake in a pipeline can stop every deploy, or let a broken one through, so a pipeline is built with more care than ordinary code. Every job in it can fail, and the ideas most good pipelines share all come down to one thing: when something fails, it should fail early, cheaply, and with a clear reason. Knowing them tells you where a change belongs and how to make it safely.
+A mistake in a pipeline can stop every deploy, or let a broken one through, so a pipeline is built with more care than ordinary code. Every job in it can fail, and the ideas most good pipelines share all come down to one thing: when something fails, it should fail early, cheaply, and with a clear reason. Read on for the five ideas that follow from it. With them you can tell where a change to a pipeline belongs, and how to make it safely.
 
 It uses the words from [reading a workflow](reading.md). How Hjulverkstan's pipeline follows each idea is in [changing our pipeline](../writing.md#1-the-ideas-in-ours).
 
@@ -41,6 +41,6 @@ A stage used in two places is written once, as a [reusable workflow](reading.md#
 
 ## 5. Say what was decided, and why it failed
 
-Nobody watches a pipeline while it runs, so it must write down what it decided and why it stopped. A run writes a summary of its decisions, and a step that can fail prints what was wrong, in words a developer understands, before it exits. Then [watching a run](README.md#4-watching-a-run) always leads to the reason.
+Nobody watches a pipeline while it runs, so it must write down what it decided and why it stopped. A run writes a summary of its decisions, and a step that can fail prints what was wrong, in words a developer understands, before it exits. Then [watching a run](README.md#51-watching-a-run) always leads to the reason.
 
 *Reasoned.*
