@@ -11,6 +11,8 @@ How a change to Hjulverkstan is checked and delivered, from pull request to the 
 
 [The pipeline](pipeline/README.md)
 
+It was rewritten beside an earlier version as `pipeline-next/`, and took the earlier one's place once everything kept from it had moved in. *In force, 2026-10-06, [in this log entry](log/2026-10-06-basics-into-pipeline-next.md).*
+
 What was said, decided and asked in the meetings with Save the Children and within the team, written up as knowledge.
 
 [Transcripts](transcripts/README.md)
