@@ -7,12 +7,12 @@ kind: brief
 
 A pipeline is a row of automatic steps that checks every change to a program and delivers it to the people who use it. It works like an assembly line: the same stations, in the same order, every time, so no step depends on someone remembering it. Teams use one because doing this by hand goes wrong in ways that are easy to predict.
 
-Nothing here is special to Hjulverkstan, so if you already know pipelines and the everyday words of software work, you lose nothing by skipping it. The exception is the last section, [pipelines on GitHub](#5-pipelines-on-github), which is for anyone who will work with GitHub Actions: skip it only if you already know them.
+This page is general, so if you already know pipelines and the everyday words of software work, you lose nothing by skipping it. Its last section, [pipelines on GitHub](#5-pipelines-on-github), is for anyone who will work with GitHub Actions, and it is where the general meets ours: the pages it places read Hjulverkstan's own workflow files, and the pipeline's deeper pages link into them.
 
 ![A table with four questions down the side and two columns, by hand and with a pipeline. The steps: done from memory, or written once and run by a machine. The checks: if someone remembers, or on every change. What runs where: someone has to know, or named by version. Releases: rare, big and risky, or often, small and routine](.img/by-hand.svg)\
 The same four questions, answered by hand and by a pipeline.
 
-*Reasoned. The problems of delivering by hand are common experience in software, not seen in this project's own history.*
+*Reasoned, 2026-10-01. The problems of delivering by hand are common experience in software, not seen in this project's own history.*
 
 ## 1. Delivering by hand
 
@@ -22,29 +22,29 @@ A developer builds the new version on their own laptop, turning the code into a 
 
 A pipeline breaks that circle. The steps are written down once and run by a machine, so none is forgotten. Every change is checked before it goes anywhere. Every version has a name, so anyone can see what runs where. And because releasing becomes safe and routine, it can happen often, in small steps that are easy to check.
 
-*Reasoned, as above.*
+*Reasoned, as above, 2026-10-01.*
 
 ## 2. CI and CD
 
 A pipeline does two things, and they have names you will meet everywhere: CI checks every change, and CD delivers it.
 
-*Common usage of the two names, not checked against a source.*
+*Common usage of the two names, not checked against a source; written 2026-10-01.*
 
 ### 2.1 CI, continuous integration
 
 CI means that every change is checked automatically, each time it is added to the code everyone shares. Small changes checked often are easier to fix than big ones checked rarely.
 
-In Hjulverkstan's pipeline, CI is [checking every change](../check.md).
+In Hjulverkstan's pipeline, CI is [checking every change](../checking.md).
 
-*Common usage, not checked against a source.*
+*Common usage, not checked against a source; written 2026-10-01.*
 
 ### 2.2 CD, continuous delivery
 
 CD means that every checked change is delivered automatically, at least to a place where it can be tried.
 
-Some teams go further, with continuous deployment, and send every change all the way to the users by itself. Others, like Hjulverkstan, let a person decide when a change reaches the users. In Hjulverkstan's pipeline, CD is [delivering to dev, test and prod](../deliver.md).
+Some teams go further, with continuous deployment, and send every change all the way to the users by itself. Others, like Hjulverkstan, let a person decide when a change reaches the users. In Hjulverkstan's pipeline, CD is [delivering to dev, test and prod](../delivering/README.md).
 
-*Common usage, not checked against a source.*
+*Common usage, not checked against a source; written 2026-10-01.*
 
 ## 3. How a change travels
 
@@ -61,7 +61,7 @@ A branch leaves `main`, holds your commits, and joins `main` again when its pull
 
 Some versions of `main` become releases. A release is marked with a **tag**, a name such as `v1.4.0` pinned to one commit. The name follows **semantic versioning**: three numbers, where the first grows for a big change and the last for a small fix, so the name says how big the change is.
 
-*Common usage.*
+*Common usage; written 2026-10-01.*
 
 ## 4. From code to a running program
 
@@ -71,13 +71,13 @@ To **build** is to turn the code into something that can run. What is built is o
 
 To **deploy** is to put a built program where its users can reach it. Where it is deployed is an **environment**: one whole running copy of a system, with its own data, on one or more servers. A team usually keeps practice copies for trying changes beside the one the users use, so a mistake on one cannot harm the others.
 
-*Common usage.*
+*Common usage; written 2026-10-01.*
 
 ## 5. Pipelines on GitHub
 
 **GitHub Actions** is GitHub's own service for running pipelines, and this section is for anyone who will work with it. A pipeline is written as workflow files in the folder `.github/workflows/`, and GitHub runs them on its own machines when something happens in the repository, such as a pull request or a merge. Its **Actions tab** lists every run.
 
-*Common usage.*
+*Common usage; written 2026-10-01.*
 
 ### 5.1 Watching a run
 
@@ -95,7 +95,7 @@ A pull request's checks look the same. Open them from the pull request.
 
 A failed run is red in the Actions tab, and on the pull request if it came from one. Its reason is three clicks away: open the run, then the red box in its graph, then the red step.
 
-*Reasoned, from how GitHub shows a run. Not tried in this repository, nor checked against a failing run.*
+*Reasoned, 2026-10-01, from how GitHub shows a run. Not tried in this repository, nor checked against a failing run.*
 
 ### 5.2 Reading and building a workflow
 

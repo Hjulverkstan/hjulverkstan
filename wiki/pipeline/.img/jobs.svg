@@ -45,7 +45,7 @@ svg.sketch .fill-sheer { fill: var(--sheer, oklch(97.5% 0.002 60 / .6)); }
 svg.sketch .fill-bezel { fill: var(--bezel, rgb(255 255 255 / .9)); }
 </style>
 <rect class="ground" width="600" height="176" rx="10"/>
-<text class="note fill-muted" x="24" y="40">the job</text>
+<text class="note fill-muted" x="24" y="40">the part</text>
 <text class="note fill-muted" x="152" y="40">when it happens</text>
 <text class="note fill-muted" x="344" y="40">what it gives</text>
 <path class="stroke-door" d="M24 52 H576"/>
