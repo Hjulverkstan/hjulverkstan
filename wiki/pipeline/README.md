@@ -19,11 +19,13 @@ People decide when, and the pipeline does the work. A developer proposes a chang
 ![A table of the three parts. Check: happens whenever someone proposes a change; gives a yes or no, and nothing goes live. Deliver: happens when a change is accepted or released; puts a new version live. Republish: happens when someone asks for it; gives the website with its newest text](.img/jobs.svg)\
 The pipeline's three parts, when each happens, and what each gives.
 
+Beside these three, one more part publishes this wiki as a web page; it has nothing to do with the software.
+
 *Pipelines in general* is for anyone new to pipelines or to GitHub, the site where the code is kept. It also explains the words linked on this page.
 
 [Pipelines in general](basics/README.md)
 
-*Seen, in `.github/workflows/`, read 2026-10-05; not checked against a real run, nor against the repository's settings on GitHub.*
+*Seen, in `.github/workflows/`, read 2026-10-05, and `pages.yml` 2026-10-09; not checked against a real run, nor against the repository's settings on GitHub.*
 
 ## 1. Every proposed change is checked
 
@@ -63,11 +65,21 @@ Today a developer starts a republish by hand on GitHub. It is meant to be starte
 
 *Seen, in `stage-build-web.yml` and `publish.yml`. The plan is held open: the author's, stated in commit `da06213`, 2026-01-12; nothing starts a republish from the portal yet.*
 
-## 4. Changing the pipeline itself
+## 4. The wiki is published as a web page
+
+This wiki, which holds this page, is a set of files kept beside the code. One more part of the pipeline builds it into a web page and publishes it on GitHub Pages, GitHub's hosting for sites made from a repository. It shares nothing with the three parts above: no environment, and no check of the software.
+
+It runs whenever a change to the wiki is merged into the shared code, and can also be started by hand, with *Run workflow* on *Pages* in GitHub's [Actions tab](basics/README.md#5-pipelines-on-github). Before building, it checks the wiki and writes what it finds in the run's log, such as a link to a heading that is not there. It publishes even so, and the run still shows green, so the log is the only place such a problem shows. If the run itself fails, nothing is published and the page stays as it was.
+
+For now, the wiki's links to the rest of the repository, such as the guidelines, lead nowhere on the page, though they work on GitHub. As the wiki grows, what they point to is likely to get pages of its own in it.
+
+*Seen, in `pages.yml` and the tool it runs, read 2026-10-09. It had not run by then, since it was not yet merged, so where the page will be is not known, nor whether GitHub is set to publish it. That the links will point inside the wiki is a lean, 2026-10-09.*
+
+## 5. Changing the pipeline itself
 
 The pipeline is code like the rest, changed by a pull request, and a mistake in it can stop every delivery or let a broken one through. So a developer about to change it has a page of its own, read step by step when that moment comes.
 
-It says where each kind of change belongs, how to try it safely, and what to ask before merging. Anyone else can skip it, and since it stands on all three parts above, it comes last.
+It says where each kind of change belongs, how to try it safely, and what to ask before merging. Anyone else can skip it, and since it stands on the software's three parts above, it comes last.
 
 [Changing our pipeline](changing.md)
 
