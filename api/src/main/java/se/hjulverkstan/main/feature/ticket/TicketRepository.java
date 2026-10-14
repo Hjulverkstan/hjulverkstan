@@ -13,4 +13,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findAllByDeletedFalse(Sort createdAt);
 
+    List<Ticket> findAllByLocationId(Long locationId, Sort sort);
 }

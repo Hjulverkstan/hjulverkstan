@@ -14,18 +14,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import se.hjulverkstan.main.error.exceptions.ApiException;
 import se.hjulverkstan.main.error.exceptions.TokenRefreshException;
+import se.hjulverkstan.main.shared.ResponseUtils;
 
 import java.util.List;
 
 @ControllerAdvice
 @Slf4j
 public class ExceptionsController {
+
     @ExceptionHandler(value = { ApiException.class })
     public ResponseEntity<ApiError> apiExceptionHandler(ApiException e){
-        ApiError apiError = new ApiError(e.getCode(), e.getDescription(), e.getStatusCode());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ResponseEntity<ApiError> response = ResponseUtils.error(e.getCode(), e.getDescription(), HttpStatus.valueOf(e.getStatusCode()));
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
@@ -38,70 +39,61 @@ public class ExceptionsController {
                         fieldError.getDefaultMessage()))
                 .toList();
 
-        ApiError apiError = new ApiError("validation_error", String.join("; ", errors), HttpStatus.BAD_REQUEST.value());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ResponseEntity<ApiError> response = ResponseUtils.error("validation_error", String.join("; ", errors), HttpStatus.BAD_REQUEST);
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiError> noResourceFoundException(HttpServletRequest req, NoResourceFoundException e) {
         String message = String.format("Route %s not found", req.getRequestURI());
-        ApiError apiError = new ApiError("route_not_found", message, HttpStatus.NOT_FOUND.value());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ResponseEntity<ApiError> response = ResponseUtils.error("route_not_found", message, HttpStatus.NOT_FOUND);
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiError> noMethodSupportException(HttpServletRequest req, HttpRequestMethodNotSupportedException e) {
-        String message = String.format("the method %s for the route %s is not found",req.getMethod(), req.getRequestURI());
-        ApiError apiError = new ApiError("not_supported_method", message, HttpStatus.NOT_FOUND.value());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        String message = String.format("the method %s for the route %s is not found", req.getMethod(), req.getRequestURI());
+        ResponseEntity<ApiError> response = ResponseUtils.error("not_supported_method", message, HttpStatus.NOT_FOUND);
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 
     @ExceptionHandler(value = { Exception.class })
     public ResponseEntity<ApiError> generalExceptionHandler(Exception e){
-        System.err.println("Internal Error : " + e.getMessage());
-        ApiError apiError = new ApiError("internal_error", "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ResponseEntity<ApiError> response = ResponseUtils.error("internal_error", "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiError> MessageNotReadableExceptiion(HttpMessageNotReadableException e) {
+    public ResponseEntity<ApiError> messageNotReadableException(HttpMessageNotReadableException e) {
         String message = String.format("The request contains invalid data: %s", e.getMessage());
-        ApiError apiError = new ApiError("bad_request", message, HttpStatus.BAD_REQUEST.value());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ResponseEntity<ApiError> response = ResponseUtils.error("bad_request", message, HttpStatus.BAD_REQUEST);
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 
     @ExceptionHandler(value = TokenRefreshException.class)
     public ResponseEntity<ApiError> handleTokenRefreshException(TokenRefreshException e) {
-        ApiError apiError = new ApiError("internal_error",  e.getMessage(),  HttpStatus.FORBIDDEN.value());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ResponseEntity<ApiError> response = ResponseUtils.error("internal_error", e.getMessage(), HttpStatus.FORBIDDEN);
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 
     @ExceptionHandler({BadCredentialsException.class})
     public ResponseEntity<ApiError> badRequest(Exception e) {
-        ApiError apiError = new ApiError("Invalid credentials",  e.getMessage(),  HttpStatus.BAD_REQUEST.value());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ResponseEntity<ApiError> response = ResponseUtils.error("Invalid credentials", e.getMessage(), HttpStatus.BAD_REQUEST);
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiError> handleDataIntegrityViolation(DataIntegrityViolationException e) {
         String message = "Request could not be processed due to data integrity violation.";
-        ApiError apiError = new ApiError("data_integrity_error", message, HttpStatus.BAD_REQUEST.value());
-
-        log.error(apiError.toString(), e);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ResponseEntity<ApiError> response = ResponseUtils.error("data_integrity_error", message, HttpStatus.BAD_REQUEST);
+        log.error(response.getBody().toString(), e);
+        return response;
     }
 }

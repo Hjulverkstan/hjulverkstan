@@ -11,11 +11,11 @@ import se.hjulverkstan.main.feature.employee.Employee;
 import se.hjulverkstan.main.feature.employee.EmployeeRepository;
 import se.hjulverkstan.main.feature.location.Location;
 import se.hjulverkstan.main.feature.location.LocationRepository;
-import se.hjulverkstan.main.feature.notification.Notification;
 import se.hjulverkstan.main.feature.notification.NotificationService;
 import se.hjulverkstan.main.feature.vehicle.VehicleRepository;
 import se.hjulverkstan.main.feature.vehicle.model.Vehicle;
 import se.hjulverkstan.main.shared.ListResponseDto;
+import se.hjulverkstan.main.shared.SecurityUtils;
 import se.hjulverkstan.main.shared.ValidationUtils;
 
 import java.util.List;
@@ -39,6 +39,7 @@ public class TicketService {
 
     public TicketDto getTicketById(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Ticket"));
+        verifyLocation(ticket);
         return new TicketDto(ticket);
     }
 
@@ -47,12 +48,15 @@ public class TicketService {
         TicketUtils.validateDtoBySelf(dto);
 
         List<Vehicle> vehicles = vehicleRepository.findAllById(dto.getVehicleIds());
-
         ValidationUtils.validateNoMissing(dto.getVehicleIds(), vehicles, Vehicle::getId, Vehicle.class);
         TicketUtils.validateDtoByContext(dto, vehicles);
 
         Ticket ticket = new Ticket();
         this.applyToEntity(ticket, dto, vehicles);
+
+        // Location Jail: verify the ticket matches user's preferred location if not set specifically
+        verifyLocation(ticket);
+
         ticketRepository.save(ticket);
 
         TicketUtils.updateVehiclesByTicketType(vehicles, ticket);
@@ -66,10 +70,13 @@ public class TicketService {
         TicketUtils.validateDtoBySelf(dto);
 
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Ticket"));
-        List<Vehicle> vehicles = vehicleRepository.findAllById(dto.getVehicleIds());
+        verifyLocation(ticket);
 
+        List<Vehicle> vehicles = vehicleRepository.findAllById(dto.getVehicleIds());
         ValidationUtils.validateNoMissing(dto.getVehicleIds(), vehicles, Vehicle::getId, Vehicle.class);
         TicketUtils.validateDtoByContext(dto, vehicles);
+
+        Long oldEmployeeId = ticket.getEmployee() != null ? ticket.getEmployee().getId() : null;
 
         this.applyToEntity(ticket, dto, vehicles);
         ticketRepository.save(ticket);
@@ -80,6 +87,7 @@ public class TicketService {
     @Transactional
     public TicketStatusDto updateTicketStatus(Long id, TicketStatusDto dto) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Ticket"));
+        verifyLocation(ticket);
 
         TicketUtils.validateTicketStatusChange(ticket, dto.getTicketStatus());
 
@@ -91,7 +99,7 @@ public class TicketService {
         vehicleRepository.saveAll(vehicles);
 
         if (dto.getTicketStatus() == TicketStatus.COMPLETE && !vehicles.isEmpty()) {
-            Notification notif = notificationService.sendRepairTicketCompleteSms(ticket);
+            var notif = notificationService.sendRepairTicketCompleteSms(ticket);
             dto.setRepairCompleteNotificationStatus(notif.getNotificationStatus());
         }
 
@@ -109,12 +117,17 @@ public class TicketService {
     @Transactional
     public void hardDeleteTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new ElementNotFoundException("Ticket"));
+        verifyLocation(ticket);
 
-        // We don't cascade remove – but the relation in the many-to-many needs to be cleared.
         ticket.getVehicles().forEach(vehicle -> vehicle.getTickets().remove(ticket));
-
         ticketRepository.delete(ticket);
+    }
 
+    private void verifyLocation(Ticket ticket) {
+        Long userLocationId = SecurityUtils.getCurrentLocationId();
+        if (userLocationId != null && !userLocationId.equals(ticket.getLocation().getId())) {
+            throw new ElementNotFoundException("Ticket"); // 404 for cross-location
+        }
     }
 
     private void applyToEntity(Ticket ticket, TicketDto dto, List<Vehicle> vehicles) {
@@ -126,6 +139,9 @@ public class TicketService {
 
         Customer customer = customerRepository.findById(dto.getCustomerId())
                 .orElseThrow(() -> new ElementNotFoundException("Customer with id: " + dto.getCustomerId()));
+
+        // Integrity Guards
+        TicketUtils.validateResourceIntegrity(customer, vehicles, location, employee);
 
         dto.applyToEntity(ticket, vehicles, location, employee, customer);
     }

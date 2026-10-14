@@ -72,10 +72,10 @@ public class TicketDto extends AuditableDto {
         endDate = ticket.getEndDate();
         repairDescription = ticket.getRepairDescription();
         comment = ticket.getComment();
-        vehicleIds = ticket.getVehicles().stream().map(Vehicle::getId).toList();
-        locationId = ticket.getLocation().getId();
-        employeeId = ticket.getEmployee().getId();
-        customerId = ticket.getCustomer().getId();
+        vehicleIds = ticket.getVehicles() != null ? ticket.getVehicles().stream().map(Vehicle::getId).toList() : List.of();
+        locationId = ticket.getLocation() != null ? ticket.getLocation().getId() : null;
+        employeeId = ticket.getEmployee() != null ? ticket.getEmployee().getId() : null;
+        customerId = ticket.getCustomer() != null ? ticket.getCustomer().getId() : null;
         deleted = ticket.isDeleted();
 
         repairCompleteNotificationStatus = ticket.getNotifications().stream()
@@ -99,7 +99,9 @@ public class TicketDto extends AuditableDto {
 
         // Set to initial status if of type rent or repair as the status is not choosable upon creation
         boolean statusMandatory = ticketType == TicketType.REPAIR || ticketType == TicketType.RENT;
-        if (ticketStatus == null && statusMandatory) ticket.setTicketStatus(TicketStatus.READY);
+        if (ticket.getTicketStatus() == null && statusMandatory) {
+            ticket.setTicketStatus(TicketStatus.READY);
+        }
 
         return ticket;
     }
