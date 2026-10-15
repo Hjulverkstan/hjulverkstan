@@ -9,7 +9,7 @@ The first meeting of this phase with the client, Chiaco and Samir of Save the Ch
 
 *Source: `2026-08-19-client-meeting.vtt`, kept outside the repo (Teams recording, 69 min). The first meeting of this phase with the client — Chiaco, who founded and leads Hjulverkstan at Save the Children, and Samir — two days after the intro meetings of 08-17 and the morning after the working session of 08-18; ten minutes before it Jona gave the Alten team the briefest brief on Save the Children and Hjulverkstan. Participants: Jona, Mauricio and the interns for Alten; Chiaco and Samir for Save the Children. The recorder attributed every cue to Jona; the other voices are inferred from content and marked `[?]` — which of the two Save the Children voices is Chiaco's and which Samir's is that inference throughout (the names come from Jona afterwards, not from the recording), as is Mauricio [?] for the outsider's questions; the interns are not heard distinctly. The ball was not in use. This is the first source for the fold above `product/` in [`drafts/knowledge-structure.md`](../drafts/knowledge-structure.md) — the initiative, Save the Children, the goals behind the product, the scope beyond it — and a source for `product/` and for the plan ahead. Topics recurred through the hour, so folds gather a topic under its first timestamp and name the later minutes. Written from a 1:1 clean per [README](README.md); the clean was independently checked (2 passes); check passes: 3; rewrites: 2.*
 
-*Status: pending approval — see [README](README.md).*
+*Status: approved, 2026-10-12, by an explicit go from each speaker, collected by Emelie — see [README](README.md) and [the log](../log/2026-10-12-transcripts-approved.md).*
 
 Contents:
 
