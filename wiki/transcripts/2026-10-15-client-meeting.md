@@ -9,7 +9,7 @@ Alten met Save the Children as the interns' first period drew to its end, with L
 
 *Source: `2026-10-15-client-meeting.vtt` (68 min, in Swedish), kept outside the repo in `.raw/` with a rendering of it as timestamped text. Participants, as given by Emelie since the recording names few: Jona (Alten); the interns Emelie, Eric and Sanna, in the last days of their first period; Chiaco and Samir from Save the Children; and Linda, new at Save the Children, on her ninth day. The recorder attributed every cue to Jona; other voices are inferred from content, and questions are left unattributed where the speaker is unclear. Two names could not be made out in the recording and are not guessed. Written under [the rule](../the-rule/rule.md) from the recording directly, without a separate 1:1 clean, and ordered by the knowledge rather than by the clock; timestamps point back to the minute. What is said about the portal is as said in the meeting, not checked against the code. That the pilot's website is the wiki on GitHub Pages is the team's reading of an unclear passage.*
 
-*Status: draft, not approved. Jona has approved keeping the passages about himself; every voice approves before the transcript is used.*
+*Status: approved, 2026-10-19, as given by Emelie. Jona has approved keeping the passages about himself.*
 
 Contents:
 
