@@ -17,6 +17,10 @@ Much of what the wiki is to hold about Hjulverkstan is meant to come from meetin
 
 How the wiki came to be what it is, change by change, is kept in [the log](log/README.md).
 
-Two more parts are owed here: [how the team builds a part of the wiki]() under the rule, and where people are needed in it; and [the team's own reflections]() on working this way.
+Working this way with an agent has given the team reflections of its own: on what the agent keeps and what it loses, and on where people are needed. They are reflections rather than facts, and still being added to.
 
-*The page's shape and its owed parts: in force, the team's decision of 2026-10-14. That transcripts are approved before use is in force, from [their own page](transcripts/README.md#2-approval).*
+[The team's reflections](reflections.md)
+
+One more part is owed here: [how the team builds a part of the wiki]() under the rule, and where people are needed in it.
+
+*The page's shape and its owed parts: in force, the team's decision of 2026-10-14; the reflections took their place on 2026-10-19, open. That transcripts are approved before use is in force, from [their own page](transcripts/README.md#2-approval).*
