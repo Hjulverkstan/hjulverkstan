@@ -17,9 +17,23 @@ The portal keeps all of it in one place, on the workshop's computer. The person 
 
 *Seen: what the workshop does today, in the [Frölunda workshop](../transcripts/2026-09-16-frolunda.md#31-the-place-and-the-people--pt2-0146), §3.1 and §3.2.*
 
-## 2. Bikes, people and tickets
+## 2. Three parts, and who uses each
 
-The portal holds three things, each on its own page. The three icons at the top left open them.
+The portal has three parts, and this guide is about the first, the one used every day.
+
+- **Shop** is the everyday work: the bikes, the repairs and the lending. Each workshop is logged in to it on one computer.
+
+- **Admin** is used now and then, to reset a password, add a login or a member of staff, or add a new location. One responsible person is meant to use it, not everyone in the workshop.
+
+- **Web edit** changes the public website: its text, in several languages, and blog posts with their images. About one person is likely to run it.
+
+How Web edit is used is a [page still to come](), once it has been gone through with Save the Children.
+
+*Carried from the meeting [with the client in October](../transcripts/2026-10-15-client-meeting.md#6-the-portal-is-ready--3307), §6 and §10; ungraded there and not checked. Who uses Admin and Web edit is a plan, not yet in practice.*
+
+## 3. Bikes, people and tickets
+
+Shop holds three things, each on its own page. The three icons at the top left open them.
 
 - **Inventory**, the bike icon, holds the bikes: the workshop's own loan bikes, and the bikes customers bring in for repair.
 
@@ -48,7 +62,7 @@ A red mark beside a bike's or ticket's number means something needs attention. H
 
 *Seen: tried on a test copy of the portal with made-up data, 2026-10-12. What Broken is for is a guess from its name; the portal sets Archived itself when a repair is closed.*
 
-## 3. The tasks
+## 4. The tasks
 
 The tasks follow a workshop's day, with the most common first. Each task has its own page, to read when the task comes up.
 

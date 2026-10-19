@@ -55,7 +55,7 @@ The message does not say what was done to the bike. Say that when the customer c
 
 ## 4. Hand the bike back
 
-When the customer collects the bike, tell them what was done. It is best if the person who did the work says it, but the description on the ticket helps whoever is there. Then choose **Closed**. The customer's bike is then archived, as [the overview](README.md#2-bikes-people-and-tickets) says, and stays in **Inventory** marked *Archived*.
+When the customer collects the bike, tell them what was done. It is best if the person who did the work says it, but the description on the ticket helps whoever is there. Then choose **Closed**. The customer's bike is then archived, as [the overview](README.md#3-bikes-people-and-tickets) says, and stays in **Inventory** marked *Archived*.
 
 *Seen: closing and the archiving, on the test copy. The handover is from the [Frölunda workshop](../transcripts/2026-09-16-frolunda.md#34-repair-the-work-and-the-handover--pt2-1537), §3.4.*
 

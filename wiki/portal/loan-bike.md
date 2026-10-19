@@ -35,7 +35,7 @@ Press **Create**. While something is missing, **Create** stays grey; hold the po
 A new loan bike starts as *Unavailable*. When it is ready to lend, press ⋯ on its row, then **Status**, and choose **Available**.
 
 ![A loan bike's ⋯ menu with Status open, showing Available, Unavailable (ticked), Broken and Archived](.img/loanbike-2-status.png)\
-A loan bike's statuses, as [the overview](README.md#2-bikes-people-and-tickets) explains them.
+A loan bike's statuses, as [the overview](README.md#3-bikes-people-and-tickets) explains them.
 
 *Seen: tried on the test copy.*
 
