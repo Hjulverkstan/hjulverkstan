@@ -22,4 +22,6 @@ Files touched: the 29 files above. Files created: 23 graphics and their 23 icons
 
 2. **The rule's own cards** inside `the-rule/` were left as they are, since they already carry graphics and that repository is the rule's.
 
-3. **No card yet shows an image** (the picture after the title, [practice §8.7.2](../the-rule/poc/practice.md#872-the-image-is-what-the-file-is-of)). The portal's task pages could show a screenshot there, which would fill their cards.
+## What was decided
+
+- **The portal's task cards show no screenshot.** The practice lets a file carry an image after its title, which fills its card ([practice §8.7.2](../the-rule/poc/practice.md#872-the-image-is-what-the-file-is-of)), and a task's own screenshot could have stood there. It was not taken: it would crowd out the graphic, screenshots of forms look alike at card size, and a screenshot kept twice is two copies to keep up when the portal changes. The screenshots stay in the steps they show. *Emelie's call, 2026-10-20.*
