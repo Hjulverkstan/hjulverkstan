@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A page whose head is a voice's sound wave, with lines of text beneath](.img/transcript.svg)
+
 # Meeting with the client — 2026-08-19
 
 The first meeting of this phase with the client, Chiaco and Samir of Save the Children, opens with the knowledge structure Alten is building and why the meeting is recorded. A Hjulverkstan is not just a bike shop: it is a place for youths to grow and for the community, at five places with housing companies as partners, and soon with a new centre at Returhuset as neutral ground. The portal is built but not in use, and that is the biggest debt: getting the mechanics to use it comes first, with education on the portal and on repairing bikes, while the site's content, marketing and SEO follow. Expansion waits, since it has to be quality, not quantity.

@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A computer screen with a bike on it](.img/README.svg)
+
 # The portal
 
 The portal is where Hjulverkstan's workshops keep track of every bike and what happens to it. This guide is for the people working in the workshops. It shows, task by task, how to do the everyday work in the portal, from a bike coming in for repair to a loan bike coming back. Anyone else can read it to learn how the portal is used.

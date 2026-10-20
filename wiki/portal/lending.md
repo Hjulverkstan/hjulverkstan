@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A bike with an arrow above it pointing away](.img/lending.svg)
+
 # Lending a bike
 
 Lending a loan bike goes through a ticket, like a repair. The portal calls it *Rent*, though the bike is lent for free. The ticket says who has the bike and until when, keeps the bike off the website while it is lent, and warns you if it is not back in time. Only an *Available* loan bike at your workshop can be lent.

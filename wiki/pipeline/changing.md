@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A gear with a pencil beside it](.img/changing.svg)
+
 # Changing our pipeline
 
 Every change on its way to the workshops passes through our pipeline, so a mistake in the pipeline itself can stop every delivery, or let a broken one through. A change to it is ordinary code, made on a branch and merged with a pull request, but it takes more care.

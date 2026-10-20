@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A pipe in sections with a valve, an arrow beneath it showing the way it runs](.img/README.svg)
+
 # The pipeline
 
 The pipeline is the automatic road every change to Hjulverkstan's software takes on its way to the workshops. Its steps are written once and run the same way every time, so every version the workshops get has passed the same check, and is named, so the team knows which one runs. Everyone working with Hjulverkstan, whether or not they write code, can read here what happens to a change and when it reaches the workshops.

@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A bike with a tag hanging from its handlebar](.img/loan-bike.svg)
+
 # Adding a loan bike
 
 A loan bike is one of the workshop's own bikes, restored to lend out. It goes into the portal once, with its details filled in properly, because the portal shows it on Hjulverkstan's public website, where people can see which bikes their workshop has. A new loan bike can be lent only after you set it to *Available*.

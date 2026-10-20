@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A parcel with an arrow pointing onward](.img/README.svg)
+
 # Delivering a change
 
 Every delivery runs the same four steps in the same order, whatever starts it, so a change that fails its check is never built for delivery and never deployed. What starts it, a merge, a release's tag or a button, decides only where it goes and how much of it goes. What lies beneath the software, its tables, servers and settings, stays with people.

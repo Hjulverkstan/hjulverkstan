@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![An open book with a pencil writing in it](.img/making.svg)
+
 # How this wiki is made
 
 This wiki is written under the rule, a way of laying knowledge so that the biggest understanding comes first and every part can be read whole. It is made from recorded meetings and from what the code and its documents show.

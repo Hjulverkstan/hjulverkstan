@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(32 32) scale(0.9) translate(-32 -32)">
+    <path class="f" d="M24 14 a8 8 0 0 1 16 0 V28 a8 8 0 0 1 -16 0 Z"/>
+    <path class="s" d="M24 14 a8 8 0 0 1 16 0 V28 a8 8 0 0 1 -16 0 Z"/>
+    <path class="t" d="M25 15 H39 M24.5 20 H39.5 M24.5 25 H39.5"/>
+    <path class="s" d="M18 26 V28 a14 14 0 0 0 28 0 V26 M32 42 V53 M22 54 H42"/>
+    <path class="t" d="M14 15 q-4 7 0 14 M9 11 q-6 11 0 22 M50 15 q4 7 0 14 M55 11 q6 11 0 22"/>
+</g>
+</svg>

@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A signpost pointing two ways](.img/start.svg)
+
 # Finding your way at the computer
 
 Before the first task, it helps to know how to log in and out, how every page of the portal works the same way, and what the phone is for. The portal is in English, and this guide uses its words.

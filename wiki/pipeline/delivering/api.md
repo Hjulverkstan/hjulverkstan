@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![Three containers stacked, ready to ship](.img/api.svg)
+
 # The API's path
 
 No server should have to build the API, and an image should say which code it holds. So each delivery builds the API into a [Docker image](../basics/README.md#4-from-code-to-a-running-program) named by its commit, and gives the image a name for its environment that the server follows.

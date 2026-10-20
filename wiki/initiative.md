@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A bicycle with a heart above it](.img/initiative.svg)
+
 # The initiative
 
 Hjulverkstan is an initiative Save the Children Sweden started in Gothenburg, to support integration and empower the people who live nearby. Its means are bike workshops: the bikes are the medium, and the heart is the community that grows around a workshop and what it does for the people in it.

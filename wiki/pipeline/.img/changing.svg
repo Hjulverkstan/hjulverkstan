@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(32 32) scale(0.9) translate(-32 -32)">
+    <path class="f" d="M44.12 30.46 L48.82 31.22 L48.82 36.78 L44.12 37.54 L42.62 41.64 L45.73 45.25 L42.16 49.51 L38.07 47.07 L34.29 49.26 L34.35 54.02 L28.88 54.98 L27.31 50.49 L23.01 49.73 L20.00 53.42 L15.19 50.64 L16.87 46.18 L14.07 42.84 L9.39 43.73 L7.49 38.51 L11.64 36.18 L11.64 31.82 L7.49 29.49 L9.39 24.27 L14.07 25.16 L16.87 21.82 L15.19 17.36 L20.00 14.58 L23.01 18.27 L27.31 17.51 L28.88 13.02 L34.35 13.98 L34.29 18.74 L38.07 20.93 L42.16 18.49 L45.73 22.75 L42.62 26.36 Z"/>
+    <path class="s" d="M44.12 30.46 L48.82 31.22 L48.82 36.78 L44.12 37.54 L42.62 41.64 L45.73 45.25 L42.16 49.51 L38.07 47.07 L34.29 49.26 L34.35 54.02 L28.88 54.98 L27.31 50.49 L23.01 49.73 L20.00 53.42 L15.19 50.64 L16.87 46.18 L14.07 42.84 L9.39 43.73 L7.49 38.51 L11.64 36.18 L11.64 31.82 L7.49 29.49 L9.39 24.27 L14.07 25.16 L16.87 21.82 L15.19 17.36 L20.00 14.58 L23.01 18.27 L27.31 17.51 L28.88 13.02 L34.35 13.98 L34.29 18.74 L38.07 20.93 L42.16 18.49 L45.73 22.75 L42.62 26.36 Z"/>
+    <circle class="g" cx="28" cy="34" r="6"/>
+    <circle class="s" cx="28" cy="34" r="6"/>
+    <circle class="t" cx="28" cy="34" r="12"/>
+    <g transform="translate(48 26) rotate(35)">
+    <path class="g" d="M-3 -16 H3 V10 L0 16 L-3 10 Z"/>
+    <path class="s" d="M-3 -16 H3 V10 L0 16 L-3 10 Z"/>
+    <path class="s" d="M-3 -11 H3 M-3 10 H3"/>
+    <path class="t" d="M0 -11 V10"/>
+    </g>
+</g>
+</svg>

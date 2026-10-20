@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A wheel between two arrows, one going each way](.img/give-receive.svg)
+
 # Giving away and receiving bikes
 
 Now and then the workshop gives a bike away or receives one, and the portal records it with a ticket: *Donate* for giving away, *Receive* for receiving. These tickets have no status; making one is the whole job.

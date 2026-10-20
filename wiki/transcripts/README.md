@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A microphone with sound around it](.img/README.svg)
+
 # Transcripts
 
 A transcript is the knowledge a meeting presented, written up afterwards as knowledge rather than as speech. The recording stays in the gitignored `.raw/`, never leaving the machine, so anyone can descend from a claim to the minute it came from. Transcripts are written and made under [the rule](../the-rule/rule.md), with [`mishearings.md`](mishearings.md) at hand for the recorder's slips; the latest transcript shows the shape. This page holds only what a transcript adds.

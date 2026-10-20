@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![Three wheels in a row, an arrow above them pointing on](.img/queue.svg)
+
 # Working through the queue
 
 Once a repair ticket is made, the bike waits in line. This page takes it from waiting to collected: finding the next bike, starting the work, telling the customer it is ready, and handing it back. Each step is a change of the ticket's status, so everyone can see where every bike is.

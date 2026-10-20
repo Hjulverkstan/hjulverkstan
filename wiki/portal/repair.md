@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A bike wheel with a wrench across it](.img/repair.svg)
+
 # A bike comes in for repair
 
 When someone brings a bike to be fixed, you put it into the portal as a repair ticket. Then the bike is in the queue, anyone in the workshop can take on the job, and when it is done the portal can send the customer a text message. At the computer it takes three steps: the customer, their bike, and the ticket that joins them.

@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A page of indented lines under a magnifying glass](.img/reading.svg)
+
 # Reading a workflow
 
 Every claim about a pipeline can be checked in its workflow files, so you never have to take a page like this one on its word. A workflow file says when it runs, which jobs it runs, in what order, and on what conditions.

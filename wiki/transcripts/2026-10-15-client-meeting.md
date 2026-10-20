@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A page whose head is a voice's sound wave, with lines of text beneath](.img/transcript.svg)
+
 # Meeting with the client — 2026-10-15
 
 Alten met Save the Children as the interns' first period drew to its end, with Linda, new at Save the Children, there to hear where things stand. Jona told the background of the partnership, and why Alten now works the way it does: the pilot, and the rule for building knowledge it rests on. The portal is ready for production, and the workshops start on it at the event on 24 October. The knowledge base is estimated for February. Save the Children raised two wishes for the website and a question of funding.

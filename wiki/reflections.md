@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A mountain mirrored in still water](.img/reflections.svg)
+
 # The team's reflections
 
 These are our team's reflections on building this wiki with an AI agent under the rule, the way of writing that every page here follows. They are what we noticed and what we think it means, not findings anyone has checked. They are written for whoever works this way next, in this team or in another project that takes up the rule.

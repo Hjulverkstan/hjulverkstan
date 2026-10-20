@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A bike with an arrow above it pointing back](.img/return.svg)
+
 # A loan bike coming back
 
 When a loan bike comes back, you close its lending ticket and say what state the bike is in. If you skip the second part, the bike stays *Unavailable*, and nobody can borrow it or see it on the website.
