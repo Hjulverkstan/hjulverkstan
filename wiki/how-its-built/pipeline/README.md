@@ -7,9 +7,7 @@ kind: brief
 
 The pipeline is the automatic road every change to Hjulverkstan's software takes on its way to the workshops. Its steps are written once and run the same way every time, so every version the workshops get has passed the same check, and is named, so the team knows which one runs. Everyone working with Hjulverkstan, whether or not they write code, can read here what happens to a change and when it reaches the workshops.
 
-The software has two parts. The website is both the public site and the portal where staff work, among other things writing the site's text. The API is the program behind the website; it keeps the data in a database, and the site's images in a store of their own.
-
-The software runs in three [environments](basics/README.md#4-from-code-to-a-running-program): dev, where the team sees a change first; test, where a release is tried before it reaches prod; and prod, the one the workshops and visitors use. Each has its own website, API and database, so trying a change in one leaves the others as they were.
+The software runs in three [environments](basics/README.md#4-from-code-to-a-running-program), dev, test and prod, as [how it's built](../README.md) gives them. Each has its own website, API and database, so trying a change in one leaves the others as they were.
 
 ![Three columns headed dev, test and prod, each listing website, API and database. Under dev: updated by each merge to main, where a change is seen first. Under test: updated by a tag vX.Y.Z-rc.N, where a release is tried. Under prod: updated by a tag vX.Y.Z, what the workshops use](.img/environments.svg)\
 The same three parts in each environment. Only what updates them, and who uses them, is different.
@@ -35,7 +33,7 @@ The check is narrow. The API's only test today makes sure it starts, and nothing
 
 [Checking every change](checking.md)
 
-*Seen, in `pr.yml`, `stage-test.yml` and `api/src/test/`; the review is the team's practice, from the [guidelines](../../GUIDELINES.md).*
+*Seen, in `pr.yml`, `stage-test.yml` and `api/src/test/`; the review is the team's practice, from the [guidelines](../../../GUIDELINES.md).*
 
 ## 2. Merged changes reach dev, releases reach the workshops
 

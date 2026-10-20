@@ -114,7 +114,7 @@ The lint is not yet cheapest first. In this file the website's steps come after 
 
 ### 2.3 Adding a value or a secret
 
-Values that differ between environments, or must stay secret, are kept on GitHub as each environment's [variables and secrets](basics/reading.md#5-environments-variables-and-secrets), never in the files, as [what a delivery does not change](delivering/README.md#3-what-a-delivery-does-not-change) says. Add a new one in every environment's settings, and a stage reads it by its name. The [infrastructure readme](../../cdk/README.md#github-actions) names some of what each environment holds, and points to `.env.template` for the rest.
+Values that differ between environments, or must stay secret, are kept on GitHub as each environment's [variables and secrets](basics/reading.md#5-environments-variables-and-secrets), never in the files, as [what a delivery does not change](delivering/README.md#3-what-a-delivery-does-not-change) says. Add a new one in every environment's settings, and a stage reads it by its name. The [infrastructure readme](../../../cdk/README.md#github-actions) names some of what each environment holds, and points to `.env.template` for the rest.
 
 If the value is a setting the API reads, it needs more places, listed in [adding a setting the API needs](delivering/api.md#5-adding-a-setting-the-api-needs).
 

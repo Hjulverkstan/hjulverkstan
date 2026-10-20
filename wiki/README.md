@@ -7,11 +7,11 @@ kind: brief
 
 The wiki is where everything about Hjulverkstan beyond the code is meant to live, for people and agents alike. It is under construction. Its structure is not decided and will be mapped out together, so this page places only what is here now.
 
-How a change to Hjulverkstan is checked and delivered, from pull request to the workshops.
+What Hjulverkstan's software is made of, where it runs, and how a change reaches the workshops.
 
-[The pipeline](pipeline/README.md)
+[How it's built](how-its-built/README.md)
 
-It was rewritten beside an earlier version as `pipeline-next/`, and took the earlier one's place once everything kept from it had moved in. *In force, 2026-10-06, [in this log entry](log/2026-10-06-basics-into-pipeline-next.md).*
+The pipeline, which stood here on its own, now stands beneath it. *In force, 2026-10-20, [in this log entry](log/2026-10-20-how-its-built.md).*
 
 What was said, decided and asked in the meetings with Save the Children and within the team, written up as knowledge.
 

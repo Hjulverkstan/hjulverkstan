@@ -43,7 +43,7 @@ And the check's database is Postgres 15, while the environments run Postgres 17,
 
 ## 4. When the check is red
 
-A red check says why in the log of the step that failed. Open the check from the pull request, then the red step, as [watching a run](basics/README.md#51-watching-a-run) shows. Run the same commands on your own machine, set up as the [setup guide](../../SETUP.md) says, before you push a fix.
+A red check says why in the log of the step that failed. Open the check from the pull request, then the red step, as [watching a run](basics/README.md#51-watching-a-run) shows. Run the same commands on your own machine, set up as the [setup guide](../../../SETUP.md) says, before you push a fix.
 
 The two parts run one after the other in one job. So if the API's tests fail, the website's part never runs, and a red check says nothing yet about the website.
 

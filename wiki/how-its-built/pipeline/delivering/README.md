@@ -98,7 +98,7 @@ Two tags on `main`. The release candidate goes to test. The final release, on a 
 
 A tag that starts with `v` but breaks a rule fails the run, and the log says which rule. A tag that does not start with `v` starts nothing at all, and shows no error. Either way, delete it with `git tag -d <tag>` and `git push --delete origin <tag>`, then tag the right commit.
 
-How to make a release, with its release notes, is in the [release process](../../../GUIDELINES.md#release-process-). It is partly out of date: it names a workflow `release.yml`, which is now `pipeline.yml`, gives the API's image tags as names no longer in use, and some of its examples have no `v`.
+How to make a release, with its release notes, is in the [release process](../../../../GUIDELINES.md#release-process-). It is partly out of date: it names a workflow `release.yml`, which is now `pipeline.yml`, gives the API's image tags as names no longer in use, and some of its examples have no `v`.
 
 *Seen, in `pipeline.yml` and `GUIDELINES.md`; the out-of-date process is open.*
 
@@ -108,7 +108,7 @@ A delivery changes the API and the website, and leaves what lies beneath them to
 
 - **The database's tables.** No delivery changes them: the API is set never to, and there is no tool for it. So a change to how the data is stored is made in each environment's database by hand, before the API that needs it is delivered. Until that API arrives, the old one runs against the changed tables, so the change is best made in a way the old API still fits.
 
-- **The servers.** The servers, and what runs on them, are set up by people running CDK, not by the pipeline, as the [infrastructure readme](../../../cdk/README.md) shows. [The API's server](api.md#3-the-server) says what that leaves on each one.
+- **The servers.** The servers, and what runs on them, are set up by people running CDK, not by the pipeline, as the [infrastructure readme](../../../../cdk/README.md) shows. [The API's server](api.md#3-the-server) says what that leaves on each one.
 
 - **The settings.** Each environment's addresses, names and passwords are kept on GitHub as its [variables and secrets](../basics/reading.md#5-environments-variables-and-secrets), never in the files. They are set there by hand, and building and deploying only read them. One secret is the exception: the key the API signs its logins with is written in `application.properties`, so it is the same in every environment and readable by anyone who can read the code.
 
@@ -126,7 +126,7 @@ Sometimes a delivery must run without a new change: after a failure, to try some
 
 A branch other than `main` leaves its code on dev until a later run replaces it, and a later merge replaces only the part it changes. So tell the team before you deliver a branch.
 
-*Seen, in `pipeline.yml`; "choose both" is also the [infrastructure readme's](../../../cdk/README.md#7-trigger-pipeline) advice. What a branch has changed is from `dorny/paths-filter`'s documentation, and what `main` alone sees from its code; what stays on dev is reasoned; neither tried. The old tags, seen with git, 2026-10-07.*
+*Seen, in `pipeline.yml`; "choose both" is also the [infrastructure readme's](../../../../cdk/README.md#7-trigger-pipeline) advice. What a branch has changed is from `dorny/paths-filter`'s documentation, and what `main` alone sees from its code; what stays on dev is reasoned; neither tried. The old tags, seen with git, 2026-10-07.*
 
 ### 4.1 Going back
 
@@ -170,7 +170,7 @@ The first delivery to a new environment fails, and this is expected. Its databas
 
 ### 6.1 Filling its database once
 
-The [infrastructure readme](../../../cdk/README.md#manual-sql-init-on-first-run-of-ec2-instance) says how to fill it once, by hand, with two settings in the server's `.env`: one that makes the tables, `SPRING_JPA_HIBERNATE_DDL_AUTO`, and one that loads `data.sql`, `SPRING_SQL_INIT_MODE`. It gives the first twice, once as `update` and once as `create`, and which is meant is open. The next deploy replaces the server's `.env` whole, so the two settings last only until then.
+The [infrastructure readme](../../../../cdk/README.md#manual-sql-init-on-first-run-of-ec2-instance) says how to fill it once, by hand, with two settings in the server's `.env`: one that makes the tables, `SPRING_JPA_HIBERNATE_DDL_AUTO`, and one that loads `data.sql`, `SPRING_SQL_INIT_MODE`. It gives the first twice, once as `update` and once as `create`, and which is meant is open. The next deploy replaces the server's `.env` whole, so the two settings last only until then.
 
 *Seen, in `cdk/README.md` and `stage-deploy-api.yml`.*
 

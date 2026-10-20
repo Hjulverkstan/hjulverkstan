@@ -77,7 +77,7 @@ The deploy writes the `.env` file one named line at a time, rather than copying 
 
 3. The application, in `api/src/main/resources/application.properties`, which reads it.
 
-4. The [`.env.template`](../../../.env.template), which developers copy to run the project locally.
+4. The [`.env.template`](../../../../.env.template), which developers copy to run the project locally.
 
 5. If the API cannot start without it, the two places in `stage-test.yml` that start the API: for its tests, and for the website's part of the check.
 
