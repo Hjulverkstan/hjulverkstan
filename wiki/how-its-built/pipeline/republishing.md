@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A page with two arrows coming round it](.img/republishing.svg)
+
 # Republishing the website
 
 A republish uses today's text and images, today's settings and today's workflow files, but the code its environment's website was last built from. It changes the website alone, leaves the API and its database as they are, and runs no check, since its code is not new.

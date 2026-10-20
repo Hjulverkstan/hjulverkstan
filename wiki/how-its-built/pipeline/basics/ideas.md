@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A light bulb](.img/ideas.svg)
+
 # What a good pipeline is built on
 
 A mistake in a pipeline can stop every deploy, or let a broken one through, so a pipeline is built with more care than ordinary code. Every job in it can fail, and the ideas most good pipelines share all come down to one thing: when something fails, it should fail early, cheaply, and with a clear reason. With them you can tell where a change to a pipeline belongs, and how to make it safely.

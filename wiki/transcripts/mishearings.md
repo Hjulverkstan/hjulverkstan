@@ -49,6 +49,21 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 - Spotron → Sportson [?]
 - Almanaz → Arvsfonden [?]
 - Trinity, tree meter design → Trinity, Jona's name for the ticket wizard
+- julverkstan, djurverkstan, djurverkstaden, euroverkstaden, kulturverkstan → Hjulverkstan
+- The rool, the roop → the rule
+- proph of Concept → proof of concept
+- tjack → Chiaco
+- shot, tjock (portal part) → Shop
+- webbyt → web edit
+- claudifieringen → molnifieringen, cloudification
+- Dennis richy → Dennis Ritchie
+- rädda barnhem → Rädda Barnen
+- euroko → Yrgo [?]
+- (vi jobbar) på bone → pro bono
+- Wikipedia, kulturverkstan. org → wiki.hjulverkstan.org [?]
+- offens source → open source
+- Gatwich, gatuchi, kattuch, kattisha → a colleague's name, not made out
+- sälar, Sellar → an instructor's name, not made out
 
 ## Generic slips
 

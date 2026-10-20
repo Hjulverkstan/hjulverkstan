@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A browser window with a page in it](.img/web.svg)
+
 # The website's path
 
 Visitors should get a page at once, from anywhere. So each environment's website is built into finished files, from text the build fetches by signing in to that environment's API, and the files are served from caches near the visitor. A small file, `version.json`, is the only place that says which website an environment runs.

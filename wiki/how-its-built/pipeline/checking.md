@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A shield with a check mark](.img/checking.svg)
+
 # Checking every change
 
 A green check is worth less than it looks: a change to how the data is stored, or a type error in the website, passes it and can still fail on an environment. Knowing where its edge lies tells you what is still yours to try, and where to look when it is red.

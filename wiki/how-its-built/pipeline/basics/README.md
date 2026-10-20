@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![Boxes on an assembly line, an arrow above them](.img/README.svg)
+
 # Pipelines in general
 
 A pipeline is a row of automatic steps that checks every change to a program and delivers it to the people who use it. It works like an assembly line: the same stations, in the same order, every time, so no step depends on someone remembering it. Teams use one because doing this by hand goes wrong in ways that are easy to predict.
