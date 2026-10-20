@@ -5,7 +5,7 @@ kind: brief
 
 ![A no-entry sign](.img/no.svg)
 
-# When the portal says no
+# Problems in the portal, and what to do
 
 Sometimes the portal will not let you do something, or does something you did not expect. This page gathers those moments, each with what it means and what to do. Look up the one you meet; they can be read in any order.
 

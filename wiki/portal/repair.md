@@ -77,6 +77,6 @@ The ticket gets a number of its own, such as #9. It is not the same as the bike'
 
 ## 5. If Create stays grey
 
-**Create** stays grey while something needed is missing or filled in wrong. Hold the pointer over it to see why. What the messages mean is gathered on [when the portal says no](no.md#a-create-stays-grey).
+**Create** stays grey while something needed is missing or filled in wrong. Hold the pointer over it to see why. What the messages mean is gathered on [problems in the portal, and what to do](no.md#a-create-stays-grey).
 
 *Seen: tried on the test copy.*

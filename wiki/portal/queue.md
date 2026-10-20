@@ -33,7 +33,7 @@ A repair's statuses, in the ⋯ menu.
 
 If you are not the employee named on the ticket, put yourself there, so everyone can see who has the bike. Press the ticket's number to open it, press **Edit**, choose yourself under **Employee**, and press **Save**. Saving sets the ticket back to *Ready*, so choose **In progress** again afterwards.
 
-*Seen: tried on the test copy. That saving resets the status is a fault, noted on [when the portal says no](no.md#i-things-that-go-wrong-without-a-message). Whether the person who starts the work should always be the employee is a suggestion, not decided.*
+*Seen: tried on the test copy. That saving resets the status is a fault, noted on [problems in the portal, and what to do](no.md#i-things-that-go-wrong-without-a-message). Whether the person who starts the work should always be the employee is a suggestion, not decided.*
 
 ## 3. Tell the customer it is ready
 

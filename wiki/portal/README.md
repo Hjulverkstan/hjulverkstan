@@ -92,6 +92,6 @@ Now and then the workshop gives a bike away or receives one.
 
 Last comes a page to look things up in when the portal will not do what you want, or does something you did not expect.
 
-[When the portal says no](no.md)
+[Problems in the portal, and what to do](no.md)
 
 *Lean, 2026-10-12: the order approved by Emelie the same day, except that adding a loan bike now comes before lending, since lending needs one.*
