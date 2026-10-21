@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A globe](.img/website.svg)
+
 # The website
 
 The website, in `web/`, is one React application written in TypeScript and built with Vite. It serves the public site and the portal in two different ways, because they need different things: the public site has to load fast and be found by search engines, and the portal has to show data as it changes.

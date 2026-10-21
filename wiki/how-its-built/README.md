@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![Three Lego bricks built into a small step](.img/README.svg)
+
 # How it's built
 
 Hjulverkstan's software is a website and the program behind it, the API, both running on Amazon's cloud. Both are built from a few well-known tools, used the same way throughout.

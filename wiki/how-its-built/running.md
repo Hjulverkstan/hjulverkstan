@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A rack of three servers](.img/running.svg)
+
 # Where it runs
 
 Each environment is a small set of Amazon services: an address in front, stores for files, and one server for the API and its database. A developer makes them by running the code in `cdk/`.

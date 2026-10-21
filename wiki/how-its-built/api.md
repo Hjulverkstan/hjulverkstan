@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A plug about to meet its socket](.img/api.svg)
+
 # The API
 
 The API, in `api/`, is a Spring Boot application in Java 21, with PostgreSQL. It is laid out with one package per kind of thing it keeps, each built the same way, and it keeps almost everything behind a login.

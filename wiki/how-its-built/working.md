@@ -3,6 +3,8 @@ under: the rule
 kind: brief
 ---
 
+![A keyboard with a wrench resting on it](.img/working.svg)
+
 # Working on it
 
 A change to the code starts on a developer's own machine, in a short branch, and reaches the environments through the pipeline. The [setup guide](../../SETUP.md) is where a new developer begins, and it gives the commands for each step.

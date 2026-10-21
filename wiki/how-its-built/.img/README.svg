@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(0 0)">
+    <rect class="f" x="9.5" y="38.5" width="6" height="4.5" rx="1"/><rect class="s" x="9.5" y="38.5" width="6" height="4.5" rx="1"/><rect class="f" x="22.5" y="38.5" width="6" height="4.5" rx="1"/><rect class="s" x="22.5" y="38.5" width="6" height="4.5" rx="1"/><rect class="f" x="48.5" y="25.5" width="6" height="4.5" rx="1"/><rect class="s" x="48.5" y="25.5" width="6" height="4.5" rx="1"/><rect class="f" x="22.5" y="9.5" width="6" height="4.5" rx="1"/><rect class="s" x="22.5" y="9.5" width="6" height="4.5" rx="1"/><rect class="f" x="35.5" y="9.5" width="6" height="4.5" rx="1"/><rect class="s" x="35.5" y="9.5" width="6" height="4.5" rx="1"/>
+    <rect class="f" x="6" y="43" width="52" height="13" rx="1.5"/><rect class="s" x="6" y="43" width="52" height="13" rx="1.5"/><path class="t" d="M6 46.5 H58"/>
+    <rect class="f" x="32" y="30" width="26" height="13" rx="1.5"/><rect class="s" x="32" y="30" width="26" height="13" rx="1.5"/><path class="t" d="M32 33.5 H58"/>
+    <rect class="f" x="19" y="14" width="26" height="16" rx="1.5"/><rect class="s" x="19" y="14" width="26" height="16" rx="1.5"/><path class="t" d="M19 17.5 H45"/>
+</g>
+</svg>

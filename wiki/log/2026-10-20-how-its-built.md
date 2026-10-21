@@ -50,6 +50,12 @@ The second read found only small points, and they were mended in place. No round
 
 Files touched: `wiki/how-its-built/README.md`, `website.md`, `api.md`, `running.md`, `working.md` and `.img/parts.svg` (new); `wiki/pipeline/` moved to `wiki/how-its-built/pipeline/`, with the links leaving it rewritten, and its opening shortened to point up to the entry; `wiki/README.md`; and this entry.
 
+## Graphics for its cards
+
+Once `feature/build-wiki` was merged in, giving every other card a graphic, the five new cards got theirs, drawn in the same hand ([practice §8.7.1](../the-rule/poc/practice.md#871-the-graphic-is-drawn-in-one-hand-with-an-icon-beside-it)), each with its icon. The subjects were chosen in session, after a first set, a conceptual set and a set of bike parts were weighed: How it's built is Lego bricks, the parts snapped into one build; the website a globe; the API a plug about to meet its socket, the joint between the website and its data; where it runs a rack of three servers; working on it a keyboard with a wrench. Hands, a service bell and a gear were each tried for the API, and the plug, the first drawn, was kept. They are stand-ins by a session, as the others are.
+
+A winding road was also tried for the pipeline's own graphic, and set aside; it keeps the pipe with a valve from [the card graphics](2026-10-20-card-graphics.md).
+
 ## Left open
 
 1. **The readmes are not yet brought in.** `web/README.md`, `web/GUIDELINES.md`, `api/README.md`, `cdk/README.md`, `SETUP.md` and `GUIDELINES.md` each want reading against the code and bringing into the holon, one at a time. Some are out of date: the setup guide asks for PostgreSQL 14 while the servers run 17, and says to fill in AWS keys the API never reads.
