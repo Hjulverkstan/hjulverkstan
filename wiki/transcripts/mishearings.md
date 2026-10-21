@@ -62,6 +62,26 @@ What the Teams transcriber tends to make of this project's vocabulary. Consult w
 - (vi jobbar) på bone → pro bono
 - Wikipedia, kulturverkstan. org → wiki.hjulverkstan.org [?]
 - offens source → open source
+- webbvädret, webbbryt, webbrut, webbid, webdit, webbdiet, webbritt, webb it, alvino webdit → Web edit
+- Sharp → Shop (the portal's app)
+- Fickets, hage etikens → tickets
+- applåje, applåj → employee
+- deb punkt tillverkstan punkt ork, Berther.julverkstan.org → dev.hjulverkstan.org
+- julväxten org → hjulverkstan.org
+- devdo, döv → dev
+- reflekth talkar → refresh token
+- AVS → AWS
+- slagg → slug
+- ridch text → rich text
+- previe → preview
+- reaktor, reakt → React
+- ball D → bold
+- liud → latitude
+- power us, power use a → power user
+- A i, a i → AI
+- elia, lia → LIA, the interns' internship period
+- Tjacco, tjako → Chiaco
+- jämfört (before "och Samir") → a name, not made out
 - Gatwich, gatuchi, kattuch, kattisha → a colleague's name, not made out
 - sälar, Sellar → an instructor's name, not made out
 

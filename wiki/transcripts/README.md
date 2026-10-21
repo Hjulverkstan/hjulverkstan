@@ -40,3 +40,5 @@ The meetings so far, oldest first. The three parts of the intro stand on each ot
 [Workshop at Hjulverkstan Frölunda](2026-09-16-frolunda.md)
 
 [Meeting with the client, October](2026-10-15-client-meeting.md)
+
+[Workshop on Web edit](2026-10-21-web-edit-workshop.md)
