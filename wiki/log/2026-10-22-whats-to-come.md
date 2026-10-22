@@ -30,7 +30,7 @@ Read in the code, not tried:
 
 - The contact page's questions say the workshops offer rentals.
 
-- `how-its-built/README.md` gives the address as hjulverkstan.se where the deployed one is hjulverkstan.org, as [2026-10-22](2026-10-22-web-edit-page.md#bugs-found-not-reported) already found. It is the wiki's own fault, not the software's, so it is not on the page, and it is not mended here.
+- `how-its-built/README.md` gives the address as hjulverkstan.se where the deployed one is hjulverkstan.org, as [2026-10-22](2026-10-22-web-edit-page.md#bugs-found-not-reported) already found. It is the wiki's own fault, not the software's, so it is not on the page. Mended the same day in a commit of its own, in the text, the picture's alt text and the picture: hjulverkstan.org is the correct address, as Emelie confirmed.
 
 ## How it was made
 

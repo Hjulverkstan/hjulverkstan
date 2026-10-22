@@ -13,9 +13,9 @@ The website is what people open in a browser. It is both the public site, where 
 
 The API keeps all of this. It runs on a server, with the database it writes to beside it, and puts the images in a file store; the website asks it for what it shows. Only the API reaches the database. The website's own files are kept in another store. In the repository, the website is in `web/`, the API in `api/`, and what they run on in `cdk/`.
 
-The whole runs in three copies, called environments: dev, where the team sees a change first, test, where a release is tried, and prod, the one the workshops and visitors use. Each environment has one web address, `hjulverkstan.se` for prod, and the address sends each request on to the part that answers it.
+The whole runs in three copies, called environments: dev, where the team sees a change first, test, where a release is tried, and prod, the one the workshops and visitors use. Each environment has one web address, `hjulverkstan.org` for prod, and the address sends each request on to the part that answers it.
 
-![A flow from left to right. A browser, used by a visitor or by staff, goes to one address, hjulverkstan.se. From there three lines part: everything else goes to the website's files, in a store; paths starting /api/ go to the API, on the server, which goes on to the database, also on the server, and down to the image store; paths starting /images/ go to the image store](.img/parts.svg)\
+![A flow from left to right. A browser, used by a visitor or by staff, goes to one address, hjulverkstan.org. From there three lines part: everything else goes to the website's files, in a store; paths starting /api/ go to the API, on the server, which goes on to the database, also on the server, and down to the image store; paths starting /images/ go to the image store](.img/parts.svg)\
 One environment, seen from a browser. The API puts images in their store, and the address hands them out.
 
 *Seen, in `web/`, `api/` and `cdk/`, read 2026-10-20.*

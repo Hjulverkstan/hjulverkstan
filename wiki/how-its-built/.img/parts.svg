@@ -49,7 +49,7 @@ svg.sketch .fill-bezel { fill: var(--bezel, rgb(255 255 255 / .9)); }
 <text class="note fill-muted" x="24" y="132">visitor or staff</text>
 <path class="stroke-door" d="M96 112 H124 M120 108 L124 112 L120 116"/>
 <text class="strong" x="136" y="116">one address</text>
-<text class="note fill-muted" x="136" y="132">hjulverkstan.se</text>
+<text class="note fill-muted" x="136" y="132">hjulverkstan.org</text>
 <path class="stroke-door" d="M232 112 C256 112 256 56 280 56 H372 M368 52 L372 56 L368 60"/>
 <path class="stroke-door" d="M232 112 H372 M368 108 L372 112 L368 116"/>
 <path class="stroke-door" d="M232 112 C256 112 256 168 280 168 H372 M368 164 L372 168 L368 172"/>
