@@ -7,9 +7,9 @@ kind: brief
 
 # The portal
 
-The portal is where Hjulverkstan's workshops keep track of every bike and what happens to it. This guide is for the people working in the workshops. It shows, task by task, how to do the everyday work in the portal, from a bike coming in for repair to a loan bike coming back. Anyone else can read it to learn how the portal is used.
+The portal is where Hjulverkstan's workshops keep track of every bike and what happens to it. This guide is for the people working in the workshops, with one page for whoever keeps the website. It shows, task by task, how to do the everyday work in the portal, from a bike coming in for repair to a loan bike coming back. Anyone else can read it to learn how the portal is used.
 
-*Lean, 2026-10-12: what the guide covers and in what order, from the [Frölunda workshop](../transcripts/2026-09-16-frolunda.md) and the meeting [with the client](../transcripts/2026-08-19-client-meeting.md). Every task was tried on a test copy of the portal, not yet in a workshop.*
+*Lean, 2026-10-12: what the guide covers and in what order, from the [Frölunda workshop](../transcripts/2026-09-16-frolunda.md) and the meeting [with the client](../transcripts/2026-08-19-client-meeting.md). Every task was tried on a local test copy of the portal, not yet in a workshop; Web edit's page on 2026-10-22, the rest on 2026-10-12.*
 
 ## 1. One place instead of notes
 
@@ -27,11 +27,13 @@ The portal has three parts, and this guide is about the first, the one used ever
 
 - **Admin** is used now and then, to reset a password, add a login or a member of staff, or add a new location. One responsible person is meant to use it, not everyone in the workshop.
 
-- **Web edit** changes the public website: its text, in several languages, and blog posts with their images. About one person is likely to run it.
+- **Web edit** changes the public website: its texts and its workshops' pages, in several languages, and its updates, the website's news. About one person is likely to run it.
 
-How Web edit is used is a [page still to come](), once it has been gone through with Save the Children.
+Web edit has a page of its own, for whoever keeps the website:
 
-*Carried from the meeting [with the client in October](../transcripts/2026-10-15-client-meeting.md#6-the-portal-is-ready--3307), §6 and §10; ungraded there and not checked. Who uses Admin and Web edit is a plan, not yet in practice.*
+[Changing the website](web-edit.md)
+
+*Carried from the meeting [with the client in October](../transcripts/2026-10-15-client-meeting.md#6-the-portal-is-ready--3307), §6 and §10; ungraded there and not checked. What Web edit holds is seen, as [its page](web-edit.md) says. Who uses Admin and Web edit is a plan, not yet in practice.*
 
 ## 3. Bikes, people and tickets
 
