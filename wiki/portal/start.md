@@ -7,23 +7,25 @@ kind: brief
 
 # Finding your way at the computer
 
-Before the first task, it helps to know how to log in and out, how every page of the portal works the same way, and what the phone is for. The portal is in English, and this guide uses its words.
+Before the first task, it helps to know how the portal stays logged in, how every page of the portal works the same way, and what the phone is for. The portal is in English, and this guide uses its words.
 
 *Seen: tried on a test copy of the portal with made-up data, 2026-10-12.*
 
 ## 1. Logging in and out
 
-Open the portal in the browser on the workshop's computer, and log in with the username and password your workshop uses. Keep the portal's address as a bookmark, so it is one click away. The address, which logins a workshop has, and who knows the password are not decided yet; ask the person who runs the portal for your workshop.
+The workshop's computer stays logged in to the portal all the time, with a login of the workshop's own that opens only the everyday part, *Shop*. You do not need its password: the person responsible at your workshop keeps it, and logs in again when the portal has logged itself out, about every two weeks.
+
+The portal's address is hjulverkstan.org/portal. Nothing on the website links to it, so keep it as a bookmark. If you want to try something without touching real bikes and customers, use the portal's test environment, at test.hjulverkstan.org/portal, which is there to play in. It has its own logins, so ask someone with Admin there for one.
 
 ![The login page: the heading "Login to Hjulverkstan Portal", a username field, a password field and a Login button](.img/start-1-login.png)\
-The login page.
+The login page, which you see only when the portal has logged out.
 
-To log out, press the round button with a letter at the top right, and choose **Log out**. The portal holds people's names and phone numbers, so log out, or lock the computer, when you leave it.
+The portal holds people's names and phone numbers, so lock the computer when you leave it. Do not log out, since the workshop's staff cannot log in again. Those who run the portal have logins of their own, and log out by pressing the round button with a letter at the top right, and choosing **Log out**.
 
 ![The Inventory page with the menu from the round button at the top right open. It shows the username admin and an email, then Shop, Admin and WebEdit, and Log out at the bottom](.img/start-2-menu.png)\
 The menu behind the round button. Most logins show only the username, its email and **Log out**; *Shop*, *Admin* and *WebEdit* are shown only to the people who run the portal.
 
-*Seen: logging in and out. That the computer should lock quickly is Jona's wish in the [Frölunda workshop](../transcripts/2026-09-16-frolunda.md#32-what-the-workshop-needs-from-a-system--pt2-0740), §3.2; the logins themselves are open.*
+*Seen: logging in and out, on a local copy of the portal. The workshop's login, who keeps it, and the test environment are carried from the [Web edit workshop](../transcripts/2026-10-21-web-edit-workshop.md#2-the-portal-three-environments-three-parts--0654), §2 and §4; the address is seen in the infrastructure's settings. That the computer should lock quickly is Jona's wish in the [Frölunda workshop](../transcripts/2026-09-16-frolunda.md#32-what-the-workshop-needs-from-a-system--pt2-0740), §3.2. The test address was found in public DNS, 2026-10-22, not opened; that it has its own logins is reasoned from each environment having its own database.*
 
 ## 2. Every page works the same way
 
