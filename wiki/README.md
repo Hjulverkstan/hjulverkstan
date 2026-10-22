@@ -19,8 +19,12 @@ How the application is built is for developers, and for anyone who wants to look
 
 [How it's built](how-its-built/README.md)
 
+What the software still lacks, from what is broken now to wishes not yet built, stands on the portal and on how it is built, so it comes after them, for anyone who wants to see what lies ahead or help with it.
+
+[What's to come](to-come.md)
+
 The wiki is written under a rule for laying knowledge, and is still taking shape. How it is made stands last, for those who write here.
 
 [How this wiki is made](making.md)
 
-*The root is about Hjulverkstan, for learning about it and joining it: the team's decision, 2026-10-14, in force; so is the portal guide's place. The whole wiki is open to read, none of it held back: in force, the team's decision of 2026-09-29. What the root says of the initiative and the application is carried from the repository's README and the approved transcripts, ungraded there and not checked with Save the Children; what it says of how it is built is seen, on that page. The technical knowledge grows around the pipeline, as the team leaned on 2026-10-14, in how it's built, [placed above the pipeline](log/2026-10-20-how-its-built.md) on 2026-10-20. The wiki's structure beyond these four parts is open.*
+*The root is about Hjulverkstan, for learning about it and joining it: the team's decision, 2026-10-14, in force; so is the portal guide's place. The whole wiki is open to read, none of it held back: in force, the team's decision of 2026-09-29. What the root says of the initiative and the application is carried from the repository's README and the approved transcripts, ungraded there and not checked with Save the Children; what it says of how it is built is seen, on that page. The technical knowledge grows around the pipeline, as the team leaned on 2026-10-14, in how it's built, [placed above the pipeline](log/2026-10-20-how-its-built.md) on 2026-10-20. What's to come stands as a part of its own, after how it's built: the team's decision, 2026-10-22. The wiki's structure beyond these five parts is open.*
