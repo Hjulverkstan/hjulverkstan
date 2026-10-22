@@ -11,7 +11,7 @@ Jona and the interns took Linda, new at Save the Children, through the knowledge
 
 *Source: `2026-10-21-WebEdit-workshop.vtt` (64 min, in Swedish), kept outside the repo in `.raw/` with a rendering of it as timestamped text. Participants, as given by Emelie: Jona (Alten); the interns Emelie, Eric and Sanna, in the last week of their first period; and Linda from Save the Children. The recorder attributed every cue to Jona; other voices are inferred from content, and questions are left unattributed where the speaker is unclear. Most of the meeting was a screen shared on a TV, and what was shown is written as far as the words carry it. Written under [the rule](../the-rule/rule.md) from the recording directly, without a separate 1:1 clean, and ordered by the knowledge rather than by the clock; timestamps point back to the minute. What is said about the portal is as said and shown in the meeting, not checked against the code.*
 
-*Status: draft, not approved; nothing is drawn from it until every voice has approved it.*
+*Status: approved, 2026-10-22, as given by Emelie.*
 
 Contents:
 
