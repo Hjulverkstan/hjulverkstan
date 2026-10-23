@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(32 32) scale(0.9) translate(-32 -32)">
+    <rect class="f" x="10" y="44" width="20" height="12" rx="2"/>
+    <rect class="s" x="10" y="44" width="20" height="12" rx="2"/>
+    <rect class="f" x="32" y="44" width="20" height="12" rx="2"/>
+    <rect class="s" x="32" y="44" width="20" height="12" rx="2"/>
+    <rect class="f" x="21" y="30" width="20" height="12" rx="2"/>
+    <rect class="s" x="21" y="30" width="20" height="12" rx="2"/>
+    <path class="t" d="M43 30 H53 M43 36 H50"/>
+    <rect class="g" x="38" y="8" width="20" height="12" rx="2"/>
+    <rect class="s" x="38" y="8" width="20" height="12" rx="2"/>
+    <path class="t" d="M48 22 V27 M45 25 L48 28 L51 25"/>
+    <path class="s" d="M4 56 H60"/>
+</g>
+</svg>

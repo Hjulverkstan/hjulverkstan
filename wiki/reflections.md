@@ -21,7 +21,7 @@ Our guess at why is that ease for the reader can't be measured while writing, an
 
 Of the judgment the rule asks for, knowing a piece's purpose was the hardest case, because there the agent had nothing to go on. An agent can order points by which depend on which. But whether they mattered, and to whom, was usually not in the material at all, so no amount of keeping to the rule could supply it. It belonged to whoever wanted the text. Without it, our sessions went in circles. We asked the agent to read the rule and do as it said, and it handed back decisions for us to make. We didn't know the answers either, so we asked it to read the rule again, and the same decisions came back. What broke the circle was a person who knew what the piece was for and said so first.
 
-So in our work a few things fell to us rather than the agent. We chose what to build and from which sources, and judged what mattered most. We filled in what the text couldn't know about the real world, read as the real reader would, and decided what stood. How the team does that step by step is owed to a page not yet written, [how the team builds a part of the wiki]().
+So in our work a few things fell to us rather than the agent. We chose what to build and from which sources, and judged what mattered most. We filled in what the text couldn't know about the real world, read as the real reader would, and decided what stood. How the team does that is in [how the team builds a part of the wiki](building.md).
 
 *The team's reflection. That purpose was rarely in the material is what we saw; why the agent loses judgment over a long session is a guess.*
 
