@@ -47,7 +47,7 @@ What a part was drawn from was ours to choose, and so was whether a source could
 
 We learned to ask the agent what it had read at the start of a session, rather than assume it had read only what we named. It reads some files by itself when a session opens, and sometimes others without saying so.
 
-A session went best with one task in it. Side questions seemed to crowd it and weaken the main work, so we took them to a session of their own.
+A session went best with one task in it. Side questions seemed to crowd it and weaken the main work, so we learned to take them to a session of their own.
 
 *Seen in our work.*
 
