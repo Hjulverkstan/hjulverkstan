@@ -29,7 +29,7 @@ So in our work a few things fell to us rather than the agent. We chose what to b
 
 Once the purpose was settled, what helped us keep it was writing less at a time. A person can steer only what they have read, so we tried to move in steps small enough to read before taking the next.
 
-That meant asking the agent for an outline first, a few lines on what the piece should say, in what order and what goes under what, and agreeing on it. Then came a sample of a small part, adjusted until it read right, and only then the whole. A fault caught in [the outline](the-rule/rule.md#52-the-step) was never written. The outline carried the order of the points but not the purpose, though, which is why the purpose came first.
+That meant asking the agent for an outline first, a few lines on what the piece should say, in what order and what goes under what, and agreeing on it. Then came a sample of a small part, adjusted until it read right, and only then the whole. A fault caught in [the outline](the-rule/rule.md#52--the-step) was never written. The outline carried the order of the points but not the purpose, though, which is why the purpose came first.
 
 Writing faster than we read also has a cost beyond mistakes. Every claim in this wiki says how sure it is, and that can be marked honestly only by someone who has read what it marks. In the same way, agreeing to a page as a whole, which the rule's practice calls ratifying it, means little unless someone has read the page.
 
@@ -79,7 +79,7 @@ Some of the rule's specific advice, followed strictly, seemed to us to work agai
 
 ### 4.1 Saying a fact once, and its why again
 
-The rule says a fact has [one home](the-rule/rule.md#33-the-ground): it is said in one place and pointed to from everywhere else, so copies can't drift apart. We think that holds for a fact's details, which are what change. A short restatement of why a fact matters seems to us unlikely to mislead, if it is placed where it leads into the next point. For a reader who hasn't read the page where the fact lives, it may help more than a link back would. In this wiki, a page on the workshops' portal might say again in one line that a loan bike shows on the website only while it is available, and leave the steps for setting it to the page that holds them.
+The rule says a fact has [one home](the-rule/rule.md#33--the-ground): it is said in one place and pointed to from everywhere else, so copies can't drift apart. We think that holds for a fact's details, which are what change. A short restatement of why a fact matters seems to us unlikely to mislead, if it is placed where it leads into the next point. For a reader who hasn't read the page where the fact lives, it may help more than a link back would. In this wiki, a page on the workshops' portal might say again in one line that a loan bike shows on the website only while it is available, and leave the steps for setting it to the page that holds them.
 
 The rule comes near this when it asks a text to say [what is now held and what comes next](the-rule/rule.md#41-the-prose-of-a-brief), but it doesn't separate a fact's details from its why, and the agents we worked with kept to one home strictly.
 
@@ -89,7 +89,7 @@ The rule comes near this when it asks a text to say [what is now held and what c
 
 A brief, in the rule's word, is one piece of prose that gives one understanding. We found that its length didn't tell us how hard it was to read. A long brief and a shorter one could tire a reader equally, because what tired was bloat or complexity, and a word count can't tell the two apart. Writing word counts into the pages didn't help us; reading the whole carefully, round after round, found the heavy briefs better.
 
-Breaking a brief down, taking part of it out into a brief of its own under it, also has a cost. The rule says that breaking down [as far as the knowledge yields costs the reader nothing](the-rule/rule.md#32-the-brief). In practice we found it hard to tell where the knowledge stopped yielding. When we split too far, the smaller briefs carried too little to be worth opening. Two questions might serve better than a count. Is a heavy brief bloated, to be cut, or complex, to be explained? And does a part about to be broken out give enough of its own to be worth the step?
+Breaking a brief down, taking part of it out into a brief of its own under it, also has a cost. The rule says that breaking down [as far as the knowledge yields costs the reader nothing](the-rule/rule.md#32--the-brief). In practice we found it hard to tell where the knowledge stopped yielding. When we split too far, the smaller briefs carried too little to be worth opening. Two questions might serve better than a count. Is a heavy brief bloated, to be cut, or complex, to be explained? And does a part about to be broken out give enough of its own to be worth the step?
 
 *The team's reflection; the two questions are a suggestion, not tried.*
 
@@ -107,7 +107,7 @@ The rule rests on its labs, the studies it was worked out from. As we read them,
 
 The rule claims one reading is enough to write under it, and over those weeks it wasn't for us. Whoever knew the rule best ended up reminding sessions of what they had read at the start. The rule pictures [a day where nobody has to be the way to a thing](the-rule/rule.md#2-what-it-is-for), and here someone had become the person everything about the rule went through. A reminder that has to be given again and again may point at a part of the rule that doesn't hold up over a long session.
 
-Two remedies occur to us. What can be checked could move into a check that runs on its own, and judgment could go more often to [a fresh head](the-rule/rule.md#54-the-fresh-head), a new session that reads only the rule and the draft and says what the draft fails to give.
+Two remedies occur to us. What can be checked could move into a check that runs on its own, and judgment could go more often to [a fresh head](the-rule/rule.md#54--the-fresh-head), a new session that reads only the rule and the draft and says what the draft fails to give.
 
 The rule is ratified by its author, so it changes only with the author's agreement. These reflections go to the author rather than into the rule's text.
 
