@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="file-icon" viewBox="0 0 16 16" width="32" height="32">
+<style>
+svg.file-icon .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.25px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.file-icon .f { fill: var(--rest, #dfe5e8); }
+svg.file-icon .g { fill: var(--ground, #ffffff); }
+svg.file-icon .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+</style>
+<path class="f" d="M11.23 7.79 L12.72 8.02 L12.72 9.98 L11.23 10.21 L10.58 11.55 L11.33 12.86 L9.79 14.08 L8.69 13.06 L7.24 13.39 L6.69 14.79 L4.77 14.35 L4.88 12.86 L3.71 11.92 L2.28 12.37 L1.42 10.59 L2.66 9.75 L2.66 8.25 L1.42 7.41 L2.28 5.63 L3.71 6.08 L4.88 5.14 L4.77 3.65 L6.69 3.21 L7.24 4.61 L8.69 4.94 L9.79 3.92 L11.33 5.14 L10.58 6.45 Z"/><path class="s" d="M11.23 7.79 L12.72 8.02 L12.72 9.98 L11.23 10.21 L10.58 11.55 L11.33 12.86 L9.79 14.08 L8.69 13.06 L7.24 13.39 L6.69 14.79 L4.77 14.35 L4.88 12.86 L3.71 11.92 L2.28 12.37 L1.42 10.59 L2.66 9.75 L2.66 8.25 L1.42 7.41 L2.28 5.63 L3.71 6.08 L4.88 5.14 L4.77 3.65 L6.69 3.21 L7.24 4.61 L8.69 4.94 L9.79 3.92 L11.33 5.14 L10.58 6.45 Z"/><circle class="s" cx="7" cy="9" r="1.6"/><path class="g" d="M11 7 L14 2 L15.3 2.8 L12.3 7.8 Z"/><path class="s" d="M11 7 L14 2 L15.3 2.8 L12.3 7.8 Z M11 7 L10.6 8.8 L12.3 7.8"/>
+</svg>

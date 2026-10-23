@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(32 32) scale(0.9) translate(-32 -32)">
+    <path class="f" d="M6 21 V51 C14 49 26 49 32 52 C38 49 50 49 58 51 V21"/>
+    <path class="s" d="M6 21 V51 C14 49 26 49 32 52 C38 49 50 49 58 51 V21"/>
+    <path class="g" d="M32 20 C26 16 14 16 8 18 V48 C14 46 26 46 32 50 Z"/>
+    <path class="s" d="M32 20 C26 16 14 16 8 18 V48 C14 46 26 46 32 50 Z"/>
+    <path class="g" d="M32 20 C38 16 50 16 56 18 V48 C50 46 38 46 32 50 Z"/>
+    <path class="s" d="M32 20 C38 16 50 16 56 18 V48 C50 46 38 46 32 50 Z"/>
+    <path class="t" d="M12 24 C18 22.5 24 22.5 28 24.5 M12 29 C18 27.5 24 27.5 28 29.5 M12 34 C18 32.5 24 32.5 28 34.5 M12 39 C18 37.5 24 37.5 28 39.5 M36 24.5 C40 22.5 46 22.5 52 24 M36 29.5 C40 27.5 44 27.5 46 28"/>
+    <g transform="translate(47 30) rotate(35)">
+    <path class="g" d="M-3 -16 H3 V10 L0 16 L-3 10 Z"/>
+    <path class="s" d="M-3 -16 H3 V10 L0 16 L-3 10 Z"/>
+    <path class="s" d="M-3 -11 H3 M-3 10 H3"/>
+    <path class="t" d="M0 -11 V10"/>
+    </g>
+</g>
+</svg>

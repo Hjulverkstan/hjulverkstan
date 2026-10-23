@@ -3,20 +3,28 @@ under: the rule
 kind: brief
 ---
 
-# Wiki
+# Hjulverkstan
 
-The wiki is where everything about Hjulverkstan beyond the code is meant to live, for people and agents alike. It is under construction. Its structure is not decided and will be mapped out together, so this page places only what is here now.
+Hjulverkstan, the wheel shop, is Save the Children's bike workshops in Gothenburg, built around the community that grows in them. Alten builds the software for the workshops, and this wiki is where what is known about Hjulverkstan is gathered, to learn from and to join by, for people and agents alike.
 
-How a change to Hjulverkstan is checked and delivered, from pull request to the workshops.
+Why Hjulverkstan exists, what a workshop offers, and where Alten comes in, comes first.
 
-[The pipeline](pipeline/README.md)
+[The initiative](initiative.md)
 
-It was rewritten beside an earlier version as `pipeline-next/`, and took the earlier one's place once everything kept from it had moved in. *In force, 2026-10-06, [in this log entry](log/2026-10-06-basics-into-pipeline-next.md).*
+Alten builds one application with two faces: the public website, and the portal, the web app staff are to run a workshop's day in. How the portal is used, task by task, from a bike coming in for repair to a lent bike coming back, is for staff learning it and for anyone joining the work.
 
-What was said, decided and asked in the meetings with Save the Children and within the team, written up as knowledge.
+[The portal](portal/README.md)
 
-[Transcripts](transcripts/README.md)
+How the application is built is for developers, and for anyone who wants to look beneath it: what it is made of, where it runs, and the road every change takes to the workshops, the pipeline, which stands beneath it.
 
-Two more things stand beside these, off the surface. [The rule](the-rule/README.md) is how everything on the surface is written, mounted as a git submodule from [`Cwejman/the-rule`](https://github.com/Cwejman/the-rule); read it when you write. [The log](log/README.md) is history, one entry per session or meeting that changed what the wiki holds, for when you need to know how something came to be.
+[How it's built](how-its-built/README.md)
 
-*In force, the team's decision of 2026-09-29 to open the whole wiki on the surface. The wiki's structure itself is open.*
+What the software still lacks, from what is broken now to wishes not yet built, stands on the portal and on how it is built, so it comes after them, for anyone who wants to see what lies ahead or help with it.
+
+[What's to come](to-come.md)
+
+The wiki is written under a rule for laying knowledge, and is still taking shape. How it is made stands last, for those who write here.
+
+[How this wiki is made](making.md)
+
+*The root is about Hjulverkstan, for learning about it and joining it: the team's decision, 2026-10-14, in force; so is the portal guide's place. The whole wiki is open to read, none of it held back: in force, the team's decision of 2026-09-29. What the root says of the initiative and the application is carried from the repository's README and the approved transcripts, ungraded there and not checked with Save the Children; what it says of how it is built is seen, on that page. The technical knowledge grows around the pipeline, as the team leaned on 2026-10-14, in how it's built, [placed above the pipeline](log/2026-10-20-how-its-built.md) on 2026-10-20. What's to come stands as a part of its own, after how it's built: the team's decision, 2026-10-22. The wiki's structure beyond these five parts is open.*

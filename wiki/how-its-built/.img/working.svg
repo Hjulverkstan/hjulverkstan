@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(0 0)">
+    <rect class="f" x="6" y="31" width="52" height="24" rx="3"/>
+    <rect class="s" x="6" y="31" width="52" height="24" rx="3"/>
+    <rect class="g" x="10" y="35" width="5" height="4" rx=".75"/><rect class="t" x="10" y="35" width="5" height="4" rx=".75"/><rect class="g" x="16.5" y="35" width="5" height="4" rx=".75"/><rect class="t" x="16.5" y="35" width="5" height="4" rx=".75"/><rect class="g" x="23" y="35" width="5" height="4" rx=".75"/><rect class="t" x="23" y="35" width="5" height="4" rx=".75"/><rect class="g" x="29.5" y="35" width="5" height="4" rx=".75"/><rect class="t" x="29.5" y="35" width="5" height="4" rx=".75"/><rect class="g" x="36" y="35" width="5" height="4" rx=".75"/><rect class="t" x="36" y="35" width="5" height="4" rx=".75"/><rect class="g" x="42.5" y="35" width="5" height="4" rx=".75"/><rect class="t" x="42.5" y="35" width="5" height="4" rx=".75"/><rect class="g" x="49" y="35" width="5" height="4" rx=".75"/><rect class="t" x="49" y="35" width="5" height="4" rx=".75"/><rect class="g" x="13" y="41" width="5" height="4" rx=".75"/><rect class="t" x="13" y="41" width="5" height="4" rx=".75"/><rect class="g" x="19.5" y="41" width="5" height="4" rx=".75"/><rect class="t" x="19.5" y="41" width="5" height="4" rx=".75"/><rect class="g" x="26" y="41" width="5" height="4" rx=".75"/><rect class="t" x="26" y="41" width="5" height="4" rx=".75"/><rect class="g" x="32.5" y="41" width="5" height="4" rx=".75"/><rect class="t" x="32.5" y="41" width="5" height="4" rx=".75"/><rect class="g" x="39" y="41" width="5" height="4" rx=".75"/><rect class="t" x="39" y="41" width="5" height="4" rx=".75"/><rect class="g" x="45.5" y="41" width="5" height="4" rx=".75"/><rect class="t" x="45.5" y="41" width="5" height="4" rx=".75"/><rect class="g" x="10" y="47" width="5" height="4" rx=".75"/><rect class="t" x="10" y="47" width="5" height="4" rx=".75"/><rect class="g" x="49" y="47" width="5" height="4" rx=".75"/><rect class="t" x="49" y="47" width="5" height="4" rx=".75"/><rect class="g" x="18" y="47" width="28" height="4" rx=".75"/><rect class="t" x="18" y="47" width="28" height="4" rx=".75"/>
+    <g transform="translate(34 19) rotate(-24)">
+      <rect class="f" x="-14" y="-2.75" width="24" height="5.5" rx="2.75"/>
+      <rect class="s" x="-14" y="-2.75" width="24" height="5.5" rx="2.75"/>
+      <circle class="f" cx="14" cy="0" r="7"/>
+      <circle class="s" cx="14" cy="0" r="7"/>
+      <rect class="g" x="15" y="-2.75" width="8" height="5.5"/>
+      <path class="s" d="M20.6 -2.75 H15 V2.75 H20.6"/>
+      <circle class="f" cx="-17" cy="0" r="5"/>
+      <circle class="s" cx="-17" cy="0" r="5"/>
+      <circle class="g" cx="-17" cy="0" r="2.25"/>
+      <circle class="s" cx="-17" cy="0" r="2.25"/>
+    </g>
+</g>
+</svg>

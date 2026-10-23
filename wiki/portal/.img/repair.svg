@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(32 32) scale(0.9) translate(-32 -32)">
+    <circle class="f" cx="28" cy="34" r="20"/>
+    <circle class="s" cx="28" cy="34" r="20"/>
+    <circle class="t" cx="28" cy="34" r="16"/>
+    <path class="t" d="M28 18 V50 M12 34 H44 M16.7 22.7 L39.3 45.3 M16.7 45.3 L39.3 22.7"/>
+    <circle class="g" cx="28" cy="34" r="2.5"/>
+    <circle class="s" cx="28" cy="34" r="2.5"/>
+    <g transform="translate(40 30) rotate(40)">
+    <path class="g" d="M-3 -4 L-6 -9 L-6 -15 L-2.5 -18 V-12 H2.5 V-18 L6 -15 V-9 L3 -4 V27 A3 3 0 0 1 -3 27 Z"/>
+    <path class="s" d="M-3 -4 L-6 -9 L-6 -15 L-2.5 -18 V-12 H2.5 V-18 L6 -15 V-9 L3 -4 V27 A3 3 0 0 1 -3 27 Z"/>
+    <circle class="s" cx="0" cy="25" r="1.2"/>
+    </g>
+</g>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(0 0)">
+    <rect class="f" x="14" y="6" width="36" height="50" rx="2.5"/>
+    <rect class="s" x="14" y="6" width="36" height="50" rx="2.5"/>
+    <path class="s" d="M18 56 V59 M46 56 V59"/>
+    <rect class="g" x="18" y="11" width="28" height="12" rx="1.5"/><rect class="s" x="18" y="11" width="28" height="12" rx="1.5"/>
+    <rect class="g" x="18" y="25" width="28" height="12" rx="1.5"/><rect class="s" x="18" y="25" width="28" height="12" rx="1.5"/>
+    <rect class="g" x="18" y="39" width="28" height="12" rx="1.5"/><rect class="s" x="18" y="39" width="28" height="12" rx="1.5"/>
+    <path class="t" d="M22 17 H32 M22 31 H32 M22 45 H32"/>
+    <circle class="s" cx="40.5" cy="17" r="1.5"/><circle class="s" cx="40.5" cy="31" r="1.5"/><circle class="s" cx="40.5" cy="45" r="1.5"/>
+</g>
+</svg>

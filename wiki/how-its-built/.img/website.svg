@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 64 64" width="128" height="128">
+<style>
+svg.drawing .s { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+svg.drawing .t { fill: none; stroke: var(--on, #3d4a52); stroke-width: 1px; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .5; }
+svg.drawing .f { fill: var(--rest, #dfe5e8); }
+svg.drawing .g { fill: var(--ground, #ffffff); }
+</style>
+<g transform="translate(0 0)">
+    <circle class="f" cx="32" cy="32" r="24"/>
+    <circle class="s" cx="32" cy="32" r="24"/>
+    <ellipse class="t" cx="32" cy="32" rx="10.5" ry="24"/>
+    <path class="t" d="M32 8 V56 M8 32 H56 M11.2 20 H52.8 M11.2 44 H52.8"/>
+</g>
+</svg>
